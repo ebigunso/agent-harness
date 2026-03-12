@@ -1,0 +1,49 @@
+task_id: "Task_X"
+status: "done|blocked|failed"
+
+summary: |-
+  "1-5 lines. If blocked/failed: expected vs actual."
+
+files_changed:
+  - path: "path"
+    change: "modified|created|deleted"
+    intent: "1-line purpose"
+
+commands_run:
+  - command: "string"
+    result: "pass|fail|skipped"
+    notes: "string"
+
+validation_results:
+  - kind: "command|manual|e2e|review"
+    required: true
+    owner: "worker|reviewer|orchestrator|user"
+    detail: "string"
+    status: "pass|fail|skipped"
+    evidence: "string"
+
+tests:
+  ran: true
+  notes: "string"
+
+blockers: ["string"]
+questions_for_orchestrator: ["string"]
+assumptions: ["string"]
+
+rule_candidates:
+  - audience: "common|worker|orchestrator"
+    intended_home: "repo_specific|global_candidate"
+    id: "RB-CAND-short"
+    rule: "string"
+    rationale: "string"
+    scope: "string"
+    example: "string"
+
+# Optional when deviations, failed validation, or recovery steps need to be surfaced.
+lesson_candidates:
+  - id: "LESSON-CAND-short"
+    category: "planning|delegation|validation|environment|review|docs|other"
+    deviation: "string"
+    root_cause: "string"
+    prevention: "string"
+    promotion_target: "rules/*|references/*|troubleshooting/*|global-skill"
