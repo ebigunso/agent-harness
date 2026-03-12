@@ -1,0 +1,31 @@
+{
+    "name": "agent-harness",
+    "description": "An orchestration harness for managing and coordinating multiple agents in a workflow.",
+    "version": "0.1.0",
+    "author": {
+        "name": "ebigunso"
+    },
+    "repository": "https://github.com/ebigunso/agent-harness",
+    "license": "MIT",
+    "keywords": [
+        "orchestration",
+        "worker",
+        "harness"
+    ],
+    "agents": [
+        "./agents"
+    ],
+    "skills": [
+        "./skills/engineering-quality-baselines",
+        "./skills/git-workflow",
+        "./skills/improvement-loop",
+        "./skills/plan-format",
+        "./skills/playwright-cli",
+        "./skills/playwright-e2e-evidence",
+        "./skills/rulebook",
+        "./skills/skills-maintenance",
+        "./skills/subagent-report-contract",
+        "./skills/subagent-strategy",
+        "./skills/workspace-troubleshooting"
+    ]
+}
