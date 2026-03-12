@@ -6,7 +6,8 @@
         "pluginRoot": "./plugins"
     },
     "owner": {
-        "name": "ebigunso"
+        "name": "ebigunso",
+        "email": "non-disclosed"
     },
     "plugins": [
         {
