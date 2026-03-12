@@ -1,0 +1,30 @@
+e2e_evidence:
+  provider: "<browser automation provider>"
+  artifact_root: "<provider artifact root>"
+  base_url: "http://localhost:3000"
+  app_start_command: "npm run dev"  # or "already running"
+  readiness_result:
+    status: "pass|fail|skipped"
+    notes: "what was observed"
+  flows_executed:
+    - name: "Flow name"
+      result: "pass|fail|skipped"
+      notes: "brief"
+  viewports_tested:
+    - name: "mobile"
+      width: 390
+      height: 844
+    - name: "desktop"
+      width: 1440
+      height: 900
+  screenshots:
+    - name: "home"
+      notes: "what it shows"
+      path_or_reference: "<artifact_root>/home.png"
+  console_findings:
+    errors: []
+    warnings: []
+  network_findings:
+    failed_requests: []
+    unexpected_redirects: []
+  flakiness_notes: []

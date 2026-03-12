@@ -1,0 +1,41 @@
+e2e_spec:
+  provider: "<browser automation provider>"
+  artifact_root: "<provider artifact root>"
+  base_url: "http://localhost:3000"
+  app_start_command: "npm run dev"     # or "already running"
+  readiness_check:
+    url: "http://localhost:3000/"
+    expect: "page contains <text> OR HTTP 200"
+  flows:
+    - name: "Flow name"
+      steps:
+        - action: "navigate"
+          target: "/"
+          expect: "home visible"
+        - action: "snapshot"
+          expect: "key elements present"
+        - action: "click"
+          target: "<snapshot-ref or stable selector>"
+          expect: "next state visible"
+  viewports:
+    - name: "mobile"
+      width: 390
+      height: 844
+    - name: "desktop"
+      width: 1440
+      height: 900
+  evidence_requirements:
+    screenshots:
+      - name: "home"
+        when: "after home renders"
+        path: "<artifact_root>/home.png"
+      - name: "after-action"
+        when: "after clicking X"
+        path: "<artifact_root>/after-action.png"
+    console:
+      check_levels: ["error"]          # optionally include "warning"
+    network:
+      record_failed_requests: true
+      record_unexpected_redirects: true
+  known_flakiness:
+    - "Wait for element X due to async loading"
