@@ -1,0 +1,18 @@
+{
+    "name": "agent-harness",
+    "version": "1.0.0",
+    "description": "A personal collection of agents and skills",
+    "owner": {
+        "name": "ebigunso",
+        "email": "non-disclosed"
+    },
+    "plugins": [
+        {
+            "name": "coding-agent-orchestration-harness",
+            "source": "./plugins/coding-agent-orchestration-harness",
+            "description": "An orchestration harness for managing and coordinating multiple agents in a workflow.",
+            "version": "0.1.0",
+            "category": "development"
+        }
+    ]
+}
