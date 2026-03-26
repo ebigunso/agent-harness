@@ -2,6 +2,7 @@
 name: Worker
 description: Execution subagent for a single atomic Task_X within owns scope. Implements changes, runs required validation, returns a strict YAML report (subagent-report-contract), and does not perform shared-state git mutations unless explicitly instructed by the Orchestrator for that task.
 tools: [execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTests, execute/runInTerminal, execute/testFailure, read/terminalLastCommand, read/problems, read/readFile, browser, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, todo]
+model: GPT-5.4 (copilot)
 user-invocable: false
 disable-model-invocation: false
 ---
