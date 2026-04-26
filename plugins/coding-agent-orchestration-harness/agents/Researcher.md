@@ -3,7 +3,7 @@ name: Researcher
 description: Research-only subagent. Gathers workspace context and returns plan-fill inputs to the parent Orchestrator. Does not edit files, does not write plan files, and does not interact with the user. May run bounded UI exploration using a selected browser automation provider such as playwright-cli (local URLs only) when it materially improves planning and validation design.
 argument-hint: Research goal or problem statement
 tools: [execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runInTerminal, execute/testFailure, read/terminalLastCommand, read/problems, read/readFile, browser, search, todo]
-model: GPT-5.4 (copilot)
+model: GPT-5.5 (copilot)
 user-invocable: false
 disable-model-invocation: false
 ---
