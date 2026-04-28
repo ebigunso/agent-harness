@@ -1,0 +1,32 @@
+{
+  "name": "coding-agent-orchestration-harness",
+  "version": "0.2.0",
+  "description": "An orchestration harness for managing and coordinating multiple coding agents in a workflow.",
+  "author": {
+    "name": "ebigunso"
+  },
+  "repository": "https://github.com/ebigunso/agent-harness",
+  "license": "MIT",
+  "keywords": [
+    "orchestration",
+    "worker",
+    "harness",
+    "codex",
+    "subagents"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Coding Agent Orchestration Harness",
+    "shortDescription": "Plan, delegate, implement, and review coding tasks with a reusable agent harness.",
+    "longDescription": "Provides a coding-agent orchestration harness with shared orchestration instructions and researcher, worker, and reviewer roles.",
+    "developerName": "ebigunso",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use the coding-agent orchestration harness for this task. Apply the orchestration harness skill, then delegate research, implementation, and review work where useful."
+    ]
+  }
+}
