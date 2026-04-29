@@ -3,8 +3,7 @@
     "version": "1.0.0",
     "description": "A personal collection of agents and skills",
     "owner": {
-        "name": "ebigunso",
-        "email": "non-disclosed"
+        "name": "ebigunso"
     },
     "plugins": [
         {
