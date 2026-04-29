@@ -99,7 +99,7 @@ This skill should always be applied when using the harness in Codex or Claude Co
 
 Agent definitions are runtime-specific because model names, tool names, and frontmatter schemas differ:
 
-- Copilot agents: `agents/copilot/`
+- Copilot agents: `agents/*.md`
 - Claude agents: `agents/claude/`
 - Codex agent templates: `codex/agents/`
 
