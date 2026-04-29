@@ -12,6 +12,6 @@
         "worker",
         "harness"
     ],
-    "agents": "./agents/copilot/",
+    "agents": "./agents/",
     "skills": "./skills/"
 }
