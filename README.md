@@ -101,7 +101,7 @@ Agent definitions are runtime-specific because model names, tool names, and fron
 
 - Copilot agents: `agents/*.md`
 - Claude agents: `agents/claude/`
-- Codex agent templates: `codex/agents/`
+- Codex agent templates: `codex/agent-templates/`
 
 ### Codex bootstrap
 
@@ -111,9 +111,19 @@ From the repository where the Codex profiles should be installed, run the bootst
 python /path/to/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/scripts/install_codex_agents.py
 ```
 
-Use `--repo-root /path/to/repo` when installing into a repository other than the current working directory's nearest `.git` parent.
+The script asks whether to install in user scope or repository scope.
+
+Use `--scope user` to install into `~/.codex/agents/`.
+
+Use `--scope repo` to install into `.codex/agents/` under the nearest repository root.
+
+Use `--repo-root /path/to/repo` with `--scope repo` when installing into a repository other than the current working directory's nearest `.git` parent.
 
 Use `--overwrite` to replace existing profiles.
+
+For user-scope installs, the script also asks whether to add a small managed routing rule to `~/.codex/AGENTS.md` so Codex knows when to use the harness. Existing user instructions are not overwritten. If the file already has content, the script shows a preview and asks whether to append the managed block; if the managed block already exists, it asks whether to replace only that block.
+
+Use `--user-instructions add` to add or update that managed block non-interactively, or `--user-instructions skip` to leave `~/.codex/AGENTS.md` untouched.
 
 ### Model behavior
 
