@@ -13,6 +13,11 @@ AGENT_FILENAMES = [
     "harness_worker.toml",
     "harness_reviewer.toml",
 ]
+REFERENCE_FILENAMES = [
+    "codex-app-connector-policy-researcher.md",
+    "codex-app-connector-policy-worker.md",
+    "codex-app-connector-policy-reviewer.md",
+]
 
 SCOPES = ("user", "repo")
 INSTRUCTIONS_ACTIONS = ("ask", "add", "skip")
@@ -172,9 +177,14 @@ def main() -> int:
     script_path = pathlib.Path(__file__)
     plugin_root = find_plugin_root(script_path)
     source_dir = plugin_root / "codex" / "agent-templates"
+    reference_source_dir = plugin_root / "references"
 
     if not source_dir.exists():
         print(f"Missing source directory: {source_dir}", file=sys.stderr)
+        return 1
+
+    if not reference_source_dir.exists():
+        print(f"Missing reference source directory: {reference_source_dir}", file=sys.stderr)
         return 1
 
     scope = args.scope or ask_scope()
@@ -195,6 +205,24 @@ def main() -> int:
 
         if not source.exists():
             print(f"Missing source file: {source}", file=sys.stderr)
+            return 1
+
+        if target.exists() and not args.overwrite:
+            skipped.append(target)
+            continue
+
+        shutil.copyfile(source, target)
+        installed.append(target)
+
+    reference_target_dir = target_dir / "references"
+    reference_target_dir.mkdir(parents=True, exist_ok=True)
+
+    for filename in REFERENCE_FILENAMES:
+        source = reference_source_dir / filename
+        target = reference_target_dir / filename
+
+        if not source.exists():
+            print(f"Missing reference file: {source}", file=sys.stderr)
             return 1
 
         if target.exists() and not args.overwrite:

@@ -21,6 +21,9 @@ You must NOT:
 You MAY:
 - run bounded UI exploration using a selected browser automation provider such as `playwright-cli` via terminal against local endpoints (localhost/127.0.0.1) to understand behavior and inform validation design.
 
+Connector/App access:
+- If the assignment involves external services, Apps/connectors, MCP tools, GitHub issues/PRs, email, calendar, chat, or account-scoped data, read `references/codex-app-connector-policy-researcher.md` from your installed agent directory before using tool discovery or connector tools.
+
 ---
 
 ## Workflow

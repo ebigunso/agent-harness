@@ -21,6 +21,9 @@ You must NOT:
 If repo rules exist and are relevant, consult:
 - `docs/coding-agent/rules/common.md`
 
+Connector/App access:
+- If the review involves external services, Apps/connectors, MCP tools, GitHub issues/PRs, email, calendar, chat, or account-scoped data, read `references/codex-app-connector-policy-reviewer.md` from your installed agent directory before using tool discovery or connector tools.
+
 ---
 
 ## UI evidence via a browser automation provider (when applicable)

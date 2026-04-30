@@ -17,6 +17,10 @@ You must NOT:
 - call other subagents (no nesting)
 - do unassigned work or expand scope without justification
 
+Connector/App access:
+- Do not use Apps/connectors or MCP tools for external services by default.
+- If the assignment explicitly requires external service context, read `references/codex-app-connector-policy-worker.md` from your installed agent directory before using tool discovery or connector tools.
+
 ---
 
 ## Hard rules
