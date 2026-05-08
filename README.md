@@ -89,18 +89,20 @@ This plugin supports GitHub Copilot, Claude Code, and Codex.
 
 All runtimes use the same canonical `skills/` directory.
 
-The shared orchestration instructions live in:
+The shared orchestration workflow source of truth is:
 
 `skills/orchestration-harness/SKILL.md`
 
-This skill should always be applied when using the harness in Codex or Claude Code.
+Runtime-specific files should route to that skill instead of duplicating the harness workflow.
+
+Design decisions for this plugin are recorded in `docs/coding-agent-orchestration-harness/decisions/`.
 
 ### Agents
 
 Agent definitions are runtime-specific because model names, tool names, and frontmatter schemas differ:
 
 - Copilot agents: `agents/*.md`
-- Claude agents: `agents/claude/`
+- Claude agents: `claude/agents/`
 - Codex agent templates: `codex/agent-templates/`
 
 ### Codex bootstrap
@@ -108,7 +110,7 @@ Agent definitions are runtime-specific because model names, tool names, and fron
 From the repository where the Codex profiles should be installed, run the bootstrap script from the installed plugin location:
 
 ```bash
-python /path/to/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/scripts/install_codex_agents.py
+python /path/to/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/scripts/install_codex_harness.py
 ```
 
 The script asks whether to install in user scope or repository scope.
@@ -119,11 +121,13 @@ Use `--scope repo` to install into `.codex/agents/` under the nearest repository
 
 Use `--repo-root /path/to/repo` with `--scope repo` when installing into a repository other than the current working directory's nearest `.git` parent.
 
-Use `--overwrite` to replace existing profiles.
+Use `--overwrite-agents` to replace existing profiles. `--overwrite` is also accepted.
 
-For user-scope installs, the script also asks whether to add a small managed routing rule to `~/.codex/AGENTS.md` so Codex knows when to use the harness. Existing user instructions are not overwritten. If the file already has content, the script shows a preview and asks whether to append the managed block; if the managed block already exists, it asks whether to replace only that block.
+For user-scope installs, the script also asks whether to add a small managed routing rule to `~/.codex/AGENTS.md` so Codex knows when to load `$orchestration-harness`. Existing user instructions are not overwritten. If the file already has content, the script shows a preview and asks whether to append the managed block; if the managed block already exists, it asks whether to replace only that block.
 
 Use `--user-instructions add` to add or update that managed block non-interactively, or `--user-instructions skip` to leave `~/.codex/AGENTS.md` untouched.
+
+The managed Codex `AGENTS.md` block is loader-only. It routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the skill.
 
 ### Model behavior
 
