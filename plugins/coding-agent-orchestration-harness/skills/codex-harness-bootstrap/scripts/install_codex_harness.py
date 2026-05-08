@@ -23,20 +23,9 @@ SCOPES = ("user", "repo")
 INSTRUCTIONS_ACTIONS = ("ask", "add", "skip")
 INSTRUCTIONS_START = "<!-- coding-agent-orchestration-harness:start -->"
 INSTRUCTIONS_END = "<!-- coding-agent-orchestration-harness:end -->"
-INSTRUCTIONS_BLOCK = f"""{INSTRUCTIONS_START}
-## Coding Agent Orchestration Harness
-
-For non-trivial coding tasks that benefit from planning, delegation, implementation, and review, use the coding-agent orchestration harness.
-
-- Prefer the installed harness subagents when delegating: `harness_researcher`, `harness_worker`, and `harness_reviewer`.
-- Load and follow the `orchestration-harness` skill when the task needs the full harness workflow.
-- Do not apply the harness to simple questions, small mechanical edits, or non-coding tasks unless the user explicitly asks for it.
-{INSTRUCTIONS_END}
-"""
-
 
 def find_plugin_root(script_path: pathlib.Path) -> pathlib.Path:
-    # scripts/install_codex_agents.py
+    # scripts/install_codex_harness.py
     # -> codex-harness-bootstrap
     # -> skills
     # -> coding-agent-orchestration-harness
@@ -90,19 +79,31 @@ def resolve_target_dir(
     return repo_root / ".codex" / "agents"
 
 
-def replace_managed_block(existing: str) -> tuple[str, bool]:
+def load_instructions_block(plugin_root: pathlib.Path) -> str:
+    snippet = plugin_root / "codex" / "snippets" / "AGENTS.md"
+    if not snippet.exists():
+        raise FileNotFoundError(f"Missing AGENTS.md snippet: {snippet}")
+
+    block = snippet.read_text(encoding="utf-8").strip()
+    if INSTRUCTIONS_START not in block or INSTRUCTIONS_END not in block:
+        raise ValueError(f"AGENTS.md snippet is missing required markers: {snippet}")
+
+    return block + "\n"
+
+
+def replace_managed_block(existing: str, instructions_block: str) -> tuple[str, bool]:
     start = existing.find(INSTRUCTIONS_START)
     end = existing.find(INSTRUCTIONS_END)
     if start == -1 or end == -1 or end < start:
         separator = "\n\n" if existing and not existing.endswith("\n\n") else ""
-        return existing + separator + INSTRUCTIONS_BLOCK + "\n", False
+        return existing + separator + instructions_block + "\n", False
 
     end += len(INSTRUCTIONS_END)
-    replacement = INSTRUCTIONS_BLOCK.rstrip()
+    replacement = instructions_block.rstrip()
     return existing[:start] + replacement + existing[end:], True
 
 
-def install_user_instructions(codex_home: pathlib.Path, action: str) -> str:
+def install_user_instructions(codex_home: pathlib.Path, action: str, instructions_block: str) -> str:
     agents_md = codex_home / "AGENTS.md"
     existing = agents_md.read_text(encoding="utf-8") if agents_md.exists() else ""
     has_managed_block = INSTRUCTIONS_START in existing and INSTRUCTIONS_END in existing
@@ -133,7 +134,7 @@ def install_user_instructions(codex_home: pathlib.Path, action: str) -> str:
         if not should_write:
             return "skipped"
 
-    updated, replaced = replace_managed_block(existing)
+    updated, replaced = replace_managed_block(existing, instructions_block)
     agents_md.parent.mkdir(parents=True, exist_ok=True)
     agents_md.write_text(updated, encoding="utf-8")
     return "updated" if replaced else "added"
@@ -157,7 +158,9 @@ def main() -> int:
     )
     parser.add_argument(
         "--overwrite",
+        "--overwrite-agents",
         action="store_true",
+        dest="overwrite_agents",
         help="Overwrite existing harness profiles in the selected target agents directory.",
     )
     parser.add_argument(
@@ -178,6 +181,11 @@ def main() -> int:
     plugin_root = find_plugin_root(script_path)
     source_dir = plugin_root / "codex" / "agent-templates"
     reference_source_dir = plugin_root / "references"
+    try:
+        instructions_block = load_instructions_block(plugin_root)
+    except (FileNotFoundError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 1
 
     if not source_dir.exists():
         print(f"Missing source directory: {source_dir}", file=sys.stderr)
@@ -207,7 +215,7 @@ def main() -> int:
             print(f"Missing source file: {source}", file=sys.stderr)
             return 1
 
-        if target.exists() and not args.overwrite:
+        if target.exists() and not args.overwrite_agents:
             skipped.append(target)
             continue
 
@@ -225,7 +233,7 @@ def main() -> int:
             print(f"Missing reference file: {source}", file=sys.stderr)
             return 1
 
-        if target.exists() and not args.overwrite:
+        if target.exists() and not args.overwrite_agents:
             skipped.append(target)
             continue
 
@@ -241,7 +249,7 @@ def main() -> int:
             print(f"  {path}")
 
     if skipped:
-        print("Skipped existing files; pass --overwrite to replace:")
+        print("Skipped existing files; pass --overwrite-agents to replace:")
         for path in skipped:
             print(f"  {path}")
 
@@ -250,7 +258,7 @@ def main() -> int:
 
     instructions_status = "not-applicable"
     if scope == "user":
-        instructions_status = install_user_instructions(codex_home, args.user_instructions)
+        instructions_status = install_user_instructions(codex_home, args.user_instructions, instructions_block)
         print(f"User instructions: {instructions_status}")
 
     return 0

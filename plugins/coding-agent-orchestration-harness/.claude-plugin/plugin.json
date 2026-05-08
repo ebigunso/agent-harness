@@ -13,6 +13,6 @@
     "harness",
     "claude-code"
   ],
-  "agents": "./agents/claude/",
+  "agents": "./claude/agents/",
   "skills": "./skills/"
 }

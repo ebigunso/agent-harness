@@ -26,7 +26,7 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Use the coding-agent orchestration harness for this task. Apply the orchestration harness skill, then delegate research, implementation, and review work where useful."
+      "Use the coding-agent orchestration harness for coding-related tasks. Load the orchestration-harness skill and follow it as the source of truth."
     ]
   }
 }
