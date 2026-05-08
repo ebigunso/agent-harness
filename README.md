@@ -85,6 +85,10 @@ If you already cloned the repo locally, you can add it from disk instead:
 
 This plugin supports GitHub Copilot, Claude Code, and Codex.
 
+Unless otherwise noted, paths in this section are relative to the plugin root:
+
+`plugins/coding-agent-orchestration-harness/`
+
 ### Skills
 
 All runtimes use the same canonical `skills/` directory.

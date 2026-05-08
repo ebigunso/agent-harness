@@ -49,7 +49,7 @@ At the start of any non-trivial work, read:
 3) docs/coding-agent/rules/orchestrator.md
 4) Any "Repository Reference Documents" listed in common.md
 5) docs/coding-agent/lessons.md (if present; skim for relevant recurring mistakes)
-6) Relevant plan files under docs/coding-agent/plans/*.md (if any)
+6) Relevant plan files under docs/coding-agent/plans/active/ and docs/coding-agent/plans/completed/ (if any)
 7) Relevant project files based on plan/request
 
 If docs/coding-agent/rules/ does not exist, create it with the minimal skeleton, including empty "Global Migration Candidates (Placeholder)" sections.
@@ -78,7 +78,7 @@ Follow-ups after completion:
 
 Planning:
 - Use the `plan-format` skill.
-- Plans live under `docs/coding-agent/plans/`.
+- Draft and in-progress plans live under `docs/coding-agent/plans/active/`; completed plans move to `docs/coding-agent/plans/completed/`.
 - Task IDs are `Task_X`.
 - Pre-dispatch task integrity check (hard rule): before dispatching any Worker Task_X, confirm each acceptance criterion is satisfiable within that task's `owns`; if not, stop and replan before dispatch.
 - Pre-dispatch validation ownership check (hard rule): every required validation item must have explicit owner (`worker` / `reviewer` / `orchestrator` / `user`); if ownership is missing or ambiguous, stop and fix the plan before dispatch.
