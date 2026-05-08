@@ -1,0 +1,20 @@
+{
+  "name": "agent-harness",
+  "interface": {
+    "displayName": "Agent Harness"
+  },
+  "plugins": [
+    {
+      "name": "coding-agent-orchestration-harness",
+      "source": {
+        "source": "local",
+        "path": "./plugins/coding-agent-orchestration-harness"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
