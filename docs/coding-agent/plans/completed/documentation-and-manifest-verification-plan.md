@@ -1,6 +1,6 @@
 # Plan: Documentation And Manifest Verification
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: docs
@@ -145,6 +145,14 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-docs-manifest-verification`, stacked on `codex-bootstrap-freshness`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1, Task_2]
+  - Summary: Updated root README for user-facing runtime operation, role names, UI validation, and validation philosophy; expanded plugin README for maintainer-facing paths, skills, validators, bootstrap commands, and ADR location.
+  - Validation evidence: `rg` confirmed runtime operation, role map, UI validation, validation model, and validator command references.
+  - Notes: Root README remains high-level; plugin README is more operational.
+- 2026-05-09 00:00 Wave 2 completed: [Task_3]
+  - Summary: Verified manifest structure through package validation.
+  - Validation evidence: `python plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py`; full smoke suite also passed.
+  - Notes: No manifest structure changes were needed.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

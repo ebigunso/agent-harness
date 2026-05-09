@@ -101,6 +101,14 @@ Runtime-specific files should route to that skill instead of duplicating the har
 
 Design decisions for this plugin are recorded in `docs/coding-agent-orchestration-harness/decisions/`.
 
+### Runtime operation model
+
+GitHub Copilot and Claude Code users explicitly select the Orchestrator agent as the main thread controller for harness work. Automatic skill discovery is useful, but it is not the primary activation path for those runtimes.
+
+Codex uses loader instructions plus installed custom-agent templates. The loader block stays small and routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the shared skill.
+
+Skills are shared capability modules. Runtime adapters should point to shared skills and references rather than copying full workflow instructions.
+
 ### Agents
 
 Agent definitions are runtime-specific because model names, tool names, and frontmatter schemas differ:
@@ -108,6 +116,42 @@ Agent definitions are runtime-specific because model names, tool names, and fron
 - Copilot agents: `agents/*.md`
 - Claude agents: `claude/agents/`
 - Codex agent templates: `codex/agent-templates/`
+
+Logical roles are stable, but physical runtime names may differ:
+
+| Logical role | Copilot | Claude | Codex |
+|---|---|---|---|
+| Researcher | Researcher | harness-researcher | harness_researcher |
+| Worker | Worker | harness-worker | harness_worker |
+| Reviewer | Reviewer | harness-reviewer | harness_reviewer |
+
+The canonical role map is `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`.
+
+### UI validation model
+
+The harness uses a three-tier UI validation model:
+
+- Worker UI probes are allowed for assigned UI/frontend work and provide implementation feedback.
+- Researcher UI research can inspect existing behavior before planning.
+- Reviewer UI/E2E evidence remains independent acceptance evidence for non-trivial UI work unless explicitly waived.
+
+### Validation model
+
+Validation is strict for package structure, plan/task contracts, Worker report contracts, required evidence, and final closeout state.
+
+Validation is flexible for exact prose, prompt wording, decomposition aesthetics, and non-critical strategy choices.
+
+Validators live under:
+
+- `plugins/coding-agent-orchestration-harness/scripts/`
+- `plugins/coding-agent-orchestration-harness/skills/*/scripts/`
+
+Run:
+
+```bash
+python plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py
+python plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py
+```
 
 ### Codex bootstrap
 
