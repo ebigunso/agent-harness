@@ -1,6 +1,6 @@
 # Plan: Architecture Rationale And Shared References
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: docs
@@ -157,6 +157,18 @@
   - Summary: User accepted recommendations and requested implementation branches/PRs.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-architecture-rationale-shared-references`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1, Task_2]
+  - Summary: Added design ADRs for explicit Orchestrator entrypoint, role namespacing, Worker UI probes, runtime prompt budgeting, and implementation ADR for contract-first validation.
+  - Validation evidence: ADR frontmatter/path review; consulted metadata uses `GPT-5.5 Pro` for this batch.
+  - Notes: ADR links kept self-contained for this branch.
+- 2026-05-09 00:00 Wave 2 completed: [Task_3]
+  - Summary: Added runtime role map, status model, and validation strictness references.
+  - Validation evidence: `Test-Path` returned true for all three reference files.
+  - Notes: References reduce ambiguity without duplicating the full orchestration workflow.
+- 2026-05-09 00:00 Wave 3 completed: [Task_4]
+  - Summary: Linked the new references from `orchestration-harness/SKILL.md`.
+  - Validation evidence: `rg -n "runtime-role-map|status-model|validation-strictness" plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md`.
+  - Notes: Package validator is not available yet; manual path/link review used per plan.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
