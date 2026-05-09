@@ -1,6 +1,6 @@
 # Plan: Runtime Adapter Alignment
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: mixed
@@ -186,6 +186,22 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-runtime-adapter-alignment`, stacked on `codex-orchestration-skill-kernel-refactor`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1, Task_2]
+  - Summary: Replaced Copilot Orchestrator duplicated workflow with a medium kernel and updated Claude Orchestrator to a short explicit kernel.
+  - Validation evidence: Copilot kernel 72 lines; Claude kernel 55 lines; `rg` confirmed canonical policy routing and UI evidence boundary wording.
+  - Notes: Claude frontmatter kept minimal per resolved decision.
+- 2026-05-09 00:00 Wave 2 completed: [Task_3]
+  - Summary: Added `runtime-adapter-contract` skill and maintenance references.
+  - Validation evidence: Manual review of skill frontmatter, checklist, prompt budgeting, and tool matrix.
+  - Notes: Skill scopes adapter work only, not ordinary coding tasks.
+- 2026-05-09 00:00 Wave 3 completed: [Task_4]
+  - Summary: Routed `skills-maintenance` to `runtime-adapter-contract` for runtime-specific adapter changes.
+  - Validation evidence: Manual review of added routing language.
+  - Notes: Routing explicitly excludes ordinary coding tasks unless adapter maintenance is in scope.
+- 2026-05-09 00:00 Wave 4 completed: [Task_5]
+  - Summary: Verified manifests parse and Codex loader remains loader-only.
+  - Validation evidence: `ConvertFrom-Json` passed for all plugin manifests; `Get-Content` reviewed Codex `AGENTS.md` snippet.
+  - Notes: No manifest structure changes were needed.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

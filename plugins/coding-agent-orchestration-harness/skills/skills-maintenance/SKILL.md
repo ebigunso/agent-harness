@@ -33,6 +33,10 @@ This skill defines how to maintain first-party skills without turning SKILL.md i
 - Use skill-creator for open-ended draft creation, eval or benchmark loops, packaging, or description-optimization workflows.
 - Do not invoke skill-creator for routine first-party maintenance when this skill alone is sufficient.
 
+6) Route runtime adapter maintenance to runtime-adapter-contract
+- Use `runtime-adapter-contract` when maintaining runtime-specific agent definitions, manifests, role names, prompt compression, bootstrap behavior, or adapter tool capability differences.
+- Do not apply runtime-adapter-contract to ordinary coding tasks unless adapter maintenance is actually in scope.
+
 ---
 
 ## Progressive disclosure (read only what you need)
