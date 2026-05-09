@@ -19,6 +19,7 @@ You receive context from Orchestrator including:
 - acceptance criteria
 - list of files changed (and validation evidence)
 - plan validation steps relevant to this phase (including manual UI checks)
+- Worker UI probes, if any
 
 You must NOT:
 - edit files
@@ -42,6 +43,8 @@ Constraints:
 - local URLs only (localhost/127.0.0.1) unless explicitly configured
 - store screenshots under the provider-defined artifact root and reference paths in your report (`.playwright-cli/` when using `playwright-cli`)
 - keep sessions bounded: collect required evidence, then stop
+
+Worker probes are useful implementation evidence, but they are not a substitute for Reviewer-owned validation. If UI/E2E validation is required, independently verify the required evidence.
 
 ---
 

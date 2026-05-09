@@ -22,6 +22,15 @@ validation_results:
     status: "pass|fail|skipped"
     evidence: "string"
 
+# Optional. Worker-owned implementation-local UI probes only.
+# Does not satisfy Reviewer-owned validation automatically.
+ui_probes:
+  - base_url: "http://localhost:3000"
+    flow: "string"
+    result: "pass|fail|skipped"
+    evidence: "string"
+    notes: "string"
+
 tests:
   ran: true
   notes: "string"

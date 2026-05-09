@@ -1,6 +1,6 @@
 # Plan: Worker UI Probes
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: mixed
@@ -209,6 +209,18 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-worker-ui-probes`, stacked on `codex-runtime-adapter-alignment`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1]
+  - Summary: Added `worker-ui-probes` skill with bounded local probe policy and evidence expectations.
+  - Validation evidence: Manual frontmatter and policy review.
+  - Notes: Skill states probes do not satisfy Reviewer-owned validation.
+- 2026-05-09 00:00 Wave 2 completed: [Task_2, Task_3, Task_5]
+  - Summary: Updated Worker definitions, Reviewer definitions, and Worker report contract docs/schema/examples for optional `ui_probes`.
+  - Validation evidence: `rg` confirmed Worker/Reviewer probe boundary wording and no stale `no browser automation` wording in target files.
+  - Notes: Existing non-UI reports remain valid because `ui_probes` is optional.
+- 2026-05-09 00:00 Wave 3 completed: [Task_4, Task_6]
+  - Summary: Confirmed orchestration UI policy already uses the three-tier model and extended validator shape checks for optional `ui_probes`.
+  - Validation evidence: `python -m py_compile plugins/coding-agent-orchestration-harness/skills/subagent-report-contract/scripts/validate_worker_report.py`; valid stdin YAML with `ui_probes` passed; invalid probe result failed clearly.
+  - Notes: Fixture-based validation is deferred to the validator fixtures plan.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
