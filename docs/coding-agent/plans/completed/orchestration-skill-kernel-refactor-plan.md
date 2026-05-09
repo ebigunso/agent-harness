@@ -1,6 +1,6 @@
 # Plan: Orchestration Skill Kernel Refactor
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: docs
@@ -161,6 +161,22 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-orchestration-skill-kernel-refactor`, stacked on `codex-architecture-rationale-shared-references`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1]
+  - Summary: Inventoried hard rules from the current orchestration skill and preserved them across the kernel/reference split.
+  - Validation evidence: Manual semantic review against current skill sections.
+  - Notes: Governance/safety rules were kept visible in the kernel.
+- 2026-05-09 00:00 Wave 2 completed: [Task_2]
+  - Summary: Added lifecycle, dispatch, UI validation, closeout, and final response references.
+  - Validation evidence: `Get-ChildItem plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references`.
+  - Notes: Existing role/status/validation references from the prior branch remain in the same reference folder.
+- 2026-05-09 00:00 Wave 3 completed: [Task_3]
+  - Summary: Replaced the long orchestration skill with a 157-line kernel containing stable role model, five hard gates, UI validation model, routing table, governance/safety, and final response summary.
+  - Validation evidence: `rg` confirmed hard gates and required supporting skill routes are visible in `SKILL.md`.
+  - Notes: The kernel remains usable without opening every reference.
+- 2026-05-09 00:00 Wave 4 completed: [Task_4]
+  - Summary: Completed drift and link checks available before the package validator exists.
+  - Validation evidence: `rg` checks for required routes and `Get-ChildItem` reference-file existence.
+  - Notes: Package validator is introduced by a later plan, so manual path/link review was used.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
