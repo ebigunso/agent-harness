@@ -1,6 +1,6 @@
 # Plan: Wave Integration And Closeout
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: mixed
@@ -177,6 +177,22 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-wave-integration-closeout`, stacked on `codex-worker-ui-probes`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1]
+  - Summary: Added `wave-integration` skill with Orchestrator-owned integration checklist summary and closeout validator routing.
+  - Validation evidence: Manual frontmatter and scope review.
+  - Notes: Skill does not create a new subagent role.
+- 2026-05-09 00:00 Wave 2 completed: [Task_2, Task_3]
+  - Summary: Added integration checklist and Reviewer packet template references.
+  - Validation evidence: `rg` confirmed Reviewer packet and checklist routing.
+  - Notes: Reviewer packet includes Worker UI probes when present.
+- 2026-05-09 00:00 Wave 3 completed: [Task_4]
+  - Summary: Updated orchestration skill and references to require wave integration after Worker waves and before Reviewer dispatch.
+  - Validation evidence: `rg -n "wave-integration|Reviewer packet|After each Worker wave" plugins/coding-agent-orchestration-harness/skills/orchestration-harness plugins/coding-agent-orchestration-harness/skills/wave-integration`.
+  - Notes: The previous "when available" phrasing is now a direct instruction because the skill exists.
+- 2026-05-09 00:00 Wave 4 completed: [Task_5]
+  - Summary: Added lightweight structured closeout validator.
+  - Validation evidence: `python -m py_compile plugins/coding-agent-orchestration-harness/skills/wave-integration/scripts/validate_closeout.py`; valid temporary JSON summary passed; invalid summary failed with validation/blocker/reviewer errors.
+  - Notes: Initial `C:\tmp` temp-file attempt was denied by the Windows environment, so validation used temporary files in the repository workspace and removed them after each check.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

@@ -75,6 +75,8 @@ Reviewer must independently verify required Reviewer-owned evidence. Worker prob
 
 When Reviewer uses browser/UI tooling, artifacts must stay under the selected provider-defined artifact root, such as `.playwright-cli/` for `playwright-cli`.
 
+Use `wave-integration/references/reviewer-packet-template.md` as the packet shape after Worker waves.
+
 ## Parallel Dispatch
 
 Dispatch Workers in parallel by default when:

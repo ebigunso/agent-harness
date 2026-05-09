@@ -76,7 +76,7 @@ Use `references/status-model.md` and `references/validation-strictness.md` for s
 
 ### 5. Completion Closeout Gate
 
-After each Worker wave and before Reviewer dispatch, run the closeout and integration checks in `references/completion-closeout.md`.
+After each Worker wave and before Reviewer dispatch, run the `wave-integration` checklist.
 
 Non-trivial work requires Reviewer `APPROVED` before final completion unless explicitly waived.
 
@@ -111,7 +111,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - Worker report schema: `subagent-report-contract`
 - Worker UI probes: `references/ui-validation-policy.md`
 - UI/E2E evidence: `playwright-e2e-evidence`, `playwright-cli`
-- Worker wave integration: `references/completion-closeout.md`
+- Worker wave integration and Reviewer packet: `wave-integration`
 - Engineering validation depth: `engineering-quality-baselines`
 - Git safety and commit chunking: `git-workflow`
 - Repo rules updates: `rulebook`

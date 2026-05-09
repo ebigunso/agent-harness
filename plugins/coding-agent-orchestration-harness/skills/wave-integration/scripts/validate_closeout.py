@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""
+Validate a structured closeout summary before reporting final done.
+
+Usage:
+  python validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
+
+The summary file may be JSON or YAML and should use this shape:
+
+  plan_status: done
+  non_trivial: true
+  reviewer:
+    status: APPROVED
+    waiver: ""
+  tasks:
+    - id: Task_1
+      status: done
+      waiver: ""
+  validations:
+    - detail: "npm test"
+      required: true
+      status: pass
+      waiver: ""
+  blockers: []
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+try:
+    import yaml  # type: ignore
+except Exception:
+    yaml = None  # type: ignore
+
+
+def err(message: str) -> None:
+    print(f"CLOSEOUT ERROR: {message}", file=sys.stderr)
+
+
+def load_summary(path: Path) -> Any:
+    raw = path.read_text(encoding="utf-8")
+    if path.suffix.lower() == ".json":
+        return json.loads(raw)
+    if yaml is None:
+        raise RuntimeError("PyYAML is required for YAML summaries; use JSON or install pyyaml")
+    return yaml.safe_load(raw)
+
+
+def is_waived(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def validate(summary: Any, plan_text: str) -> bool:
+    ok = True
+    if not isinstance(summary, dict):
+        err("summary must be a mapping/object")
+        return False
+
+    plan_status = summary.get("plan_status")
+    if plan_status != "done":
+        err("plan_status must be 'done' before final done report")
+        ok = False
+
+    if not re.search(r"^- status:\s*done\s*$", plan_text, flags=re.MULTILINE):
+        err("plan file must have '- status: done' before final done report")
+        ok = False
+
+    tasks = summary.get("tasks")
+    if not isinstance(tasks, list) or not tasks:
+        err("tasks must be a non-empty list")
+        ok = False
+    else:
+        for i, task in enumerate(tasks):
+            ctx = f"tasks[{i}]"
+            if not isinstance(task, dict):
+                err(f"{ctx} must be a mapping")
+                ok = False
+                continue
+            task_id = task.get("id")
+            if not isinstance(task_id, str) or not re.match(r"^Task_[0-9]+$", task_id):
+                err(f"{ctx}.id must match Task_X")
+                ok = False
+            status = task.get("status")
+            if status != "done" and not is_waived(task.get("waiver")):
+                err(f"{ctx} must be done or explicitly waived")
+                ok = False
+
+    validations = summary.get("validations", [])
+    if not isinstance(validations, list):
+        err("validations must be a list")
+        ok = False
+    else:
+        for i, validation in enumerate(validations):
+            ctx = f"validations[{i}]"
+            if not isinstance(validation, dict):
+                err(f"{ctx} must be a mapping")
+                ok = False
+                continue
+            if validation.get("required") is True:
+                status = validation.get("status")
+                if status != "pass" and not is_waived(validation.get("waiver")):
+                    err(f"{ctx} required validation must pass or be waived")
+                    ok = False
+
+    blockers = summary.get("blockers", [])
+    if not isinstance(blockers, list):
+        err("blockers must be a list")
+        ok = False
+    elif blockers:
+        err("unresolved blockers remain")
+        ok = False
+
+    non_trivial = summary.get("non_trivial", True)
+    reviewer = summary.get("reviewer", {})
+    if non_trivial is True:
+        if not isinstance(reviewer, dict):
+            err("reviewer must be a mapping for non-trivial closeout")
+            ok = False
+        elif reviewer.get("status") != "APPROVED" and not is_waived(reviewer.get("waiver")):
+            err("non-trivial closeout requires Reviewer APPROVED or explicit waiver")
+            ok = False
+
+    return ok
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--plan", required=True, type=Path)
+    parser.add_argument("--summary", required=True, type=Path)
+    args = parser.parse_args()
+
+    try:
+        plan_text = args.plan.read_text(encoding="utf-8")
+        summary = load_summary(args.summary)
+    except Exception as exc:
+        err(str(exc))
+        return 3
+
+    return 0 if validate(summary, plan_text) else 3
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
