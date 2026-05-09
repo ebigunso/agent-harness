@@ -127,6 +127,14 @@ Use `--repo-root /path/to/repo` with `--scope repo` when installing into a repos
 
 Use `--overwrite-agents` to replace existing profiles. `--overwrite` is also accepted.
 
+Use `--dry-run` to preview planned writes/skips without writing files.
+
+Use `--check` to compare installed Codex profiles against the plugin templates and report stale, missing, modified, or matching files.
+
+Use `--verify` to assert required installed files and the managed install manifest exist.
+
+Normal installs write `.coding-agent-orchestration-harness-install.json` in the target agents directory by default. Use `--no-write-manifest` only when manifest creation is intentionally unwanted.
+
 For user-scope installs, the script also asks whether to add a small managed routing rule to `~/.codex/AGENTS.md` so Codex knows when to load `$orchestration-harness`. Existing user instructions are not overwritten. If the file already has content, the script shows a preview and asks whether to append the managed block; if the managed block already exists, it asks whether to replace only that block.
 
 Use `--user-instructions add` to add or update that managed block non-interactively, or `--user-instructions skip` to leave `~/.codex/AGENTS.md` untouched.

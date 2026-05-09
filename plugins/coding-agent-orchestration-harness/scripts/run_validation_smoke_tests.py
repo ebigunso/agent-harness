@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -19,6 +20,29 @@ def run(cmd: list[str], expect: int = 0) -> bool:
         print(f"Expected exit {expect}, got {result.returncode}", file=sys.stderr)
         return False
     return True
+
+
+def run_bootstrap_smoke() -> bool:
+    script = ROOT / "skills" / "codex-harness-bootstrap" / "scripts" / "install_codex_harness.py"
+    ok = True
+    with tempfile.TemporaryDirectory() as tmp:
+        codex_home = Path(tmp) / "codex-home"
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--dry-run"], 0)
+        if (codex_home / "agents").exists():
+            print("dry-run unexpectedly created agents directory", file=sys.stderr)
+            ok = False
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip"], 0)
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--check"], 0)
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--verify"], 0)
+        worker = codex_home / "agents" / "harness_worker.toml"
+        worker.write_text(worker.read_text(encoding="utf-8") + "\n# stale\n", encoding="utf-8")
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--check"], 3)
+    with tempfile.TemporaryDirectory() as tmp:
+        repo = Path(tmp) / "repo"
+        (repo / ".git").mkdir(parents=True)
+        ok &= run([PY, str(script), "--scope", "repo", "--repo-root", str(repo), "--user-instructions", "skip"], 0)
+        ok &= run([PY, str(script), "--scope", "repo", "--repo-root", str(repo), "--user-instructions", "skip", "--verify"], 0)
+    return ok
 
 
 def main() -> int:
@@ -44,6 +68,7 @@ def main() -> int:
     ok = True
     for cmd, expected in checks:
         ok &= run(cmd, expected)
+    ok &= run_bootstrap_smoke()
     return 0 if ok else 3
 
 

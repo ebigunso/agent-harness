@@ -1,6 +1,6 @@
 # Plan: Codex Bootstrap Freshness
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: code
@@ -198,6 +198,18 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-bootstrap-freshness`, stacked on `codex-contract-validators-fixtures`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1]
+  - Summary: Refactored bootstrap operations into reusable source/target planning, install, check, verify, and manifest helpers.
+  - Validation evidence: `python -m py_compile plugins/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/scripts/install_codex_harness.py`.
+  - Notes: Existing install flags remain accepted.
+- 2026-05-09 00:00 Wave 2 completed: [Task_2, Task_3]
+  - Summary: Added `--dry-run`, `--check`, `--verify`, default manifest writing, and `--no-write-manifest`.
+  - Validation evidence: Smoke tests covered dry-run no-write behavior, install, check, stale detection, verify, and repo scope.
+  - Notes: Manifest records installed target file hashes.
+- 2026-05-09 00:00 Wave 3 completed: [Task_4, Task_5]
+  - Summary: Added bootstrap smoke coverage to the validation runner and documented new flags in root README, plugin README, and bootstrap skill.
+  - Validation evidence: `python plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py` exited 0.
+  - Notes: Smoke tests use temporary Codex home and temporary repo roots, not real `~/.codex`.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
