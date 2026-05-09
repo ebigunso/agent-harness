@@ -38,6 +38,8 @@ ALLOWED_OWNER = {"worker", "reviewer", "orchestrator", "user"}
 ALLOWED_AUDIENCE = {"common", "worker", "orchestrator"}
 ALLOWED_INTENDED_HOME = {"repo_specific", "global_candidate"}
 ALLOWED_LESSON_CATEGORY = {"planning", "delegation", "validation", "environment", "review", "docs", "other"}
+TASK_ID_RE = re.compile(r"^Task_[0-9]+$")
+YAML_BLOCK_RE = re.compile(r"```(?:yaml|yml)\s*\n(.*?)\n```", re.DOTALL | re.IGNORECASE)
 
 
 def err(msg: str) -> None:
@@ -295,6 +297,9 @@ def validate_root(doc: Any) -> bool:
     if "task_id" in doc and not is_str(doc["task_id"]):
         err("task_id must be a string")
         ok = False
+    elif "task_id" in doc and not TASK_ID_RE.match(doc["task_id"]):
+        err("task_id must match ^Task_[0-9]+$")
+        ok = False
 
     status = doc.get("status")
     if status not in ALLOWED_STATUS:
@@ -328,6 +333,10 @@ def validate_root(doc: Any) -> bool:
             err(f"{k} must be a list")
             ok = False
 
+    if status in {"blocked", "failed"} and is_list(doc.get("blockers")) and len(doc.get("blockers", [])) == 0:
+        err("status blocked/failed requires non-empty blockers")
+        ok = False
+
     ok &= validate_rule_candidates(doc.get("rule_candidates", []))
     if "ui_probes" in doc:
         ok &= validate_ui_probes(doc.get("ui_probes", []))
@@ -337,14 +346,77 @@ def validate_root(doc: Any) -> bool:
     return ok
 
 
+def extract_message_yaml(raw: str) -> str | None:
+    matches = YAML_BLOCK_RE.findall(raw)
+    if len(matches) != 1:
+        err(f"--message-file requires exactly one YAML code block; found {len(matches)}")
+        return None
+    before, after = YAML_BLOCK_RE.split(raw, maxsplit=1)[0], YAML_BLOCK_RE.split(raw, maxsplit=1)[-1]
+    if before.strip() or after.strip():
+        err("--message-file must contain one YAML code block and no extra prose")
+        return None
+    return matches[0]
+
+
+def load_task_contract(path: str) -> Any:
+    with open(path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f.read())
+
+
+def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
+    if not is_dict(contract):
+        err("task contract must be a mapping")
+        return False
+    ok = True
+    contract_task_id = contract.get("task_id")
+    if contract_task_id and doc.get("task_id") != contract_task_id:
+        err(f"task_id does not match task contract: {doc.get('task_id')} != {contract_task_id}")
+        ok = False
+    required_worker = [
+        item
+        for item in contract.get("validation", [])
+        if is_dict(item) and item.get("required") is True and item.get("owner") == "worker"
+    ]
+    report_results = doc.get("validation_results", [])
+    for item in required_worker:
+        detail = item.get("detail")
+        match = next(
+            (
+                result
+                for result in report_results
+                if is_dict(result)
+                and result.get("required") is True
+                and result.get("owner") == "worker"
+                and result.get("detail") == detail
+            ),
+            None,
+        )
+        if match is None:
+            err(f"missing report validation result for required worker validation: {detail}")
+            ok = False
+        elif match.get("status") == "skipped" and not re.search(r"\bwaiv(ed|er)\b", match.get("evidence", ""), flags=re.IGNORECASE):
+            err(f"required worker validation skipped without waiver evidence: {detail}")
+            ok = False
+    return ok
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--file", type=str, default="")
+    ap.add_argument("--message-file", type=str, default="")
+    ap.add_argument("--task-contract", type=str, default="")
     ap.add_argument("--stdin", action="store_true")
     args = ap.parse_args()
 
     if args.stdin:
         raw = sys.stdin.read()
+    elif args.message_file:
+        with open(args.message_file, "r", encoding="utf-8") as f:
+            message = f.read()
+        extracted = extract_message_yaml(message)
+        if extracted is None:
+            return 3
+        raw = extracted
     elif args.file:
         with open(args.file, "r", encoding="utf-8") as f:
             raw = f.read()
@@ -358,7 +430,15 @@ def main() -> int:
         err(f"YAML parse failed: {e}")
         return 3
 
-    if not validate_root(doc):
+    ok = validate_root(doc)
+    if args.task_contract and is_dict(doc):
+        try:
+            ok &= validate_against_task_contract(doc, load_task_contract(args.task_contract))
+        except Exception as e:
+            err(f"task contract parse failed: {e}")
+            ok = False
+
+    if not ok:
         return 3
 
     return 0

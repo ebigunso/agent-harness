@@ -1,0 +1,13 @@
+task_id: "Task_1"
+status: done
+summary: "Missing validation."
+files_changed: []
+commands_run: []
+validation_results: []
+tests:
+  ran: false
+  notes: "No validation."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []

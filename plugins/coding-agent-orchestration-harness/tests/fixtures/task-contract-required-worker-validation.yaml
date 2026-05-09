@@ -1,0 +1,6 @@
+task_id: "Task_1"
+validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "npm test"

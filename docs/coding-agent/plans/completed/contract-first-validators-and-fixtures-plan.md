@@ -1,6 +1,6 @@
 # Plan: Contract-First Validators And Fixtures
 
-- status: in_progress
+- status: done
 - generated: 2026-05-09
 - last_updated: 2026-05-09
 - work_type: code
@@ -223,6 +223,18 @@
   - Summary: User accepted the open-question recommendation and requested implementation.
   - Validation evidence: User approval in conversation.
   - Notes: Dedicated branch `codex-contract-validators-fixtures`, stacked on `codex-wave-integration-closeout`.
+- 2026-05-09 00:00 Wave 1 completed: [Task_1, Task_2, Task_3]
+  - Summary: Added package validator, plan validator, and extended Worker report validator.
+  - Validation evidence: Python compile checks passed through `run_validation_smoke_tests.py`; package validator passed; plan valid/invalid fixtures behaved as expected; Worker raw YAML, message-file, task-contract, and `ui_probes` paths behaved as expected.
+  - Notes: Package validator warns for uncertain adapter duplication heuristics and fails deterministic structure issues.
+- 2026-05-09 00:00 Wave 2 completed: [Task_4]
+  - Summary: Added valid and invalid plan/report fixtures plus a Worker message-file fixture and task-contract fixture for validator coverage.
+  - Validation evidence: Smoke runner exercised all fixtures with expected exit codes.
+  - Notes: Extra fixtures support `--message-file` and `--task-contract` coverage beyond the minimum fixture list.
+- 2026-05-09 00:00 Wave 3 completed: [Task_5]
+  - Summary: Added `run_validation_smoke_tests.py` to compile validators and execute package/plan/report validation checks.
+  - Validation evidence: `python plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py` exited 0.
+  - Notes: Expected invalid-fixture errors are printed during the smoke run and treated as pass conditions.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

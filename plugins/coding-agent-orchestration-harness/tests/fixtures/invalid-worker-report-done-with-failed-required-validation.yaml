@@ -1,0 +1,22 @@
+task_id: "Task_1"
+status: done
+summary: "Validation failed but status is done."
+files_changed: []
+commands_run:
+  - command: "npm test"
+    result: fail
+    notes: "Tests failed."
+validation_results:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "npm test"
+    status: fail
+    evidence: "Exit code 1."
+tests:
+  ran: true
+  notes: "Tests failed."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
