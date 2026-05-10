@@ -7,6 +7,7 @@ skills:
   - plan-format
   - subagent-strategy
   - subagent-report-contract
+  - worker-ui-probes
   - playwright-e2e-evidence
   - engineering-quality-baselines
   - git-workflow
