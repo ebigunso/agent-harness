@@ -27,6 +27,13 @@ The summary file may be JSON or YAML and should use this shape:
       status: pass
       waiver: ""
   blockers: []
+
+When a waiver is used, provide waiver evidence as a mapping:
+
+  waiver:
+    authority: "user or Orchestrator"
+    reason: "why the required item is waived now"
+    evidence: "link, transcript note, or other proof of approval"
 """
 
 from __future__ import annotations
@@ -65,7 +72,10 @@ def load_summary(path: Path) -> Any:
 
 
 def is_waived(value: Any) -> bool:
-    return isinstance(value, str) and bool(value.strip())
+    if not isinstance(value, dict):
+        return False
+    required = ("authority", "reason", "evidence")
+    return all(isinstance(value.get(key), str) and bool(value[key].strip()) for key in required)
 
 
 def is_bool(value: Any) -> bool:
@@ -87,7 +97,7 @@ def validate(summary: Any, plan_text: str) -> bool:
         err("plan_status must be 'done' before final done report")
         ok = False
 
-    if not re.search(r"^- status:\s*done\s*$", plan_text, flags=re.MULTILINE):
+    if not re.search(r"^- status:\s*[\"']?done[\"']?\s*$", plan_text, flags=re.MULTILINE):
         err("plan file must have '- status: done' before final done report")
         ok = False
 
