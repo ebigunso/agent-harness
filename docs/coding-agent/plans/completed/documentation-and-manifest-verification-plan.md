@@ -17,7 +17,7 @@
 ## Scope / Non-goals
 - Scope:
   - Update `README.md`.
-  - Add `plugins/coding-agent-orchestration-harness/README.md`.
+  - Expand `plugins/coding-agent-orchestration-harness/README.md`.
   - Verify manifests and directory discovery.
 - Non-goals:
   - Do not imply auto skill discovery is primary activation for Copilot/Claude.
@@ -72,13 +72,13 @@
     owner: reviewer
     detail: "Review README for accuracy and no implication that auto discovery is the main Copilot/Claude activation path."
 
-### Task_2: Add Plugin-Local README
+### Task_2: Expand Plugin-Local README
 - type: docs
 - owns:
   - `plugins/coding-agent-orchestration-harness/README.md`
 - depends_on: []
 - description: |
-  Add concise plugin-local documentation for runtime paths, role map, key skills, validators, and bootstrap commands.
+  Expand concise plugin-local documentation for runtime paths, role map, key skills, validators, and bootstrap commands.
 - acceptance:
   - README identifies Copilot, Claude, and Codex adapter paths.
   - README links to canonical role map and ADRs.
@@ -133,7 +133,7 @@
 - known_flakiness: none
 
 ## Rollback / Safety
-- Revert README changes and remove plugin-local README if docs prove misleading.
+- Revert root README and plugin-local README changes if docs prove misleading.
 
 ## Progress Log (append-only)
 
