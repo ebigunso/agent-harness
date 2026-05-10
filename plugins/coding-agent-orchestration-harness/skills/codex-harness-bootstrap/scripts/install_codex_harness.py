@@ -364,7 +364,7 @@ def main() -> int:
             print(f"  {path}")
 
     if not installed and not skipped:
-        print("No agent profiles were installed.")
+        print("No agent profiles or references were installed.")
 
     if args.write_manifest:
         print(f"Manifest: {target_dir / MANIFEST_FILENAME}")
