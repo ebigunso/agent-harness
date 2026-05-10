@@ -47,4 +47,4 @@ Report blocked, not done, when:
 7. Move completed active plan to `docs/coding-agent/plans/completed/` when applicable.
 8. Only then report final done.
 
-When a structured closeout summary is available, use `wave-integration/scripts/validate_closeout.py` before final done.
+When a structured closeout summary is available, use `skills/wave-integration/scripts/validate_closeout.py` before final done.

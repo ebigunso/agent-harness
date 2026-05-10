@@ -3,7 +3,7 @@
 Validate a structured closeout summary before reporting final done.
 
 Usage:
-  python plugins/coding-agent-orchestration-harness/skills/wave-integration/scripts/validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
+  python skills/wave-integration/scripts/validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
 
 Exit codes:
   0 = valid closeout
@@ -65,6 +65,10 @@ def is_waived(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+def is_bool(value: Any) -> bool:
+    return isinstance(value, bool)
+
+
 def validate(summary: Any, plan_text: str) -> bool:
     ok = True
     if not isinstance(summary, dict):
@@ -93,7 +97,7 @@ def validate(summary: Any, plan_text: str) -> bool:
                 continue
             task_id = task.get("id")
             if not isinstance(task_id, str) or not re.match(r"^Task_[0-9]+$", task_id):
-                err(f"{ctx}.id must match Task_X")
+                err(f"{ctx}.id must match Task_<number>")
                 ok = False
             status = task.get("status")
             if status != "done" and not is_waived(task.get("waiver")):
@@ -111,7 +115,12 @@ def validate(summary: Any, plan_text: str) -> bool:
                 err(f"{ctx} must be a mapping")
                 ok = False
                 continue
-            if validation.get("required") is True:
+            required = validation.get("required", False)
+            if not is_bool(required):
+                err(f"{ctx}.required must be boolean")
+                ok = False
+                continue
+            if required is True:
                 status = validation.get("status")
                 if status != "pass" and not is_waived(validation.get("waiver")):
                     err(f"{ctx} required validation must pass or be waived")
@@ -126,6 +135,9 @@ def validate(summary: Any, plan_text: str) -> bool:
         ok = False
 
     non_trivial = summary.get("non_trivial", True)
+    if not is_bool(non_trivial):
+        err("non_trivial must be boolean")
+        ok = False
     reviewer = summary.get("reviewer", {})
     if non_trivial is True:
         if not isinstance(reviewer, dict):
