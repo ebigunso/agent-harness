@@ -196,7 +196,13 @@ def write_manifest(target_dir: pathlib.Path, plugin_version: str, scope: str, pa
     (target_dir / MANIFEST_FILENAME).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
 
-def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, pathlib.Path, str]], overwrite: bool) -> int:
+def dry_run(
+    scope: str,
+    target_dir: pathlib.Path,
+    pairs: list[tuple[pathlib.Path, pathlib.Path, str]],
+    overwrite: bool,
+    write_install_manifest: bool,
+) -> int:
     print(f"Scope: {scope}")
     print(f"Target directory: {target_dir}")
     print("Planned files:")
@@ -215,6 +221,9 @@ def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path
         else:
             status = "write"
         print(f"  {rel}: {status} -> {target}")
+    manifest = target_dir / MANIFEST_FILENAME
+    manifest_status = "write" if write_install_manifest else "disabled"
+    print(f"  {MANIFEST_FILENAME}: {manifest_status} -> {manifest}")
     print("Dry run only; no files written.")
     return 0 if ok else 3
 
@@ -310,8 +319,8 @@ def main() -> int:
     parser.add_argument("--user-instructions", choices=INSTRUCTIONS_ACTIONS, default="ask", help="For user scope, ask/add/skip the managed AGENTS.md loader block.")
     mode_group = parser.add_mutually_exclusive_group()
     mode_group.add_argument("--dry-run", action="store_true", help="Print planned writes/skips without writing files.")
-    mode_group.add_argument("--check", action="store_true", help="Compare installed files against source templates.")
-    mode_group.add_argument("--verify", action="store_true", help="Verify required installed files and optional loader block.")
+    mode_group.add_argument("--check", action="store_true", help="Compare installed files against source templates and require the managed install manifest.")
+    mode_group.add_argument("--verify", action="store_true", help="Verify required installed files and managed install manifest; with user scope and --user-instructions add, also require the managed AGENTS.md block.")
     parser.add_argument("--no-write-manifest", dest="write_install_manifest", action="store_false", default=True, help="Do not write the managed install freshness manifest.")
     parser.add_argument("--codex-home", type=pathlib.Path, default=pathlib.Path.home() / ".codex", help=argparse.SUPPRESS)
     args = parser.parse_args()
@@ -335,7 +344,7 @@ def main() -> int:
     pairs = source_target_pairs(plugin_root, target_dir)
 
     if args.dry_run:
-        return dry_run(scope, target_dir, pairs, args.overwrite_agents)
+        return dry_run(scope, target_dir, pairs, args.overwrite_agents, args.write_install_manifest)
     if args.check:
         return check_install(target_dir, pairs)
     if args.verify:
