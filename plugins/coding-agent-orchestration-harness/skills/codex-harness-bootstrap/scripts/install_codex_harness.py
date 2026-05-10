@@ -241,11 +241,24 @@ def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, path
         elif not target.is_file():
             print(f"INVALID: {rel} is not a file")
             ok = False
-        elif sha256(source) != sha256(target):
-            print(f"STALE_OR_MODIFIED: {rel}")
-            ok = False
         else:
-            print(f"MATCH: {rel}")
+            try:
+                source_hash = sha256(source)
+            except OSError as exc:
+                print(f"INVALID_SOURCE: {rel}: {exc}")
+                ok = False
+                continue
+            try:
+                target_hash = sha256(target)
+            except OSError as exc:
+                print(f"INVALID: {rel}: {exc}")
+                ok = False
+                continue
+            if source_hash != target_hash:
+                print(f"STALE_OR_MODIFIED: {rel}")
+                ok = False
+            else:
+                print(f"MATCH: {rel}")
     manifest = target_dir / MANIFEST_FILENAME
     if manifest.is_file():
         print(f"MANIFEST: {manifest}")
@@ -282,10 +295,22 @@ def verify_install(
         ok = False
     if scope == "user" and require_user_instructions:
         agents_md = codex_home / "AGENTS.md"
-        text = agents_md.read_text(encoding="utf-8") if agents_md.exists() else ""
-        if INSTRUCTIONS_START not in text or INSTRUCTIONS_END not in text:
+        if not agents_md.exists():
             print(f"VERIFY MISSING: managed AGENTS.md block in {agents_md}", file=sys.stderr)
             ok = False
+        elif not agents_md.is_file():
+            print(f"VERIFY INVALID: {agents_md} is not a file", file=sys.stderr)
+            ok = False
+        else:
+            try:
+                text = agents_md.read_text(encoding="utf-8")
+            except OSError as exc:
+                print(f"VERIFY INVALID: cannot read {agents_md}: {exc}", file=sys.stderr)
+                ok = False
+            else:
+                if INSTRUCTIONS_START not in text or INSTRUCTIONS_END not in text:
+                    print(f"VERIFY MISSING: managed AGENTS.md block in {agents_md}", file=sys.stderr)
+                    ok = False
     return 0 if ok else 3
 
 
