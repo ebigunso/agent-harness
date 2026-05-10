@@ -54,8 +54,11 @@ def err(message: str) -> None:
 
 def load_summary(path: Path) -> Any:
     raw = path.read_text(encoding="utf-8")
-    if path.suffix.lower() == ".json":
+    suffix = path.suffix.lower()
+    if suffix == ".json":
         return json.loads(raw)
+    if suffix not in {".yaml", ".yml"}:
+        raise ValueError("summary file must use .json, .yaml, or .yml extension")
     if yaml is None:
         raise MissingDependencyError("PyYAML is required for YAML summaries; use JSON or install pyyaml")
     return yaml.safe_load(raw)
@@ -67,6 +70,10 @@ def is_waived(value: Any) -> bool:
 
 def is_bool(value: Any) -> bool:
     return isinstance(value, bool)
+
+
+def extract_plan_task_ids(plan_text: str) -> list[str]:
+    return re.findall(r"^###\s+(Task_[0-9]+):", plan_text, flags=re.MULTILINE)
 
 
 def validate(summary: Any, plan_text: str) -> bool:
@@ -85,10 +92,12 @@ def validate(summary: Any, plan_text: str) -> bool:
         ok = False
 
     tasks = summary.get("tasks")
+    plan_task_ids = extract_plan_task_ids(plan_text)
     if not isinstance(tasks, list) or not tasks:
         err("tasks must be a non-empty list")
         ok = False
     else:
+        summary_task_ids: list[str] = []
         for i, task in enumerate(tasks):
             ctx = f"tasks[{i}]"
             if not isinstance(task, dict):
@@ -99,10 +108,23 @@ def validate(summary: Any, plan_text: str) -> bool:
             if not isinstance(task_id, str) or not re.match(r"^Task_[0-9]+$", task_id):
                 err(f"{ctx}.id must match Task_<number>")
                 ok = False
+            else:
+                summary_task_ids.append(task_id)
             status = task.get("status")
             if status != "done" and not is_waived(task.get("waiver")):
                 err(f"{ctx} must be done or explicitly waived")
                 ok = False
+        missing_tasks = sorted(set(plan_task_ids).difference(summary_task_ids))
+        extra_tasks = sorted(set(summary_task_ids).difference(plan_task_ids))
+        if missing_tasks:
+            err(f"tasks summary missing plan tasks: {', '.join(missing_tasks)}")
+            ok = False
+        if extra_tasks:
+            err(f"tasks summary includes tasks not present in plan: {', '.join(extra_tasks)}")
+            ok = False
+        if len(summary_task_ids) != len(set(summary_task_ids)):
+            err("tasks summary contains duplicate task ids")
+            ok = False
 
     validations = summary.get("validations", [])
     if not isinstance(validations, list):
@@ -115,14 +137,25 @@ def validate(summary: Any, plan_text: str) -> bool:
                 err(f"{ctx} must be a mapping")
                 ok = False
                 continue
-            required = validation.get("required", False)
+            for key in ("detail", "required", "status"):
+                if key not in validation:
+                    err(f"{ctx}.{key} is required")
+                    ok = False
+            detail = validation.get("detail")
+            if "detail" in validation and (not isinstance(detail, str) or not detail.strip()):
+                err(f"{ctx}.detail must be a non-empty string")
+                ok = False
+            status = validation.get("status")
+            if "status" in validation and status not in {"pass", "fail", "skipped", "waived"}:
+                err(f"{ctx}.status must be pass, fail, skipped, or waived")
+                ok = False
+            required = validation.get("required")
             if not is_bool(required):
                 err(f"{ctx}.required must be boolean")
                 ok = False
                 continue
             if required is True:
-                status = validation.get("status")
-                if status != "pass" and not is_waived(validation.get("waiver")):
+                if status not in {"pass", "waived"} and not is_waived(validation.get("waiver")):
                     err(f"{ctx} required validation must pass or be waived")
                     ok = False
 
