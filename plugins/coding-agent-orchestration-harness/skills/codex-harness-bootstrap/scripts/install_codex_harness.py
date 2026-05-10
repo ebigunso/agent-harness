@@ -261,7 +261,7 @@ def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, path
                 print(f"MATCH: {rel}")
     manifest = target_dir / MANIFEST_FILENAME
     if manifest.is_file():
-        print(f"MANIFEST: {manifest}")
+        print(f"MATCH: {MANIFEST_FILENAME}")
     elif manifest.exists():
         print(f"INVALID: {MANIFEST_FILENAME} is not a file")
         ok = False
@@ -411,6 +411,7 @@ def main() -> int:
         instructions_status = install_user_instructions(codex_home, args.user_instructions, instructions_block)
         print(f"User instructions: {instructions_status}")
     elif scope == "user":
+        instructions_status = "skipped"
         print(f"User instructions: {instructions_status}")
 
     return 0

@@ -41,6 +41,13 @@ def run(cmd: list[str], expect: int = 0) -> bool:
     return True
 
 
+def assert_condition(condition: bool, message: str) -> bool:
+    if condition:
+        return True
+    print(message, file=sys.stderr)
+    return False
+
+
 def run_bootstrap_smoke() -> bool:
     script = ROOT / "skills" / "codex-harness-bootstrap" / "scripts" / "install_codex_harness.py"
     ok = True
@@ -55,11 +62,23 @@ def run_bootstrap_smoke() -> bool:
         try:
             manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
             manifest_files = {item["path"]: item["sha256"] for item in manifest_data["files"]}
-            ok &= manifest_data["plugin_name"] == "coding-agent-orchestration-harness"
-            ok &= manifest_data["scope"] == "user"
-            ok &= sorted(manifest_files) == sorted(EXPECTED_INSTALL_FILES)
+            ok &= assert_condition(
+                manifest_data["plugin_name"] == "coding-agent-orchestration-harness",
+                f"manifest plugin_name mismatch: {manifest_data.get('plugin_name')!r}",
+            )
+            ok &= assert_condition(
+                manifest_data["scope"] == "user",
+                f"manifest scope mismatch: {manifest_data.get('scope')!r}",
+            )
+            ok &= assert_condition(
+                sorted(manifest_files) == sorted(EXPECTED_INSTALL_FILES),
+                f"manifest files mismatch: {sorted(manifest_files)!r}",
+            )
             for rel in EXPECTED_INSTALL_FILES:
-                ok &= manifest_files[rel] == sha256(codex_home / "agents" / rel)
+                ok &= assert_condition(
+                    manifest_files[rel] == sha256(codex_home / "agents" / rel),
+                    f"manifest sha256 mismatch for {rel}",
+                )
         except Exception as exc:
             print(f"manifest verification failed: {exc}", file=sys.stderr)
             ok = False
