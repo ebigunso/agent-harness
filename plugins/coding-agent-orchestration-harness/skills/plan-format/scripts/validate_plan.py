@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 
-TASK_RE = re.compile(r"^### (Task_[0-9]+):", re.MULTILINE)
+TASK_RE = re.compile(r"^### (Task_[1-9][0-9]*):", re.MULTILINE)
 REQUIRED_SECTIONS = [
     "Goal",
     "Definition of Done",
@@ -84,7 +84,30 @@ def section_body(text: str, heading: str) -> str:
     return body
 
 
+def has_canonical_required_check_waiver(text: str) -> bool:
+    match = re.search(r"^Required-check waiver\s*$", text, flags=re.MULTILINE | re.IGNORECASE)
+    if not match:
+        return False
+    waiver_block = text[match.end() :]
+    next_section = re.search(r"^##\s+", waiver_block, flags=re.MULTILINE)
+    if next_section:
+        waiver_block = waiver_block[: next_section.start()]
+    required_fields = (
+        "What is waived",
+        "Why waived now",
+        "Risk accepted and impact",
+        "Mitigation and follow-up",
+        "Owner and expiration",
+    )
+    return all(
+        re.search(rf"^\s*-\s*{re.escape(field)}:\s*\S", waiver_block, flags=re.MULTILINE | re.IGNORECASE)
+        for field in required_fields
+    )
+
+
 def has_structured_ui_validation_waiver(text: str) -> bool:
+    if has_canonical_required_check_waiver(text):
+        return True
     match = re.search(r"^-\s*UI validation waiver:\s*$", text, flags=re.MULTILINE | re.IGNORECASE)
     if not match:
         return False
@@ -174,7 +197,7 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
 
     wave_section = section_body(text, "Task Waves")
     wave_lines = [line for line in wave_section.splitlines() if re.match(r"^\s*-\s*Wave\b", line)]
-    wave_tasks = [task for line in wave_lines for task in re.findall(r"Task_[0-9]+", line)]
+    wave_tasks = [task for line in wave_lines for task in re.findall(r"Task_[1-9][0-9]*", line)]
     if sorted(wave_tasks) != sorted(task_ids) or len(wave_tasks) != len(task_ids):
         error(errors, "Task Waves must include all tasks exactly once")
 
@@ -188,8 +211,7 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     if ui_impact and not has_reviewer_e2e and not has_waiver:
         error(
             errors,
-            "UI-impact plan requires Reviewer-owned E2E/visual validation or structured UI validation waiver "
-            "with authority, reason, and evidence",
+            "UI-impact plan requires Reviewer-owned E2E/visual validation or canonical Required-check waiver",
         )
     if ui_impact and has_reviewer_e2e and not has_waiver and not has_e2e_visual_spec(text):
         error(errors, "UI-impact plan requires ## E2E / Visual Validation Spec with provider and artifact_root")
