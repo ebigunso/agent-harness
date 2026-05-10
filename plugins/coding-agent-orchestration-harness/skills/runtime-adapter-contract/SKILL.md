@@ -15,7 +15,7 @@ Runtime adapters include:
 - Codex loader snippets and inert agent templates under `codex/`;
 - runtime plugin manifests.
 
-## Core Rules
+## Core rules (always apply)
 
 - Shared semantics live in shared skills and references.
 - Runtime mechanics may diverge.
@@ -25,7 +25,7 @@ Runtime adapters include:
 - Codex loader remains loader-only.
 - Tool permissions should match role boundaries but may vary by runtime.
 
-## Progressive Disclosure
+## Progressive disclosure (read only what you need)
 
 - Use `references/adapter-maintenance-checklist.md` before finishing adapter edits.
 - Use `references/prompt-budgeting.md` when changing prompt length or kernel shape.
