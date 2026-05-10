@@ -62,7 +62,7 @@
 - acceptance:
   - Existing flags still parse.
   - Install planning can be reused by install, dry-run, check, and verify paths.
-  - No behavior change for default install unless manifest writing is intentionally enabled.
+  - Default install behavior remains copy-compatible while writing the managed freshness manifest by default.
 - validation:
   - kind: command
     required: true

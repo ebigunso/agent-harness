@@ -72,7 +72,8 @@ def ask_yes_no(prompt: str, default: bool = False) -> bool:
 def resolve_target_dir(scope: str, repo_root: pathlib.Path | None, codex_home: pathlib.Path) -> pathlib.Path:
     if scope == "user":
         return codex_home / "agents"
-    assert repo_root is not None
+    if repo_root is None:
+        raise ValueError("repo_root is required when scope is 'repo'")
     return repo_root / ".codex" / "agents"
 
 
@@ -210,8 +211,15 @@ def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path
 def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> int:
     ok = True
     for source, target, rel in pairs:
+        if not source.is_file():
+            print(f"MISSING_SOURCE: {rel}")
+            ok = False
+            continue
         if not target.exists():
             print(f"MISSING: {rel}")
+            ok = False
+        elif not target.is_file():
+            print(f"INVALID: {rel} is not a file")
             ok = False
         elif sha256(source) != sha256(target):
             print(f"STALE_OR_MODIFIED: {rel}")

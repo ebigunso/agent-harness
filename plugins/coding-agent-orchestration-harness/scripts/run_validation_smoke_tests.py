@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PY = sys.executable
+MANIFEST_FILENAME = ".coding-agent-orchestration-harness-install.json"
 
 
 def run(cmd: list[str], expect: int = 0) -> bool:
@@ -36,6 +37,14 @@ def run_bootstrap_smoke() -> bool:
         ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--verify"], 0)
         worker = codex_home / "agents" / "harness_worker.toml"
         worker.write_text(worker.read_text(encoding="utf-8") + "\n# stale\n", encoding="utf-8")
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--check"], 3)
+    with tempfile.TemporaryDirectory() as tmp:
+        codex_home = Path(tmp) / "codex-home"
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--no-write-manifest"], 0)
+        manifest = codex_home / "agents" / MANIFEST_FILENAME
+        if manifest.exists():
+            print("--no-write-manifest unexpectedly wrote manifest", file=sys.stderr)
+            ok = False
         ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--check"], 3)
     with tempfile.TemporaryDirectory() as tmp:
         repo = Path(tmp) / "repo"
