@@ -411,9 +411,11 @@ def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
         if match is None:
             err(f"missing report validation result for required worker validation: {detail}")
             ok = False
-        elif match.get("status") == "skipped" and not re.search(r"\bwaiv(ed|er)\b", match.get("evidence", ""), flags=re.IGNORECASE):
-            err(f"required worker validation skipped without waiver evidence: {detail}")
-            ok = False
+        elif match.get("status") == "skipped":
+            evidence = match.get("evidence", "")
+            if not isinstance(evidence, str) or not re.search(r"\bwaiv(ed|er)\b", evidence, flags=re.IGNORECASE):
+                err(f"required worker validation skipped without waiver evidence: {detail}")
+                ok = False
     return ok
 
 
@@ -448,9 +450,10 @@ def main() -> int:
         return 3
 
     ok = validate_root(doc)
-    if args.task_contract and is_dict(doc):
+    if ok and args.task_contract and is_dict(doc):
         try:
-            ok &= validate_against_task_contract(doc, load_task_contract(args.task_contract))
+            contract_ok = validate_against_task_contract(doc, load_task_contract(args.task_contract))
+            ok = ok and contract_ok
         except Exception as e:
             err(f"task contract parse failed: {e}")
             ok = False

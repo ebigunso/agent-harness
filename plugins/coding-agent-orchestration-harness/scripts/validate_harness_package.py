@@ -73,6 +73,9 @@ def check_manifests(errors: list[str]) -> None:
 
 def check_skills(errors: list[str]) -> None:
     skills_dir = ROOT / "skills"
+    if not skills_dir.is_dir():
+        fail(errors, f"missing skills directory: {skills_dir}")
+        return
     required = [
         "orchestration-harness",
         "plan-format",
