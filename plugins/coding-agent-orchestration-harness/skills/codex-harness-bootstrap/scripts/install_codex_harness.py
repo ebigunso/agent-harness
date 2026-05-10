@@ -169,7 +169,7 @@ def source_target_pairs(plugin_root: pathlib.Path, target_dir: pathlib.Path) -> 
 def validate_sources(pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> bool:
     ok = True
     for source, _, _ in pairs:
-        if not source.exists():
+        if not source.is_file():
             print(f"Missing source file: {source}", file=sys.stderr)
             ok = False
     return ok
@@ -195,7 +195,7 @@ def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path
     print(f"Target directory: {target_dir}")
     print("Planned files:")
     for source, target, rel in pairs:
-        if not source.exists():
+        if not source.is_file():
             status = "missing-source"
         elif target.exists() and not overwrite:
             status = "skip-existing"
@@ -227,8 +227,11 @@ def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, path
         else:
             print(f"MATCH: {rel}")
     manifest = target_dir / MANIFEST_FILENAME
-    if manifest.exists():
+    if manifest.is_file():
         print(f"MANIFEST: {manifest}")
+    elif manifest.exists():
+        print(f"INVALID: {MANIFEST_FILENAME} is not a file")
+        ok = False
     else:
         print(f"MISSING: {MANIFEST_FILENAME}")
         ok = False
