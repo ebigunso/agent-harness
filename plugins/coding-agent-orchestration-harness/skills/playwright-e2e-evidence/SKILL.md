@@ -28,7 +28,7 @@ Designed for local environments (localhost / 127.0.0.1) and minimal, targeted ch
 
 Reviewer gate (required-evidence integrity):
 - Reviewer must verify that every required artifact path referenced in evidence actually exists on disk.
-- If any required artifact is missing/unreadable, reviewer status must be `FAIL` (or equivalent non-passing state), not `PASS`.
+- If any required artifact is missing/unreadable, Reviewer status must be `FAILED` or `NEEDS_REVISION`, not `APPROVED`.
 - Missing optional artifacts may be noted as warnings, but cannot fail the run unless the spec marks them required.
 
 ---
