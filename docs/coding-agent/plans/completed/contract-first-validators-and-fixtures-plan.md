@@ -125,7 +125,7 @@
 - acceptance:
   - `--message-file` extracts exactly one YAML code block and rejects extra prose or multiple/missing YAML blocks.
   - Optional `--task-contract` compares report validation results against assigned Task_X validation.
-  - `task_id` must match `^Task_[0-9]+$`.
+  - `task_id` must match `^Task_[1-9][0-9]*$`.
   - `blocked` or `failed` status requires non-empty `blockers`.
   - Required Worker-owned skipped validation requires waiver evidence.
   - Optional `ui_probes` shape is validated.

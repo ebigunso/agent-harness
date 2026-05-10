@@ -84,7 +84,7 @@ def section_body(text: str, heading: str) -> str:
     return body
 
 
-def has_canonical_required_check_waiver(text: str) -> bool:
+def has_canonical_required_check_waiver(text: str, *, ui_impact: bool = False) -> bool:
     match = re.search(r"^Required-check waiver\s*$", text, flags=re.MULTILINE | re.IGNORECASE)
     if not match:
         return False
@@ -99,14 +99,20 @@ def has_canonical_required_check_waiver(text: str) -> bool:
         "Mitigation and follow-up",
         "Owner and expiration",
     )
-    return all(
+    has_required_fields = all(
         re.search(rf"^\s*-\s*{re.escape(field)}:\s*\S", waiver_block, flags=re.MULTILINE | re.IGNORECASE)
         for field in required_fields
     )
+    if not has_required_fields:
+        return False
+    if not ui_impact:
+        return True
+    waived = re.search(r"^\s*-\s*What is waived:\s*(.+?)\s*$", waiver_block, flags=re.MULTILINE | re.IGNORECASE)
+    return bool(waived and re.search(r"\b(UI|E2E|visual|frontend|user flows?)\b", waived.group(1), re.IGNORECASE))
 
 
-def has_structured_ui_validation_waiver(text: str) -> bool:
-    if has_canonical_required_check_waiver(text):
+def has_structured_ui_validation_waiver(text: str, *, ui_impact: bool = False) -> bool:
+    if has_canonical_required_check_waiver(text, ui_impact=ui_impact):
         return True
     match = re.search(r"^-\s*UI validation waiver:\s*$", text, flags=re.MULTILINE | re.IGNORECASE)
     if not match:
@@ -207,11 +213,11 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
         item.get("owner") == "reviewer" and item.get("required") == "true" and item.get("kind") in {"e2e", "manual"}
         for item in all_validation_items
     )
-    has_waiver = has_structured_ui_validation_waiver(text)
+    has_waiver = has_structured_ui_validation_waiver(text, ui_impact=bool(ui_impact))
     if ui_impact and not has_reviewer_e2e and not has_waiver:
         error(
             errors,
-            "UI-impact plan requires Reviewer-owned E2E/visual validation or canonical Required-check waiver",
+            "UI-impact plan requires Reviewer-owned E2E/visual validation or canonical Required-check waiver that explicitly names UI/E2E/visual scope",
         )
     if ui_impact and has_reviewer_e2e and not has_waiver and not has_e2e_visual_spec(text):
         error(errors, "UI-impact plan requires ## E2E / Visual Validation Spec with provider and artifact_root")
@@ -237,7 +243,10 @@ def main() -> int:
         print(f"PLAN ERROR: {message}", file=sys.stderr)
     if errors and args.mode != "relaxed":
         return 3
-    print("Plan validation passed.")
+    if errors:
+        print("Plan validation completed with errors ignored in relaxed mode.")
+    else:
+        print("Plan validation passed.")
     return 0
 
 

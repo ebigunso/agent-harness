@@ -421,12 +421,16 @@ def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    input_group = ap.add_mutually_exclusive_group(required=True)
-    input_group.add_argument("--file", type=str, default="")
-    input_group.add_argument("--message-file", type=str, default="")
-    input_group.add_argument("--stdin", action="store_true")
+    ap.add_argument("--file", type=str, default="")
+    ap.add_argument("--message-file", type=str, default="")
+    ap.add_argument("--stdin", action="store_true")
     ap.add_argument("--task-contract", type=str, default="")
     args = ap.parse_args()
+
+    selected_inputs = sum(1 for selected in (args.stdin, bool(args.message_file), bool(args.file)) if selected)
+    if selected_inputs != 1:
+        err("Specify exactly one input source: --file <path>, --message-file <path>, or --stdin")
+        return 3
 
     if args.stdin:
         raw = sys.stdin.read()
@@ -440,10 +444,6 @@ def main() -> int:
     elif args.file:
         with open(args.file, "r", encoding="utf-8") as f:
             raw = f.read()
-    else:
-        err("Specify exactly one input source: --file <path>, --message-file <path>, or --stdin")
-        return 3
-
     try:
         doc = yaml.safe_load(raw)
     except Exception as e:
