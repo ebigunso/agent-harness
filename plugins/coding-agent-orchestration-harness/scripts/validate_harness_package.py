@@ -31,10 +31,14 @@ def load_json(path: Path, errors: list[str]) -> dict:
         fail(errors, f"{path}: missing manifest")
         return {}
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
         fail(errors, f"{path}: JSON parse failed: {exc}")
         return {}
+    if not isinstance(data, dict):
+        fail(errors, f"{path}: manifest root must be a JSON object")
+        return {}
+    return data
 
 
 def is_relative_to(path: Path, parent: Path) -> bool:
