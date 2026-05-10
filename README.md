@@ -121,6 +121,7 @@ Logical roles are stable, but physical runtime names may differ:
 
 | Logical role | Copilot | Claude | Codex |
 |---|---|---|---|
+| Orchestrator | Orchestrator | harness-orchestrator | main Codex thread + `$orchestration-harness` loader |
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
