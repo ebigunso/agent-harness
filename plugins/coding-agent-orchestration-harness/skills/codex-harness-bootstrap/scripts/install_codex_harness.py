@@ -182,7 +182,7 @@ def write_manifest(target_dir: pathlib.Path, plugin_version: str, scope: str, pa
     manifest = {
         "plugin_name": PLUGIN_NAME,
         "plugin_version": plugin_version,
-        "installed_at": dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat(),
+        "installed_at": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat(),
         "scope": scope,
         "files": files,
     }
@@ -273,15 +273,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Install Codex custom-agent profiles for the coding-agent orchestration harness."
     )
-    parser.add_argument("--scope", choices=SCOPES, default=None)
-    parser.add_argument("--repo-root", type=pathlib.Path, default=None)
-    parser.add_argument("--overwrite", "--overwrite-agents", action="store_true", dest="overwrite_agents")
-    parser.add_argument("--user-instructions", choices=INSTRUCTIONS_ACTIONS, default="ask")
+    parser.add_argument("--scope", choices=SCOPES, default=None, help="Install scope. Omit to be prompted.")
+    parser.add_argument("--repo-root", type=pathlib.Path, default=None, help="Repository root for --scope repo. Defaults to nearest .git parent.")
+    parser.add_argument("--overwrite", "--overwrite-agents", action="store_true", dest="overwrite_agents", help="Replace existing installed agent profiles and references.")
+    parser.add_argument("--user-instructions", choices=INSTRUCTIONS_ACTIONS, default="ask", help="For user scope, ask/add/skip the managed AGENTS.md loader block.")
     parser.add_argument("--dry-run", action="store_true", help="Print planned writes/skips without writing files.")
     parser.add_argument("--check", action="store_true", help="Compare installed files against source templates.")
     parser.add_argument("--verify", action="store_true", help="Verify required installed files and optional loader block.")
-    parser.add_argument("--write-manifest", dest="write_manifest", action="store_true", default=True)
-    parser.add_argument("--no-write-manifest", dest="write_manifest", action="store_false")
+    parser.add_argument("--no-write-manifest", dest="write_manifest", action="store_false", default=True, help="Do not write the managed install freshness manifest.")
     parser.add_argument("--codex-home", type=pathlib.Path, default=pathlib.Path.home() / ".codex", help=argparse.SUPPRESS)
     args = parser.parse_args()
 

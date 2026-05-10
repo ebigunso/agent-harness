@@ -16,7 +16,7 @@ Useful flags:
 - `--scope repo` installs into `.codex/agents/` under the selected repository.
 - `--repo-root <path>` selects the target repository for repo scope.
 - `--dry-run` previews writes/skips without writing files.
-- `--check` compares installed files against source templates.
+- `--check` compares installed files against source templates and requires the managed manifest for a successful check.
 - `--verify` checks required installed files and the managed install manifest.
 - `--overwrite-agents` replaces existing installed templates.
 - `--user-instructions add|skip|ask` controls the user-scope loader block.

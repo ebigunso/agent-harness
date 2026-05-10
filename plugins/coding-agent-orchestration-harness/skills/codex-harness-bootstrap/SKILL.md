@@ -25,7 +25,7 @@ Use `--overwrite-agents` to replace existing profiles. `--overwrite` is also acc
 
 Use `--dry-run` to print planned writes/skips without creating directories or writing files.
 
-Use `--check` to compare installed files against source templates and report matching, missing, stale, or modified files.
+Use `--check` to compare installed files against source templates and report `MATCH`, `MISSING`, or `STALE_OR_MODIFIED`. A successful check also requires the managed install manifest to exist.
 
 Use `--verify` to assert required installed files and the managed manifest exist. With user scope, pair with `--user-instructions add` when the managed `AGENTS.md` loader block should also be required.
 

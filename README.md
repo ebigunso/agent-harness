@@ -129,7 +129,7 @@ Use `--overwrite-agents` to replace existing profiles. `--overwrite` is also acc
 
 Use `--dry-run` to preview planned writes/skips without writing files.
 
-Use `--check` to compare installed Codex profiles against the plugin templates and report stale, missing, modified, or matching files.
+Use `--check` to compare installed Codex profiles against the plugin templates and report `MATCH`, `MISSING`, or `STALE_OR_MODIFIED`. A successful check also requires the managed install manifest to exist.
 
 Use `--verify` to assert required installed files and the managed install manifest exist.
 
