@@ -154,9 +154,10 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     if sorted(wave_tasks) != sorted(task_ids) or len(wave_tasks) != len(task_ids):
         error(errors, "Task Waves must include all tasks exactly once")
 
-    ui_impact = re.search(r"\b(UI|frontend|visual|E2E|user flows?)\b", text, flags=re.IGNORECASE)
+    tasks_section = section_body(text, "Tasks")
+    ui_impact = re.search(r"\b(UI|frontend|visual|user flows?)\b", tasks_section, flags=re.IGNORECASE)
     has_reviewer_e2e = any(
-        item.get("owner") == "reviewer" and item.get("required") == "true" and item.get("kind") in {"e2e", "manual", "review"}
+        item.get("owner") == "reviewer" and item.get("required") == "true" and item.get("kind") in {"e2e", "manual"}
         for item in all_validation_items
     )
     has_waiver = re.search(r"\bwaiv(ed|er)\b", text, flags=re.IGNORECASE)
