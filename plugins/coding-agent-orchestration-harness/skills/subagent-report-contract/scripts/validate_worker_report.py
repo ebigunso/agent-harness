@@ -108,8 +108,8 @@ def validate_commands_run(v: Any) -> bool:
         if "command" in item and not is_str(item["command"]):
             err(f"{ctx}.command must be a string")
             ok = False
-        if "result" in item and item["result"] not in ALLOWED_UI_PROBE_RESULT:
-            err(f"{ctx}.result must be one of {sorted(ALLOWED_UI_PROBE_RESULT)}")
+        if "result" in item and item["result"] not in ALLOWED_CMD_RESULT:
+            err(f"{ctx}.result must be one of {sorted(ALLOWED_CMD_RESULT)}")
             ok = False
         if "notes" in item and not is_str(item["notes"]):
             err(f"{ctx}.notes must be a string")
@@ -191,8 +191,8 @@ def validate_ui_probes(v: Any) -> bool:
         if "flow" in item and not is_str(item["flow"]):
             err(f"{ctx}.flow must be a string")
             ok = False
-        if "result" in item and item["result"] not in ALLOWED_CMD_RESULT:
-            err(f"{ctx}.result must be one of {sorted(ALLOWED_CMD_RESULT)}")
+        if "result" in item and item["result"] not in ALLOWED_UI_PROBE_RESULT:
+            err(f"{ctx}.result must be one of {sorted(ALLOWED_UI_PROBE_RESULT)}")
             ok = False
         if "evidence" in item and not is_str(item["evidence"]):
             err(f"{ctx}.evidence must be a string")
