@@ -247,8 +247,15 @@ def verify_install(
         if not target.exists():
             print(f"VERIFY MISSING: {rel}", file=sys.stderr)
             ok = False
-    if not (target_dir / MANIFEST_FILENAME).exists():
+        elif not target.is_file():
+            print(f"VERIFY INVALID: {rel} is not a file", file=sys.stderr)
+            ok = False
+    manifest = target_dir / MANIFEST_FILENAME
+    if not manifest.exists():
         print(f"VERIFY MISSING: {MANIFEST_FILENAME}", file=sys.stderr)
+        ok = False
+    elif not manifest.is_file():
+        print(f"VERIFY INVALID: {MANIFEST_FILENAME} is not a file", file=sys.stderr)
         ok = False
     if scope == "user" and require_user_instructions:
         agents_md = codex_home / "AGENTS.md"

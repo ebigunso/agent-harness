@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
 import sys
 import tempfile
@@ -12,6 +14,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PY = sys.executable
 MANIFEST_FILENAME = ".coding-agent-orchestration-harness-install.json"
+EXPECTED_INSTALL_FILES = [
+    "harness_researcher.toml",
+    "harness_worker.toml",
+    "harness_reviewer.toml",
+    "references/codex-app-connector-policy-researcher.md",
+    "references/codex-app-connector-policy-worker.md",
+    "references/codex-app-connector-policy-reviewer.md",
+]
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def run(cmd: list[str], expect: int = 0) -> bool:
@@ -33,6 +51,18 @@ def run_bootstrap_smoke() -> bool:
             print("dry-run unexpectedly created agents directory", file=sys.stderr)
             ok = False
         ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip"], 0)
+        manifest = codex_home / "agents" / MANIFEST_FILENAME
+        try:
+            manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+            manifest_files = {item["path"]: item["sha256"] for item in manifest_data["files"]}
+            ok &= manifest_data["plugin_name"] == "coding-agent-orchestration-harness"
+            ok &= manifest_data["scope"] == "user"
+            ok &= sorted(manifest_files) == sorted(EXPECTED_INSTALL_FILES)
+            for rel in EXPECTED_INSTALL_FILES:
+                ok &= manifest_files[rel] == sha256(codex_home / "agents" / rel)
+        except Exception as exc:
+            print(f"manifest verification failed: {exc}", file=sys.stderr)
+            ok = False
         ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--check"], 0)
         ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--verify"], 0)
         worker = codex_home / "agents" / "harness_worker.toml"
@@ -46,6 +76,13 @@ def run_bootstrap_smoke() -> bool:
             print("--no-write-manifest unexpectedly wrote manifest", file=sys.stderr)
             ok = False
         ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--check"], 3)
+    with tempfile.TemporaryDirectory() as tmp:
+        codex_home = Path(tmp) / "codex-home"
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip"], 0)
+        worker = codex_home / "agents" / "harness_worker.toml"
+        worker.unlink()
+        worker.mkdir()
+        ok &= run([PY, str(script), "--scope", "user", "--codex-home", str(codex_home), "--user-instructions", "skip", "--verify"], 3)
     with tempfile.TemporaryDirectory() as tmp:
         repo = Path(tmp) / "repo"
         (repo / ".git").mkdir(parents=True)
