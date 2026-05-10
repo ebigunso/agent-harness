@@ -121,8 +121,11 @@ def validate(summary: Any, plan_text: str) -> bool:
             else:
                 summary_task_ids.append(task_id)
             status = task.get("status")
-            if status != "done" and not is_waived(task.get("waiver")):
-                err(f"{ctx} must be done or explicitly waived")
+            if status not in {"done", "waived"}:
+                err(f"{ctx}.status must be done or waived")
+                ok = False
+            elif status == "waived" and not is_waived(task.get("waiver")):
+                err(f"{ctx} has status waived but lacks waiver authority, reason, and evidence")
                 ok = False
         missing_tasks = sorted(set(plan_task_ids).difference(summary_task_ids))
         extra_tasks = sorted(set(summary_task_ids).difference(plan_task_ids))
@@ -165,7 +168,11 @@ def validate(summary: Any, plan_text: str) -> bool:
                 ok = False
                 continue
             if required is True:
-                if status not in {"pass", "waived"} and not is_waived(validation.get("waiver")):
+                if status == "waived":
+                    if not is_waived(validation.get("waiver")):
+                        err(f"{ctx} has status waived but lacks waiver authority, reason, and evidence")
+                        ok = False
+                elif status != "pass":
                     err(f"{ctx} required validation must pass or be waived")
                     ok = False
 

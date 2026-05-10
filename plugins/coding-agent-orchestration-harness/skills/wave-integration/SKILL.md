@@ -28,4 +28,4 @@ The Orchestrator remains the only writer for shared plan lifecycle state. This s
 
 ## Closeout Validation
 
-Use `scripts/validate_closeout.py` when a structured closeout summary is available.
+Use `skills/wave-integration/scripts/validate_closeout.py` when a structured closeout summary is available.
