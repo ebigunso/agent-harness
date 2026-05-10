@@ -397,6 +397,7 @@ def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
     report_results = doc.get("validation_results", [])
     for item in required_worker:
         detail = item.get("detail")
+        kind = item.get("kind")
         match = next(
             (
                 result
@@ -405,11 +406,13 @@ def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
                 and result.get("required") is True
                 and result.get("owner") == "worker"
                 and result.get("detail") == detail
+                and (kind is None or result.get("kind") == kind)
             ),
             None,
         )
         if match is None:
-            err(f"missing report validation result for required worker validation: {detail}")
+            suffix = f" ({kind})" if isinstance(kind, str) else ""
+            err(f"missing report validation result for required worker validation: {detail}{suffix}")
             ok = False
         elif match.get("status") == "skipped":
             evidence = match.get("evidence", "")
