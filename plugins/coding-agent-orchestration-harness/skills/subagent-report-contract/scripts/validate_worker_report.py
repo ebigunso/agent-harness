@@ -39,7 +39,7 @@ ALLOWED_AUDIENCE = {"common", "worker", "orchestrator"}
 ALLOWED_INTENDED_HOME = {"repo_specific", "global_candidate"}
 ALLOWED_LESSON_CATEGORY = {"planning", "delegation", "validation", "environment", "review", "docs", "other"}
 TASK_ID_RE = re.compile(r"^Task_[0-9]+$")
-YAML_BLOCK_RE = re.compile(r"```(?:yaml|yml)\s*\n(.*?)\n```", re.DOTALL | re.IGNORECASE)
+YAML_BLOCK_RE = re.compile(r"```(?:yaml|yml)\s*\r?\n(.*?)(?:\r?\n)?```", re.DOTALL | re.IGNORECASE)
 
 
 def err(msg: str) -> None:
@@ -351,7 +351,8 @@ def extract_message_yaml(raw: str) -> str | None:
     if len(matches) != 1:
         err(f"--message-file requires exactly one YAML code block; found {len(matches)}")
         return None
-    before, after = YAML_BLOCK_RE.split(raw, maxsplit=1)[0], YAML_BLOCK_RE.split(raw, maxsplit=1)[-1]
+    parts = YAML_BLOCK_RE.split(raw, maxsplit=1)
+    before, after = parts[0], parts[-1]
     if before.strip() or after.strip():
         err("--message-file must contain one YAML code block and no extra prose")
         return None
@@ -379,11 +380,20 @@ def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
         err("task contract validation must be a list")
         return False
 
-    required_worker = [
-        item
-        for item in validation_contract
-        if is_dict(item) and item.get("required") is True and item.get("owner") == "worker"
-    ]
+    required_worker = []
+    for i, item in enumerate(validation_contract):
+        ctx = f"task contract validation[{i}]"
+        if not is_dict(item):
+            err(f"{ctx} must be a mapping")
+            ok = False
+            continue
+        if item.get("required") is True and item.get("owner") == "worker":
+            detail = item.get("detail")
+            if not is_str(detail) or not detail.strip():
+                err(f"{ctx}.detail must be a non-empty string for required worker validation")
+                ok = False
+                continue
+            required_worker.append(item)
     report_results = doc.get("validation_results", [])
     for item in required_worker:
         detail = item.get("detail")

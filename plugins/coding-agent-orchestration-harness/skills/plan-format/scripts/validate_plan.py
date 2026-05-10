@@ -11,13 +11,13 @@ from pathlib import Path
 
 TASK_RE = re.compile(r"^### (Task_[0-9]+):", re.MULTILINE)
 REQUIRED_SECTIONS = [
-    "## Goal",
-    "## Definition of Done",
-    "## Scope / Non-goals",
-    "## Tasks",
-    "## Task Waves",
-    "## Progress Log",
-    "## Decision Log",
+    "Goal",
+    "Definition of Done",
+    "Scope / Non-goals",
+    "Tasks",
+    "Task Waves",
+    "Progress Log",
+    "Decision Log",
 ]
 VALIDATION_FIELDS = {"kind", "required", "owner", "detail"}
 
@@ -69,11 +69,15 @@ def parse_validation_blocks(task_block: str) -> list[dict[str, str]]:
     return validations
 
 
+def has_heading(text: str, heading: str) -> bool:
+    return bool(re.search(rf"^##\s+{re.escape(heading)}(?:\s|\(|$)", text, flags=re.MULTILINE))
+
+
 def section_body(text: str, heading: str) -> str:
-    marker = f"## {heading}"
-    if marker not in text:
+    match = re.search(rf"^##\s+{re.escape(heading)}(?:\s|\(|$).*?$", text, flags=re.MULTILINE)
+    if not match:
         return ""
-    body = text.split(marker, 1)[1]
+    body = text[match.end() :]
     next_section = re.search(r"^##\s+", body, flags=re.MULTILINE)
     if next_section:
         return body[: next_section.start()]
@@ -84,8 +88,8 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     for section in REQUIRED_SECTIONS:
-        if section not in text:
-            error(errors, f"missing required section: {section}")
+        if not has_heading(text, section):
+            error(errors, f"missing required section: ## {section}")
 
     matches = list(TASK_RE.finditer(text))
     if not matches:

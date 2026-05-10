@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO_ROOT = ROOT.parents[1]
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -35,6 +34,14 @@ def load_json(path: Path, errors: list[str]) -> dict:
         return {}
 
 
+def is_relative_to(path: Path, parent: Path) -> bool:
+    try:
+        path.relative_to(parent)
+        return True
+    except ValueError:
+        return False
+
+
 def check_manifests(errors: list[str]) -> None:
     manifests = [
         ROOT / ".github" / "plugin" / "plugin.json",
@@ -47,6 +54,9 @@ def check_manifests(errors: list[str]) -> None:
             value = data.get(key)
             if isinstance(value, str):
                 target = (ROOT / value).resolve()
+                if not is_relative_to(target, ROOT):
+                    fail(errors, f"{manifest}: referenced {key} path escapes plugin root: {value}")
+                    continue
                 if not target.exists():
                     fail(errors, f"{manifest}: referenced {key} path does not exist: {value}")
 
