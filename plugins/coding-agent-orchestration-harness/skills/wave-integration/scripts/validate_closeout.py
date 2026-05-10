@@ -91,6 +91,14 @@ def is_bool(value: Any) -> bool:
     return isinstance(value, bool)
 
 
+def extract_plan_status(plan_text: str) -> str | None:
+    header = re.split(r"^##\s+", plan_text, maxsplit=1, flags=re.MULTILINE)[0]
+    match = re.search(r"^- status:\s*[\"']?([^\"'\n]+)[\"']?\s*$", header, flags=re.MULTILINE)
+    if not match:
+        return None
+    return match.group(1).strip()
+
+
 def extract_plan_task_ids(plan_text: str) -> list[str]:
     return re.findall(r"^###\s+(Task_[0-9]+):", plan_text, flags=re.MULTILINE)
 
@@ -106,12 +114,15 @@ def validate(summary: Any, plan_text: str) -> bool:
         err("plan_status must be 'done' before final done report")
         ok = False
 
-    if not re.search(r"^- status:\s*[\"']?done[\"']?\s*$", plan_text, flags=re.MULTILINE):
-        err("plan file must have '- status: done' before final done report")
+    if extract_plan_status(plan_text) != "done":
+        err("plan header status must be 'done' before final done report")
         ok = False
 
     tasks = summary.get("tasks")
     plan_task_ids = extract_plan_task_ids(plan_text)
+    if not plan_task_ids:
+        err("plan must contain Task_X headings in the form '### Task_<number>:'")
+        ok = False
     if not isinstance(tasks, list) or not tasks:
         err("tasks must be a non-empty list")
         ok = False
