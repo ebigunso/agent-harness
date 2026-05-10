@@ -3,7 +3,12 @@
 Validate a structured closeout summary before reporting final done.
 
 Usage:
-  python validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
+  python plugins/coding-agent-orchestration-harness/skills/wave-integration/scripts/validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
+
+Exit codes:
+  0 = valid closeout
+  2 = missing dependency for YAML summaries
+  3 = invalid closeout or parse error
 
 The summary file may be JSON or YAML and should use this shape:
 
@@ -39,6 +44,10 @@ except Exception:
     yaml = None  # type: ignore
 
 
+class MissingDependencyError(RuntimeError):
+    pass
+
+
 def err(message: str) -> None:
     print(f"CLOSEOUT ERROR: {message}", file=sys.stderr)
 
@@ -48,7 +57,7 @@ def load_summary(path: Path) -> Any:
     if path.suffix.lower() == ".json":
         return json.loads(raw)
     if yaml is None:
-        raise RuntimeError("PyYAML is required for YAML summaries; use JSON or install pyyaml")
+        raise MissingDependencyError("PyYAML is required for YAML summaries; use JSON or install pyyaml")
     return yaml.safe_load(raw)
 
 
@@ -138,6 +147,9 @@ def main() -> int:
     try:
         plan_text = args.plan.read_text(encoding="utf-8")
         summary = load_summary(args.summary)
+    except MissingDependencyError as exc:
+        err(str(exc))
+        return 2
     except Exception as exc:
         err(str(exc))
         return 3
