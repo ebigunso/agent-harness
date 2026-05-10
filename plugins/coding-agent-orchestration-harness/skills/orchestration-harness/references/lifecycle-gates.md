@@ -14,7 +14,7 @@ At the start of non-trivial work, read:
 6. Relevant plans under `docs/coding-agent/plans/active/` and `docs/coding-agent/plans/completed/`
 7. Relevant project files after the Research Dispatch Gate is satisfied
 
-If `docs/coding-agent/rules/` does not exist, create the minimal skeleton with empty Global Migration Candidates placeholders.
+If `docs/coding-agent/rules/` does not exist, create the minimal skeleton with empty Global Migration Candidates placeholders. If `docs/coding-agent/plans/active/` does not exist, create it before writing draft or in-progress plans.
 
 ## Plan Gate Details
 
@@ -62,7 +62,7 @@ Record the decision in the plan Decision Log.
 
 ## Plan Lifecycle
 
-- Draft and execute under `docs/coding-agent/plans/active/`.
+- Draft and execute under `docs/coding-agent/plans/active/`; create the directory if missing.
 - Append Progress Log entries after each Worker wave, Reviewer gate, and closeout decision.
 - Append Decision Log entries for replans, waivers, or material assumptions.
 - When finished and validated, set status to `done` and move the plan to `docs/coding-agent/plans/completed/`.

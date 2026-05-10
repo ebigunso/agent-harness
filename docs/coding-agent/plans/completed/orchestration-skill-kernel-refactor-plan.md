@@ -51,7 +51,7 @@
 ### Task_1: Inventory Existing Hard Rules
 - type: research
 - owns:
-  - `docs/coding-agent/plans/active/orchestration-skill-kernel-refactor-plan.md`
+  - `docs/coding-agent/plans/completed/orchestration-skill-kernel-refactor-plan.md`
 - depends_on: []
 - description: |
   Build a checklist of current orchestration skill hard rules before editing.

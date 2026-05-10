@@ -37,7 +37,7 @@ Trivial work may be handled directly only when it is small, mechanical, clearly 
 
 Non-trivial work requires a plan plus user approval unless explicitly waived. Treat work as non-trivial when it adds behavior, fixes a non-obvious bug, refactors, spans multiple files/components, changes UI/UX behavior, touches dependencies/config/CI, or has uncertain patterns.
 
-Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/plans/active/`; completed plans move to `docs/coding-agent/plans/completed/`.
+Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/plans/active/`; create that directory if missing. Completed plans move to `docs/coding-agent/plans/completed/`.
 
 ### 2. Research Dispatch Gate
 
@@ -76,7 +76,7 @@ Use `references/status-model.md` and `references/validation-strictness.md` for s
 
 ### 5. Completion Closeout Gate
 
-After each Worker wave and before Reviewer dispatch, run the wave-integration checklist when available.
+After each Worker wave and before Reviewer dispatch, run the closeout and integration checks in `references/completion-closeout.md`.
 
 Non-trivial work requires Reviewer `APPROVED` before final completion unless explicitly waived.
 
@@ -109,9 +109,9 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - Planning format and lifecycle: `plan-format`, `references/lifecycle-gates.md`
 - Research/Worker/Reviewer dispatch: `subagent-strategy`, `references/dispatch-guidance.md`
 - Worker report schema: `subagent-report-contract`
-- Worker UI probes: `worker-ui-probes`, `references/ui-validation-policy.md`
+- Worker UI probes: `references/ui-validation-policy.md`
 - UI/E2E evidence: `playwright-e2e-evidence`, `playwright-cli`
-- Worker wave integration: `wave-integration`
+- Worker wave integration: `references/completion-closeout.md`
 - Engineering validation depth: `engineering-quality-baselines`
 - Git safety and commit chunking: `git-workflow`
 - Repo rules updates: `rulebook`
