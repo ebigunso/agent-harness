@@ -38,7 +38,7 @@ ALLOWED_OWNER = {"worker", "reviewer", "orchestrator", "user"}
 ALLOWED_AUDIENCE = {"common", "worker", "orchestrator"}
 ALLOWED_INTENDED_HOME = {"repo_specific", "global_candidate"}
 ALLOWED_LESSON_CATEGORY = {"planning", "delegation", "validation", "environment", "review", "docs", "other"}
-TASK_ID_RE = re.compile(r"^Task_[0-9]+$")
+TASK_ID_RE = re.compile(r"^Task_[1-9][0-9]*$")
 YAML_BLOCK_RE = re.compile(r"```(?:yaml|yml)\s*\r?\n(.*?)(?:\r?\n)?```", re.DOTALL | re.IGNORECASE)
 
 
@@ -298,7 +298,7 @@ def validate_root(doc: Any) -> bool:
         err("task_id must be a string")
         ok = False
     elif "task_id" in doc and not TASK_ID_RE.match(doc["task_id"]):
-        err("task_id must match ^Task_[0-9]+$")
+        err("task_id must match ^Task_[1-9][0-9]*$")
         ok = False
 
     status = doc.get("status")
@@ -440,7 +440,7 @@ def main() -> int:
         with open(args.file, "r", encoding="utf-8") as f:
             raw = f.read()
     else:
-        err("Specify --file <path> or --stdin")
+        err("Specify --file <path>, --message-file <path>, or --stdin")
         return 3
 
     try:

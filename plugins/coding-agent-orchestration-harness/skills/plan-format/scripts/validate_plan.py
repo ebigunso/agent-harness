@@ -99,6 +99,15 @@ def has_structured_ui_validation_waiver(text: str) -> bool:
     )
 
 
+def has_e2e_visual_spec(text: str) -> bool:
+    body = section_body(text, "E2E / Visual Validation Spec")
+    if not body:
+        return False
+    has_provider = re.search(r"^\s*-?\s*provider:\s*\S", body, flags=re.MULTILINE | re.IGNORECASE)
+    has_artifact_root = re.search(r"^\s*-?\s*artifact_root:\s*\S", body, flags=re.MULTILINE | re.IGNORECASE)
+    return bool(has_provider and has_artifact_root)
+
+
 def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -177,7 +186,13 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     )
     has_waiver = has_structured_ui_validation_waiver(text)
     if ui_impact and not has_reviewer_e2e and not has_waiver:
-        error(errors, "UI-impact plan requires Reviewer-owned E2E/visual validation or explicit waiver")
+        error(
+            errors,
+            "UI-impact plan requires Reviewer-owned E2E/visual validation or structured UI validation waiver "
+            "with authority, reason, and evidence",
+        )
+    if ui_impact and has_reviewer_e2e and not has_waiver and not has_e2e_visual_spec(text):
+        error(errors, "UI-impact plan requires ## E2E / Visual Validation Spec with provider and artifact_root")
 
     if mode == "strict" and len(task_ids) > 8:
         warn(warnings, "strict mode: large task count; consider reviewing decomposition manually")
