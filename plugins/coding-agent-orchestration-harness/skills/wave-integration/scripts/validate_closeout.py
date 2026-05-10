@@ -135,8 +135,8 @@ def validate(summary: Any, plan_text: str) -> bool:
                 ok = False
                 continue
             task_id = task.get("id")
-            if not isinstance(task_id, str) or not re.match(r"^Task_[0-9]+$", task_id):
-                err(f"{ctx}.id must match Task_<number>")
+            if not isinstance(task_id, str) or not re.match(r"^Task_[1-9][0-9]*$", task_id):
+                err(f"{ctx}.id must match Task_<positive number>")
                 ok = False
             else:
                 summary_task_ids.append(task_id)
