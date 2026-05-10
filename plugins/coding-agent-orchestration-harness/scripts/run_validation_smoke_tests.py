@@ -32,6 +32,7 @@ def main() -> int:
         ([PY, str(ROOT / "scripts" / "validate_harness_package.py")], 0),
         ([PY, str(ROOT / "skills" / "plan-format" / "scripts" / "validate_plan.py"), "--file", str(fixtures / "valid-plan.md"), "--mode", "balanced"], 0),
         ([PY, str(ROOT / "skills" / "plan-format" / "scripts" / "validate_plan.py"), "--file", str(fixtures / "invalid-plan-missing-validation-owner.md"), "--mode", "balanced"], 3),
+        ([PY, str(ROOT / "skills" / "plan-format" / "scripts" / "validate_plan.py"), "--file", str(fixtures / "invalid-plan-ui-waiver-prose.md"), "--mode", "balanced"], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report.yaml")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--message-file", str(fixtures / "valid-worker-message.md")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-ui-worker-report-with-probes.yaml")], 0),

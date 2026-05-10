@@ -52,13 +52,23 @@ def check_manifests(errors: list[str]) -> None:
         data = load_json(manifest, errors)
         for key in ("agents", "skills"):
             value = data.get(key)
+            if value is None:
+                continue
+            values: list[str]
             if isinstance(value, str):
-                target = (ROOT / value).resolve()
+                values = [value]
+            elif isinstance(value, list) and all(isinstance(item, str) for item in value):
+                values = value
+            else:
+                fail(errors, f"{manifest}: {key} must be a string path or list of string paths")
+                continue
+            for item in values:
+                target = (ROOT / item).resolve()
                 if not is_relative_to(target, ROOT):
-                    fail(errors, f"{manifest}: referenced {key} path escapes plugin root: {value}")
+                    fail(errors, f"{manifest}: referenced {key} path escapes plugin root: {item}")
                     continue
                 if not target.exists():
-                    fail(errors, f"{manifest}: referenced {key} path does not exist: {value}")
+                    fail(errors, f"{manifest}: referenced {key} path does not exist: {item}")
 
 
 def check_skills(errors: list[str]) -> None:

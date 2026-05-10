@@ -84,6 +84,21 @@ def section_body(text: str, heading: str) -> str:
     return body
 
 
+def has_structured_ui_validation_waiver(text: str) -> bool:
+    match = re.search(r"^-\s*UI validation waiver:\s*$", text, flags=re.MULTILINE | re.IGNORECASE)
+    if not match:
+        return False
+    waiver_block = text[match.end() :]
+    next_list_item = re.search(r"^\S", waiver_block, flags=re.MULTILINE)
+    if next_list_item:
+        waiver_block = waiver_block[: next_list_item.start()]
+    required_fields = ("authority", "reason", "evidence")
+    return all(
+        re.search(rf"^\s+{field}:\s*\S", waiver_block, flags=re.MULTILINE | re.IGNORECASE)
+        for field in required_fields
+    )
+
+
 def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -160,7 +175,7 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
         item.get("owner") == "reviewer" and item.get("required") == "true" and item.get("kind") in {"e2e", "manual"}
         for item in all_validation_items
     )
-    has_waiver = re.search(r"\bwaiv(ed|er)\b", text, flags=re.IGNORECASE)
+    has_waiver = has_structured_ui_validation_waiver(text)
     if ui_impact and not has_reviewer_e2e and not has_waiver:
         error(errors, "UI-impact plan requires Reviewer-owned E2E/visual validation or explicit waiver")
 
