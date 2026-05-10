@@ -42,14 +42,6 @@ validation_results:
     status: pass | fail | skipped
     evidence: "brief proof or failure excerpt"
 
-# Optional: Worker-owned implementation-local UI probes.
-ui_probes:
-  - base_url: "http://localhost:3000"
-    flow: "Open settings page and toggle dark mode"
-    result: pass | fail | skipped
-    evidence: "Screenshot path or brief observation"
-    notes: "Fixes made or reason skipped"
-
 tests:
   ran: true | false
   notes: "what was validated / what remains unvalidated"
@@ -78,6 +70,26 @@ Notes:
 - `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
 - `rule_candidates` route by `audience` to the destination rules file, then by `intended_home` within that file.
 - Do not emit `skill_candidates`; use `lesson_candidates` for deviations and route skill ideas through their own repo docs.
+
+---
+
+## Optional: ui_probes
+
+Include `ui_probes` only when a bounded Worker UI probe was run or materially affected implementation.
+This key does not satisfy Reviewer-owned validation automatically.
+
+Schema:
+
+ui_probes:
+  - base_url: "http://localhost:3000"
+    flow: "Open settings page and toggle dark mode"
+    result: pass | fail | skipped
+    evidence: "Screenshot path or brief observation"
+    notes: "Fixes made or reason skipped"
+
+Guidance:
+- `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
+- Do not use `ui_probes` as a substitute for Reviewer-owned validation evidence.
 
 ---
 
