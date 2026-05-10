@@ -75,6 +75,7 @@ rule_candidates:
 Notes:
 - `validation_results` is the evidence contract for required and optional validation items.
 - `ui_probes` is optional and records Worker-owned implementation-local UI probes. It does not satisfy Reviewer-owned validation automatically.
+- `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
 - `rule_candidates` route by `audience` to the destination rules file, then by `intended_home` within that file.
 - Do not emit `skill_candidates`; use `lesson_candidates` for deviations and route skill ideas through their own repo docs.
 

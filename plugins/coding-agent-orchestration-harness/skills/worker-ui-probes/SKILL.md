@@ -21,7 +21,7 @@ Worker UI probes are implementation-local checks. They help the Worker catch obv
 
 Report:
 
-- base URL used; if no URL applies, record the command or setup note in `notes`;
+- `base_url` is always required; use the checked local URL, or `n/a` when no URL applies and record the command or setup note in `notes`;
 - flow or screen checked;
 - result;
 - issue found and fixed, if any;
