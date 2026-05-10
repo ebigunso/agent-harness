@@ -3,7 +3,11 @@
 Validate a structured closeout summary before reporting final done.
 
 Usage:
-  python skills/wave-integration/scripts/validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
+  From the plugin root:
+    python scripts/validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
+
+  From the repository root:
+    python plugins/coding-agent-orchestration-harness/skills/wave-integration/scripts/validate_closeout.py --plan path/to/plan.md --summary closeout.yaml
 
 Exit codes:
   0 = valid closeout
