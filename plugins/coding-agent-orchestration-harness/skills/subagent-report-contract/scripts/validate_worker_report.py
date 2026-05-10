@@ -372,9 +372,16 @@ def validate_against_task_contract(doc: Dict[str, Any], contract: Any) -> bool:
     if contract_task_id and doc.get("task_id") != contract_task_id:
         err(f"task_id does not match task contract: {doc.get('task_id')} != {contract_task_id}")
         ok = False
+    validation_contract = contract.get("validation", [])
+    if validation_contract is None:
+        validation_contract = []
+    if not is_list(validation_contract):
+        err("task contract validation must be a list")
+        return False
+
     required_worker = [
         item
-        for item in contract.get("validation", [])
+        for item in validation_contract
         if is_dict(item) and item.get("required") is True and item.get("owner") == "worker"
     ]
     report_results = doc.get("validation_results", [])

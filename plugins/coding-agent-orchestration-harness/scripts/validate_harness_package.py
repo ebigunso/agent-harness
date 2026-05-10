@@ -96,7 +96,20 @@ def check_role_map(errors: list[str]) -> None:
     for path in expected_paths:
         if not path.exists():
             fail(errors, f"role map expected file does not exist: {path}")
-    for token in ("Orchestrator", "Researcher", "Worker", "Reviewer", "harness-orchestrator", "harness_worker"):
+    role_map_tokens = (
+        "Orchestrator",
+        "Researcher",
+        "Worker",
+        "Reviewer",
+        "harness-orchestrator",
+        "harness-researcher",
+        "harness-worker",
+        "harness-reviewer",
+        "harness_researcher",
+        "harness_worker",
+        "harness_reviewer",
+    )
+    for token in role_map_tokens:
         if token not in text:
             fail(errors, f"runtime role map missing token: {token}")
 

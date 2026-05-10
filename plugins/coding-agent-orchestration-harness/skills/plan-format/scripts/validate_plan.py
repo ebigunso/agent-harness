@@ -69,6 +69,17 @@ def parse_validation_blocks(task_block: str) -> list[dict[str, str]]:
     return validations
 
 
+def section_body(text: str, heading: str) -> str:
+    marker = f"## {heading}"
+    if marker not in text:
+        return ""
+    body = text.split(marker, 1)[1]
+    next_section = re.search(r"^##\s+", body, flags=re.MULTILINE)
+    if next_section:
+        return body[: next_section.start()]
+    return body
+
+
 def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -133,8 +144,9 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
     for task_id in task_ids:
         visit(task_id)
 
-    wave_section = text.split("## Task Waves", 1)[1] if "## Task Waves" in text else ""
-    wave_tasks = re.findall(r"Task_[0-9]+", wave_section)
+    wave_section = section_body(text, "Task Waves")
+    wave_lines = [line for line in wave_section.splitlines() if re.match(r"^\s*-\s*Wave\b", line)]
+    wave_tasks = [task for line in wave_lines for task in re.findall(r"Task_[0-9]+", line)]
     if sorted(wave_tasks) != sorted(task_ids) or len(wave_tasks) != len(task_ids):
         error(errors, "Task Waves must include all tasks exactly once")
 
