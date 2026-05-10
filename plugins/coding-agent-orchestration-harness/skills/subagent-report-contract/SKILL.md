@@ -42,6 +42,7 @@ validation_results:
     status: pass | fail | skipped
     evidence: "brief proof or failure excerpt"
 
+# Optional: Worker-owned implementation-local UI probes.
 ui_probes:
   - base_url: "http://localhost:3000"
     flow: "Open settings page and toggle dark mode"
