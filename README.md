@@ -126,7 +126,7 @@ Logical roles are stable, but physical runtime names may differ:
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
 
-The canonical role map is `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`.
+The canonical role map is `skills/orchestration-harness/references/runtime-role-map.md`.
 
 ### UI validation model
 
@@ -150,6 +150,7 @@ Validators live under:
 Run:
 
 ```bash
+# From the repository root:
 python plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py
 python plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py
 ```
