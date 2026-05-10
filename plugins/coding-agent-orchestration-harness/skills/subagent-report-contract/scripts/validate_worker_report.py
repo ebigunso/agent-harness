@@ -32,6 +32,7 @@ except Exception:
 ALLOWED_STATUS = {"done", "blocked", "failed"}
 ALLOWED_FILE_CHANGE = {"modified", "created", "deleted"}
 ALLOWED_CMD_RESULT = {"pass", "fail", "skipped"}
+ALLOWED_UI_PROBE_RESULT = {"pass", "fail", "skipped"}
 ALLOWED_VALIDATION_KIND = {"command", "manual", "e2e", "review"}
 ALLOWED_OWNER = {"worker", "reviewer", "orchestrator", "user"}
 ALLOWED_AUDIENCE = {"common", "worker", "orchestrator"}
@@ -107,8 +108,8 @@ def validate_commands_run(v: Any) -> bool:
         if "command" in item and not is_str(item["command"]):
             err(f"{ctx}.command must be a string")
             ok = False
-        if "result" in item and item["result"] not in ALLOWED_CMD_RESULT:
-            err(f"{ctx}.result must be one of {sorted(ALLOWED_CMD_RESULT)}")
+        if "result" in item and item["result"] not in ALLOWED_UI_PROBE_RESULT:
+            err(f"{ctx}.result must be one of {sorted(ALLOWED_UI_PROBE_RESULT)}")
             ok = False
         if "notes" in item and not is_str(item["notes"]):
             err(f"{ctx}.notes must be a string")

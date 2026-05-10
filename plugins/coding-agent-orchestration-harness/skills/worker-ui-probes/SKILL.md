@@ -7,7 +7,7 @@ description: Defines bounded Worker-owned UI probes for implementation feedback 
 
 Worker UI probes are implementation-local checks. They help the Worker catch obvious issues while editing.
 
-## Core Rules
+## Core rules (always apply)
 
 - Use only when the assigned Task_X includes UI/frontend behavior or the Orchestrator explicitly assigns a UI probe.
 - Keep probes bounded: local URLs only unless explicitly authorized.
@@ -17,12 +17,12 @@ Worker UI probes are implementation-local checks. They help the Worker catch obv
 - A Worker probe does not satisfy Reviewer-owned validation unless the Orchestrator explicitly reassigns or waives that validation.
 - Reviewer still owns independent E2E/visual acceptance evidence for non-trivial UI work.
 
-## Evidence Expectations
+## Evidence expectations
 
-Report:
+Report each material probe under `ui_probes` using the Worker report contract fields:
 
 - `base_url` is always required; use the checked local URL, or `n/a` when no URL applies and record the command or setup note in `notes`;
-- flow or screen checked;
-- result;
-- issue found and fixed, if any;
-- artifact path, if a screenshot was captured.
+- `flow`: flow or screen checked;
+- `result`: `pass`, `fail`, or `skipped`;
+- `evidence`: screenshot path, artifact path, or a brief observation when no artifact was captured;
+- `notes`: fixes made, issue found, command/setup detail, or reason skipped.
