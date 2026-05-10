@@ -37,6 +37,50 @@ assumptions: []
 rule_candidates: []
 ```
 
+## Example: done with bounded Worker UI probe
+
+```yaml
+task_id: "Task_3"
+status: done
+
+summary: |-
+  Updated the settings page dark-mode toggle and verified the local interaction with a bounded Worker UI probe.
+
+files_changed:
+  - path: "src/settings/DarkModeToggle.tsx"
+    change: modified
+    intent: "Wire the dark-mode toggle to persisted settings state"
+
+commands_run:
+  - command: "npm run test:unit"
+    result: pass
+    notes: "Unit tests passed."
+
+validation_results:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "npm run test:unit"
+    status: pass
+    evidence: "Exit code 0."
+
+ui_probes:
+  - base_url: "http://localhost:3000"
+    flow: "Open settings page and toggle dark mode"
+    result: pass
+    evidence: ".playwright-cli/worker-probe-settings-dark-mode.png"
+    notes: "No layout overlap after local CSS adjustment."
+
+tests:
+  ran: true
+  notes: "Unit tests plus bounded Worker UI probe."
+
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
+```
+
 ## Example: blocked (cannot run required validation)
 
 ```yaml

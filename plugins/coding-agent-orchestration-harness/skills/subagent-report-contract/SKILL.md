@@ -66,8 +66,30 @@ rule_candidates:
 
 Notes:
 - `validation_results` is the evidence contract for required and optional validation items.
+- `ui_probes` is optional and records Worker-owned implementation-local UI probes. It does not satisfy Reviewer-owned validation automatically.
+- `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
 - `rule_candidates` route by `audience` to the destination rules file, then by `intended_home` within that file.
 - Do not emit `skill_candidates`; use `lesson_candidates` for deviations and route skill ideas through their own repo docs.
+
+---
+
+## Optional: ui_probes
+
+Include `ui_probes` only when a bounded Worker UI probe was run or materially affected implementation.
+This key does not satisfy Reviewer-owned validation automatically.
+
+Schema:
+
+ui_probes:
+  - base_url: "http://localhost:3000"
+    flow: "Open settings page and toggle dark mode"
+    result: pass | fail | skipped
+    evidence: "Screenshot path or brief observation"
+    notes: "Fixes made or reason skipped"
+
+Guidance:
+- `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
+- Do not use `ui_probes` as a substitute for Reviewer-owned validation evidence.
 
 ---
 
@@ -105,4 +127,5 @@ Guidance:
 - files_changed: include only files actually modified/created/deleted.
 - commands_run: if you cannot run a required command, use result=skipped and explain.
 - validation_results: include every validation item assigned in the task contract; required worker-owned failures/skips cannot accompany `status: done` unless the skip has explicit waiver evidence.
+- ui_probes: include only if a bounded Worker UI probe was run or materially affected implementation. Do not use it as a substitute for Reviewer-owned validation evidence.
 - If required validation evidence is missing and cannot be produced, status should be blocked (not done).

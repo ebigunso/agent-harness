@@ -32,6 +32,7 @@ except Exception:
 ALLOWED_STATUS = {"done", "blocked", "failed"}
 ALLOWED_FILE_CHANGE = {"modified", "created", "deleted"}
 ALLOWED_CMD_RESULT = {"pass", "fail", "skipped"}
+ALLOWED_UI_PROBE_RESULT = {"pass", "fail", "skipped"}
 ALLOWED_VALIDATION_KIND = {"command", "manual", "e2e", "review"}
 ALLOWED_OWNER = {"worker", "reviewer", "orchestrator", "user"}
 ALLOWED_AUDIENCE = {"common", "worker", "orchestrator"}
@@ -68,6 +69,16 @@ def require_keys(obj: Dict[str, Any], keys: List[str], ctx: str) -> bool:
     return ok
 
 
+def validate_enum(value: Any, allowed: set[str], ctx: str) -> bool:
+    if not is_str(value):
+        err(f"{ctx} must be a string")
+        return False
+    if value not in allowed:
+        err(f"{ctx} must be one of {sorted(allowed)}")
+        return False
+    return True
+
+
 def validate_files_changed(v: Any) -> bool:
     if not is_list(v):
         err("files_changed must be a list")
@@ -83,9 +94,8 @@ def validate_files_changed(v: Any) -> bool:
         if "path" in item and not is_str(item["path"]):
             err(f"{ctx}.path must be a string")
             ok = False
-        if "change" in item and item["change"] not in ALLOWED_FILE_CHANGE:
-            err(f"{ctx}.change must be one of {sorted(ALLOWED_FILE_CHANGE)}")
-            ok = False
+        if "change" in item:
+            ok &= validate_enum(item["change"], ALLOWED_FILE_CHANGE, f"{ctx}.change")
         if "intent" in item and not is_str(item["intent"]):
             err(f"{ctx}.intent must be a string")
             ok = False
@@ -107,9 +117,8 @@ def validate_commands_run(v: Any) -> bool:
         if "command" in item and not is_str(item["command"]):
             err(f"{ctx}.command must be a string")
             ok = False
-        if "result" in item and item["result"] not in ALLOWED_CMD_RESULT:
-            err(f"{ctx}.result must be one of {sorted(ALLOWED_CMD_RESULT)}")
-            ok = False
+        if "result" in item:
+            ok &= validate_enum(item["result"], ALLOWED_CMD_RESULT, f"{ctx}.result")
         if "notes" in item and not is_str(item["notes"]):
             err(f"{ctx}.notes must be a string")
             ok = False
@@ -169,6 +178,35 @@ def validate_validation_results(v: Any, status: str) -> bool:
                 # allowed only if evidence has waiver (checked above)
                 pass
 
+    return ok
+
+
+def validate_ui_probes(v: Any) -> bool:
+    if not is_list(v):
+        err("ui_probes must be a list")
+        return False
+    ok = True
+    for i, item in enumerate(v):
+        ctx = f"ui_probes[{i}]"
+        if not is_dict(item):
+            err(f"{ctx} must be a dict")
+            ok = False
+            continue
+        ok &= require_keys(item, ["base_url", "flow", "result", "evidence", "notes"], ctx)
+        if "base_url" in item and not is_str(item["base_url"]):
+            err(f"{ctx}.base_url must be a string")
+            ok = False
+        if "flow" in item and not is_str(item["flow"]):
+            err(f"{ctx}.flow must be a string")
+            ok = False
+        if "result" in item:
+            ok &= validate_enum(item["result"], ALLOWED_UI_PROBE_RESULT, f"{ctx}.result")
+        if "evidence" in item and not is_str(item["evidence"]):
+            err(f"{ctx}.evidence must be a string")
+            ok = False
+        if "notes" in item and not is_str(item["notes"]):
+            err(f"{ctx}.notes must be a string")
+            ok = False
     return ok
 
 
@@ -291,6 +329,8 @@ def validate_root(doc: Any) -> bool:
             ok = False
 
     ok &= validate_rule_candidates(doc.get("rule_candidates", []))
+    if "ui_probes" in doc:
+        ok &= validate_ui_probes(doc.get("ui_probes", []))
     if "lesson_candidates" in doc:
         ok &= validate_lesson_candidates(doc.get("lesson_candidates", []))
 
