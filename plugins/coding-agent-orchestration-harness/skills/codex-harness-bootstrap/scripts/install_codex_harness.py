@@ -245,7 +245,7 @@ def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, path
             try:
                 source_hash = sha256(source)
             except OSError as exc:
-                print(f"INVALID_SOURCE: {rel}: {exc}")
+                print(f"INVALID: {rel} source unreadable: {exc}")
                 ok = False
                 continue
             try:
