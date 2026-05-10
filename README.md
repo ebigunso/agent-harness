@@ -99,7 +99,8 @@ The shared orchestration workflow source of truth is:
 
 Runtime-specific files should route to that skill instead of duplicating the harness workflow.
 
-Design decisions for this plugin are recorded in `docs/coding-agent-orchestration-harness/decisions/`.
+Design decisions for this plugin are recorded under the repo-root-relative path
+`docs/coding-agent-orchestration-harness/decisions/`.
 
 ### Runtime operation model
 
