@@ -41,7 +41,7 @@ Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/pla
 
 ### 2. Research Dispatch Gate
 
-Non-trivial work requires Researcher context before repository exploration outside `docs/coding-agent/**`, unless the Orchestrator records an explicit research waiver.
+Non-trivial work requires Researcher context before repository exploration outside `docs/coding-agent/**`, unless the work is trivial and the Orchestrator records `Research waived: <reason>` before execution.
 
 Before Researcher returns, only read repo rules/plans/lessons and other allowed planning docs, ask needed clarifying questions, or create missing `docs/coding-agent/**` scaffolding.
 

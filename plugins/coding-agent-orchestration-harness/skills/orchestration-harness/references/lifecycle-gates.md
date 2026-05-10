@@ -44,7 +44,7 @@ For non-trivial requests:
 2. Before Researcher returns, only read allowed planning docs, ask necessary clarifying questions, or create missing planning scaffolding.
 3. Do not use repo-wide search or read implementation files outside allowed docs before Researcher returns.
 
-Research waivers are allowed only when explicitly justified. Record `Research waived: <reason>` before execution.
+Research waivers are allowed only for trivial work per the Plan Gate. Record `Research waived: <reason>` before execution. If discovery is needed to decide whether work is trivial, treat it as non-trivial and dispatch Researcher.
 
 ## Replan Procedure
 
