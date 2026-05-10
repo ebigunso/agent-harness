@@ -23,6 +23,14 @@ Use `--repo-root` with `--scope repo` when installing into a repository other th
 
 Use `--overwrite-agents` to replace existing profiles. `--overwrite` is also accepted.
 
+Use `--dry-run` to print planned writes/skips without creating directories or writing files.
+
+Use `--check` to compare installed files against source templates and report `MATCH`, `MISSING`, `INVALID`, `MISSING_SOURCE`, or `STALE_OR_MODIFIED`. A successful check also requires the managed install manifest to exist as a file.
+
+Use `--verify` to assert required installed files and the managed manifest exist. With user scope, pair with `--user-instructions add` when the managed `AGENTS.md` loader block should also be required.
+
+Normal installs write a managed `.coding-agent-orchestration-harness-install.json` manifest in the target agents directory by default. Use `--no-write-manifest` only when manifest creation is intentionally unwanted.
+
 When installing in user scope, the script also asks whether to add a small managed harness routing block to `~/.codex/AGENTS.md`.
 
 - Existing content is never overwritten wholesale.

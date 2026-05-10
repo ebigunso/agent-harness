@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
+import hashlib
+import json
 import pathlib
 import shutil
 import sys
 
 
+PLUGIN_NAME = "coding-agent-orchestration-harness"
+MANIFEST_FILENAME = ".coding-agent-orchestration-harness-install.json"
 AGENT_FILENAMES = [
     "harness_researcher.toml",
     "harness_worker.toml",
@@ -24,11 +29,12 @@ INSTRUCTIONS_ACTIONS = ("ask", "add", "skip")
 INSTRUCTIONS_START = "<!-- coding-agent-orchestration-harness:start -->"
 INSTRUCTIONS_END = "<!-- coding-agent-orchestration-harness:end -->"
 
+
+class InstallLayoutError(RuntimeError):
+    pass
+
+
 def find_plugin_root(script_path: pathlib.Path) -> pathlib.Path:
-    # scripts/install_codex_harness.py
-    # -> codex-harness-bootstrap
-    # -> skills
-    # -> coding-agent-orchestration-harness
     return script_path.resolve().parents[3]
 
 
@@ -67,16 +73,28 @@ def ask_yes_no(prompt: str, default: bool = False) -> bool:
         print("Please enter 'yes' or 'no'.")
 
 
-def resolve_target_dir(
-    scope: str,
-    repo_root: pathlib.Path | None,
-    codex_home: pathlib.Path,
-) -> pathlib.Path:
+def resolve_target_dir(scope: str, repo_root: pathlib.Path | None, codex_home: pathlib.Path) -> pathlib.Path:
     if scope == "user":
         return codex_home / "agents"
-
-    assert repo_root is not None
+    if repo_root is None:
+        raise ValueError("repo_root is required when scope is 'repo'")
     return repo_root / ".codex" / "agents"
+
+
+def load_plugin_version(plugin_root: pathlib.Path) -> str:
+    manifest = plugin_root / ".codex-plugin" / "plugin.json"
+    try:
+        return json.loads(manifest.read_text(encoding="utf-8")).get("version", "unknown")
+    except Exception:
+        return "unknown"
+
+
+def sha256(path: pathlib.Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def load_instructions_block(plugin_root: pathlib.Path) -> str:
@@ -140,60 +158,201 @@ def install_user_instructions(codex_home: pathlib.Path, action: str, instruction
     return "updated" if replaced else "added"
 
 
+def source_target_pairs(plugin_root: pathlib.Path, target_dir: pathlib.Path) -> list[tuple[pathlib.Path, pathlib.Path, str]]:
+    source_dir = plugin_root / "codex" / "agent-templates"
+    reference_source_dir = plugin_root / "references"
+    pairs: list[tuple[pathlib.Path, pathlib.Path, str]] = []
+    for filename in AGENT_FILENAMES:
+        pairs.append((source_dir / filename, target_dir / filename, filename))
+    for filename in REFERENCE_FILENAMES:
+        rel = f"references/{filename}"
+        pairs.append((reference_source_dir / filename, target_dir / rel, rel))
+    return pairs
+
+
+def validate_sources(pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> bool:
+    ok = True
+    for source, _, _ in pairs:
+        if not source.is_file():
+            print(f"Missing source file: {source}", file=sys.stderr)
+            ok = False
+    return ok
+
+
+def write_manifest(target_dir: pathlib.Path, plugin_version: str, scope: str, pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> None:
+    files = []
+    for _, target, rel in pairs:
+        if target.is_file():
+            files.append({"path": rel, "sha256": sha256(target)})
+        elif target.exists():
+            raise InstallLayoutError(f"Invalid installed path for manifest: {target} is not a file")
+    manifest = {
+        "plugin_name": PLUGIN_NAME,
+        "plugin_version": plugin_version,
+        "installed_at": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat(),
+        "scope": scope,
+        "files": files,
+    }
+    (target_dir / MANIFEST_FILENAME).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+
+def dry_run(
+    scope: str,
+    target_dir: pathlib.Path,
+    pairs: list[tuple[pathlib.Path, pathlib.Path, str]],
+    overwrite: bool,
+    write_install_manifest: bool,
+) -> int:
+    print(f"Scope: {scope}")
+    print(f"Target directory: {target_dir}")
+    print("Planned files:")
+    ok = True
+    for source, target, rel in pairs:
+        if not source.is_file():
+            status = "missing-source"
+            ok = False
+        elif target.exists() and not target.is_file():
+            status = "invalid-target"
+            ok = False
+        elif target.exists() and not overwrite:
+            status = "skip-existing"
+        elif target.exists() and overwrite:
+            status = "overwrite"
+        else:
+            status = "write"
+        print(f"  {rel}: {status} -> {target}")
+    manifest = target_dir / MANIFEST_FILENAME
+    manifest_status = "write" if write_install_manifest else "disabled"
+    print(f"  {MANIFEST_FILENAME}: {manifest_status} -> {manifest}")
+    print("Dry run only; no files written.")
+    return 0 if ok else 3
+
+
+def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> int:
+    ok = True
+    for source, target, rel in pairs:
+        if not source.is_file():
+            print(f"MISSING_SOURCE: {rel}")
+            ok = False
+            continue
+        if not target.exists():
+            print(f"MISSING: {rel}")
+            ok = False
+        elif not target.is_file():
+            print(f"INVALID: {rel} is not a file")
+            ok = False
+        else:
+            try:
+                source_hash = sha256(source)
+            except OSError as exc:
+                print(f"INVALID: {rel} source unreadable: {exc}")
+                ok = False
+                continue
+            try:
+                target_hash = sha256(target)
+            except OSError as exc:
+                print(f"INVALID: {rel}: {exc}")
+                ok = False
+                continue
+            if source_hash != target_hash:
+                print(f"STALE_OR_MODIFIED: {rel}")
+                ok = False
+            else:
+                print(f"MATCH: {rel}")
+    manifest = target_dir / MANIFEST_FILENAME
+    if manifest.is_file():
+        print(f"MATCH: {MANIFEST_FILENAME}")
+    elif manifest.exists():
+        print(f"INVALID: {MANIFEST_FILENAME} is not a file")
+        ok = False
+    else:
+        print(f"MISSING: {MANIFEST_FILENAME}")
+        ok = False
+    return 0 if ok else 3
+
+
+def verify_install(
+    scope: str,
+    codex_home: pathlib.Path,
+    target_dir: pathlib.Path,
+    pairs: list[tuple[pathlib.Path, pathlib.Path, str]],
+    require_user_instructions: bool,
+) -> int:
+    ok = True
+    for _, target, rel in pairs:
+        if not target.exists():
+            print(f"VERIFY MISSING: {rel}", file=sys.stderr)
+            ok = False
+        elif not target.is_file():
+            print(f"VERIFY INVALID: {rel} is not a file", file=sys.stderr)
+            ok = False
+    manifest = target_dir / MANIFEST_FILENAME
+    if not manifest.exists():
+        print(f"VERIFY MISSING: {MANIFEST_FILENAME}", file=sys.stderr)
+        ok = False
+    elif not manifest.is_file():
+        print(f"VERIFY INVALID: {MANIFEST_FILENAME} is not a file", file=sys.stderr)
+        ok = False
+    if scope == "user" and require_user_instructions:
+        agents_md = codex_home / "AGENTS.md"
+        if not agents_md.exists():
+            print(f"VERIFY MISSING: managed AGENTS.md block in {agents_md}", file=sys.stderr)
+            ok = False
+        elif not agents_md.is_file():
+            print(f"VERIFY INVALID: {agents_md} is not a file", file=sys.stderr)
+            ok = False
+        else:
+            try:
+                text = agents_md.read_text(encoding="utf-8")
+            except OSError as exc:
+                print(f"VERIFY INVALID: cannot read {agents_md}: {exc}", file=sys.stderr)
+                ok = False
+            else:
+                if INSTRUCTIONS_START not in text or INSTRUCTIONS_END not in text:
+                    print(f"VERIFY MISSING: managed AGENTS.md block in {agents_md}", file=sys.stderr)
+                    ok = False
+    return 0 if ok else 3
+
+
+def install_files(
+    target_dir: pathlib.Path,
+    pairs: list[tuple[pathlib.Path, pathlib.Path, str]],
+    overwrite: bool,
+) -> tuple[list[pathlib.Path], list[pathlib.Path]]:
+    target_dir.mkdir(parents=True, exist_ok=True)
+    installed: list[pathlib.Path] = []
+    skipped: list[pathlib.Path] = []
+    for source, target, _ in pairs:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists() and not target.is_file():
+            raise InstallLayoutError(f"Invalid install target: {target} is not a file")
+        if target.exists() and not overwrite:
+            skipped.append(target)
+            continue
+        shutil.copyfile(source, target)
+        installed.append(target)
+    return installed, skipped
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Install Codex custom-agent profiles for the coding-agent orchestration harness."
     )
-    parser.add_argument(
-        "--scope",
-        choices=SCOPES,
-        default=None,
-        help="Install scope. If omitted, the script asks interactively.",
-    )
-    parser.add_argument(
-        "--repo-root",
-        type=pathlib.Path,
-        default=None,
-        help="Target repository root for --scope repo. Defaults to the nearest parent containing .git, or the current directory.",
-    )
-    parser.add_argument(
-        "--overwrite",
-        "--overwrite-agents",
-        action="store_true",
-        dest="overwrite_agents",
-        help="Overwrite existing harness profiles in the selected target agents directory.",
-    )
-    parser.add_argument(
-        "--user-instructions",
-        choices=INSTRUCTIONS_ACTIONS,
-        default="ask",
-        help="Manage a small harness routing block in ~/.codex/AGENTS.md. Defaults to ask.",
-    )
-    parser.add_argument(
-        "--codex-home",
-        type=pathlib.Path,
-        default=pathlib.Path.home() / ".codex",
-        help=argparse.SUPPRESS,
-    )
+    parser.add_argument("--scope", choices=SCOPES, default=None, help="Install scope. Omit to be prompted.")
+    parser.add_argument("--repo-root", type=pathlib.Path, default=None, help="Repository root for --scope repo. Defaults to nearest .git parent, otherwise the current working directory.")
+    parser.add_argument("--overwrite", "--overwrite-agents", action="store_true", dest="overwrite_agents", help="Replace existing installed agent profiles and references.")
+    parser.add_argument("--user-instructions", choices=INSTRUCTIONS_ACTIONS, default="ask", help="For user scope, ask/add/skip the managed AGENTS.md loader block.")
+    mode_group = parser.add_mutually_exclusive_group()
+    mode_group.add_argument("--dry-run", action="store_true", help="Print planned writes/skips without writing files.")
+    mode_group.add_argument("--check", action="store_true", help="Compare installed files against source templates and require the managed install manifest.")
+    mode_group.add_argument("--verify", action="store_true", help="Verify required installed files and managed install manifest; with user scope and --user-instructions add, also require the managed AGENTS.md block.")
+    parser.add_argument("--no-write-manifest", dest="write_install_manifest", action="store_false", default=True, help="Do not write the managed install freshness manifest.")
+    parser.add_argument("--codex-home", type=pathlib.Path, default=pathlib.Path.home() / ".codex", help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     script_path = pathlib.Path(__file__)
     plugin_root = find_plugin_root(script_path)
-    source_dir = plugin_root / "codex" / "agent-templates"
-    reference_source_dir = plugin_root / "references"
-    try:
-        instructions_block = load_instructions_block(plugin_root)
-    except (FileNotFoundError, ValueError) as error:
-        print(str(error), file=sys.stderr)
-        return 1
-
-    if not source_dir.exists():
-        print(f"Missing source directory: {source_dir}", file=sys.stderr)
-        return 1
-
-    if not reference_source_dir.exists():
-        print(f"Missing reference source directory: {reference_source_dir}", file=sys.stderr)
-        return 1
+    plugin_version = load_plugin_version(plugin_root)
 
     scope = args.scope or ask_scope()
     repo_root = None
@@ -202,43 +361,26 @@ def main() -> int:
 
     codex_home = args.codex_home.resolve()
     target_dir = resolve_target_dir(scope, repo_root, codex_home)
-    target_dir.mkdir(parents=True, exist_ok=True)
+    pairs = source_target_pairs(plugin_root, target_dir)
 
-    installed: list[pathlib.Path] = []
-    skipped: list[pathlib.Path] = []
+    if args.dry_run:
+        return dry_run(scope, target_dir, pairs, args.overwrite_agents, args.write_install_manifest)
+    if args.check:
+        return check_install(target_dir, pairs)
+    if args.verify:
+        return verify_install(scope, codex_home, target_dir, pairs, args.user_instructions == "add")
 
-    for filename in AGENT_FILENAMES:
-        source = source_dir / filename
-        target = target_dir / filename
+    if not validate_sources(pairs):
+        return 1
 
-        if not source.exists():
-            print(f"Missing source file: {source}", file=sys.stderr)
-            return 1
+    try:
+        installed, skipped = install_files(target_dir, pairs, args.overwrite_agents)
 
-        if target.exists() and not args.overwrite_agents:
-            skipped.append(target)
-            continue
-
-        shutil.copyfile(source, target)
-        installed.append(target)
-
-    reference_target_dir = target_dir / "references"
-    reference_target_dir.mkdir(parents=True, exist_ok=True)
-
-    for filename in REFERENCE_FILENAMES:
-        source = reference_source_dir / filename
-        target = reference_target_dir / filename
-
-        if not source.exists():
-            print(f"Missing reference file: {source}", file=sys.stderr)
-            return 1
-
-        if target.exists() and not args.overwrite_agents:
-            skipped.append(target)
-            continue
-
-        shutil.copyfile(source, target)
-        installed.append(target)
+        if args.write_install_manifest:
+            write_manifest(target_dir, plugin_version, scope, pairs)
+    except (InstallLayoutError, OSError) as error:
+        print(str(error), file=sys.stderr)
+        return 1
 
     print(f"Scope: {scope}")
     print(f"Target directory: {target_dir}")
@@ -254,11 +396,22 @@ def main() -> int:
             print(f"  {path}")
 
     if not installed and not skipped:
-        print("No agent profiles were installed.")
+        print("No agent profiles or references were installed.")
+
+    if args.write_install_manifest:
+        print(f"Manifest: {target_dir / MANIFEST_FILENAME}")
 
     instructions_status = "not-applicable"
-    if scope == "user":
+    if scope == "user" and args.user_instructions != "skip":
+        try:
+            instructions_block = load_instructions_block(plugin_root)
+        except (FileNotFoundError, ValueError) as error:
+            print(str(error), file=sys.stderr)
+            return 1
         instructions_status = install_user_instructions(codex_home, args.user_instructions, instructions_block)
+        print(f"User instructions: {instructions_status}")
+    elif scope == "user":
+        instructions_status = "skipped"
         print(f"User instructions: {instructions_status}")
 
     return 0
