@@ -100,7 +100,7 @@ def extract_plan_status(plan_text: str) -> str | None:
 
 
 def extract_plan_task_ids(plan_text: str) -> list[str]:
-    return re.findall(r"^###\s+(Task_[0-9]+):", plan_text, flags=re.MULTILINE)
+    return re.findall(r"^###\s+(Task_[1-9][0-9]*):", plan_text, flags=re.MULTILINE)
 
 
 def validate(summary: Any, plan_text: str) -> bool:
@@ -135,8 +135,8 @@ def validate(summary: Any, plan_text: str) -> bool:
                 ok = False
                 continue
             task_id = task.get("id")
-            if not isinstance(task_id, str) or not re.match(r"^Task_[0-9]+$", task_id):
-                err(f"{ctx}.id must match Task_<number>")
+            if not isinstance(task_id, str) or not re.match(r"^Task_[1-9][0-9]*$", task_id):
+                err(f"{ctx}.id must match Task_<positive number>")
                 ok = False
             else:
                 summary_task_ids.append(task_id)
