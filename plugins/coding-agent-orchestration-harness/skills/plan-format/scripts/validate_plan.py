@@ -20,6 +20,7 @@ REQUIRED_SECTIONS = [
     "Decision Log",
 ]
 VALIDATION_FIELDS = {"kind", "required", "owner", "detail"}
+ALLOWED_VALIDATION_KIND = {"command", "manual", "e2e", "review"}
 
 
 def error(errors: list[str], msg: str) -> None:
@@ -171,10 +172,14 @@ def validate(text: str, mode: str) -> tuple[list[str], list[str]]:
             missing = VALIDATION_FIELDS.difference(item)
             if missing:
                 error(errors, f"{task_id}: validation item missing fields {sorted(missing)}")
+            if item.get("kind") not in ALLOWED_VALIDATION_KIND:
+                error(errors, f"{task_id}: validation.kind must be one of {sorted(ALLOWED_VALIDATION_KIND)}")
             if item.get("required") not in {"true", "false"}:
                 error(errors, f"{task_id}: validation.required must be true or false")
             if item.get("owner") not in {"worker", "reviewer", "orchestrator", "user"}:
                 error(errors, f"{task_id}: validation.owner is invalid or missing")
+            if not item.get("detail", "").strip():
+                error(errors, f"{task_id}: validation.detail must be non-empty")
             all_validation_items.append(item)
 
     for task_id, task_deps in deps.items():

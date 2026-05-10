@@ -27,6 +27,9 @@ def has_frontmatter(path: Path) -> bool:
 
 
 def load_json(path: Path, errors: list[str]) -> dict:
+    if not path.exists():
+        fail(errors, f"{path}: missing manifest")
+        return {}
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:

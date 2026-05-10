@@ -44,7 +44,7 @@ def main() -> int:
     ok = True
     for cmd, expected in checks:
         ok &= run(cmd, expected)
-    return 0 if ok else 1
+    return 0 if ok else 3
 
 
 if __name__ == "__main__":
