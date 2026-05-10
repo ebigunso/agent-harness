@@ -200,11 +200,14 @@ def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path
     print(f"Scope: {scope}")
     print(f"Target directory: {target_dir}")
     print("Planned files:")
+    ok = True
     for source, target, rel in pairs:
         if not source.is_file():
             status = "missing-source"
+            ok = False
         elif target.exists() and not target.is_file():
             status = "invalid-target"
+            ok = False
         elif target.exists() and not overwrite:
             status = "skip-existing"
         elif target.exists() and overwrite:
@@ -213,7 +216,7 @@ def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path
             status = "write"
         print(f"  {rel}: {status} -> {target}")
     print("Dry run only; no files written.")
-    return 0
+    return 0 if ok else 3
 
 
 def check_install(target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> int:
