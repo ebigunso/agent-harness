@@ -312,7 +312,7 @@ def main() -> int:
     mode_group.add_argument("--dry-run", action="store_true", help="Print planned writes/skips without writing files.")
     mode_group.add_argument("--check", action="store_true", help="Compare installed files against source templates.")
     mode_group.add_argument("--verify", action="store_true", help="Verify required installed files and optional loader block.")
-    parser.add_argument("--no-write-manifest", dest="write_manifest", action="store_false", default=True, help="Do not write the managed install freshness manifest.")
+    parser.add_argument("--no-write-manifest", dest="write_install_manifest", action="store_false", default=True, help="Do not write the managed install freshness manifest.")
     parser.add_argument("--codex-home", type=pathlib.Path, default=pathlib.Path.home() / ".codex", help=argparse.SUPPRESS)
     args = parser.parse_args()
 
@@ -347,7 +347,7 @@ def main() -> int:
     try:
         installed, skipped = install_files(target_dir, pairs, args.overwrite_agents)
 
-        if args.write_manifest:
+        if args.write_install_manifest:
             write_manifest(target_dir, plugin_version, scope, pairs)
     except (InstallLayoutError, OSError) as error:
         print(str(error), file=sys.stderr)
@@ -369,7 +369,7 @@ def main() -> int:
     if not installed and not skipped:
         print("No agent profiles or references were installed.")
 
-    if args.write_manifest:
+    if args.write_install_manifest:
         print(f"Manifest: {target_dir / MANIFEST_FILENAME}")
 
     instructions_status = "not-applicable"
