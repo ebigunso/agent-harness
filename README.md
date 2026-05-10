@@ -144,8 +144,8 @@ Validation is flexible for exact prose, prompt wording, decomposition aesthetics
 
 Validators live under:
 
-- `plugins/coding-agent-orchestration-harness/scripts/`
-- `plugins/coding-agent-orchestration-harness/skills/*/scripts/`
+- `scripts/`
+- `skills/*/scripts/`
 
 Run:
 

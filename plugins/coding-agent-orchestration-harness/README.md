@@ -44,6 +44,7 @@ Canonical reference: `skills/orchestration-harness/references/runtime-role-map.m
 ## Validators
 
 ```bash
+cd plugins/coding-agent-orchestration-harness
 python scripts/validate_harness_package.py
 python scripts/run_validation_smoke_tests.py
 python skills/plan-format/scripts/validate_plan.py --file tests/fixtures/valid-plan.md --mode balanced
@@ -57,6 +58,7 @@ Validation is contract-first: hard for structure and required evidence, flexible
 Codex agent templates are installed by:
 
 ```bash
+cd plugins/coding-agent-orchestration-harness
 python skills/codex-harness-bootstrap/scripts/install_codex_harness.py
 ```
 
