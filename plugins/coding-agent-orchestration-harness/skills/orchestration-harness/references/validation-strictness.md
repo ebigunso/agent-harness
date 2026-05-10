@@ -15,7 +15,7 @@ Examples:
 - missing required validation evidence;
 - malformed Worker YAML report;
 - unsafe shared-state Git mutation;
-- final `done` state while blockers remain;
+- final closeout or plan status marked `done` while blockers remain;
 - required validation marked `skipped` without explicit waiver evidence;
 - non-trivial work marked complete without Reviewer approval or waiver.
 
