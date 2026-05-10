@@ -35,7 +35,7 @@ Run for every request, including follow-ups.
 
 Trivial work may be handled directly only when it is small, mechanical, clearly bounded, has no meaningful behavior/design change, and needs no non-obvious validation.
 
-Non-trivial work requires a plan plus user approval unless explicitly waived. Treat work as non-trivial when it adds behavior, fixes a non-obvious bug, refactors, spans multiple files/components, changes UI/UX behavior, touches dependencies/config/CI, or has uncertain patterns.
+Non-trivial work requires a plan plus user approval unless explicitly waived by the user or Orchestrator with a recorded reason and evidence. Treat work as non-trivial when it adds behavior, fixes a non-obvious bug, refactors, spans multiple files/components, changes UI/UX behavior, touches dependencies/config/CI, or has uncertain patterns.
 
 Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/plans/active/`; create that directory if missing. Completed plans move to `docs/coding-agent/plans/completed/`.
 

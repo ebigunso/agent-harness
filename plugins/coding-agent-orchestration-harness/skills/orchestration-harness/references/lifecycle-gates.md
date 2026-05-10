@@ -25,7 +25,7 @@ Trivial work may skip a plan only when all are true:
 - no meaningful behavior/design change;
 - no non-obvious validation beyond a quick sanity check.
 
-Non-trivial work requires a plan and approval when any are true:
+Non-trivial work requires a plan and approval when any are true, unless the user or Orchestrator explicitly waives the plan with a recorded reason and evidence:
 
 - new behavior or feature;
 - non-obvious bug fix;
@@ -34,7 +34,7 @@ Non-trivial work requires a plan and approval when any are true:
 - dependency, config, or CI implications;
 - UI/UX behavior changes or visual correctness concerns.
 
-Follow-ups after completion re-run the Plan Gate. Do not chain non-trivial work without a new or updated plan and explicit approval.
+Follow-ups after completion re-run the Plan Gate. Do not chain non-trivial work without a new or updated plan and explicit approval unless the plan is explicitly waived with a recorded reason and evidence.
 
 ## Research Dispatch Details
 
