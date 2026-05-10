@@ -10,7 +10,7 @@ Use this checklist before completing runtime adapter changes.
 
 ## Role Names
 
-- Check `orchestration-harness/references/runtime-role-map.md`.
+- Check `skills/orchestration-harness/references/runtime-role-map.md`.
 - Preserve existing public physical names unless a migration plan exists.
 - Prefer namespaced names for new physical agents where collisions are plausible.
 

@@ -39,7 +39,7 @@
 - Existing patterns or references:
   - `docs/coding-agent-orchestration-harness/decisions/ADR-I-0001-runtime-adapter-layout.md`
   - `docs/coding-agent-orchestration-harness/decisions/ADR-I-0002-codex-bootstrap-and-loader-strategy.md`
-  - `skills/orchestration-harness/references/runtime-role-map.md`
+  - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`
 - Repo reference docs consulted:
   - `docs/coding-agent/rules/index.md`
   - `docs/coding-agent/rules/common.md`

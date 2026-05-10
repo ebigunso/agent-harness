@@ -19,7 +19,7 @@ Runtime adapters include:
 - Shared semantics live in shared skills and references.
 - Runtime mechanics may diverge.
 - Do not copy the full canonical workflow into adapters.
-- Keep role physical names mapped in `orchestration-harness/references/runtime-role-map.md`.
+- Keep role physical names mapped in `skills/orchestration-harness/references/runtime-role-map.md`.
 - Claude adapters should be shorter than GPT/Copilot adapters.
 - Codex loader remains loader-only.
 - Tool permissions should match role boundaries but may vary by runtime.
