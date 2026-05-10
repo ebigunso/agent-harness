@@ -84,7 +84,7 @@
 - acceptance:
   - Agent name remains `harness-orchestrator`.
   - Body is materially shorter than Copilot Orchestrator.
-  - Skills include orchestration, plan, strategy, report contract, UI probes, wave integration, E2E evidence, quality baselines, git, rulebook, improvement, troubleshooting, and skills maintenance.
+  - Skills include orchestration, plan, strategy, report contract, UI probe policy, wave integration guidance, E2E evidence, quality baselines, git, rulebook, improvement, troubleshooting, and skills maintenance.
   - Physical subagents are listed as `harness-researcher`, `harness-worker`, and `harness-reviewer`.
 - validation:
   - kind: review

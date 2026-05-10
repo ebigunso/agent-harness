@@ -27,7 +27,7 @@ Logical role names in plans and skills remain Orchestrator, Researcher, Worker, 
 
 1. Plan Gate
    - Non-trivial work requires a plan plus user approval unless explicitly waived.
-   - Use `plan-format`; active plans live under `docs/coding-agent/plans/active/`.
+   - Use `plan-format`; active plans live under `docs/coding-agent/plans/active/`. Create that directory if it is missing.
 
 2. Research Dispatch Gate
    - Non-trivial work requires Researcher context before repository exploration outside `docs/coding-agent/**`, unless explicitly waived.

@@ -11,6 +11,6 @@ Tool names vary by runtime. This reference describes capability boundaries rathe
 
 ## Runtime Notes
 
-- Copilot tool labels are defined in root `agents/*.md` frontmatter.
+- Copilot tool labels are defined in plugin-root-relative `agents/*.md` frontmatter.
 - Claude tool support should be kept minimal unless the plugin schema and runtime behavior are confirmed.
 - Codex templates should use sandbox/tool settings appropriate to each role and rely on bootstrap for installation.

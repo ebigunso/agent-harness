@@ -6,6 +6,7 @@ description: Maintains runtime-specific adapter files for the harness. Use when 
 # Runtime Adapter Contract
 
 Use this skill when maintaining runtime-specific harness adapter files.
+Paths in this skill are relative to the plugin root unless explicitly labeled repo-relative.
 
 Runtime adapters include:
 
