@@ -30,6 +30,10 @@ INSTRUCTIONS_START = "<!-- coding-agent-orchestration-harness:start -->"
 INSTRUCTIONS_END = "<!-- coding-agent-orchestration-harness:end -->"
 
 
+class InstallLayoutError(RuntimeError):
+    pass
+
+
 def find_plugin_root(script_path: pathlib.Path) -> pathlib.Path:
     return script_path.resolve().parents[3]
 
@@ -178,8 +182,10 @@ def validate_sources(pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> boo
 def write_manifest(target_dir: pathlib.Path, plugin_version: str, scope: str, pairs: list[tuple[pathlib.Path, pathlib.Path, str]]) -> None:
     files = []
     for _, target, rel in pairs:
-        if target.exists():
+        if target.is_file():
             files.append({"path": rel, "sha256": sha256(target)})
+        elif target.exists():
+            raise InstallLayoutError(f"Invalid installed path for manifest: {target} is not a file")
     manifest = {
         "plugin_name": PLUGIN_NAME,
         "plugin_version": plugin_version,
@@ -197,6 +203,8 @@ def dry_run(scope: str, target_dir: pathlib.Path, pairs: list[tuple[pathlib.Path
     for source, target, rel in pairs:
         if not source.is_file():
             status = "missing-source"
+        elif target.exists() and not target.is_file():
+            status = "invalid-target"
         elif target.exists() and not overwrite:
             status = "skip-existing"
         elif target.exists() and overwrite:
@@ -279,6 +287,8 @@ def install_files(
     skipped: list[pathlib.Path] = []
     for source, target, _ in pairs:
         target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists() and not target.is_file():
+            raise InstallLayoutError(f"Invalid install target: {target} is not a file")
         if target.exists() and not overwrite:
             skipped.append(target)
             continue
@@ -320,8 +330,6 @@ def main() -> int:
     codex_home = args.codex_home.resolve()
     target_dir = resolve_target_dir(scope, repo_root, codex_home)
     pairs = source_target_pairs(plugin_root, target_dir)
-    if not validate_sources(pairs):
-        return 1
 
     if args.dry_run:
         return dry_run(scope, target_dir, pairs, args.overwrite_agents)
@@ -330,10 +338,17 @@ def main() -> int:
     if args.verify:
         return verify_install(scope, codex_home, target_dir, pairs, args.user_instructions == "add")
 
-    installed, skipped = install_files(target_dir, pairs, args.overwrite_agents)
+    if not validate_sources(pairs):
+        return 1
 
-    if args.write_manifest:
-        write_manifest(target_dir, plugin_version, scope, pairs)
+    try:
+        installed, skipped = install_files(target_dir, pairs, args.overwrite_agents)
+
+        if args.write_manifest:
+            write_manifest(target_dir, plugin_version, scope, pairs)
+    except (InstallLayoutError, OSError) as error:
+        print(str(error), file=sys.stderr)
+        return 1
 
     print(f"Scope: {scope}")
     print(f"Target directory: {target_dir}")
