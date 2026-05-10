@@ -34,10 +34,15 @@ The summary file may be JSON or YAML and should use this shape:
 
 When a waiver is used, provide waiver evidence as a mapping:
 
-  waiver:
-    authority: "user or Orchestrator"
-    reason: "why the required item is waived now"
-    evidence: "link, transcript note, or other proof of approval"
+  reviewer:
+    status: NEEDS_REVISION
+    waiver:
+      authority: "user or Orchestrator"
+      reason: "why Reviewer approval is waived now"
+      evidence: "link, transcript note, or other proof of approval"
+
+The same waiver mapping can be used under `tasks[*].waiver` or `validations[*].waiver`
+when a specific task or required validation is waived.
 """
 
 from __future__ import annotations
@@ -143,11 +148,20 @@ def validate(summary: Any, plan_text: str) -> bool:
             err("tasks summary contains duplicate task ids")
             ok = False
 
-    validations = summary.get("validations", [])
+    if "validations" not in summary:
+        err("validations must be present as a list")
+        ok = False
+        validations = []
+    else:
+        validations = summary.get("validations")
     if not isinstance(validations, list):
         err("validations must be a list")
         ok = False
     else:
+        non_trivial = summary.get("non_trivial", True)
+        if non_trivial is True and not validations:
+            err("non-trivial closeout requires at least one validation item")
+            ok = False
         for i, validation in enumerate(validations):
             ctx = f"validations[{i}]"
             if not isinstance(validation, dict):
