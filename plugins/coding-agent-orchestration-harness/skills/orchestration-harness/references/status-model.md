@@ -35,4 +35,4 @@ Use this vocabulary when writing plans, Worker reports, Reviewer outputs, valida
 - `skipped` is not the same as `waived`.
 - Required validation may be skipped only with explicit waiver evidence.
 - Missing required evidence blocks final completion.
-- A plan can be `done` only after all tasks are done or waived, required validation is pass or waived, blockers are resolved, and required review is approved or waived.
+- A plan can be `done` only after all tasks are done or waived, required validation is pass or waived, blockers are resolved, and required Reviewer status is `APPROVED` or explicitly waived.

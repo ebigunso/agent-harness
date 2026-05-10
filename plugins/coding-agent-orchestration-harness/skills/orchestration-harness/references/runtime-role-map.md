@@ -19,6 +19,6 @@ Logical roles are stable. Physical agent names may vary by runtime.
 
 ## Maintenance Checks
 
-- GitHub/Copilot physical names should correspond to files under `agents/`.
-- Claude Code physical names should correspond to files under `claude/agents/`.
-- Codex physical names should correspond to templates under `codex/agent-templates/` or loader behavior documented in `codex/snippets/AGENTS.md`.
+- GitHub/Copilot physical names should correspond to files under `plugins/coding-agent-orchestration-harness/agents/`.
+- Claude Code physical names should correspond to files under `plugins/coding-agent-orchestration-harness/claude/agents/`.
+- Codex physical names should correspond to templates under `plugins/coding-agent-orchestration-harness/codex/agent-templates/` or loader behavior documented in `plugins/coding-agent-orchestration-harness/codex/snippets/AGENTS.md`.

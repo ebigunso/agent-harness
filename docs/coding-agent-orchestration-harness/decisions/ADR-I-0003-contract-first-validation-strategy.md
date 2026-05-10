@@ -83,10 +83,10 @@ This blocks the failures that damage harness reliability while preserving runtim
 
 ## Validation
 
-- Smoke tests include valid and invalid plan/report fixtures.
-- Package validator runs successfully on the plugin.
-- Invalid required evidence and malformed contract fixtures fail clearly.
-- Balanced mode is the default for runtime-facing validator commands.
+- Add smoke tests with valid and invalid plan/report fixtures.
+- Run or verify the package validator against the plugin once it exists.
+- Verify invalid required evidence and malformed contract fixtures fail clearly.
+- Verify `balanced` is the default for runtime-facing validator commands.
 
 ## Revisit When
 
