@@ -328,11 +328,6 @@ def main() -> int:
     script_path = pathlib.Path(__file__)
     plugin_root = find_plugin_root(script_path)
     plugin_version = load_plugin_version(plugin_root)
-    try:
-        instructions_block = load_instructions_block(plugin_root)
-    except (FileNotFoundError, ValueError) as error:
-        print(str(error), file=sys.stderr)
-        return 1
 
     scope = args.scope or ask_scope()
     repo_root = None
@@ -382,8 +377,15 @@ def main() -> int:
         print(f"Manifest: {target_dir / MANIFEST_FILENAME}")
 
     instructions_status = "not-applicable"
-    if scope == "user":
+    if scope == "user" and args.user_instructions != "skip":
+        try:
+            instructions_block = load_instructions_block(plugin_root)
+        except (FileNotFoundError, ValueError) as error:
+            print(str(error), file=sys.stderr)
+            return 1
         instructions_status = install_user_instructions(codex_home, args.user_instructions, instructions_block)
+        print(f"User instructions: {instructions_status}")
+    elif scope == "user":
         print(f"User instructions: {instructions_status}")
 
     return 0
