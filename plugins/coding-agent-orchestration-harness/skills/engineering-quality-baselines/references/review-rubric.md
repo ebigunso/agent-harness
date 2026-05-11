@@ -39,3 +39,11 @@ Before final approval, confirm:
 - Required validation gates were actually executed.
 - Evidence is concrete (commands, outputs, artifacts, or review notes).
 - Any explicitly waived checks reference the canonical required-check waiver template in [testing-validation.md](testing-validation.md#canonical-required-check-waiver-template).
+
+## Latent-Risk Companion Check
+
+Before final approval, if the change shape matches a trigger in `review-latent-risk.md`, read that router and only the applicable conditional latent-risk references.
+
+Do not expand this rubric with the full latent-risk checklist.
+
+A relevant latent-risk FAIL blocks approval unless waived or recorded as accepted residual risk.
