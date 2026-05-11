@@ -55,3 +55,23 @@ If E2E/visual is required:
 - Execute the E2E spec using the selected browser automation provider.
 - Save evidence screenshots under the provider-defined artifact root and reference them.
 - If required evidence is missing, Status must be NEEDS_REVISION.
+
+## Reviewer snippet (latent-risk routing)
+
+Use only when the changed code may involve latent invalid states, drift, fallback behavior, contract divergence, scope leakage, hot-path cost, brittle future edits, or risk-specific test gaps.
+
+Scope:
+- Review this wave only.
+- Use the plugin's `engineering-quality-baselines` skill.
+- First follow its latent-risk router.
+- Then use only the conditional latent-risk references whose triggers match the changed code.
+
+Deliverables:
+- Applicable latent-risk findings only.
+- File:line evidence for each finding.
+- Missing regression test shape for each risky behavior, when applicable.
+
+Rules:
+- Do not print the full checklist.
+- Do not report irrelevant `N/A` criteria.
+- Do not approve if an applicable latent-risk item is FAIL without waiver or accepted residual risk.

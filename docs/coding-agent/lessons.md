@@ -147,3 +147,66 @@ Fix applied:
 
 Prevention:
 - For ADRs, use stable actor identifiers, explicit model names when AI consultation is recorded, and avoid time-relative language unless the decision depends on a dated state.
+
+## 2026-05-09 - Preserve Exact ADR Consultation Provenance  [tags: documentation, assumptions]
+
+Context:
+- Plan: docs/coding-agent/plans/active/architecture-rationale-and-shared-references-plan.md
+- Task/Wave: planning correction
+- Roles involved: Orchestrator
+
+Symptom:
+- The ADR plan recommendation shortened the consulted entity from the user's intended `GPT-5.5 Pro` to `GPT-5.5`.
+
+Root cause:
+- The recommendation generalized the model name from existing ADR style instead of preserving the provenance detail provided by the user.
+
+Fix applied:
+- Updated the ADR plan open question and assumptions to specify `GPT-5.5 Pro` as the consulted entity for this ADR batch.
+
+Prevention:
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Record the actual consulted entity for each ADR or ADR batch; preserve exact user-provided provenance names unless the user explicitly asks to normalize them.
+- Dispatch/plan guardrail:
+  - When answering ADR metadata questions, verify the real consulted model/person for that decision instead of carrying forward a previous ADR's consulted value.
+
+Evidence:
+- `docs/coding-agent/plans/active/architecture-rationale-and-shared-references-plan.md` now specifies `GPT-5.5 Pro` in the open question resolution and assumptions.
+
+## 2026-05-11 - Route Runtime Agents Through Plugin Skills  [tags: assumptions, runtime-adapters, skill-maintenance]
+
+Context:
+- Topic: latent-risk review routing assessment
+- Roles involved: Orchestrator
+
+Symptom:
+- The assessment treated repo-relative reference paths as potentially usable by Codex runtime agents, even though runtime agents take the plugin and operate inside their own project directories.
+
+Root cause:
+- The distinction between plugin-packaged skill references and the target project working directory was not made explicit when evaluating adapter wording.
+
+Fix applied:
+- Treat runtime agent routing as skill-based plugin routing, not direct repo-relative path routing from the target project.
+
+Prevention:
+- When editing runtime agent prompts, word shared review/checklist routing as “use/read the relevant plugin skill/reference” rather than assuming repository-relative paths are available from the runtime agent's project directory.
+- Keep direct file-path references primarily inside plugin skills/references and Orchestrator dispatch packets that are known to be interpreted in the plugin context.
+
+## 2026-05-11 - Avoid Overfitting Validators To Skill Prose  [tags: validation, skill-maintenance, planning]
+
+Context:
+- Plan: docs/coding-agent/plans/active/integrate-latent-risk-review-routing-plan.md
+- Roles involved: Orchestrator
+
+Symptom:
+- The plan considered adding static validation for latent-risk skill/reference internals and prompt-bloat heuristics.
+
+Root cause:
+- The validation scope mixed package-structure checks with prose-quality and skill-internal checks that are better handled through review.
+
+Fix applied:
+- Updated the plan so validators are added only for manifest, bootstrap, path, or package-structure requirements; skill prose and adapter prompt-bloat checks stay in human/Reviewer review.
+
+Prevention:
+- Before adding validators for skill changes, distinguish objective package integrity from editable skill prose. Prefer Reviewer checks for wording, criteria quality, and prompt-bloat concerns unless a structural packaging contract is at risk.

@@ -22,6 +22,11 @@ You must NOT:
 If repo rules exist and are relevant, consult:
 - `docs/coding-agent/rules/common.md`
 
+When review involves state, derived data, fallible operations, multiple implementations, merge/update semantics, scope-sensitive decisions, hot paths, validation boundaries, or risky edge behavior:
+- use the installed plugin's `engineering-quality-baselines` latent-risk routing
+- apply only the conditional latent-risk references whose triggers match the changed code
+- report only applicable latent-risk findings
+
 Connector/App access:
 - If the review involves external services, Apps/connectors, MCP tools, GitHub issues/PRs, email, calendar, chat, or account-scoped data, read `references/codex-app-connector-policy-reviewer.md` from your installed agent directory before using tool discovery or connector tools.
 

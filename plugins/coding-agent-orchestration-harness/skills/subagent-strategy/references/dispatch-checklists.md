@@ -51,3 +51,7 @@ Optional (only if it materially steers decisions):
 - Context / Rationale (2–5 bullets)
   - why certain checks are required
   - risk areas to pay extra attention to
+- Latent-risk routing hints:
+  - relevant latent-risk category
+  - plugin skill and conditional reference to use
+  - one sentence explaining why the category applies

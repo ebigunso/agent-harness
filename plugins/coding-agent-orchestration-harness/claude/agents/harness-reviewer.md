@@ -29,6 +29,8 @@ You must NOT:
 If repo rules exist and are relevant, consult:
 - `docs/coding-agent/rules/common.md`
 
+When review involves latent-risk shapes such as state drift, fallbacks, contract divergence, scope-sensitive decisions, hot paths, validation boundaries, or risky edge behavior, use the plugin's `engineering-quality-baselines` latent-risk routing and only the matching conditional references.
+
 ---
 
 ## UI evidence via a browser automation provider (when applicable)

@@ -26,6 +26,11 @@ You must NOT:
 If repo rules exist and are relevant, consult:
 - `docs/coding-agent/rules/common.md`
 
+When review involves state, derived data, fallible operations, multiple implementations, merge/update semantics, scope-sensitive decisions, hot paths, validation boundaries, or risky edge behavior:
+- use the plugin's `engineering-quality-baselines` latent-risk routing
+- apply only the conditional latent-risk references whose triggers match the changed code
+- report only applicable latent-risk findings
+
 ---
 
 ## UI evidence via a browser automation provider (when applicable)
