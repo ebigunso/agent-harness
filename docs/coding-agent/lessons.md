@@ -20,6 +20,26 @@ Purpose:
 
 ## Entries
 
+## 2026-05-13 - Use Feature Branch Naming And Escalate Nested Ref Creation  [tags: tooling, git, workflow]
+
+Context:
+- Task: create a branch for rule-suite bootstrap lifecycle work.
+- Roles involved: Orchestrator
+
+Symptom:
+- Creating `codex/rule-suite-bootstrap-lifecycle` failed in the sandbox with `unable to create directory for .git/refs/heads/...`; creating `feature/2026-05-13/rule-suite-bootstrap-lifecycle` failed the same way until the Git command was rerun with approved filesystem access.
+
+Root cause:
+- The branch names were valid. The failure came from sandboxed writes to nested Git ref paths under `.git/refs/heads/`, not from a naming conflict or invalid branch format.
+
+Fix applied:
+- Verified no loose or packed `codex` ref existed, reran nested branch creation with approval, and switched to `feature/2026-05-13/rule-suite-bootstrap-lifecycle`.
+
+Prevention:
+- Prefer `feature/YYYY-MM-DD/<feature-name>` branch names in this repository unless the user requests another convention.
+- When a nested branch name fails with `unable to create directory for .git/refs/heads/...`, inspect refs briefly, then rerun the Git branch/switch command with filesystem approval instead of changing naming conventions.
+- Do not manually edit `.git` internals to work around nested ref creation failures.
+
 ## 2026-04-26 - Keep Skill Content Version Agnostic  [tags: skill-maintenance, assumptions]
 
 Context:
