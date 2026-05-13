@@ -23,7 +23,7 @@ Purpose:
 ## 2026-05-13 - Validate Exact Enum Sources, Not Broad Tokens  [tags: validation, review, tooling]
 
 Context:
-- Plan: docs/coding-agent/plans/active/rule-suite-bootstrap-lifecycle-plan.md
+- Plan: docs/coding-agent/plans/completed/rule-suite-bootstrap-lifecycle-plan.md
 - Task/Wave: Reviewer closeout for Task_10 package validation
 - Roles involved: Orchestrator, Reviewer
 

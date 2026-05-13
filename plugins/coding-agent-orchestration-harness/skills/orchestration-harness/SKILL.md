@@ -48,7 +48,9 @@ For trivial work, skip rule-readiness checks unless the task directly touches:
 - CI or validation sources;
 - build/package manifests;
 - agent instruction files;
-- files that existing rule lifecycle metadata marks as refresh sources.
+- known refresh-source paths from lifecycle metadata that was already read for prior lifecycle work.
+
+Do not read `_lifecycle.json` only to decide whether trivial work can stay on the fast path. If refresh-source matching is unknown and no other trigger applies, keep the trivial fast path.
 
 For non-trivial work, use repo rules when they are needed for planning, validation, review policy, or repository-specific constraints.
 
