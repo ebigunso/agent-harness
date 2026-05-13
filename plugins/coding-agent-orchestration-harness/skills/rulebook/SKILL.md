@@ -1,24 +1,23 @@
 ---
 name: rulebook
-description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying rule_candidates, adding repo reference documents, or staging global migration candidates.
+description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying repo-local rule_candidates, or adding repo reference documents.
 ---
 
 # Skill: rulebook
 
-This skill defines how the Orchestrator maintains repository rule files as:
-1) the source of truth for repo-specific constraints, and
-2) a staging area for rules that should later be migrated into global settings.
+This skill defines how the Orchestrator maintains repository rule files as the source of truth for repo-specific constraints and operating rules.
 
-This skill is for RULES. Skill creation/update is staged separately in docs/coding-agent/skill-candidates.md and drafts under docs/coding-agent/skill-drafts/.
+This skill is for RULES. Cross-repo harness improvements are staged separately in `docs/coding-agent/skill-candidates.md` and drafts under `docs/coding-agent/skill-drafts/`.
 
 ---
 
 ## Core rules (always apply)
 
 - Only the Orchestrator edits docs/coding-agent/rules/*.md (single-writer).
-- Worker proposes rule_candidates; Orchestrator curates and applies them.
+- Worker proposes repo-local rule_candidates; Orchestrator curates and applies them.
 - New rules must be short, declarative, unambiguous.
 - Deduplicate aggressively; avoid rule proliferation.
+- Do not place cross-repo harness migration ideas in role rule files; stage them in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
 - Update last_updated when editing a rules file.
 - Treat `docs/coding-agent/rules/index.md` as the low-token routing file and bootstrap success marker.
 - Treat `docs/coding-agent/rules/_lifecycle.json` as the machine-oriented lifecycle sidecar. Read it only for bootstrap, repair, schema migration, targeted refresh, source-drift diagnosis, or contradiction handling.
