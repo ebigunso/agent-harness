@@ -1,6 +1,6 @@
 # Plan: Lessons And Improvement Loop Promotion Model
 
-- status: draft
+- status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
 - work_type: docs
@@ -202,6 +202,14 @@
   - Summary: Added implementation plan for updating lesson promotion and improvement-loop triage to staged harness migration candidates.
   - Validation evidence: Plan-format self-check.
   - Notes: Awaiting approval before execution.
+- 2026-05-14 Waves 1-4 completed: [Task_1, Task_2, Task_3, Task_4, Task_5]
+  - Summary: Updated improvement-loop promotion targets, promotion guidelines, lesson templates, and added source-neutral review finding triage.
+  - Validation evidence: Stale-target search for old direct first-party targets returned no matches.
+  - Notes: Runtime boundary now points ordinary target-repository work to staged harness migration candidates.
+- 2026-05-14 Wave 5 completed: [Task_6]
+  - Summary: Strict improvement-loop consistency review completed by Orchestrator.
+  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
+  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
