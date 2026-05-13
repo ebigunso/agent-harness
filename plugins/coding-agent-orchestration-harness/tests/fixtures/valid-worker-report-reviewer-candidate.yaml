@@ -24,9 +24,17 @@ questions_for_orchestrator: []
 assumptions: []
 rule_candidates:
   - audience: reviewer
-    intended_home: repo_specific
     id: "RB-CAND-review-hotspot"
     rule: "Review changes to generated diagnostics against production error output."
     rationale: "This prevents repeated review misses around diagnostic fidelity."
     scope: "Reviewer-owned evidence and review-risk hotspots."
     example: "A changed validation error should include evidence from the production entrypoint."
+harness_migration_candidates:
+  - id: "HMC-review-diagnostic-fidelity"
+    category: review
+    proposed_home: "engineering-quality-baselines/references/review-latent-risk-diagnostics.md"
+    generalized_rule: "Diagnostic changes should be reviewed against production output paths."
+    trigger: "Validation errors, CLI diagnostics, or generated messages change."
+    evidence_from_repo: "A reviewer rule candidate was proposed for generated diagnostics."
+    rationale: "Diagnostic fidelity is a recurring cross-repo review concern."
+    suggested_change: "Consider a reusable diagnostics latent-risk lens."

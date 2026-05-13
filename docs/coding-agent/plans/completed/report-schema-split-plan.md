@@ -1,6 +1,6 @@
 # Plan: Report Schema Split
 
-- status: draft
+- status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
 - work_type: mixed
@@ -187,6 +187,22 @@ Required-check waiver
   - Summary: Added implementation plan for separating repo-local rule candidates from harness migration candidates in the report contract.
   - Validation evidence: Plan-format self-check.
   - Notes: Awaiting approval before execution.
+- 2026-05-14 Wave 1 completed: [Task_1]
+  - Summary: Updated report contract prose, schema reference, and examples for repo-local `rule_candidates`, `harness_migration_candidates`, and new lesson targets.
+  - Validation evidence: Targeted stale-token search found only the validator's intentional `intended_home` rejection message.
+  - Notes: Documentation no longer presents old promotion targets.
+- 2026-05-14 Wave 2 completed: [Task_2]
+  - Summary: Removed `ALLOWED_INTENDED_HOME`, added migration category and lesson promotion target enums, and validated `harness_migration_candidates`.
+  - Validation evidence: `python -m py_compile plugins\coding-agent-orchestration-harness\skills\subagent-report-contract\scripts\validate_worker_report.py plugins\coding-agent-orchestration-harness\scripts\run_validation_smoke_tests.py` passed.
+  - Notes: Old `intended_home` reports now fail hard.
+- 2026-05-14 Wave 3 completed: [Task_3]
+  - Summary: Updated valid fixtures and added invalid fixtures for old `intended_home` and old lesson target rejection.
+  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\run_validation_smoke_tests.py` passed.
+  - Notes: Full smoke suite includes the new expected-invalid fixtures.
+- 2026-05-14 Wave 4 completed: [Task_4]
+  - Summary: Strict contract consistency review completed by Orchestrator.
+  - Validation evidence: Smoke suite passed; stale-token search confirmed no stale subagent-report docs targets.
+  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

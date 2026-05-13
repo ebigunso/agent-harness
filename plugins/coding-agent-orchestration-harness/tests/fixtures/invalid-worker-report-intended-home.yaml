@@ -1,0 +1,20 @@
+task_id: "Task_2"
+status: done
+summary: "Invalid old-style rule candidate."
+files_changed: []
+commands_run: []
+validation_results: []
+tests:
+  ran: false
+  notes: "Fixture should fail before validation matters."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates:
+  - audience: reviewer
+    intended_home: repo_specific
+    id: "RB-CAND-old-shape"
+    rule: "Old rule candidate shape should fail."
+    rationale: "The clean split removed intended_home."
+    scope: "Worker report schema."
+    example: ""

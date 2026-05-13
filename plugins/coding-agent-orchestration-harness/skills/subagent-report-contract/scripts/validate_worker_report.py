@@ -36,8 +36,19 @@ ALLOWED_UI_PROBE_RESULT = {"pass", "fail", "skipped"}
 ALLOWED_VALIDATION_KIND = {"command", "manual", "e2e", "review"}
 ALLOWED_OWNER = {"worker", "reviewer", "orchestrator", "user"}
 ALLOWED_AUDIENCE = {"common", "worker", "orchestrator", "reviewer"}
-ALLOWED_INTENDED_HOME = {"repo_specific", "global_candidate"}
 ALLOWED_LESSON_CATEGORY = {"planning", "delegation", "validation", "environment", "review", "docs", "other"}
+ALLOWED_LESSON_PROMOTION_TARGET = {"repo_rule", "harness_migration", "troubleshooting", "residual_risk"}
+ALLOWED_MIGRATION_CATEGORY = {
+    "review",
+    "validation",
+    "orchestration",
+    "delegation",
+    "rulebook",
+    "troubleshooting",
+    "adapter",
+    "validator",
+    "other",
+}
 TASK_ID_RE = re.compile(r"^Task_[1-9][0-9]*$")
 YAML_BLOCK_RE = re.compile(r"```(?:yaml|yml)\s*\r?\n(.*?)(?:\r?\n)?```", re.DOTALL | re.IGNORECASE)
 
@@ -223,15 +234,46 @@ def validate_rule_candidates(v: Any) -> bool:
             err(f"{ctx} must be a dict")
             ok = False
             continue
-        ok &= require_keys(item, ["audience", "intended_home", "id", "rule", "rationale", "scope", "example"], ctx)
+        ok &= require_keys(item, ["audience", "id", "rule", "rationale", "scope", "example"], ctx)
+        if "intended_home" in item:
+            err(f"{ctx}.intended_home is no longer supported; use rule_candidates for repo-local rules or harness_migration_candidates for cross-repo harness ideas")
+            ok = False
         if item.get("audience") not in ALLOWED_AUDIENCE:
             err(f"{ctx}.audience must be one of {sorted(ALLOWED_AUDIENCE)}")
             ok = False
-        if item.get("intended_home") not in ALLOWED_INTENDED_HOME:
-            err(f"{ctx}.intended_home must be one of {sorted(ALLOWED_INTENDED_HOME)}")
-            ok = False
         for k in ["id", "rule", "rationale", "scope", "example"]:
             if k in item and not is_str(item[k]):
+                err(f"{ctx}.{k} must be a string")
+                ok = False
+    return ok
+
+
+def validate_harness_migration_candidates(v: Any) -> bool:
+    if not is_list(v):
+        err("harness_migration_candidates must be a list")
+        return False
+    ok = True
+    required = [
+        "id",
+        "category",
+        "proposed_home",
+        "generalized_rule",
+        "trigger",
+        "evidence_from_repo",
+        "rationale",
+        "suggested_change",
+    ]
+    for i, item in enumerate(v):
+        ctx = f"harness_migration_candidates[{i}]"
+        if not is_dict(item):
+            err(f"{ctx} must be a dict")
+            ok = False
+            continue
+        ok &= require_keys(item, required, ctx)
+        if "category" in item:
+            ok &= validate_enum(item["category"], ALLOWED_MIGRATION_CATEGORY, f"{ctx}.category")
+        for k in required:
+            if k in item and k != "category" and not is_str(item[k]):
                 err(f"{ctx}.{k} must be a string")
                 ok = False
     return ok
@@ -263,7 +305,13 @@ def validate_lesson_candidates(v: Any) -> bool:
         if item.get("category") not in ALLOWED_LESSON_CATEGORY:
             err(f"{ctx}.category must be one of {sorted(ALLOWED_LESSON_CATEGORY)}")
             ok = False
-        for k in ["id", "deviation", "root_cause", "prevention", "promotion_target"]:
+        if "promotion_target" in item:
+            ok &= validate_enum(
+                item["promotion_target"],
+                ALLOWED_LESSON_PROMOTION_TARGET,
+                f"{ctx}.promotion_target",
+            )
+        for k in ["id", "deviation", "root_cause", "prevention", "suggested_destination"]:
             if k in item and not is_str(item[k]):
                 err(f"{ctx}.{k} must be a string")
                 ok = False
@@ -291,7 +339,7 @@ def validate_root(doc: Any) -> bool:
     ok = require_keys(doc, required, "root")
 
     if "skill_candidates" in doc:
-        err("skill_candidates is not part of the contract; use lesson_candidates for deviations")
+        err("skill_candidates is not part of the contract; use lesson_candidates for deviations and harness_migration_candidates for cross-repo harness ideas")
         ok = False
 
     if "task_id" in doc and not is_str(doc["task_id"]):
@@ -338,6 +386,8 @@ def validate_root(doc: Any) -> bool:
         ok = False
 
     ok &= validate_rule_candidates(doc.get("rule_candidates", []))
+    if "harness_migration_candidates" in doc:
+        ok &= validate_harness_migration_candidates(doc.get("harness_migration_candidates", []))
     if "ui_probes" in doc:
         ok &= validate_ui_probes(doc.get("ui_probes", []))
     if "lesson_candidates" in doc:
