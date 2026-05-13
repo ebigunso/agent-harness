@@ -30,7 +30,7 @@ A rule suite is valid when:
 
 - `index.md` exists;
 - required files exist;
-- role rule files share `suite_id`;
+- `index.md` and role rule files share `suite_id`;
 - `_lifecycle.json` exists;
 - schema version matches the plugin-required schema;
 - no relevant source drift or contradiction is known.
@@ -42,7 +42,7 @@ Run full bootstrap when:
 - no valid `index.md` exists;
 - required files are missing;
 - `_lifecycle.json` is missing;
-- suite IDs do not match;
+- `index.md` and role rule file suite IDs do not match;
 - old skeleton-only files are present;
 - manifest integrity cannot be established.
 
@@ -67,7 +67,7 @@ Run targeted refresh when:
 Run repair when:
 
 - required files or front matter are missing;
-- role rule files disagree on `suite_id`;
+- `index.md` and role rule files disagree on `suite_id`;
 - `index.md` points to missing required files;
 - `_lifecycle.json` cannot be parsed or does not name the required files.
 

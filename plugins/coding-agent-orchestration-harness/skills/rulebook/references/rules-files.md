@@ -12,7 +12,7 @@ The rule suite is considered installed only when:
 - `index.md` exists;
 - all required role rule files exist;
 - `_lifecycle.json` exists;
-- all role rule files share the same `suite_id`;
+- `index.md` and all role rule files share the same `suite_id`;
 - the schema version matches the plugin-required schema.
 
 `index.md` is a low-token routing file and bootstrap success marker.

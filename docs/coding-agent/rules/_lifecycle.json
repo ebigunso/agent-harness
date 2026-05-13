@@ -3,8 +3,8 @@
   "suite_id": "rules-20260513-b80f05e",
   "bootstrapped_at": "2026-05-13T17:57:22+09:00",
   "baseline": {
-    "kind": "git",
-    "commit": "b80f05e52ed57e29966c74fba4170eeea74de518"
+    "kind": "worktree",
+    "description": "Initial repository rule-suite bootstrap."
   },
   "required_files": {
     "index": "docs/coding-agent/rules/index.md",

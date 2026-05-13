@@ -12,8 +12,8 @@ It should stay out of normal task context. Read it only for bootstrap, repair, s
   "suite_id": "rules-<timestamp-or-id>",
   "bootstrapped_at": "<iso8601>",
   "baseline": {
-    "kind": "git",
-    "commit": "<commit-or-unknown>"
+    "kind": "worktree",
+    "description": "Initial repository rule-suite bootstrap."
   },
   "required_files": {
     "index": "docs/coding-agent/rules/index.md",
@@ -76,5 +76,6 @@ It should stay out of normal task context. Read it only for bootstrap, repair, s
 - Keep the sidecar small enough for lifecycle work, but do not optimize it for normal prompt reads.
 - Store refresh-source path patterns and the rule sections they affect.
 - Store source evidence as compact records that explain where a rule fact came from.
+- Do not use Git commit SHAs as the standard baseline. Squash and rebase merges can remove PR-local commits from target-branch history, so freshness should be derived from source paths, schema, suite integrity, and contradiction signals instead.
 - Do not store durable `stale`, `partial`, or `skeletal` flags as the main lifecycle mechanism.
 - Derive validity from required files, suite IDs, schema version, source drift, and contradiction reports.

@@ -47,7 +47,7 @@ Bootstrap always creates the full suite. `reviewer.md` is not optional.
 
 `index.md` is a low-token routing file and bootstrap success marker. It contains the schema version, suite ID, required role rule files, and pointer to `_lifecycle.json`. It should be safe to read often.
 
-`_lifecycle.json` is the machine-oriented lifecycle sidecar. It contains required file paths, baseline metadata, refresh groups, source evidence, and source-to-rule-section mappings. Agents read it only when lifecycle work is needed.
+`_lifecycle.json` is the machine-oriented lifecycle sidecar. It contains required file paths, bootstrap context, refresh groups, source evidence, and source-to-rule-section mappings. Agents read it only when lifecycle work is needed.
 
 The bootstrap write order is:
 
@@ -65,9 +65,11 @@ Rule-suite validity is derived, not trusted from a durable status flag. A suite 
 - `index.md` exists;
 - `_lifecycle.json` exists;
 - required role rule files exist;
-- all rule files share the same suite ID;
+- `index.md` and all role rule files share the same suite ID;
 - schema version matches the plugin-required schema;
 - no relevant source drift or contradiction is known.
+
+The standard lifecycle sidecar does not use Git commit SHAs as the durable baseline. Squash and rebase merges can remove PR-local commits from target-branch history, so future freshness checks derive from source paths, schema version, required files, suite ID consistency, and contradiction reports.
 
 The harness does not run full bootstrap as a per-task ritual.
 
