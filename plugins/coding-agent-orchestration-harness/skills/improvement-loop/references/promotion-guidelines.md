@@ -17,6 +17,8 @@ Destination:
 - `docs/coding-agent/skill-candidates.md`
 - `docs/coding-agent/skill-drafts/*.md`, when useful
 
+Use the Rulebook `skill-candidates-file.md` format for backlog entries. Use a fuller draft when the candidate needs more detail before a harness-maintenance pass can decide ownership.
+
 Only edit bundled harness content during an explicit harness-maintenance task.
 
 ## Create or route to a wrapper skill proposal when:

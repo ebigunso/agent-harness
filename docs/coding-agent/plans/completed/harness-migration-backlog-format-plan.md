@@ -1,6 +1,6 @@
 # Plan: Harness Migration Backlog Format
 
-- status: draft
+- status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
 - work_type: docs
@@ -177,6 +177,14 @@
   - Summary: Added implementation plan for canonical `skill-candidates.md` and `skill-drafts` migration backlog format.
   - Validation evidence: Plan-format self-check.
   - Notes: Awaiting approval before execution.
+- 2026-05-14 Waves 1-2 completed: [Task_1, Task_2, Task_3, Task_4]
+  - Summary: Added canonical `skill-candidates.md` and skill-draft references, then linked them from rulebook and improvement-loop promotion guidance.
+  - Validation evidence: Targeted `rg` confirmed `skill-candidates-file.md`, `skill-candidates.md`, and `skill-drafts` links are present.
+  - Notes: The reference defines `HMC-*` ids, categories, backlog fields, and draft structure.
+- 2026-05-14 Wave 3 completed: [Task_5]
+  - Summary: Strict backlog format review completed by Orchestrator.
+  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
+  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
