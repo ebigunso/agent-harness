@@ -40,7 +40,7 @@ questions_for_orchestrator: ["string"]
 assumptions: ["string"]
 
 rule_candidates:
-  - audience: "common|worker|orchestrator"
+  - audience: "common|worker|orchestrator|reviewer"
     intended_home: "repo_specific|global_candidate"
     id: "RB-CAND-short"
     rule: "string"

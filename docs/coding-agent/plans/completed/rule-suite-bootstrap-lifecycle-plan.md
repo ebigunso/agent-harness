@@ -1,6 +1,6 @@
 # Plan: Rule Suite Bootstrap Lifecycle
 
-- status: draft
+- status: done
 - generated: 2026-05-13
 - last_updated: 2026-05-13
 - work_type: mixed
@@ -344,6 +344,14 @@ Interpretation:
   - Summary: Verified the provided implementation plan against local repository structure and created this implementation-ready plan.
   - Validation evidence: Local file/path checks confirmed referenced harness areas exist. Added `schema.yaml` to Task_5 based on local report-contract schema content.
   - Notes: No implementation work has started.
+- 2026-05-13 Implementation completed through Task_11:
+  - Summary: Updated rulebook lifecycle references, Orchestrator fast path, role adapters, report contract, plan/dispatch guidance, latent-risk references, package validation, fixture coverage, and ADR-D-0006.
+  - Validation evidence: `python scripts/validate_harness_package.py` passed; `python scripts/run_validation_smoke_tests.py` passed; `python skills/plan-format/scripts/validate_plan.py --file tests/fixtures/valid-plan.md --mode balanced` passed; `python skills/subagent-report-contract/scripts/validate_worker_report.py --file tests/fixtures/valid-worker-report.yaml` passed; `python skills/subagent-report-contract/scripts/validate_worker_report.py --file tests/fixtures/valid-worker-report-reviewer-candidate.yaml` passed.
+  - Notes: Independent Reviewer gate remains pending before marking this plan done.
+- 2026-05-13 Reviewer gate completed:
+  - Summary: Initial review found a Task_10 package-validator weakness; after the narrow fix, follow-up Reviewer status was APPROVED.
+  - Validation evidence: `python scripts/validate_harness_package.py` passed from `plugins/coding-agent-orchestration-harness`; `python scripts/run_validation_smoke_tests.py` passed from `plugins/coding-agent-orchestration-harness`; both Worker report fixture validations passed from plugin root; active plan validation passed from repo root with the large-task-count warning; `git diff --check` passed.
+  - Notes: Plan completion allowed.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -351,7 +359,17 @@ Interpretation:
   - Trigger / new insight: `skills/subagent-report-contract/references/schema.yaml` contains the old rule candidate audience shape but was not listed in the provided Task_5 owns.
   - Plan delta (what changed): Added `schema.yaml` to Task_5 owns and acceptance scope.
   - Tradeoffs considered: Leaving it out would make the contract prose, validator, and schema reference inconsistent.
-  - User approval: pending.
+  - User approval: yes; implementation started after user approval.
+- 2026-05-13 Decision:
+  - Trigger / new insight: `skills/improvement-loop/references/entry-template.md` still names the old rule candidate audience set.
+  - Plan delta (what changed): No implementation scope expansion; this file is outside the approved owns and is recorded as follow-up risk.
+  - Tradeoffs considered: Updating it would reduce stale guidance, but would expand the approved scope beyond the report-contract and rulebook surfaces.
+  - User approval: not requested.
+- 2026-05-13 Decision:
+  - Trigger / new insight: Reviewer found that package validation checked broad `reviewer` token presence rather than the exact Worker report audience enum.
+  - Plan delta (what changed): Tightened `validate_harness_package.py` to verify `ALLOWED_AUDIENCE` exactly and parse explicit schema/contract audience lines with pipe-spacing tolerance.
+  - Tradeoffs considered: Exact enum and contract-field checks better protect the acceptance criterion while preserving structure-only validation.
+  - User approval: implicit in requested review/closeout flow.
 
 ## Notes
 - Risks:

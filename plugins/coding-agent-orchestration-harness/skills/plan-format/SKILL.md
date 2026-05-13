@@ -41,6 +41,7 @@ Design assumptions:
 - If acceptance requires edits outside `owns`, split/re-scope tasks before execution.
 - Every `validation` item must explicitly state `required` and `owner`.
 - If `required: true`, do not mark that task done without evidence for that item.
+- For non-trivial repository work, derive validation items from the repo rule suite when available. Do not require bootstrap for trivial work.
 
 6) Execution logs:
 - A plan MUST include:

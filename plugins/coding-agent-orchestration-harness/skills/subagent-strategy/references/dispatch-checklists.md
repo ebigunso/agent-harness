@@ -11,6 +11,7 @@ Include:
 - Tooling preference: prefer semantic, symbol-aware, and diagnostics capabilities when available; otherwise fall back to targeted text search and file reads
 - Browser artifact rule: if browser exploration is used, name the selected provider and save evidence under the provider-defined artifact root
 - Local-only browser rule (localhost/127.0.0.1 unless explicitly configured)
+- For rule-suite bootstrap or refresh research, require read-only deliverables: existing suite status, inspected sources, validation mapping, agent instruction files, repo reference docs, safety boundaries, review hotspots, contradictions, suggested operation, and confidence.
 
 Optional (only if it materially steers decisions):
 - Context / Rationale (2–5 bullets)
@@ -46,6 +47,7 @@ Include:
   - include the E2E spec (shape per playwright-e2e-evidence)
   - require evidence screenshots under the provider-defined artifact root
   - require console/network notes if specified
+- When review-specific repository policy matters, include `docs/coding-agent/rules/reviewer.md` in the packet and name any relevant review hotspots from that file.
 
 Optional (only if it materially steers decisions):
 - Context / Rationale (2–5 bullets)

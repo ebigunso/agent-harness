@@ -20,6 +20,29 @@ Purpose:
 
 ## Entries
 
+## 2026-05-13 - Validate Exact Enum Sources, Not Broad Tokens  [tags: validation, review, tooling]
+
+Context:
+- Plan: docs/coding-agent/plans/active/rule-suite-bootstrap-lifecycle-plan.md
+- Task/Wave: Reviewer closeout for Task_10 package validation
+- Roles involved: Orchestrator, Reviewer
+
+Symptom:
+- Package validation claimed to verify `rule_candidates[].audience: reviewer`, but only checked that contract files contained the broad string `reviewer`.
+
+Root cause:
+- The structural validator used substring presence as a proxy for the exact enum source, so it could pass from unrelated `reviewer` tokens such as validation owners.
+
+Fix applied:
+- Tightened `validate_harness_package.py` to inspect the exact `ALLOWED_AUDIENCE` set and the explicit schema/contract audience line.
+
+Prevention:
+- For enum or schema expansion checks, validate the exact enum source or contract field instead of broad token presence.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.
+  - scope: harness package validators and contract fixtures.
+
 ## 2026-05-13 - Use Feature Branch Naming And Escalate Nested Ref Creation  [tags: tooling, git, workflow]
 
 Context:

@@ -23,6 +23,26 @@ Rules:
 - Do not edit workspace files.
 - If you do browser exploration, name the selected provider and save evidence under that provider's artifact root.
 
+## Researcher snippet: rule-suite bootstrap or refresh
+
+Objective:
+Discover repository facts needed to bootstrap, migrate, repair, or refresh `docs/coding-agent/rules/*`.
+
+Scope:
+Read-only. Do not edit rule files.
+
+Deliverables:
+- existing rule-suite status
+- source files inspected
+- validation / CI command mapping
+- agent instruction files found
+- repo reference docs
+- safety boundaries
+- review hotspots
+- rule/source contradictions
+- suggested operation: full_bootstrap | schema_migration | targeted_refresh | repair | none
+- confidence
+
 ## Researcher snippet (UI baseline focus)
 
 Objective:
@@ -75,3 +95,12 @@ Rules:
 - Do not print the full checklist.
 - Do not report irrelevant `N/A` criteria.
 - Do not approve if an applicable latent-risk item is FAIL without waiver or accepted residual risk.
+
+## Reviewer snippet (repo review policy)
+
+Use when review-specific repository policy matters.
+
+Rules:
+- Include `docs/coding-agent/rules/reviewer.md` in the packet if present and relevant.
+- Name relevant review hotspots from that file.
+- Do not read `_lifecycle.json` unless lifecycle work is part of the review.

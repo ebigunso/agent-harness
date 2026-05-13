@@ -1,0 +1,32 @@
+task_id: "Task_2"
+status: done
+summary: "Implemented docs update and proposed a reviewer rule candidate."
+files_changed:
+  - path: "docs/example.md"
+    change: modified
+    intent: "Document behavior"
+commands_run:
+  - command: "python -m py_compile example.py"
+    result: pass
+    notes: "Compile passed."
+validation_results:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "python -m py_compile example.py"
+    status: pass
+    evidence: "Exit code 0."
+tests:
+  ran: true
+  notes: "Compile check ran."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates:
+  - audience: reviewer
+    intended_home: repo_specific
+    id: "RB-CAND-review-hotspot"
+    rule: "Review changes to generated diagnostics against production error output."
+    rationale: "This prevents repeated review misses around diagnostic fidelity."
+    scope: "Reviewer-owned evidence and review-risk hotspots."
+    example: "A changed validation error should include evidence from the production entrypoint."
