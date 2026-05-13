@@ -165,9 +165,17 @@ last_updated: "YYYY-MM-DD"
 | Trigger | Evidence Required | Source |
 |---|---|---|
 
-## Copilot Finding Prevention
+## Review Heuristics
+
+Repository-specific review checks that are not mechanical gates and not tied to one tool.
+
+## Recurring Misses And Prevention
+
+Durable patterns learned from prior review misses, phrased as reusable prevention rules.
 
 ## Mechanical Gate Candidates
+
+Checks that should eventually move into scripts, validators, CI, or package validation.
 
 ## Global Migration Candidates
 ```

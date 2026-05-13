@@ -20,6 +20,25 @@ Purpose:
 
 ## Entries
 
+## 2026-05-13 - Avoid Tool-Specific Catch-All Rule Sections  [tags: assumptions, review, skill-maintenance]
+
+Context:
+- Task: refine reviewer rule suite bootstrap template and bootstrapped repository reviewer rules.
+- Roles involved: Orchestrator
+
+Symptom:
+- The reviewer rule template used `Copilot Finding Prevention` as a durable section heading.
+
+Root cause:
+- A design-time review source was promoted into the durable repository rule taxonomy, creating a broad tool-specific bucket that could collect unrelated memos instead of routing them to better sections.
+
+Fix applied:
+- Replaced the section with `Review Heuristics` and `Recurring Misses And Prevention`, and updated lifecycle sidecar section identifiers accordingly.
+
+Prevention:
+- Durable rule sections should describe the repository convention or review semantics, not the tool or reviewer that surfaced the issue.
+- Use `Recurring Misses And Prevention` only for generalized reusable prevention rules; route mechanical checks, risk taxonomy, evidence requirements, and global candidates to their own sections.
+
 ## 2026-05-13 - Validate Exact Enum Sources, Not Broad Tokens  [tags: validation, review, tooling]
 
 Context:

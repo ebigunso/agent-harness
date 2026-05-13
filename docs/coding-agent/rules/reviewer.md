@@ -33,11 +33,17 @@ last_updated: "2026-05-13"
 | Rule-suite lifecycle changes | Confirm full-suite validity is derived from required files, shared `suite_id`, schema version, sidecar presence, and contradiction/source-drift signals. | `skills/rulebook/references/` |
 | Plan lifecycle closeout | Confirm completed plans are moved under `docs/coding-agent/plans/completed/` and status is `done`. | `docs/coding-agent/plans/` |
 
-## Copilot Finding Prevention
+## Review Heuristics
+
+- For skill and adapter changes, check prompt-budget discipline and shared-skill centralization even when package structure validation passes.
+- For rule lifecycle wording, check that normal fast paths remain cheap and lifecycle sidecar reads stay limited to lifecycle work.
+
+## Recurring Misses And Prevention
 
 - After moving a plan from `active` to `completed`, update any durable lesson or ADR references to the completed path.
 - When fast-path guidance says not to read a sidecar in normal work, do not add adjacent wording that implicitly requires reading the sidecar to decide triviality.
 - For enum/schema package checks, verify the exact enum owner or contract field rather than broad token presence.
+- Durable rule sections should describe repository convention or review semantics, not the tool or reviewer that surfaced an issue.
 
 ## Mechanical Gate Candidates
 

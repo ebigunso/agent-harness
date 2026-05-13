@@ -63,7 +63,8 @@ It should stay out of normal task context. Read it only for bootstrap, repair, s
       ],
       "affects": [
         "reviewer.review_risk_hotspots",
-        "reviewer.copilot_finding_prevention"
+        "reviewer.review_heuristics",
+        "reviewer.recurring_misses_prevention"
       ]
     }
   },

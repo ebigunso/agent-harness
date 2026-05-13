@@ -86,7 +86,8 @@
         "common.reference_documents",
         "orchestrator.repo_policies",
         "reviewer.review_risk_hotspots",
-        "reviewer.copilot_finding_prevention"
+        "reviewer.review_heuristics",
+        "reviewer.recurring_misses_prevention"
       ]
     }
   },
@@ -105,9 +106,9 @@
       "supports": [
         "common.safety_boundaries",
         "orchestrator.repo_policies",
-        "reviewer.copilot_finding_prevention"
+        "reviewer.recurring_misses_prevention"
       ],
-      "notes": "Captures recent branch naming, exact enum validation, ADR provenance, and skill maintenance lessons."
+      "notes": "Captures recent branch naming, exact enum validation, ADR provenance, skill maintenance, and durable rule taxonomy lessons."
     },
     {
       "path": "docs/coding-agent/plans/completed/rule-suite-bootstrap-lifecycle-plan.md",

@@ -50,7 +50,8 @@ Required sections:
 - Repo-Specific Reviewer Notes
 - Review Risk Hotspots
 - Required Reviewer-Owned Evidence
-- Copilot Finding Prevention
+- Review Heuristics
+- Recurring Misses And Prevention
 - Mechanical Gate Candidates
 - Global Migration Candidates
 
