@@ -90,6 +90,7 @@ def check_skills(errors: list[str]) -> None:
         "worker-ui-probes",
         "wave-integration",
         "runtime-adapter-contract",
+        "rulebook",
     ]
     for name in required:
         path = skills_dir / name / "SKILL.md"
@@ -172,6 +173,97 @@ def check_adapter_duplication(warnings: list[str]) -> None:
             warn(warnings, f"{path}: possible copied orchestration workflow sections ({hits} markers)")
 
 
+def check_rulebook_lifecycle(errors: list[str]) -> None:
+    rulebook = ROOT / "skills" / "rulebook"
+    refs = rulebook / "references"
+    for name in ("bootstrap-lifecycle.md", "rule-suite-templates.md", "lifecycle-sidecar.md"):
+        path = refs / name
+        if not path.exists():
+            fail(errors, f"missing rulebook lifecycle reference: {path}")
+
+    rules_files = refs / "rules-files.md"
+    if not rules_files.exists():
+        fail(errors, f"missing rules-files reference: {rules_files}")
+        return
+    text = rules_files.read_text(encoding="utf-8")
+    for token in ("index.md", "common.md", "worker.md", "orchestrator.md", "reviewer.md", "_lifecycle.json"):
+        if token not in text:
+            fail(errors, f"{rules_files}: missing required rule-suite token: {token}")
+
+
+def check_reviewer_adapters(errors: list[str]) -> None:
+    expected = "docs/coding-agent/rules/reviewer.md"
+    paths = [
+        ROOT / "agents" / "Reviewer.md",
+        ROOT / "claude" / "agents" / "harness-reviewer.md",
+        ROOT / "codex" / "agent-templates" / "harness_reviewer.toml",
+    ]
+    for path in paths:
+        if not path.exists():
+            fail(errors, f"missing Reviewer adapter: {path}")
+            continue
+        if expected not in path.read_text(encoding="utf-8"):
+            fail(errors, f"{path}: Reviewer adapter must mention {expected}")
+
+
+def check_worker_report_reviewer_audience(errors: list[str]) -> None:
+    validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
+    schema = ROOT / "skills" / "subagent-report-contract" / "references" / "schema.yaml"
+    contract = ROOT / "skills" / "subagent-report-contract" / "SKILL.md"
+    for path in (validator, schema, contract):
+        if not path.exists():
+            fail(errors, f"missing Worker report contract file: {path}")
+
+    if validator.exists():
+        validator_text = validator.read_text(encoding="utf-8")
+        match = re.search(r"ALLOWED_AUDIENCE\s*=\s*\{([^}]+)\}", validator_text)
+        if not match:
+            fail(errors, f"{validator}: missing ALLOWED_AUDIENCE set")
+        else:
+            audience_values = set(re.findall(r'"([^"]+)"|\'([^\']+)\'', match.group(1)))
+            flattened = {left or right for left, right in audience_values}
+            if flattened != {"common", "worker", "orchestrator", "reviewer"}:
+                fail(errors, f"{validator}: ALLOWED_AUDIENCE must be common/worker/orchestrator/reviewer")
+
+    expected = {"common", "worker", "orchestrator", "reviewer"}
+    for path in (schema, contract):
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        match = re.search(r"audience:\s*(?:\"([^\"]+)\"|([^\n]+))", text)
+        if not match:
+            fail(errors, f"{path}: missing rule_candidates audience line")
+            continue
+        audience_text = (match.group(1) or match.group(2)).strip()
+        values = {part.strip() for part in audience_text.split("|")}
+        if values != expected:
+            fail(errors, f"{path}: Worker report audience line must allow common/worker/orchestrator/reviewer")
+
+
+def check_latent_risk_references(errors: list[str]) -> None:
+    refs = ROOT / "skills" / "engineering-quality-baselines" / "references"
+    router = refs / "review-latent-risk.md"
+    if not router.exists():
+        fail(errors, f"missing latent-risk router: {router}")
+        return
+    router_text = router.read_text(encoding="utf-8")
+    required = [
+        "review-latent-risk-public-api.md",
+        "review-latent-risk-entrypoints-admission.md",
+        "review-latent-risk-diagnostics.md",
+        "review-latent-risk-build-ci.md",
+    ]
+    for name in required:
+        if name not in router_text:
+            fail(errors, f"{router}: missing conditional reference: {name}")
+        if not (refs / name).exists():
+            fail(errors, f"missing conditional latent-risk reference: {refs / name}")
+
+    for match in re.findall(r"`(review-latent-risk-[^`]+\.md)`", router_text):
+        if not (refs / match).exists():
+            fail(errors, f"{router}: referenced latent-risk file does not exist: {match}")
+
+
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
@@ -180,6 +272,10 @@ def main() -> int:
     check_role_map(errors)
     check_codex(errors)
     check_adapter_duplication(warnings)
+    check_rulebook_lifecycle(errors)
+    check_reviewer_adapters(errors)
+    check_worker_report_reviewer_audience(errors)
+    check_latent_risk_references(errors)
 
     for message in warnings:
         print(f"WARNING: {message}", file=sys.stderr)

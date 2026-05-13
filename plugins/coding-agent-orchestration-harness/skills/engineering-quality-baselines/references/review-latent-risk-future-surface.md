@@ -23,6 +23,10 @@ Flag:
 
 Allow these only when there is a current caller or explicit lifecycle/rationale.
 
+3. Abstraction value and searchability
+- Check whether a new abstraction removes real complexity or only hides simple logic behind a harder-to-search layer.
+- Prefer names and locations that future maintainers can find from domain terms, public API names, errors, and call sites.
+
 ## Output
 
 Distinguish between harmless unused local code and production API surface that creates maintenance cost.

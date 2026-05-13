@@ -1,0 +1,20 @@
+# Latent-Risk Review: Build, Features, and Strict CI
+
+Read when the change touches cfgs, feature flags, test-only paths, platform-specific code, imports, lints, docs, examples, warning-sensitive code, or CI/build-sensitive behavior.
+
+## Checks
+
+1. Feature and cfg parity
+- Check that feature-gated, platform-specific, and test-only paths compile or are intentionally excluded.
+- Verify equivalent behavior across enabled/disabled features when the public contract claims parity.
+
+2. Strict CI hygiene
+- Look for unused imports, dead cfg branches, doc warnings, generated-code drift, examples that no longer compile, and warnings-as-errors failures.
+- Confirm tests exercise the relevant feature/cfg combination when risk is meaningful.
+
+3. Build intent
+- Distinguish intentional admission of a new entrypoint, feature, or target from accidental exposure through broad cfg or manifest changes.
+
+## Output
+
+Report build or CI risks with the affected feature, cfg, target, lint, doc, or example path.

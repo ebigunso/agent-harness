@@ -20,6 +20,68 @@ Purpose:
 
 ## Entries
 
+## 2026-05-13 - Avoid Tool-Specific Catch-All Rule Sections  [tags: assumptions, review, skill-maintenance]
+
+Context:
+- Task: refine reviewer rule suite bootstrap template and bootstrapped repository reviewer rules.
+- Roles involved: Orchestrator
+
+Symptom:
+- The reviewer rule template used `Copilot Finding Prevention` as a durable section heading.
+
+Root cause:
+- A design-time review source was promoted into the durable repository rule taxonomy, creating a broad tool-specific bucket that could collect unrelated memos instead of routing them to better sections.
+
+Fix applied:
+- Replaced the section with `Review Heuristics` and `Recurring Misses And Prevention`, and updated lifecycle sidecar section identifiers accordingly.
+
+Prevention:
+- Durable rule sections should describe the repository convention or review semantics, not the tool or reviewer that surfaced the issue.
+- Use `Recurring Misses And Prevention` only for generalized reusable prevention rules; route mechanical checks, risk taxonomy, evidence requirements, and global candidates to their own sections.
+
+## 2026-05-13 - Validate Exact Enum Sources, Not Broad Tokens  [tags: validation, review, tooling]
+
+Context:
+- Plan: docs/coding-agent/plans/completed/rule-suite-bootstrap-lifecycle-plan.md
+- Task/Wave: Reviewer closeout for Task_10 package validation
+- Roles involved: Orchestrator, Reviewer
+
+Symptom:
+- Package validation claimed to verify `rule_candidates[].audience: reviewer`, but only checked that contract files contained the broad string `reviewer`.
+
+Root cause:
+- The structural validator used substring presence as a proxy for the exact enum source, so it could pass from unrelated `reviewer` tokens such as validation owners.
+
+Fix applied:
+- Tightened `validate_harness_package.py` to inspect the exact `ALLOWED_AUDIENCE` set and the explicit schema/contract audience line.
+
+Prevention:
+- For enum or schema expansion checks, validate the exact enum source or contract field instead of broad token presence.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.
+  - scope: harness package validators and contract fixtures.
+
+## 2026-05-13 - Use Feature Branch Naming And Escalate Nested Ref Creation  [tags: tooling, git, workflow]
+
+Context:
+- Task: create a branch for rule-suite bootstrap lifecycle work.
+- Roles involved: Orchestrator
+
+Symptom:
+- Creating `codex/rule-suite-bootstrap-lifecycle` failed in the sandbox with `unable to create directory for .git/refs/heads/...`; creating `feature/2026-05-13/rule-suite-bootstrap-lifecycle` failed the same way until the Git command was rerun with approved filesystem access.
+
+Root cause:
+- The branch names were valid. The failure came from sandboxed writes to nested Git ref paths under `.git/refs/heads/`, not from a naming conflict or invalid branch format.
+
+Fix applied:
+- Verified no loose or packed `codex` ref existed, reran nested branch creation with approval, and switched to `feature/2026-05-13/rule-suite-bootstrap-lifecycle`.
+
+Prevention:
+- Prefer `feature/YYYY-MM-DD/<feature-name>` branch names in this repository unless the user requests another convention.
+- When a nested branch name fails with `unable to create directory for .git/refs/heads/...`, inspect refs briefly, then rerun the Git branch/switch command with filesystem approval instead of changing naming conventions.
+- Do not manually edit `.git` internals to work around nested ref creation failures.
+
 ## 2026-04-26 - Keep Skill Content Version Agnostic  [tags: skill-maintenance, assumptions]
 
 Context:

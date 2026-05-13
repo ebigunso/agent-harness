@@ -82,4 +82,5 @@ then include `lesson_candidates` in your YAML report (atomic entries).
 - If blocked/failed: include precise blockers and questions (max ~3 recommended).
 - If you performed non-obvious recovery steps: include them as lesson_candidates.
 - Keep lesson candidates atomic (one failure category per candidate).
+- Use `rule_candidates[].audience: reviewer` only for review policy, review-risk hotspots, Reviewer-owned evidence, or recurring review misses.
 """

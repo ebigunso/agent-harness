@@ -18,6 +18,22 @@ Use this shape when dispatching Reviewer after a Worker wave.
 
 ## Worker UI Probes, If Any
 
+## Repo Rules Consulted
+
+Include only when applicable.
+
+- `index.md`:
+  - schema:
+  - suite_id:
+  - lifecycle sidecar read: yes | no
+  - reason if read:
+- `common.md`:
+- `worker.md`:
+- `orchestrator.md`:
+- `reviewer.md`:
+- Rule freshness concerns:
+- Rule refresh or waiver status:
+
 ## Known Waivers
 
 ## Known Blockers/Questions

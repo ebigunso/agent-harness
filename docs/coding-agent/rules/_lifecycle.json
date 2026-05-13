@@ -1,0 +1,131 @@
+{
+  "rule_schema_version": 2,
+  "suite_id": "rules-20260513-b80f05e",
+  "bootstrapped_at": "2026-05-13T17:57:22+09:00",
+  "baseline": {
+    "kind": "worktree",
+    "description": "Initial repository rule-suite bootstrap."
+  },
+  "required_files": {
+    "index": "docs/coding-agent/rules/index.md",
+    "common": "docs/coding-agent/rules/common.md",
+    "worker": "docs/coding-agent/rules/worker.md",
+    "orchestrator": "docs/coding-agent/rules/orchestrator.md",
+    "reviewer": "docs/coding-agent/rules/reviewer.md"
+  },
+  "refresh_groups": {
+    "validation": {
+      "patterns": [
+        ".github/workflows/**",
+        ".gitlab-ci.yml",
+        "package.json",
+        "Cargo.toml",
+        "pyproject.toml",
+        "go.mod",
+        "Makefile",
+        "Justfile",
+        "Taskfile.yml",
+        "plugins/coding-agent-orchestration-harness/scripts/**",
+        "plugins/coding-agent-orchestration-harness/tests/fixtures/**",
+        "plugins/coding-agent-orchestration-harness/skills/*/scripts/**"
+      ],
+      "affects": [
+        "common.validation_commands",
+        "worker.check_mapping",
+        "reviewer.required_evidence"
+      ]
+    },
+    "harness_package_contract": {
+      "patterns": [
+        "plugins/coding-agent-orchestration-harness/README.md",
+        "plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json",
+        "plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json",
+        "plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json",
+        "plugins/coding-agent-orchestration-harness/skills/*/SKILL.md",
+        "plugins/coding-agent-orchestration-harness/skills/*/references/**"
+      ],
+      "affects": [
+        "common.reference_documents",
+        "common.validation_commands",
+        "worker.check_mapping",
+        "orchestrator.repo_policies",
+        "reviewer.required_evidence",
+        "reviewer.review_risk_hotspots"
+      ]
+    },
+    "agent_instructions": {
+      "patterns": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".github/copilot-instructions.md",
+        ".github/instructions/**",
+        "plugins/coding-agent-orchestration-harness/agents/**",
+        "plugins/coding-agent-orchestration-harness/claude/agents/**",
+        "plugins/coding-agent-orchestration-harness/codex/agent-templates/**",
+        "plugins/coding-agent-orchestration-harness/codex/snippets/**"
+      ],
+      "affects": [
+        "common.reference_documents",
+        "orchestrator.repo_policies",
+        "reviewer.review_risk_hotspots"
+      ]
+    },
+    "review_policy": {
+      "patterns": [
+        "CONTRIBUTING.md",
+        "docs/testing/**",
+        "docs/development/**",
+        "docs/coding-agent/lessons.md",
+        "docs/coding-agent/plans/**",
+        "docs/coding-agent-orchestration-harness/decisions/**",
+        "plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/**",
+        "plugins/coding-agent-orchestration-harness/skills/rulebook/**"
+      ],
+      "affects": [
+        "common.reference_documents",
+        "orchestrator.repo_policies",
+        "reviewer.review_risk_hotspots",
+        "reviewer.review_heuristics",
+        "reviewer.recurring_misses_prevention"
+      ]
+    }
+  },
+  "source_evidence": [
+    {
+      "path": "plugins/coding-agent-orchestration-harness/README.md",
+      "supports": [
+        "common.reference_documents",
+        "common.validation_commands",
+        "worker.check_mapping"
+      ],
+      "notes": "Documents plugin layout, runtime paths, validators, Codex bootstrap, and ADR location."
+    },
+    {
+      "path": "docs/coding-agent/lessons.md",
+      "supports": [
+        "common.safety_boundaries",
+        "orchestrator.repo_policies",
+        "reviewer.recurring_misses_prevention"
+      ],
+      "notes": "Captures recent branch naming, exact enum validation, ADR provenance, skill maintenance, and durable rule taxonomy lessons."
+    },
+    {
+      "path": "docs/coding-agent/plans/completed/rule-suite-bootstrap-lifecycle-plan.md",
+      "supports": [
+        "common.reference_documents",
+        "orchestrator.repo_policies",
+        "reviewer.required_evidence"
+      ],
+      "notes": "Records the completed implementation plan and validation evidence for rule-suite lifecycle support."
+    },
+    {
+      "path": "docs/coding-agent-orchestration-harness/decisions/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md",
+      "supports": [
+        "orchestrator.repo_policies",
+        "reviewer.review_risk_hotspots"
+      ],
+      "notes": "Defines the full rule suite, low-token index, lifecycle sidecar, and derived validity model."
+    }
+  ]
+}

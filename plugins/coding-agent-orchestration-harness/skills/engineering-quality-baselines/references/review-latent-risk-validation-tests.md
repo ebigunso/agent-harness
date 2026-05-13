@@ -20,6 +20,7 @@ Common risk tests:
 - lifecycle edge
 - disabled tracing
 - no production caller
+- production-reachable behavior, not only direct helper calls
 - stale cache
 - retry after partial failure
 - fake vs production parity

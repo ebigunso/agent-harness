@@ -39,6 +39,34 @@ Non-trivial work requires a plan plus user approval unless explicitly waived by 
 
 Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/plans/active/`; create that directory if missing. Completed plans move to `docs/coding-agent/plans/completed/`.
 
+### Rule Suite Fast Path
+
+Do not run repository rule bootstrap as a per-task ritual.
+
+For trivial work, skip rule-readiness checks unless the task directly touches:
+- `docs/coding-agent/rules/**`;
+- CI or validation sources;
+- build/package manifests;
+- agent instruction files;
+- known refresh-source paths from lifecycle metadata that was already read for prior lifecycle work.
+
+Do not read `_lifecycle.json` solely to decide whether trivial work can stay on the fast path. If refresh-source matching is unknown and no other trigger applies, keep the trivial fast path.
+
+For non-trivial work, use repo rules when they are needed for planning, validation, review policy, or repository-specific constraints.
+
+Fast path:
+1. Read `docs/coding-agent/rules/index.md` only when repo rules are relevant.
+2. If `index.md` exists, schema matches, required files exist, and no current task signal invalidates the rules, use the relevant role rule files.
+3. Do not read `_lifecycle.json` unless lifecycle work is needed.
+
+Use `rulebook` for:
+- full bootstrap when the suite is missing or corrupt;
+- schema migration when schema is outdated;
+- targeted refresh when rule-source files changed or contradictions are found;
+- repair when required files or suite IDs do not match.
+
+If required validation cannot be selected confidently because rules are missing or stale, bootstrap or refresh the rule suite before dispatching Worker tasks, unless explicitly waived with rationale.
+
 ### 2. Research Dispatch Gate
 
 Non-trivial work requires Researcher context before repository exploration outside `docs/coding-agent/**`, unless the work is trivial and the Orchestrator records `Research waived: <reason>` before execution.
@@ -58,6 +86,8 @@ Do not dispatch a Worker until the target Task_X has:
 - validation items with `kind`, `required`, `owner`, and `detail`.
 
 Each acceptance criterion must be satisfiable within `owns`. Every required validation item must have explicit owner (`worker`, `reviewer`, `orchestrator`, or `user`). If either check fails, stop and replan before dispatch.
+
+When repo rules are available and relevant, derive validation items from the rule suite before dispatch. If rules are missing, corrupt, schema-mismatched, or source-drifted and validation cannot be selected confidently, route through `rulebook` or record an explicit waiver before dispatch.
 
 Dispatch Workers in parallel by default when dependencies are met and `owns` are disjoint. Use `subagent-strategy` for prompt structure, dispatch checklists, and complex research/worker splits.
 
@@ -86,6 +116,7 @@ Before final done:
 - all required Worker and Reviewer validation evidence is pass or waived;
 - no unresolved blockers remain;
 - plan lifecycle state is updated;
+- if the task edited rule-source files, targeted rule refresh is complete or explicitly waived with rationale;
 - active plans are moved to completed when the repository uses active/completed plan folders.
 
 If any required closeout evidence is missing, report blocked and resolve or waive before declaring done.

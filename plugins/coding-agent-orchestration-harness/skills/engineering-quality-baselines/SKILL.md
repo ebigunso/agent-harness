@@ -44,7 +44,7 @@ Load only relevant categories:
 - Validation and evidence model: `references/testing-validation.md` (when selecting required checks and evidence depth)
 - Security boundaries: `references/security-boundaries.md` (when auth, secrets, trust boundaries, or data sensitivity are touched)
 - Review scoring summary: `references/review-rubric.md` (when performing PR/code review or final quality scoring)
-- Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, future-edit brittleness, validation-boundary issues, or risk-specific tests)
+- Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, or risk-specific tests)
 
 Then load only applicable language/tech details:
 - Rust: `references/language-rust.md`

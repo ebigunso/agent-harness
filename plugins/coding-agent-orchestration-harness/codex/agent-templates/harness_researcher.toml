@@ -123,7 +123,18 @@ If you hit a deviation while researching (missing docs, unclear startup, flaky U
 - prevention:
 - promotion_target: rules/* | references/* | troubleshooting/* | global-skill
 
-H) Skill Candidate Suggestions (optional)
+H) Rule Suite / Rule Freshness Observations (ONLY if Orchestrator requested rule bootstrap, schema migration, targeted refresh, repair, or rule-readiness research)
+- Rules consulted:
+- Existing rule-suite status:
+- Source files inspected:
+- Validation / CI commands discovered:
+- Path or change-type to command mapping:
+- Reviewer risk hotspots, if relevant:
+- Rule/source contradictions found:
+- Suggested operation: full_bootstrap | schema_migration | targeted_refresh | repair | none
+- Confidence:
+
+I) Skill Candidate Suggestions (optional)
 If you notice a reusable cross-repo workflow/tool integration that warrants a Skill:
 - skill name (kebab-case)
 - trigger description draft

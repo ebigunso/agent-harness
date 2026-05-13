@@ -17,6 +17,10 @@ During PR/code review or final Reviewer approval, identify whether the change to
 5. Hot paths, loops over growing data, locks, repeated scans/sorts/allocations/I/O.
 6. Enum/list/caller expansion brittleness, dead code, speculative APIs, test-only production surface.
 7. Domain/config construction, validation boundaries, risky behavior lacking targeted regression tests.
+8. Public or semi-public API surface, exports, prelude/crate-root visibility, docs/examples, feature-gated public items, or downstream-facing DTOs.
+9. Multiple entrypoints, explicit vs inferred intent, admission/filtering, candidate vs accepted sets, or side effects after selection.
+10. Errors, warnings, diagnostics, health, metrics, traces, telemetry, or debug metadata.
+11. Build cfg, feature flags, test-only code, strict lints, warnings-as-errors, docs warnings, or CI-sensitive hygiene.
 
 ## Conditional References
 
@@ -37,6 +41,18 @@ Read `review-latent-risk-future-surface.md` when:
 
 Read `review-latent-risk-validation-tests.md` when:
 - invalid values may be constructible, validation is delayed until use, or the change has fallback/merge/lifecycle/corrupt-data/duplicate/race behavior that needs targeted regression coverage.
+
+Read `review-latent-risk-public-api.md` when:
+- public or semi-public API surface, exports, re-exports, prelude/crate-root visibility, docs/examples, feature-gated public items, or downstream-facing DTOs change.
+
+Read `review-latent-risk-entrypoints-admission.md` when:
+- the same domain action enters through multiple APIs, or candidate data is filtered, admitted, rejected, hydrated, recorded, cached, counted, emitted, or enqueued.
+
+Read `review-latent-risk-diagnostics.md` when:
+- the change emits or modifies errors, health state, metrics, traces, telemetry, validation failures, rejection diagnostics, or debug details.
+
+Read `review-latent-risk-build-ci.md` when:
+- the change touches cfgs, feature flags, test-only paths, platform-specific code, imports, lints, docs, examples, warning-sensitive code, or CI/build-sensitive behavior.
 
 ## Reporting Rule
 
