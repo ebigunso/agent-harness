@@ -1,6 +1,6 @@
 # Plan: Rulebook Rule-File Cleanup
 
-- status: draft
+- status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
 - work_type: docs
@@ -163,6 +163,14 @@
   - Summary: Added implementation plan for removing global migration sections from repo rule files and rulebook routing.
   - Validation evidence: Plan-format self-check.
   - Notes: Awaiting approval before execution.
+- 2026-05-14 Waves 1-3 completed: [Task_1, Task_2, Task_3]
+  - Summary: Updated rulebook ownership language, rule candidate routing, rule templates, and stale rule-writing migration wording.
+  - Validation evidence: `rg "intended_home|global_candidate|Global Migration Candidates" plugins\coding-agent-orchestration-harness\skills\rulebook` returned no matches after cleanup.
+  - Notes: `Mechanical Gate Candidates` remains repo-local in Worker and Reviewer templates.
+- 2026-05-14 Wave 4 completed: [Task_4]
+  - Summary: Strict rulebook consistency review completed by Orchestrator.
+  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
+  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

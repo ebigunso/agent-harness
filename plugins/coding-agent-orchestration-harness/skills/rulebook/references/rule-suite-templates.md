@@ -79,10 +79,6 @@ last_updated: "YYYY-MM-DD"
 ## Repo Naming / Structure
 
 - None recorded yet.
-
-## Global Migration Candidates
-
-- None.
 ```
 
 ## worker.md
@@ -106,7 +102,7 @@ last_updated: "YYYY-MM-DD"
 | Change Type | Required Checks | Notes |
 |---|---|---|
 
-## Global Migration Candidates
+## Mechanical Gate Candidates
 
 - None.
 ```
@@ -131,7 +127,7 @@ last_updated: "YYYY-MM-DD"
 
 - None recorded yet.
 
-## Global Migration Candidates
+## Rule Suite Refresh Notes
 
 - None.
 ```
@@ -152,13 +148,23 @@ last_updated: "YYYY-MM-DD"
 
 ## Review Risk Hotspots
 
-- Public API compatibility:
-- Derived/cached data:
-- Build configuration / feature parity:
-- Diagnostics / telemetry:
-- Entrypoint intent and admission:
-- Async/runtime model:
-- Collection semantics:
+Suggested durable review categories:
+- public_api_compatibility
+- public_surface_completeness
+- diagnostic_fidelity
+- build_config_parity
+- strict_ci_hygiene
+- entrypoint_intent
+- admission_before_side_effect
+- collection_semantics
+- runtime_model_compatibility
+- abstraction_value_searchability
+- canonical_policy_path
+- authority_vs_derived_data
+- failure_mode_completeness
+- semantic_consistency
+- validation_boundary_correctness
+- risk_based_test_coverage
 
 ## Required Reviewer-Owned Evidence
 
@@ -176,6 +182,4 @@ Durable patterns learned from prior review misses, phrased as reusable preventio
 ## Mechanical Gate Candidates
 
 Checks that should eventually move into scripts, validators, CI, or package validation.
-
-## Global Migration Candidates
 ```
