@@ -60,3 +60,8 @@ Applying rule_candidates:
 - Route by `rule_candidates[].intended_home`:
   - repo_specific -> normal sections
   - global_candidate -> placeholder section
+
+Harness migration staging:
+- `docs/coding-agent/skill-candidates.md` is the canonical backlog for cross-repo harness improvements discovered during target-repository work.
+- `docs/coding-agent/skill-drafts/*.md` holds fuller drafts when a candidate is too large or ambiguous for one backlog entry.
+- Use `references/skill-candidates-file.md` for the required `HMC-*` format.
