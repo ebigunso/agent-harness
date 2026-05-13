@@ -121,7 +121,7 @@ If you hit a deviation while researching (missing docs, unclear startup, flaky U
 - deviation:
 - root_cause:
 - prevention:
-- promotion_target: rules/* | references/* | troubleshooting/* | global-skill
+- promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
 
 H) Rule Suite / Rule Freshness Observations (ONLY if Orchestrator requested rule bootstrap, schema migration, targeted refresh, repair, or rule-readiness research)
 - Rules consulted:
@@ -134,10 +134,14 @@ H) Rule Suite / Rule Freshness Observations (ONLY if Orchestrator requested rule
 - Suggested operation: full_bootstrap | schema_migration | targeted_refresh | repair | none
 - Confidence:
 
-I) Skill Candidate Suggestions (optional)
-If you notice a reusable cross-repo workflow/tool integration that warrants a Skill:
-- skill name (kebab-case)
-- trigger description draft
-- core rules (3-5 bullets)
-- suggested resources (scripts/references/assets)
+I) Harness Migration Candidate Suggestions (optional)
+If you notice a reusable cross-repo workflow/tool integration that warrants future harness-maintenance work:
+- category:
+- proposed_home:
+- generalized_rule:
+- trigger:
+- evidence_from_repo:
+- suggested_change:
+
+Do not edit bundled harness skills, references, agents, validators, or plugin files during ordinary target-repository research. Stage cross-repo improvements for Orchestrator curation.
 """

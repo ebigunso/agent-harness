@@ -1,6 +1,6 @@
 # Plan: Runtime Agent Boundary And Adapter Updates
 
-- status: draft
+- status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
 - work_type: docs
@@ -193,6 +193,14 @@
   - Summary: Added implementation plan for runtime adapter schema alignment and ordinary-runtime bundled edit boundary.
   - Validation evidence: Plan-format self-check.
   - Notes: Awaiting approval before execution.
+- 2026-05-14 Waves 1-4 completed: [Task_1, Task_2, Task_3, Task_4]
+  - Summary: Updated Reviewer and Researcher runtime surfaces across Copilot, Claude, and Codex templates to use new lesson targets and staged harness migration wording.
+  - Validation evidence: Runtime stale-token search for old promotion targets returned no matches.
+  - Notes: Researcher wording changed only because Researcher already emitted lesson and skill-candidate suggestions.
+- 2026-05-14 Wave 5 completed: [Task_5]
+  - Summary: Strict runtime adapter consistency review completed by Orchestrator.
+  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
+  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
