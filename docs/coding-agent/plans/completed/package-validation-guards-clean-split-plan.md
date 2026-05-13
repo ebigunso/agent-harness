@@ -1,6 +1,6 @@
 # Plan: Package Validation Guards For Clean Split
 
-- status: draft
+- status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
 - work_type: test
@@ -205,6 +205,14 @@
   - Summary: Added implementation plan for final package validation guards that enforce the clean split.
   - Validation evidence: Plan-format self-check.
   - Notes: Awaiting approval before execution; should run after the other five plans.
+- 2026-05-14 Waves 1-3 completed: [Task_1, Task_2, Task_3, Task_4, Task_5]
+  - Summary: Stacked prerequisite clean-split work, resolved documentation conflicts, and added deterministic package guards for removed schema/routing targets.
+  - Validation evidence: `python -m py_compile plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py plugins\coding-agent-orchestration-harness\scripts\run_validation_smoke_tests.py` passed; package validation passed; full smoke suite passed.
+  - Notes: Guards scan authoritative current surfaces only, not historical plans.
+- 2026-05-14 Wave 4 completed: [Task_6]
+  - Summary: Strict guard review completed by Orchestrator.
+  - Validation evidence: Conflict marker search returned no matches; smoke suite passed.
+  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
