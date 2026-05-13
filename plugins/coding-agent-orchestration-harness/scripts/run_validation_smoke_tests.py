@@ -129,6 +129,8 @@ def main() -> int:
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-ui-worker-report-with-probes.yaml")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-missing-validation.yaml"), "--task-contract", str(fixtures / "task-contract-required-worker-validation.yaml")], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-done-with-failed-required-validation.yaml")], 3),
+        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-intended-home.yaml")], 3),
+        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-lesson-target.yaml")], 3),
     ]
     ok = True
     for cmd, expected in checks:

@@ -57,20 +57,30 @@ assumptions:
 
 rule_candidates:
   - audience: common | worker | orchestrator | reviewer
-    intended_home: repo_specific | global_candidate
     id: "RB-CAND-<short>"
-    rule: "one-sentence reusable rule"
+    rule: "one-sentence repo rule"
     rationale: "why it prevents rework/risk"
     scope: "where it applies"
     example: "optional; use '' when none"
+
+harness_migration_candidates:
+  - id: "HMC-<short>"
+    category: review | validation | orchestration | delegation | rulebook | troubleshooting | adapter | validator | other
+    proposed_home: "skill/reference/agent/validator/adr hint"
+    generalized_rule: "cross-repo lesson or proposed global rule"
+    trigger: "when this should apply"
+    evidence_from_repo: "what happened in this repo"
+    rationale: "why this is not merely repo-specific"
+    suggested_change: "what a future harness-maintenance pass should update"
 
 Notes:
 - `validation_results` is the evidence contract for required and optional validation items.
 - `ui_probes` is optional and records Worker-owned implementation-local UI probes. It does not satisfy Reviewer-owned validation automatically.
 - `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
-- `rule_candidates` route by `audience` to the destination rules file, then by `intended_home` within that file.
+- `rule_candidates` are always repo-local and route by `audience` to the destination rules file.
 - Use `audience: reviewer` only when the rule candidate affects review policy, review-risk hotspots, Reviewer-owned evidence, or recurring review misses.
-- Do not emit `skill_candidates`; use `lesson_candidates` for deviations and route skill ideas through their own repo docs.
+- Use `harness_migration_candidates` for cross-repo harness improvements that should be staged for later harness-maintenance work.
+- Do not emit `skill_candidates`; use `lesson_candidates` for deviations and `harness_migration_candidates` for proposed harness-global migrations.
 
 ---
 
@@ -114,12 +124,13 @@ lesson_candidates:
     deviation: "what went wrong / what required course correction (1 sentence)"
     root_cause: "why it happened (1 sentence)"
     prevention: "what would prevent recurrence (1 sentence)"
-    promotion_target: "rules/* | references/* | troubleshooting/* | global-skill"
+    promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
+    suggested_destination: "docs/coding-agent/rules/reviewer.md | docs/coding-agent/skill-candidates.md | docs/coding-agent/lessons.md | ..."
 
 Guidance:
 - Keep candidates atomic (one failure category each).
 - Prefer promoting prevention into repo docs/rules when it is repo-specific.
-- Use global-skill only when it is clearly cross-repo.
+- Use `harness_migration` when the prevention is reusable across repositories and should be staged for a later harness-maintenance pass.
 
 ---
 
