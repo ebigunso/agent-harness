@@ -1,7 +1,7 @@
 {
   "rule_schema_version": 2,
   "suite_id": "rules-20260513-b80f05e",
-  "bootstrapped_at": "2026-05-13T00:00:00+09:00",
+  "bootstrapped_at": "2026-05-13T17:57:22+09:00",
   "baseline": {
     "kind": "git",
     "commit": "b80f05e52ed57e29966c74fba4170eeea74de518"
@@ -33,6 +33,24 @@
         "common.validation_commands",
         "worker.check_mapping",
         "reviewer.required_evidence"
+      ]
+    },
+    "harness_package_contract": {
+      "patterns": [
+        "plugins/coding-agent-orchestration-harness/README.md",
+        "plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json",
+        "plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json",
+        "plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json",
+        "plugins/coding-agent-orchestration-harness/skills/*/SKILL.md",
+        "plugins/coding-agent-orchestration-harness/skills/*/references/**"
+      ],
+      "affects": [
+        "common.reference_documents",
+        "common.validation_commands",
+        "worker.check_mapping",
+        "orchestrator.repo_policies",
+        "reviewer.required_evidence",
+        "reviewer.review_risk_hotspots"
       ]
     },
     "agent_instructions": {
