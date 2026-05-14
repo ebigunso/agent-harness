@@ -1,0 +1,22 @@
+task_id: "Task_2"
+status: done
+summary: "Invalid harness migration category."
+files_changed: []
+commands_run: []
+validation_results: []
+tests:
+  ran: false
+  notes: "Fixture should fail because the migration category is invalid."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
+harness_migration_candidates:
+  - id: "HMC-invalid-category"
+    category: global
+    proposed_home: "engineering-quality-baselines/references/example.md"
+    generalized_rule: "Example."
+    trigger: "Example trigger."
+    evidence_from_repo: "Example evidence."
+    rationale: "Example rationale."
+    suggested_change: "Example change."

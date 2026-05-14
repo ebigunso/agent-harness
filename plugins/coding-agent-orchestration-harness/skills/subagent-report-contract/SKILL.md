@@ -63,6 +63,7 @@ rule_candidates:
     scope: "where it applies"
     example: "optional; use '' when none"
 
+# Optional: harness_migration_candidates
 harness_migration_candidates:
   - id: "HMC-<short>"
     category: review | validation | orchestration | delegation | rulebook | troubleshooting | adapter | validator | other
@@ -125,7 +126,7 @@ lesson_candidates:
     root_cause: "why it happened (1 sentence)"
     prevention: "what would prevent recurrence (1 sentence)"
     promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
-    suggested_destination: "docs/coding-agent/rules/reviewer.md | docs/coding-agent/skill-candidates.md | docs/coding-agent/lessons.md | ..."
+    suggested_destination: "optional; docs/coding-agent/rules/reviewer.md | docs/coding-agent/skill-candidates.md | docs/coding-agent/lessons.md | ..."
 
 Guidance:
 - Keep candidates atomic (one failure category each).
