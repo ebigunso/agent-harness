@@ -273,6 +273,19 @@ def check_clean_split_guards(errors: list[str]) -> None:
     rule_templates = ROOT / "skills" / "rulebook" / "references" / "rule-suite-templates.md"
     rules_files = ROOT / "skills" / "rulebook" / "references" / "rules-files.md"
 
+    required_paths = [
+        contract,
+        worker_validator,
+        promotion_guidelines,
+        improvement_loop,
+        post_correction_checklist,
+        rule_templates,
+        rules_files,
+    ]
+    for path in required_paths:
+        if not path.exists():
+            fail(errors, f"missing clean-split guard surface: {path}")
+
     if contract.exists():
         text = contract.read_text(encoding="utf-8")
         if "intended_home" in text:
