@@ -310,7 +310,7 @@ def check_clean_split_guards(errors: list[str]) -> None:
         if not path.exists():
             continue
         text = path.read_text(encoding="utf-8")
-        if "bundled harness skills" not in text or "skill-candidates.md" not in text:
+        if "skill-candidates.md" not in text or not re.search(r"do not edit bundled.*harness", text, re.IGNORECASE | re.DOTALL):
             fail(errors, f"{path}: Orchestrator adapter must stage cross-repo harness improvements instead of ordinary bundled harness edits")
 
     if improvement_loop.exists():
