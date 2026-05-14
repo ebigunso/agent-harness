@@ -206,7 +206,7 @@ Required-check waiver
   - Notes: Researcher wording changed only because Researcher already emitted lesson and skill-candidate suggestions.
 - 2026-05-14 Wave 5 completed: [Task_5]
   - Summary: Strict runtime adapter consistency review completed by Orchestrator.
-  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
+  - Validation evidence: `python plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py` passed; `git diff --check` passed.
   - Notes: Required independent Reviewer validation was waived by Orchestrator for this branch because the review scope is prompt text only and the follow-up review pass was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)

@@ -7,7 +7,7 @@ description: Maintains repository rule files under docs/coding-agent/rules/*.md.
 
 This skill defines how the Orchestrator maintains repository rule files as the source of truth for repo-specific constraints and operating rules.
 
-This skill is for RULES. Harness migration candidates are staged separately in `docs/coding-agent/skill-candidates.md` and drafts under `docs/coding-agent/skill-drafts/`.
+This skill is for RULES. Cross-repo harness improvements are staged separately in `docs/coding-agent/skill-candidates.md` and drafts under `docs/coding-agent/skill-drafts/`.
 
 ---
 
