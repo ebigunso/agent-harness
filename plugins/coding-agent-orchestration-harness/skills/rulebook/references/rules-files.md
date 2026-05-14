@@ -57,4 +57,9 @@ Applying rule_candidates:
 - Route by `rule_candidates[].audience` to the file (common/worker/orchestrator/reviewer).
 - `rule_candidates` are always repo-specific. Apply them to active repo rule sections or repo-local candidate sections such as Mechanical Gate Candidates.
 - Harness-global ideas must be emitted as `harness_migration_candidates` or lesson candidates with `promotion_target: harness_migration`.
-- Stage cross-repo harness improvements in `docs/coding-agent/skill-candidates.md` or fuller drafts under `docs/coding-agent/skill-drafts/*.md`.
+
+Harness migration staging:
+- `docs/coding-agent/skill-candidates.md` is the canonical backlog for cross-repo harness improvements discovered during target-repository work.
+- `docs/coding-agent/skill-drafts/*.md` holds fuller drafts when a candidate is too large or ambiguous for one backlog entry.
+- Use `references/skill-candidates-file.md` for the required `HMC-*` format.
+- Harness migration candidates are not active repo rules. In rule suites that still contain `Global Migration Candidates` sections, those sections belong only to `rule_candidates[].intended_home: global_candidate` routing and should not be used for `HMC-*` backlog entries.

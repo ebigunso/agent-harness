@@ -1,6 +1,6 @@
 ---
 name: rulebook
-description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying repo-local rule_candidates, or adding repo reference documents.
+description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying rule_candidates, adding repo reference documents, or staging harness migration candidates.
 ---
 
 # Skill: rulebook
@@ -41,6 +41,9 @@ If you need lifecycle sidecar shape or refresh-source guidance:
 
 If you need style guidance for writing high-quality rules:
 - Read references/rule-writing-style.md
+
+If you need the required format for harness migration candidates:
+- Read references/skill-candidates-file.md
 
 If you want an optional helper to update last_updated reliably:
 - Run scripts/update_last_updated.py
