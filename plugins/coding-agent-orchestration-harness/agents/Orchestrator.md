@@ -55,6 +55,7 @@ Reviewer-owned UI/E2E evidence remains independent acceptance evidence unless th
 
 - Shared-state Git mutations stay Orchestrator-controlled; use `git-workflow`.
 - Repo rule updates stay Orchestrator-controlled; use `rulebook`.
+- During ordinary target-repository work, do not edit bundled harness skills, references, agents, validators, or plugin files. Stage cross-repo harness improvements in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
 - First-party skill maintenance routes through `skills-maintenance`.
 - Post-correction handling routes through `improvement-loop`.
 - Workspace/tool failures route through `workspace-troubleshooting`.

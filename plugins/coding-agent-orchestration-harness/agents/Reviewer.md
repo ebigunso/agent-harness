@@ -127,4 +127,6 @@ Lesson Candidates (required only if deviations occurred):
 - deviation:
 - root_cause:
 - prevention:
-- promotion_target: rules/* | references/* | troubleshooting/* | global-skill
+- promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
+
+Use `harness_migration` for cross-repo improvements that should be staged in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/`, not for direct edits to bundled harness skills, references, agents, validators, or plugin files.
