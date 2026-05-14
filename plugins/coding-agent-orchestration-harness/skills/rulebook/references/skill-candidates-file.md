@@ -60,42 +60,10 @@ Purpose:
   `docs/coding-agent/skill-drafts/HMC-YYYYMMDD-review-public-api-compatibility.md`
 ```
 
-If the candidate is small, use `Draft: none`. If the candidate is large, ambiguous, or likely to affect multiple harness files, create a fuller draft.
+If the candidate is small, use `Draft: none`. If the candidate is large, ambiguous, or likely to affect multiple harness files, create a fuller draft using `references/skill-draft-template.md`.
 
 ## Draft Template
 
-Use `docs/coding-agent/skill-drafts/HMC-YYYYMMDD-short-kebab-description.md`.
-
-```md
-# HMC-YYYYMMDD-short-kebab-description
-
-## Problem
-
-- <what happened and why the current harness did not catch it>
-
-## Generalized Rule
-
-- <cross-repo rule or workflow improvement>
-
-## Trigger
-
-- <when this should apply>
-
-## Proposed Owner / Home
-
-- <skill, reference, agent adapter, validator, or ADR hint>
-
-## Examples
-
-- <repo evidence or abstract examples>
-
-## Validation Idea
-
-- <how a future harness-maintenance pass could validate the change>
-
-## Open Questions
-
-- <unknowns to resolve before editing bundled harness content>
-```
+Use `docs/coding-agent/skill-drafts/HMC-YYYYMMDD-short-kebab-description.md` with `references/skill-draft-template.md`.
 
 Drafts are proposals for future harness-maintenance work. They are not active runtime instructions until a later harness-maintenance change applies them to bundled harness content.

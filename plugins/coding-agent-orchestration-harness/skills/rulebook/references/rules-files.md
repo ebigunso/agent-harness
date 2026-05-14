@@ -65,3 +65,4 @@ Harness migration staging:
 - `docs/coding-agent/skill-candidates.md` is the canonical backlog for cross-repo harness improvements discovered during target-repository work.
 - `docs/coding-agent/skill-drafts/*.md` holds fuller drafts when a candidate is too large or ambiguous for one backlog entry.
 - Use `references/skill-candidates-file.md` for the required `HMC-*` format.
+- These staged harness migration candidates are not active repo rules and should not be confused with legacy `Global Migration Candidates` placeholders in older rule suites.
