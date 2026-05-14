@@ -126,7 +126,7 @@ lesson_candidates:
     root_cause: "why it happened (1 sentence)"
     prevention: "what would prevent recurrence (1 sentence)"
     promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
-    suggested_destination: "optional; docs/coding-agent/rules/reviewer.md | docs/coding-agent/skill-candidates.md | docs/coding-agent/lessons.md | ..."
+    suggested_destination: "optional; for repo_rule use docs/coding-agent/rules/<role>.md; for harness_migration use docs/coding-agent/skill-candidates.md; for troubleshooting/residual_risk use docs/coding-agent/lessons.md or a repo troubleshooting note"
 
 Guidance:
 - Keep candidates atomic (one failure category each).

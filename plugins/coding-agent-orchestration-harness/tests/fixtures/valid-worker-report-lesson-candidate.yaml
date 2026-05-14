@@ -1,0 +1,31 @@
+task_id: "Task_2"
+status: blocked
+summary: "Blocked by a documented environment issue."
+files_changed: []
+commands_run:
+  - command: "npm test"
+    result: fail
+    notes: "Dependency setup was missing."
+validation_results:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "npm test"
+    status: fail
+    evidence: "Exit code 1 from missing dependency."
+tests:
+  ran: false
+  notes: "Required test command failed before executing tests."
+blockers:
+  - "Missing dependency prevents test execution."
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
+lesson_candidates:
+  - id: "LESSON-CAND-env-setup"
+    category: environment
+    deviation: "Required validation could not run because setup was missing."
+    root_cause: "The task assumed dependencies were already installed."
+    prevention: "Document setup prerequisites near required validation commands."
+    promotion_target: troubleshooting
+    suggested_destination: "docs/coding-agent/lessons.md"
