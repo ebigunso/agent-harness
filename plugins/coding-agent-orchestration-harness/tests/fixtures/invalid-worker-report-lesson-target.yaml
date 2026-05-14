@@ -1,0 +1,21 @@
+task_id: "Task_2"
+status: blocked
+summary: "Invalid old lesson promotion target."
+files_changed: []
+commands_run: []
+validation_results: []
+tests:
+  ran: false
+  notes: "Fixture should fail because the lesson target is old."
+blockers:
+  - "Fixture intentionally blocked."
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
+lesson_candidates:
+  - id: "LESSON-CAND-old-target"
+    category: review
+    deviation: "A review miss happened."
+    root_cause: "The fixture uses an old promotion target."
+    prevention: "Use the new enum."
+    promotion_target: "global-skill"

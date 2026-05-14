@@ -16,14 +16,21 @@ Fix applied:
 
 Prevention:
 - Repo rule candidate:
-  - audience: common|worker|orchestrator
+  - audience: common|worker|orchestrator|reviewer
   - proposed rule: <one sentence>
-- First-party skill/reference update (optional):
-  - owner:
-  - target:
-  - change:
+- Harness migration candidate:
+  - category:
+  - proposed_home:
+  - generalized_rule:
+  - suggested_change:
+- Troubleshooting note/candidate:
+  - symptom:
+  - cause:
+  - safe steps:
 - Dispatch/plan guardrail (optional):
   - <e.g., “required validation cannot be skipped unless explicitly waived”>
+- Residual risk / waiver:
+  - <accepted risk and owner, or “none”>
 
 Evidence:
 - <commands/evidence or links to artifacts if relevant>

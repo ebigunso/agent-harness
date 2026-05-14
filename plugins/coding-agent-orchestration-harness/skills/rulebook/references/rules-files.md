@@ -34,17 +34,16 @@ Required sections:
 - Repository-Specific Validation Commands
 - Repo Safety / Boundaries
 - Repo Naming / Structure
-- Global Migration Candidates (Placeholder)
 
 3) worker.md must include:
 - Repo-Specific Worker Notes
 - Repo CI / Checks Mapping
-- Global Migration Candidates (Placeholder)
+- Mechanical Gate Candidates
 
 4) orchestrator.md must include:
 - Repo-Specific Orchestrator Policies
 - Repo-Specific Integration / Git Policy
-- Global Migration Candidates (Placeholder)
+- Rule Suite Refresh Notes
 
 5) reviewer.md must include:
 - Repo-Specific Reviewer Notes
@@ -53,13 +52,11 @@ Required sections:
 - Review Heuristics
 - Recurring Misses And Prevention
 - Mechanical Gate Candidates
-- Global Migration Candidates
 
 Applying rule_candidates:
 - Route by `rule_candidates[].audience` to the file (common/worker/orchestrator/reviewer).
-- Route by `rule_candidates[].intended_home`:
-  - repo_specific -> normal sections
-  - global_candidate -> placeholder section
+- `rule_candidates` are always repo-specific. Apply them to active repo rule sections or repo-local candidate sections such as Mechanical Gate Candidates.
+- Harness-global ideas must be emitted as `harness_migration_candidates` or lesson candidates with `promotion_target: harness_migration`.
 
 Harness migration staging:
 - `docs/coding-agent/skill-candidates.md` is the canonical backlog for cross-repo harness improvements discovered during target-repository work.

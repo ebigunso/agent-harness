@@ -41,12 +41,22 @@ assumptions: ["string"]
 
 rule_candidates:
   - audience: "common|worker|orchestrator|reviewer"
-    intended_home: "repo_specific|global_candidate"
     id: "RB-CAND-short"
     rule: "string"
     rationale: "string"
     scope: "string"
     example: "string"
+
+# Optional. Cross-repo harness improvement proposals only.
+harness_migration_candidates:
+  - id: "HMC-short"
+    category: "review|validation|orchestration|delegation|rulebook|troubleshooting|adapter|validator|other"
+    proposed_home: "string"
+    generalized_rule: "string"
+    trigger: "string"
+    evidence_from_repo: "string"
+    rationale: "string"
+    suggested_change: "string"
 
 # Optional when deviations, failed validation, or recovery steps need to be surfaced.
 lesson_candidates:
@@ -55,4 +65,5 @@ lesson_candidates:
     deviation: "string"
     root_cause: "string"
     prevention: "string"
-    promotion_target: "rules/*|references/*|troubleshooting/*|global-skill"
+    promotion_target: "repo_rule|harness_migration|troubleshooting|residual_risk"
+    suggested_destination: "optional string"

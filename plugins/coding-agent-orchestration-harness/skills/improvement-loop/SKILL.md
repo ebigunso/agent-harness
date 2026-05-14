@@ -11,8 +11,12 @@ It introduces a repo-local Lessons Log and a promotion mechanism:
 - Lessons Log (repo-local): `docs/coding-agent/lessons.md`
 - Promotion targets:
   - repo rules (`docs/coding-agent/rules/*.md`)
-  - first-party skills and references (update the owning skill directly when there is an approved long-term home)
-  - troubleshooting knowledge (stage candidates for migration into global troubleshooting skill)
+  - repo lessons (`docs/coding-agent/lessons.md`)
+  - harness migration candidates (`docs/coding-agent/skill-candidates.md`)
+  - harness migration drafts (`docs/coding-agent/skill-drafts/*.md`)
+  - troubleshooting notes under `docs/coding-agent/`
+
+During ordinary target-repository work, runtime agents must not edit bundled/global harness skills, references, agents, validators, or plugin files. Cross-repo harness improvements must be staged in repo-local migration candidates or drafts. The exception is explicit harness-maintenance work where the target repository is the harness repository itself.
 
 ---
 
@@ -48,8 +52,9 @@ Each entry must contain:
 5) Promote lessons into prevention mechanisms
 For each lesson, decide whether to stage:
 - a repo rule candidate (rulebook)
-- an update to a first-party skill or reference when that skill is the durable owner
-- a troubleshooting candidate (workspace-troubleshooting / global migration later)
+- a harness migration candidate when a first-party skill, reference, agent adapter, validator, or ADR is the likely long-term owner
+- a troubleshooting note or candidate under `docs/coding-agent/`
+- a residual-risk record when prevention is intentionally not added
 
 If prevention is unclear:
 - still propose at least one small guardrail (e.g., “mandatory checklist before marking done”).
@@ -72,3 +77,6 @@ If you need a single lesson entry template:
 
 If you need guidelines for promoting lessons to rules/skills:
 - Read references/promotion-guidelines.md
+
+If a human reviewer, Copilot, CI, Reviewer, or another source finds an issue the harness should have caught:
+- Read references/review-finding-triage.md

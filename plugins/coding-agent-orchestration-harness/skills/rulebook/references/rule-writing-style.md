@@ -21,5 +21,5 @@ Deduplication:
 - If a new rule overlaps an old rule, merge them rather than adding a near-duplicate.
 
 Migration staging:
-- If a rule is cross-repo and procedural, stage it under “Global Migration Candidates (Placeholder)”.
+- If a rule is cross-repo and procedural, stage it in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
 - If it is repo-specific (commands, paths, CI mapping), keep it in normal sections.
