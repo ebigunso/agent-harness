@@ -45,7 +45,7 @@ Purpose:
 
 - Status: staged
 - Category: review
-- Proposed home: `engineering-quality-baselines/references/review-latent-risk-public-api.md`
+- Proposed home: `plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/review-latent-risk-public-api.md`
 - Generalized rule:
   Public API changes should be reviewed for downstream compatibility, export completeness, and documented construction/import paths.
 - Trigger:

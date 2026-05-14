@@ -269,6 +269,7 @@ def check_clean_split_guards(errors: list[str]) -> None:
     worker_validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
     promotion_guidelines = ROOT / "skills" / "improvement-loop" / "references" / "promotion-guidelines.md"
     improvement_loop = ROOT / "skills" / "improvement-loop" / "SKILL.md"
+    post_correction_checklist = ROOT / "skills" / "improvement-loop" / "references" / "post-correction-micro-checklist.md"
     rule_templates = ROOT / "skills" / "rulebook" / "references" / "rule-suite-templates.md"
     rules_files = ROOT / "skills" / "rulebook" / "references" / "rules-files.md"
 
@@ -284,19 +285,33 @@ def check_clean_split_guards(errors: list[str]) -> None:
         if "ALLOWED_INTENDED_HOME" in text:
             fail(errors, f"{worker_validator}: must not define ALLOWED_INTENDED_HOME")
 
-    reviewer_paths = [
+    lesson_producer_paths = [
+        ROOT / "agents" / "Researcher.md",
         ROOT / "agents" / "Reviewer.md",
+        ROOT / "claude" / "agents" / "harness-researcher.md",
         ROOT / "claude" / "agents" / "harness-reviewer.md",
+        ROOT / "codex" / "agent-templates" / "harness_researcher.toml",
         ROOT / "codex" / "agent-templates" / "harness_reviewer.toml",
     ]
-    for path in reviewer_paths:
+    for path in lesson_producer_paths:
         if not path.exists():
             continue
         text = path.read_text(encoding="utf-8")
         if "global-skill" in text:
-            fail(errors, f"{path}: Reviewer adapter must not use old lesson target global-skill")
+            fail(errors, f"{path}: adapter must not use old lesson target global-skill")
         if re.search(r"promotion_target\s*:\s*.*\b(?:rules|references)/\*", text):
-            fail(errors, f"{path}: Reviewer adapter must use repo_rule | harness_migration | troubleshooting | residual_risk lesson targets")
+            fail(errors, f"{path}: adapter must use repo_rule | harness_migration | troubleshooting | residual_risk lesson targets")
+
+    orchestrator_paths = [
+        ROOT / "agents" / "Orchestrator.md",
+        ROOT / "claude" / "agents" / "harness-orchestrator.md",
+    ]
+    for path in orchestrator_paths:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "bundled harness skills" not in text or "skill-candidates.md" not in text:
+            fail(errors, f"{path}: Orchestrator adapter must stage cross-repo harness improvements instead of ordinary bundled harness edits")
 
     if improvement_loop.exists():
         text = improvement_loop.read_text(encoding="utf-8")
@@ -307,6 +322,16 @@ def check_clean_split_guards(errors: list[str]) -> None:
         for phrase in stale_phrases:
             if phrase in text:
                 fail(errors, f"{improvement_loop}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
+
+    if post_correction_checklist.exists():
+        text = post_correction_checklist.read_text(encoding="utf-8")
+        stale_phrases = [
+            "Global Migration Candidate",
+            "update the owning first-party skill/reference",
+        ]
+        for phrase in stale_phrases:
+            if phrase in text:
+                fail(errors, f"{post_correction_checklist}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
 
     if promotion_guidelines.exists():
         text = promotion_guidelines.read_text(encoding="utf-8").lower()

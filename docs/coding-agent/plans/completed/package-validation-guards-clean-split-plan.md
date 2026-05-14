@@ -13,7 +13,8 @@
 
 - Package validation fails on stale `intended_home` report contract usage.
 - Package validation fails if `validate_worker_report.py` defines `ALLOWED_INTENDED_HOME`.
-- Package validation fails if Reviewer adapters contain old lesson targets `global-skill` or `references/*`.
+- Package validation fails if lesson-producing adapters contain old lesson targets `global-skill` or `references/*`.
+- Package validation fails if Orchestrator adapters or post-correction guidance allow ordinary target-repository work to edit bundled harness content directly.
 - Package validation fails if rulebook templates or references reintroduce `Global Migration Candidates` or `global_candidate` routing.
 - Package validation checks that promotion guidelines contain harness migration candidate guidance.
 - Existing smoke tests cover the new guards.
@@ -105,11 +106,12 @@
   - `plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py`
 - depends_on: [Task_1]
 - description: |
-  Guard Reviewer runtime surfaces against old lesson promotion targets.
+  Guard lesson-producing runtime surfaces against old lesson promotion targets.
 - acceptance:
-  - Package validator fails if Reviewer authoritative surfaces contain `global-skill`.
-  - Package validator fails if Reviewer authoritative surfaces contain `references/*` as a lesson promotion target.
-  - Guard covers Copilot, Claude, and Codex Reviewer adapters.
+  - Package validator fails if Researcher or Reviewer authoritative surfaces contain `global-skill`.
+  - Package validator fails if Researcher or Reviewer authoritative surfaces contain `references/*` as a lesson promotion target.
+  - Guard covers Copilot, Claude, and Codex Researcher/Reviewer adapters.
+  - Guard covers Copilot and Claude Orchestrator staging-boundary wording.
   - Guard does not reject legitimate path references to plugin references outside the old lesson target context unless implementation intentionally chooses strict token scanning for those files.
 - validation:
   - kind: review
@@ -128,6 +130,7 @@
 - acceptance:
   - Package validator fails if `promotion-guidelines.md` lacks `harness migration candidate`.
   - Package validator fails if improvement-loop ordinary runtime guidance instructs direct first-party skill/reference updates.
+  - Package validator fails if the post-correction checklist instructs direct first-party skill/reference updates or old Global Migration Candidate rule placeholders.
   - Package validator fails if `rule-suite-templates.md` contains `Global Migration Candidates`.
   - Package validator fails if `rules-files.md` routes `global_candidate`.
   - Failure messages point to `docs/coding-agent/skill-candidates.md` and `docs/coding-agent/skill-drafts/*.md`.

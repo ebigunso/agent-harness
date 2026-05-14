@@ -23,6 +23,10 @@ Prevention:
   - proposed_home:
   - generalized_rule:
   - suggested_change:
+- Troubleshooting note/candidate:
+  - symptom:
+  - cause:
+  - safe steps:
 - Dispatch/plan guardrail (optional):
   - <e.g., “required validation cannot be skipped unless explicitly waived”>
 - Residual risk / waiver:
