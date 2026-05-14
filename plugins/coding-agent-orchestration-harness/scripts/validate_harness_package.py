@@ -295,7 +295,7 @@ def check_clean_split_guards(errors: list[str]) -> None:
         text = path.read_text(encoding="utf-8")
         if "global-skill" in text:
             fail(errors, f"{path}: Reviewer adapter must not use old lesson target global-skill")
-        if "promotion_target: rules/* | references/*" in text or "references/* | troubleshooting/* | global-skill" in text:
+        if re.search(r"promotion_target\s*:\s*.*\b(?:rules|references)/\*", text):
             fail(errors, f"{path}: Reviewer adapter must use repo_rule | harness_migration | troubleshooting | residual_risk lesson targets")
 
     if improvement_loop.exists():

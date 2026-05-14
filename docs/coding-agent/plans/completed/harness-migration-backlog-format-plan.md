@@ -13,7 +13,7 @@
 
 - Harness docs define the required `skill-candidates.md` format with `HMC-*` candidate entries.
 - Guidance explains when a small candidate can stay inline and when a fuller draft belongs in `skill-drafts/*.md`.
-- The backlog format aligns with `harness_migration_candidates` report fields.
+- The backlog format is intended to align with the `harness_migration_candidates` report fields from the Report Schema Split work.
 - Rulebook and improvement-loop guidance point to the same candidate/draft format.
 
 ## Scope / Non-goals
@@ -22,7 +22,7 @@
   - Add or update references that describe the skill-candidates backlog and skill-drafts.
   - Wire the format into rulebook and improvement-loop routing at a concise level.
 - Non-goals:
-  - Do not create target-repo `docs/coding-agent/skill-candidates.md` files in this harness repo unless a template fixture already requires it.
+  - Do not create target-repository `docs/coding-agent/skill-candidates.md` files in this harness repo unless a template fixture already requires it.
   - Do not implement automated promotion from candidates into harness files.
   - Do not update report validation; that is covered by Report Schema Split.
 
@@ -66,13 +66,13 @@
   - Purpose says candidates are staged cross-repository improvements, not active repo rules.
   - Required candidate fields include status, category, proposed home, generalized rule, trigger, evidence from this repo, why it generalizes, suggested change, and optional draft.
   - Template uses `HMC-YYYYMMDD-...` ids.
-  - Categories align with the report contract enum.
+  - Categories align with the planned report contract enum from the Report Schema Split work.
   - Draft guidance explains when to create `docs/coding-agent/skill-drafts/*.md`.
 - validation:
   - kind: review
     required: true
     owner: worker
-    detail: "Compare the backlog reference fields with `harness_migration_candidates` in the report contract."
+    detail: "Compare the backlog reference fields with the `harness_migration_candidates` shape planned by Report Schema Split."
 
 ### Task_2: Wire Backlog Format Into Rulebook
 
@@ -100,14 +100,12 @@
 - owns:
   - `plugins/coding-agent-orchestration-harness/skills/improvement-loop/SKILL.md`
   - `plugins/coding-agent-orchestration-harness/skills/improvement-loop/references/promotion-guidelines.md`
-  - `plugins/coding-agent-orchestration-harness/skills/improvement-loop/references/review-finding-triage.md`
 - depends_on: [Task_1]
 - description: |
   Make improvement-loop promotion guidance refer to the canonical backlog format instead of redefining it.
 - acceptance:
   - Improvement-loop docs route harness migration candidates to the canonical backlog format.
   - Promotion guidelines keep concise destination guidance and link to the detailed file-shape owner.
-  - Review finding triage uses the same backlog and draft paths.
   - No conflicting `HMC-*` field list exists in improvement-loop references.
 - validation:
   - kind: review
@@ -169,7 +167,7 @@
 ## Rollback / Safety
 
 - Revert the new backlog reference and any links to it together.
-- If Report Schema Split has landed, retain the `harness_migration_candidates` report field even if backlog docs need rework.
+- If Report Schema Split has landed, retain the intended `harness_migration_candidates` alignment even if backlog docs need rework.
 
 ## Progress Log (append-only)
 

@@ -7,11 +7,11 @@
 
 ## Goal
 
-- Align runtime Worker/Reviewer guidance and adapters with the new lesson targets, harness migration staging route, and no-direct-bundled-edit boundary.
+- Align runtime Reviewer/Researcher guidance and adapters with the new lesson targets, harness migration staging route, and no-direct-bundled-edit boundary.
 
 ## Definition of Done
 
-- Reviewer and Worker guidance no longer names `references/*` or `global-skill` as lesson promotion targets.
+- Reviewer and Researcher guidance no longer names `references/*` or `global-skill` as lesson promotion targets.
 - Runtime adapters explain `harness_migration` as the route for cross-repo improvements staged in `docs/coding-agent/skill-candidates.md` or `skill-drafts`.
 - Ordinary target-repository work is explicitly barred from editing bundled harness skills, references, agents, validators, or plugin files.
 - Copilot, Claude, and Codex runtime adapter surfaces remain concise and consistent.
@@ -54,6 +54,13 @@
 - A1: This plan runs after Report Schema Split and Lessons And Improvement Loop Promotion Model, so adapters can point to already-updated shared guidance.
 - A2: Adapter updates should be minimal and avoid copying schema blocks where a skill reference already owns the detailed contract.
 - A3: Runtime agents may read bundled harness guidance, but ordinary target-repo work should stage changes in repo docs instead of editing plugin files.
+
+Required-check waiver
+- What is waived: Separate Reviewer-owned validation evidence for Task_5.
+- Why waived now: This desktop session did not use a separate Reviewer subagent, and the change is prompt/documentation text with package validation and direct acceptance-criteria review available.
+- Risk accepted and impact: A second reviewer might have caught wording drift or prompt-budget issues that Orchestrator review missed.
+- Mitigation and follow-up: Orchestrator performed strict diff review, stale-token searches, completed-plan validation, package validation, and `git diff --check`; future runtime adapter changes should use independent Reviewer validation when available.
+- Owner and expiration: Orchestrator; expires after this completed plan is superseded by a future runtime-adapter update.
 
 ## Tasks
 

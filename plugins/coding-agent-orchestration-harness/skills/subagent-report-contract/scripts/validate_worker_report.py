@@ -238,9 +238,8 @@ def validate_rule_candidates(v: Any) -> bool:
         if "intended_home" in item:
             err(f"{ctx}.intended_home is no longer supported; use rule_candidates for repo-local rules or harness_migration_candidates for cross-repo harness ideas")
             ok = False
-        if item.get("audience") not in ALLOWED_AUDIENCE:
-            err(f"{ctx}.audience must be one of {sorted(ALLOWED_AUDIENCE)}")
-            ok = False
+        if "audience" in item:
+            ok &= validate_enum(item["audience"], ALLOWED_AUDIENCE, f"{ctx}.audience")
         for k in ["id", "rule", "rationale", "scope", "example"]:
             if k in item and not is_str(item[k]):
                 err(f"{ctx}.{k} must be a string")
@@ -302,9 +301,8 @@ def validate_lesson_candidates(v: Any) -> bool:
             ],
             ctx,
         )
-        if item.get("category") not in ALLOWED_LESSON_CATEGORY:
-            err(f"{ctx}.category must be one of {sorted(ALLOWED_LESSON_CATEGORY)}")
-            ok = False
+        if "category" in item:
+            ok &= validate_enum(item["category"], ALLOWED_LESSON_CATEGORY, f"{ctx}.category")
         if "promotion_target" in item:
             ok &= validate_enum(
                 item["promotion_target"],
