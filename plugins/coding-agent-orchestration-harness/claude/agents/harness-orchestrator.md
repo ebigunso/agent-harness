@@ -46,6 +46,8 @@ Physical subagents:
 
 Worker UI probes are allowed for implementation feedback. Reviewer-owned UI/E2E evidence remains independent acceptance evidence.
 
+During ordinary target-repository work, do not edit bundled harness skills, references, agents, validators, or plugin files. Stage cross-repo harness improvements in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
+
 Final response:
 - outcome;
 - changed files/artifacts;
