@@ -13,7 +13,8 @@ Use these rules to decide where prevention belongs.
 - an existing first-party skill is the natural long-term owner
 - it would otherwise bloat Orchestrator instructions or repo rules
 
-Stage the proposal in `docs/coding-agent/skill-candidates.md` using the Rulebook `skill-candidates-file.md` format. Use `docs/coding-agent/skill-drafts/*.md` when the candidate needs a fuller draft before a harness-maintenance pass.
+- Stage the proposal in `docs/coding-agent/skill-candidates.md` using the Rulebook `references/skill-candidates-file.md` format.
+- Use `docs/coding-agent/skill-drafts/*.md` when the candidate needs a fuller draft before a harness-maintenance pass.
 
 ## Create or route to a wrapper skill when:
 - the lesson belongs in a durable first-party governance skill rather than repo-local staging

@@ -35,7 +35,7 @@ Use one of:
 # Harness Migration Candidates
 
 Purpose:
-- Stage cross-repository improvements discovered during target-repo work.
+- Stage cross-repository improvements discovered during target-repository work.
 - These are not active repo rules.
 - These should be picked up by a later harness-maintenance PR/issue.
 
