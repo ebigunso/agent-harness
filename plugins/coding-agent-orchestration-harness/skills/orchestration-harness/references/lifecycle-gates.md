@@ -14,7 +14,7 @@ At the start of non-trivial work, read:
 6. Relevant plans under `docs/coding-agent/plans/active/` and `docs/coding-agent/plans/completed/`
 7. Relevant project files after the Research Dispatch Gate is satisfied
 
-If `docs/coding-agent/rules/` does not exist, create the minimal skeleton with empty Global Migration Candidates placeholders. If `docs/coding-agent/plans/active/` does not exist, create it before writing draft or in-progress plans.
+If `docs/coding-agent/rules/` does not exist, create the minimal repo-rule skeleton from the Rulebook templates. Do not add global migration placeholders to role rule files. If `docs/coding-agent/plans/active/` does not exist, create it before writing draft or in-progress plans.
 
 ## Plan Gate Details
 

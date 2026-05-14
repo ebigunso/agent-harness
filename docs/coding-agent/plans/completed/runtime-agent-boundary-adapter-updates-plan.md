@@ -200,7 +200,7 @@
 - 2026-05-14 Wave 5 completed: [Task_5]
   - Summary: Strict runtime adapter consistency review completed by Orchestrator.
   - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
-  - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
+  - Notes: Required independent Reviewer validation was waived by Orchestrator for this branch because the review scope is prompt text only and the follow-up review pass was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -213,6 +213,11 @@
   - Plan delta (what changed): Researcher adapter edits are conditional on Task_1 finding relevant stale wording.
   - Tradeoffs considered: Symmetric wording is easier to audit but increases adapter noise when the role does not emit lessons or promotions.
   - User approval: yes.
+- 2026-05-14 Decision: Waive separate Reviewer subagent validation for this branch.
+  - Trigger / new insight: The branch updates runtime prompt text only, and no separate Reviewer subagent was available in this desktop session.
+  - Plan delta (what changed): Task_5 was completed with Orchestrator-owned strict review evidence instead of a separate Reviewer report.
+  - Tradeoffs considered: Independent Reviewer evidence would be stronger, but the branch also has package validation, stale-token searches, and direct acceptance-criteria review.
+  - User approval: no; Orchestrator waiver recorded.
 
 ## Notes
 

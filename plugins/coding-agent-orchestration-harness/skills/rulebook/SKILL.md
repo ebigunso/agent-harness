@@ -1,13 +1,13 @@
 ---
 name: rulebook
-description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying repo-local rule_candidates, or adding repo reference documents.
+description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying repo-local rule_candidates, adding repo reference documents, or staging harness migration candidates.
 ---
 
 # Skill: rulebook
 
 This skill defines how the Orchestrator maintains repository rule files as the source of truth for repo-specific constraints and operating rules.
 
-This skill is for RULES. Cross-repo harness improvements are staged separately in `docs/coding-agent/skill-candidates.md` and drafts under `docs/coding-agent/skill-drafts/`.
+This skill is for RULES. Harness migration candidates are staged separately in `docs/coding-agent/skill-candidates.md` and drafts under `docs/coding-agent/skill-drafts/`.
 
 ---
 

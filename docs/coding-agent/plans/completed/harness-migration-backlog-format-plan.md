@@ -183,7 +183,7 @@
   - Notes: The reference defines `HMC-*` ids, categories, backlog fields, and draft structure.
 - 2026-05-14 Wave 3 completed: [Task_5]
   - Summary: Strict backlog format review completed by Orchestrator.
-  - Validation evidence: `python plugins\coding-agent-orchestration-harness\scripts\validate_harness_package.py` passed; `git diff --check` passed.
+  - Validation evidence: `python plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py` passed; `git diff --check` passed.
   - Notes: Reviewer subagent was not used in this desktop session; review was performed directly against the plan acceptance criteria.
 
 ## Decision Log (append-only; re-plans and major discoveries)
