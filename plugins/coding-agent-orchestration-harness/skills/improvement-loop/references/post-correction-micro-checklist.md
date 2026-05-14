@@ -43,8 +43,10 @@ Keep it short and concrete. Avoid vague promises.
 ## Step 4: Decide promotion (optional but recommended)
 
 If the lesson is cross-repo and durable:
-- stage it as a “Global Migration Candidate” in repo rule placeholders, OR
-- update the owning first-party skill/reference if it is procedural or tool-heavy and already has a durable home.
+- stage it as a harness migration candidate in `docs/coding-agent/skill-candidates.md`.
+- use `docs/coding-agent/skill-drafts/*.md` when the candidate needs a fuller proposal.
+
+Do not edit bundled first-party skills, references, agents, validators, or plugin files during ordinary target-repository work. Only make those edits during explicit harness-maintenance work where the harness repository is the target.
 
 If it is repo-specific:
 - encode it in `docs/coding-agent/rules/*.md`.
