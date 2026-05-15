@@ -31,6 +31,11 @@ The summary file may be JSON or YAML and should use this shape:
       status: pass
       waiver: ""
   blockers: []
+  governance:
+    lessons_recorded: false
+    repo_rule_updates: []
+    harness_migration_candidates: []
+    waivers: []
 
 When a waiver is used, provide waiver evidence as a mapping:
 
@@ -212,6 +217,22 @@ def validate(summary: Any, plan_text: str) -> bool:
     elif blockers:
         err("unresolved blockers remain")
         ok = False
+
+    governance = summary.get("governance")
+    if governance is not None:
+        if not isinstance(governance, dict):
+            err("governance must be a mapping when present")
+            ok = False
+        else:
+            lessons_recorded = governance.get("lessons_recorded")
+            if lessons_recorded is not None and not is_bool(lessons_recorded):
+                err("governance.lessons_recorded must be boolean when present")
+                ok = False
+            for key in ("repo_rule_updates", "harness_migration_candidates", "waivers"):
+                value = governance.get(key)
+                if value is not None and not isinstance(value, list):
+                    err(f"governance.{key} must be a list when present")
+                    ok = False
 
     non_trivial = summary.get("non_trivial", True)
     if not is_bool(non_trivial):

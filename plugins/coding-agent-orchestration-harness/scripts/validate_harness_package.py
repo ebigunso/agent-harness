@@ -264,6 +264,56 @@ def check_latent_risk_references(errors: list[str]) -> None:
             fail(errors, f"{router}: referenced latent-risk file does not exist: {match}")
 
 
+def check_operational_routing_surfaces(errors: list[str]) -> None:
+    packet = ROOT / "skills" / "wave-integration" / "references" / "reviewer-packet-template.md"
+    snippets = ROOT / "skills" / "subagent-strategy" / "references" / "prompt-snippets.md"
+    integration = ROOT / "skills" / "wave-integration" / "references" / "integration-checklist.md"
+
+    if not packet.exists():
+        fail(errors, f"missing reviewer packet template: {packet}")
+    else:
+        packet_text = packet.read_text(encoding="utf-8")
+        for token in (
+            "review-latent-risk-public-api.md",
+            "review-latent-risk-entrypoints-admission.md",
+            "review-latent-risk-diagnostics.md",
+            "review-latent-risk-build-ci.md",
+        ):
+            if token not in packet_text:
+                fail(errors, f"{packet}: missing latent-risk routing token: {token}")
+
+    if not snippets.exists():
+        fail(errors, f"missing prompt snippets reference: {snippets}")
+    else:
+        snippets_text = snippets.read_text(encoding="utf-8")
+        snippet_match = re.search(
+            r"## Reviewer snippet \(latent-risk routing\)(.*?)(?:\n## |\Z)",
+            snippets_text,
+            flags=re.DOTALL,
+        )
+        if not snippet_match:
+            fail(errors, f"{snippets}: missing Reviewer latent-risk snippet")
+        else:
+            snippet = snippet_match.group(1)
+            required = {
+                "public API": "public API",
+                "diagnostics": "diagnostics",
+                "entrypoint intent/admission": r"entrypoint intent|admission",
+                "collection semantics": "collection semantics",
+                "runtime model compatibility": "runtime model compatibility",
+            }
+            for label, pattern in required.items():
+                if not re.search(pattern, snippet, flags=re.IGNORECASE):
+                    fail(errors, f"{snippets}: Reviewer latent-risk snippet missing {label}")
+            if not re.search(r"build cfg/features|strict-CI", snippet, flags=re.IGNORECASE):
+                fail(errors, f"{snippets}: Reviewer latent-risk snippet missing build cfg/features or strict-CI")
+
+    if not integration.exists():
+        fail(errors, f"missing wave integration checklist: {integration}")
+    elif "harness_migration_candidates" not in integration.read_text(encoding="utf-8"):
+        fail(errors, f"{integration}: must aggregate harness_migration_candidates")
+
+
 def check_clean_split_guards(errors: list[str]) -> None:
     contract = ROOT / "skills" / "subagent-report-contract" / "SKILL.md"
     worker_validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
@@ -374,6 +424,7 @@ def main() -> int:
     check_reviewer_adapters(errors)
     check_worker_report_reviewer_audience(errors)
     check_latent_risk_references(errors)
+    check_operational_routing_surfaces(errors)
     check_clean_split_guards(errors)
 
     for message in warnings:
