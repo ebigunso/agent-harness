@@ -78,13 +78,23 @@ If E2E/visual is required:
 
 ## Reviewer snippet (latent-risk routing)
 
-Use only when the changed code may involve latent invalid states, drift, fallback behavior, contract divergence, scope leakage, hot-path cost, brittle future edits, or risk-specific test gaps.
+Use only when the changed code may involve:
+- state, invariants, authority, derived data, or collection semantics
+- fallible operations, fallback behavior, or degradation
+- contract divergence or scope-sensitive decisions
+- hot-path cost or runtime model compatibility
+- brittle future edits, dead surface, or low-value abstraction
+- validation boundaries or risk-specific test gaps
+- public API compatibility or public surface completeness
+- diagnostics, telemetry, or observability metadata
+- build cfg/features, strict-CI hygiene, or test-production parity
+- entrypoint intent, admission semantics, or candidate-vs-accepted sets
 
 Scope:
 - Review this wave only.
 - Use the plugin's `engineering-quality-baselines` skill.
-- First follow its latent-risk router.
-- Then use only the conditional latent-risk references whose triggers match the changed code.
+- First follow `engineering-quality-baselines/references/review-latent-risk.md`.
+- Then read only matching conditional references.
 
 Deliverables:
 - Applicable latent-risk findings only.

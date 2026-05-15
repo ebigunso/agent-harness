@@ -1,6 +1,6 @@
 # Plan: Operational Routing Plumbing
 
-- status: draft
+- status: done
 - generated: 2026-05-16
 - last_updated: 2026-05-16
 - work_type: docs
@@ -161,6 +161,11 @@ Interpretation:
   - Summary: Created scoped implementation plan for routing and wave integration gaps.
   - Validation evidence: Not run; draft plan only.
   - Notes: Research waived because the user supplied current-file findings and work is limited to plan creation.
+
+- 2026-05-16 00:00 Wave 1 completed: [Task_1, Task_2, Task_3, Task_4]
+  - Summary: Updated Reviewer packet routing hints, Reviewer latent-risk snippet vocabulary, wave integration HMC collection, and Researcher HMC suggestion shape across generic, Claude, and Codex surfaces.
+  - Validation evidence: Targeted `rg` checks passed for packet references, prompt snippet vocabulary, wave integration HMC routing, and Researcher HMC fields; `python scripts/validate_harness_package.py` passed from `plugins/coding-agent-orchestration-harness/`; `git diff --check` passed.
+  - Notes: No UI/E2E validation required.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

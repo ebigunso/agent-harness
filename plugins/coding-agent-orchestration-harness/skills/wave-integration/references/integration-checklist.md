@@ -32,11 +32,13 @@ Run this checklist after each Worker wave and before Reviewer dispatch.
 - Aggregate `questions_for_orchestrator`.
 - Decide whether the Orchestrator can answer, the user must answer, or a follow-up Worker is needed.
 
-## 6. Collect Rule And Lesson Candidates
+## 6. Collect Rule, Lesson, and Harness Migration Candidates
 
 - Aggregate `rule_candidates`.
 - Aggregate `lesson_candidates`.
-- Normalize duplicates before rulebook or lessons updates.
+- Aggregate `harness_migration_candidates`.
+- Normalize duplicates before rulebook, lessons, or skill-candidate staging updates.
+- Route `harness_migration_candidates` to `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md` through Orchestrator curation.
 
 ## 7. Update Progress Log
 

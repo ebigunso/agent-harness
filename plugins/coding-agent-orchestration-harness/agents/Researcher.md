@@ -137,12 +137,14 @@ H) Rule Suite / Rule Freshness Observations (ONLY if Orchestrator requested rule
 - Confidence:
 
 I) Harness Migration Candidate Suggestions (optional)
-If you notice a reusable cross-repo workflow/tool integration that warrants future harness-maintenance work:
-- category:
+If you notice a reusable cross-repo workflow/tool/review improvement that warrants future harness-maintenance work:
+- id: `HMC-YYYYMMDD-short-kebab-description`
+- category: review | validation | orchestration | delegation | rulebook | troubleshooting | adapter | validator | other
 - proposed_home:
 - generalized_rule:
 - trigger:
 - evidence_from_repo:
+- rationale:
 - suggested_change:
 
 Do not edit bundled harness skills, references, agents, validators, or plugin files during ordinary target-repository research. Stage cross-repo improvements for Orchestrator curation.
