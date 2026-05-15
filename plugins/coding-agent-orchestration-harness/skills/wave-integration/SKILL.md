@@ -16,7 +16,7 @@ The Orchestrator remains the only writer for shared plan lifecycle state. This s
 3. Confirm each changed file is inside `owns` or explained.
 4. Confirm all required Worker-owned validations are pass or explicitly waived.
 5. Collect blockers/questions.
-6. Collect rule/lesson candidates.
+6. Collect rule/lesson candidates and `harness_migration_candidates`.
 7. Update plan Progress Log.
 8. Decide whether to dispatch follow-up Workers or Reviewer.
 9. Prepare Reviewer packet.
