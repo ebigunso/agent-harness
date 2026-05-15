@@ -22,11 +22,6 @@ Destination:
 - `docs/coding-agent/skill-candidates.md`
 - `docs/coding-agent/skill-drafts/*.md`, when useful
 
-### How to stage harness migration candidates
-
-- Stage the proposal in `docs/coding-agent/skill-candidates.md` using the Rulebook `plugins/coding-agent-orchestration-harness/skills/rulebook/references/skill-candidates-file.md` format.
-- Use `docs/coding-agent/skill-drafts/*.md` when the candidate needs a fuller draft before a harness-maintenance pass.
-
 Only edit bundled harness content during an explicit harness-maintenance task.
 
 ## Create or route to a wrapper skill proposal when:

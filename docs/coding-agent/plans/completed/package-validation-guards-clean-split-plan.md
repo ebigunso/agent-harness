@@ -3,7 +3,7 @@
 - status: done
 - generated: 2026-05-14
 - last_updated: 2026-05-14
-- work_type: test
+- work_type: code
 
 ## Goal
 
