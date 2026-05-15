@@ -1,6 +1,6 @@
 # Plan: Repo Rules Vs Harness Migration ADR
 
-- status: draft
+- status: done
 - generated: 2026-05-16
 - last_updated: 2026-05-16
 - work_type: docs
@@ -122,6 +122,16 @@ Interpretation:
   - Summary: Created scoped implementation plan for documenting the repo-rule vs harness-migration split.
   - Validation evidence: Not run; draft plan only.
   - Notes: Research waived because the user supplied current-file findings and work is limited to plan creation.
+
+- 2026-05-16 00:00 Wave 1 completed: [Task_1]
+  - Summary: Added ADR-D-0007 documenting the repo-local rule candidate vs harness migration candidate boundary, rejected legacy shapes, and explicit harness-maintenance exception.
+  - Validation evidence: `git diff --check -- docs/coding-agent-orchestration-harness/decisions/ADR-D-0007-repo-rules-vs-harness-migration-candidates.md` passed.
+  - Notes: No UI/E2E validation required.
+
+- 2026-05-16 00:00 Wave 2 completed: [Task_2]
+  - Summary: Cross-checked clean-split terminology across docs and plugin surfaces.
+  - Validation evidence: `rg -n "rule_candidates|harness_migration_candidates|skill-candidates.md|global_candidate|global-skill|Global Migration Candidates" docs plugins/coding-agent-orchestration-harness` completed; current legacy-shape mentions are historical context, invalid fixtures, validator guards, or existing repo-rule sections scheduled for targeted cleanup rather than newly accepted current routing.
+  - Notes: ADR only; no bundled skill behavior changed.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
