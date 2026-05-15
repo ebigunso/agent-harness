@@ -15,6 +15,14 @@ Read when public or semi-public API surface, exports, re-exports, prelude/crate-
 3. Visibility drift
 - Watch for accidental exports, re-exports, prelude additions, crate-root visibility changes, or DTO fields that become part of a contract unintentionally.
 
+Also check:
+- public struct field additions that may break downstream struct literals
+- public enum variant or field changes that may break exhaustive matches
+- public trait required item additions that may break downstream impls
+- function arity, generic bounds, return type, error type, or feature availability changes
+- constructor, builder, accessor, private-field, or `non_exhaustive` strategy for public types expected to grow
+- crate-root, prelude, module, generated-doc, and example import consistency
+
 ## Output
 
 Report only compatibility risks with an affected symbol, path, or downstream contract.

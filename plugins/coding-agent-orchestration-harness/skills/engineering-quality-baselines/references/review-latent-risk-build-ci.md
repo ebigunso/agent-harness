@@ -15,6 +15,15 @@ Read when the change touches cfgs, feature flags, test-only paths, platform-spec
 3. Build intent
 - Distinguish intentional admission of a new entrypoint, feature, or target from accidental exposure through broad cfg or manifest changes.
 
+Tests must exercise behavior that is compiled and reachable in the intended runtime configuration.
+
+Watch for:
+- `#[cfg(test)]` variants or branches that make rejection/fallback behavior test-only
+- mock-only paths that do not exist in production
+- debug-only behavior relied on by tests
+- feature-gated public items that disappear under common feature combinations
+- platform cfgs that make the tested path differ from the deployed path
+
 ## Output
 
 Report build or CI risks with the affected feature, cfg, target, lint, doc, or example path.

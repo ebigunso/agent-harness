@@ -181,5 +181,12 @@ Durable patterns learned from prior review misses, phrased as reusable preventio
 
 ## Mechanical Gate Candidates
 
-Checks that should eventually move into scripts, validators, CI, or package validation.
+Repo-local checks that could eventually move into:
+- `worker.md` check mapping
+- repository CI
+- repository hooks
+- repository scripts
+- repository validators
+
+If the proposed check belongs in bundled harness validators or plugin package validation, stage it as a harness migration candidate in `docs/coding-agent/skill-candidates.md` instead.
 ```

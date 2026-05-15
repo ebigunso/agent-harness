@@ -27,6 +27,21 @@ Allow these only when there is a current caller or explicit lifecycle/rationale.
 - Check whether a new abstraction removes real complexity or only hides simple logic behind a harder-to-search layer.
 - Prefer names and locations that future maintainers can find from domain terms, public API names, errors, and call sites.
 
+4. Canonical policy path
+
+Identify the constructor, validator, helper, error builder, or policy function that owns the domain decision.
+
+New code should route through that owner unless intentionally defining a new boundary.
+
+Flag bypasses through:
+- direct construction
+- duplicated matching
+- local constants
+- parallel validation
+- direct error construction that bypasses common metadata
+
+Bypasses are acceptable only when the change documents why the existing owner is not appropriate.
+
 ## Output
 
 Distinguish between harmless unused local code and production API surface that creates maintenance cost.
