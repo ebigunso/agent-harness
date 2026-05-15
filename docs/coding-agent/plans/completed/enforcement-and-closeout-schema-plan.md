@@ -1,6 +1,6 @@
 # Plan: Enforcement And Closeout Schema
 
-- status: draft
+- status: done
 - generated: 2026-05-16
 - last_updated: 2026-05-16
 - work_type: mixed
@@ -201,6 +201,16 @@ Interpretation:
   - Summary: Created scoped implementation plan for package validation guards and optional closeout governance shape.
   - Validation evidence: Not run; draft plan only.
   - Notes: Research waived because the user supplied current-file findings and work is limited to plan creation.
+
+- 2026-05-16 00:00 Wave 1 completed: [Task_1, Task_2, Task_3]
+  - Summary: Added structure-only package validation for reviewer packet latent-risk routing, Reviewer prompt snippet vocabulary, and wave integration HMC aggregation.
+  - Validation evidence: `python scripts/validate_harness_package.py` passed from `plugins/coding-agent-orchestration-harness/`.
+  - Notes: This branch is stacked on the operational-routing branch because these checks require the routing surfaces added there.
+
+- 2026-05-16 00:00 Wave 2 completed: [Task_4]
+  - Summary: Added optional governance shape validation, closeout fixtures, and closeout smoke-test coverage including expected exit code `3` for invalid governance.
+  - Validation evidence: Direct closeout validator checks passed for base valid and governance-valid summaries; invalid governance fixture failed with exit code `3` as expected; `python scripts/run_validation_smoke_tests.py` passed; `git diff --check` passed.
+  - Notes: No UI/E2E validation required.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

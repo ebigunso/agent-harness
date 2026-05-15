@@ -1,0 +1,20 @@
+plan_status: done
+non_trivial: true
+reviewer:
+  status: APPROVED
+  waiver: ""
+tasks:
+  - id: Task_1
+    status: done
+    waiver: ""
+validations:
+  - detail: Fixture closeout validation
+    required: true
+    status: pass
+    waiver: ""
+blockers: []
+governance:
+  lessons_recorded: "false"
+  repo_rule_updates: []
+  harness_migration_candidates: []
+  waivers: []
