@@ -347,8 +347,8 @@ def check_clean_split_guards(errors: list[str]) -> None:
                 fail(errors, f"{post_correction_checklist}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
 
     if promotion_guidelines.exists():
-        text = promotion_guidelines.read_text(encoding="utf-8").lower()
-        if "harness migration candidate" not in text:
+        text = promotion_guidelines.read_text(encoding="utf-8")
+        if not re.search(r"harness[ _-]migration[ _-]candidates?", text, re.IGNORECASE):
             fail(errors, f"{promotion_guidelines}: must include harness migration candidate guidance")
 
     if rule_templates.exists() and "Global Migration Candidates" in rule_templates.read_text(encoding="utf-8"):
