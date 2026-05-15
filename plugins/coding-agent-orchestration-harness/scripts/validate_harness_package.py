@@ -264,6 +264,104 @@ def check_latent_risk_references(errors: list[str]) -> None:
             fail(errors, f"{router}: referenced latent-risk file does not exist: {match}")
 
 
+def check_clean_split_guards(errors: list[str]) -> None:
+    contract = ROOT / "skills" / "subagent-report-contract" / "SKILL.md"
+    worker_validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
+    promotion_guidelines = ROOT / "skills" / "improvement-loop" / "references" / "promotion-guidelines.md"
+    improvement_loop = ROOT / "skills" / "improvement-loop" / "SKILL.md"
+    post_correction_checklist = ROOT / "skills" / "improvement-loop" / "references" / "post-correction-micro-checklist.md"
+    rule_templates = ROOT / "skills" / "rulebook" / "references" / "rule-suite-templates.md"
+    rules_files = ROOT / "skills" / "rulebook" / "references" / "rules-files.md"
+
+    required_paths = [
+        contract,
+        worker_validator,
+        promotion_guidelines,
+        improvement_loop,
+        post_correction_checklist,
+        rule_templates,
+        rules_files,
+    ]
+    for path in required_paths:
+        if not path.exists():
+            fail(errors, f"missing clean-split guard surface: {path}")
+
+    if contract.exists():
+        text = contract.read_text(encoding="utf-8")
+        if "intended_home" in text:
+            fail(errors, f"{contract}: must not document rule_candidates[].intended_home; use repo-local rule_candidates plus harness_migration_candidates")
+        if "harness_migration_candidates" not in text:
+            fail(errors, f"{contract}: must document harness_migration_candidates")
+
+    if worker_validator.exists():
+        text = worker_validator.read_text(encoding="utf-8")
+        if "ALLOWED_INTENDED_HOME" in text:
+            fail(errors, f"{worker_validator}: must not define ALLOWED_INTENDED_HOME")
+
+    lesson_producer_paths = [
+        ROOT / "agents" / "Researcher.md",
+        ROOT / "agents" / "Reviewer.md",
+        ROOT / "claude" / "agents" / "harness-researcher.md",
+        ROOT / "claude" / "agents" / "harness-reviewer.md",
+        ROOT / "codex" / "agent-templates" / "harness_researcher.toml",
+        ROOT / "codex" / "agent-templates" / "harness_reviewer.toml",
+    ]
+    for path in lesson_producer_paths:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "global-skill" in text:
+            fail(errors, f"{path}: adapter must not use old lesson target global-skill")
+        if re.search(r"promotion_target\s*:\s*.*\b(?:rules|references)/\*", text):
+            fail(errors, f"{path}: adapter must use repo_rule | harness_migration | troubleshooting | residual_risk lesson targets")
+
+    orchestrator_paths = [
+        ROOT / "agents" / "Orchestrator.md",
+        ROOT / "claude" / "agents" / "harness-orchestrator.md",
+    ]
+    for path in orchestrator_paths:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "skill-candidates.md" not in text or not re.search(r"do not edit bundled.*harness", text, re.IGNORECASE | re.DOTALL):
+            fail(errors, f"{path}: Orchestrator adapter must stage cross-repo harness improvements instead of ordinary bundled harness edits")
+
+    if improvement_loop.exists():
+        text = improvement_loop.read_text(encoding="utf-8")
+        stale_phrases = [
+            "first-party skills and references (update the owning skill directly",
+            "an update to a first-party skill or reference when that skill is the durable owner",
+        ]
+        for phrase in stale_phrases:
+            if phrase in text:
+                fail(errors, f"{improvement_loop}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
+
+    if post_correction_checklist.exists():
+        text = post_correction_checklist.read_text(encoding="utf-8")
+        stale_phrases = [
+            "Global Migration Candidate",
+            "update the owning first-party skill/reference",
+        ]
+        for phrase in stale_phrases:
+            if phrase in text:
+                fail(errors, f"{post_correction_checklist}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
+
+    if promotion_guidelines.exists():
+        text = promotion_guidelines.read_text(encoding="utf-8")
+        if not re.search(r"harness[ _-]migration[ _-]candidates?", text, re.IGNORECASE):
+            fail(errors, f"{promotion_guidelines}: must include harness migration candidate guidance")
+
+    if rule_templates.exists() and "Global Migration Candidates" in rule_templates.read_text(encoding="utf-8"):
+        fail(errors, f"{rule_templates}: role rule templates must not contain Global Migration Candidates sections")
+
+    if rules_files.exists():
+        text = rules_files.read_text(encoding="utf-8")
+        if "global_candidate" in text:
+            fail(errors, f"{rules_files}: must not route rule_candidates by global_candidate")
+        if "intended_home" in text:
+            fail(errors, f"{rules_files}: must not route rule_candidates by intended_home")
+
+
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
@@ -276,6 +374,7 @@ def main() -> int:
     check_reviewer_adapters(errors)
     check_worker_report_reviewer_audience(errors)
     check_latent_risk_references(errors)
+    check_clean_split_guards(errors)
 
     for message in warnings:
         print(f"WARNING: {message}", file=sys.stderr)

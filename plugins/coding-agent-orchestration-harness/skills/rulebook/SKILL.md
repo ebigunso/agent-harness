@@ -1,6 +1,6 @@
 ---
 name: rulebook
-description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying rule_candidates, adding repo reference documents, or staging harness migration candidates.
+description: Maintains repository rule files under docs/coding-agent/rules/*.md. Use when bootstrapping, repairing, migrating, refreshing, updating repo rules, applying repo-local rule_candidates, adding repo reference documents, or staging harness migration candidates.
 ---
 
 # Skill: rulebook
