@@ -16,6 +16,19 @@ Read when the change emits or modifies errors, health state, metrics, traces, te
 - Do not expose secrets, credentials, personal data, or attacker-controlled raw payloads in diagnostics.
 - Keep metric labels and telemetry dimensions bounded.
 
+Verify diagnostic metadata points to the actual failing source:
+- field name
+- column index
+- path
+- object id
+- operation
+- backend/store
+- scope
+- request/user/tenant/config
+- candidate vs accepted/rejected status
+
+Watch for loop diagnostics that accidentally use a constant, default, or outer value instead of the current failing item.
+
 ## Output
 
 Report diagnostics that mislead operators, hide material failure, leak sensitive data, or create unbounded telemetry.

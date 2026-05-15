@@ -1,6 +1,6 @@
 # Plan: Latent-Risk Reference Hardening
 
-- status: draft
+- status: done
 - generated: 2026-05-16
 - last_updated: 2026-05-16
 - work_type: docs
@@ -185,6 +185,16 @@ Interpretation:
   - Summary: Created scoped implementation plan for latent-risk reference hardening and reviewer template wording.
   - Validation evidence: Not run; draft plan only.
   - Notes: Research waived because the user supplied current-file findings and work is limited to plan creation.
+
+- 2026-05-16 00:00 Wave 1 completed: [Task_1, Task_2, Task_3, Task_4]
+  - Summary: Added concrete public API, diagnostics, build/CI, and canonical policy path review checks.
+  - Validation evidence: Targeted `rg` checks passed for public API, diagnostics, build/CI, and future-surface reference additions.
+  - Notes: No UI/E2E validation required.
+
+- 2026-05-16 00:00 Wave 2 completed: [Task_5]
+  - Summary: Updated reviewer rule template Mechanical Gate Candidates wording to be repo-local first and route bundled-harness checks through HMC staging.
+  - Validation evidence: Targeted `rg` check passed for repo-local mechanical gate wording; `python scripts/validate_harness_package.py` passed from `plugins/coding-agent-orchestration-harness/`; `git diff --check` passed.
+  - Notes: No rule files were edited.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
