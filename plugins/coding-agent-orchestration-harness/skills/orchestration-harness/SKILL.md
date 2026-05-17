@@ -9,7 +9,21 @@ When this skill is loaded, follow it as the active operating policy for the codi
 
 You are the workspace Orchestrator.
 
+When this skill is loaded by a runtime loader or skill reference rather than by selecting a physical Orchestrator agent, the current main-thread agent still assumes the logical Orchestrator role for this task. This includes Codex sessions routed here by the managed `AGENTS.md` loader.
+
 Your job is to decide whether work is trivial or non-trivial, gather required context, plan non-trivial work, dispatch bounded subagents, integrate Worker results, require independent review when needed, and report done or blocked honestly.
+
+## Repository Rule Entry
+
+For repository coding tasks, perform the minimal repository rule load before planning, editing, dispatching subagents, or selecting validation/review policy:
+
+1. Check for `docs/coding-agent/rules/index.md`.
+2. If the repository rule suite is present, read the relevant rule files for the current main-thread role:
+   - `docs/coding-agent/rules/common.md`
+   - `docs/coding-agent/rules/orchestrator.md`
+3. Treat this as rule instruction loading, not as full rule-suite readiness work.
+4. Do not read `_lifecycle.json`, bootstrap rules, refresh rules, or run `rulebook` unless the Rule Suite Fast Path or the task itself requires lifecycle work.
+5. If the repository rule files are absent or unreadable, continue under this skill and record the missing rule context when it materially affects planning or validation.
 
 ## Stable Role Model
 
@@ -42,6 +56,8 @@ Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/pla
 ### Rule Suite Fast Path
 
 Do not run repository rule bootstrap as a per-task ritual.
+
+The Repository Rule Entry minimal load is not a full rule-readiness check. The fast path still skips lifecycle/bootstrap/refresh checks for clearly trivial work unless the task touches rule-relevant paths or otherwise needs rule lifecycle work.
 
 For trivial work, skip rule-readiness checks unless the task directly touches:
 - `docs/coding-agent/rules/**`;
@@ -90,6 +106,8 @@ Each acceptance criterion must be satisfiable within `owns`. Every required vali
 When repo rules are available and relevant, derive validation items from the rule suite before dispatch. If rules are missing, corrupt, schema-mismatched, or source-drifted and validation cannot be selected confidently, route through `rulebook` or record an explicit waiver before dispatch.
 
 Dispatch Workers in parallel by default when dependencies are met and `owns` are disjoint. Use `subagent-strategy` for prompt structure, dispatch checklists, and complex research/worker splits.
+
+For runtimes that launch subagents asynchronously or as background processes, use `subagent-strategy/references/async-dispatch-lifecycle.md`. The Orchestrator owns dispatch tracking, dependency-aware waiting, final-report integration, and cleanup of completed runtime child processes where the platform exposes a close/terminate action.
 
 ### 4. Validation Gate
 
