@@ -276,7 +276,7 @@ Prevention:
 ## 2026-05-17 - Discuss Worker Dispatch Waivers Before Self-Implementation  [tags: workflow, delegation, orchestration, correction]
 
 Context:
-- Plan: docs/coding-agent/plans/active/codex-async-subagent-lifecycle-plan.md
+- Plan: docs/coding-agent/plans/completed/codex-async-subagent-lifecycle-plan.md
 - Task/Wave: harness implementation
 - Roles involved: Orchestrator
 
