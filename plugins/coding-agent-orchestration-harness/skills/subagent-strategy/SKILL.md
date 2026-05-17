@@ -56,6 +56,9 @@ Subagents benefit from “why” when it changes decisions, but long narratives 
 
 ## Progressive disclosure (read only what you need)
 
+If the runtime launches subagents asynchronously or as background processes:
+- Read references/async-dispatch-lifecycle.md
+
 If you want patterns for splitting research in parallel:
 - Read references/research-splits.md
 

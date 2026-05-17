@@ -7,6 +7,8 @@ For any coding-related task, load and follow `$orchestration-harness` before pla
 
 `$orchestration-harness` is the source of truth for deciding whether and how to apply the harness workflow.
 
+Using this managed loader for a coding task is explicit user direction to follow the harness workflow, including bounded harness subagent dispatch when required by `$orchestration-harness`, unless the user explicitly disables subagents.
+
 Do not duplicate, summarize, or infer the harness workflow from this `AGENTS.md` block. If the skill is available, follow the skill. If the skill is unavailable, say so and proceed with a minimal best-effort approach.
 
 For non-coding questions, do not load the harness unless the user explicitly asks to use it.

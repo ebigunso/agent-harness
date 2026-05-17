@@ -272,3 +272,23 @@ Fix applied:
 
 Prevention:
 - Before adding validators for skill changes, distinguish objective package integrity from editable skill prose. Prefer Reviewer checks for wording, criteria quality, and prompt-bloat concerns unless a structural packaging contract is at risk.
+
+## 2026-05-17 - Discuss Worker Dispatch Waivers Before Self-Implementation  [tags: workflow, delegation, orchestration, correction]
+
+Context:
+- Plan: docs/coding-agent/plans/completed/codex-async-subagent-lifecycle-plan.md
+- Task/Wave: harness implementation
+- Roles involved: Orchestrator
+
+Symptom:
+- The Orchestrator implemented planned documentation changes directly after the user said to implement according to the plan, even though the plan defined Worker-style task ownership and the harness workflow expected subagent dispatch discussion for non-trivial work.
+
+Root cause:
+- The Orchestrator treated a runtime-level tool instruction limiting subagent spawning as sufficient reason to self-implement, but did not pause to discuss the conflict with the user before proceeding.
+
+Fix:
+- Pause implementation and discuss the dispatch constraint before moving further. Treat the current edits as unreviewed work until the user chooses whether to keep, revert, or re-run through Worker dispatch.
+
+Prevention:
+- Before self-implementing a non-trivial harness plan that calls for Worker/Reviewer roles, explicitly state any reason Worker dispatch is not being used and get user direction before editing implementation files.
+- If runtime instructions conflict with the planned harness dispatch model, surface the conflict as blocked or needs-decision instead of silently waiving dispatch.
