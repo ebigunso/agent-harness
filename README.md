@@ -115,7 +115,7 @@ Skills are shared capability modules. Runtime adapters should point to shared sk
 Agent definitions are runtime-specific because model names, tool names, and frontmatter schemas differ:
 
 - Copilot agents: `agents/*.md`
-- Claude agents: `claude/agents/`
+- Claude agents: `claude/agents/*.md`
 - Codex agent templates: `codex/agent-templates/`
 
 Logical roles are stable, but physical runtime names may differ:

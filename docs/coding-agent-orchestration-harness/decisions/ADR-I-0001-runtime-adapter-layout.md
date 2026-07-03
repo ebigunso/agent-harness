@@ -31,13 +31,13 @@ Combining all runtime agent definitions in one discovery path risks duplicate or
 Runtime adapter files are separated by runtime while all shared skills remain under `plugins/coding-agent-orchestration-harness/skills/`.
 
 - Copilot agents remain directly under `plugins/coding-agent-orchestration-harness/agents/` with their root `*.md` filenames.
-- Claude agents live under `plugins/coding-agent-orchestration-harness/claude/agents/`.
+- Claude agents live under `plugins/coding-agent-orchestration-harness/claude/agents/*.md`.
 - Codex TOML files are stored as inert templates under `plugins/coding-agent-orchestration-harness/codex/agent-templates/` and are installed by bootstrap.
 
 ## Implementation Impact
 
 - `.github/plugin/plugin.json` points to `./agents/` and `./skills/`.
-- `.claude-plugin/plugin.json` points to `./claude/agents/` and `./skills/`.
+- `.claude-plugin/plugin.json` lists the Claude agent Markdown files under `./claude/agents/` and points to `./skills/`.
 - `.codex-plugin/plugin.json` points to `./skills/`; Codex agent installation is handled by bootstrap.
 
 ## Considered Options
