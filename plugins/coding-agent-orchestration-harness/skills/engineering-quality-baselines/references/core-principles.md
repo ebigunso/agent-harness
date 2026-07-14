@@ -5,6 +5,7 @@
 - [How to Use](#how-to-use)
 - [Core Implementation and Review Principles](#core-implementation-and-review-principles)
 - [Common Anti-Patterns](#common-anti-patterns)
+- [Durable-Code Hygiene](#durable-code-hygiene)
 - [Quick Review Pass (Minimal)](#quick-review-pass-minimal)
 - [Non-Goals](#non-goals)
 
@@ -132,6 +133,12 @@ Review checks:
 - Silent failure handling: catching and suppressing errors without observability or correction path.
 - Hidden coupling: introducing cross-module dependencies that obscure ownership and change impact.
 - Review by surface area: approving based on file count or size instead of risk and semantics.
+
+## Durable-Code Hygiene
+
+- Prefer the smallest root-cause fix over suppressions, wrappers, or retries that hide the symptom; when a symptom patch is genuinely accepted, document the tradeoff.
+- Temporary lint suppressions and scaffolding carry a rationale plus explicit removal conditions.
+- Keep roadmap/version labels out of durable code identifiers, comments, and user-facing errors; use stable domain language instead.
 
 ## Quick Review Pass (Minimal)
 
