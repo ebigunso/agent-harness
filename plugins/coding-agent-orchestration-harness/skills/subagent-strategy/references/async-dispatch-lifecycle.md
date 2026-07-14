@@ -4,6 +4,8 @@ Use this reference only for runtimes that launch Researcher, Worker, or Reviewer
 
 This is Orchestrator-owned lifecycle guidance. It does not change subagent role behavior or report contracts.
 
+If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel, also read references/persistent-peer-dispatch.md.
+
 ## Parent-Owned Lifecycle
 
 1. Dispatch the child agent with one bounded objective.
@@ -31,6 +33,8 @@ Track enough state to avoid losing, duplicating, or misrouting background work:
 - Poll only when the runtime requires polling or when a dependency boundary is reached.
 - Do not duplicate active child work on the main thread unless the dispatch is cancelled, blocked, or explicitly reassigned.
 - If a child is blocked, record the blocker before deciding whether to reassign the work.
+- Wait substantially longer before force-closing background agents unless they are clearly blocked, conflicting with newer direction, or unsafe.
+- Use checkpoint prompts to redirect or narrow work, not as a prelude to termination.
 
 ## Report Integration
 

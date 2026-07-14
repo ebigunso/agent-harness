@@ -27,6 +27,7 @@ This skill standardizes how the Orchestrator uses subagents to:
 3) One objective per subagent invocation
 - Every subagent call should have one objective and one deliverable shape.
 - If a call would require multiple independent objectives, split into multiple invocations.
+- Prefer Worker tasks completable in one short feedback loop — one module, one validation failure, one review slice — over whole-component assignments.
 
 4) Parallelize analysis for complex problems
 - For complex or high-ambiguity work, run multiple Researcher calls in parallel.
@@ -58,6 +59,9 @@ Subagents benefit from “why” when it changes decisions, but long narratives 
 
 If the runtime launches subagents asynchronously or as background processes:
 - Read references/async-dispatch-lifecycle.md
+
+If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel (team messaging, shared inbox):
+- Read references/persistent-peer-dispatch.md
 
 If you want patterns for splitting research in parallel:
 - Read references/research-splits.md
