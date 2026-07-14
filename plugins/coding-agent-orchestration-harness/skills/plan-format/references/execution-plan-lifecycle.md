@@ -4,6 +4,12 @@ This reference describes how execution plans are maintained over time.
 
 ---
 
+## 0) Roadmaps vs execution plans
+
+- Roadmaps stay at high-level chunk granularity; add concrete Task_X detail only for the next executable chunk.
+- Keep roadmaps and concrete execution plans in separate files with independent lifecycles.
+- Name plans by the outcome they achieve, not by sequence number.
+
 ## 1) Create
 
 - Create under `docs/coding-agent/plans/active/`.
