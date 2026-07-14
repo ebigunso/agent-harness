@@ -166,6 +166,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - Repo rules updates: `rulebook`
 - Post-correction handling: `improvement-loop`
 - Workspace/tool failures: `workspace-troubleshooting`
+- Durable documentation authoring: `durable-docs-authoring`
 - First-party skill governance: `skills-maintenance`
 - Runtime role names: `references/runtime-role-map.md`
 - Status vocabulary: `references/status-model.md`
