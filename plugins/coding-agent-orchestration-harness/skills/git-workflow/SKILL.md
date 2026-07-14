@@ -57,5 +57,8 @@ If you need guidance on splitting work into logical commits and writing clean co
 If you need explicit defaults for safe Git command selection:
 - Read `references/safe-git-defaults.md`
 
+If you are creating or updating a PR, or driving an external review loop (e.g. Copilot re-review, thread closeout):
+- Read `references/pr-authoring.md`
+
 If Git behavior is failing, branch state looks wrong, or the workspace appears out of sync:
 - Use `workspace-troubleshooting` rather than adding troubleshooting steps here.
