@@ -37,7 +37,3 @@ Rules for writing and restructuring durable documentation: product/strategy/poli
 - First screen: does the opening screen show the main story (governing claim plus top ideas), not a flat inventory?
 - Agreement: do title, filename, metadata role, and opening paragraph all describe the same document role? If they disagree, resolve the mismatch — do not document around it.
 - Sweep for time-relative words and confirm each is either durable by role or explicitly date-anchored.
-
-## Provenance
-
-These rules were distilled from a single repository's recurring durable-docs corrections (SleepTracker lessons log, 2026-03 — seven entries dated 2026-03-16 and 2026-03-20). They are confirmed against one repo's evidence; treat them as strong defaults rather than universally validated policy.

@@ -313,3 +313,24 @@ Prevention:
 
 Evidence:
 - User correction on 2026-07-14 (agmsg): persistent-agent lessons "shouldn't be blindly added but rather gated behind progressive disclosure so they only are read when the runtime setup uses multiple agents which are kept alive."
+
+## 2026-07-15 - Keep Provenance Disclaimers Out Of First-Party Skill Content  [tags: skill-maintenance, documentation]
+
+Context:
+- Task: durable-docs-authoring skill created from single-repo lessons during the lessons-triage promotion
+- Roles involved: Orchestrator | Worker
+
+Symptom:
+- The new skill's reference ended with a Provenance section describing the source repository and advising readers to treat the rules as "strong defaults rather than universally validated policy".
+
+Root cause:
+- The triage carried evidence-confidence bookkeeping (single-repo provenance) into runtime skill content, treating a promotion-decision input as reader-facing context.
+
+Fix applied:
+- Removed the Provenance section; the reference now contains only the authoring rules.
+
+Prevention:
+- Harness skills hold guidelines, not disclaimers: keep evidence provenance, confidence caveats, and promotion history out of first-party skill/reference content; that bookkeeping belongs in lessons, plans, or ADRs.
+
+Evidence:
+- User correction on 2026-07-14 (agmsg): "The provenance claim in the doc authoring skill is unnecessary. Harness skills should hold guidelines, not disclaimers."
