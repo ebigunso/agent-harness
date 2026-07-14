@@ -292,3 +292,45 @@ Fix:
 Prevention:
 - Before self-implementing a non-trivial harness plan that calls for Worker/Reviewer roles, explicitly state any reason Worker dispatch is not being used and get user direction before editing implementation files.
 - If runtime instructions conflict with the planned harness dispatch model, surface the conflict as blocked or needs-decision instead of silently waiving dispatch.
+
+## 2026-07-15 - Gate Environment-Dependent Guidance Behind Progressive Disclosure  [tags: skill-maintenance, planning, delegation]
+
+Context:
+- Task: cross-repo lessons triage for harness skill additions/updates
+- Roles involved: Orchestrator
+
+Symptom:
+- The triage proposed adding persistent-multi-agent dispatch guidance (delivery-path liveness checks, live-worker capacity counts, registered-channel handoff verification) directly into the always-read async dispatch lifecycle guidance, even though those rules only apply when the runtime keeps agents alive across dispatches.
+
+Root cause:
+- Lessons were sorted by generalizability alone, without classifying whether each item applies across every runtime environment the skill suite serves.
+
+Fix applied:
+- Re-scoped the proposal to place persistent-peer dispatch guidance in a separate progressive-disclosure reference, read only when the runtime setup uses long-lived agents communicating over an external channel rather than spawn-and-clean-up subagents.
+
+Prevention:
+- When promoting lessons into first-party skills, classify each item by runtime-environment applicability; environment-conditional guidance belongs in a gated reference with an explicit routing condition, not in always-read skill text.
+
+Evidence:
+- User correction on 2026-07-14 (agmsg): persistent-agent lessons "shouldn't be blindly added but rather gated behind progressive disclosure so they only are read when the runtime setup uses multiple agents which are kept alive."
+
+## 2026-07-15 - Keep Provenance Disclaimers Out Of First-Party Skill Content  [tags: skill-maintenance, documentation]
+
+Context:
+- Task: durable-docs-authoring skill created from single-repo lessons during the lessons-triage promotion
+- Roles involved: Orchestrator | Worker
+
+Symptom:
+- The new skill's reference ended with a Provenance section describing the source repository and advising readers to treat the rules as "strong defaults rather than universally validated policy".
+
+Root cause:
+- The triage carried evidence-confidence bookkeeping (single-repo provenance) into runtime skill content, treating a promotion-decision input as reader-facing context.
+
+Fix applied:
+- Removed the Provenance section; the reference now contains only the authoring rules.
+
+Prevention:
+- Harness skills hold guidelines, not disclaimers: keep evidence provenance, confidence caveats, and promotion history out of first-party skill/reference content; that bookkeeping belongs in lessons, plans, or ADRs.
+
+Evidence:
+- User correction on 2026-07-14 (agmsg): "The provenance claim in the doc authoring skill is unnecessary. Harness skills should hold guidelines, not disclaimers."

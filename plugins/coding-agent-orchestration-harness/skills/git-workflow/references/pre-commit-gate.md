@@ -27,6 +27,10 @@ Use this checklist before any commit-affecting Git mutation.
 - Review `git show --stat --oneline HEAD` or equivalent read-only confirmation.
 - Confirm the worktree state afterward with `git status --short` when appropriate.
 
+7) Before claiming the branch clean or opening a PR
+- Verify `git status` AND a targeted `git diff` of the last-touched files; a clean-looking status alone is not proof after follow-up edits.
+- Before pushing documentation-heavy changes, run a privacy sweep for machine-specific paths (`C:/Users`, `/c/Users`, `%USERPROFILE%`, `%APPDATA%`) and replace hits with repo-relative or environment-agnostic forms.
+
 Notes:
 - This checklist does not define branch naming conventions beyond the `main` safety gate.
 - Repo-specific branch or release policy belongs in repo rules, not here.

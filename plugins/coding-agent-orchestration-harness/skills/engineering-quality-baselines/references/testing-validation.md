@@ -65,6 +65,19 @@ For automated validations:
 
 ---
 
+## Evidence Integrity
+
+Rules that keep validation evidence trustworthy, not just present:
+
+- Absence claims ("no X remains") require an evidence search matching the broadest syntactic form of X — encode the class, not the expected spelling — scoped to the repo root with only documented historical/generated paths excluded.
+- Never infer file/asset absence from ignore-aware search (`rg`/`fd` honor `.gitignore`); require direct filesystem checks or `--no-ignore`.
+- Skip-capable tests can report green with unexecuted bodies: when specific-test evidence matters, rerun it targeted and confirm no skip message, and verify gated live tests once with the service deliberately down.
+- Targeted-test evidence requires a positive executed-test count, never exit code alone — filters can match zero tests and still exit 0.
+- When validation fails in tests the change did not touch, rerun against baseline HEAD (stash/worktree) to classify pre-existing vs regression before remediating.
+- Evidence claims must state scenario scope, config identity, and dependency provenance at the point of claim; label scoped evidence as scoped.
+
+---
+
 ## Risk Profile → Routing Level and Check Selection
 
 Use this quick mapping to choose proportional routing and check selection.

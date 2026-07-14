@@ -15,13 +15,14 @@ Fix applied:
 - <what changed, or what should have been done>
 
 Prevention:
+<!-- Lesson-writing standard: keep the incident record (Symptom/Root cause/Fix) concrete and specific to what actually happened. Generalize only the prevention rule, and only to the highest-value scope confirmed by the incident and user intent. If a broader prevention scope is plausible but unconfirmed, ask the user instead of assuming it. -->
 - Repo rule candidate:
   - audience: common|worker|orchestrator|reviewer
   - proposed rule: <one sentence>
 - Harness migration candidate:
   - category:
   - proposed_home:
-  - generalized_rule:
+  - generalized_rule: <generalize only to the confirmed scope; ask if broader scope is unconfirmed>
   - suggested_change:
 - Troubleshooting note/candidate:
   - symptom:

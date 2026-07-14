@@ -26,6 +26,8 @@ Minimum must-have fields:
 If the correction is about “I forgot to do X before ending the turn,”
 the prevention should include a *turn-closing guardrail* (e.g., checklist).
 
+Keep the incident record concrete; generalize only the prevention rule to its confirmed scope (see the lesson-writing standard in the entry template).
+
 ## Step 3: State same-turn durable behavior changes back to the user
 
 If the correction establishes a real persistent default or future-behavior change, include in the same response where you acknowledge the correction:

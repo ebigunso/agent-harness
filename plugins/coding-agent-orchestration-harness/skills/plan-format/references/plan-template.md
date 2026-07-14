@@ -5,6 +5,8 @@ Copy this structure into:
 
 Keep it readable. Prefer short bullets and links over long narratives.
 
+Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sentence, paragraph, or list item per line.
+
 ---
 
 # Plan: <Title>
@@ -117,6 +119,8 @@ Interpretation:
 - <how to revert or disable changes>
 
 ## Progress Log (append-only)
+
+Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
 - <YYYY-MM-DD HH:MM> Wave N completed: [Task_X, ...]
   - Summary:

@@ -36,6 +36,8 @@ Non-trivial work requires a plan and approval when any are true, unless the user
 
 Follow-ups after completion re-run the Plan Gate. Do not chain non-trivial work without a new or updated plan and explicit approval unless the plan is explicitly waived with a recorded reason and evidence.
 
+Clarifications, follow-up requirements, and plan refinements are NOT plan approval. Execution requires an explicit approval or a direct execution instruction from the user; when in doubt, ask.
+
 ## Research Dispatch Details
 
 For non-trivial requests:

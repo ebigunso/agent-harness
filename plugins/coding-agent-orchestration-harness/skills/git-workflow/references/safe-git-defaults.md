@@ -17,6 +17,11 @@ This reference keeps Git workflow defaults explicit and reusable across reposito
 - history rewrites that were not explicitly requested
 - branch changes or commits performed by a subagent without explicit delegation
 
+## Destructive operations on shared mutable resources
+
+- Freeze the target list first: enumerate the targets once, freeze that list, and act only on the frozen list — never pipe a fresh listing into a destructive loop.
+- If a safety property was announced to peers (e.g. "only pre-snapshot items will be deleted"), verify the implementation actually enforces it before running.
+
 ## Boundary notes
 
 - This reference is procedural, not a repository branch-policy document.
