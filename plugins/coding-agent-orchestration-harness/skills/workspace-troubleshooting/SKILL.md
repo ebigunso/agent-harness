@@ -56,6 +56,12 @@ If the user reports missing changes or your view doesn’t match theirs:
 If failures might be caused by persistent shell cwd drift:
 - Read references/persistent-shell-cwd-normalization.md
 
+If a gRPC client hangs against a Docker Desktop published port on Windows while REST on a sibling port responds fast:
+- Read references/windows-docker-grpc-localhost-ipv6.md
+
+If PowerShell JSON array checks behave inconsistently for one-element arrays (cardinality validation after ConvertFrom-Json):
+- Read references/powershell-json-array-cardinality.md
+
 ---
 
 ## How to contribute new troubleshooting knowledge
