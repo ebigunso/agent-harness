@@ -11,7 +11,7 @@ Read this reference when waiting on PR review rounds or arming review monitoring
 
 ## Mode selection by runtime
 
-- Monitor-capable runtimes (e.g. Claude Code): arm the watch mode (default, `-i SECONDS`) as a persistent monitor after opening a PR or pushing fixes. It stays silent until the first change, prints one `NEW_ACTIVITY` line, and exits 0 — exit-on-first-change wakes the agent, silence costs nothing.
+- Monitor-capable runtimes (e.g. Claude Code): arm the watch mode (the default; `-i SECONDS` optionally overrides the 120s poll interval) as a persistent monitor after opening a PR or pushing fixes. It stays silent until the first change, prints one `NEW_ACTIVITY` line, and exits 0 — exit-on-first-change wakes the agent, silence costs nothing.
 - No-Monitor runtimes with concurrent work: run `--once` probes at natural checkpoints. Without counts it initializes (`BASELINE ...`, exit 0); with counts it compares (`NEW_ACTIVITY`, exit 0, or `NO_CHANGE ...`, exit 3). Carry the printed counts forward as the next call's baseline.
 - No-Monitor runtimes that are only waiting: chain bounded `--wait SECONDS` calls (duration required, no default). Each wait must stay below the runtime's foreground command limit — GitHub Copilot auto-backgrounds long-running scripts after a fixed time and returns control, so keep waits under that threshold and re-invoke, feeding each round's printed counts to the next call.
 - Exit codes: 0 activity/baseline, 2 usage error, 3 no-change/deadline, 4 API failure — do not record a baseline from a failed call.

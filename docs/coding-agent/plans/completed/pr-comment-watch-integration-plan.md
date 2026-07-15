@@ -20,7 +20,7 @@
 Script (`skills/git-workflow/scripts/pr-comment-watch.sh`), adapted from the user's staged original. Fully stateless: the agent's thread context is the state store; no baseline files anywhere.
 
 - PR spec syntax: `OWNER/REPO:PR[:comments[:reviews]]` — optional supplied baseline counts; multiple specs supported in every mode.
-- Change detection: comments count OR reviews count differs (zero-comment review rounds must fire — they are the proceed-to-merge signal).
+- Change detection: comments count OR reviews count differs (zero-comment review rounds must fire — they signal a completed round with nothing to fix, state the user needs in order to decide on merging).
 - Modes:
   - Watch (default, `-i SECONDS` interval, current behavior): in-memory baseline at startup (or supplied counts), silent until first change, one `NEW_ACTIVITY` line, exit 0. For Monitor-capable runtimes.
   - `--once`: single check. With supplied counts: compare and print `NEW_ACTIVITY ...` (exit 0) or `NO_CHANGE repo=... pr=... comments=N reviews=R` (exit 3). Without counts: initialization — print `BASELINE repo=... pr=... comments=N reviews=R`, exit 0. Probe/init output always includes current counts: that line is the next invocation's baseline.

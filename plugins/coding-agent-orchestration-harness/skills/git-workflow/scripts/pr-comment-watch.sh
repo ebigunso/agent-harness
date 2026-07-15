@@ -118,8 +118,13 @@ count_endpoint() {
   local endpoint=$3
   local output count
 
-  if ! output=$(gh api "repos/$repo/pulls/$pr/$endpoint" --paginate --jq '.[].id' 2>/dev/null); then
-    return 1
+  # Watch mode stays silent on transient failures; probe modes (--once/--wait)
+  # surface the underlying gh/API error on stderr so exit 4 is diagnosable
+  # (auth, rate limit, 404) without breaking the no-heartbeat contract.
+  if [ "$MODE" = watch ]; then
+    output=$(gh api "repos/$repo/pulls/$pr/$endpoint" --paginate --jq '.[].id' 2>/dev/null) || return 1
+  else
+    output=$(gh api "repos/$repo/pulls/$pr/$endpoint" --paginate --jq '.[].id') || return 1
   fi
   if [ -z "$output" ]; then
     printf '0\n'
