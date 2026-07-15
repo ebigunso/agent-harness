@@ -31,7 +31,6 @@ Canonical reference: `skills/orchestration-harness/references/runtime-role-map.m
 - `plan-format`: Task_X plan structure and waves.
 - `subagent-strategy`: dispatch strategy and prompt checklists.
 - `subagent-report-contract`: Worker YAML report contract.
-- `worker-ui-probes`: bounded Worker UI probe policy.
 - `wave-integration`: Orchestrator-owned Worker wave integration checklist.
 - `runtime-adapter-contract`: runtime adapter maintenance rules.
 - `playwright-e2e-evidence`: UI/E2E evidence shape.

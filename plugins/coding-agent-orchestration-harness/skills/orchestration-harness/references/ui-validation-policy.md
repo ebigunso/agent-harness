@@ -20,6 +20,7 @@ Worker probes:
 - default to local URLs only;
 - cover only task-owned behavior;
 - help catch obvious issues while editing;
+- may fix obvious issues found during a probe, but only within the Worker's `owns` scope;
 - must be reported in Worker YAML when they materially affect implementation.
 
 Worker probes do not satisfy Reviewer-owned validation unless the Orchestrator or user explicitly reassigns or waives that validation.
