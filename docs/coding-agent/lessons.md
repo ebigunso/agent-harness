@@ -292,3 +292,87 @@ Fix:
 Prevention:
 - Before self-implementing a non-trivial harness plan that calls for Worker/Reviewer roles, explicitly state any reason Worker dispatch is not being used and get user direction before editing implementation files.
 - If runtime instructions conflict with the planned harness dispatch model, surface the conflict as blocked or needs-decision instead of silently waiving dispatch.
+
+## 2026-07-15 - Judge Deletion Candidates By Relevance, Not Current Usability  [tags: audit, skill-maintenance, judgment]
+
+Context:
+- Task: first long-horizon audit of the harness (five-step lens)
+- Roles involved: Orchestrator
+
+Symptom:
+- The audit proposed fixing-or-removing the skills-maintenance route to skill-creator because the referenced skill is not bundled and the path breaks outside this machine.
+
+Root cause:
+- The step-2 deletion judgment weighed current usability (broken path) over the reference's relevance and intent: skill-creator is an Anthropic-official skill intended for independent upstream updates, with integration machinery planned but not yet built.
+
+Fix applied:
+- Revised disposition: keep the route (it usefully bounds skills-maintenance scope); fix only the wording that falsely implies the skill is plugin-bundled.
+
+Prevention:
+- In audit step 2, integrations that are not cleanly usable today are judged on relevance and usefulness of their presence, especially when upstream/vendored update machinery is intended; brokenness alone justifies fixing the assertion, not deleting the integration.
+
+Evidence:
+- User correction on 2026-07-15 (agmsg): "I don't think simple removal just because it isn't cleanly usable is the right call, but rather should be decided by the relevancy and usefulness of it being there."
+
+## 2026-07-15 - Apply The Deletion Bias To Your Own Proposed Additions  [tags: audit, judgment, prompt-budget]
+
+Context:
+- Task: harness audit remediation discussion, topic 1 (Research Dispatch Gate)
+- Roles involved: Orchestrator
+
+Symptom:
+- After evidence reversed the audit finding to "keep the gate unchanged", the closing proposal still offered a hedge addition ("at most add one clarifying line legitimizing the waiver") that the user had to reject as too specific.
+
+Root cause:
+- The reversed finding was softened with a consolation deliverable instead of running the new addition through the same step-2 deletion test applied to existing content; no concrete consumer or prevented failure was ever named for the line.
+
+Fix applied:
+- Q1 closed with no edits; the hedge line was dropped.
+
+Prevention:
+- Every addition proposed during audits or remediation — however small — must name the concrete consumer or failure it prevents before being offered; "at most add one small line" with neither is a step-2 violation to catch before the user does.
+
+Evidence:
+- User correction on 2026-07-15 (agmsg): the rejection "is an exercise of the delete as much as you can thought process imo. It's best if you could have caught that yourself."
+
+## 2026-07-16 - Hash-Verify Exact Restoration Of Temporary Test Edits  [tags: validation, tooling, line-endings]
+
+Context:
+- Task: harness-audit remediation Task_8 (cross-manifest drift detection), deliberate temporary version mismatch for behavioral verification
+- Roles involved: Worker (codex) | Orchestrator
+
+Symptom:
+- Restoring a temporarily patched CRLF file (.codex-plugin/plugin.json) reproduced the JSON content but left the patched line with a lone LF, so the restored file's bytes differed from the original despite looking identical.
+
+Root cause:
+- Patch tooling normalized the edited line's ending to LF on a CRLF file; content-level comparison cannot see the difference.
+
+Fix applied:
+- The Worker recorded a pre-edit SHA-256, detected the mismatch after restore, mechanically restored the missing CR byte, and confirmed the final hash matched exactly.
+
+Prevention:
+- For temporary edits that must restore exactly (verify-fail-restore sequences, planted test mutations), record a pre-edit hash and verify it after restoration; on CRLF files, expect patch tooling to alter line endings on edited lines.
+
+Evidence:
+- Task_8 Worker report (agmsg, 2026-07-16): pre/post SHA-256 mismatch detected and resolved; final hash exact match.
+
+## 2026-07-16 - Set PYTHONIOENCODING For Unicode-Emitting Python On Windows Consoles  [tags: tooling, windows, encoding]
+
+Context:
+- Task: harness-audit remediation Task_9 adapter body diffs
+- Roles involved: Worker (codex)
+
+Symptom:
+- A read-only Python diff command failed printing adapter text because the Windows console encoding (CP932) cannot encode the em-dash present in the bodies.
+
+Root cause:
+- Python inherits the console code page for stdout on Windows; content with non-CP932 characters raises encode errors on print.
+
+Fix applied:
+- Reran with PYTHONIOENCODING=utf-8; no files were touched by the failed attempt.
+
+Prevention:
+- Set PYTHONIOENCODING=utf-8 before Python commands that may print Unicode content on Windows consoles.
+
+Evidence:
+- Task_9 Worker report (agmsg, 2026-07-16): first attempt failed CP932 encode; rerun with the override enumerated all diffs.

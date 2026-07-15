@@ -17,6 +17,7 @@ Examples:
 - unsafe shared-state Git mutation;
 - final closeout or plan status marked `done` while blockers remain;
 - required validation marked `skipped` without explicit waiver evidence;
+- waiver evidence that does not follow the Canonical Required-Check Waiver Template in `engineering-quality-baselines/references/testing-validation.md`;
 - non-trivial work marked complete without Reviewer approval or waiver.
 
 ## Soft rules

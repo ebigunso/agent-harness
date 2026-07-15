@@ -34,7 +34,7 @@ This skill defines how to maintain first-party skills without turning SKILL.md i
 - Use the reference checklist for this pass.
 
 6) Route to skill-creator only when that workflow is actually needed
-- Use skill-creator for open-ended draft creation, eval or benchmark loops, packaging, or description-optimization workflows.
+- Use the Anthropic-official skill-creator skill (provided by the environment, not bundled with this plugin) for open-ended draft creation, eval or benchmark loops, packaging, or description-optimization workflows; if it is unavailable in the current environment, surface that to the user instead of proceeding as if it exists.
 - Do not invoke skill-creator for routine first-party maintenance when this skill alone is sufficient.
 
 7) Route runtime adapter maintenance to runtime-adapter-contract
@@ -55,4 +55,4 @@ If you are about to finish a skill change and need the required QA pass:
 - Read references/final-ambiguity-pass.md
 
 If draft creation, evals, benchmarks, packaging, or description-optimization work is actually required:
-- Switch to skills/skill-creator/SKILL.md
+- Switch to the Anthropic-official skill-creator skill if it is available in the environment; if not, tell the user it is unavailable

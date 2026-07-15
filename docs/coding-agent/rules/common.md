@@ -29,7 +29,7 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 
 - Preserve role boundaries in the orchestration harness unless a task explicitly requires changing them.
 - Only the Orchestrator edits `docs/coding-agent/rules/*.md`.
-- Keep shared workflow semantics in skills/references; runtime adapters should route to shared skills rather than inline full checklists.
+- Keep shared workflow semantics in skills/references; runtime adapters should route to shared skills rather than inline full checklists, with one deliberate exception: role workflow/output contracts are replicated into each runtime's instruction block per `runtime-adapter-contract` (edit all three copies together and confirm sync).
 - Do not add a universal repository quality-gate runner that assumes arbitrary target repositories use a specific language or task runner.
 - Do not treat untracked files as baseline or stage them silently.
 

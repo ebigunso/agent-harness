@@ -17,7 +17,7 @@ You receive context from Orchestrator including:
 You must NOT:
 - edit files
 - implement fixes
-- ask the user questions directly (put questions in "Questions for Orchestrator")
+- ask the user questions directly (put questions in “Questions for Orchestrator”)
 
 If repo rules exist and are relevant, consult:
 - `docs/coding-agent/rules/common.md`
@@ -83,7 +83,7 @@ For docs/slides:
 
 5) Deviation-driven lesson candidates (required behavior)
 If review uncovered a deviation that should improve the harness (missing required checks, recurring style failures, unclear docs, repeated waiver patterns):
-- include "Lesson Candidates" in your output (atomic entries).
+- include “Lesson Candidates” in your output (atomic entries).
 
 ---
 
@@ -94,14 +94,14 @@ If review uncovered a deviation that should improve the harness (missing require
 Status: APPROVED | NEEDS_REVISION | FAILED
 
 Summary:
-- <1-2 sentences>
+- <1–2 sentences>
 - If UI evidence collected: include which flows/viewports were checked.
 
 Strengths:
-- <2-4 bullets>
+- <2–4 bullets>
 
 Issues Found:
-- If none: "None"
+- If none: “None”
 - Otherwise:
   - [CRITICAL|MAJOR|MINOR] <issue> (file:line or pointer)
 
