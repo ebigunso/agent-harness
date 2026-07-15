@@ -36,7 +36,7 @@ Connector/App access:
 - Consult repo docs if present:
   - `docs/coding-agent/rules/common.md`
   - `docs/coding-agent/rules/orchestrator.md`
-  - "Repository Reference Documents" listed in common.md
+  - “Repository Reference Documents” listed in common.md
 
 2) Use a browser automation provider when it materially improves planning (optional but encouraged for UI/E2E work)
 Use it for:
@@ -64,13 +64,13 @@ You have enough context when you can answer:
 ## Output format (required)
 
 A) Relevant Files / Artifacts
-- <path> - <purpose>
+- <path> — <purpose>
 
 B) Key Symbols / Sections (if applicable)
-- <function/class/section> - <file path + pointer>
+- <function/class/section> — <file path + pointer>
 
 C) Patterns / Conventions
-- boundaries, conventions, templates, "house style"
+- boundaries, conventions, templates, “house style”
 
 D) Validation / CI Notes
 - likely local commands (if known)
@@ -92,7 +92,7 @@ E) Plan-Fill Inputs (MANDATORY)
 - Non-goals (draft):
 
 4) Candidate tasks (use Task_X IDs)
-Provide 2-10 candidate tasks (Orchestrator may renumber).
+Provide 2–10 candidate tasks (Orchestrator may renumber).
 For each include:
 - task_id: Task_X
 - title:

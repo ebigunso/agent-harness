@@ -5,8 +5,9 @@ Use this checklist before completing runtime adapter changes.
 ## Scope
 
 - Identify which runtime is affected: Copilot, Claude, Codex, or manifest packaging.
-- Confirm whether the change is runtime mechanics, shared semantics, or both.
-- Move shared semantics to shared skills/references instead of copying them into adapters.
+- Classify the change as detailed shared policy, an enforcement-critical role workflow/output contract, runtime mechanics, or a combination.
+- Keep detailed shared policy and procedures canonical in shared skills/references.
+- Replicate enforcement-critical role workflow/output contracts in each runtime's instruction block.
 
 ## Role Names
 
@@ -14,11 +15,21 @@ Use this checklist before completing runtime adapter changes.
 - Preserve existing public physical names unless a migration plan exists.
 - Prefer namespaced names for new physical agents where collisions are plausible.
 
-## Prompt Shape
+## Instruction Bodies
 
-- Keep Copilot/GPT adapters to a medium kernel when explicit selection benefits from local reminders.
-- Keep Claude adapters short and reference-driven.
-- Keep Codex `AGENTS.md` snippets loader-only.
+- Treat the Copilot agent body, Claude subagent body, and Codex role-template `developer_instructions` as runtime instruction blocks.
+- Keep shared role workflow and output-contract text synchronized across all three instruction blocks.
+- Keep runtime-specific additions local to the runtime that needs them, such as tool names, connector policy references, and platform mechanics.
+- Keep Codex `AGENTS.md` loaders and snippets loader-only; do not confuse them with role-template `developer_instructions`.
+
+## Replicated Contract Sync
+
+When editing shared role workflow or output-contract text:
+
+1. Update the Copilot, Claude, and Codex instruction bodies for that role.
+2. Compare bodies only: exclude YAML frontmatter and TOML configuration fields.
+3. Diff all three body pairs after the edit.
+4. Classify every remaining differing line as intentional runtime-specific behavior; reconcile any unexplained drift.
 
 ## Tool Permissions
 
@@ -31,5 +42,6 @@ Use this checklist before completing runtime adapter changes.
 
 - Manifest paths still point to the intended runtime directories.
 - Adapter bodies route to `orchestration-harness`.
-- No adapter contains a full duplicate of the canonical workflow.
+- Pairwise body diffs contain only classified runtime-specific differences.
+- Adapters do not duplicate detailed canonical procedures beyond the enforcement-critical role workflow/output contract.
 - New skills live under shared `skills/` unless runtime-specific by design.
