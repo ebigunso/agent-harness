@@ -55,8 +55,10 @@ def check_manifests(errors: list[str]) -> None:
         ROOT / ".claude-plugin" / "plugin.json",
         ROOT / ".codex-plugin" / "plugin.json",
     ]
+    manifest_data: list[tuple[Path, dict]] = []
     for manifest in manifests:
         data = load_json(manifest, errors)
+        manifest_data.append((manifest, data))
         for key in ("agents", "skills"):
             value = data.get(key)
             if value is None:
@@ -77,6 +79,14 @@ def check_manifests(errors: list[str]) -> None:
                 if not target.exists():
                     fail(errors, f"{manifest}: referenced {key} path does not exist: {item}")
 
+    for field in ("version", "name", "repository", "license"):
+        values = [data.get(field) for _, data in manifest_data]
+        if any(value != values[0] for value in values[1:]):
+            details = "; ".join(
+                f"{manifest}={data.get(field)!r}" for manifest, data in manifest_data
+            )
+            fail(errors, f"cross-manifest mismatch for field {field!r}: {details}")
+
 
 def check_skills(errors: list[str]) -> None:
     skills_dir = ROOT / "skills"
@@ -87,7 +97,6 @@ def check_skills(errors: list[str]) -> None:
         "orchestration-harness",
         "plan-format",
         "subagent-report-contract",
-        "worker-ui-probes",
         "wave-integration",
         "runtime-adapter-contract",
         "rulebook",
