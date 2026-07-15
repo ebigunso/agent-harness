@@ -75,6 +75,7 @@ Rules that keep validation evidence trustworthy, not just present:
 - Targeted-test evidence requires a positive executed-test count, never exit code alone — filters can match zero tests and still exit 0.
 - When validation fails in tests the change did not touch, rerun against baseline HEAD (stash/worktree) to classify pre-existing vs regression before remediating.
 - Evidence claims must state scenario scope, config identity, and dependency provenance at the point of claim; label scoped evidence as scoped.
+- Temporary test mutations that must restore exactly (verify-fail-restore sequences, planted mismatches): record a pre-edit hash and verify it after restoration — patch tooling can silently change line endings on edited lines, which content comparison cannot see.
 
 ---
 

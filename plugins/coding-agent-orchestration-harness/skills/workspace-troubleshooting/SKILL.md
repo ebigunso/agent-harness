@@ -62,6 +62,9 @@ If a gRPC client hangs against a Docker Desktop published port on Windows while 
 If PowerShell JSON array checks behave inconsistently for one-element arrays (cardinality validation after ConvertFrom-Json):
 - Read references/powershell-json-array-cardinality.md
 
+If a Python command fails with UnicodeEncodeError while printing on a Windows console:
+- Read references/windows-python-console-encoding.md
+
 If gh CLI auth fails mid-task or a session assigned real-GitHub validation reports an invalid stored token:
 - Read references/github-cli-auth-failures.md
 

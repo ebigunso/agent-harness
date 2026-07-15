@@ -19,6 +19,7 @@ Do not proceed to Step 2 for any item whose requirement question is unresolved.
 - Enumerate deletion candidates across all layers: code, process steps, validations, and automation.
 - "We might need it in case X" justifies almost anything; demand a concrete, current consumer or a named, plausible risk.
 - Calibration signal: if nothing ever has to be added back, not enough is being deleted. Occasional re-adds are evidence of healthy pruning, not failure.
+- Integrations that are not cleanly usable today are judged on the relevance and usefulness of their presence, not on current brokenness — a false assertion gets fixed; the integration is deleted only when its presence no longer earns its place (especially relevant when upstream update machinery is intended but not yet built).
 
 Only what survives Steps 1-2 is eligible for the remaining steps.
 
@@ -42,3 +43,4 @@ Only what survives Steps 1-2 is eligible for the remaining steps.
 
 - Findings are surfaced, not silently acted on: report them to the user, record decisions in the plan Decision Log, and file lesson/rule candidates through existing channels.
 - Each finding names the item, the step that flagged it, and the proposed disposition (challenge, delete, simplify, accelerate, automate, or keep).
+- Proposed additions face the same discipline as existing content: any new line, rule, or mechanism offered as remediation must name the concrete consumer or failure it prevents — a consolation "at most add one small line" with neither is a Step 2 violation.

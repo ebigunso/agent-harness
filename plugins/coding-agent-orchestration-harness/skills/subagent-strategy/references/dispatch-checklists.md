@@ -23,6 +23,7 @@ Optional (only if it materially steers decisions):
 Include:
 - Task_X id, title, type
 - owns (paths/globs)
+  - For retire/delete tasks: run a repo-wide search for the retired name at plan time and put every referencing file — including scripts, validators, and manifests — into owns, or sequence against the task owning them
 - depends_on
 - acceptance criteria
 - validation items (kind/required/owner/detail)
