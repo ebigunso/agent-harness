@@ -1,7 +1,7 @@
 {
   "name": "coding-agent-orchestration-harness",
   "description": "An orchestration harness for managing and coordinating multiple agents in a workflow.",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": {
     "name": "ebigunso"
   },
