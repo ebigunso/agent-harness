@@ -25,6 +25,8 @@ Common risk tests:
 - retry after partial failure
 - fake vs production parity
 
+3. Flag tests that assert developer-convenience surfaces (log text, error prose, incidental formatting, uncontracted mock interactions) outside a stated contract; see `test-authoring.md`.
+
 ## Output
 
 For each serious issue, name the missing regression test shape.

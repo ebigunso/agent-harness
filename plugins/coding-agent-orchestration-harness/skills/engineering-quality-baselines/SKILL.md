@@ -42,6 +42,7 @@ Load only relevant categories:
 - Stack concerns (backend/frontend): `references/stack-backend-frontend.md` (when execution path spans backend/frontend concerns)
 - Language/technology routing: `references/language-gates.md` (always for in-scope language/tech routing)
 - Validation and evidence model: `references/testing-validation.md` (when selecting required checks and evidence depth)
+- Test authoring: `references/test-authoring.md` (when writing, modifying, or reviewing tests)
 - Security boundaries: `references/security-boundaries.md` (when auth, secrets, trust boundaries, or data sensitivity are touched)
 - Review scoring summary: `references/review-rubric.md` (when performing PR/code review or final quality scoring)
 - Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, or risk-specific tests)
