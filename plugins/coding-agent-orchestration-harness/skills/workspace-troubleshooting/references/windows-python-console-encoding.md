@@ -8,7 +8,7 @@
 
 ## Likely cause
 
-Python inherits the console code page for stdout on Windows; legacy code pages (CP932, CP1252) cannot encode characters that commonly appear in prose-bearing files, so `print` raises even though the computation succeeded.
+Python inherits the console code page for stdout on Windows; non-UTF-8 legacy code pages (e.g. CP932) cannot encode characters that commonly appear in prose-bearing files, so `print` raises even though the computation succeeded. Which characters fail depends on the code page.
 
 ## Safe, ordered steps
 
@@ -18,8 +18,9 @@ Python inherits the console code page for stdout on Windows; legacy code pages (
 2) Confirm no partial side effects from the failed attempt
 - print-time failures normally leave files untouched, but verify if the script writes as well as prints
 
-3) For scripts you own, prefer explicit encoding at the write/print site
-- pass `encoding="utf-8"` on file handles rather than relying on console defaults
+3) For scripts you own, fix the output site explicitly
+- console output: call `sys.stdout.reconfigure(encoding="utf-8")` at startup instead of relying on the console code page
+- file output: pass `encoding="utf-8"` on file handles rather than relying on locale defaults
 
 ## Evidence to capture
 
