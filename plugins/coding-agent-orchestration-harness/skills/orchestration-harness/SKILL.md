@@ -162,7 +162,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - UI/E2E evidence: `playwright-e2e-evidence`, `playwright-cli`
 - Worker wave integration and Reviewer packet: `wave-integration`
 - Engineering validation depth: `engineering-quality-baselines`
-- Long-horizon audit (five-step lens, non-standard-flow only): `engineering-quality-baselines`, `references/long-horizon-audit.md`
+- Long-horizon audit (five-step lens, non-standard-flow only): `engineering-quality-baselines`
 - Git safety and commit chunking: `git-workflow`
 - Repo rules updates: `rulebook`
 - Post-correction handling: `improvement-loop`
