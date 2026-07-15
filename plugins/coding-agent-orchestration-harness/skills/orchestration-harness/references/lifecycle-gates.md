@@ -18,6 +18,8 @@ If `docs/coding-agent/rules/` does not exist, create the minimal repo-rule skele
 
 ## Plan Gate Details
 
+Before decomposing non-trivial work, challenge the requirements themselves and surface doubts to the requirement owner, regardless of who authored them.
+
 Trivial work may skip a plan only when all are true:
 
 - small and mechanical edit;

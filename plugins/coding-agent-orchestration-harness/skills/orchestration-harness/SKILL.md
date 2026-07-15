@@ -162,6 +162,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - UI/E2E evidence: `playwright-e2e-evidence`, `playwright-cli`
 - Worker wave integration and Reviewer packet: `wave-integration`
 - Engineering validation depth: `engineering-quality-baselines`
+- Long-horizon audit (five-step lens, non-standard-flow only): `engineering-quality-baselines`
 - Git safety and commit chunking: `git-workflow`
 - Repo rules updates: `rulebook`
 - Post-correction handling: `improvement-loop`
@@ -182,6 +183,7 @@ Pause planned execution and ask for confirmation when a new insight materially c
 - a new approach has meaningful tradeoffs;
 - required changes expand `owns` significantly;
 - additional modules are affected;
+- a requirement, component, or process step appears not to need to exist, or planned work is optimizing something unjustified;
 - a new security, performance, data correctness, or validation risk appears.
 
 Record replans in the plan Decision Log before continuing.

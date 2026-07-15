@@ -54,6 +54,14 @@ Then load only applicable language/tech details:
 - Go: `references/language-go.md`
 - Web frameworks: `references/tech-web-frameworks.md`
 
+### Drift Tripwires (always active)
+
+- Trip when about to optimize, extend, or test something whose consumer or necessity cannot be named.
+- Trip when adding a process step, validation, or automation justified mainly by "in case".
+- Trip when repeatedly working around the same component, process step, or rule.
+
+If tripped: surface the observation through existing channels (report questions/blockers, lesson candidates, or the user) — never act on it or suppress it silently — and read `references/long-horizon-audit.md` when the pattern looks systemic.
+
 ### Required Evidence Note (template)
 
 Use this note in task output:

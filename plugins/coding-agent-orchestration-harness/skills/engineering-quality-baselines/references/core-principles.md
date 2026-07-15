@@ -133,6 +133,7 @@ Review checks:
 - Silent failure handling: catching and suppressing errors without observability or correction path.
 - Hidden coupling: introducing cross-module dependencies that obscure ownership and change impact.
 - Review by surface area: approving based on file count or size instead of risk and semantics.
+- Unjustified-existence polish: optimizing, extending, or polishing a thing whose existence is unjustified.
 
 ## Durable-Code Hygiene
 
