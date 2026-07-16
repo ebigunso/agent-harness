@@ -48,7 +48,11 @@ With no per-decision human gate, the evidence trail becomes the oversight surfac
 - each iteration that changes the worktree ends in a checkpoint commit on the goal branch, so any iteration can be reverted in isolation;
 - rollback is the safety property: a human retrospective reviews the journal, and any wrong turn is cheap to undo. Oversight moves from approve-before to review-after precisely because revert is guaranteed cheap.
 
-The journal is the goal-mode analogue of the plan file: same repository home (`docs/coding-agent/goals/active/`, completed goals archived alongside plans), same single-writer rule, same append-only discipline.
+The journal is the goal-mode analogue of the plan file: same repository home, same single-writer rule, same append-only discipline.
+
+Artifact layout and terminal semantics: each goal is a directory — `docs/coding-agent/goals/active/<goal-id>/` containing `goal.md` (statement, condition with its protected gap reading and linkage credibility bar, envelope, cadence, status) and `journal.md` (append-only iterations and assessor records). Goal status is one of `draft | active | awaiting_decision | completed | aborted | abandoned`: an ask-now escalation sets `awaiting_decision` and the directory stays under `active/` until the human decides (resume, re-ratify, or abandon); every terminal outcome (`completed`, `aborted`, `abandoned`) archives the whole directory to `docs/coding-agent/goals/completed/` with the final status preserved in `goal.md`, so target-met, abort, and abandonment remain distinguishable after archiving.
+
+Lifecycle selection: at the Plan Gate position, non-trivial work selects exactly one lifecycle. When goal mode is selected, envelope ratification replaces plan approval, the journal with checkpoint commits replaces the Task_X lifecycle, and the completion report with human retrospective replaces plan closeout; every other gate and safety property (validation and evidence rules, role boundaries, Git safety, the merge hard stop) applies unchanged in both modes.
 
 ### 3. Tamper-evident goal conditions
 
