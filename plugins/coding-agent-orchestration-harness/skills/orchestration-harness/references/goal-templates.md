@@ -25,6 +25,7 @@ The envelope (the user-ratified boundary of what the loop may decide alone) is i
 
 ---
 
+```markdown
 # Goal: <Title>
 
 - status: draft | active | awaiting_decision | completed | aborted | abandoned
@@ -68,11 +69,13 @@ Dispatch the independent assessor (fresh-context Reviewer-role dispatch; see `re
 - heartbeat maximum: <never more than N iterations between assessments>
 
 ---
+```
 
 ## 2. Journal entry template (append-only)
 
 The iteration journal is `docs/coding-agent/goals/active/<goal-id>/journal.md`, beside `goal.md` in the goal directory — single-writer, append-only: anchor each append on the previous entry so it inserts rather than replaces.
 
+```markdown
 ### Iteration <id>
 
 - hypothesis: <what this iteration believes will reduce the gap and why>
@@ -94,6 +97,7 @@ The iteration journal is `docs/coding-agent/goals/active/<goal-id>/journal.md`, 
 - `Reason: <evidence-grounded reason covering both duties>`
 
 ---
+```
 
 ## 3. Completion report template
 
@@ -101,6 +105,7 @@ Produced by the loop before the goal branch may merge; the pre-merge reviewer ve
 Keep it readable at a glance: verbatim evidence (dispatch texts, full outputs) stays in the journal — the report asserts and points.
 Exactly these six sections.
 
+```markdown
 # Completion Report: <Goal title>
 
 ## 1. Goal condition satisfied
@@ -129,3 +134,4 @@ Exactly these six sections.
 ## 6. Checkpoint index
 - <commit hash> ↔ iteration <id>: <one-line description>
 - <commit hash> ↔ iteration <id>: <one-line description>
+```
