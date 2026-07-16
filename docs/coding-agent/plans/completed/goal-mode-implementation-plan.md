@@ -186,7 +186,7 @@
   - Trigger / new insight: user instruction to draft the implementation plan after ratifying the ADRs.
   - Plan delta (what changed): initial draft.
   - Tradeoffs considered: including a trial task (rejected — trials need a real goal in a target repo and belong to that repo's workflow); separate goal-mode skill (rejected — mode selection must sit at the Plan Gate position inside orchestration-harness).
-  - User approval: pending.
+  - User approval: yes (2026-07-16 via agmsg — "Plan looks good. Version bump to 0.8.0 is also approved. Start your work."; this entry originally read "pending" from draft time and was corrected at review).
 
 ## Notes
 - Risks: four parallel-written artifacts drifting from each other or the spec (mitigated: each task names its authoritative pillars/ADRs; Task_5 checks cross-artifact drift explicitly); SKILL.md budget creep (mitigated: hard ~4-line cap in Task_1 acceptance).
