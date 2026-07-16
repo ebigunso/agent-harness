@@ -292,3 +292,46 @@ Fix:
 Prevention:
 - Before self-implementing a non-trivial harness plan that calls for Worker/Reviewer roles, explicitly state any reason Worker dispatch is not being used and get user direction before editing implementation files.
 - If runtime instructions conflict with the planned harness dispatch model, surface the conflict as blocked or needs-decision instead of silently waiving dispatch.
+
+## 2026-07-16 - Complete Contract Specs Before Parallel Authoring  [tags: planning, delegation, contracts]
+
+Context:
+- Plan: docs/coding-agent/plans/completed/goal-mode-implementation-plan.md, Wave 1 -> Task_5 review
+- Roles involved: Orchestrator | Worker x4 | Reviewer
+
+Symptom:
+- Four parallel Workers authored goal-mode references against a design doc that was silent on the goal artifact layout, status vocabulary, and lifecycle-gate interplay; each invented compatible-looking but divergent answers (flat file vs directory, an unratified status enum, an extended dispatch template, a speculative stall tunable), forcing full cross-file remediation after review.
+
+Root cause:
+- The spec defined behavior pillars but not the shared contracts (paths, enums, fixed templates) the artifacts had to agree on; parallel authors fill such gaps by invention rather than flagging them.
+
+Fix applied:
+- Orchestrator completed the spec (layout, status semantics, lifecycle selection) in the design doc first, then a single remediation Worker realigned all files; re-review APPROVED.
+
+Prevention:
+- Before dispatching parallel tasks that must share a contract (enum, path scheme, fixed template, vocabulary), verify the authoritative spec defines that contract; if it does not, complete the spec first or serialize the tasks.
+- Workers: when a reference encodes a contract whose authoritative source is unratified, mark the field TBD and report it — never invent values. (Applied to docs/coding-agent/rules/worker.md.)
+
+Evidence:
+- Task_5 NEEDS_REVISION findings 1-4 all traced to spec-silent contracts; the remediated set passed re-review with a clean cross-artifact sweep.
+
+## 2026-07-16 - Verify Catalog-Provided Skill Paths Before Reading  [tags: environment, tooling, skills]
+
+Context:
+- Plan: goal-mode implementation, Task_2 (codex worker)
+- Roles involved: Worker (codex)
+
+Symptom:
+- The session skill catalog pointed at a cached orchestration-harness SKILL.md path that no longer existed on disk.
+
+Root cause:
+- The catalog locator was stale relative to the plugin-cache filesystem state (plugin version had advanced).
+
+Fix applied:
+- The Worker fell back to the verified repository-local first-party copy and reported the mismatch.
+
+Prevention:
+- Verify a catalog-provided skill path exists before reading it; when maintaining this harness repository, use the repository first-party copy as the documented fallback and report the mismatch.
+
+Evidence:
+- Task_2 Worker report (agmsg, 2026-07-16).

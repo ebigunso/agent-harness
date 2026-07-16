@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "reviewer"
-last_updated: "2026-05-13"
+last_updated: "2026-07-16"
 ---
 
 # Reviewer Repository Rules
@@ -44,6 +44,7 @@ last_updated: "2026-05-13"
 - When fast-path guidance says not to read a sidecar in normal work, do not add adjacent wording that implicitly requires reading the sidecar to decide triviality.
 - For enum/schema package checks, verify the exact enum owner or contract field rather than broad token presence.
 - Durable rule sections should describe repository convention or review semantics, not the tool or reviewer that surfaced an issue.
+- When reviewing changes to goal-mode references, verify each contract against its authoritative source across all five references plus `orchestration-harness/SKILL.md`: the assessor dispatch template against the sanctioned wording in `orchestration-harness/references/goal-assessor-mandate.md` (whose semantics must match ADR-D-0012), and the status vocabulary and `goals/` path conventions against the goal-mode design doc's artifact-layout contract (pillar 2); cross-artifact contract divergence is the recurring defect class per-file review misses.
 
 ## Mechanical Gate Candidates
 

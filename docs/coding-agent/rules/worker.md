@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "worker"
-last_updated: "2026-05-13"
+last_updated: "2026-07-16"
 ---
 
 # Worker Repository Rules
@@ -13,6 +13,7 @@ last_updated: "2026-05-13"
 - Do not perform shared-state Git mutations unless the Orchestrator explicitly assigns them.
 - Do not edit `docs/coding-agent/rules/*.md`; return `rule_candidates` for Orchestrator curation instead.
 - Keep runtime adapter changes compact and route shared behavior through plugin skills/references.
+- When authoring a reference that encodes a contract (enum, path scheme, fixed template, vocabulary) whose authoritative source is not yet ratified, mark the field TBD and report it — never invent values.
 
 ## Repo CI / Checks Mapping
 
