@@ -30,7 +30,7 @@ The envelope (the user-ratified boundary of what the loop may decide alone) is i
 
 - status: draft | active | awaiting_decision | completed | aborted | abandoned
   - ask-now sets `awaiting_decision`; the goal stays under `active/` until the human decides: resume (back to `active`), re-ratify (back to `active` with a new envelope), or abandon.
-  - terminal outcomes (`completed`, `aborted`, `abandoned`) archive the directory to `goals/completed/` with the final status preserved here.
+  - terminal outcomes (`completed`, `aborted`, `abandoned`) archive the directory to `docs/coding-agent/goals/completed/` with the final status preserved here.
 - created: <YYYY-MM-DD>
 - last_updated: <YYYY-MM-DD>
 
