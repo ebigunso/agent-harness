@@ -44,6 +44,7 @@ last_updated: "2026-05-13"
 - When fast-path guidance says not to read a sidecar in normal work, do not add adjacent wording that implicitly requires reading the sidecar to decide triviality.
 - For enum/schema package checks, verify the exact enum owner or contract field rather than broad token presence.
 - Durable rule sections should describe repository convention or review semantics, not the tool or reviewer that surfaced an issue.
+- When reviewing changes to goal-mode references, verify the assessor dispatch template, status vocabulary, and `goals/` path conventions match ADR-D-0012 and the design doc's artifact-layout contract across all five references plus `orchestration-harness/SKILL.md`; cross-artifact contract divergence is the recurring defect class per-file review misses.
 
 ## Mechanical Gate Candidates
 
