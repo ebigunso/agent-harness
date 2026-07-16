@@ -33,8 +33,8 @@ Gate procedure, edge cases, and plan lifecycle details: `references/lifecycle-ga
 ### 1. Plan Gate
 
 - Run for every request, including follow-ups. Trivial work may be handled directly only when it is small, mechanical, clearly bounded, has no meaningful behavior/design change, and needs no non-obvious validation.
-- Non-trivial work requires a plan plus user approval unless explicitly waived by the user or Orchestrator with a recorded reason and evidence. Treat work as non-trivial when it adds behavior, fixes a non-obvious bug, refactors, spans multiple files/components, changes UI/UX behavior, touches dependencies/config/CI, or has uncertain patterns.
-- Use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/plans/active/` (create if missing); completed plans move to `docs/coding-agent/plans/completed/`.
+- Non-trivial work that selects plan mode (the default lifecycle; see below) requires a plan plus user approval unless explicitly waived by the user or Orchestrator with a recorded reason and evidence. Treat work as non-trivial when it adds behavior, fixes a non-obvious bug, refactors, spans multiple files/components, changes UI/UX behavior, touches dependencies/config/CI, or has uncertain patterns.
+- In plan mode, use `plan-format`. Draft and in-progress plans live under `docs/coding-agent/plans/active/` (create if missing); completed plans move to `docs/coding-agent/plans/completed/`.
 - Non-trivial work selects exactly one lifecycle at this gate: plan mode (default) or goal mode.
 - Goal mode only when ALL three hold: the end state is objectively checkable; the work is search-shaped (structure discovered by iterating); every irreversible or outward-facing action can be excluded from the loop or deferred to a human moment.
 - When in doubt, plan mode; routing decomposable work through goal mode is recorded misuse.

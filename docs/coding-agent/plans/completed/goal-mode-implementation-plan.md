@@ -16,7 +16,7 @@
 - Non-goals (explicit, per design): no validators, no automation, no scripts (adoption step 4 is evidence-gated after trials); no fourth assessor role (evidence-gated upgrade); no trial run (adoption step 3 happens in a target repo with a real goal, as its own effort); no changes to plan mode semantics.
 
 ## Design Rules (carried over)
-- Thin prompts: SKILL.md gains at most ~4 always-read lines (the mode-selection test at the Plan Gate position + routing); everything else is gated references.
+- Thin prompts: SKILL.md gains at most 5 always-read lines (the mode-selection test at the Plan Gate position + routing; originally drafted as ~4 and raised to 5 during Task_5 remediation to surface all three selection predicates — see Decision Log); everything else is gated references.
 - The design doc and ADRs are the authoritative spec; where wording must be condensed, semantics may not drift (Reviewer checks against source).
 - Skills hold guidelines, not provenance: no design-history narrative in runtime content.
 

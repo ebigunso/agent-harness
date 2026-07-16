@@ -28,7 +28,7 @@ The judge's packaging also matters. A fourth named role would put the assessor m
 
 ## Decision
 
-Assessment is performed by an independent assessor: a Reviewer-role dispatch profile with fresh context that reads only the goal file, the gap history, and the journal — never the optimizer's working context. Its mandate is assessment accuracy, not goal completion, and it carries two co-equal duties:
+Assessment is performed by an independent assessor: a Reviewer-role dispatch profile with fresh context that reads only the goal file, the gap history (derived from the journal's per-iteration gap-value entries, not a separate artifact), and the journal — never the optimizer's working context. Its mandate is assessment accuracy, not goal completion, and it carries two co-equal duties:
 
 1. trajectory assessment — is the loop progressing toward the goal? It re-runs the goal condition's gap check itself (reported numbers are not evidence), judges circularity and the credibility of claimed plateau progress semantically from the journal, and tie-breaks toward escalation: continuation bears the burden of proof, because a wrong stop costs one human touch while a wrong continuation compounds;
 2. goal validity re-examination — is the goal itself still worth pursuing as stated? This duty is defined in ADR-D-0014; its outcome is a goal-challenge escalation to the user, never an autonomous goal change.

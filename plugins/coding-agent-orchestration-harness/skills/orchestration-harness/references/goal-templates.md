@@ -41,7 +41,7 @@ The envelope (the user-ratified boundary of what the loop may decide alone) is i
 - invariants (untouchable; weakening any one is an ask-now escalation, never absorbed):
   - <invariant 1, e.g. "no test files modified">
   - <invariant 2, e.g. "measurement harness unchanged">
-- gap reading (protected part of the condition — tightening is free mid-run; loosening is invariant pressure, ask-now):
+- gap reading (protected part of the condition — tightening is free mid-run; loosening is invariant pressure, ask-now; write `epistemic-only` here when no countable gap reading exists, per the condition checklist):
   - <how the condition is measured as a number mid-run, e.g. "count of failing tests via <command>", "benchmark delta below threshold via <command>">
   - <on plateaus where the number does not move: the journal must argue epistemically that what was learned credibly reduces remaining distance or uncertainty toward this goal>
 - linkage credibility bar (protected part of the condition — tightening is free mid-run; loosening is invariant pressure, ask-now):

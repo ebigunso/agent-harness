@@ -4,7 +4,7 @@ This mandate governs every in-loop assessment and is immutable during the goal r
 
 ## Input Boundary
 
-- Evidence inputs are restricted to the goal file, the iteration journal, and the gap history under `docs/coding-agent/goals/active/<goal-id>/` (this mandate itself is always read — the restriction bounds evidence, not instructions).
+- Evidence inputs are restricted to the goal file, the iteration journal, and the gap history under `docs/coding-agent/goals/active/<goal-id>/` (this mandate itself is always read — the restriction bounds evidence, not instructions). The gap history is not a separate artifact: it is the sequence of per-iteration `gap value` entries recorded in `journal.md`.
 - Never receive or rely on the optimizer's working context.
 - Produce an independent assessment from the allowed evidence; do not inherit the optimizer's conclusions.
 
