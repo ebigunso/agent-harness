@@ -1,6 +1,6 @@
 # Goal Mode
 
-Use this reference when deciding whether work belongs in goal mode and when operating a goal-mode run: envelope negotiation, the iteration loop, escalation, and the goals/ lifecycle.
+Use this reference when deciding whether work belongs in goal mode and when operating a goal-mode run: envelope negotiation, the iteration loop, escalation, and the goals lifecycle convention.
 
 Cross-routes (do not duplicate; read when needed):
 

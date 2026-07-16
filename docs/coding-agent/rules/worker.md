@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "worker"
-last_updated: "2026-05-13"
+last_updated: "2026-07-16"
 ---
 
 # Worker Repository Rules
