@@ -313,3 +313,12 @@ Prevention:
 
 Evidence:
 - Task_2 Worker report (agmsg, 2026-07-16).
+
+## Promotion drain note (2026-07-23)
+
+Promoted into harness skills by the v0.9.0 skill-promotion PR and removed from this log:
+- "Complete Contract Specs Before Parallel Authoring" → subagent-strategy `dispatch-checklists.md`
+- "Record Mid-Wave Rulings In The Decision Log At Ruling Time" → orchestration-harness `lifecycle-gates.md` (Escalation Ruling)
+- Wiring-remediation worker batch → engineering-quality-baselines `testing-validation.md` (owning-surface line); runtime-adapter-contract `adapter-maintenance-checklist.md` (baseline/normalization/hash lines)
+- "Promotion Triage Requires A Per-Item Existing-Text Diff" → improvement-loop `promotion-guidelines.md` (Existing-text check)
+- "Re-Baseline Audit Tables Against The Current Tree Before Dispatch" → subagent-strategy `dispatch-checklists.md`
