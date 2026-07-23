@@ -83,8 +83,7 @@ Do not mark a Task_X or plan complete unless all required validation is satisfie
 
 After each Worker wave and before Reviewer dispatch, run the `wave-integration` checklist. Non-trivial work requires Reviewer `APPROVED` before final completion unless explicitly waived.
 
-Before final done:
-Read and apply `references/completion-closeout.md`, then confirm:
+Before final done, read and apply `references/completion-closeout.md`, then confirm:
 
 - all Task_X entries are done or waived;
 - all required Worker and Reviewer validation evidence is pass or waived;

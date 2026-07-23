@@ -74,7 +74,7 @@ If you need a lessons file template:
 If you need a single lesson entry template:
 - Read references/entry-template.md
 
-When classifying a lesson or deciding promotion (mandatory on the second occurrence of the same lesson), read `references/promotion-guidelines.md`.
+When classifying a lesson or deciding whether to promote it — promotion is mandatory on a lesson's second occurrence — read `references/promotion-guidelines.md`.
 
 If a human reviewer, Copilot, CI, Reviewer, or another source finds an issue the harness should have caught:
 - Read references/review-finding-triage.md

@@ -30,7 +30,7 @@ This skill is for RULES. Cross-repo harness improvements are staged separately i
 If you need the required structure and sections of each rules file:
 - Read references/rules-files.md
 
-If adding or updating a repository reference document: read `references/rules-files.md` (Repository Reference Documents section).
+When adding or updating a repository reference document, read `references/rules-files.md` (Repository Reference Documents section).
 
 If you need to decide whether to bootstrap, repair, migrate, or refresh the rule suite:
 - Read references/bootstrap-lifecycle.md
