@@ -183,4 +183,3 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - Ruling on the pending proposal: DECLINED, terminal — "Repo-rule pointer lines as the decision-record configuration surface" fails the severity floor (violation is review-catchable against existing precedence rules and reversible); the Decision Log and those rules are the sufficient record. The flow's first proposal is thereby its first calibrated decline.
   - Corpus check: the severity conjunct preserves all 55 desirable historical ADRs (each protects expensive or silent mishandling) and excludes nothing the survey classified as warranted.
   - User approval: yes (user-directed refinement, 2026-07-24).
-
