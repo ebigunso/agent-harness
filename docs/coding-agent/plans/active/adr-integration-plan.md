@@ -10,7 +10,7 @@
 
 ## Definition of Done
 - All Normative scope items landed at their homes with required wiring; every event-triggered rule has an explicit imperative route at its binding moment (no reliance on semantic skill selection).
-- The warrant criteria and template content are faithful to the companion survey's calibrated rule and accepted template patches (`adr-corpus-survey.md`, same folder).
+- The warrant criteria implement the root-test-first structure (2026-07-24 Decision Log entry); the template content is faithful to the companion survey's accepted patches (`adr-corpus-survey.md`, same folder — its five criteria survive as recognition signals).
 - Version 0.10.0 in all three manifests; full validator set green; Codex Reviewer APPROVED against the trigger-chain, budget, and survey-fidelity bars.
 
 ## Scope / Non-goals
