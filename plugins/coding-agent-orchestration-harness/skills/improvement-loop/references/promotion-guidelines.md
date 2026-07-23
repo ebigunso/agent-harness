@@ -34,6 +34,9 @@ Only edit bundled harness content during an explicit harness-maintenance task.
 - it has a repeatable “symptom → cause → safe steps” structure
 - it can live as a repo-local troubleshooting note or be staged as a harness migration candidate
 
+## Existing-text check (required per item)
+- Before staging or scheduling any promotion item, read the target file and quote the closest existing line, stating the delta the item adds — no delta, no item.
+
 ## Severity heuristic
 - If it caused broken output or wasted significant time → always record a lesson and propose prevention.
 - If it repeats twice → promotion is required (repo rule, harness migration candidate, troubleshooting note, or accepted residual-risk record), not optional.

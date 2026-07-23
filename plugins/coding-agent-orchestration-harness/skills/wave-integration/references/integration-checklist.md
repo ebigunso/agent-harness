@@ -30,6 +30,8 @@ Run this checklist after each Worker wave and before Reviewer dispatch.
 
 - Aggregate `blockers`.
 - Aggregate `questions_for_orchestrator`.
+- Collect design alerts: entries in either list stating what is worked around, the cleaner alternative, and the cost delta (per `subagent-report-contract`).
+- When any aggregated item requests or implies a contract-shape or design ruling, you MUST read and apply `skills/orchestration-harness/references/lifecycle-gates.md#escalation-ruling` before answering it or dispatching further work.
 - Decide whether the Orchestrator can answer, the user must answer, or a follow-up Worker is needed.
 
 ## 6. Collect Rule, Lesson, and Harness Migration Candidates
@@ -53,6 +55,8 @@ Append a plan Progress Log entry with:
 
 ## 8. Decide Next Dispatch
 
+Third-bounce detector: if a follow-up dispatch would be the third attempt to fix the same seam, stop and apply the value-audit appendix in `skills/engineering-quality-baselines/references/long-horizon-audit.md` before dispatching again.
+
 Dispatch follow-up Workers when:
 
 - required Worker validation is missing;
@@ -65,6 +69,8 @@ Dispatch Reviewer when:
 - tasks in scope are done or waived;
 - Worker-owned required validation is pass or waived;
 - blockers are resolved or explicitly carried as review risks.
+
+Low-risk internal delta re-review: when a follow-up wave changed only files already reviewed, introducing no new contracts, boundaries, or validation surfaces, the Reviewer re-dispatch may scope to the delta diff instead of the full wave.
 
 ## 9. Prepare Reviewer Packet
 

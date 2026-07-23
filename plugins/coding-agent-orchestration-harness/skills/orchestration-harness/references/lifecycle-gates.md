@@ -64,6 +64,21 @@ Then:
 
 Record the decision in the plan Decision Log.
 
+## Escalation Ruling
+
+Use this procedure when a Worker or Reviewer escalation asks for a ruling rather than a fact.
+
+Two-tier threshold:
+
+- Routine escalations (missing input, ambiguous acceptance, local sequencing) may be answered at coordination tempo.
+- Contract-shape escalations — anything that would change a schema, interface, boundary, invariant, or other owned contract — require a deliberate design decision, never a quick coordination answer.
+
+For contract-shape rulings:
+
+1. Enumerate the blast radius before ruling: every consumer across repos, serialization surfaces, deferred scopes, and owned contracts the ruling touches.
+2. If self-verification cannot cover that radius, dispatch a Researcher first and rule only on its evidence.
+3. Delivering the ruling and recording it in the plan Decision Log are one action — never send the answer without the log entry.
+
 ## Plan Lifecycle
 
 - Draft and execute under `docs/coding-agent/plans/active/`; create the directory if missing.

@@ -27,6 +27,13 @@ Common risk tests:
 
 3. Flag tests that assert developer-convenience surfaces (log text, error prose, incidental formatting, uncontracted mock interactions) outside a stated contract; see `test-authoring.md`.
 
+4. Enforcement-claim negative evidence
+Every claim of "strict", "fail-closed", "exhaustive", or "validated" behavior needs proof it rejects:
+- rejection tests at every nesting level the claim covers, including absent-field cases
+- comparisons against an independent source, not the code under test's own output
+- exhaustiveness enforced by the compiler or generated from the authoritative list, never hand-maintained
+- paired surfaces (fake/production, client/server, batch/single) proven to reject the same inputs
+
 ## Output
 
 For each serious issue, name the missing regression test shape.

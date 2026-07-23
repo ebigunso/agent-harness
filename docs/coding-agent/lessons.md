@@ -293,28 +293,6 @@ Prevention:
 - Before self-implementing a non-trivial harness plan that calls for Worker/Reviewer roles, explicitly state any reason Worker dispatch is not being used and get user direction before editing implementation files.
 - If runtime instructions conflict with the planned harness dispatch model, surface the conflict as blocked or needs-decision instead of silently waiving dispatch.
 
-## 2026-07-16 - Complete Contract Specs Before Parallel Authoring  [tags: planning, delegation, contracts]
-
-Context:
-- Plan: docs/coding-agent/plans/completed/goal-mode-implementation-plan.md, Wave 1 -> Task_5 review
-- Roles involved: Orchestrator | Worker x4 | Reviewer
-
-Symptom:
-- Four parallel Workers authored goal-mode references against a design doc that was silent on the goal artifact layout, status vocabulary, and lifecycle-gate interplay; each invented compatible-looking but divergent answers (flat file vs directory, an unratified status enum, an extended dispatch template, a speculative stall tunable), forcing full cross-file remediation after review.
-
-Root cause:
-- The spec defined behavior pillars but not the shared contracts (paths, enums, fixed templates) the artifacts had to agree on; parallel authors fill such gaps by invention rather than flagging them.
-
-Fix applied:
-- Orchestrator completed the spec (layout, status semantics, lifecycle selection) in the design doc first, then a single remediation Worker realigned all files; re-review APPROVED.
-
-Prevention:
-- Before dispatching parallel tasks that must share a contract (enum, path scheme, fixed template, vocabulary), verify the authoritative spec defines that contract; if it does not, complete the spec first or serialize the tasks.
-- Workers: when a reference encodes a contract whose authoritative source is unratified, mark the field TBD and report it — never invent values. (Applied to docs/coding-agent/rules/worker.md.)
-
-Evidence:
-- Task_5 NEEDS_REVISION findings 1-4 all traced to spec-silent contracts; the remediated set passed re-review with a clean cross-artifact sweep.
-
 ## 2026-07-16 - Verify Catalog-Provided Skill Paths Before Reading  [tags: environment, tooling, skills]
 
 Context:
@@ -336,28 +314,22 @@ Prevention:
 Evidence:
 - Task_2 Worker report (agmsg, 2026-07-16).
 
-## 2026-07-23 - Record Mid-Wave Rulings In The Decision Log At Ruling Time  [tags: workflow, planning, review]
+## Promotion drain note (2026-07-23)
 
-Context:
-- Plan: trigger-chain-wiring-remediation; Task_2 keep-list mismatch escalation
-- Roles involved: Orchestrator | Worker | Reviewer
+Promoted into harness skills by the v0.9.0 skill-promotion PR and removed from this log:
+- "Complete Contract Specs Before Parallel Authoring" → subagent-strategy `dispatch-checklists.md`
+- "Record Mid-Wave Rulings In The Decision Log At Ruling Time" → orchestration-harness `lifecycle-gates.md` (Escalation Ruling)
+- Wiring-remediation worker batch → engineering-quality-baselines `testing-validation.md` (owning-surface line); runtime-adapter-contract `adapter-maintenance-checklist.md` (baseline/normalization/hash lines)
+- "Promotion Triage Requires A Per-Item Existing-Text Diff" → improvement-loop `promotion-guidelines.md` (Existing-text check)
+- "Re-Baseline Audit Tables Against The Current Tree Before Dispatch" → subagent-strategy `dispatch-checklists.md`
+
+## 2026-07-23 - Assert Postconditions On Scripted Text Mutations  [tags: tooling, validation]
 
 Symptom:
-- The Orchestrator ruled on a Worker escalation over agmsg but deferred writing the ruling to "wave integration"; the pinned plan reached review without the Decision Log entry, and the Reviewer returned NEEDS_REVISION on an otherwise fully PASS implementation.
+- A lessons-drain script deleted the promotion drain note (it sat inside a dropped regex segment because its heading was not date-prefixed) while the follow-up replace no-opped silently; the plan claimed an update that did not exist. Caught by delta review.
 
 Root cause:
-- Ruling delivery (the agmsg reply) and ruling persistence (the Decision Log entry) were treated as separable steps; the deferred half had no forcing trigger before review.
-
-Fix applied:
-- Decision Log entry appended retroactively; re-review requested at the new pin.
+- Bulk regex segment surgery assumed uniform headings, and neither the drop nor the replace asserted its postcondition.
 
 Prevention:
-- Write the Decision Log entry in the same action as sending any escalation ruling — the message and the log entry are one atomic step, never sequenced apart.
-
-## 2026-07-23 - Wiring-Remediation Worker Candidates (Batch)  [tags: validation, planning, tooling]
-
-Consolidated from Task_1/Task_2 Worker reports (full bodies in agmsg history 2026-07-23); PR 2 should consider the first two for harness promotion:
-
-- Scope validation assertions to their owning surface: frontmatter-trigger assertions check YAML frontmatter, body-route assertions check their intended section — whole-file occurrence counts produce false failures when the same phrase legitimately appears in both.
-- Verify adapter frontmatter against the dispatch baseline before encoding keep-lists: distinguish removal authorization from descriptive audit context (the Task_2 item-6 mismatch; ruling in the wiring-remediation plan Decision Log).
-- Adapter body-sync normalization must be line-bounded: a dot-all greedy regex for the Codex connector block consumed later body text and produced a false sync failure; print pairwise hashes before treating mismatches as content failures.
+- Every scripted text mutation asserts its postcondition (replaced count, required text present/absent) before commit; prefer anchored single-target edits over regex segment surgery in documents with non-uniform structure.

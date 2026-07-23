@@ -98,6 +98,13 @@ Include only items that apply. Omit irrelevant categories instead of listing `N/
   - Required reviewer-owned evidence:
   - Why this may apply:
 
+- Information conservation across serialization / conversion / aggregation / fallback boundaries:
+  - Plugin skill: `engineering-quality-baselines`
+  - Reference: `references/review-latent-risk-conservation.md`
+  - Repo reviewer hotspot:
+  - Required reviewer-owned evidence:
+  - Why this may apply:
+
 - Diagnostic fidelity / telemetry correctness:
   - Plugin skill: `engineering-quality-baselines`
   - Reference: `references/review-latent-risk-diagnostics.md`

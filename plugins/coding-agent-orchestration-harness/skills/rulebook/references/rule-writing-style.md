@@ -6,6 +6,7 @@ Prefer:
 - One sentence per rule.
 - Clear scope and trigger.
 - Concrete “must/must not” language.
+- Promote at the evidenced scope, not the broadest phrasing the incident could support.
 
 Examples:
 

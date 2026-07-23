@@ -22,6 +22,10 @@ Read this reference when waiting on PR review rounds or arming review monitoring
 - Posting your own replies changes the counts and fires the watcher on your own activity (self-induced fire). After handling a review round, restart the watcher or re-baseline from fresh counts.
 - Keep poll intervals at 30 seconds or more to respect GitHub API rate limits.
 
+## Stopping rubric
+
+Stop re-requesting external review only when all hold: the latest round produced zero new substantive comments; every prior thread is resolved or explicitly deferred with a recorded reason; and any remaining disagreement is a judgment call already ruled on, not an unanswered correctness claim. Do not stop on fatigue or round count alone.
+
 ## Fire semantics boundary
 
 - A fire may automatically drive the respond/fix/re-review loop — triage new comments, apply fixes, push, reply, re-arm.

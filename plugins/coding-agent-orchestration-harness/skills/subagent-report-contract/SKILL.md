@@ -85,6 +85,12 @@ Notes:
 
 ---
 
+## Design alerts (convention, not a schema field)
+
+A design alert is a structured `blockers` or `questions_for_orchestrator` entry raised when the fix in hand goes around a type, schema, boundary, or constraint the task could change. The entry states three things: what is being worked around, the cleaner alternative, and the cost delta between them. Alert and await an Orchestrator ruling; do not proceed on the workaround.
+
+---
+
 ## Optional: ui_probes
 
 Include `ui_probes` only when a bounded Worker UI probe was run or materially affected implementation.

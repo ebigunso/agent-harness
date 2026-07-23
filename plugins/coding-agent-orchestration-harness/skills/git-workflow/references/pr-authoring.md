@@ -20,6 +20,7 @@ Use this reference when creating or updating pull requests, or when driving an e
 
 - After addressing a review comment (fix pushed, reply posted), mark its thread resolved: GraphQL `resolveReviewThread` with the thread id from `reviewThreads`. Replying alone does not resolve the thread.
 - Before claiming all review comments are resolved, extract every `"isResolved": false` thread from the COMPLETE thread payload (re-fetch if needed); never rely on a partial or line-range read of a large saved payload.
+- Before declaring the review loop finished, apply the stopping rubric in `pr-review-monitoring.md`.
 
 ## Copilot re-review
 

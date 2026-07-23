@@ -63,6 +63,9 @@ If the runtime launches subagents asynchronously or as background processes:
 If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel (team messaging, shared inbox):
 - Read references/persistent-peer-dispatch.md
 
+If multiple model platforms are available for delegation:
+- Read references/model-routing.md
+
 If you want patterns for splitting research in parallel:
 - Read references/research-splits.md
 
