@@ -44,3 +44,7 @@ Only what survives Steps 1-2 is eligible for the remaining steps.
 - Findings are surfaced, not silently acted on: report them to the user, record decisions in the plan Decision Log, and file lesson/rule candidates through existing channels.
 - Each finding names the item, the step that flagged it, and the proposed disposition (challenge, delete, simplify, accelerate, automate, or keep).
 - Proposed additions face the same discipline as existing content: any new line, rule, or mechanism offered as remediation must name the concrete consumer or failure it prevents — a consolation "at most add one small line" with neither is a Step 2 violation.
+
+## Value-Audit Verdicts
+
+When a value audit is requested, issue per-item verdicts that map onto the step outcomes: EARNS-ITS-PLACE (keep; a concrete consumer is named), OVERSIZED (simplify per Step 3), DELETE (Step 2 disposition). Verdicts are issued at the requesting event, never continuously.

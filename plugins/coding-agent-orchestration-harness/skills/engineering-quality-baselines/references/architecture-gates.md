@@ -103,6 +103,7 @@ A change should not be approved when any gate is **Fail** unless explicitly waiv
 **Expectation**
 - Data ownership, lifecycle, and state transitions are consistent and enforceable.
 - Invariants are protected at authoritative boundaries.
+- For classification or attribution features, derive the full truth table before selecting the data model.
 
 **Evidence expectations**
 - Plan identifies impacted invariants and lifecycle transitions.

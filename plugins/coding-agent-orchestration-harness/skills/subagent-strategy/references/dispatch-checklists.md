@@ -12,6 +12,7 @@ Include:
 - Browser artifact rule: if browser exploration is used, name the selected provider and save evidence under the provider-defined artifact root
 - Local-only browser rule (localhost/127.0.0.1 unless explicitly configured)
 - For rule-suite bootstrap or refresh research, require read-only deliverables: existing suite status, inspected sources, validation mapping, agent instruction files, repo reference docs, safety boundaries, review hotspots, contradictions, suggested operation, and confidence.
+- For forensic research (census or inventory work), require an auditable deliverable: complete census, file:line evidence for every claim, and explicit zero-hit reporting for anything searched but absent.
 
 Optional (only if it materially steers decisions):
 - Context / Rationale (2–5 bullets)
@@ -27,6 +28,9 @@ Include:
 - depends_on
 - acceptance criteria
 - validation items (kind/required/owner/detail)
+- Consumer obligations: instruct the subagent to name the known consumer obligations of any contract it touches and escalate rather than assume — its view is the local patch; the Orchestrator owns the blast radius.
+- Escape hatch for surface-minimizing constraints: any constraint like "smallest possible diff" must state that preserving existing types, schemas, and boundaries outranks it — a workaround-shaped fix is surfaced, not forced through.
+- For parallel authoring waves: confirm each dispatch prompt is spec-complete on its own — a Worker must not need a sibling task's output or an unstated convention to satisfy acceptance.
 - Hard requirement:
   - "If you cannot run required worker-owned validation, return status=blocked with the reason."
 - Output contract:

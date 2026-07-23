@@ -45,7 +45,7 @@ Load only relevant categories:
 - Test authoring: `references/test-authoring.md` (when writing, modifying, or reviewing tests)
 - Security boundaries: `references/security-boundaries.md` (when auth, secrets, trust boundaries, or data sensitivity are touched)
 - Review scoring summary: `references/review-rubric.md` (when performing PR/code review or final quality scoring)
-- Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, or risk-specific tests)
+- Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, risk-specific tests, or information conservation across serialization, conversion, aggregation, and fallback boundaries)
 
 Then load only applicable language/tech details:
 - Rust: `references/language-rust.md`
@@ -59,8 +59,9 @@ Then load only applicable language/tech details:
 - Trip when about to optimize, extend, or test something whose consumer or necessity cannot be named.
 - Trip when adding a process step, validation, or automation justified mainly by "in case".
 - Trip when repeatedly working around the same component, process step, or rule.
+- Trip when the fix goes around a type, schema, boundary, or constraint this task could change.
 
-If tripped: surface the observation through existing channels (report questions/blockers, lesson candidates, or the user) — never act on it or suppress it silently — and read `references/long-horizon-audit.md` when the pattern looks systemic.
+If tripped: stop and surface the observation through existing channels (report questions/blockers, lesson candidates, or the user) together with the cleaner alternative and its cost delta — never act on it or suppress it silently, and do not proceed on the workaround without a ruling — and read `references/long-horizon-audit.md` when the pattern looks systemic.
 
 ### Required Evidence Note (template)
 

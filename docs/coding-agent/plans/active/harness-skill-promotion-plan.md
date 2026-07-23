@@ -206,6 +206,9 @@ Wave 2: Codex agmsg worker. Task_4 scope is small after cuts but retained per th
 - 2026-07-23 Plan drafted (post PR #40 merge, v0.8.1 baseline).
 - 2026-07-23 Tier A value audit applied (Claude subagent); plan re-scoped per cut list; awaiting user approval before Wave 1 dispatch.
 - 2026-07-23 User approved the re-scoped plan ("You are go for implementation"); Q1 resolved — no design_alerts automation, per the automation-last discipline. Wave 1 dispatched.
+- 2026-07-23 Ruling (Task_1 question): the reviewer-packet-template conservation menu entry from Rev 3 survives — it is a cheap reference-layer line keeping the packet menu consistent with the router. Applied by the Orchestrator at Wave 1 integration (the file sat in Task_2's owns while that worker ran).
+- 2026-07-23 Ruling (Task_2 question): the Plan-Gate lead-in rewording stays cut. The triage table's item-E GAP row is partially superseded by the value audit: its design-review and next-phase triggers were deleted as duplicates, and the surviving third-bounce/pre-merge triggers are wired through integration-checklist and completion-closeout, which need no Plan-Gate rewording. Task_6 review checks the surviving wiring only.
+- 2026-07-23 Note for Task_5: stage Task_2's pre-landed-wiring lesson candidate (re-baseline triage tables against the current tree before dispatch) in lessons.md alongside the value-audit meta-lesson.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

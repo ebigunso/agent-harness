@@ -21,6 +21,7 @@ During PR/code review or final Reviewer approval, identify whether the change to
 9. Multiple entrypoints, explicit vs inferred intent, admission/filtering, candidate vs accepted sets, or side effects after selection.
 10. Errors, warnings, diagnostics, health, metrics, traces, telemetry, or debug metadata.
 11. Build cfg, feature flags, test-only code, strict lints, warnings-as-errors, docs warnings, or CI-sensitive hygiene.
+12. Information conservation across serialization, conversion, aggregation, and fallback boundaries.
 
 ## Conditional References
 
@@ -53,6 +54,9 @@ Read `review-latent-risk-diagnostics.md` when:
 
 Read `review-latent-risk-build-ci.md` when:
 - the change touches cfgs, feature flags, test-only paths, platform-specific code, imports, lints, docs, examples, warning-sensitive code, or CI/build-sensitive behavior.
+
+Read `review-latent-risk-conservation.md` when:
+- the change serializes, converts, aggregates, wraps, or falls back across a boundary that carries structured data.
 
 ## Reporting Rule
 

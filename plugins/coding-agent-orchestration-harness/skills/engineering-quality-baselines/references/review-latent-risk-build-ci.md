@@ -11,6 +11,7 @@ Read when the change touches cfgs, feature flags, test-only paths, platform-spec
 2. Strict CI hygiene
 - Look for unused imports, dead cfg branches, doc warnings, generated-code drift, examples that no longer compile, and warnings-as-errors failures.
 - Confirm tests exercise the relevant feature/cfg combination when risk is meaningful.
+- Resolve any moving external dependency (branch, tag, "latest") to one immutable revision before CI fan-out, so every job in the run builds against the same revision.
 
 3. Build intent
 - Distinguish intentional admission of a new entrypoint, feature, or target from accidental exposure through broad cfg or manifest changes.

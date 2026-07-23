@@ -47,4 +47,6 @@ Report blocked, not done, when:
 7. Move completed active plan to `docs/coding-agent/plans/completed/` when applicable.
 8. Only then report final done.
 
+Pre-merge value audit after churn: if the work accumulated repeated fix rounds on one area, apply the value-audit appendix in `skills/engineering-quality-baselines/references/long-horizon-audit.md` before merge — triggered by churn, never run continuously.
+
 When a structured closeout summary is available, use the plugin-root-relative `skills/wave-integration/scripts/validate_closeout.py` before final done.
