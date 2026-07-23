@@ -188,6 +188,10 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - (1) The warrant field is self-contained labeled phrases, never shorthand signal letters — ADRs must be understandable alone. (2) Considered Options lines stay clean; rejection reasoning and reopen conditions move to a new Guarded Alternatives subsection. (3) Decision Boundary formats Invariant and Not covered as visually separate lines/paragraphs. (4) consulted records full model names ("GPT-5.6 Sol"), never platforms ("Codex"); example added to the template comment.
   - Applied to the drop-in template on this branch and re-placed into CharacterMemoryEvals with the two first ADRs rewritten to match.
   - User approval: yes (nits 1-4, 2026-07-24).
+- 2026-07-24 Post-closeout decision (user-directed): two further template calibrations.
+  - The alternatives section is renamed Rejected Alternatives, covering guarded and unguarded rejections uniformly (a section named for guarding cannot contain an unguarded rejection); the warrant frontmatter becomes a three-key mapping (signals / mode / cost), one topic per line.
+  - Applied to the drop-in template and re-placed into CharacterMemoryEvals with both first ADRs updated.
+  - User approval: yes (2026-07-24).
 
 ## Notes
 - Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.
