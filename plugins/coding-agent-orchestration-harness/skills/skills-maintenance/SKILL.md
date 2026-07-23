@@ -51,8 +51,7 @@ If you are shaping or reviewing the frontmatter description, scope boundary, or 
 If you need provenance rules or need to decide whether a skill may be edited directly:
 - Read references/provenance-governance.md
 
-If you are about to finish a skill change and need the required QA pass:
-- Read references/final-ambiguity-pass.md
+Before marking any skill change complete, read `references/final-ambiguity-pass.md` and run the pass.
 
 If draft creation, evals, benchmarks, packaging, or description-optimization work is actually required:
 - Switch to the Anthropic-official skill-creator skill if it is available in the environment; if not, tell the user it is unavailable

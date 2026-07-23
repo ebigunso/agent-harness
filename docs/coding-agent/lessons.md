@@ -335,3 +335,29 @@ Prevention:
 
 Evidence:
 - Task_2 Worker report (agmsg, 2026-07-16).
+
+## 2026-07-23 - Record Mid-Wave Rulings In The Decision Log At Ruling Time  [tags: workflow, planning, review]
+
+Context:
+- Plan: trigger-chain-wiring-remediation; Task_2 keep-list mismatch escalation
+- Roles involved: Orchestrator | Worker | Reviewer
+
+Symptom:
+- The Orchestrator ruled on a Worker escalation over agmsg but deferred writing the ruling to "wave integration"; the pinned plan reached review without the Decision Log entry, and the Reviewer returned NEEDS_REVISION on an otherwise fully PASS implementation.
+
+Root cause:
+- Ruling delivery (the agmsg reply) and ruling persistence (the Decision Log entry) were treated as separable steps; the deferred half had no forcing trigger before review.
+
+Fix applied:
+- Decision Log entry appended retroactively; re-review requested at the new pin.
+
+Prevention:
+- Write the Decision Log entry in the same action as sending any escalation ruling — the message and the log entry are one atomic step, never sequenced apart.
+
+## 2026-07-23 - Wiring-Remediation Worker Candidates (Batch)  [tags: validation, planning, tooling]
+
+Consolidated from Task_1/Task_2 Worker reports (full bodies in agmsg history 2026-07-23); PR 2 should consider the first two for harness promotion:
+
+- Scope validation assertions to their owning surface: frontmatter-trigger assertions check YAML frontmatter, body-route assertions check their intended section — whole-file occurrence counts produce false failures when the same phrase legitimately appears in both.
+- Verify adapter frontmatter against the dispatch baseline before encoding keep-lists: distinguish removal authorization from descriptive audit context (the Task_2 item-6 mismatch; ruling in the wiring-remediation plan Decision Log).
+- Adapter body-sync normalization must be line-bounded: a dot-all greedy regex for the Codex connector block consumed later body text and produced a false sync failure; print pairwise hashes before treating mismatches as content failures.

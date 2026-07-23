@@ -30,6 +30,8 @@ This skill is for RULES. Cross-repo harness improvements are staged separately i
 If you need the required structure and sections of each rules file:
 - Read references/rules-files.md
 
+When adding or updating a repository reference document, read `references/rules-files.md` (Repository Reference Documents section).
+
 If you need to decide whether to bootstrap, repair, migrate, or refresh the rule suite:
 - Read references/bootstrap-lifecycle.md
 
@@ -39,11 +41,9 @@ If you need template content for a new or repaired rule suite:
 If you need lifecycle sidecar shape or refresh-source guidance:
 - Read references/lifecycle-sidecar.md
 
-If you need style guidance for writing high-quality rules:
-- Read references/rule-writing-style.md
+Before writing, merging, or materially revising any repository rule, read `references/rule-writing-style.md`.
 
-If you need the required format for harness migration candidates:
-- Read references/skill-candidates-file.md
+When staging or updating a harness migration candidate, read `references/skill-candidates-file.md`.
 
 If you want an optional helper to update last_updated reliably:
 - Run scripts/update_last_updated.py

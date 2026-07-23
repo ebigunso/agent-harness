@@ -3,10 +3,6 @@ name: harness-researcher
 description: Research-only subagent. Gathers workspace context and returns plan-fill inputs to the parent Orchestrator. Does not edit files, does not write plan files, and does not interact with the user. May run bounded UI exploration using a selected browser automation provider such as playwright-cli (local URLs only) when it materially improves planning and validation design.
 model: inherit
 disallowedTools: Write, Edit
-skills:
-  - subagent-report-contract
-  - subagent-strategy
-  - rulebook
 ---
 
 # Research Subagent (Research-Only)

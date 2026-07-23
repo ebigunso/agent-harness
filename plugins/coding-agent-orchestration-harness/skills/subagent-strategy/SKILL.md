@@ -66,8 +66,7 @@ If the runtime setup uses multiple long-lived agents that stay alive across disp
 If you want patterns for splitting research in parallel:
 - Read references/research-splits.md
 
-If you want a dispatch checklist per subagent type:
-- Read references/dispatch-checklists.md
+Before each Researcher/Worker/Reviewer dispatch, read and apply `references/dispatch-checklists.md`.
 
 If you want concise prompt snippets to copy/adapt:
 - Read references/prompt-snippets.md

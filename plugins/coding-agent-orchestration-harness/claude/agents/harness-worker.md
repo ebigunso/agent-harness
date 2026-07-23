@@ -6,7 +6,6 @@ skills:
   - subagent-report-contract
   - engineering-quality-baselines
   - git-workflow
-  - rulebook
 ---
 
 # Worker Subagent (Execution)
@@ -51,12 +50,16 @@ then include `lesson_candidates` in your YAML report (atomic entries).
 5) Shared-state git boundary
 - Do not perform commit-affecting or other shared-state Git mutations unless the Orchestrator explicitly assigns them in the task instructions.
 - Default ownership for those mutations remains with the Orchestrator; do not infer permission from general task context.
+- If the Orchestrator explicitly delegates a commit-affecting mutation, load and follow `git-workflow` before acting.
 
 6) Worker UI probes
 - When assigned UI/frontend work, you may use browser/UI tooling for bounded implementation-local probes.
 - Keep probes local and task-scoped unless the Orchestrator explicitly authorizes broader checks.
 - A Worker UI probe does not satisfy Reviewer-owned validation.
 - If a probe materially affects implementation, include `ui_probes` evidence in your YAML report.
+
+7) Engineering quality baseline
+- For non-trivial implementation, load and apply `engineering-quality-baselines` (routing depth per that skill); keep its Drift Tripwires active throughout.
 
 ---
 

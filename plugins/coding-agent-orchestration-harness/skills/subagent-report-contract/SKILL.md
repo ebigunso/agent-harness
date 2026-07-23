@@ -142,3 +142,7 @@ Guidance:
 - validation_results: include every validation item assigned in the task contract; required worker-owned failures/skips cannot accompany `status: done` unless the skip has explicit waiver evidence.
 - ui_probes: include only if a bounded Worker UI probe was run or materially affected implementation. Do not use it as a substitute for Reviewer-owned validation evidence.
 - If required validation evidence is missing and cannot be produced, status should be blocked (not done).
+
+For worked report examples: `references/examples.md`.
+
+For the canonical report shape sample: `references/schema.yaml`.

@@ -66,8 +66,7 @@ Before non-trivial work, skim recent or relevant entries in `docs/coding-agent/l
 
 ## Progressive disclosure (read only what you need)
 
-If you need the post-correction checklist:
-- Read references/post-correction-micro-checklist.md
+Whenever this skill is active, read and complete `references/post-correction-micro-checklist.md` before ending the turn.
 
 If you need a lessons file template:
 - Read references/lessons-template.md
@@ -75,8 +74,7 @@ If you need a lessons file template:
 If you need a single lesson entry template:
 - Read references/entry-template.md
 
-If you need guidelines for promoting lessons to rules/skills:
-- Read references/promotion-guidelines.md
+When classifying a lesson or deciding whether to promote it — promotion is mandatory on a lesson's second occurrence — read `references/promotion-guidelines.md`.
 
 If a human reviewer, Copilot, CI, Reviewer, or another source finds an issue the harness should have caught:
 - Read references/review-finding-triage.md

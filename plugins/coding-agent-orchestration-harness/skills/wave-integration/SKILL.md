@@ -24,8 +24,8 @@ The Orchestrator remains the only writer for shared plan lifecycle state. This s
 
 ## References
 
-- `references/integration-checklist.md`
-- `references/reviewer-packet-template.md`
+After every Worker wave: run `references/integration-checklist.md`.
+Before every Reviewer dispatch: read `references/reviewer-packet-template.md` and build the packet.
 
 ## Closeout Validation
 

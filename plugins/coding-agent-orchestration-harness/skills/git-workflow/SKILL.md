@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, or routing shared-state Git mutations through the Orchestrator.
+description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop.
 ---
 
 # Skill: git-workflow
@@ -48,8 +48,7 @@ It defines how to:
 
 ## Progressive disclosure (read only what you need)
 
-If you need the ordered gate before a commit-affecting mutation:
-- Read `references/pre-commit-gate.md`
+Before any commit-affecting Git mutation: read and run `references/pre-commit-gate.md`.
 
 If you need guidance on splitting work into logical commits and writing clean commit messages:
 - Read `references/logical-commit-chunking.md`

@@ -37,7 +37,7 @@ Use levels from `references/language-gates.md`:
 Escalation triggers: unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
 
 Load only relevant categories:
-- Core principles: `references/core-principles.md` (when intent/scope or tradeoffs are unclear)
+- Core principles: `references/core-principles.md` (read for every non-trivial implementation or review; also when intent/scope or tradeoffs are unclear)
 - Architecture gates: `references/architecture-gates.md` (when boundaries, layering, or contracts change)
 - Stack concerns (backend/frontend): `references/stack-backend-frontend.md` (when execution path spans backend/frontend concerns)
 - Language/technology routing: `references/language-gates.md` (always for in-scope language/tech routing)
