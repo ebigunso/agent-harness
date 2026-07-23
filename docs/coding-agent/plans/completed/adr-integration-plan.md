@@ -179,6 +179,11 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - Ruling on the pending proposal: DECLINED, terminal — "Repo-rule pointer lines as the decision-record configuration surface" fails the severity floor (violation is review-catchable against existing precedence rules and reversible); the Decision Log and those rules are the sufficient record. The flow's first proposal is thereby its first calibrated decline.
   - Corpus check: the severity conjunct preserves all 55 desirable historical ADRs (each protects expensive or silent mishandling) and excludes nothing the survey classified as warranted.
   - User approval: yes (user-directed refinement, 2026-07-24).
+- 2026-07-24 Post-closeout decision (user-directed): calibration exercise verdicts and three new criteria elements.
+  - Exercise: the warrant criteria were applied retrospectively to seven candidates (five CME survey gaps; two CM rule/lesson graduations) reading the branch files directly. User verdicts: candidates 1-2 pass (CME evaluation-architecture boundary; live-default CLI); 4 declined (re-derivable at planning time); 5-7 declined (development aids, not product-shaping); 3 converted to a CME remediation work item (live-path legacy-reader exception must be migrated or unmistakably contained before any clean-contract ADR).
+  - Criteria amendments applied to adr.md: product-shape boundary negative (ADRs record product-domain decisions; development aids go to rules/harness; process repos own process as product); re-derivability negative (warrant needs an invisible fork AND a non-obvious resolution); exception check (an ADR never ratifies a live-path exception — remediation first); class-level erosion severity clarification; decomposed-cluster proposal guidance.
+  - Follow-up work items (user-initiated, out of this PR): CME legacy 1.0.0 reader remediation; drafting the two passed CME ADRs after the CME bootstrap exercise.
+  - User approval: yes (calibration rulings 2026-07-24).
 
 ## Notes
 - Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.

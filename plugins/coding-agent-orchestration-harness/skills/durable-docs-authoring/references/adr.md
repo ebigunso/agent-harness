@@ -9,7 +9,7 @@ The warrant is a single counterfactual over the decision's reasoning, premises, 
 - wrongly PRESERVE it after its premises expire (ossification — the record's Decision Drivers and Revisit When are what make legitimate reversal safe);
 - wrongly EXTEND it beyond its deliberately bounded scope (over-application — the boundary's rationale is as loseable as the decision's).
 
-The test carries a severity conjunct: warrant requires stakes as well as likelihood. The expected mishandling must be costly to detect or undo — broken contracts, corrupted data or philosophy, expensive rework, or silent long-lived drift. A mishandling that normal review or cheap refactoring would catch and correct does not clear the bar however likely it is; route it to a rule (recurring) or the Decision Log (one-time).
+The test carries a severity conjunct: warrant requires stakes as well as likelihood. The expected mishandling must be costly to detect or undo — broken contracts, corrupted data or philosophy, expensive rework, or silent long-lived drift. A mishandling that normal review or cheap refactoring would catch and correct does not clear the bar however likely it is; route it to a rule (recurring) or the Decision Log (one-time). Judge cost at the class level: rule-enforced does not mean cheap to catch when violations arrive as individually justified exceptions — weigh the accumulated erosion, not a single instance.
 
 Every ADR proposal must state the expected mishandling concretely, naming its mode and its cost: "without this record, future work would likely do X against / past / beyond Y, costing Z."
 
@@ -23,7 +23,12 @@ Recognition signals mark where the test usually fires; they prompt the test and 
 - (f) decisions resting on premises likely to expire;
 - (g) decisions whose scope boundary is as deliberate as the decision.
 
-Negatives derive from the test rather than forming a separate list: no ADR where the mishandling is likely but cheap (review-catchable and reversible), and no ADR where nothing ongoing can be contravened — reversible measured parameters (the invariant may warrant an ADR; the numbers are evidence), expired deferrals and task sequencing, ordinary tactics — or where the record already exists: another repository's ADR (link to it instead), or always-loaded enforcement rules whose rationale burden is genuinely local.
+Negatives derive from the test rather than forming a separate list: no ADR where the mishandling is likely but cheap (review-catchable and reversible), and no ADR where nothing ongoing can be contravened — reversible measured parameters (the invariant may warrant an ADR; the numbers are evidence), expired deferrals and task sequencing, ordinary tactics — or where the record already exists: another repository's ADR (link to it instead), or always-loaded enforcement rules whose rationale burden is genuinely local. Two further negatives bound the subject matter and the loseability premise:
+
+- Product-shape boundary: ADRs record decisions that shape the repository's product domain; decisions about how development is conducted are development aids and belong in repo rules or harness skills. (For a repository whose product is a development process, process governance is its product domain.)
+- Re-derivability: no ADR where any competent designer who thinks the question through at planning time reaches the same conclusion — the warrant needs both an invisible fork and a non-obvious resolution, or the reasoning is not harmfully loseable.
+
+Exception check: an ADR must never ratify an exception that lives in the current code path — recording it legitimizes it. When a candidate decision carries one, propose remediation first (migrate the legacy case forward, or contain it in an unmistakably distinct helper, module, or crate outside the live path), then record the clean decision only if it still warrants an ADR.
 
 ## Three homes
 - ADR: the why, rejected alternatives, and revisit conditions that outlive the implementing plan.
@@ -36,6 +41,7 @@ ADR-plus-rule pairs are the expected shape for enforced contracts; the homes are
 1. When the root test fires, state in-conversation the triggering signal, a proposed title, and the expected mishandling scenario with its mode and cost named (violate / wrongly preserve / wrongly extend; what the mishandling would break or cost); record all of it in the plan Decision Log in the same action.
 2. Draft on the writing-strength side per `subagent-strategy/references/model-routing.md`; its authorship clause governs and is not restated here.
 3. Persist nothing until the user approves. Decline is terminal: record it in the Decision Log and do not re-propose.
+4. Related decisions may be proposed as a decomposed cluster — a root decision with paired contract ADRs, each carrying its own revisit trigger — never one mega-ADR and never disconnected fragments of one choice.
 
 Amendment and lifecycle:
 
