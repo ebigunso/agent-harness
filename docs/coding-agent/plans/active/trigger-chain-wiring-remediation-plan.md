@@ -105,13 +105,36 @@
     owner: worker
     detail: "Body-diff evidence: normalized diff of Worker and Reviewer bodies across the three runtimes showing equivalence (documented deltas only)"
 
-### Task_3: Version bump and full validation
+### Task_3: Claude prose-quality pass over Codex-authored text
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/**
+  - plugins/coding-agent-orchestration-harness/agents/**
+  - plugins/coding-agent-orchestration-harness/claude/**
+  - plugins/coding-agent-orchestration-harness/codex/**
+- depends_on: [Task_1, Task_2]
+- description: |
+  Orchestrator (Claude) reviews every sentence added or reworded by the Codex worker in
+  Task_1/Task_2 diffs and rewords for clarity and quality where warranted, without changing
+  routing semantics, imperative force, or enforcement meaning. Adapter role-body edits stay
+  synchronized across the three runtime copies after rewording.
+- acceptance:
+  - Every Codex-authored/edited sentence in the wave diffs reviewed by Claude
+  - No semantic or enforcement changes introduced by rewording
+  - Three-runtime body sync preserved for any reworded adapter text
+- validation:
+  - kind: command
+    required: true
+    owner: orchestrator
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py"
+
+### Task_4: Version bump and full validation
 - type: chore
 - owns:
   - plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json
   - plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json
   - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
-- depends_on: [Task_1, Task_2]
+- depends_on: [Task_3]
 - description: |
   Bump version 0.8.0 → 0.8.1 in all three manifests; run the full repo validator set.
 - acceptance:
@@ -123,10 +146,10 @@
     owner: orchestrator
     detail: "All commands from docs/coding-agent/rules/common.md Repository-Specific Validation Commands"
 
-### Task_4: Independent review
+### Task_5: Independent review
 - type: review
 - owns: []
-- depends_on: [Task_3]
+- depends_on: [Task_4]
 - description: |
   Codex Reviewer verifies, at the pinned commit: every audit finding's fix present and semantically correct vs the audit registers; three-way body sync; no weakened enforcement text; no content additions beyond wiring; validators green.
 - acceptance:
@@ -144,6 +167,7 @@
 - Wave 2: [Task_2]
 - Wave 3: [Task_3]
 - Wave 4: [Task_4]
+- Wave 5: [Task_5]
 
 (Sequential waves: one shared checkout and a single Codex worker peer; Task_1/Task_2 owns are disjoint but serialization avoids mid-edit validator noise.)
 
@@ -162,6 +186,11 @@
   - Tradeoffs: leaves direct-route parity debt vs keeping PR 1 mechanical and low-risk.
   - User approval: covered by approval of the register's PR 1 scope, which listed this as the deferred alternative direction.
 - 2026-07-23 Decision: PR 1 routes `schema.yaml`/`examples.md` orphans but defers canonical-schema validator integration to PR 2 (P5c), where `design_alerts` work must touch the validator anyway.
+- 2026-07-23 Decision: added Task_5 (Claude prose-quality pass) between the Codex worker waves and the version bump.
+  - Trigger: user directive — Claude models write higher-quality prose than the GPT-5.6 Codex models; any Codex-authored sentence gets a Claude rewording pass before finalizing.
+  - Plan delta: new prose-pass task inserted as Task_3 (version bump and review renumbered to Task_4/Task_5); waves renumbered accordingly.
+  - Tradeoffs: one extra pass per plan vs shipping lower-quality prose in durable skill/adapter text.
+  - User approval: yes (user-directed, 2026-07-23). Also queued as content for PR 2's model-routing.md (P8).
 
 ## Notes
 - Risks: wording drift between the three adapter copies (mitigated by Task_2 body-diff evidence + Reviewer sync check); audits cited line numbers that may shift after Task_1 (Task_2 dispatched with semantic anchors, not line numbers).
