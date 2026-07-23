@@ -37,7 +37,7 @@ A rule suite is valid when:
 
 ## Decision Records Detection And Placement
 
-During full bootstrap, detect candidate decision-record conventions: `docs/decisions/`, `docs/adr/`, and `ADR-*` file globs.
+During full bootstrap, detect candidate decision-record conventions: `docs/decisions/`, `docs/adr/`, and `ADR-*` file globs — scoped to tracked paths only (`git ls-files`), since gitignored trees such as review worktrees or vendored sibling checkouts can carry another repository's ADRs and must never count as this repository's convention.
 
 ALWAYS propose the resulting Decision Records line to the user and confirm before recording it in `common.md`; never silently record. Three outcomes:
 
