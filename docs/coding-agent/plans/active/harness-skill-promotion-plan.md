@@ -1,6 +1,6 @@
 # Plan: Harness Skill Promotion — CharacterMemory/CharacterMemoryEvals Candidates (PR 2 of 2)
 
-- status: draft
+- status: in_progress
 - generated: 2026-07-23
 - last_updated: 2026-07-23
 - work_type: docs
@@ -32,7 +32,7 @@
 - Value-audit meta-lesson (promotion triage needs a per-item existing-text diff step) → staged in `docs/coding-agent/lessons.md` at Task_5; NOT promoted in this PR (bloat discipline: one incident).
 
 ## Open Questions (max 3)
-- Q1 (non-blocking, affects nothing in this PR): should `design_alerts` ever become a machine-validated field to drive automation? Convention approach chosen; revisit on demonstrated need.
+- None. (Q1 resolved 2026-07-23: user ruled no automation now, per the automation-last discipline; convention approach stands.)
 
 ## Assumptions
 - A1: v0.8.1 wiring is the baseline; triage table item A (Worker/Reviewer EQB routes) is already landed — verify, don't re-add.
@@ -205,6 +205,7 @@ Wave 2: Codex agmsg worker. Task_4 scope is small after cuts but retained per th
 
 - 2026-07-23 Plan drafted (post PR #40 merge, v0.8.1 baseline).
 - 2026-07-23 Tier A value audit applied (Claude subagent); plan re-scoped per cut list; awaiting user approval before Wave 1 dispatch.
+- 2026-07-23 User approved the re-scoped plan ("You are go for implementation"); Q1 resolved — no design_alerts automation, per the automation-last discipline. Wave 1 dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
