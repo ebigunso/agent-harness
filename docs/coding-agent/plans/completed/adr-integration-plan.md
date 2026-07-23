@@ -172,10 +172,6 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
 
 - 2026-07-23 Decision: template patches accepted/dropped per the value-audit lens applied to the survey's eight suggestions — accepted: `warrant:` field, Decision Boundary and Measurement Basis optional sections, `depends_on`/`implements` optional keys, `supersession_scope` + reciprocal-update flow obligation, one-line consultation impact, marked re-proposable option, amendment policy in flow text; dropped: `decision_altitude` field (no downstream consumer), `affected_repositories` field (criterion d fired once in 56; body text covers it). User approved the overall shape in discussion; drops are recorded here for Task_4's absence check.
 - 2026-07-23 Decision: post-merge follow-ups deliberately out of scope — CM/agent-harness pointer lines (one line each, their repos), CME bootstrap conversation, optional CME foundational ADRs (five identified gaps in the survey), possible CM adoption of template patches. Each is user-initiated later work.
-
-## Notes
-- Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.
-- Edge cases: repos with a `decisions/` directory but no template still count as case (i) — the pointer says "match the existing ADRs"; pointer-only, per user ruling.
 - 2026-07-24 ADR proposal (closeout sweep, per the just-landed completion-closeout hook): signal (b) rejected-alternatives-likely-to-return + (a) cross-boundary configuration contract; proposed title "Repo-rule pointer lines as the decision-record configuration surface"; expected mishandling, mode VIOLATE — without a record, future harness maintenance would likely re-propose a dedicated bootstrap config artifact or template mirroring into rule suites, against the pointer decision while its premises (single config surface; repo-local canonicality) hold. Proposed to the user in the closeout report; awaiting ruling — nothing persisted.
 - 2026-07-24 Post-closeout decision (user-directed): severity conjunct added to the warrant.
   - Trigger: the flow's first live proposal (pointer-configuration ADR) passed the likelihood test yet fell below the user's bar; diagnosis — the root test lacked a stakes dimension.
@@ -183,3 +179,7 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - Ruling on the pending proposal: DECLINED, terminal — "Repo-rule pointer lines as the decision-record configuration surface" fails the severity floor (violation is review-catchable against existing precedence rules and reversible); the Decision Log and those rules are the sufficient record. The flow's first proposal is thereby its first calibrated decline.
   - Corpus check: the severity conjunct preserves all 55 desirable historical ADRs (each protects expensive or silent mishandling) and excludes nothing the survey classified as warranted.
   - User approval: yes (user-directed refinement, 2026-07-24).
+
+## Notes
+- Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.
+- Edge cases: repos with a `decisions/` directory but no template still count as case (i) — the pointer says "match the existing ADRs"; pointer-only, per user ruling.

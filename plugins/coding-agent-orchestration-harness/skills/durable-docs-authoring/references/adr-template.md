@@ -5,7 +5,7 @@ date: YYYY-MM-DD
 deciders: []
 consulted: []   # durable identities: model or person names, never roles or platforms
 informed: []
-warrant: ""     # signal letters, mishandling mode, and cost, e.g. "a, b — violate"; signals: (a) cross-boundary contract/authority/evidence-ownership shape; (b) rejected alternative likely to be re-proposed; (c) costly migration/reversal; (d) cross-repository obligation; (e) user ruling setting a durable governance default; (f) premises likely to expire; (g) deliberately bounded scope; modes: violate / wrongly preserve / wrongly extend; warrant also requires stakes: the mishandling must be costly to detect or undo, not review-catchable
+warrant: ""     # signal letters, mishandling mode, and cost, e.g. "a, b / violate / costing silent contract drift across stores"; signals: (a) cross-boundary contract/authority/evidence-ownership shape; (b) rejected alternative likely to be re-proposed; (c) costly migration/reversal; (d) cross-repository obligation; (e) user ruling setting a durable governance default; (f) premises likely to expire; (g) deliberately bounded scope; modes: violate / wrongly preserve / wrongly extend; warrant also requires stakes: the mishandling must be costly to detect or undo, not review-catchable
 supersedes: []        # current relative paths; update when an archive move renames the target file
 superseded_by: null   # current relative path; update when an archive move renames the target file
 supersession_scope: null   # full | partial; set on both sides of a supersession
