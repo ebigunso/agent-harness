@@ -1,6 +1,6 @@
 # Plan: Trigger-Chain Wiring Remediation (PR 1 of 2)
 
-- status: in_progress
+- status: done
 - generated: 2026-07-23
 - last_updated: 2026-07-23
 - work_type: docs
@@ -191,6 +191,10 @@
 - 2026-07-23 Wave 4 completed: [Task_4]
   - Summary: version 0.8.1 in all three manifests. Commit d37e2c2.
   - Validation evidence: full common.md validator set green (pkg/smoke/plan/report×2/diff --check all exit 0).
+- 2026-07-23 Wave 5 completed: [Task_5]
+  - Summary: Codex Reviewer round 1 NEEDS_REVISION (implementation PASS on every check; missing Decision Log record for the item-6 ruling); remediated in 6299230 (docs-only); round 2 APPROVED at pin 6299230.
+  - Validation evidence: reviewer's independent validator rerun all exit 0 at d37e2c2; docs-delta review + plan validation exit 0 at 6299230; three-runtime normalized role-body hashes identical (Researcher 5f043e87…, Worker 4e0ee980…, Reviewer ea403e3b…).
+  - Notes: rule refresh assessed for the agent_instructions group (Worker question, Task_2): adapters changed only by adding shared-skill routes and pruning non-binding preloads; repo rule statements about adapter policy (common.md Repo Safety item 3) remain accurate — targeted refresh waived with this rationale. Worker lesson candidates staged in lessons.md (batch entry 2026-07-23).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
