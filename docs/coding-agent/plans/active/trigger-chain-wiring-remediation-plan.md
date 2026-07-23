@@ -181,6 +181,16 @@
   - Summary: all 17 skills-side fixes applied across nine SKILL.md files by the Codex worker (agmsg report 09:22Z); orchestrator spot-verified the diff (23+/21-) against the normative list.
   - Validation evidence: validate_harness_package.py exit 0; run_validation_smoke_tests.py exit 0; git diff --check exit 0; worker's 17-item phrase/reference audit exit 0.
   - Notes: worker staged one lesson candidate (scope trigger assertions to their owning surface) — carried to closeout. Commit 3cffca0.
+- 2026-07-23 Wave 2 completed: [Task_2]
+  - Summary: six adapter fixes across seven files; three-runtime body sync verified by normalized SHA-256 (Worker 4E0EE980…, Reviewer EA403E3B…); loader snippet hash unchanged. One mid-task escalation ruled (see Decision Log). Commit 9a6e1bb.
+  - Validation evidence: package validator exit 0; smoke tests exit 0; body-sync comparison exit 0; adapter checklist + git diff --check exit 0.
+  - Notes: two lesson candidates staged (adapter-preload baseline verification; line-bounded connector-block normalization) — carried to closeout.
+- 2026-07-23 Wave 3 completed: [Task_3]
+  - Summary: Claude prose pass over both wave diffs; three rewordings, semantics preserved; adapter text unchanged. Commit ca19e00.
+  - Validation evidence: package validator exit 0; smoke tests exit 0 (rerun cleanly after a piped-exit-code masking slip).
+- 2026-07-23 Wave 4 completed: [Task_4]
+  - Summary: version 0.8.1 in all three manifests. Commit d37e2c2.
+  - Validation evidence: full common.md validator set green (pkg/smoke/plan/report×2/diff --check all exit 0).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -190,6 +200,11 @@
   - Tradeoffs: leaves direct-route parity debt vs keeping PR 1 mechanical and low-risk.
   - User approval: covered by approval of the register's PR 1 scope, which listed this as the deferred alternative direction.
 - 2026-07-23 Decision: PR 1 routes `schema.yaml`/`examples.md` orphans but defers canonical-schema validator integration to PR 2 (P5c), where `design_alerts` work must touch the validator anyway.
+- 2026-07-23 Decision: Task_2 item 6 keep-list mismatch ruling (Worker escalation, agmsg 09:25Z).
+  - Trigger / new insight: the item-6 keep-list named a `playwright-cli` preload in `claude/agents/harness-reviewer.md` that does not exist — the audit matrix's hard route for it comes from the reviewer body text (line 46), not frontmatter. "Keep" was imprecise descriptive context carried from the audit.
+  - Plan delta: none to the diff — ruling was removals-only as authorized: remove `subagent-report-contract` and `rulebook` preloads, add nothing, preserve the existing `playwright-cli` body route. Fix-list item 6's keep-list is superseded by this entry.
+  - Tradeoffs considered: adding a `playwright-cli` preload for symmetry was rejected — additions were unauthorized and the body route is the binding mechanism.
+  - User approval: not required (within dispatched scope; recorded per reviewer requirement).
 - 2026-07-23 Decision: added Task_5 (Claude prose-quality pass) between the Codex worker waves and the version bump.
   - Trigger: user directive — Claude models write higher-quality prose than the GPT-5.6 Codex models; any Codex-authored sentence gets a Claude rewording pass before finalizing.
   - Plan delta: new prose-pass task inserted as Task_3 (version bump and review renumbered to Task_4/Task_5); waves renumbered accordingly.
