@@ -31,6 +31,10 @@ When editing shared role workflow or output-contract text:
 3. Diff all three body pairs after the edit.
 4. Classify every remaining differing line as intentional runtime-specific behavior; reconcile any unexplained drift.
 
+- Verify frontmatter and preload baselines against the actual adapter files before encoding keep/remove lists in plans; distinguish removal authorization from descriptive context.
+- Use line-bounded connector-block normalization when comparing bodies; never use dot-all greedy matching.
+- Print pairwise body hashes before treating a synchronization mismatch as content drift.
+
 ## Tool Permissions
 
 - Match tools to role boundaries.
