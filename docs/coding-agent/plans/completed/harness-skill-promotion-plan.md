@@ -1,6 +1,6 @@
 # Plan: Harness Skill Promotion — CharacterMemory/CharacterMemoryEvals Candidates (PR 2 of 2)
 
-- status: in_progress
+- status: done
 - generated: 2026-07-23
 - last_updated: 2026-07-23
 - work_type: docs
@@ -205,6 +205,19 @@ Wave 2: Codex agmsg worker. Task_4 scope is small after cuts but retained per th
 
 - 2026-07-23 Plan drafted (post PR #40 merge, v0.8.1 baseline).
 - 2026-07-23 Tier A value audit applied (Claude subagent); plan re-scoped per cut list; awaiting user approval before Wave 1 dispatch.
+- 2026-07-23 Wave 1 completed: [Task_1, Task_2]
+  - Summary: two parallel Claude harness-worker subagents; all 14 items landed within budgets; two integration rulings recorded at ruling time; orchestrator added the packet-menu conservation entry. Commit fcc808b.
+  - Validation evidence: both workers' validators exit 0; independent orchestrator rerun on the combined tree exit 0.
+- 2026-07-23 Wave 2 completed: [Task_3]
+  - Summary: Codex agmsg worker; conservation phrase ×3 Reviewer bodies (pairwise hashes identical), three maintenance-checklist lines, A/G verified pre-landed, loader unchanged. Commit 1356eeb.
+  - Validation evidence: validators exit 0; body-sync hash 39a9a4a3…; loader SHA-256 unchanged.
+- 2026-07-23 Wave 3 completed: [Task_4]
+  - Summary: Claude prose pass over all six Task_3 sentences — reviewed, no rewording warranted. Validators rerun exit 0.
+- 2026-07-23 Wave 4 completed: [Task_5]
+  - Summary: manifests 0.9.0; three promoted lessons drained with drain note; two meta-lessons appended. Commit 578131d.
+  - Validation evidence: full common.md validator set green (all exit 0).
+- 2026-07-23 Wave 5 completed: [Task_6]
+  - Summary: Codex Reviewer APPROVED at pin 578131d, findings none — item-by-item citations for all 17 scope items, trigger-chain bar PASS, budget/cut/no-regression bar PASS (no cut item reappeared; line budgets exact), Reviewer body parity hash b75f98dd…, loader blob unchanged, drain 1:1, independent validator rerun all green.
 - 2026-07-23 User approved the re-scoped plan ("You are go for implementation"); Q1 resolved — no design_alerts automation, per the automation-last discipline. Wave 1 dispatched.
 - 2026-07-23 Ruling (Task_1 question): the reviewer-packet-template conservation menu entry from Rev 3 survives — it is a cheap reference-layer line keeping the packet menu consistent with the router. Applied by the Orchestrator at Wave 1 integration (the file sat in Task_2's owns while that worker ran).
 - 2026-07-23 Ruling (Task_2 question): the Plan-Gate lead-in rewording stays cut. The triage table's item-E GAP row is partially superseded by the value audit: its design-review and next-phase triggers were deleted as duplicates, and the surviving third-bounce/pre-merge triggers are wired through integration-checklist and completion-closeout, which need no Plan-Gate rewording. Task_6 review checks the surviving wiring only.
