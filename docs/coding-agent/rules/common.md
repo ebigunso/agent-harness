@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-05-13"
+last_updated: "2026-07-24"
 ---
 
 # Common Repository Rules
@@ -10,7 +10,7 @@ last_updated: "2026-05-13"
 ## Repository Reference Documents
 
 - `plugins/coding-agent-orchestration-harness/README.md`: plugin layout, runtime paths, validators, Codex bootstrap commands, and ADR location.
-- `docs/coding-agent-orchestration-harness/decisions/`: durable architecture and implementation decisions for the harness.
+- Decision records: follow `docs/coding-agent-orchestration-harness/decisions/`; match the existing ADRs' ADR-D/ADR-I numbering and sections (durable architecture and implementation decisions for the harness).
 - `docs/coding-agent/plans/completed/`: completed implementation plans and validation history.
 - `docs/coding-agent/lessons.md`: recurring mistakes and local prevention rules.
 
