@@ -39,11 +39,11 @@ supersession_scope: null   # full | partial; set on both sides of a supersession
 1. {Option A}
 2. {Option B — a clean one-line description; rejection reasoning goes below, not inline.}
 
-### Rejected Alternatives
-{One paragraph per rejected option: why it was rejected. When the option is likely to be re-proposed, also state the evidence or condition that would legitimately reopen it; when it is rejected outright, say so. Omit the section only when no rejection needs explaining.}
-
 ## Decision Outcome
 Chosen option: **{Option X}**. {Explain why this option best satisfies the decision drivers.}
+
+### Rejected Alternatives
+{One paragraph per rejected option: why it was rejected. When the option is likely to be re-proposed, also state the evidence or condition that would legitimately reopen it; when it is rejected outright, say so. Omit the section only when no rejection needs explaining.}
 
 ## Consequences
 - Positive: {positive consequence}
