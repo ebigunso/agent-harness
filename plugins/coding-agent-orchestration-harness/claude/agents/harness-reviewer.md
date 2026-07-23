@@ -4,10 +4,8 @@ description: Review-only subagent. Reviews changes after an implementation wave/
 model: inherit
 disallowedTools: Write, Edit
 skills:
-  - subagent-report-contract
   - engineering-quality-baselines
   - playwright-e2e-evidence
-  - rulebook
 ---
 
 # Reviewer Subagent (Review-Only)
@@ -42,6 +40,8 @@ or risky edge behavior:
 ---
 
 ## UI evidence via a browser automation provider (when applicable)
+
+When reviewing UI/E2E acceptance, load `playwright-e2e-evidence` and enforce its evidence gates.
 
 Use a selected browser automation provider such as `playwright-cli` (via terminal) when:
 - acceptance criteria include UI behavior, navigation flows, or layout correctness
