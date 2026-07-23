@@ -30,6 +30,7 @@ Include:
 - validation items (kind/required/owner/detail)
 - Consumer obligations: instruct the subagent to name the known consumer obligations of any contract it touches and escalate rather than assume — its view is the local patch; the Orchestrator owns the blast radius.
 - Escape hatch for surface-minimizing constraints: any constraint like "smallest possible diff" must state that preserving existing types, schemas, and boundaries outranks it — a workaround-shaped fix is surfaced, not forced through.
+- When dispatching from a triage or audit table, re-baseline each listed item against the current file state first and mark pre-landed items verify-only — derived artifacts go stale the moment other work merges.
 - For parallel authoring waves: confirm each dispatch prompt is spec-complete on its own — a Worker must not need a sibling task's output or an unstated convention to satisfy acceptance.
 - Hard requirement:
   - "If you cannot run required worker-owned validation, return status=blocked with the reason."
