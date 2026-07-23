@@ -22,6 +22,7 @@ Rules for writing and restructuring durable documentation: product/strategy/poli
 4) Freshness semantics for time-relative language
 - Durable docs that use time-relative language ("today", "current", "now") must carry explicit freshness metadata (e.g., last-updated) or dated snapshot framing.
 - Remove or date-anchor any unqualified time-relative wording; readers must be able to distinguish durable principles from dated state observations.
+- The same discipline applies to the social axis: persisted documents speak in durable roles (deciders, reviewers, maintainers) or named people, never session-relative vocabulary — "the user" assumes a single human authoring via an agent and turns ambiguous the moment more people are involved.
 
 5) Tier support material; no flat peer lists
 - Do not give every idea equal visual and rhetorical weight. Section structure should mirror message priority, not topic inventory.
@@ -36,4 +37,4 @@ Rules for writing and restructuring durable documentation: product/strategy/poli
 7) Coherence and emphasis check
 - First screen: does the opening screen show the main story (governing claim plus top ideas), not a flat inventory?
 - Agreement: do title, filename, metadata role, and opening paragraph all describe the same document role? If they disagree, resolve the mismatch — do not document around it.
-- Sweep for time-relative words and confirm each is either durable by role or explicitly date-anchored.
+- Sweep for time-relative words and session-relative actor words ("the user") and confirm each is durable by role, named, or explicitly date-anchored.
