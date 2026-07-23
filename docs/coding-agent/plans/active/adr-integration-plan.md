@@ -1,6 +1,6 @@
 # Plan: ADR Discipline Integration (criteria, template, bootstrap placement)
 
-- status: draft
+- status: in_progress
 - generated: 2026-07-23
 - last_updated: 2026-07-23
 - work_type: docs
@@ -141,6 +141,7 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
 ## Progress Log (append-only)
 
 - 2026-07-23 Plan drafted with companion survey committed; awaiting user approval before Wave 1 dispatch.
+- 2026-07-24 User approved after four design refinements (root-test criteria, three mishandling modes, signals a-g, lifecycle convention); Wave 1 dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
