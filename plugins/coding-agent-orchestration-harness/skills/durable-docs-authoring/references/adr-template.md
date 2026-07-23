@@ -3,9 +3,9 @@ status: accepted
 adr_type: {design | implementation}
 date: YYYY-MM-DD
 deciders: []
-consulted: []   # durable identities: model or person names, never roles or platforms
+consulted: []   # durable identities: full model names or person names, never roles or platforms, e.g. "Claude Fable 5", "GPT-5.6 Sol"
 informed: []
-warrant: ""     # signal letters, mishandling mode, and cost, e.g. "a, b / violate / costing silent contract drift across stores"; signals: (a) cross-boundary contract/authority/evidence-ownership shape; (b) rejected alternative likely to be re-proposed; (c) costly migration/reversal; (d) cross-repository obligation; (e) user ruling setting a durable governance default; (f) premises likely to expire; (g) deliberately bounded scope; modes: violate / wrongly preserve / wrongly extend; warrant also requires stakes: the mishandling must be costly to detect or undo, not review-catchable
+warrant: ""     # self-contained, labeled phrases — no shorthand codes: "signals: <spelled-out signal phrases>; mode: <violate | wrongly preserve | wrongly extend>; cost: <what mishandling breaks or costs>". Signal vocabulary: cross-boundary contract/authority/evidence-ownership shape; rejected alternative likely to be re-proposed; costly migration/reversal; cross-repository obligation; user ruling setting a durable governance default; premises likely to expire; deliberately bounded scope. The cost must be costly to detect or undo, not review-catchable
 supersedes: []        # current relative paths; update when an archive move renames the target file
 superseded_by: null   # current relative path; update when an archive move renames the target file
 supersession_scope: null   # full | partial; set on both sides of a supersession
@@ -34,7 +34,10 @@ supersession_scope: null   # full | partial; set on both sides of a supersession
 
 ## Considered Options
 1. {Option A}
-2. {Option B — mark the rejected option likely to be re-proposed, and state the evidence or condition that would reopen it.}
+2. {Option B — a clean one-line description; rejection reasoning and reopen conditions go below, not inline.}
+
+### Guarded Alternatives
+{For each rejected option likely to be re-proposed: why it was rejected, and the evidence or condition that would legitimately reopen it. Omit when no option needs guarding.}
 
 ## Decision Outcome
 Chosen option: **{Option X}**. {Explain why this option best satisfies the decision drivers.}
@@ -44,7 +47,11 @@ Chosen option: **{Option X}**. {Explain why this option best satisfies the decis
 - Negative / tradeoffs: {tradeoff}
 
 ## Decision Boundary
-{Optional. Separate the invariant (changing it requires a superseding ADR) from calibrated defaults that may change through measured configuration or a plan record. Also the home for a deliberately bounded scope and its rationale — the guard against wrongly extending the decision.}
+{Optional. Format the parts visually separately — one line or paragraph each, sized to their content.}
+
+Invariant: {what changing requires a superseding ADR; include a deliberately bounded scope and its rationale here — the guard against wrongly extending the decision.}
+
+Not covered: {calibrated defaults and free surfaces that may change through measured configuration or a plan record.}
 
 ## Measurement Basis
 {Optional. For empirically grounded decisions: the corpus, configuration, and provenance behind the numbers; scope limits; a reproducibility pointer. Evidence alone does not warrant an ADR.}

@@ -184,6 +184,10 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - Criteria amendments applied to adr.md: product-shape boundary negative (ADRs record product-domain decisions; development aids go to rules/harness; process repos own process as product); re-derivability negative (evidence-bound: cheaply and reliably re-derivable at planning time from current authoritative constraints; warrant needs an invisible fork AND a non-obvious resolution); exception check (an ADR never ratifies an accidental/legacy live-path exception — remediation first; deliberate bounded exceptions may themselves be the decision, per reviewer reconciliation with ADR-D-0007/D-0003); class-level erosion severity clarification; decomposed-cluster proposal guidance.
   - Follow-up work items (user-initiated, out of this PR): CME legacy 1.0.0 reader remediation; drafting the two passed CME ADRs after the CME bootstrap exercise.
   - User approval: yes (calibration rulings 2026-07-24).
+- 2026-07-24 Post-closeout decision (user-directed): four template-format calibrations from the first drafted ADRs.
+  - (1) The warrant field is self-contained labeled phrases, never shorthand signal letters — ADRs must be understandable alone. (2) Considered Options lines stay clean; rejection reasoning and reopen conditions move to a new Guarded Alternatives subsection. (3) Decision Boundary formats Invariant and Not covered as visually separate lines/paragraphs. (4) consulted records full model names ("GPT-5.6 Sol"), never platforms ("Codex"); example added to the template comment.
+  - Applied to the drop-in template on this branch and re-placed into CharacterMemoryEvals with the two first ADRs rewritten to match.
+  - User approval: yes (nits 1-4, 2026-07-24).
 
 ## Notes
 - Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.
