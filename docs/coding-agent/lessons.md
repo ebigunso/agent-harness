@@ -353,3 +353,11 @@ Fix applied:
 
 Prevention:
 - Write the Decision Log entry in the same action as sending any escalation ruling — the message and the log entry are one atomic step, never sequenced apart.
+
+## 2026-07-23 - Wiring-Remediation Worker Candidates (Batch)  [tags: validation, planning, tooling]
+
+Consolidated from Task_1/Task_2 Worker reports (full bodies in agmsg history 2026-07-23); PR 2 should consider the first two for harness promotion:
+
+- Scope validation assertions to their owning surface: frontmatter-trigger assertions check YAML frontmatter, body-route assertions check their intended section — whole-file occurrence counts produce false failures when the same phrase legitimately appears in both.
+- Verify adapter frontmatter against the dispatch baseline before encoding keep-lists: distinguish removal authorization from descriptive audit context (the Task_2 item-6 mismatch; ruling in the wiring-remediation plan Decision Log).
+- Adapter body-sync normalization must be line-bounded: a dot-all greedy regex for the Codex connector block consumed later body text and produced a false sync failure; print pairwise hashes before treating mismatches as content failures.
