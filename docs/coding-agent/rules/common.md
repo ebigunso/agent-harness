@@ -10,7 +10,7 @@ last_updated: "2026-07-24"
 ## Repository Reference Documents
 
 - `plugins/coding-agent-orchestration-harness/README.md`: plugin layout, runtime paths, validators, Codex bootstrap commands, and ADR location.
-- Decision records: follow `docs/coding-agent-orchestration-harness/decisions/`; match the existing ADRs' ADR-D/ADR-I numbering and sections (durable architecture and implementation decisions for the harness).
+- Decision records: follow `docs/coding-agent-orchestration-harness/decisions/`; match the existing ADRs' numbering and sections.
 - `docs/coding-agent/plans/completed/`: completed implementation plans and validation history.
 - `docs/coding-agent/lessons.md`: recurring mistakes and local prevention rules.
 
