@@ -1,6 +1,6 @@
 # Plan: ADR Discipline Integration (criteria, template, bootstrap placement)
 
-- status: in_progress
+- status: done
 - generated: 2026-07-23
 - last_updated: 2026-07-23
 - work_type: docs
@@ -146,6 +146,11 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - Summary: two parallel Claude harness-worker subagents; all 10 items landed within budgets (adr.md 43 lines, template 62, README 31; five wiring files; zero SKILL.md always-read additions). Orchestrator spot-verified: criteria text faithful to the root-test/three-mode/signals-a-g structure; both drop-ins contain no harness-internal references; both trigger hooks imperative with direct paths.
   - Validation evidence: both workers' validators exit 0; orchestrator independent rerun on combined tree — package 0, smoke 0, diff --check 0.
   - Notes: three Task_1 and three Task_2 assumptions ratified at integration, notably the template's self-contained warrant gloss (required for drop-in validity) and the fresh-suite template line placed as guidance adjacent to the fenced block (correct form knowable only after detection). No escalations, no lesson candidates.
+- 2026-07-24 Wave 2 completed: [Task_3]
+  - Summary: manifests 0.10.0; full common.md validator set green; final ambiguity pass over changed trigger surfaces recorded. Commit 6d745ad.
+- 2026-07-24 Wave 3 completed: [Task_4]
+  - Summary: Codex Reviewer round 1 NEEDS_REVISION (single formatting finding — blank EOF line in the survey companion; every substantive item PASS with citations); remediated in 03b6c24 with the range-scoped diff-check discipline noted; round 2 APPROVED, no findings.
+  - Validation evidence: reviewer independent rerun all exit 0 incl. git diff --check main..HEAD after fix.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -171,3 +176,4 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
 ## Notes
 - Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.
 - Edge cases: repos with a `decisions/` directory but no template still count as case (i) — the pointer says "match the existing ADRs"; pointer-only, per user ruling.
+- 2026-07-24 ADR proposal (closeout sweep, per the just-landed completion-closeout hook): signal (b) rejected-alternatives-likely-to-return + (a) cross-boundary configuration contract; proposed title "Repo-rule pointer lines as the decision-record configuration surface"; expected mishandling, mode VIOLATE — without a record, future harness maintenance would likely re-propose a dedicated bootstrap config artifact or template mirroring into rule suites, against the pointer decision while its premises (single config surface; repo-local canonicality) hold. Proposed to the user in the closeout report; awaiting ruling — nothing persisted.
