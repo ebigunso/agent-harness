@@ -11,7 +11,7 @@ When this skill is loaded by a runtime loader or skill reference rather than by 
 
 ## Repository Rule Entry
 
-For repository coding tasks, before planning, editing, dispatching subagents, or selecting validation/review policy: check `docs/coding-agent/rules/index.md`; if the suite is present, read `docs/coding-agent/rules/common.md` and `docs/coding-agent/rules/orchestrator.md`.
+For repository coding tasks, before planning, editing, dispatching subagents, or selecting validation/review policy: check `docs/coding-agent/rules/index.md`; if the suite is present, read `docs/coding-agent/rules/common.md` and `docs/coding-agent/rules/orchestrator.md`. Before starting non-trivial work, also skim `docs/coding-agent/lessons.md` and any active plans.
 
 This is rule instruction loading, not full rule-suite readiness work. If the rule files are absent or unreadable, continue under this skill and record the missing rule context when it materially affects planning or validation. Full procedure: `references/rule-suite-fast-path.md`.
 
@@ -62,6 +62,8 @@ Do not dispatch a Worker until the target Task_X has:
 - concrete `acceptance`;
 - validation items with `kind`, `required`, `owner`, and `detail`.
 
+Non-trivial implementation and review work loads `engineering-quality-baselines`; select routing depth per that skill before dispatch.
+
 Each acceptance criterion must be satisfiable within `owns`. Every required validation item must have explicit owner (`worker`, `reviewer`, `orchestrator`, or `user`). If either check fails, stop and replan before dispatch.
 
 When repo rules are available and relevant, derive validation items from the rule suite before dispatch. If rules are missing, corrupt, schema-mismatched, or source-drifted and validation cannot be selected confidently, route through `rulebook` or record an explicit waiver before dispatch.
@@ -82,6 +84,7 @@ Do not mark a Task_X or plan complete unless all required validation is satisfie
 After each Worker wave and before Reviewer dispatch, run the `wave-integration` checklist. Non-trivial work requires Reviewer `APPROVED` before final completion unless explicitly waived.
 
 Before final done:
+Read and apply `references/completion-closeout.md`, then confirm:
 
 - all Task_X entries are done or waived;
 - all required Worker and Reviewer validation evidence is pass or waived;
@@ -108,7 +111,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - Worker wave integration and Reviewer packet: `wave-integration`
 - Engineering validation depth: `engineering-quality-baselines`
 - Long-horizon audit (five-step lens, non-standard-flow only): `engineering-quality-baselines`
-- Git safety and commit chunking: `git-workflow`
+- Git safety, commit/PR workflow, and external review monitoring: `git-workflow`
 - Repo rules updates: `rulebook`
 - Post-correction handling: `improvement-loop`
 - Workspace/tool failures: `workspace-troubleshooting`
@@ -135,7 +138,7 @@ Record replans in the plan Decision Log before continuing.
 
 ## Governance And Safety
 
-- Correction events require `improvement-loop` before ending the turn. State durable behavior changes back to the user unless explicitly one-time.
+- Correction events, missed hard gates, and review/CI/human findings the harness should have caught require `improvement-loop` before ending the turn. State durable behavior changes back to the user unless explicitly one-time.
 - Third-party or unknown-provenance skills are read-only unless the user explicitly approves editing them.
 - Only the Orchestrator edits repo rule files.
 
