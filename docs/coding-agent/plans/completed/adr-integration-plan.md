@@ -192,6 +192,9 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
   - The alternatives section is renamed Rejected Alternatives, covering guarded and unguarded rejections uniformly (a section named for guarding cannot contain an unguarded rejection); the warrant frontmatter becomes a three-key mapping (signals / mode / cost), one topic per line.
   - Applied to the drop-in template and re-placed into CharacterMemoryEvals with both first ADRs updated.
   - User approval: yes (2026-07-24).
+- 2026-07-24 Post-closeout decision (user-directed): persisted ADRs never say "user" in the AI-direction sense.
+  - The term assumes a single human authoring via an agent and is ambiguous the moment multiple people are involved; the durable vocabulary is the format's own decider role, or the named person. Signal (e) renamed to "a decider's ruling setting a durable governance default" in the template vocabulary and adr.md; both CME ADRs corrected (warrant signals; Consultation impact lines now name ebigunso). The consumer sense ("evidence users") is unaffected. Harness-internal flow text keeps "user" where it denotes the harness principal.
+  - User approval: yes (2026-07-24).
 
 ## Notes
 - Risks: the placeable files must never acquire harness-internal references (drop-in validity is a Task_4 check); criteria wording drift from the survey's calibrated rule (Task_4 fidelity check); Wave 1 prompts must be spec-complete.

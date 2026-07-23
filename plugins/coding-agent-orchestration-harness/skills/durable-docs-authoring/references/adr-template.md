@@ -6,7 +6,7 @@ deciders: []
 consulted: []   # durable identities: full model names or person names, never roles or platforms, e.g. "Claude Fable 5", "GPT-5.6 Sol"
 informed: []
 warrant:        # self-contained phrases, one topic per key — no shorthand codes
-  signals: ""   # spelled out; vocabulary: cross-boundary contract/authority/evidence-ownership shape; rejected alternative likely to be re-proposed; costly migration/reversal; cross-repository obligation; user ruling setting a durable governance default; premises likely to expire; deliberately bounded scope
+  signals: ""   # spelled out; vocabulary: cross-boundary contract/authority/evidence-ownership shape; rejected alternative likely to be re-proposed; costly migration/reversal; cross-repository obligation; a decider's ruling setting a durable governance default; premises likely to expire; deliberately bounded scope
   mode: ""      # violate | wrongly preserve | wrongly extend
   cost: ""      # what the mishandling breaks or costs; must be costly to detect or undo, not review-catchable
 supersedes: []        # current relative paths; update when an archive move renames the target file

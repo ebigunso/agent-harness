@@ -19,7 +19,7 @@ Recognition signals mark where the test usually fires; they prompt the test and 
 - (b) rejected alternatives likely to be re-proposed;
 - (c) meaningful migration or reversal cost;
 - (d) cross-repository obligations;
-- (e) user rulings establishing durable governance defaults (authorship is provenance, not warrant);
+- (e) a decider's ruling establishing a durable governance default (authorship is provenance, not warrant);
 - (f) decisions resting on premises likely to expire;
 - (g) decisions whose scope boundary is as deliberate as the decision.
 
