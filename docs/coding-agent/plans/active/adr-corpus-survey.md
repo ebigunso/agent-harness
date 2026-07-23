@@ -146,4 +146,3 @@ Recommended calibrated warrant rule:
 "Create an ADR when a decision must constrain future work beyond its implementing plan because it establishes (a) an externally observable or cross-boundary contract/API/schema/authority/evidence-ownership shape; (b) rejects an alternative likely to be re-proposed; (c) creates meaningful migration/reversal cost; (d) assigns cross-repository obligations; or (e) records a user ruling that establishes a durable product/architecture/cross-boundary governance default. Do not create an ADR for reversible parameters, task sequencing, temporary deferrals, ordinary implementation tactics, always-loaded enforcement rules with no durable rationale burden, or a decision canonically owned by another repository's ADR."
 
 No files edited.
-
