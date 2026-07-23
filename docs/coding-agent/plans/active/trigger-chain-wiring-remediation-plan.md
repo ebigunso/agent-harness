@@ -177,6 +177,10 @@
 ## Progress Log (append-only)
 
 - 2026-07-23 Plan drafted after user approval of the two-PR sequencing ("Yes, that looks like the right way to go. Start your work.").
+- 2026-07-23 Wave 1 completed: [Task_1]
+  - Summary: all 17 skills-side fixes applied across nine SKILL.md files by the Codex worker (agmsg report 09:22Z); orchestrator spot-verified the diff (23+/21-) against the normative list.
+  - Validation evidence: validate_harness_package.py exit 0; run_validation_smoke_tests.py exit 0; git diff --check exit 0; worker's 17-item phrase/reference audit exit 0.
+  - Notes: worker staged one lesson candidate (scope trigger assertions to their owning surface) — carried to closeout. Commit 3cffca0.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
