@@ -47,7 +47,7 @@ ALWAYS propose the resulting Decision Records line to the user and confirm befor
 
 Placement is a repository mutation and is gated on explicit user approval at bootstrap time.
 
-At targeted refresh, verify the Decision Records line against the repository tree and flag any contradiction (pointer to a missing convention, or an unrecorded convention present) to the user.
+At targeted refresh, verify the Decision Records line against tracked paths only (`git ls-files`, the same scope as bootstrap detection) and flag any contradiction (pointer to a missing convention, or an unrecorded tracked convention present) to the user.
 
 ## Full Bootstrap Triggers
 
