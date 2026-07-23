@@ -5,10 +5,12 @@ date: YYYY-MM-DD
 deciders: []
 consulted: []   # durable identities: full model names or person names, never roles or platforms, e.g. "Claude Fable 5", "GPT-5.6 Sol"
 informed: []
-warrant:        # self-contained phrases, one topic per key — no shorthand codes
-  signals: ""   # spelled out; vocabulary: cross-boundary contract/authority/evidence-ownership shape; rejected alternative likely to be re-proposed; costly migration/reversal; cross-repository obligation; a decider's ruling setting a durable governance default; premises likely to expire; deliberately bounded scope
-  mode: ""      # violate | wrongly preserve | wrongly extend
-  cost: ""      # what the mishandling breaks or costs; must be costly to detect or undo, not review-catchable
+warrant:                          # self-contained phrases, one topic per key — no shorthand codes; include only the cost keys that apply (their presence names the mishandling modes)
+  warranted_by: ""                # the falsifiable expectation this record prevents: "without this record, future work would likely ..."
+  detected_signals: ""            # spelled out; vocabulary: cross-boundary contract/authority/evidence-ownership shape; rejected alternative likely to be re-proposed; costly migration/reversal; cross-repository obligation; a decider's ruling setting a durable governance default; premises likely to expire; deliberately bounded scope
+  cost_of_violation: ""           # what breaks if future work goes against the decision while its premises hold; must be costly to detect or undo, not review-catchable
+  cost_of_wrong_preservation: ""  # what it costs if the decision outlives its expired premises; omit when not applicable
+  cost_of_over_extension: ""      # what it costs if the decision is applied beyond its deliberately bounded scope; omit when not applicable
 supersedes: []        # current relative paths; update when an archive move renames the target file
 superseded_by: null   # current relative path; update when an archive move renames the target file
 supersession_scope: null   # full | partial; set on both sides of a supersession
