@@ -142,6 +142,10 @@ reading the companion survey. No Codex authoring → no prose-pass task, per A2.
 
 - 2026-07-23 Plan drafted with companion survey committed; awaiting user approval before Wave 1 dispatch.
 - 2026-07-24 User approved after four design refinements (root-test criteria, three mishandling modes, signals a-g, lifecycle convention); Wave 1 dispatched.
+- 2026-07-24 Wave 1 completed: [Task_1, Task_2]
+  - Summary: two parallel Claude harness-worker subagents; all 10 items landed within budgets (adr.md 43 lines, template 62, README 31; five wiring files; zero SKILL.md always-read additions). Orchestrator spot-verified: criteria text faithful to the root-test/three-mode/signals-a-g structure; both drop-ins contain no harness-internal references; both trigger hooks imperative with direct paths.
+  - Validation evidence: both workers' validators exit 0; orchestrator independent rerun on combined tree — package 0, smoke 0, diff --check 0.
+  - Notes: three Task_1 and three Task_2 assumptions ratified at integration, notably the template's self-contained warrant gloss (required for drop-in validity) and the fresh-suite template line placed as guidance adjacent to the fenced block (correct form knowable only after detection). No escalations, no lesson candidates.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

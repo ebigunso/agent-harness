@@ -35,6 +35,20 @@ A rule suite is valid when:
 - schema version matches the plugin-required schema;
 - no relevant source drift or contradiction is known.
 
+## Decision Records Detection And Placement
+
+During full bootstrap, detect candidate decision-record conventions: `docs/decisions/`, `docs/adr/`, and `ADR-*` file globs.
+
+ALWAYS propose the resulting Decision Records line to the user and confirm before recording it in `common.md`; never silently record. Three outcomes:
+
+1. Convention detected: point at it — `Decision records: follow <path>; match the existing ADRs' numbering and sections.`
+2. No convention, placement approved: the Orchestrator copies the two drop-ins from `skills/durable-docs-authoring/references/` — `adr-template.md` to `docs/decisions/template.md` and `adr-repo-readme.md` to `docs/decisions/README.md` (track directories are created on the first ADR). The pointer then reads as outcome 1, at `docs/decisions/`.
+3. No convention, placement declined: record the harness-default form — `Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).` Re-offer placement only at rule-suite refresh, never per task.
+
+Placement is a repository mutation and is gated on explicit user approval at bootstrap time.
+
+At targeted refresh, verify the Decision Records line against the repository tree and flag any contradiction (pointer to a missing convention, or an unrecorded convention present) to the user.
+
 ## Full Bootstrap Triggers
 
 Run full bootstrap when:

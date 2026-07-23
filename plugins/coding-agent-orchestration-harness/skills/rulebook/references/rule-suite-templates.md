@@ -81,6 +81,11 @@ last_updated: "YYYY-MM-DD"
 - None recorded yet.
 ```
 
+For fresh suites, add one optional Decision Records line under Repository Reference Documents, chosen during the bootstrap detection/placement procedure in `references/bootstrap-lifecycle.md`:
+
+- `Decision records: follow <path>; match the existing ADRs' numbering and sections.`
+- `Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).`
+
 ## worker.md
 
 ```md

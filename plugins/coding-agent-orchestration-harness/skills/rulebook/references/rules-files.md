@@ -35,6 +35,13 @@ Required sections:
 - Repo Safety / Boundaries
 - Repo Naming / Structure
 
+common.md may additionally include one optional Decision Records line recording the repository's ADR convention, in exactly one of two forms:
+
+- `Decision records: follow <path>; match the existing ADRs' numbering and sections.`
+- `Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).`
+
+Set and update this line only through the detection/placement procedure in `references/bootstrap-lifecycle.md`; never record or change it without user confirmation.
+
 3) worker.md must include:
 - Repo-Specific Worker Notes
 - Repo CI / Checks Mapping
