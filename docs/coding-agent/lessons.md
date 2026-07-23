@@ -322,3 +322,14 @@ Promoted into harness skills by the v0.9.0 skill-promotion PR and removed from t
 - Wiring-remediation worker batch → engineering-quality-baselines `testing-validation.md` (owning-surface line); runtime-adapter-contract `adapter-maintenance-checklist.md` (baseline/normalization/hash lines)
 - "Promotion Triage Requires A Per-Item Existing-Text Diff" → improvement-loop `promotion-guidelines.md` (Existing-text check)
 - "Re-Baseline Audit Tables Against The Current Tree Before Dispatch" → subagent-strategy `dispatch-checklists.md`
+
+## 2026-07-23 - Assert Postconditions On Scripted Text Mutations  [tags: tooling, validation]
+
+Symptom:
+- A lessons-drain script deleted the promotion drain note (it sat inside a dropped regex segment because its heading was not date-prefixed) while the follow-up replace no-opped silently; the plan claimed an update that did not exist. Caught by delta review.
+
+Root cause:
+- Bulk regex segment surgery assumed uniform headings, and neither the drop nor the replace asserted its postcondition.
+
+Prevention:
+- Every scripted text mutation asserts its postcondition (replaced count, required text present/absent) before commit; prefer anchored single-target edits over regex segment surgery in documents with non-uniform structure.
