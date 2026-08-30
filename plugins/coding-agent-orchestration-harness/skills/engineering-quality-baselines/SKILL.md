@@ -26,32 +26,23 @@ Classify risk before loading deeper references:
 
 If all are low and local, use default routing depth. If any are medium/high or uncertain, escalate depth.
 
-### Routing Decision (progressive disclosure levels)
+### Routing Decision
 
-Use levels from `references/language-gates.md`:
-- Level 0 (always): route in-scope language/tech and explicitly declare major out-of-scope docs.
-- Level 1 (default): load only core applicable language/tech gates for changed execution paths.
-- Level 2 (escalate): add adjacent gates if cross-boundary behavior changed, new integration points exist, or unresolved risk remains after Level 1.
-- Level 3 (rare): full sweep for migrations, platform-wide changes, or systemic incidents.
+Load only the reference categories relevant to the change; explicitly note major categories left out and why. Escalate to broader coverage on unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
 
-Escalation triggers: unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
+Per-language baseline references (Rust/TS/Python/Go idiom and anti-pattern guides) were removed after ablation testing showed current frontier models apply that content reliably without them — see ADR-D-0015. Do not reintroduce per-language baseline docs without new ablation evidence.
 
 Load only relevant categories:
 - Core principles: `references/core-principles.md` (read for every non-trivial implementation or review; also when intent/scope or tradeoffs are unclear)
 - Architecture gates: `references/architecture-gates.md` (when boundaries, layering, or contracts change)
 - Stack concerns (backend/frontend): `references/stack-backend-frontend.md` (when execution path spans backend/frontend concerns)
-- Language/technology routing: `references/language-gates.md` (always for in-scope language/tech routing)
 - Validation and evidence model: `references/testing-validation.md` (when selecting required checks and evidence depth)
 - Test authoring: `references/test-authoring.md` (when writing, modifying, or reviewing tests)
 - Security boundaries: `references/security-boundaries.md` (when auth, secrets, trust boundaries, or data sensitivity are touched)
 - Review scoring summary: `references/review-rubric.md` (when performing PR/code review or final quality scoring)
 - Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, risk-specific tests, or information conservation across serialization, conversion, aggregation, and fallback boundaries)
 
-Then load only applicable language/tech details:
-- Rust: `references/language-rust.md`
-- TypeScript/JavaScript: `references/language-typescript-javascript.md`
-- Python: `references/language-python.md`
-- Go: `references/language-go.md`
+Then, when a web framework is meaningfully touched:
 - Web frameworks: `references/tech-web-frameworks.md`
 
 ### Drift Tripwires (always active)
@@ -69,7 +60,6 @@ Use this note in task output:
 
 ```
 Quality routing note
-- Routing level: L{0|1|2|3}
 - In-scope docs: [...]
 - Out-of-scope docs: [...] (reason)
 - Top risks: [security|data-integrity|migration|concurrency|external-deps|contract|performance]
