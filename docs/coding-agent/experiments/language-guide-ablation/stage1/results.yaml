@@ -1,0 +1,4 @@
+# Stage 1 results — schema consumed by score_stage1.py. One record per (arm, language, fixture, seed).
+model: ""
+run_date: ""
+records: []

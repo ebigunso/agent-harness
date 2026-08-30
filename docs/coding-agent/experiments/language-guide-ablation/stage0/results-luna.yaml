@@ -1,0 +1,81 @@
+# Stage 0 — gpt-5.6-luna via codex exec (clean dir, --ignore-user-config --ignore-rules
+# --ephemeral, read-only sandbox, global AGENTS.md parked). Raw outputs: scratchpad probe-run/out/luna-*.txt
+model: gpt-5.6-luna
+probe_date: 2026-08-28
+
+samples:
+  - language: go
+    seed: 1
+    marks: {G1: partial, G2: hit, G3: hit, G4: hit, G5: miss, G6: miss, G7: hit, G8: hit,
+            G9: hit, G10: partial, G11: partial, G12: hit, G13: hit, G14: hit, G15: hit, G16: hit}
+    # 12.5/16 = 78%
+  - language: go
+    seed: 2
+    marks: {G1: partial, G2: hit, G3: hit, G4: hit, G5: hit, G6: miss, G7: hit, G8: hit,
+            G9: hit, G10: partial, G11: partial, G12: miss, G13: hit, G14: hit, G15: partial, G16: hit}
+    # 12/16 = 75%
+  - language: go
+    seed: 3
+    marks: {G1: miss, G2: hit, G3: hit, G4: hit, G5: hit, G6: miss, G7: hit, G8: hit,
+            G9: hit, G10: partial, G11: miss, G12: hit, G13: hit, G14: hit, G15: partial, G16: hit}
+    # 12/16 = 75%
+
+  - language: python
+    seed: 1
+    marks: {P1: partial, P2: miss, P3: partial, P4: partial, P5: partial, P6: hit, P7: hit,
+            P8: partial, P9: hit, P10: hit, P11: hit, P12: partial, P13: hit, P14: hit}
+    # 10/14 = 71%
+  - language: python
+    seed: 2
+    marks: {P1: partial, P2: miss, P3: miss, P4: partial, P5: partial, P6: hit, P7: hit,
+            P8: hit, P9: hit, P10: hit, P11: miss, P12: miss, P13: hit, P14: hit}
+    # 8.5/14 = 61%  (note: names business-logic/transport mixing -- outside Python key)
+  - language: python
+    seed: 3
+    marks: {P1: partial, P2: miss, P3: miss, P4: miss, P5: miss, P6: hit, P7: hit,
+            P8: partial, P9: miss, P10: hit, P11: miss, P12: miss, P13: hit, P14: hit}
+    # 6/14 = 43%
+
+  - language: rust
+    seed: 1
+    marks: {R1: miss, R2: miss, R3: miss, R4: partial, R5: hit, R6: hit, R7: hit, R8: miss,
+            R9: hit, R10: hit, R11: hit, R12: miss, R13: hit, R14: miss, R15: hit, R16: miss}
+    # 8.5/16 = 53%
+  - language: rust
+    seed: 2
+    marks: {R1: miss, R2: miss, R3: miss, R4: partial, R5: hit, R6: hit, R7: hit, R8: miss,
+            R9: hit, R10: hit, R11: hit, R12: miss, R13: hit, R14: miss, R15: hit, R16: miss}
+    # 8.5/16 = 53%
+  - language: rust
+    seed: 3
+    marks: {R1: partial, R2: miss, R3: miss, R4: partial, R5: hit, R6: hit, R7: hit, R8: miss,
+            R9: hit, R10: hit, R11: hit, R12: miss, R13: hit, R14: miss, R15: hit, R16: miss}
+    # 9/16 = 56%
+
+  - language: typescript-javascript
+    seed: 1
+    marks: {T1: hit, T2: miss, T3: hit, T4: hit, T5: partial, T6: hit, T7: hit, T8: partial,
+            T9: hit, T10: miss, T11: partial, T12: miss, T13: hit, T14: hit, T15: hit}
+    # 10.5/15 = 70%
+  - language: typescript-javascript
+    seed: 2
+    marks: {T1: hit, T2: partial, T3: hit, T4: hit, T5: hit, T6: hit, T7: hit, T8: miss,
+            T9: hit, T10: miss, T11: partial, T12: miss, T13: hit, T14: hit, T15: hit}
+    # 11/15 = 73%
+  - language: typescript-javascript
+    seed: 3
+    marks: {T1: hit, T2: partial, T3: hit, T4: hit, T5: partial, T6: hit, T7: hit, T8: hit,
+            T9: hit, T10: miss, T11: hit, T12: miss, T13: hit, T14: hit, T15: hit}
+    # 12/15 = 80%
+
+# ---- Summary ----
+# go:                    76%  (78 / 75 / 75)  -> inconclusive -> Stage 1
+# typescript-javascript: 74%  (70 / 73 / 80)  -> inconclusive -> Stage 1
+# python:                58%  (71 / 61 / 43)  -> below 60%: doc carries signal (high variance)
+# rust:                  54%  (53 / 53 / 56)  -> doc carries signal
+#
+# Same architectural blind spots as Fable: newtype/typed-model guidance (R1/R12/P3/P12),
+# exhaustive-match leverage (R2/R14), pure-vs-IO separation (R8), transport-vs-domain
+# (G6/R16/T10 -- Luna names cross-layer *duplication* but not transport leakage),
+# validation-ordering vs side effects (T12). Luna is notably strong on fail-closed (T8, ts-3)
+# and cross-layer duplication (T15, all seeds) where Fable was weak.

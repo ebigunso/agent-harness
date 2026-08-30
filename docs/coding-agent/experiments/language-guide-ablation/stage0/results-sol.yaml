@@ -1,0 +1,84 @@
+# Stage 0 — gpt-5.6-sol via codex exec (clean dir, --ignore-user-config --ignore-rules
+# --ephemeral, read-only sandbox, global AGENTS.md parked). Raw outputs: scratchpad probe-run/out/sol-*.txt
+# Note: Sol outputs were 2-3x longer than Fable/Luna (5-11KB vs 3-4KB).
+model: gpt-5.6-sol
+probe_date: 2026-08-28
+
+samples:
+  - language: go
+    seed: 1
+    marks: {G1: partial, G2: hit, G3: hit, G4: hit, G5: miss, G6: miss, G7: hit, G8: hit,
+            G9: hit, G10: hit, G11: hit, G12: hit, G13: hit, G14: hit, G15: partial, G16: hit}
+    # 13/16 = 81%
+  - language: go
+    seed: 2
+    marks: {G1: hit, G2: hit, G3: hit, G4: hit, G5: miss, G6: miss, G7: hit, G8: hit,
+            G9: hit, G10: hit, G11: hit, G12: hit, G13: hit, G14: hit, G15: hit, G16: hit}
+    # 14/16 = 88%
+  - language: go
+    seed: 3
+    marks: {G1: hit, G2: hit, G3: hit, G4: hit, G5: hit, G6: miss, G7: hit, G8: hit,
+            G9: hit, G10: hit, G11: hit, G12: hit, G13: hit, G14: hit, G15: partial, G16: hit}
+    # 14.5/16 = 91%  ("interfaces consumer-owned, justified by substitution needs" - textbook G1/G11)
+
+  - language: python
+    seed: 1
+    marks: {P1: hit, P2: partial, P3: miss, P4: miss, P5: miss, P6: hit, P7: hit,
+            P8: hit, P9: hit, P10: hit, P11: miss, P12: miss, P13: hit, P14: hit}
+    # 8.5/14 = 61%
+  - language: python
+    seed: 2
+    marks: {P1: hit, P2: partial, P3: miss, P4: partial, P5: partial, P6: hit, P7: hit,
+            P8: hit, P9: hit, P10: hit, P11: hit, P13: hit, P14: hit, P12: miss}
+    # 10.5/14 = 75%
+  - language: python
+    seed: 3
+    marks: {P1: hit, P2: hit, P3: hit, P4: hit, P5: hit, P6: hit, P7: hit,
+            P8: hit, P9: hit, P10: hit, P11: hit, P12: partial, P13: hit, P14: hit}
+    # 13.5/14 = 96%  (only near-complete regeneration observed in the whole experiment:
+    # "ad hoc dict schemas", explicit exception *translation*, package-boundary cycles all present)
+
+  - language: rust
+    seed: 1
+    marks: {R1: miss, R2: miss, R3: hit, R4: hit, R5: hit, R6: hit, R7: hit, R8: miss,
+            R9: hit, R10: hit, R11: hit, R12: miss, R13: hit, R14: miss, R15: hit, R16: miss}
+    # 10/16 = 63%
+  - language: rust
+    seed: 2
+    marks: {R1: hit, R2: miss, R3: hit, R4: hit, R5: hit, R6: hit, R7: hit, R8: miss,
+            R9: hit, R10: hit, R11: hit, R12: hit, R13: hit, R14: miss, R15: hit, R16: miss}
+    # 12/16 = 75%  ("invalid states are unrepresentable" verbatim)
+  - language: rust
+    seed: 3
+    marks: {R1: miss, R2: partial, R3: hit, R4: hit, R5: hit, R6: hit, R7: hit, R8: miss,
+            R9: hit, R10: hit, R11: hit, R12: miss, R13: hit, R14: miss, R15: hit, R16: miss}
+    # 10.5/16 = 66%
+
+  - language: typescript-javascript
+    seed: 1
+    marks: {T1: hit, T2: miss, T3: hit, T4: hit, T5: hit, T6: hit, T7: hit, T8: miss,
+            T9: hit, T10: partial, T11: hit, T12: hit, T13: hit, T14: hit, T15: partial}
+    # 12/15 = 80%  ("validation after side effects" named verbatim as anti-pattern)
+  - language: typescript-javascript
+    seed: 2
+    marks: {T1: hit, T2: hit, T3: hit, T4: hit, T5: hit, T6: hit, T7: hit, T8: hit,
+            T9: hit, T10: miss, T11: hit, T12: partial, T13: hit, T14: hit, T15: hit}
+    # 13.5/15 = 90%  ("fail closed for security decisions"; "trusting request bodies because they are typed")
+  - language: typescript-javascript
+    seed: 3
+    marks: {T1: hit, T2: partial, T3: hit, T4: hit, T5: hit, T6: hit, T7: hit, T8: hit,
+            T9: hit, T10: partial, T11: hit, T12: hit, T13: hit, T14: hit, T15: miss}
+    # 13/15 = 87%
+
+# ---- Summary ----
+# go:                    87%  (81 / 88 / 91)  -> prima facie obsolete
+# typescript-javascript: 86%  (80 / 90 / 87)  -> prima facie obsolete
+# python:                77%  (61 / 75 / 96)  -> inconclusive (extreme seed variance)
+# rust:                  68%  (63 / 75 / 66)  -> inconclusive -> Stage 1
+#
+# Sol is the strongest regenerator of the three models and uniquely recovers several
+# "architectural" bullets the others never touch: validation-before-side-effects (T12),
+# fail-closed (T8), invalid-states-unrepresentable (R3), consumer-owned interfaces (G1).
+# Still universally missed by ALL THREE models across ALL seeds: pure-logic/IO separation
+# (R8), transport-vs-domain separation (G6, R16, T10), exhaustive-match-over-if-chains
+# (R14). Near-universal: newtype/primitive-obsession (R1/R12), typed dicts (P3/P12).
