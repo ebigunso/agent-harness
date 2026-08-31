@@ -47,7 +47,7 @@ Rules:
 Validation evidence should be explicit, reproducible, and reviewable.
 
 Minimum evidence set:
-- Routing level (`L0|L1|L2|L3`) with concise rationale.
+- Risk profile (`low|medium|high`) and chosen validation depth with concise rationale.
 - What was run/reviewed (command or manual checklist item).
 - Result (`pass`, `fail`, `waived`, or `skipped`) with concise reason for non-pass outcomes.
 - Scope linkage (what changed and why the check applies).
@@ -85,13 +85,13 @@ Rules that keep validation evidence trustworthy, not just present:
 
 Use this quick mapping to choose proportional routing and check selection.
 
-| Change risk profile | Routing level guidance | Minimum required checks | Optional recommended checks |
+| Change risk profile | Validation depth guidance | Minimum required checks | Optional recommended checks |
 |---|---|---|---|
-| Low (localized, non-sensitive, reversible) | `L1` by default | Targeted required checks for touched surface + concise evidence | One nearby regression-focused check |
-| Medium (cross-module behavior or contract-adjacent) | `L2` when boundaries expand or uncertainty remains | All applicable required checks across affected boundaries + explicit residual-risk note | Wider integration coverage and focused manual scenario review |
-| High (security/data integrity/critical path/breaking contract) | `L3` when change impact is systemic or hard to bound | Full applicable required checks, explicit failure-mode review, and clear rollback/mitigation notes | E2E/operational validation and before/after evidence artifacts |
+| Low (localized, non-sensitive, reversible) | Targeted (default) | Targeted required checks for touched surface + concise evidence | One nearby regression-focused check |
+| Medium (cross-module behavior or contract-adjacent) | Extended, when boundaries expand or uncertainty remains | All applicable required checks across affected boundaries + explicit residual-risk note | Wider integration coverage and focused manual scenario review |
+| High (security/data integrity/critical path/breaking contract) | Full sweep, when change impact is systemic or hard to bound | Full applicable required checks, explicit failure-mode review, and clear rollback/mitigation notes | E2E/operational validation and before/after evidence artifacts |
 
-Escalate to the next routing level when uncertainty is high or impact is hard to bound.
+Escalate to the next depth tier when uncertainty is high or impact is hard to bound.
 
 ---
 
@@ -140,7 +140,7 @@ If sources disagree:
 2. Load repository-local required-validation mapping.
 3. If mapping is missing/ambiguous, apply fallback inference from CI/build/test scripts and escalate.
 4. Mark each applicable check as required or optional recommended.
-5. Select routing level (`L0|L1|L2|L3`) based on risk and uncertainty.
+5. Select validation depth (targeted, extended, or full sweep) based on risk and uncertainty.
 6. Execute all required checks first.
 7. Execute optional recommended checks based on risk/time budget.
 8. Report evidence with explicit pass/fail/waived/skipped status, assumptions, and residual risk.
