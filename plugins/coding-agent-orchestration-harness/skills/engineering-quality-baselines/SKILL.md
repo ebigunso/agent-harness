@@ -24,7 +24,7 @@ Classify risk before loading deeper references:
 - Contract/API/schema compatibility impact
 - Performance/latency/resource impact
 
-If all are low and local, use default routing depth. If any are medium/high or uncertain, escalate depth.
+If all are low and local, use the default targeted validation depth. If any are medium/high or uncertain, escalate to a deeper validation tier.
 
 ### Routing Decision
 
@@ -64,6 +64,7 @@ Quality routing note
 - Out-of-scope docs: [...] (reason)
 - Top risks: [security|data-integrity|migration|concurrency|external-deps|contract|performance]
 - Risk profile: [low|medium|high] with rationale
+- Validation depth: [targeted|extended|full-sweep]
 - Required checks: [{name: ..., status: pass|fail|waived, evidence: ...}]
 - Optional recommended checks: [{name: ..., status: pass|fail|skipped, evidence: ...}]
 - At Risk items: [{item: ..., owner: ..., target_date: ...}] or []

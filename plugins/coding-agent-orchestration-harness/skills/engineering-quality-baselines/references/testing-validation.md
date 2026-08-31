@@ -83,7 +83,7 @@ Rules that keep validation evidence trustworthy, not just present:
 
 ## Risk Profile → Validation Depth and Check Selection
 
-Use this quick mapping to choose proportional routing and check selection.
+Use this quick mapping to choose proportional validation depth and check selection.
 
 | Change risk profile | Validation depth guidance | Minimum required checks | Optional recommended checks |
 |---|---|---|---|
