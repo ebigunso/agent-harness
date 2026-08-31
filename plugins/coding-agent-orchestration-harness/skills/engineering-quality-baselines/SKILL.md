@@ -70,7 +70,7 @@ Quality routing note
 - Residual risk / follow-up: [...]
 ```
 
-Stop condition: stop only when acceptance is fully met, all required validations are `pass` or explicitly `waived` with rationale and evidence, no remaining `Fail` gates exist at the current routing level, and every `At Risk` item has an owner and target date recorded.
+Stop condition: stop only when acceptance is fully met, all required validations are `pass` or explicitly `waived` with rationale and evidence, no remaining `Fail` gates exist at the selected validation depth, and every `At Risk` item has an owner and target date recorded.
 
 ## Precedence
 

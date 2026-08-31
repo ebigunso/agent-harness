@@ -81,7 +81,7 @@ Rules that keep validation evidence trustworthy, not just present:
 
 ---
 
-## Risk Profile → Routing Level and Check Selection
+## Risk Profile → Validation Depth and Check Selection
 
 Use this quick mapping to choose proportional routing and check selection.
 
