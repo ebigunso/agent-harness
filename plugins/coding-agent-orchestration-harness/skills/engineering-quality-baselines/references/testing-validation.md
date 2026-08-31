@@ -87,9 +87,9 @@ Use this quick mapping to choose proportional validation depth and check selecti
 
 | Change risk profile | Validation depth guidance | Minimum required checks | Optional recommended checks |
 |---|---|---|---|
-| Low (localized, non-sensitive, reversible) | Targeted (default) | Targeted required checks for touched surface + concise evidence | One nearby regression-focused check |
-| Medium (cross-module behavior or contract-adjacent) | Extended, when boundaries expand or uncertainty remains | All applicable required checks across affected boundaries + explicit residual-risk note | Wider integration coverage and focused manual scenario review |
-| High (security/data integrity/critical path/breaking contract) | Full sweep, when change impact is systemic or hard to bound | Full applicable required checks, explicit failure-mode review, and clear rollback/mitigation notes | E2E/operational validation and before/after evidence artifacts |
+| Low (localized, non-sensitive, reversible) | `targeted` (default) | Targeted required checks for touched surface + concise evidence | One nearby regression-focused check |
+| Medium (cross-module behavior or contract-adjacent) | `extended`, when boundaries expand or uncertainty remains | All applicable required checks across affected boundaries + explicit residual-risk note | Wider integration coverage and focused manual scenario review |
+| High (security/data integrity/critical path/breaking contract) | `full-sweep`, when change impact is systemic or hard to bound | Full applicable required checks, explicit failure-mode review, and clear rollback/mitigation notes | E2E/operational validation and before/after evidence artifacts |
 
 Escalate to the next depth tier when uncertainty is high or impact is hard to bound.
 
@@ -140,7 +140,7 @@ If sources disagree:
 2. Load repository-local required-validation mapping.
 3. If mapping is missing/ambiguous, apply fallback inference from CI/build/test scripts and escalate.
 4. Mark each applicable check as required or optional recommended.
-5. Select validation depth (targeted, extended, or full sweep) based on risk and uncertainty.
+5. Select validation depth (`targeted`, `extended`, or `full-sweep`) based on risk and uncertainty.
 6. Execute all required checks first.
 7. Execute optional recommended checks based on risk/time budget.
 8. Report evidence with explicit pass/fail/waived/skipped status, assumptions, and residual risk.
