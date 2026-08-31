@@ -65,7 +65,7 @@ Include only items that apply. Omit irrelevant categories instead of listing `N/
 
 - Hot path / scaling:
   - Plugin skill: `engineering-quality-baselines`
-  - Reference: `references/review-latent-risk-performance.md`
+  - Reference: `references/review-latent-risk.md` (hot-path criterion; per-doc reference removed per ADR-I-0005)
   - Repo reviewer hotspot:
   - Required reviewer-owned evidence:
   - Why this may apply:
@@ -128,7 +128,7 @@ Include only items that apply. Omit irrelevant categories instead of listing `N/
 
 - Runtime model compatibility:
   - Plugin skill: `engineering-quality-baselines`
-  - Reference: `references/review-latent-risk-performance.md`
+  - Reference: `references/review-latent-risk.md` (hot-path criterion; per-doc reference removed per ADR-I-0005)
   - Repo reviewer hotspot:
   - Required reviewer-owned evidence:
   - Why this may apply:
