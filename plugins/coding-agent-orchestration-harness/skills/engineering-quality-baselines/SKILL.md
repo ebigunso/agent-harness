@@ -30,7 +30,7 @@ If all are low and local, use default routing depth. If any are medium/high or u
 
 Load only the reference categories relevant to the change; explicitly note major categories left out and why. Escalate to broader coverage on unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
 
-Per-language baseline references (Rust/TS/Python/Go idiom and anti-pattern guides) were removed after ablation testing showed current frontier models apply that content reliably without them — see ADR-D-0015. Do not reintroduce per-language baseline docs without new ablation evidence.
+Per-language baseline references (Rust/TS/Python/Go idiom and anti-pattern guides) were removed after ablation testing showed current frontier models apply that content reliably without them — see ADR-I-0004 (implements ADR-D-0015). Do not reintroduce per-language baseline docs without new ablation evidence.
 
 Load only relevant categories:
 - Core principles: `references/core-principles.md` (read for every non-trivial implementation or review; also when intent/scope or tradeoffs are unclear)
