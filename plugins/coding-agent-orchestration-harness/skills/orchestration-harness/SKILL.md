@@ -63,7 +63,7 @@ Do not dispatch a Worker until the target Task_X has:
 - concrete `acceptance`;
 - validation items with `kind`, `required`, `owner`, and `detail`.
 
-Non-trivial implementation and review work loads `engineering-quality-baselines`; select routing depth per that skill before dispatch.
+For non-trivial implementation and review work, load `engineering-quality-baselines`; select validation depth per that skill before dispatch.
 
 Each acceptance criterion must be satisfiable within `owns`. Every required validation item must have explicit owner (`worker`, `reviewer`, `orchestrator`, or `user`). If either check fails, stop and replan before dispatch.
 
