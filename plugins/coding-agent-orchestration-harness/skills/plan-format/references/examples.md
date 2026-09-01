@@ -6,6 +6,13 @@ These are examples of task definitions and waves. Adapt to your repo.
 
 ## Example: backend change with tests
 
+Compatibility stance (plan-level; this change alters the error payload contract):
+
+    ## Compatibility stance
+    - surface: error payload format of the validation endpoints
+    - stance: migrate
+    - justification: only locatable consumer is src/web/apiClient.ts in this repo (within reach); it is updated in Task_2, so no compatibility layer is kept
+
 Task:
 
     ### Task_2: Add endpoint validation

@@ -26,6 +26,12 @@ Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sent
 - Scope:
 - Non-goals:
 
+## Compatibility stance (required if a contract/interface/persisted format is touched)
+- surface: <contract/interface/format being changed>
+- stance: break | preserve | migrate | ask-user
+- justification: <locatable consumer(s) per core-principles, or "consumers unverifiable on boundary-crossing surface" for ask-user>
+- (per-task notes only if stances differ across tasks)
+
 ## Context (workspace)
 - Related files/areas:
 - Existing patterns or references:

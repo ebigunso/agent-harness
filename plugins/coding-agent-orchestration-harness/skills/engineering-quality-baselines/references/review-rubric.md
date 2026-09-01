@@ -6,8 +6,20 @@ It does **not** replace required validation, tests, or policy gates.
 ## 30-Second Pass
 
 - Scope is clear and change size is proportional to the problem.
-- Behavior and contracts are preserved or intentionally versioned.
+- Every contract change is intentional; nothing is broken or preserved by accident.
 - Risks, assumptions, and follow-up items are visible.
+
+## Symmetric Checks (0 findings requires checking both directions)
+
+Each pair below has two failure directions. Checking only the familiar direction and passing the other by default is an incomplete review, not a pass.
+
+Compatibility:
+- Flag consumer-visible behavior or contracts broken without stated intent.
+- Flag compatibility layers (shims, wrappers, dual code paths, deprecation layers) that do not map to a locatable consumer beyond the change's reach — the operational definition is in [core-principles.md](core-principles.md). Speculative preservation is scope creep to flag, exactly as an unintended break is.
+
+Tests:
+- Flag over-constrained tests: would a legitimate refactor fail them? Do they pin implementation details instead of a depended-on contract?
+- Flag unguarded changed contracts: for each contract this change touches, name the test that fails if it breaks; if none exists, that is a finding.
 
 ## Scorecard (0-2 each)
 
