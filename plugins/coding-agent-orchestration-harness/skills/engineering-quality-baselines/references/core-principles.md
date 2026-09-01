@@ -25,13 +25,21 @@ These principles are intentionally repository-agnostic and language-neutral.
 
 ### 1) Preserve Intended Behavior
 
-- Keep externally observable behavior stable unless a behavior change is explicitly intended.
+- Keep externally observable behavior stable unless a behavior change is explicitly intended; do not break consumers by accident.
 - For intended behavior changes, make scope and impact explicit.
-- Treat compatibility (API contracts, data shape, persistence semantics) as first-class.
+- Stability is owed to consumers that exist. Preserving a surface with no locatable consumer is scope creep, not safety.
+- A consumer counts only if it is **locatable**: you can point at a call site, a dependent repo, a documented contract, or persisted data. Conceivable or categorical consumers ("downstream users", "external scripts may call this") do not count.
+- The artifact being justified cannot be its own consumer (a shim is not justified by its own docs; a test is not justified by the test suite).
+- **Reach**: a locatable consumer within the change's reach (same repo or task scope) is migration work — update it as part of the change. Only locatable consumers out of reach justify a compatibility layer.
+- **Surface classification** for the unverifiable case, applied to the surface actually being changed (not the repo as a whole):
+  - Repo-internal surface: absence of found consumers is real evidence; default to migrate or break.
+  - Boundary-crossing surface (published package APIs, network APIs, persisted or wire formats, externally invoked CLIs): consumers are presumed possible even when unfound; neither silently preserve nor silently break — route the question to the user in the plan.
 
 Review checks:
 - Are behavior changes intentional and clearly bounded?
 - Are interface and contract impacts explicit?
+- Does each preserved surface or compatibility layer map to a locatable, out-of-reach consumer?
+- For changed boundary-crossing surfaces with unverifiable consumers, was the decision routed to the user rather than defaulted?
 
 ### 2) Prefer Root-Cause Fixes Over Symptom Patches
 
@@ -134,6 +142,7 @@ Review checks:
 - Hidden coupling: introducing cross-module dependencies that obscure ownership and change impact.
 - Review by surface area: approving based on file count or size instead of risk and semantics.
 - Unjustified-existence polish: optimizing, extending, or polishing a thing whose existence is unjustified.
+- Speculative compatibility: shims, wrappers, dual code paths, or deprecation layers preserved for consumers no one can locate.
 
 ## Durable-Code Hygiene
 
@@ -145,7 +154,7 @@ Review checks:
 
 Use this short pass when time is limited:
 - Intent: Is the goal explicit and scope-bounded?
-- Behavior: Are observable changes intentional and compatible?
+- Behavior: Are observable changes intentional, with impact on locatable consumers explicit?
 - Invariants: Are boundary assumptions and checks explicit?
 - Complexity: Did the diff reduce, hold, or increase complexity?
 - Evidence: Is validation targeted at the highest-risk paths?

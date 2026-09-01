@@ -44,6 +44,7 @@ Load only relevant categories:
 - Trip when adding a process step, validation, or automation justified mainly by "in case".
 - Trip when repeatedly working around the same component, process step, or rule.
 - Trip when the fix goes around a type, schema, boundary, or constraint this task could change.
+- Trip when adding a compatibility shim, wrapper, or dual code path for a consumer you cannot locate.
 
 If tripped: stop and surface the observation through existing channels (report questions/blockers, lesson candidates, or the user) together with the cleaner alternative and its cost delta — never act on it or suppress it silently, and do not proceed on the workaround without a ruling — and read `references/long-horizon-audit.md` when the pattern looks systemic.
 

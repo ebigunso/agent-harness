@@ -56,7 +56,13 @@ Design assumptions:
   - keep provider-specific execution details in progressive-disclosure references
   - if the selected provider is `playwright-cli`, artifacts typically live under `.playwright-cli/`
 
-8) Decomposition depth + harmonization:
+8) Compatibility stance:
+- If the plan touches a contract, interface, or persisted format, it MUST include a plan-level "Compatibility stance" section declaring one of: `break | preserve | migrate | ask-user`.
+- The stance must be justified by locatable consumers (per the locatable-consumer definition in `engineering-quality-baselines/references/core-principles.md`), not by hypothetical ones.
+- Boundary-crossing surfaces whose consumers cannot be verified default to `ask-user`.
+- One plan-level stance suffices; add per-task stance notes only when stances differ across tasks.
+
+9) Decomposition depth + harmonization:
 - When the user explicitly requests language/framework depth, decompose implementation tasks by that depth (for example, API/data/model/UI/test slices).
 - If a plan intentionally mixes abstraction levels (for example, feature-level and file-level tasks), add a final harmonization pass before review to verify naming, boundaries, and validation coverage remain coherent.
 
