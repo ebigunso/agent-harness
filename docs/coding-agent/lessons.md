@@ -324,3 +324,23 @@ Promoted into harness skills by the v0.9.0 skill-promotion PR and removed from t
 - "Re-Baseline Audit Tables Against The Current Tree Before Dispatch" → subagent-strategy `dispatch-checklists.md`
 
 Appended 2026-07-23 (second drain): "Assert Postconditions On Scripted Text Mutations" promoted to engineering-quality-baselines testing-validation.md Evidence Integrity after a third occurrence (drain-note deletion caught by CME delta review) made promotion mandatory under the repeats rule.
+
+## 2026-09-01 - Bundled Skill Content Is Consumer-Facing Only  [tags: skill-maintenance, review]
+
+Context:
+- Task: remove ablation-obsoleted guidance references from `engineering-quality-baselines` (ADR-I-0005, PR #47).
+- Roles involved: Orchestrator
+
+Symptom:
+- Removal-history narration, tombstone annotations, and ADR-referencing reintroduction guards were embedded in bundled skill content (`SKILL.md`, reference files, a reviewer-packet template).
+
+Root cause:
+- Maintainer-perspective breadcrumb habit: writing for the editor of the repo rather than the consumer of the plugin. Plugin consumers only use skills — they cannot edit them and their package does not include `docs/` (ADRs, decisions, plans), so maintainer guards are inert and ADR references dangle.
+
+Fix applied:
+- Stripped all removal history, tombstones, and ADR references from `plugins/` content; kept maintainer invariants solely in the decision records; repointed template slots to plain current-state references.
+
+Prevention:
+- Content under `plugins/` is written purely for the consumer's agent at task time: current-state operating text only. Test each sentence with "does the consumer's agent act differently because of this?"
+- Maintainer-facing material (change history, reintroduction guards, decision rationale) lives in `docs/coding-agent-orchestration-harness/decisions/` and this lessons log, never in bundled skill content.
+- Templates deserve extra scrutiny: their text propagates into every generated artifact.
