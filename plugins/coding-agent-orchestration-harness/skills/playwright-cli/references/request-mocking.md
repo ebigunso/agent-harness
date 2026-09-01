@@ -25,63 +25,14 @@ playwright-cli unroute "**/*.jpg"
 playwright-cli unroute
 ```
 
-## URL Patterns
-
-```
-**/api/users           - Exact path match
-**/api/*/details       - Wildcard in path
-**/*.{png,jpg,jpeg}    - Match file extensions
-**/search?q=*          - Match query parameters
-```
+Patterns are standard Playwright URL glob patterns (e.g. `**/api/users`, `**/*.{png,jpg}`).
 
 ## Advanced Mocking with run-code
 
-For conditional responses, request body inspection, response modification, or delays:
-
-### Conditional Response Based on Request
-
-```bash
-playwright-cli run-code "async page => {
-  await page.route('**/api/login', route => {
-    const body = route.request().postDataJSON();
-    if (body.username === 'admin') {
-      route.fulfill({ body: JSON.stringify({ token: 'mock-token' }) });
-    } else {
-      route.fulfill({ status: 401, body: JSON.stringify({ error: 'Invalid' }) });
-    }
-  });
-}"
-```
-
-### Modify Real Response
-
-```bash
-playwright-cli run-code "async page => {
-  await page.route('**/api/user', async route => {
-    const response = await route.fetch();
-    const json = await response.json();
-    json.isPremium = true;
-    await route.fulfill({ response, json });
-  });
-}"
-```
-
-### Simulate Network Failures
+For conditional responses, request body inspection, response modification, aborts, or delays, use `run-code` with the standard `page.route()` API:
 
 ```bash
 playwright-cli run-code "async page => {
   await page.route('**/api/offline', route => route.abort('internetdisconnected'));
-}"
-# Options: connectionrefused, timedout, connectionreset, internetdisconnected
-```
-
-### Delayed Response
-
-```bash
-playwright-cli run-code "async page => {
-  await page.route('**/api/slow', async route => {
-    await new Promise(r => setTimeout(r, 3000));
-    route.fulfill({ body: JSON.stringify({ data: 'loaded' }) });
-  });
 }"
 ```
