@@ -34,7 +34,7 @@ Read `review-latent-risk-failure.md` when:
 Read `review-latent-risk-contract-scope.md` when:
 - two or more paths claim to implement the same contract, or logic depends on user/request/tenant/root/config/cache scope.
 
-Assess hot-path cost directly (no reference doc — removed per ADR-I-0005; the criterion and its report obligation remain) when:
+Assess hot-path cost directly (no reference doc; report the criterion like the others) when:
 - loops touch potentially growing data, hot paths change, expensive work may repeat, locks are involved, or network/database/API calls appear in iterative code.
 
 Read `review-latent-risk-future-surface.md` when:

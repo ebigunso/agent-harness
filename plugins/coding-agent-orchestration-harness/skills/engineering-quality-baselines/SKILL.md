@@ -30,7 +30,7 @@ If all are low and local, use the default targeted validation depth. If any are 
 
 Load only the reference categories relevant to the change; explicitly note major categories left out and why. Escalate to broader coverage on unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
 
-Per-language baseline references (Rust/TS/Python/Go idiom and anti-pattern guides) were removed after ablation testing against the then-current daily-use model fleet showed zero detection lift — see ADR-I-0004 (implements ADR-D-0015). A second ablation batch removed the stack, security-boundaries, web-frameworks, and latent-risk-performance references on the same evidence — see ADR-I-0005. Do not reintroduce generic baseline docs without new ablation evidence.
+Do not add per-language or generic baseline reference docs to this skill without ablation evidence on the current model fleet (ADR-D-0015; ADR-I-0004, ADR-I-0005).
 
 Load only relevant categories:
 - Core principles: `references/core-principles.md` (read for every non-trivial implementation or review; also when intent/scope or tradeoffs are unclear)
