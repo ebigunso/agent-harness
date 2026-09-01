@@ -35,6 +35,9 @@ Exception check: an ADR must not ratify an exception that exists only because it
 - Rule: executable enforcement read on every task.
 - Decision Log: plan-scoped record.
 
+An ADR records design intent self-containedly at intent altitude — it does not mirror implementation wording, whether the implementation is code or normative prose — because intent stated well remains valid under any implementation rewording that preserves it.
+The record stays complete on intent, premises, rejected alternatives, and revisit conditions; brevity never trims the why.
+
 ADR-plus-rule pairs are the expected shape for enforced contracts; the homes are complements, never substitutes. Severity routes between them: likely-but-cheap violation classes belong to rules, which prevent at act time on every task; the ADR bar is mishandling expensive or silent enough that rule-time prevention is not sufficient on its own.
 
 ## Collaboration flow
