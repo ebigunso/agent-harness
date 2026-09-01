@@ -123,7 +123,7 @@ Interpretation:
   - Notes: A1 size guard held — exactly two sentences, one per line.
 
 - 2026-09-01 Wave 2 completed: [Task_2]
-  - Summary: Reviewer APPROVED with zero findings; adversarial read confirmed no pointer nudges, no norm-restatement nudges, no retroactive-audit register, coherence with homes-as-complements, and correct Q1 placement. Version bumped 0.12.0 -> 0.12.1 across all three runtime manifests; README re-confirmed to need no update.
+  - Summary: Reviewer APPROVED with zero findings; adversarial read confirmed no pointer nudges, no norm-restatement nudges, no retroactive-audit register, coherence with homes-as-complements, and correct Q1 placement. Version bumped 0.12.0 -> 0.12.1 across all three runtime manifests (pre-stack state; final version is 0.13.1 after the restack — see Decision Log); README re-confirmed to need no update.
   - Validation evidence: validate_harness_package.py pass (pre- and post-bump), run_validation_smoke_tests.py exit 0, git diff --check clean.
   - Notes: none.
 
