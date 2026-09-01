@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-07-24"
+last_updated: "2026-09-01"
 ---
 
 # Common Repository Rules
@@ -32,6 +32,7 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 - Keep shared workflow semantics in skills/references; runtime adapters should route to shared skills rather than inline full checklists, with one deliberate exception: role workflow/output contracts are replicated into each runtime's instruction block per `runtime-adapter-contract` (edit all three copies together and confirm sync).
 - Do not add a universal repository quality-gate runner that assumes arbitrary target repositories use a specific language or task runner.
 - Do not treat untracked files as baseline or stage them silently.
+- Content under `plugins/` is consumer-facing operating text only: no maintainer notes, removal history, tombstones, or references to `docs/` paths absent from the plugin package. Maintainer invariants and decision rationale belong in `docs/coding-agent-orchestration-harness/decisions/` and `docs/coding-agent/lessons.md`.
 
 ## Repo Naming / Structure
 
