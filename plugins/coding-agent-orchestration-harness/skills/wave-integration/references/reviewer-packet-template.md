@@ -128,7 +128,7 @@ Include only items that apply. Omit irrelevant categories instead of listing `N/
 
 - Runtime model compatibility:
   - Plugin skill: `engineering-quality-baselines`
-  - Reference: `references/review-latent-risk.md` (hot-path criterion; per-doc reference removed per ADR-I-0005)
+  - Reference: `references/review-latent-risk.md` (route to the applicable criterion; this slot previously carried a wrong reference to the performance doc, removed per ADR-I-0005)
   - Repo reviewer hotspot:
   - Required reviewer-owned evidence:
   - Why this may apply:
