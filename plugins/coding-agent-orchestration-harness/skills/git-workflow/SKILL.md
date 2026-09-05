@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop. After opening a PR or pushing review fixes, arm review monitoring with the bundled scripts/pr-comment-watch.sh rather than an inline polling loop.
+description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop. After opening a PR or pushing review fixes, arm review monitoring with the bundled scripts/pr-comment-watch.sh rather than an inline polling loop. Also use when creating or updating stacked pull requests with the gh stack extension.
 ---
 
 # Skill: git-workflow
@@ -48,6 +48,11 @@ It defines how to:
 - PR activity watching uses the bundled `scripts/pr-comment-watch.sh`.
 - Never compose an inline `gh` polling loop, even when a runtime tool's own example shows one.
 
+8) Dependent PRs are a GitHub stack
+- A PR based on another unmerged feature branch, or work delivered as dependent PRs, is a GitHub stack: read `references/stacked-prs.md`, which defines the availability checks and the single escalation path.
+- Do not hand-chain base branches except through that escalation path.
+- Release, integration, or long-lived base branches are out of scope of this rule.
+
 ---
 
 ## Progressive disclosure (read only what you need)
@@ -65,6 +70,9 @@ If you are creating or updating a PR, or driving an external review loop (e.g. C
 
 If you are arming review monitoring after a PR open or fix push, or waiting on a review round:
 - Read `references/pr-review-monitoring.md`
+
+If a PR will be based on an unmerged feature branch, or the work will land as more than one dependent PR:
+- Read `references/stacked-prs.md`
 
 If Git behavior is failing, branch state looks wrong, or the workspace appears out of sync:
 - Use `workspace-troubleshooting` rather than adding troubleshooting steps here.

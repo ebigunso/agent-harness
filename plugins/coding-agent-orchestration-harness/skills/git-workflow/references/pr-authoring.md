@@ -2,6 +2,8 @@
 
 Use this reference when creating or updating pull requests, or when driving an external review loop to closure.
 
+If the PR's base is an unmerged feature branch, or the work lands as more than one dependent PR, read `stacked-prs.md` first.
+
 ## PR body input
 
 - Pass PR bodies literally via stdin or a file: `gh pr create --body-file - <<'EOF'`. A double-quoted `--body` argument lets the shell execute backticks and expand variables inside the markdown.

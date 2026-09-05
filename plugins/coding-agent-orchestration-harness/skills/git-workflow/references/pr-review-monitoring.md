@@ -5,7 +5,7 @@ Read this reference when arming review monitoring after a PR open or fix push, o
 ## What the tool is
 
 - `scripts/pr-comment-watch.sh` is a stateless PR activity checker: it fires when a PR's comment count or review count changes, or when an open PR becomes merged or closed.
-- Poll unit: one `gh api graphql` call per spec per poll. A spec names any PR; the watcher expands it to that PR's whole stack and tracks every member (`stack=none` when the PR is not stacked). Arm with the PR you just opened; the whole stack is watched. Stack authoring is covered elsewhere.
+- Poll unit: one `gh api graphql` call per spec per poll. A spec names any PR; the watcher expands it to that PR's whole stack and tracks every member (`stack=none` when the PR is not stacked). Arm with the PR you just opened; the whole stack is watched. Stack authoring: `stacked-prs.md`.
 - Count semantics: `comments` is GitHub's `totalCommentsCount` (issue comments, review bodies, and inline comments together); `reviews` is `reviews.totalCount`. A reply posted into a thread arrives as its own review, so replies and zero-comment review rounds both raise `reviews`. Count-preserving edits are not detected.
 - There are no baseline files. The agent's thread context is the state store: baselines ride in as arguments and ride out in printed lines.
 - Spec syntax: `OWNER/REPO:PR[:comments[:reviews[:state]]]`, `state` in `open|merged|closed`; a leading `spec=` on any argument is stripped. Multiple specs in every mode. Defaults: a bare `OWNER/REPO:PR` takes fetched counts and fetched state; counts given without a state are baselined as `open`; an explicit state overrides. Supplied values win over fetched ones for that member; two supplied baselines for one member that differ are a usage error.
