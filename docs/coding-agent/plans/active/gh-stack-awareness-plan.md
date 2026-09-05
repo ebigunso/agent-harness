@@ -32,14 +32,13 @@
 ### Reference content (`references/stacked-prs.md`)
 Content test: a line earns its place only if an agent could not learn it from `gh stack --help` and `gh stack <cmd> --help`, or if learning it by trial is unsafe. Everything else (what a stack is, the command lifecycle, flags, navigation) is left to the help text, which the reference tells the agent to read.
 - Existence and availability: GitHub stacks are managed by the `gh stack` extension (`github/gh-stack`), not core gh; check `gh extension list`, and repository support with `gh api repos/<o>/<r>/stacks` (a list, not 404). Ask the user before `gh extension install github/gh-stack`. If either check fails or the user declines, ask the user how to proceed; do not fall back silently.
-- Read `gh stack --help` and the per-command help before first use; commands are non-interactive only when given explicit targets or `--auto`.
-- When to stack: the base is an unmerged feature branch, or the work lands as dependent PRs. Independent changes stay separate PRs against trunk.
+- Read `gh stack --help` and the per-command help before first use, and pick each command's non-interactive form from its help (no universal flag rule; the forms differ per command).
 - Traps the help text does not make safe to discover by trial:
   - `submit --auto` creates drafts; add `--open` or mark each PR ready before arming review monitoring.
   - `link` creates no local tracking; run `checkout <member-pr>` before local stack commands.
   - argument-less `merge` in a non-interactive terminal merges the whole stack without prompting; merge waits for user authorization and always names a target, `--yes`, and a method.
   - `modify` and `switch` are interactive-only; `sync` aborts on divergence when unattended, so prefer `rebase` then `push`.
-- Ownership: every `gh stack` command except `view` mutates branches or remote state and stays Orchestrator-controlled per core rule 3; `unstack` only on explicit user request.
+- Ownership: stack mutations stay Orchestrator-controlled per core rule 3; `unstack` only on explicit user request. Help and inspection stay open to every role.
 - Review loop: arm monitoring with any member PR; the watcher covers the stack (pointer to `pr-review-monitoring.md`).
 - Target length: about fifteen lines. Consumer-facing text only.
 
@@ -157,7 +156,10 @@ Content test: a line earns its place only if an agent could not learn it from `g
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-05 Wave 1 completed: [Task_1, Task_2]
+  - Summary: Task_1 (Claude) wrote references/stacked-prs.md (14 lines) with every named command verified against gh-stack v0.1.0 help; Task_2 (Claude) applied the frontmatter cue, core rule 8, the disclosure line, and the pr-authoring routing line.
+  - Validation evidence: validate_harness_package.py pass (both workers and Orchestrator); git diff --check clean; diffs limited to owned files.
+  - Notes: Orchestrator applied the content test once more and cut the merge-method flag list from the reference (learnable from help), and replaced the "covered elsewhere" pointer in pr-review-monitoring.md with `stacked-prs.md` (one-line pointer fix outside the plan's owns, recorded here). Reviewer packet dispatched to the Codex reviewer for Task_3.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -176,6 +178,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): the reference design drops the concept paragraph, the command-per-moment list, navigation and inspect bullets, and REST field details; it keeps existence and availability, a pointer to the help text, when to stack, four traps, ownership, and the watcher pointer, with a content test and a length target the Reviewer applies line by line.
   - Tradeoffs considered: a per-moment command list would save one help read per moment but freezes flag details of a v0.1.0 extension into the skill.
   - User approval: yes (this conversation).
+- 2026-09-05 Decision: Task_3 review findings applied by deletion.
+  - Trigger / new insight: the universal "non-interactive only with explicit targets or --auto" sentence was false per command (push has no target, rebase runs bare, merge with a target still opens a wizard interactively); "every command except view mutates" over-classified help and inspection; the when-to-stack bullet repeated the routing condition already in the read-when line and core rule 8.
+  - Plan delta (what changed): the sentence replaced by "pick each command's non-interactive form from its help"; ownership narrowed to stack mutations; the when-to-stack bullet deleted from the reference and the Design. Reference is now 13 lines.
+  - Tradeoffs considered: none; each was a correctness or content-test defect.
+  - User approval: routine, ruled at coordination tempo.
 
 ## Notes
 - Risks: the extension is at v0.1.0 and its flags may change; the reference names commands by moment so a flag rename is a one-line fix. Interactive forms hang or, for merge, act without prompting; the reference forbids them explicitly.
