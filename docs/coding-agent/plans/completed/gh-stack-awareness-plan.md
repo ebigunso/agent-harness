@@ -166,8 +166,8 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Notes: The reference is 13 lines.
 - 2026-09-05 Wave 3 completed: [Task_4]
   - Summary: branch rebased onto the watcher branch after its Copilot rounds; version 0.14.1 in all three manifests; rule freshness waived (see Decision Log); plan closed and moved to completed; PR published as the second member of the stack with `gh stack submit --auto --open`; watcher armed on the stack.
-  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py pass; git diff --check clean. PR URL, stack number, isDraft, and ARMED output are appended below once published.
-  - Notes: none.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py pass; git diff --check clean.
+  - Notes: PR https://github.com/ebigunso/agent-harness/pull/54, isDraft=false, base feature/2026-09-04/pr-watch-discoverability; stack 55 (PR 53 position 1, PR 54 position 2). Watcher armed with PR 54 and expanded to both: `ARMED repo=ebigunso/agent-harness pr=53 stack=55 comments=11 reviews=7 state=open spec=ebigunso/agent-harness:53:11:7:open` and `ARMED repo=ebigunso/agent-harness pr=54 stack=55 comments=0 reviews=0 state=open spec=ebigunso/agent-harness:54:0:0:open`.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
