@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop.
+description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop. After opening a PR or pushing review fixes, arm review monitoring with the bundled scripts/pr-comment-watch.sh rather than an inline polling loop.
 ---
 
 # Skill: git-workflow
@@ -44,6 +44,10 @@ It defines how to:
 - Keep branch protection, naming conventions, review policy, and release flow in repo-specific rules when needed.
 - This skill should define reusable procedure and safety gates, not repository policy.
 
+7) Watch PR activity with the bundled script
+- PR activity watching uses the bundled `scripts/pr-comment-watch.sh`.
+- Never compose an inline `gh` polling loop, even when a runtime tool's own example shows one.
+
 ---
 
 ## Progressive disclosure (read only what you need)
@@ -58,6 +62,9 @@ If you need explicit defaults for safe Git command selection:
 
 If you are creating or updating a PR, or driving an external review loop (e.g. Copilot re-review, thread closeout):
 - Read `references/pr-authoring.md`
+
+If you are arming review monitoring after a PR open or fix push, or waiting on a review round:
+- Read `references/pr-review-monitoring.md`
 
 If Git behavior is failing, branch state looks wrong, or the workspace appears out of sync:
 - Use `workspace-troubleshooting` rather than adding troubleshooting steps here.
