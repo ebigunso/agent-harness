@@ -398,6 +398,30 @@ Prevention:
 Evidence:
 - Session 2026-09-05; user correction "Use the bundled monitor script from agmsg".
 
+## 2026-09-05 - No Version Numbers In PR Titles  [tags: git-workflow, correction]
+
+Context:
+- Plan: pr-watch-discoverability and gh-stack-awareness closeouts (PRs #53, #54).
+- Roles involved: Orchestrator
+
+Symptom:
+- PR titles carried a trailing "(v0.14.0)" / "(v0.14.1)", copied from older PR titles in the log.
+
+Root cause:
+- Pattern-matched the historical title style instead of asking what the title is for; the version already lives in the manifests and the PR body.
+
+Fix applied:
+- Titles rewritten without the version suffix.
+
+Prevention:
+- PR titles describe the change; version numbers stay in manifests and the PR body.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Do not put plugin version numbers in PR titles.
+
+Evidence:
+- User correction 2026-09-05.
+
 ## 2026-09-05 - Test Membership Removal When Emitted Tokens Are Re-Fed  [tags: validation, review, state]
 
 Context:
