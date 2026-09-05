@@ -106,7 +106,7 @@ FILTER='.data.repository.pullRequest as $p | ($p.stack.number // "none") as $s |
 
 fetch_members() {
   local repo=$1 pr=$2 output row
-  # ponytail: stacks stop at 100 entries; add cursor handling if that ceiling matters.
+  # NOTE: stack expansion reads the first 100 entries only; add cursor handling if a larger stack appears.
   if [ "$MODE" = watch ]; then
     output=$(gh api graphql -f query="$QUERY" -f o="${repo%/*}" -f r="${repo#*/}" -F n="$pr" --jq "$FILTER" 2>/dev/null) || return 1
   else
