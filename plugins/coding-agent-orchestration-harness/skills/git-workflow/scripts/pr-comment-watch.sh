@@ -88,7 +88,7 @@ for spec in "$@"; do
 done
 
 # Ordered keys preserve input/member order; maps identify members across specs.
-declare -a MEMBERS=() POLLED=()
+declare -a POLLED=()
 declare -A BASE_COMMENTS=() BASE_REVIEWS=() BASE_STATES=() SUPPLIED=()
 declare -A COMMENTS=() REVIEWS=() STATES=() STACKS=()
 
@@ -125,7 +125,7 @@ api_failure() {
 }
 
 poll() {
-  local startup=$1 index rows pr stack comments reviews state key
+  local startup=$1 index rows pr stack comments reviews state key complete=1
   local -A seen=()
   POLLED=()
   for index in "${!REPOS[@]}"; do
@@ -133,6 +133,7 @@ poll() {
       if [ "$startup" -eq 1 ] || [ "$MODE" != watch ]; then
         api_failure "$index"
       fi
+      complete=0
       continue
     fi
     while read -r pr stack comments reviews state; do
@@ -146,13 +147,22 @@ poll() {
       STATES[$key]=$state
       STACKS[$key]=$stack
       if [ -z "${BASE_STATES[$key]:-}" ]; then
-        MEMBERS+=("$key")
         BASE_COMMENTS[$key]=$comments
         BASE_REVIEWS[$key]=$reviews
         BASE_STATES[$key]=$state
       fi
     done <<< "$rows"
   done
+  # Only a complete successful poll confirms departures. Rejoins then start
+  # with fresh baselines; even a partial API failure keeps existing baselines.
+  if [ "$complete" -eq 1 ]; then
+    for key in "${!BASE_STATES[@]}"; do
+      if [ -z "${seen[$key]:-}" ]; then
+        unset 'BASE_COMMENTS[$key]' 'BASE_REVIEWS[$key]' 'BASE_STATES[$key]' 'SUPPLIED[$key]' \
+          'COMMENTS[$key]' 'REVIEWS[$key]' 'STATES[$key]' 'STACKS[$key]'
+      fi
+    done
+  fi
 }
 
 normalize_count() {
@@ -232,7 +242,7 @@ case "$MODE" in
     for comments in "${SUPPLIED_COMMENTS[@]}"; do
       [ -n "$comments" ] || result=0
     done
-    for key in "${MEMBERS[@]}"; do
+    for key in "${POLLED[@]}"; do
       if [ -z "${SUPPLIED[$key]:-}" ]; then
         print_line BASELINE "$key"
       elif emit_change "$key"; then
@@ -244,7 +254,7 @@ case "$MODE" in
     exit "$result"
     ;;
   watch)
-    for key in "${MEMBERS[@]}"; do print_line ARMED "$key"; done
+    for key in "${POLLED[@]}"; do print_line ARMED "$key"; done
     while true; do
       sleep "$INTERVAL"
       poll 0

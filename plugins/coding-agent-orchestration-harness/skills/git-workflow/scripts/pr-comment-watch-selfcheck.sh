@@ -19,11 +19,15 @@ printf '%s\n' "$call" > "$TEST_DIR/calls"
 [ "${1:-} ${2:-}" = 'api graphql' ] || exit 90
 [[ " $* " == *' --jq '* && " $* " != *' --paginate '* ]] || exit 91
 printf '%s\n' "$*" >> "$TEST_DIR/requests"
-[ -f "$TEST_DIR/response-$call" ] || { echo 'fixture exhausted' >&2; exit 92; }
+response=$call
+# Deadline checks may poll again at a second boundary; keep the final snapshot.
+last=$(<"$TEST_DIR/response-count")
+[ "$response" -le "$last" ] || response=$last
+[ -f "$TEST_DIR/response-$response" ] || { echo 'fixture exhausted' >&2; exit 92; }
 while IFS= read -r row; do
   if [ "$row" = FAIL ]; then echo 'fake API failure' >&2; exit 1; fi
   printf '%s\n' "$row"
-done < "$TEST_DIR/response-$call"
+done < "$TEST_DIR/response-$response"
 GH
 chmod +x "$TEST_DIR/gh"
 
@@ -44,6 +48,7 @@ responses() {
     index=$((index + 1))
     printf '%s\n' "$row" > "$TEST_DIR/response-$index"
   done
+  printf '%s\n' "$index" > "$TEST_DIR/response-count"
 }
 run() {
   CASE=$1
@@ -53,7 +58,11 @@ run() {
   OUT=$(timeout 12 bash "$SCRIPT_DIR/pr-comment-watch.sh" "$@" 2>"$TEST_DIR/stderr") || rc=$?
   ERR=$(<"$TEST_DIR/stderr")
   [ "$rc" -eq "$expected_exit" ] || fail "exit $rc, expected $expected_exit"
-  [ "$(<"$TEST_DIR/calls")" -eq "$expected_calls" ] || fail "unexpected gh invocation count"
+  if [[ $expected_calls == *+ ]]; then
+    [ "$(<"$TEST_DIR/calls")" -ge "${expected_calls%+}" ] || fail "too few gh invocations"
+  else
+    [ "$(<"$TEST_DIR/calls")" -eq "$expected_calls" ] || fail "unexpected gh invocation count"
+  fi
 }
 has() { [[ $OUT == *"$1"* ]] || fail "missing $1"; }
 lacks() { [[ $OUT != *"$1"* ]] || fail "unexpected $1"; }
@@ -86,6 +95,16 @@ responses '1 10 5 2 open' $'1 10 5 2 open\n2 10 99 9 open' $'1 10 5 2 open\n2 10
 run 'stack growth baselines silently' 0 3 -i 1 org/repo:1
 lines ARMED 1; lines NEW_ACTIVITY 1; lines BASELINE 0
 has 'NEW_ACTIVITY repo=org/repo pr=2 stack=10 comments=99 (was 99) reviews=10 (was 9)'; pass
+
+responses $'1 10 5 2 open\n2 10 6 3 open' '3 none 0 0 open' \
+  '1 10 5 2 open' '3 none 0 0 open' \
+  $'1 10 5 2 open\n2 10 7 4 open' '3 none 0 0 open' \
+  FAIL '3 none 0 0 open' \
+  $'1 10 5 2 open\n2 10 7 5 open' '3 none 0 0 open'
+run 'stack rejoin re-baselines silently; partial failure keeps it' 0 10 -i 1 org/repo:1 org/repo:3
+lines ARMED 3; lines NEW_ACTIVITY 1
+has 'NEW_ACTIVITY repo=org/repo pr=2 stack=10 comments=7 (was 7) reviews=5 (was 4)'
+[ -z "$ERR" ] || fail 'partial watch failure was not silent'; pass
 
 responses '1 none 5 2 open' FAIL '1 none 6 2 open'
 run 'watch transient failure preserves baseline' 0 3 -i 1 org/repo:1
@@ -178,11 +197,11 @@ run 'wait initial change' 0 1 --wait 0 org/repo:1:4:2
 lines NEW_ACTIVITY 1; lines ARMED 0; pass
 
 responses '1 none 5 2 open' '1 none 5 2 open'
-run 'wait deadline' 3 2 --wait 1 -i 1 org/repo:1:5:2
+run 'wait deadline' 3 2+ --wait 3 -i 1 org/repo:1:5:2
 lines NO_CHANGE 1; lines ARMED 0; pass
 
 responses "$stack" '1 10 5 2 open'
-run 'wait drops removed sibling from timeout and re-feed' 3 2 --wait 1 -i 1 org/repo:1:5:2
+run 'wait drops removed sibling from timeout and re-feed' 3 2+ --wait 3 -i 1 org/repo:1:5:2
 lines NO_CHANGE 1; lacks 'pr=2 '; lacks 'spec=org/repo:2:'
 refeed=()
 while IFS= read -r line; do refeed+=("${line##* }"); done <<< "$OUT"
@@ -191,7 +210,7 @@ run 'wait drops removed sibling from timeout and re-feed' 3 1 --once "${refeed[@
 lines NO_CHANGE 1; lacks 'pr=2 '; lacks 'spec=org/repo:2:'; pass
 
 responses "$stack" FAIL
-run 'wait failed final poll emits no replacement tokens' 4 2 --wait 1 -i 1 org/repo:1:5:2
+run 'wait failed final poll emits no replacement tokens' 4 2 --wait 5 -i 1 org/repo:1:5:2
 [ -z "$OUT" ] || fail 'failed final poll emitted replacement tokens'; pass
 
 responses '1 none 5 2 open' FAIL
