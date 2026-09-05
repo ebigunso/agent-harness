@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "orchestrator"
-last_updated: "2026-05-13"
+last_updated: "2026-09-05"
 ---
 
 # Orchestrator Repository Rules
@@ -22,6 +22,7 @@ last_updated: "2026-05-13"
 - Prefer `feature/YYYY-MM-DD/<feature-name>` branch names in this repository unless the user requests another convention.
 - If nested branch creation fails with `unable to create directory for .git/refs/heads/...`, verify there is no conflicting loose or packed ref, then rerun the Git branch/switch command with filesystem approval; do not change naming conventions or edit `.git` internals as a workaround.
 - Stage only intended files when the worktree is mixed; never include unrelated untracked files silently.
+- PR titles describe the change; plugin version numbers stay in the manifests and the PR body, never in the title.
 
 ## Global Migration Candidates
 
