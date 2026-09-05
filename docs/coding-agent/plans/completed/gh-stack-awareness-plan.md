@@ -1,6 +1,6 @@
 # Plan: Make Runtime Agents Aware Of GitHub Stacked PRs And gh stack
 
-- status: in_progress
+- status: done
 - generated: 2026-09-04
 - last_updated: 2026-09-05
 - work_type: docs
@@ -160,6 +160,14 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Task_1 (Claude) wrote references/stacked-prs.md (14 lines) with every named command verified against gh-stack v0.1.0 help; Task_2 (Claude) applied the frontmatter cue, core rule 8, the disclosure line, and the pr-authoring routing line.
   - Validation evidence: validate_harness_package.py pass (both workers and Orchestrator); git diff --check clean; diffs limited to owned files.
   - Notes: Orchestrator applied the content test once more and cut the merge-method flag list from the reference (learnable from help), and replaced the "covered elsewhere" pointer in pr-review-monitoring.md with `stacked-prs.md` (one-line pointer fix outside the plan's owns, recorded here). Reviewer packet dispatched to the Codex reviewer for Task_3.
+- 2026-09-05 Wave 2 completed: [Task_3]
+  - Summary: Codex Reviewer NEEDS_REVISION (one MAJOR: a universal non-interactive claim that was false per command; two MINOR: over-broad ownership wording and a bullet failing the content test), all resolved by deletion or narrowing; delta re-review APPROVED against the committed branch with no findings.
+  - Validation evidence: Reviewer verified every named command against the gh-stack v0.1.0 help captures, confirmed the trigger chain and escalation-path consistency, ran the package validator and git diff --check on the committed range.
+  - Notes: The reference is 13 lines.
+- 2026-09-05 Wave 3 completed: [Task_4]
+  - Summary: branch rebased onto the watcher branch after its Copilot rounds; version 0.14.1 in all three manifests; rule freshness waived (see Decision Log); plan closed and moved to completed; PR published as the second member of the stack with `gh stack submit --auto --open`; watcher armed on the stack.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py pass; git diff --check clean. PR URL, stack number, isDraft, and ARMED output are appended below once published.
+  - Notes: none.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -183,6 +191,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): the sentence replaced by "pick each command's non-interactive form from its help"; ownership narrowed to stack mutations; the when-to-stack bullet deleted from the reference and the Design. Reference is now 13 lines.
   - Tradeoffs considered: none; each was a correctness or content-test defect.
   - User approval: routine, ruled at coordination tempo.
+- 2026-09-05 Decision: rule freshness waived for this change.
+  - Trigger / new insight: the change touches `skills/*/SKILL.md` and `skills/*/references/**`, which are rule-source patterns in `_lifecycle.json` (harness_package_contract group).
+  - Plan delta (what changed): none. The change adds one reference and routing lines; it introduces no validation command, no new evidence requirement, and no repository policy. Existing rule entries already cover skill references generically.
+  - Tradeoffs considered: a reviewer.md row for stacked-PR changes was considered and rejected as duplicating the general skill-review heuristics.
+  - User approval: Orchestrator waiver, recorded here.
 
 ## Notes
 - Risks: the extension is at v0.1.0 and its flags may change; the reference names commands by moment so a flag rename is a one-line fix. Interactive forms hang or, for merge, act without prompting; the reference forbids them explicitly.
