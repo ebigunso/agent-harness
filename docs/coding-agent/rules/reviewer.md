@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "reviewer"
-last_updated: "2026-07-16"
+last_updated: "2026-09-05"
 ---
 
 # Reviewer Repository Rules
@@ -32,6 +32,7 @@ last_updated: "2026-07-16"
 | Worker report contract changes | Confirm validator, schema reference, contract prose, and fixtures all agree on required keys and enum values. | `skills/subagent-report-contract/` |
 | Rule-suite lifecycle changes | Confirm full-suite validity is derived from required files, shared `suite_id`, schema version, sidecar presence, and contradiction/source-drift signals. | `skills/rulebook/references/` |
 | Plan lifecycle closeout | Confirm completed plans are moved under `docs/coding-agent/plans/completed/` and status is `done`. | `docs/coding-agent/plans/` |
+| PR watcher script changes | Rerun the self-check independently; confirm every member lifecycle transition (add, change, remove) and every exit path has a case, and that the reference's output lines and exit rules match the landed script. | `skills/git-workflow/scripts/`, `skills/git-workflow/references/pr-review-monitoring.md` |
 
 ## Review Heuristics
 
