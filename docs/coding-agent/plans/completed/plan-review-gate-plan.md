@@ -65,7 +65,7 @@ Scope:
 
 Procedure:
 - Run `python <plugin root>/skills/plan-format/scripts/validate_plan.py --file <plan> --mode balanced` first. Its pass output is the required validation evidence; do not re-check by hand what it checks.
-- Read `<plugin root>/skills/plan-format/SKILL.md` and `references/task-waves.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
+- Read `<plugin root>/skills/plan-format/SKILL.md` and `<plugin root>/skills/plan-format/references/task-waves.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
 - Open every source an Assumption or Context claim names and confirm it says what the plan says.
 
 Deliverables:
