@@ -344,3 +344,80 @@ Prevention:
 - Content under `plugins/` is written purely for the consumer's agent at task time: current-state operating text only. Test each sentence with "does the consumer's agent act differently because of this?"
 - Maintainer-facing material (change history, reintroduction guards, decision rationale) lives in `docs/coding-agent-orchestration-harness/decisions/` and this lessons log, never in bundled skill content.
 - Templates deserve extra scrutiny: their text propagates into every generated artifact.
+
+## 2026-09-05 - Skill Content Carries Only What The Tool Cannot Teach  [tags: skill-maintenance, planning, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/gh-stack-awareness-plan.md` (drafting, pre-approval).
+- Roles involved: Orchestrator, Codex Reviewer (plan review)
+
+Symptom:
+- The reference design for `git-workflow/references/stacked-prs.md` spelled out what a stack is, a command-per-moment lifecycle, navigation commands, and REST field details.
+- The user flagged it as overkill: most of it is rediscoverable from `gh stack --help` or is everyday knowledge, and every loaded line costs context on each task.
+
+Root cause:
+- Writing the reference as a tutorial for the tool instead of as the delta between what an agent already knows or can cheaply discover and what it must know before acting.
+
+Fix applied:
+- Cut the concept and lifecycle material; kept existence and availability checks, a pointer to the help text, the when-to-stack judgment, the four traps that are unsafe to learn by trial, ownership, and the watcher pointer; added a content test and a length target to the plan so the Reviewer applies it line by line.
+
+Prevention:
+- Every skill or reference line must pass: "could the agent learn this from the tool's `--help` or from plain knowledge?" If yes, cut it. Lines that earn their place: that a tool exists and how to check availability, judgment rules for when to use it, traps that are unsafe or expensive to discover by trial, ownership and safety mappings, and pointers.
+- When a plan specifies new skill content, include the content test and an approximate length in the task acceptance so review is mechanical rather than taste.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Skill and reference content states only what an agent cannot learn from the tool's help or plain knowledge; concept explanations and command lifecycles are cut.
+- Residual risk / waiver:
+  - A v0.1.0 extension's flags may change; pointing at help text instead of freezing flags into the skill is the intended mitigation.
+
+Evidence:
+- Plan Decision Log entry 2026-09-05 in `gh-stack-awareness-plan.md`; `gh stack <cmd> --help` captures reviewed in session.
+
+## 2026-09-05 - Use The Bundled Watcher, Never A Hand-Rolled Poll  [tags: orchestration, tooling, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/pr-watch-discoverability-plan.md`, Wave 1 dispatch.
+- Roles involved: Orchestrator
+
+Symptom:
+- While waiting on Codex peer replies over agmsg, the Orchestrator wrote inline bash polling loops against `inbox.sh` instead of running the bundled `agmsg` `watch.sh`. One loop exited on a false match ("No new messages" contains "new message"); a later `watch.sh | head -1` pipeline never terminated, so a delivered report went unnoticed until the user pointed at the inbox.
+
+Root cause:
+- The Monitor tool was unavailable after a session resume, and the reflex was to improvise a poller rather than run the bundled script through the shell. This is the same failure the plan under execution exists to prevent for the PR watcher.
+
+Fix applied:
+- Run `watch.sh` in the background writing to a file, poll that file for the awaited sender, and kill the watcher once the message lands. Hand-rolled loops removed.
+
+Prevention:
+- When a bundled watcher exists (agmsg `watch.sh`, `pr-comment-watch.sh`), run it even when the Monitor tool is missing; a shell-backgrounded bundled script beats an inline loop every time.
+- A watcher that must wake the session on one event needs an explicit termination path (kill after first match); a pipe through `head` does not end the producer.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Never hand-roll a polling loop for a channel that ships a watcher script; background the script and give it an explicit exit condition.
+
+Evidence:
+- Session 2026-09-05; user correction "Use the bundled monitor script from agmsg".
+
+## 2026-09-05 - Test Membership Removal When Emitted Tokens Are Re-Fed  [tags: validation, review, state]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/pr-watch-discoverability-plan.md`, Task_3 and Task_4.
+- Roles involved: Worker (Codex), Reviewer (Codex), Orchestrator
+
+Symptom:
+- `pr-comment-watch.sh --wait` printed deadline tokens from the accumulated member list, so a stack member removed mid-wait was emitted with stale values and re-admitted on re-feed. The self-check covered membership growth but not removal.
+
+Root cause:
+- The plan's self-check list named growth cases only; when emitted output becomes the next invocation's input, every lifecycle transition of a member is a serialization boundary, and removal was the untested one.
+
+Fix applied:
+- Deadline output now uses the latest successful poll's membership; two regressions added (removed sibling absent from output and re-feed set; failed final poll exits 4 with no tokens).
+
+Prevention:
+- When a tool's printed output is its own next input, test add, change, and remove for every tracked entity, not only add and change.
+- Repo rule candidate:
+  - audience: reviewer
+  - proposed rule: For stateless tools whose printed tokens are re-fed as arguments, require a removal regression alongside growth in the self-check.
+
+Evidence:
+- Reviewer finding 2026-09-05 (Task_4, MAJOR issue 1) and its delta approval.

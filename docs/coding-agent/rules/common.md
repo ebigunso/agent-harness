@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-09-01"
+last_updated: "2026-09-05"
 ---
 
 # Common Repository Rules
@@ -22,6 +22,7 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 - `python scripts/run_validation_smoke_tests.py`
 - `python skills/plan-format/scripts/validate_plan.py --file tests/fixtures/valid-plan.md --mode balanced`
 - `python skills/subagent-report-contract/scripts/validate_worker_report.py --file tests/fixtures/valid-worker-report.yaml`
+- `bash skills/git-workflow/scripts/pr-comment-watch-selfcheck.sh` when `skills/git-workflow/scripts/**` changes (deterministic, no network; needs Bash 4+).
 - `python skills/subagent-report-contract/scripts/validate_worker_report.py --file tests/fixtures/valid-worker-report-reviewer-candidate.yaml` when reviewer rule-candidate audience support is in scope.
 - From repository root: `git diff --check` before committing or publishing.
 

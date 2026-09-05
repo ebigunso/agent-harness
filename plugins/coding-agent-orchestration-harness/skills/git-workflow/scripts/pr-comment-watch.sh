@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
-# Poll GitHub pull requests for comment or review-count changes.
+# Poll GitHub pull requests and their stacks for count or terminal-state changes.
 #
 # Usage:
-#   pr-comment-watch.sh [-i SECONDS] OWNER/REPO:PR[:comments[:reviews]] ...
-#   pr-comment-watch.sh --once OWNER/REPO:PR[:comments[:reviews]] ...
-#   pr-comment-watch.sh --wait SECONDS [-i SECONDS] OWNER/REPO:PR[:comments[:reviews]] ...
+#   pr-comment-watch.sh [-i SECONDS] OWNER/REPO:PR[:comments[:reviews[:state]]] ...
+#   pr-comment-watch.sh --once OWNER/REPO:PR[:comments[:reviews[:state]]] ...
+#   pr-comment-watch.sh --wait SECONDS [-i SECONDS] OWNER/REPO:PR[:comments[:reviews[:state]]] ...
 #
 # Hard-won implementation invariants (do not simplify these away):
-#   - Every count uses `gh api --paginate` and a `wc -l` pipeline. Using a
-#     single-page length pins the count once an endpoint crosses 30 items.
-#   - Watch mode emits no heartbeat and exits on the first change. Every output
-#     line can wake an agent, so silence must continue to mean "no activity".
+#   - One GraphQL query per spec per poll supplies counts, state, and membership.
+#     Parse with gh's --jq; no separate jq process or dependency.
+#   - ARMED is startup confirmation, not a heartbeat. Subsequent watch polls
+#     stay silent until the first NEW_ACTIVITY or TERMINAL, then exit.
 #   - Posting replies can fire the watcher. After handling a review round,
 #     restart or re-baseline it so self-induced activity is not mistaken for a
 #     new reviewer round.
-#   - A transient API failure is "no change" only in persistent watch mode.
+#   - A transient API failure is "no change" only after watch startup.
+#     Startup failures and probe-mode failures exit 4.
+#   - Terminal transitions take precedence over counts; terminal baselines
+#     never fire again, even if their counts change.
 set -u
 
 INTERVAL=120
@@ -25,25 +28,20 @@ WAIT_DURATION=
 
 usage() {
   printf '%s\n' \
-    "usage: $0 [-i SECONDS] OWNER/REPO:PR[:comments[:reviews]] ..." \
-    "       $0 --once OWNER/REPO:PR[:comments[:reviews]] ..." \
-    "       $0 --wait SECONDS [-i SECONDS] OWNER/REPO:PR[:comments[:reviews]] ..." >&2
+    "usage: $0 [-i SECONDS] OWNER/REPO:PR[:comments[:reviews[:state]]] ..." \
+    "       $0 --once OWNER/REPO:PR[:comments[:reviews[:state]]] ..." \
+    "       $0 --wait SECONDS [-i SECONDS] OWNER/REPO:PR[:comments[:reviews[:state]]] ..." >&2
 }
 
 usage_error() {
-  if [ $# -gt 0 ]; then
-    printf 'error: %s\n' "$1" >&2
-  fi
+  [ $# -eq 0 ] || printf 'error: %s\n' "$1" >&2
   usage
   exit 2
 }
 
 set_mode() {
-  local requested=$1
-  if [ "$MODE_SET" -eq 1 ]; then
-    usage_error "choose exactly one of --once or --wait"
-  fi
-  MODE=$requested
+  [ "$MODE_SET" -eq 0 ] || usage_error "choose exactly one of --once or --wait"
+  MODE=$1
   MODE_SET=1
 }
 
@@ -67,251 +65,213 @@ while [ $# -gt 0 ]; do
       WAIT_DURATION=$2
       shift 2
       ;;
-    --)
-      shift
-      break
-      ;;
-    -*)
-      usage_error "unknown option: $1"
-      ;;
-    *)
-      break
-      ;;
+    --) shift; break ;;
+    -*) usage_error "unknown option: $1" ;;
+    *) break ;;
   esac
 done
 
 [ "$MODE" != once ] || [ "$INTERVAL_SET" -eq 0 ] || usage_error "-i is not used with --once"
 [ $# -gt 0 ] || usage_error "at least one pull request spec is required"
 
-declare -a REPOS PRS
-declare -a HAS_SUPPLIED_BASE COMMENT_BASE_SET COMMENT_BASES
-declare -a REVIEW_BASE_SET REVIEW_BASES CURRENT_COMMENTS CURRENT_REVIEWS
-
+declare -a REPOS=() PRS=() SUPPLIED_COMMENTS=() SUPPLIED_REVIEWS=() SUPPLIED_STATES=()
 for spec in "$@"; do
-  if [[ ! $spec =~ ^([^/:[:space:]]+)/([^/:[:space:]]+):([1-9][0-9]*)(:([0-9]+)(:([0-9]+))?)?$ ]]; then
+  spec=${spec#spec=}
+  if [[ ! $spec =~ ^([^/:[:space:]]+)/([^/:[:space:]]+):([1-9][0-9]*)(:([0-9]+)(:([0-9]+)(:(open|merged|closed))?)?)?$ ]]; then
     usage_error "malformed pull request spec: $spec"
   fi
-
   REPOS+=("${BASH_REMATCH[1]}/${BASH_REMATCH[2]}")
   PRS+=("${BASH_REMATCH[3]}")
-  if [ -n "${BASH_REMATCH[4]:-}" ]; then
-    HAS_SUPPLIED_BASE+=(1)
-    COMMENT_BASE_SET+=(1)
-    COMMENT_BASES+=("${BASH_REMATCH[5]}")
-  else
-    HAS_SUPPLIED_BASE+=(0)
-    COMMENT_BASE_SET+=(0)
-    COMMENT_BASES+=("")
-  fi
-  if [ -n "${BASH_REMATCH[6]:-}" ]; then
-    REVIEW_BASE_SET+=(1)
-    REVIEW_BASES+=("${BASH_REMATCH[7]}")
-  else
-    REVIEW_BASE_SET+=(0)
-    REVIEW_BASES+=("")
-  fi
+  SUPPLIED_COMMENTS+=("${BASH_REMATCH[5]:-}")
+  SUPPLIED_REVIEWS+=("${BASH_REMATCH[7]:-}")
+  SUPPLIED_STATES+=("${BASH_REMATCH[9]:-open}")
 done
 
-count_endpoint() {
-  local repo=$1
-  local pr=$2
-  local endpoint=$3
-  local output count
+# Ordered keys preserve input/member order; maps identify members across specs.
+declare -a POLLED=()
+declare -A BASE_COMMENTS=() BASE_REVIEWS=() BASE_STATES=() SUPPLIED=()
+declare -A COMMENTS=() REVIEWS=() STATES=() STACKS=()
 
-  # Watch mode stays silent on transient failures; probe modes (--once/--wait)
-  # surface the underlying gh/API error on stderr so exit 4 is diagnosable
-  # (auth, rate limit, 404) without breaking the no-heartbeat contract.
+QUERY='query($o:String!,$r:String!,$n:Int!){
+  repository(owner:$o,name:$r){ pullRequest(number:$n){
+    number state merged reviews{totalCount} totalCommentsCount
+    stack{ number entries(first:100){ nodes{ pullRequest{
+      number state merged reviews{totalCount} totalCommentsCount
+    } } } }
+  } }
+}'
+FILTER='.data.repository.pullRequest as $p | ($p.stack.number // "none") as $s |
+  (if $p.stack then [$p.stack.entries.nodes[].pullRequest] else [$p] end)[] |
+  "\(.number) \($s) \(.totalCommentsCount) \(.reviews.totalCount) \(if .merged then "merged" elif .state=="CLOSED" then "closed" else "open" end)"'
+
+fetch_members() {
+  local repo=$1 pr=$2 output row
+  # NOTE: stack expansion reads the first 100 entries only; add cursor handling if a larger stack appears.
   if [ "$MODE" = watch ]; then
-    output=$(gh api "repos/$repo/pulls/$pr/$endpoint" --paginate --jq '.[].id' 2>/dev/null) || return 1
+    output=$(gh api graphql -f query="$QUERY" -f o="${repo%/*}" -f r="${repo#*/}" -F n="$pr" --jq "$FILTER" 2>/dev/null) || return 1
   else
-    output=$(gh api "repos/$repo/pulls/$pr/$endpoint" --paginate --jq '.[].id') || return 1
+    output=$(gh api graphql -f query="$QUERY" -f o="${repo%/*}" -f r="${repo#*/}" -F n="$pr" --jq "$FILTER") || return 1
   fi
-  if [ -z "$output" ]; then
-    printf '0\n'
-    return 0
-  fi
-
-  count=$(printf '%s\n' "$output" | wc -l | tr -d '[:space:]')
-  [ -n "$count" ] || return 1
-  printf '%s\n' "$count"
-}
-
-fetch_counts() {
-  local repo=$1
-  local pr=$2
-  local comments reviews
-
-  comments=$(count_endpoint "$repo" "$pr" comments) || return 1
-  reviews=$(count_endpoint "$repo" "$pr" reviews) || return 1
-  printf '%s %s\n' "$comments" "$reviews"
-}
-
-load_current_counts() {
-  local index=$1
-  local counts
-
-  counts=$(fetch_counts "${REPOS[$index]}" "${PRS[$index]}") || return 1
-  CURRENT_COMMENTS[$index]=${counts%% *}
-  CURRENT_REVIEWS[$index]=${counts##* }
-}
-
-fill_missing_baselines() {
-  local index=$1
-
-  if [ "${COMMENT_BASE_SET[$index]}" -eq 0 ]; then
-    COMMENT_BASES[$index]=${CURRENT_COMMENTS[$index]}
-    COMMENT_BASE_SET[$index]=1
-  fi
-  if [ "${REVIEW_BASE_SET[$index]}" -eq 0 ]; then
-    REVIEW_BASES[$index]=${CURRENT_REVIEWS[$index]}
-    REVIEW_BASE_SET[$index]=1
-  fi
-}
-
-counts_changed() {
-  local index=$1
-
-  [ "${CURRENT_COMMENTS[$index]}" -ne "${COMMENT_BASES[$index]}" ] ||
-    [ "${CURRENT_REVIEWS[$index]}" -ne "${REVIEW_BASES[$index]}" ]
-}
-
-print_new_activity() {
-  local index=$1
-
-  printf 'NEW_ACTIVITY repo=%s pr=%s comments=%s (was %s) reviews=%s (was %s)\n' \
-    "${REPOS[$index]}" "${PRS[$index]}" \
-    "${CURRENT_COMMENTS[$index]}" "${COMMENT_BASES[$index]}" \
-    "${CURRENT_REVIEWS[$index]}" "${REVIEW_BASES[$index]}"
-}
-
-print_current_line() {
-  local label=$1
-  local index=$2
-
-  printf '%s repo=%s pr=%s comments=%s reviews=%s\n' \
-    "$label" "${REPOS[$index]}" "${PRS[$index]}" \
-    "${CURRENT_COMMENTS[$index]}" "${CURRENT_REVIEWS[$index]}"
+  [ -n "$output" ] || return 1
+  while IFS= read -r row; do
+    [[ $row =~ ^[1-9][0-9]*\ (none|[1-9][0-9]*)\ [0-9]+\ [0-9]+\ (open|merged|closed)$ ]] || return 1
+  done <<< "$output"
+  printf '%s\n' "$output"
 }
 
 api_failure() {
-  local index=$1
-
-  printf 'error: could not fetch counts for repo=%s pr=%s\n' \
-    "${REPOS[$index]}" "${PRS[$index]}" >&2
+  printf 'error: could not fetch counts for repo=%s pr=%s\n' "${REPOS[$1]}" "${PRS[$1]}" >&2
   exit 4
 }
 
-run_watch() {
-  local index
-
-  # Establish only missing baselines at startup. Fully supplied baselines do
-  # not need an eager API call; all watches retain the original sleep-first
-  # polling behavior.
+poll() {
+  local startup=$1 index rows pr stack comments reviews state key complete=1
+  local -A seen=()
+  POLLED=()
   for index in "${!REPOS[@]}"; do
-    if [ "${COMMENT_BASE_SET[$index]}" -eq 0 ] || [ "${REVIEW_BASE_SET[$index]}" -eq 0 ]; then
-      if load_current_counts "$index"; then
-        fill_missing_baselines "$index"
+    if ! rows=$(fetch_members "${REPOS[$index]}" "${PRS[$index]}"); then
+      if [ "$startup" -eq 1 ] || [ "$MODE" != watch ]; then
+        api_failure "$index"
       fi
+      complete=0
+      continue
     fi
+    while read -r pr stack comments reviews state; do
+      key="${REPOS[$index]}:$pr"
+      if [ -z "${seen[$key]:-}" ]; then
+        POLLED+=("$key")
+        seen[$key]=1
+      fi
+      COMMENTS[$key]=$comments
+      REVIEWS[$key]=$reviews
+      STATES[$key]=$state
+      STACKS[$key]=$stack
+      if [ -z "${BASE_STATES[$key]:-}" ]; then
+        BASE_COMMENTS[$key]=$comments
+        BASE_REVIEWS[$key]=$reviews
+        BASE_STATES[$key]=$state
+      fi
+    done <<< "$rows"
   done
-
-  while true; do
-    sleep "$INTERVAL"
-    for index in "${!REPOS[@]}"; do
-      # Persistent watch mode alone treats a transient API failure as no
-      # change, preserving the last in-memory baseline.
-      load_current_counts "$index" || continue
-      fill_missing_baselines "$index"
-      if counts_changed "$index"; then
-        print_new_activity "$index"
-        exit 0
+  # Only a complete successful poll confirms departures. Rejoins then start
+  # with fresh baselines; even a partial API failure keeps existing baselines.
+  if [ "$complete" -eq 1 ]; then
+    for key in "${!BASE_STATES[@]}"; do
+      if [ -z "${seen[$key]:-}" ]; then
+        unset 'BASE_COMMENTS[$key]' 'BASE_REVIEWS[$key]' 'BASE_STATES[$key]' 'SUPPLIED[$key]' \
+          'COMMENTS[$key]' 'REVIEWS[$key]' 'STATES[$key]' 'STACKS[$key]'
       fi
     done
+  fi
+}
+
+normalize_count() {
+  local value=$1
+  while [[ $value == 0* && ${#value} -gt 1 ]]; do value=${value#0}; done
+  printf '%s' "$value"
+}
+
+apply_supplied_baselines() {
+  local index key comments reviews state baseline
+  for index in "${!REPOS[@]}"; do
+    [ -n "${SUPPLIED_COMMENTS[$index]}" ] || continue
+    key="${REPOS[$index]}:${PRS[$index]}"
+    [ -n "${BASE_STATES[$key]:-}" ] || api_failure "$index"
+    comments=$(normalize_count "${SUPPLIED_COMMENTS[$index]}")
+    reviews=$(normalize_count "${SUPPLIED_REVIEWS[$index]:-${REVIEWS[$key]}}")
+    state=${SUPPLIED_STATES[$index]}
+    baseline="$comments:$reviews:$state"
+    if [ -n "${SUPPLIED[$key]:-}" ] && [ "${SUPPLIED[$key]}" != "$baseline" ]; then
+      usage_error "conflicting baselines for $key"
+    fi
+    SUPPLIED[$key]=$baseline
+    BASE_COMMENTS[$key]=$comments
+    BASE_REVIEWS[$key]=$reviews
+    BASE_STATES[$key]=$state
   done
 }
 
-run_once() {
-  local index
-  local saw_activity=0
-  local initialized=0
-
-  # Fetch everything before emitting output so an API failure cannot leave a
-  # caller with a partial set of apparently valid baselines.
-  for index in "${!REPOS[@]}"; do
-    load_current_counts "$index" || api_failure "$index"
-  done
-
-  for index in "${!REPOS[@]}"; do
-    if [ "${HAS_SUPPLIED_BASE[$index]}" -eq 0 ]; then
-      fill_missing_baselines "$index"
-      print_current_line BASELINE "$index"
-      initialized=1
-      continue
-    fi
-
-    fill_missing_baselines "$index"
-    if counts_changed "$index"; then
-      print_new_activity "$index"
-      saw_activity=1
-    else
-      print_current_line NO_CHANGE "$index"
-    fi
-  done
-
-  if [ "$saw_activity" -eq 1 ] || [ "$initialized" -eq 1 ]; then
-    exit 0
+print_line() {
+  local label=$1 key=$2
+  local comments=${COMMENTS[$key]} reviews=${REVIEWS[$key]} state=${STATES[$key]}
+  if [ "$label" = ARMED ]; then
+    comments=${BASE_COMMENTS[$key]}
+    reviews=${BASE_REVIEWS[$key]}
+    state=${BASE_STATES[$key]}
   fi
-  exit 3
+  printf '%s repo=%s pr=%s stack=%s' "$label" "${key%:*}" "${key##*:}" "${STACKS[$key]}"
+  if [ "$label" = NEW_ACTIVITY ]; then
+    printf ' comments=%s (was %s) reviews=%s (was %s)' "$comments" "${BASE_COMMENTS[$key]}" "$reviews" "${BASE_REVIEWS[$key]}"
+  elif [ "$label" != TERMINAL ]; then
+    printf ' comments=%s reviews=%s' "$comments" "$reviews"
+  fi
+  printf ' state=%s spec=%s:%s:%s:%s\n' "$state" "$key" "$comments" "$reviews" "$state"
+}
+
+emit_change() {
+  local key=$1
+  [ "${BASE_STATES[$key]}" = open ] || return 1
+  if [ "${STATES[$key]}" != open ]; then
+    print_line TERMINAL "$key"
+  elif [ "${COMMENTS[$key]}" != "${BASE_COMMENTS[$key]}" ] || [ "${REVIEWS[$key]}" != "${BASE_REVIEWS[$key]}" ]; then
+    print_line NEW_ACTIVITY "$key"
+  else
+    return 1
+  fi
 }
 
 emit_first_change() {
-  local index
-
-  for index in "${!REPOS[@]}"; do
-    if counts_changed "$index"; then
-      print_new_activity "$index"
-      return 0
-    fi
+  local key
+  for key in "${POLLED[@]}"; do
+    emit_change "$key" && return 0
   done
   return 1
 }
 
-run_wait() {
-  local index sleep_for remaining
-  local deadline=$((SECONDS + WAIT_DURATION))
-
-  for index in "${!REPOS[@]}"; do
-    load_current_counts "$index" || api_failure "$index"
-    fill_missing_baselines "$index"
-  done
-  if emit_first_change; then
-    exit 0
-  fi
-
-  while [ "$SECONDS" -lt "$deadline" ]; do
-    remaining=$((deadline - SECONDS))
-    sleep_for=$INTERVAL
-    if [ "$sleep_for" -gt "$remaining" ]; then
-      sleep_for=$remaining
-    fi
-    sleep "$sleep_for"
-
-    for index in "${!REPOS[@]}"; do
-      load_current_counts "$index" || api_failure "$index"
-    done
-    if emit_first_change; then
-      exit 0
-    fi
-  done
-
-  for index in "${!REPOS[@]}"; do
-    print_current_line NO_CHANGE "$index"
-  done
-  exit 3
-}
+# Fetch every spec before printing anything or applying supplied baselines.
+# This makes overlap precedence independent of argument order.
+deadline=$((SECONDS + ${WAIT_DURATION:-0}))
+poll 1
+apply_supplied_baselines
 
 case "$MODE" in
-  watch) run_watch ;;
-  once) run_once ;;
-  wait) run_wait ;;
+  once)
+    result=3
+    # Only bare input specs request initialization; fetched siblings still
+    # emit BASELINE tokens without changing an otherwise quiet probe's exit.
+    for comments in "${SUPPLIED_COMMENTS[@]}"; do
+      [ -n "$comments" ] || result=0
+    done
+    for key in "${POLLED[@]}"; do
+      if [ -z "${SUPPLIED[$key]:-}" ]; then
+        print_line BASELINE "$key"
+      elif emit_change "$key"; then
+        result=0
+      else
+        print_line NO_CHANGE "$key"
+      fi
+    done
+    exit "$result"
+    ;;
+  watch)
+    for key in "${POLLED[@]}"; do print_line ARMED "$key"; done
+    while true; do
+      sleep "$INTERVAL"
+      poll 0
+      emit_first_change && exit 0
+    done
+    ;;
+  wait)
+    emit_first_change && exit 0
+    while [ "$SECONDS" -lt "$deadline" ]; do
+      remaining=$((deadline - SECONDS))
+      sleep_for=$INTERVAL
+      [ "$sleep_for" -le "$remaining" ] || sleep_for=$remaining
+      sleep "$sleep_for"
+      poll 0
+      emit_first_change && exit 0
+    done
+    for key in "${POLLED[@]}"; do print_line NO_CHANGE "$key"; done
+    exit 3
+    ;;
 esac

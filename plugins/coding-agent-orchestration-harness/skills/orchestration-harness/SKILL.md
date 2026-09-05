@@ -111,7 +111,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - Worker wave integration and Reviewer packet: `wave-integration`
 - Engineering validation depth: `engineering-quality-baselines`
 - Long-horizon audit (five-step lens, non-standard-flow only): `engineering-quality-baselines`
-- Git safety, commit/PR workflow, and external review monitoring: `git-workflow`
+- Git safety, commit/PR workflow, and review monitoring at PR open, fix push, or while waiting on review rounds (git-workflow bundles the watcher): `git-workflow`
 - Repo rules updates: `rulebook`
 - Post-correction handling: `improvement-loop`
 - Workspace/tool failures: `workspace-troubleshooting`
