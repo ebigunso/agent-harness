@@ -1,6 +1,6 @@
 # Plan: PR Watcher Discoverability And Review-Round Steering
 
-- status: in_progress
+- status: done
 - generated: 2026-09-04
 - last_updated: 2026-09-05
 - work_type: mixed
@@ -220,6 +220,14 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Task_1 (Claude) applied the four routing edits; Task_2 (Claude) rewrote pr-review-monitoring.md; Task_3 (Codex) rewrote pr-comment-watch.sh and added pr-comment-watch-selfcheck.sh after one escalation (the --once exit rule, ruled in the Decision Log).
   - Validation evidence: validate_harness_package.py pass (each worker and Orchestrator); run_validation_smoke_tests.py pass; self-check 29/29 pass (worker and Orchestrator); live read-only smoke on PRs 49/50/51 per Task_3 list pass including the post-ruling single-token cases; git diff --check clean; no `--paginate` or `wc -l` remains.
   - Notes: Orchestrator made one integration edit to the reference's BASELINE bullet to match the ruling. Reviewer packet dispatched to the Codex reviewer for Task_4.
+- 2026-09-05 Wave 2 completed: [Task_4]
+  - Summary: Codex Reviewer NEEDS_REVISION (one MAJOR: --wait deadline printed stale removed members; one MINOR: two reference bullets overstated behavior), then APPROVED on delta after the worker switched deadline output to the latest successful poll with two regressions and the Orchestrator corrected the reference bullets.
+  - Validation evidence: Reviewer independently reran self-check (31/31), live smoke, the production query against PR 50, package validator, bash -n, git diff --check.
+  - Notes: A wrong fallback instruction in the Orchestrator's revision brief was caught by the worker and ruled out; the existing --wait failure contract stands.
+- 2026-09-05 Wave 3 completed: [Task_5]
+  - Summary: version 0.14.0 in all three manifests; targeted rule refresh (self-check added to common.md validation commands, worker.md check mapping, reviewer.md required evidence); two lessons recorded; four logical commits; PR https://github.com/ebigunso/agent-harness/pull/53 opened; bundled watcher armed.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py pass; self-check 31/31; git diff --check clean; watcher output `ARMED repo=ebigunso/agent-harness pr=53 stack=none comments=0 reviews=0 state=open spec=ebigunso/agent-harness:53:0:0:open`.
+  - Notes: Rule freshness resolved by update, no waiver. Plan moved to completed.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
