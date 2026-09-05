@@ -2,8 +2,7 @@
 # Deterministic public-CLI checks; gh fixtures are the rows returned by --jq.
 set -u
 
-command -v timeout >/dev/null 2>&1 || { printf 'error: this self-check needs the timeout(1) command on PATH
-' >&2; exit 1; }
+command -v timeout >/dev/null 2>&1 || { echo 'error: this self-check needs the timeout(1) command on PATH' >&2; exit 1; }
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 TEST_DIR=$(mktemp -d)
@@ -14,9 +13,6 @@ export PATH="$TEST_DIR:$PATH"
 cat > "$TEST_DIR/gh" <<'GH'
 #!/usr/bin/env bash
 set -u
-
-command -v timeout >/dev/null 2>&1 || { printf 'error: this self-check needs the timeout(1) command on PATH
-' >&2; exit 1; }
 call=$(<"$TEST_DIR/calls")
 call=$((call + 1))
 printf '%s\n' "$call" > "$TEST_DIR/calls"
