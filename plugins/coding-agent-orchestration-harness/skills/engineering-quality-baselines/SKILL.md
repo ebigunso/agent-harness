@@ -36,6 +36,7 @@ Load only relevant categories:
 - Validation and evidence model: `references/testing-validation.md` (when selecting required checks and evidence depth)
 - Test authoring: `references/test-authoring.md` (when writing, modifying, or reviewing tests)
 - Review scoring summary: `references/review-rubric.md` (when performing PR/code review or final quality scoring)
+- Plan review: `references/core-principles.md` and the 30-second pass of `references/review-rubric.md` only (when reviewing a draft plan before approval; no scorecard, no latent-risk routing)
 - Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, risk-specific tests, or information conservation across serialization, conversion, aggregation, and fallback boundaries)
 
 ### Drift Tripwires (always active)

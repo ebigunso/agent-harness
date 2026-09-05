@@ -8,7 +8,7 @@ description: Standard execution plan format for decomposing non-trivial work int
 This skill defines the standard **execution plan** structure used for non-trivial work.
 
 Design assumptions:
-- Plans are drafted at the start and reviewed by humans.
+- Plans are drafted at the start, reviewed by a Reviewer, then approved by the user.
 - Plans may evolve during execution (progress logs + decision logs).
 - The format should remain easy to evolve; avoid over-constraining.
 
@@ -65,6 +65,8 @@ Design assumptions:
 9) Decomposition depth + harmonization:
 - When the user explicitly requests language/framework depth, decompose implementation tasks by that depth (for example, API/data/model/UI/test slices).
 - If a plan intentionally mixes abstraction levels (for example, feature-level and file-level tasks), add a final harmonization pass before review to verify naming, boundaries, and validation coverage remain coherent.
+
+10) Plan altitude: a plan states what, why, and constraints, and leaves how to the Worker; it does not restate what the Worker can discover cheaply. This does not override user-requested decomposition depth (rule 9).
 
 ---
 

@@ -61,6 +61,21 @@ Rules:
 - Use the selected browser automation provider for browser automation.
 - Localhost/127.0.0.1 only unless explicitly configured.
 
+## Reviewer snippet (plan review)
+
+Scope:
+- Review the draft plan at <plan> before user approval. The artifact is the plan file, not a diff.
+- Inputs: the plan; Researcher output at <path or "none">.
+
+Procedure:
+- Run `python <plugin root>/skills/plan-format/scripts/validate_plan.py --file <plan> --mode balanced` first. Its pass output is the required validation evidence; do not re-check by hand what it checks.
+- Read `<plugin root>/skills/plan-format/SKILL.md` and `references/task-waves.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
+- Open every source an Assumption or Context claim names and confirm it says what the plan says.
+
+Deliverables:
+- Each finding names the fact, record, or reference it contradicts.
+- Your verdict is advisory to the Orchestrator. Question the decomposition given; do not propose another.
+
 ## Reviewer snippet (E2E/visual gate)
 
 Scope:

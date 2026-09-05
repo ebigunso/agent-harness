@@ -40,6 +40,8 @@ Follow-ups after completion re-run the Plan Gate. Do not chain non-trivial work 
 
 Clarifications, follow-up requirements, and plan refinements are NOT plan approval. Execution requires an explicit approval or a direct execution instruction from the user; when in doubt, ask.
 
+Plan review loop: the Orchestrator triages each Reviewer finding as fix, research-and-rewrite, or dispute; re-review scopes to the delta only when the delta re-review condition in `skills/wave-integration/references/integration-checklist.md` holds, otherwise it is full; a third round on the same seam applies that file's third-bounce detector; a finding that needs a ruling follows Escalation Ruling below.
+
 ## Research Dispatch Details
 
 For non-trivial requests:
