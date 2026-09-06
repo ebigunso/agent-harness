@@ -8,7 +8,7 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: ADR-D-0017-instruction-authority-and-orchestrator-reading.md
+superseded_by: ADR-D-0017-harness-text-holds-no-user-authority.md
 supersession_scope: partial   # only the clause making loader use "explicit user direction"; all other clauses remain authoritative here
 ---
 
