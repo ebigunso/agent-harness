@@ -50,7 +50,7 @@ Gate procedure, edge cases, and plan lifecycle details: `references/lifecycle-ga
 
 ### 2. Research Dispatch Gate
 
-- Dispatch Researchers for unfamiliar or cross-cutting areas before planning non-trivial work; the Orchestrator may read repository files directly to decide triviality and scope.
+- Dispatch Researchers for unfamiliar or cross-cutting areas before planning non-trivial work; the Orchestrator may read repository files directly to decide triviality and scope, since a read is cheaper than a dispatch round-trip and the waiver below keeps the choice reviewable.
 - Non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
 
 ### 3. Dispatch Integrity Gate

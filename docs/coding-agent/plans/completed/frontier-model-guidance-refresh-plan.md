@@ -334,6 +334,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): ADR-I-0006 deleted; ADR-D-0018 written as a design record partially superseding ADR-D-0015; the removal table moved to the experiment README; ADR-D-0017 tightened to constraints-first and now depends on ADR-D-0018. Definition of Done bullet 7 is read as satisfied by ADR-D-0017 plus ADR-D-0018.
   - Tradeoffs considered: keeping ADR-I-0006 alongside a new design ADR would leave two records for one decision.
   - User approval: yes (direction given 2026-09-06; wording drafted by the Orchestrator).
+- 2026-09-06 Decision: ADR set reduced to three records after a value audit.
+  - Trigger / new insight: the bundled ADR-D-0017 held three unrelated decisions; split into three, the reading rule failed the criteria (a calibration with no silent failure and a re-derivable why).
+  - Plan delta (what changed): ADR-D-0017 keeps the loader authority decision; the reading rationale moved into the Research Dispatch Gate line; record-and-surface is ADR-D-0019 with the tripwire mechanism moved under Not covered; no record numbered 0020 exists.
+  - Tradeoffs considered: keeping a record for the reading rule would have preserved history at the cost of a record no one could act on.
+  - User approval: yes (2026-09-06).
 
 ## Notes
 - Risks: adapter three-copy drift (mitigated by the sync checklist and Task_1 hashes); a deletion that a repo-local rule suite elsewhere points to (mitigated by the migrate stance and `--check` staleness); Task_6 cell (d) failing would mean the reworded loader broke ADR-D-0008 behavior, in which case the sentence is restored and ADR-D-0017 records the finding.

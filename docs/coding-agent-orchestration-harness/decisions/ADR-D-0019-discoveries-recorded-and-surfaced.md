@@ -16,7 +16,7 @@ supersession_scope: null
 depends_on: ["ADR-D-0018-evidence-tiers-for-removing-harness-content.md"]
 ---
 
-# ADR-D-0020: Discoveries are recorded and surfaced; three cases pause
+# ADR-D-0019: Discoveries are recorded and surfaced; three cases pause
 
 ## Context and Problem Statement
 
@@ -24,7 +24,7 @@ Replan triggers and the drift tripwire paused for user confirmation on every mat
 
 ## Decision
 
-A material discovery is written into the plan record and surfaced at the next report or integration point. Confirmation is required only for a contract-shape change, an irreversible or outward-facing action, or a fix whose only path inside the Worker's scope is a workaround. Because Claude Fable 5.1 and GPT-6 Astra do not volunteer the cleaner alternative, the tripwire covers shared types and boundaries outside the Worker's scope that the plan could change on request.
+A material discovery is written into the plan record and surfaced at the next report or integration point. Confirmation is required only for a contract-shape change, an irreversible or outward-facing action, or a fix whose only path inside the Worker's scope is a workaround.
 
 ## Why
 
@@ -38,11 +38,11 @@ Surfacing is what protects the plan; the pause only protected against models tha
 
 Invariant: a pause mandate exists only for the three cases above; surfacing of scope and contract impact stays an obligation in Worker and Orchestrator text.
 
-Not covered: the tripwire's exact conditions and what counts as material; those live in skill text.
+Not covered: the tripwire's exact conditions (including that it reaches shared types and boundaries outside the Worker's scope, because Claude Fable 5.1 and GPT-6 Astra do not volunteer the cleaner alternative) and what counts as material; those live in skill text.
 
 ## Validation
 
-Replan Triggers in `orchestration-harness/SKILL.md` and Drift Tripwires in `engineering-quality-baselines/SKILL.md` name the three cases and the outside-scope boundary condition.
+Replan Triggers in `orchestration-harness/SKILL.md` and Drift Tripwires in `engineering-quality-baselines/SKILL.md` name the three cases.
 
 ## Revisit When
 
