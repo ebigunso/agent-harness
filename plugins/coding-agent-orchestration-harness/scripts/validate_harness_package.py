@@ -280,6 +280,8 @@ def check_operational_routing_surfaces(errors: list[str]) -> None:
 
     if not packet.exists():
         fail(errors, f"missing reviewer packet template: {packet}")
+    elif "review-latent-risk.md" not in packet.read_text(encoding="utf-8"):
+        fail(errors, f"{packet}: latent-risk routing hint must name review-latent-risk.md")
 
     if not snippets.exists():
         fail(errors, f"missing prompt snippets reference: {snippets}")
