@@ -15,7 +15,7 @@
 - Every Worker adapter (Copilot, Claude, Codex) carries the boundary-crossing-surface rule in its always-loaded body.
 - The Codex `AGENTS.md` loader no longer claims to be "explicit user direction".
 - Redundant references listed in Task_3 are deleted with every pointer updated; plugin validators and smoke tests pass.
-- ADR-D-0017 (instruction authority and orchestrator reading) and ADR-I-0006 (redundancy removals with probe evidence; replaced at closeout by ADR-D-0018, see Decision Log) are accepted.
+- The decision records are accepted. As landed after the 2026-09-06 ADR review rounds (see Decision Log): ADR-D-0017 (harness text holds no user authority), ADR-D-0018 (discoveries recorded and surfaced), ADR-D-0019 (remove harness content only with class-matched evidence), ADR-D-0020 (loader-routed sessions assume the Orchestrator role), ADR-D-0021 (Orchestrator owns the async subagent lifecycle); ADR-D-0015 and ADR-D-0008 retired.
 - Wave 3 probes confirm: harness-on Codex Worker surfaces a public-contract change in `questions_for_orchestrator` without editing outside `owns`; the reworded loader lets a peer-channel instruction narrow harness use; the harness still dispatches subagents on Codex when the gates require it.
 
 ## Scope / Non-goals
@@ -175,7 +175,7 @@
     owner: orchestrator
     detail: "From repository root: git diff --check"
 
-### Task_5: ADR-I-0006 redundancy removals and probe evidence
+### Task_5: Removal record and probe evidence (the record as landed is ADR-D-0019; see Decision Log)
 - type: docs
 - owns:
   - docs/coding-agent-orchestration-harness/decisions/ADR-I-0006-remove-redundant-references-frontier-fleet.md
@@ -245,7 +245,7 @@ Interpretation:
 ## Rollback / Safety
 - All changes are on a feature branch (`feature/2026-09-06/frontier-model-guidance-refresh`); revert by dropping the branch.
 - No user-scope installs; Task_6 installs only into a scratch repository.
-- Deleted references stay recoverable from git history; the experiment README removal ledger and ADR-D-0018 name the commits.
+- Deleted references stay recoverable from git history; the experiment README removal ledger and ADR-D-0019 name the commits.
 
 ## Progress Log (append-only)
 

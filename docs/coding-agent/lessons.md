@@ -565,7 +565,7 @@ Evidence:
 ## 2026-09-06 - ADRs Drifted Into Removal Ledgers Despite The Warrant Standard  [tags: documentation, skill-maintenance, review, correction]
 
 Context:
-- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md`, Tasks 4 and 5 (ADR-D-0017, ADR-I-0006).
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md`, Tasks 4 and 5 (the first ADR-D-0017 and a removal-ledger record, both since replaced; see that plan's Decision Log).
 - Roles involved: Orchestrator (author), Codex Reviewer
 
 Symptom:
