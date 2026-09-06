@@ -349,6 +349,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): ADR-D-0015 and ADR-D-0008 restored to their original text, marked superseded, and moved to decisions/superseded/; ADR-D-0020 (class-matched removal evidence) replaces ADR-D-0015 in full; ADR-D-0008 is split into ADR-D-0017 (loader authority), ADR-D-0021 (loader-routed sessions assume the Orchestrator role), and ADR-D-0022 (Orchestrator owns the async subagent lifecycle). Inbound paths updated, including the implements fields of ADR-I-0004 and ADR-I-0005.
   - Tradeoffs considered: more files and ID churn, accepted for immutable history and one-file readability.
   - User approval: yes (2026-09-06).
+- 2026-09-06 Decision: ADRs accepted by the user as standalone decisions.
+  - Trigger / new insight: user ruling that plan approval and PR merge do not accept an ADR; each record is presented on its own (title, decision, constraint, why) and accepted explicitly.
+  - Plan delta (what changed): none to tasks. Presented and accepted: ADR-D-0017 (harness text never claims user authority), ADR-D-0019 (discoveries recorded and surfaced; three pause cases), ADR-D-0020 (remove harness content only with class-matched evidence), ADR-D-0021 (loader-routed sessions assume the Orchestrator role), ADR-D-0022 (Orchestrator owns the async subagent lifecycle); retirements of ADR-D-0015 and ADR-D-0008 accepted.
+  - Tradeoffs considered: none.
+  - User approval: yes, "All accepted" (2026-09-06).
 
 ## Notes
 - Risks: adapter three-copy drift (mitigated by the sync checklist and Task_1 hashes); a deletion that a repo-local rule suite elsewhere points to (mitigated by the migrate stance and `--check` staleness); Task_6 cell (d) failing would mean the reworded loader broke ADR-D-0008 behavior, in which case the sentence is restored and ADR-D-0017 records the finding.
