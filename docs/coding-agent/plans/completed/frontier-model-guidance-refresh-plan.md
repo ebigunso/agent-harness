@@ -15,7 +15,7 @@
 - Every Worker adapter (Copilot, Claude, Codex) carries the boundary-crossing-surface rule in its always-loaded body.
 - The Codex `AGENTS.md` loader no longer claims to be "explicit user direction".
 - Redundant references listed in Task_3 are deleted with every pointer updated; plugin validators and smoke tests pass.
-- ADR-D-0017 (instruction authority and orchestrator reading) and ADR-I-0006 (redundancy removals with probe evidence) are accepted.
+- ADR-D-0017 (instruction authority and orchestrator reading) and ADR-I-0006 (redundancy removals with probe evidence; replaced at closeout by ADR-D-0018, see Decision Log) are accepted.
 - Wave 3 probes confirm: harness-on Codex Worker surfaces a public-contract change in `questions_for_orchestrator` without editing outside `owns`; the reworded loader lets a peer-channel instruction narrow harness use; the harness still dispatches subagents on Codex when the gates require it.
 
 ## Scope / Non-goals
@@ -245,7 +245,7 @@ Interpretation:
 ## Rollback / Safety
 - All changes are on a feature branch (`feature/2026-09-06/frontier-model-guidance-refresh`); revert by dropping the branch.
 - No user-scope installs; Task_6 installs only into a scratch repository.
-- Deleted references stay recoverable from git history; ADR-I-0006 names the commit.
+- Deleted references stay recoverable from git history; the experiment README removal ledger and ADR-D-0018 name the commits.
 
 ## Progress Log (append-only)
 
@@ -329,6 +329,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): the trip condition in engineering-quality-baselines/SKILL.md now also covers a type, schema, boundary, or constraint outside owns that the plan could change on request; scratch copy synced; cell (b) rerun once. If it still fails, the result is recorded as residual risk in ADR-I-0006 and surfaced at closeout rather than the criterion being relaxed.
   - Tradeoffs considered: relaxing the cell (b) criterion was rejected per the Reviewer's lesson candidate (diagnose before relaxing).
   - User approval: no (coordination tier).
+- 2026-09-06 Decision: ADR-I-0006 replaced by ADR-D-0018 after user review of the ADR set.
+  - Trigger / new insight: user lens: ADRs carry high-impact decisions and their constraints forward; a removal ledger is history that git and the experiment records already hold. The one durable decision inside ADR-I-0006 was a boundary ruling on ADR-D-0015 (redundancy needs a consumer check, guidance needs ablation, guards need pure-baseline probes; no per-removal ADRs).
+  - Plan delta (what changed): ADR-I-0006 deleted; ADR-D-0018 written as a design record partially superseding ADR-D-0015; the removal table moved to the experiment README; ADR-D-0017 tightened to constraints-first and now depends on ADR-D-0018. Definition of Done bullet 7 is read as satisfied by ADR-D-0017 plus ADR-D-0018.
+  - Tradeoffs considered: keeping ADR-I-0006 alongside a new design ADR would leave two records for one decision.
+  - User approval: yes (direction given 2026-09-06; wording drafted by the Orchestrator).
 
 ## Notes
 - Risks: adapter three-copy drift (mitigated by the sync checklist and Task_1 hashes); a deletion that a repo-local rule suite elsewhere points to (mitigated by the migrate stance and `--check` staleness); Task_6 cell (d) failing would mean the reworded loader broke ADR-D-0008 behavior, in which case the sentence is restored and ADR-D-0017 records the finding.
