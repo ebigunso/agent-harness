@@ -9,17 +9,22 @@ ROOT="$(cd "${1:?usage: run_baseline.sh <experiment-root>}" && pwd)" || exit 2
 CODEX_DIR="${CODEX_HOME:-$HOME/.codex}"
 LOADER="$CODEX_DIR/AGENTS.md"; BACKUP="$CODEX_DIR/AGENTS.md.probe-aside"
 if [ -e "$BACKUP" ]; then echo "refusing to run: $BACKUP already exists (a previous run did not restore?)" >&2; exit 2; fi
+hash_file() {
+  if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | cut -c1-64
+  elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | cut -c1-64
+  else return 1; fi
+}
 moved=0; before=""; rc=0
 if [ -f "$LOADER" ]; then
-  before=$(sha256sum "$LOADER" | cut -c1-64)
+  before=$(hash_file "$LOADER") && [ -n "$before" ] || { echo "cannot hash $LOADER (sha256sum/shasum missing or failed); aborting" >&2; exit 2; }
   mv "$LOADER" "$BACKUP" || { echo "could not move $LOADER aside; aborting" >&2; exit 2; }
   moved=1; echo "AGENTS.md moved aside (sha256 $before)"
 fi
 restore() {
   [ "$moved" -eq 1 ] || return 0
   mv -f "$BACKUP" "$LOADER" || { echo "RESTORE FAILED: $BACKUP -> $LOADER" >&2; rc=4; return; }
-  after=$(sha256sum "$LOADER" | cut -c1-64)
-  if [ "$after" = "$before" ]; then echo "AGENTS.md restored (sha256 match)"; else echo "RESTORE HASH MISMATCH: before=$before after=$after" >&2; rc=4; fi
+  after=$(hash_file "$LOADER") || after=""
+  if [ -n "$after" ] && [ "$after" = "$before" ]; then echo "AGENTS.md restored (sha256 match)"; else echo "RESTORE HASH MISMATCH: before=$before after=$after" >&2; rc=4; fi
   moved=0
 }
 on_exit() { st=$?; restore; if [ "$rc" -eq 4 ]; then exit 4; fi; if [ "$st" -ne 0 ]; then exit "$st"; fi; exit "$rc"; }

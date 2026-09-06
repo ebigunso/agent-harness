@@ -4,6 +4,7 @@ Use these checklists to prevent vague or over-broad subagent prompts.
 
 ## Researcher dispatch checklist
 Include:
+- Objective (one per invocation; split otherwise)
 - Scope (what area/modules to inspect; what to ignore)
 - Required deliverables (which sections must be filled)
 - Sources to consult (repo rules + reference docs paths)
