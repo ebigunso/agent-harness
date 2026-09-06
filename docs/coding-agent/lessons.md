@@ -561,3 +561,30 @@ Prevention:
 
 Evidence:
 - Codex Reviewer Task_5 findings 2026-09-06 13:26 and 13:47; runner commits a8fc57a78d6c and 4ace1fdf5eab.
+
+## 2026-09-06 - ADRs Drifted Into Removal Ledgers Despite The Warrant Standard  [tags: documentation, skill-maintenance, review, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md`, Tasks 4 and 5 (ADR-D-0017, ADR-I-0006).
+- Roles involved: Orchestrator (author), Codex Reviewer
+
+Symptom:
+- ADR-I-0006 was a per-file deletion table with a warrant written around it; ADR-D-0017 mirrored skill wording. The user found both failed the lens: ADRs carry high-impact decisions and their constraints forward, not history.
+
+Root cause (preliminary):
+- An older ADR (ADR-D-0015) directed "an implementation ADR per removal", and two precedents (ADR-I-0004, ADR-I-0005) had that shape; the directive and the precedent outranked the warrant test in practice.
+- The plan pre-committed the ADRs as task deliverables with ledger-shaped acceptance, so review checked plan compliance, not the standard.
+- The template's Implementation Impact and Measurement Basis sections invited inventories; a filled template read as complete.
+- The adr.md collaboration flow (state signal, title, and mishandling scenario in conversation before drafting) was skipped; the ADRs were written at closeout as summaries.
+- Reviewer packets asked for "warrant and structure", which the reviewer verified as field presence.
+
+Fix applied:
+- ADR-I-0006 replaced by ADR-D-0018 (evidence classes); ADR-D-0017 rewritten constraints-first; ledger moved to the experiment README.
+
+Prevention (preliminary, pending the next round):
+- A directive inside an ADR or a precedent's shape does not bypass the warrant test; run the test on every proposed record.
+- Plans propose an ADR only after the warrant is stated in the Decision Log; a task may "propose an ADR if warranted", never "write ADR-X".
+- Reviewer packets for ADRs ask decision-density questions, not field presence.
+
+Evidence:
+- User correction 2026-09-06; ADR review rounds 2026-09-06 18:05 to 18:08.

@@ -57,6 +57,7 @@ Deliverables:
 
 Rules:
 - Use the selected browser automation provider for browser automation.
+- Localhost/127.0.0.1 only unless explicitly configured.
 
 ## Reviewer snippet (plan review)
 
