@@ -38,4 +38,4 @@ Include only when applicable.
 
 ## Latent-Risk Routing Hints
 
-Name applicable latent-risk categories and why.
+Name applicable latent-risk categories and why; the Reviewer routes each through `engineering-quality-baselines/references/review-latent-risk.md`.
