@@ -36,7 +36,7 @@ for X in A B C D; do
   rm -rf "$ROOT/work/$X" && cp -r "$ROOT/fixtures/$X" "$ROOT/work/$X" || { echo "fixture reset failed for $X" >&2; rc=3; continue; }
   PROMPT="$ROOT/prompts/$X.txt"; OUT="$ROOT/work/out$X.txt"
   [ -f "$PROMPT" ] || { echo "missing prompt $PROMPT" >&2; rc=3; continue; }
-  ( cd "$ROOT/work/$X" && "$TIMEOUT_BIN" 900 codex exec --ephemeral --disable plugins --disable hooks -c project_doc_max_bytes=0 --skip-git-repo-check -s workspace-write "$(cat "$PROMPT")" < /dev/null > "$OUT" 2>&1 ) &
+  ( cd "$ROOT/work/$X" && "$TIMEOUT_BIN" 900 codex exec --ephemeral --disable plugins --disable hooks -c project_doc_max_bytes=0 --skip-git-repo-check -s workspace-write - < "$PROMPT" > "$OUT" 2>&1 ) &
   pids+=($!); names+=("$X")
 done
 for i in "${!pids[@]}"; do
