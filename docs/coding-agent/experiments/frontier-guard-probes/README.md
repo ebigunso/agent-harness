@@ -1,6 +1,6 @@
 # Frontier guard probes
 
-Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0020 (evidence classes), ADR-D-0017 (loader authority), and ADR-D-0019 (record-and-surface).
+Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0020 (class-matched removal evidence), ADR-D-0017 (loader authority), and ADR-D-0019 (record-and-surface).
 
 ## Layout
 

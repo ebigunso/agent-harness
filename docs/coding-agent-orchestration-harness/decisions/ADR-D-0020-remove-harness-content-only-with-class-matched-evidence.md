@@ -15,7 +15,7 @@ superseded_by: null
 supersession_scope: full
 ---
 
-# ADR-D-0020: Evidence classes for removing harness content
+# ADR-D-0020: Remove harness content only with evidence matched to what it protects
 
 ## Context and Problem Statement
 
@@ -23,7 +23,7 @@ The harness ships content written to compensate for the limits of the models in 
 
 ## Decision
 
-Content is classified by what it protects, and each class carries its own evidence obligation before removal or relaxation:
+Harness content is removed or relaxed only with evidence matched to what the content protects. Content is classified into three classes, and each class carries its own evidence obligation:
 
 - **Redundancy** (a mirror of a tool's own help, a worked example that restates its template, a second copy of a canonical statement, an artifact with no consumer): a consumer check, and for a canonical statement the surviving copy named. No ablation.
 - **Guidance** (content that teaches a practice or an idiom): removal only on demonstrated obsolescence, shown by an ablation with a pre-registered decision rule in which the content produces no measurable lift on its own subject matter. Intuition does not count. A demonstrated salience-only lift (the full text and a compressed text help equally) permits compression instead of removal.

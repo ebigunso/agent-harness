@@ -11,7 +11,7 @@ warrant:
   cost_of_violation: "guidance keeps accreting without an obsolescence path; every review-shaped task pays growing context cost for zero lift, and the harness drifts toward being tuned for models no longer in use"
   cost_of_over_extension: "deleting guidance on intuition alone, or treating output contracts, repository-specific policy, and evidence requirements as 'guidance' — those encode agreements between agents and reviewers, not model knowledge, and no capability level makes them redundant"
 supersedes: []
-superseded_by: ADR-D-0020-evidence-classes-for-removing-harness-content.md
+superseded_by: ADR-D-0020-remove-harness-content-only-with-class-matched-evidence.md
 supersession_scope: full
 ---
 
