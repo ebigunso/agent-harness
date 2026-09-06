@@ -3,67 +3,65 @@ status: accepted
 adr_type: design
 date: 2026-08-29
 deciders: ["ebigunso"]
-consulted: ["Claude Fable 5"]
+consulted: ["Claude Fable 5", "Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 warrant:
-  warranted_by: "without this record, future work would likely treat shipped guidance documents as permanent fixtures, accumulating context-token cost and maintenance surface for content that newer models already carry natively"
-  detected_signals: "a decider's ruling setting a durable governance default; premises likely to expire (model capability advances continuously, and each fleet change re-poses the question)"
-  cost_of_violation: "guidance keeps accreting without an obsolescence path; every review-shaped task pays growing context cost for zero lift, and the harness drifts toward being tuned for models no longer in use"
-  cost_of_over_extension: "deleting guidance on intuition alone, or treating output contracts, repository-specific policy, and evidence requirements as 'guidance' — those encode agreements between agents and reviewers, not model knowledge, and no capability level makes them redundant"
+  warranted_by: "without this record, future work would likely treat shipped guidance as permanent, demand an ablation to delete a tool-help mirror, or relax an incident-backed guard on intuition; the three classes look alike in a diff and the evidence each needs is not derivable from the content"
+  detected_signals: "evidence-ownership shape (what proof unlocks which removal); rejected alternatives likely to be re-proposed; a decider's ruling setting a durable governance default; premises tied to the models in use, named in Revisit When"
+  cost_of_violation: "guidance accretes at per-task token cost, or an under-evidenced guard relaxation fails silently: the model keeps looking careful while a drifted behavior returns"
+  cost_of_over_extension: "treating a contract, schema, evidence requirement, or consent gate as removable content because it is restated somewhere; those are deduplicated to one copy and never removed"
 supersedes: []
-superseded_by: ADR-D-0018-evidence-tiers-for-removing-harness-content.md
-supersession_scope: partial   # the per-removal implementation-ADR clause and the single evidence rule; the ablation requirement for guidance stands
+superseded_by: null
+supersession_scope: null
 ---
 
 # ADR-D-0015: Remove obsolete guidance as models improve
 
 ## Context and Problem Statement
 
-The harness ships guidance documents (idiom baselines, checklists, routing rules) written to compensate for the capability limits of the models in use at authoring time. Model capability advances; guidance does not expire on its own. Content a current model already applies natively costs context tokens in every task that loads it, competes for attention with the change under review, and adds maintenance surface — while its presence keeps signaling that it is needed. The harness needs a standing decision on what to do with guidance that capability growth has made redundant, and on when to check.
-
-## Decision Drivers
-
-- Context budget and attention are per-task costs paid by every loaded document, justified only by measurable behavior change.
-- Guidance quality claims should rest on evidence against the actual fleet, not on intuition in either direction.
-- The fleet changes over time in both directions (stronger defaults, cheaper weak tiers), so obsolescence is not a one-time question.
+The harness ships content written to compensate for the limits of the models in use when it was written. Model capability moves; content does not expire on its own, and every loaded document costs tokens and attention on every task. Content is not one class: some duplicates text that lives elsewhere, some teaches a practice, some pins a behavior that has drifted before. One removal rule for all three either blocks trivial deletions behind experiments or lets guards go on intuition, and guards are where intuition fails silently.
 
 ## Decision
 
-When guidance is demonstrated obsolete for the current daily-use model fleet, remove it rather than keep, compress, or replace it. Obsolescence is demonstrated by ablation evidence — the guidance shows no measurable behavior lift on its own subject matter with the guidance absent — not by intuition. Preferably run this obsolescence check whenever a model used daily is replaced by a better alternative; a fleet change in the weaker direction instead reopens previously removed guidance (see Revisit When). Each concrete removal is recorded as an implementation ADR citing its evidence.
+Content is classified by what it protects, and each class carries its own evidence obligation before removal or relaxation:
 
-## Considered Options
+- **Redundancy** (a mirror of a tool's own help, a worked example that restates its template, a second copy of a canonical statement, an artifact with no consumer): a consumer check, and for a canonical statement the surviving copy named. No ablation.
+- **Guidance** (content that teaches a practice or an idiom): removal only on demonstrated obsolescence, shown by an ablation with a pre-registered decision rule in which the content produces no measurable lift on its own subject matter. Intuition does not count. A demonstrated salience-only lift (the full text and a compressed text help equally) permits compression instead of removal.
+- **Guard** (content traced to an incident, a promotion record, or an ADR, or encoding consent or coordination): before any relaxation, a behavior probe with the guard absent on a baseline that reports loaded instructions as "none", and the same probe with the modified harness loaded. A guard whose probe shows the behavior is native may be relaxed to record-and-surface; one whose probe shows it is not native stays.
 
-1. Keep guidance indefinitely once shipped; rely on progressive-disclosure routing to bound its cost.
-2. Compress aging guidance to short checklists instead of removing it.
-3. Remove guidance when ablation shows no lift on the current fleet, rechecking on fleet upgrades.
+Obligations accumulate; mixed content is separated first, and where it cannot be, both apply. Consent gates, output contracts, schemas, and evidence requirements are never removable; they are deduplicated to one copy. Removal ledgers live with the experiment records and the closing plan; removal itself never warrants an ADR.
 
-## Decision Outcome
+## Why
 
-Chosen option: **Remove on demonstrated obsolescence, recheck on fleet upgrades**. Routing (option 1) still pays the routing overhead itself and keeps the maintenance surface. Compression (option 2) presumes a salience gap that must itself be demonstrated; where an ablation control arm shows no gap, a compressed doc has nothing to fix. The first application (ADR-I-0004) tested both alternatives directly and both showed zero lift.
+A duplicate protects nothing worth measuring. An ablation measures review lift and a probe measures behavior; neither substitutes for the other. A baseline with any skill loaded is not a baseline: one unrelated skill in context changed a probe's outcome on 2026-09-06.
 
-### Rejected Alternatives
+## Rejected Alternatives
 
-Keeping guidance "just in case" is rejected because the cost is paid on every task while the benefit is hypothetical; the reopening path in Revisit When is the safety valve that makes removal reversible. Compression is rejected as a default but remains available where an ablation actually shows salience-only lift (guide helps, compressed version helps equally).
-
-## Consequences
-
-- Positive: the harness tracks the capability of the fleet it actually runs on; context budget concentrates on documents that change behavior.
-- Negative / tradeoffs: each check costs an ablation run; removed guidance leaves no compensation in place if a weaker model quietly enters daily use before anyone reruns the check.
+- Keep guidance indefinitely and bound its cost by routing: routing pays its own overhead and keeps the maintenance surface.
+- Compress aging guidance by default: presumes a salience gap that must itself be demonstrated; the 2026-08-29 ablation showed a control arm with no gap to fill.
+- One rule for everything, ablation first: spends an experiment on a help mirror and says nothing about guards.
+- Judgment plus reviewer check for guards: two guard relaxations were proposed this way on 2026-09-06 and both were wrong on probe.
+- Highest class wins on dispute: the proofs measure different things; a disputed class adds its obligation.
+- One implementation ADR per removal: history without a constraint; git and the experiment records hold the same facts. Reopens only if removal records prove unfindable.
 
 ## Decision Boundary
 
-Invariant: guidance removal under this ADR requires ablation evidence against the current daily fleet; removal on intuition alone is not covered by this decision. Reintroducing removed guidance likewise requires new evidence.
+Invariant: no guidance removed without ablation; no guard relaxed without both probes; obligations accumulate on mixed content; consent gates, contracts, schemas, and evidence requirements are never removed; reintroducing removed content needs new evidence of the same class.
 
-Not covered: output contracts, report schemas, repository-specific policy, and evidence requirements — these encode agreements between agents, reviewers, and tooling rather than model knowledge, and are not "guidance" in this ADR's sense. Also not covered: the specific ablation methodology, which each implementation ADR documents for its own check.
+Not covered: fixtures, thresholds, what counts as a consumer check, and the wording of retained content; those live in experiment records and skill text.
 
 ## Validation
 
-Each removal lands as an implementation ADR citing its evidence and preserving the experiment protocol in git history so the check is rerunnable. Reviews of guidance-removal PRs verify the evidence exists and the removal scope matches it.
+A removal PR names the class per file and links the evidence that class requires; a guard relaxation PR links both probe cells; the experiment protocol stays in git history so a check is rerunnable.
 
 ## Revisit When
 
-A model used daily is replaced or a new tier is added. Better alternative: run the obsolescence check across shipped guidance. Weaker or unknown alternative: rerun the archived checks for previously removed guidance before assuming the removals still hold.
+Guidance ablations were run on 2026-08-29 against Claude Fable 5, GPT-5.6 Sol, and GPT-5.6 Luna, and guard probes on 2026-09-06 against Claude Fable 5.1 and GPT-6 Astra. Replacing any of those models with another: rerun the guard probes before keeping any relaxation, and rerun the archived ablations before keeping any guidance removal. A removal that should have been guarded shows up as a real-task miss: reclassify and restore it as a guard.
 
 ## More Information
 
-First implementation: ADR-I-0004 (per-language baseline references).
+Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004, ADR-I-0005); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/`. Guard relaxations made under the guard class: ADR-D-0019.
+
+## Revisions
+
+- 2026-09-06, ebigunso (consulted Claude Fable 5.1, GPT-6 Astra): replaced the single ablation rule with three evidence classes, added the accumulation and never-removable rules, and dropped the per-removal implementation-ADR clause; ledgers now live with experiment records. Reason: one rule blocked trivial deletions and let guard relaxations pass on intuition.

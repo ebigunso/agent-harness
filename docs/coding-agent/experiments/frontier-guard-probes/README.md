@@ -1,6 +1,6 @@
 # Frontier guard probes
 
-Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0018 (evidence classes), ADR-D-0017 (loader authority), and ADR-D-0019 (record-and-surface).
+Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0015 (evidence classes, revised 2026-09-06), ADR-D-0017 (loader authority), and ADR-D-0019 (record-and-surface).
 
 ## Layout
 
@@ -49,7 +49,7 @@ Exit codes: 0 all probes ran and the loader was restored with a matching hash; 2
 
 Compare `work/out*.txt` against `results-2026-09.md`. One run per cell is enough to refute "the model does this unprompted"; it is not enough to certify removal of a guard with incident history.
 
-## Removal ledger, 2026-09 (ADR-D-0018 tier 1)
+## Removal ledger, PR #57, 2026-09-06 (ADR-D-0015 redundancy class)
 
 Deleted or trimmed in PR #57, each classified as duplicate (D), tool-help mirror (M), or consumer-less (C), with the check used:
 
@@ -68,4 +68,4 @@ Deleted or trimmed in PR #57, each classified as duplicate (D), tool-help mirror
 | `dispatch-checklists.md` bullet caps and tooling lines; `prompt-snippets.md` tooling lines | D | prompt shaping the fleet does not need |
 | Package validator micro-checklist block and four-filename loop | C | consumers of the deleted content |
 
-Guards probed under tier 3 and kept: workaround tripwire and design alert, inline-poll ban, smallest-diff escape hatch, boundary-crossing surface routing, status contract. Out of scope, needing tier 2 ablation: the latent-risk family, `core-principles.md` principles 2-10, `architecture-gates.md`, the troubleshooting runbooks.
+Guards probed under the guard class and kept: workaround tripwire and design alert, inline-poll ban, smallest-diff escape hatch, boundary-crossing surface routing, status contract. Out of scope, needing guidance-class ablation: the latent-risk family, `core-principles.md` principles 2-10, `architecture-gates.md`, the troubleshooting runbooks.

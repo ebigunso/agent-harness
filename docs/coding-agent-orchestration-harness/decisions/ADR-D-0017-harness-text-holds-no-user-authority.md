@@ -10,9 +10,9 @@ warrant:
   detected_signals: "cross-boundary authority shape; rejected alternative likely to be re-proposed; premises tied to Claude Fable 5.1 and GPT-6 Astra as checked on 2026-09-06"
   cost_of_violation: "silent: harness text that claims user authority outranks every Orchestrator-to-subagent instruction on a model that ranks the user above skills, and the failure looks like caution"
   cost_of_over_extension: "reading this as permission to drop the plan-approval gate or any other consent contract; those are not authority claims"
-supersedes: ["ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle.md"]
+supersedes: []
 superseded_by: null
-supersession_scope: partial
+supersession_scope: null
 ---
 
 # ADR-D-0017: Harness text holds no user authority
@@ -23,7 +23,7 @@ The Codex loader block declared that using it was "explicit user direction" to f
 
 ## Decision
 
-Loader and adapter text never presents itself as the user's instruction. The loader states that the user installed the harness and that it is followed for coding tasks unless the user's conversation says otherwise. An instruction from below the user is weighed as such. This supersedes the ADR-D-0008 clause that made loader use "explicit user direction"; the rest of ADR-D-0008 stands.
+Loader and adapter text never presents itself as the user's instruction. The loader states that the user installed the harness and that it is followed for coding tasks unless the user's conversation says otherwise. An instruction from below the user is weighed as such. ADR-D-0008 was revised on 2026-09-06 to remove the clause that made loader use "explicit user direction".
 
 ## Why
 

@@ -339,6 +339,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): ADR-D-0017 keeps the loader authority decision; the reading rationale moved into the Research Dispatch Gate line; record-and-surface is ADR-D-0019 with the tripwire mechanism moved under Not covered; no record numbered 0020 exists.
   - Tradeoffs considered: keeping a record for the reading rule would have preserved history at the cost of a record no one could act on.
   - User approval: yes (2026-09-06).
+- 2026-09-06 Decision: ADR-D-0018 folded into ADR-D-0015 as an in-place revision; ADR-D-0008 revised in place.
+  - Trigger / new insight: user ruling that ADRs are revised in place with a dated revision note, and supersession is reserved for reversal; an incremental record forces readers to hold two files.
+  - Plan delta (what changed): ADR-D-0015 carries the evidence classes and a Revisions note; ADR-D-0018 deleted; ADR-D-0008 loses its authority clause with a Revisions note pointing at ADR-D-0017; ADR-D-0017 and ADR-D-0019 frontmatter updated. The branch adds two design records (ADR-D-0017, ADR-D-0019) and revises two (ADR-D-0008, ADR-D-0015).
+  - Tradeoffs considered: partial supersession kept both files authoritative and was rejected as the worst of both models.
+  - User approval: yes (2026-09-06).
 
 ## Notes
 - Risks: adapter three-copy drift (mitigated by the sync checklist and Task_1 hashes); a deletion that a repo-local rule suite elsewhere points to (mitigated by the migrate stance and `--check` staleness); Task_6 cell (d) failing would mean the reworded loader broke ADR-D-0008 behavior, in which case the sentence is restored and ADR-D-0017 records the finding.
