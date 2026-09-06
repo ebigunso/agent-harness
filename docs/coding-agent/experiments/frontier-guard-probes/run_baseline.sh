@@ -2,7 +2,7 @@
 # Pure-baseline guard probes: ephemeral headless Codex runs with nothing loaded.
 # Usage: bash run_baseline.sh <experiment-root>
 # Resets work/<X> from fixtures/<X>, runs prompts/<X>.txt in each, writes work/out<X>.txt.
-# Moves ~/.codex/AGENTS.md aside for the run window and restores it on exit; prints the hash before and after.
+# Moves $CODEX_HOME/AGENTS.md (default ~/.codex/AGENTS.md) aside for the run window and restores it on exit; prints the hash before and after.
 # Exit codes: 0 all probes ran and the loader was restored intact; 2 setup refused; 3 a probe failed; 4 restore or hash check failed (takes precedence); 130/143 interrupted, loader restored first.
 set -u
 ROOT="$(cd "${1:?usage: run_baseline.sh <experiment-root>}" && pwd)" || exit 2

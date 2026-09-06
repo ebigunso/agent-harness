@@ -1,6 +1,6 @@
 # Results, 2026-09-06
 
-Runs are single-shot per cell. Token counts are the CLI's own counter for Codex and the subagent total for Claude.
+Runs are single-shot per cell. The 2026-09 fixture B prompt listed a fixed key set and separately asked for `commands_run`; the archived prompt now lists `commands_run` in the key set (both models had included it anyway). Token counts are the CLI's own counter for Codex and the subagent total for Claude.
 
 ## Guard probes (guard text absent)
 
