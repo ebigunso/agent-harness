@@ -40,7 +40,6 @@ This skill standardizes how the Orchestrator uses subagents to:
 
 - Context / Rationale:
   - Include ONLY if it materially steers decisions (constraints, tradeoffs, risk, why scope is bounded).
-  - Keep it to 2–5 bullets.
   - For deeper background, reference file paths (plan/rules/docs) instead of pasting narrative.
 
 5) Consolidate results deterministically
