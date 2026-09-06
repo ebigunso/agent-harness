@@ -87,7 +87,7 @@ Notes:
 
 ## Design alerts (convention, not a schema field)
 
-A design alert is a structured `blockers` or `questions_for_orchestrator` entry raised when a type, schema, boundary, or constraint the task cannot change itself (inside or outside `owns`, but changeable by the plan) would give a cleaner fix than any available inside `owns`. The entry states three things: the boundary, the cleaner alternative, and the cost delta between them. If a fix that is not a workaround exists inside `owns`, take it and raise the alert under `questions_for_orchestrator`; if the only fix inside `owns` is a workaround, raise it under `blockers` and await an Orchestrator ruling.
+A design alert is a structured `blockers` or `questions_for_orchestrator` entry raised when a cleaner fix would need a change the task is not authorized to make on its own: a shared type, schema, boundary, or constraint, whether it sits outside `owns` or inside `owns` as a contract other code depends on, that the plan could change on request. The entry states three things: the boundary, the cleaner alternative, and the cost delta between them. If a fix that is not a workaround exists inside `owns`, take it and raise the alert under `questions_for_orchestrator`; if the only fix inside `owns` is a workaround, raise it under `blockers` and await an Orchestrator ruling.
 
 ---
 
