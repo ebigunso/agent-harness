@@ -346,7 +346,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - User approval: yes (2026-09-06).
 - 2026-09-06 Decision: ADRs are immutable; changed decisions retire the old record and write a complete new one.
   - Trigger / new insight: user ruling that in-place revision carries too much procedure and risks silently rewriting the record of why a decision landed; the earlier revision allowance is withdrawn and partial supersession is abolished.
-  - Plan delta (what changed): ADR-D-0015 and ADR-D-0008 restored to their original text, marked superseded, and moved to decisions/superseded/; ADR-D-0020 (evidence classes) replaces ADR-D-0015 in full; ADR-D-0008 is split into ADR-D-0017 (loader authority), ADR-D-0021 (loader-routed sessions assume the Orchestrator role), and ADR-D-0022 (Orchestrator owns the async subagent lifecycle). Inbound paths updated, including the implements fields of ADR-I-0004 and ADR-I-0005.
+  - Plan delta (what changed): ADR-D-0015 and ADR-D-0008 restored to their original text, marked superseded, and moved to decisions/superseded/; ADR-D-0020 (class-matched removal evidence) replaces ADR-D-0015 in full; ADR-D-0008 is split into ADR-D-0017 (loader authority), ADR-D-0021 (loader-routed sessions assume the Orchestrator role), and ADR-D-0022 (Orchestrator owns the async subagent lifecycle). Inbound paths updated, including the implements fields of ADR-I-0004 and ADR-I-0005.
   - Tradeoffs considered: more files and ID churn, accepted for immutable history and one-file readability.
   - User approval: yes (2026-09-06).
 
