@@ -54,7 +54,7 @@ A removal PR names the class per file and links the evidence that class requires
 
 ## Revisit When
 
-Checked 2026-09 against Claude Fable 5.1 and GPT-6 Astra. A change in the daily-use fleet: rerun the guard probes before keeping any relaxation. A removal that should have been guarded shows up as a real-task miss: reclassify and restore it as a guard.
+Checked on 2026-09-06 against Claude Fable 5.1 and GPT-6 Astra. Replacing either model with another: rerun the guard probes before keeping any relaxation. A removal that should have been guarded shows up as a real-task miss: reclassify and restore it as a guard.
 
 ## More Information
 
