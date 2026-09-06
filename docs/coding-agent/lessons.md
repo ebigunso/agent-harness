@@ -579,7 +579,7 @@ Root cause (preliminary):
 - Reviewer packets asked for "warrant and structure", which the reviewer verified as field presence.
 
 Fix applied:
-- ADR-I-0006 replaced by ADR-D-0018 (evidence classes); ADR-D-0017 rewritten constraints-first; ledger moved to the experiment README.
+- ADR-I-0006 replaced by an evidence-classes design record (ADR-D-0019 after the 2026-09-06 renumbering); ADR-D-0017 rewritten constraints-first; ledger moved to the experiment README.
 
 Prevention (preliminary, pending the next round):
 - A directive inside an ADR or a precedent's shape does not bypass the warrant test; run the test on every proposed record.
