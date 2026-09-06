@@ -27,7 +27,7 @@ Two further boundaries: records shape the repository's product domain, so decisi
 - **Rejected alternatives carry their reopen condition** or state that they are rejected outright; an alternative rejected for a reason that no longer holds is a stale record.
 
 ## Three homes
-- Record: the decision, its constraint, the why, the rejected alternatives with reopen conditions, and Revisit When. Nothing that outlives the implementing plan lives anywhere else.
+- Record: the admitted decision, its constraint, the why, the rejected alternatives with reopen conditions, and Revisit When. Durable operational material that fails the admission test belongs in a rule or a skill, however long it lasts.
 - Rule: executable enforcement read on every task; likely-but-cheap violation classes belong here.
 - Decision Log: the plan-scoped chronicle, including every record proposal and its acceptance or decline.
 
@@ -35,8 +35,8 @@ Record-plus-rule pairs are the expected shape for enforced contracts; the homes 
 
 ## Lifecycle
 
-- **Draft.** A record on a branch is a draft: rewritten, renumbered, split, or dropped freely; the plan's Decision Log carries the drafting history; a dropped draft frees its number. `status: accepted` on a draft names the intended landing state only.
-- **Accepted.** Immutability attaches at merge to `main`, because that is when readers may have built on it. An accepted record changes only for wording that preserves meaning. Any change to the decision, its boundary, its reasons, or its reopen conditions is a new complete record, and the old one is retired. Refinement and reversal both replace; there is no partial supersession.
+- **Proposed.** A record on a branch carries `status: proposed` until a human accepts it on its own (see Acceptance). While proposed it is a draft: rewritten, renumbered, split, or dropped freely; the plan's Decision Log carries the drafting history; a dropped draft frees its number.
+- **Accepted.** The status flips to `accepted` on the explicit yes, before merge. Immutability attaches at merge to `main`, because that is when readers may have built on it. After merge a record changes only when a retirement elsewhere requires repairing a pointer in it, or to correct a typo that changes no meaning. Any change to the decision, its boundary, its reasons, or its reopen conditions is a new complete record, and the old one is retired. Refinement and reversal both replace; there is no partial supersession.
 - **Superseded.** Retirement is one atomic operation: set `status: superseded`, add a header line under the title ("Retired on DATE. Replaced by ADR-X." or "Retired on DATE; nothing in it still binds."), move the file to `superseded/` with the `--superseded-by-ADR-X` or `--retired` suffix, repair every inbound reference in the repository, and prove it with an absence search for the old filename. A retired record is frozen.
 - IDs are never reused; a gap in an active directory means a retirement.
 

@@ -162,6 +162,16 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): draft ADR-D-0022 "Decision records carry active decisions, one each, immutable once merged, and accepted on their own" committed on the branch as a draft; presented to ebigunso for standalone acceptance; lands only on a yes.
   - Tradeoffs considered: recording nothing would leave the four rules as skill text with no record of why the previous standard was replaced.
   - User approval: pending (standalone acceptance ask, 2026-09-06).
+- 2026-09-06 Decision: ADR-D-0022 proposal withdrawn before acceptance.
+  - Trigger / new insight: Task_1 review: the draft bundled three separately retirable decisions and its why repeated adr.md, so it failed the admission test it was drafted under (criterion 3 and the one-decision rule). No single decision in the standard change carries reasoning the skill text does not already state.
+  - Plan delta (what changed): draft deleted; number 0022 freed; Task_1 reports the admission test as failed for the standard change.
+  - Tradeoffs considered: splitting into three records would produce three whose why is re-derivable from the skill; rejected.
+  - User approval: withdrawn by the Orchestrator before the user answered the acceptance ask; recorded here.
+- 2026-09-06 Decision: Post-merge edit exception narrowed and surfaced.
+  - Trigger / new insight: Task_1 review flagged "meaning-preserving wording edits" as an unapproved exception to immutability.
+  - Plan delta (what changed): adr.md now permits after merge only pointer repairs forced by a retirement elsewhere and typo fixes that change no meaning; everything else replaces. Status lifecycle is proposed, accepted, superseded, with acceptance (the human yes) separate from immutability (the merge).
+  - Tradeoffs considered: strict zero-edit immutability would make retirement pointer repair impossible.
+  - User approval: pending; surfaced in the report for the user to confirm or narrow further.
 
 ## Notes
 - Risks: rewriting the standard while keeping the retirement mechanics intact; the Reviewer check in Task_1 targets exactly the two failure shapes this session produced.

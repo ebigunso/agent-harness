@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: proposed   # proposed until a human accepts the record on its own; then accepted; superseded on retirement
 adr_type: {design | implementation}
 date: YYYY-MM-DD
 deciders: []

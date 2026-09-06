@@ -28,4 +28,4 @@ Separate numbering per track; IDs are never reused, and a gap in an active direc
 - On retirement the record gets a header line under its title ("Retired on DATE. Replaced by ADR-X." or "Retired on DATE; nothing in it still binds.") and moves to `superseded/`, a single flat folder where the track prefix in the filename preserves identity, renamed with `--superseded-by-ADR-X-NNNN` or `--retired`. Retired records are frozen.
 
 ## Status values
-`accepted`, `rejected`, `superseded`, `deprecated`. Records capture decisions a human accepted on their own, not undecided proposals; a record on an unmerged branch is a draft whatever its status field says.
+`proposed` (a draft on a branch, before a human has accepted it on its own), `accepted` (accepted explicitly; immutable once merged), `superseded` (retired). Acceptance and immutability are separate: acceptance is the human's yes, immutability is the merge.
