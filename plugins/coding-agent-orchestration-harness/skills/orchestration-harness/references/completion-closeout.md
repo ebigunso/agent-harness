@@ -4,48 +4,29 @@ Use this reference before declaring a Task_X, phase, wave, or full plan complete
 
 ## Task_X Done Criteria
 
-A Task_X is done only when:
+Done/blocked conditions: `SKILL.md` Validation Gate (canonical). Additionally confirm:
 
 - Worker report status is `done`;
-- required Worker-owned validations are evidenced as `pass` or explicitly waived;
-- no unresolved blockers remain;
 - any files changed outside `owns` are minimal, justified, and reported.
 
 Worker `done` does not imply plan `done`.
 
 ## Plan Done Criteria
 
-A plan is done only when:
-
-- all Task_X entries are done or explicitly waived;
-- all required Worker-owned validation evidence exists;
-- all required Reviewer-owned validation evidence exists;
-- Reviewer status is `APPROVED` for non-trivial work unless waived;
-- no unresolved blockers or required questions remain;
-- required rule/lesson/skill governance follow-ups are recorded;
-- plan status and active/completed location are updated.
+`SKILL.md` Completion Closeout Gate (canonical).
 
 ## Blocked State
 
-Report blocked, not done, when:
-
-- required validation evidence is missing;
-- required validation failed;
-- required validation was skipped without waiver evidence;
-- Reviewer status is `NEEDS_REVISION` or `FAILED`;
-- a blocker remains unresolved;
-- user-owned validation is pending and not acknowledged as pending.
+`SKILL.md` Validation Gate and Completion Closeout Gate (canonical). Reviewer status `NEEDS_REVISION` or `FAILED` is not approval.
 
 ## Closeout Procedure
 
 1. Parse Worker and Reviewer outputs.
 2. Run Worker report validation when available.
-3. Confirm all required validation evidence is pass or waived.
-4. Confirm no unresolved blockers remain.
-5. Confirm Reviewer approval or waiver for non-trivial work.
-6. Update Progress Log and Decision Log.
-7. Move completed active plan to `docs/coding-agent/plans/completed/` when applicable.
-8. Only then report final done.
+3. Confirm the `SKILL.md` Validation Gate and Completion Closeout Gate conditions hold, including targeted rule refresh when rule-source files were edited.
+4. Update Progress Log and Decision Log.
+5. Move completed active plan to `docs/coding-agent/plans/completed/` when applicable.
+6. Only then report final done.
 
 Before final done, sweep the plan's Decision Log for entries that meet the ADR warrant criteria in `skills/durable-docs-authoring/references/adr.md` but have no ADR proposed; propose each missing ADR or record the user's decline.
 

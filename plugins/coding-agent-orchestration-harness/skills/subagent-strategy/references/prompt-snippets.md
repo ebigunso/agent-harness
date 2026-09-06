@@ -19,7 +19,6 @@ Deliverables:
 
 Rules:
 - Read docs/coding-agent/rules/common.md and orchestrator.md if present.
-- Prefer semantic, symbol-aware, and diagnostics capabilities when available; otherwise fall back to targeted text search and file reads.
 - Do not edit workspace files.
 - If you do browser exploration, name the selected provider and save evidence under that provider's artifact root.
 
@@ -57,9 +56,7 @@ Deliverables:
 - Plan-Fill Inputs: Reviewer-owned E2E validation item + draft spec fields
 
 Rules:
-- Prefer semantic, symbol-aware, and diagnostics capabilities for repo exploration when available; otherwise fall back to targeted text search and file reads.
 - Use the selected browser automation provider for browser automation.
-- Localhost/127.0.0.1 only unless explicitly configured.
 
 ## Reviewer snippet (plan review)
 
@@ -69,7 +66,7 @@ Scope:
 
 Procedure:
 - Run `python <plugin root>/skills/plan-format/scripts/validate_plan.py --file <plan> --mode balanced` first. Its pass output is the required validation evidence; do not re-check by hand what it checks.
-- Read `<plugin root>/skills/plan-format/SKILL.md` and `<plugin root>/skills/plan-format/references/task-waves.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
+- Read `<plugin root>/skills/plan-format/SKILL.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
 - Open every source an Assumption or Context claim names and confirm it says what the plan says.
 
 Deliverables:
@@ -86,7 +83,6 @@ Context / Rationale (optional; 2–5 bullets):
 - <what to focus on>
 
 If E2E/visual is required:
-- Prefer semantic and diagnostics tooling for non-browser review evidence when available; otherwise fall back to targeted search/read inspection.
 - Execute the E2E spec using the selected browser automation provider.
 - Save evidence screenshots under the provider-defined artifact root and reference them.
 - If required evidence is missing, Status must be NEEDS_REVISION.

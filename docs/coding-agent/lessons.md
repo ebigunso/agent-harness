@@ -514,3 +514,50 @@ Prevention:
 
 Evidence:
 - Reachability report finding 1, 2026-09-06; plan Progress Log Wave 1 and Task_2 acceptance.
+
+## 2026-09-06 - Dispatch To Registered Peers, Never Spawn New Ones  [tags: orchestration, delegation, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md` (audit probes and plan review).
+- Roles involved: Orchestrator
+
+Symptom:
+- The Orchestrator spawned two new Codex peers (`astra-probe`, `plan-reviewer`) with `spawn.sh` for probe runs and plan review instead of sending the work to the registered `agent-harness-*` peers; the user deleted the extra roles afterwards.
+
+Root cause:
+- The registered peers had not answered an earlier ping, and the reflex was to create capacity rather than report the silence and ask.
+
+Fix applied:
+- Wave 1 work sent to `agent-harness-worker`; spawned roles torn down.
+
+Prevention:
+- Send agmsg work only to peers already registered and running in the agmsg app; automatic delivery works only for those sessions. If a registered peer is silent, tell the user and ask, rather than spawning or going headless.
+- Sanctioned exception: a pure-baseline ablation probe may run as an ephemeral headless `codex exec` with skills and the user loader disabled, because it is a measurement instrument, not dispatch.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Route agmsg dispatch to the registered `agent-harness-*` peers only; never create new peers for a task.
+
+Evidence:
+- User correction 2026-09-06 ("send work towards already registered peers ... rather than spinning up new ones").
+
+## 2026-09-06 - Dry-Check The Published Invocation And Every Exit Path  [tags: validation, tooling, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md`, Task_5 (probe runner archive).
+- Roles involved: Orchestrator, Codex Reviewer
+
+Symptom:
+- The runner's stub dry check passed while the documented relative-root invocation was broken (paths resolved after `cd`), and a second pass passed while a setup failure exited 0 because the EXIT trap discarded the incoming status.
+
+Root cause:
+- The dry check asserted process exit only, from a shape that differed from the README command, and never drove the trap through a failing setup path.
+
+Fix applied:
+- Root resolved once; absolute prompt/output paths; EXIT handler preserves incoming status with restore failure taking precedence; dry check runs the exact README invocation under an isolated `CODEX_HOME` and covers normal, stale-backup, failing-stub, and setup-failure branches.
+
+Prevention:
+- A dry check runs the published invocation verbatim, asserts delivered content and outputs, and exercises every exit path through the real trap, not only the happy path.
+- Restoration logic must preserve failure semantics as well as file contents.
+
+Evidence:
+- Codex Reviewer Task_5 findings 2026-09-06 13:26 and 13:47; runner commits a8fc57a78d6c and 4ace1fdf5eab.

@@ -20,21 +20,15 @@ This skill standardizes how the Orchestrator uses subagents to:
 - Use Researcher for read-only exploration and plan-fill inputs.
 - Use Reviewer for read-only review + E2E/visual evidence when required.
 
-2) Prefer semantic discovery with an explicit fallback
-- When exploring a codebase or framing Researcher work, prefer semantic, symbol-aware, and diagnostics capabilities when they are available.
-- If those capabilities are unavailable or do not answer the question cleanly, fall back to targeted text search and file reads.
-
-3) One objective per subagent invocation
+2) One objective per subagent invocation
 - Every subagent call should have one objective and one deliverable shape.
 - If a call would require multiple independent objectives, split into multiple invocations.
-- Prefer Worker tasks completable in one short feedback loop — one module, one validation failure, one review slice — over whole-component assignments.
 
-4) Parallelize analysis for complex problems
+3) Parallelize analysis for complex problems
 - For complex or high-ambiguity work, run multiple Researcher calls in parallel.
 - Each Researcher call must have a narrow focus (e.g., validation/CI mapping only).
 
-5) Keep prompts bounded AND properly framed (short rationale is allowed)
-Subagents benefit from “why” when it changes decisions, but long narratives are usually harmful.
+4) Keep prompts bounded AND properly framed (short rationale is allowed)
 
 - Include the following prompt sections (short, explicit):
   - Objective
@@ -49,9 +43,8 @@ Subagents benefit from “why” when it changes decisions, but long narratives 
   - Keep it to 2–5 bullets.
   - For deeper background, reference file paths (plan/rules/docs) instead of pasting narrative.
 
-6) Consolidate results deterministically
+5) Consolidate results deterministically
 - The Orchestrator must reconcile parallel Researcher outputs into one coherent plan.
-- Prefer concrete file-based evidence (paths, symbols, workflows) over speculation.
 
 ---
 
@@ -65,9 +58,6 @@ If the runtime setup uses multiple long-lived agents that stay alive across disp
 
 If multiple model platforms are available for delegation:
 - Read references/model-routing.md
-
-If you want patterns for splitting research in parallel:
-- Read references/research-splits.md
 
 Before each Researcher/Worker/Reviewer dispatch, read and apply `references/dispatch-checklists.md`.
 

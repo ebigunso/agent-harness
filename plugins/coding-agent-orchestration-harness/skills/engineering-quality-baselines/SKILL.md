@@ -35,8 +35,8 @@ Load only relevant categories:
 - Architecture gates: `references/architecture-gates.md` (when boundaries, layering, or contracts change)
 - Validation and evidence model: `references/testing-validation.md` (when selecting required checks and evidence depth)
 - Test authoring: `references/test-authoring.md` (when writing, modifying, or reviewing tests)
-- Review scoring summary: `references/review-rubric.md` (when performing PR/code review or final quality scoring)
-- Plan review: `references/core-principles.md` and the 30-second pass of `references/review-rubric.md` only (when reviewing a draft plan before approval; no scorecard, no latent-risk routing)
+- Review checks: `references/review-rubric.md` (when performing PR/code review or final Reviewer approval; symmetric checks and gate-fail precedence)
+- Plan review: `references/core-principles.md` and the Symmetric checks section of `references/review-rubric.md` only (when reviewing a draft plan before approval; no latent-risk routing)
 - Latent-risk review routing: `references/review-latent-risk.md` (when PR/code review or final Reviewer approval may involve state drift, derived data, fallbacks, contract divergence, merge semantics, scope leakage, hot-path cost, public API compatibility, diagnostics, build/CI hygiene, entrypoint admission, future-edit brittleness, validation-boundary issues, risk-specific tests, or information conservation across serialization, conversion, aggregation, and fallback boundaries)
 
 ### Drift Tripwires (always active)
@@ -44,10 +44,10 @@ Load only relevant categories:
 - Trip when about to optimize, extend, or test something whose consumer or necessity cannot be named.
 - Trip when adding a process step, validation, or automation justified mainly by "in case".
 - Trip when repeatedly working around the same component, process step, or rule.
-- Trip when the fix goes around a type, schema, boundary, or constraint this task could change.
+- Trip when the fix goes around a type, schema, boundary, or constraint that this task could change, or that sits outside `owns` and the plan could change on request (a shared type lacking a field is the usual case).
 - Trip when adding a compatibility shim, wrapper, or dual code path for a consumer you cannot locate.
 
-If tripped: stop and surface the observation through existing channels (report questions/blockers, lesson candidates, or the user) together with the cleaner alternative and its cost delta — never act on it or suppress it silently, and do not proceed on the workaround without a ruling — and read `references/long-horizon-audit.md` when the pattern looks systemic.
+If tripped: surface the observation in the report (questions/blockers or lesson candidates) with the cleaner alternative and its cost delta; take the non-workaround path when one exists inside `owns`; stop and await a ruling only when the only path inside `owns` is a workaround. Read `references/long-horizon-audit.md` when the pattern looks systemic.
 
 ### Required Evidence Note (template)
 

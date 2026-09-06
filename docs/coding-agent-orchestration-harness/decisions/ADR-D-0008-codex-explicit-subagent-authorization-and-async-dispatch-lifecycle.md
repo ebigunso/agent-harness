@@ -8,7 +8,8 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ADR-D-0017-instruction-authority-and-orchestrator-reading.md
+supersession_scope: partial   # only the clause making loader use "explicit user direction"; all other clauses remain authoritative here
 ---
 
 # ADR-D-0008: Codex Explicit Subagent Authorization, Orchestrator Identity, And Async Dispatch Lifecycle

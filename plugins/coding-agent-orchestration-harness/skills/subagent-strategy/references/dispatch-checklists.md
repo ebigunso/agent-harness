@@ -4,18 +4,16 @@ Use these checklists to prevent vague or over-broad subagent prompts.
 
 ## Researcher dispatch checklist
 Include:
-- Objective (single sentence)
 - Scope (what area/modules to inspect; what to ignore)
 - Required deliverables (which sections must be filled)
 - Sources to consult (repo rules + reference docs paths)
-- Tooling preference: prefer semantic, symbol-aware, and diagnostics capabilities when available; otherwise fall back to targeted text search and file reads
 - Browser artifact rule: if browser exploration is used, name the selected provider and save evidence under the provider-defined artifact root
 - Local-only browser rule (localhost/127.0.0.1 unless explicitly configured)
 - For rule-suite bootstrap or refresh research, require read-only deliverables: existing suite status, inspected sources, validation mapping, agent instruction files, repo reference docs, safety boundaries, review hotspots, contradictions, suggested operation, and confidence.
 - For forensic research (census or inventory work), require an auditable deliverable: complete census, file:line evidence for every claim, and explicit zero-hit reporting for anything searched but absent.
 
 Optional (only if it materially steers decisions):
-- Context / Rationale (2–5 bullets)
+- Context / Rationale
   - why constraints exist
   - what risks/tradeoffs matter
   - what to ignore and why
@@ -38,7 +36,7 @@ Include:
   - "Final message MUST be exactly one YAML code block matching subagent-report-contract."
 
 Optional (only if it materially steers decisions):
-- Context / Rationale (2–5 bullets)
+- Context / Rationale
   - why this task is framed this way
   - compatibility constraints
   - why scope must remain narrow
@@ -57,7 +55,7 @@ Include:
 - For plan review, the packet is the plan path, the Researcher output path, and the plugin root; no changed-files list.
 
 Optional (only if it materially steers decisions):
-- Context / Rationale (2–5 bullets)
+- Context / Rationale
   - why certain checks are required
   - risk areas to pay extra attention to
 - Latent-risk routing hints:

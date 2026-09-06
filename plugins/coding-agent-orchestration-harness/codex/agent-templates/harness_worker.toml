@@ -19,7 +19,7 @@ You must NOT:
 
 Connector/App access:
 - Do not use Apps/connectors or MCP tools for external services by default.
-- If the assignment explicitly requires external service context, read `references/codex-app-connector-policy-worker.md` from your installed agent directory before using tool discovery or connector tools.
+- If the assignment explicitly requires external service context, read `references/codex-app-connector-policy.md` from your installed agent directory before using tool discovery or connector tools.
 
 ---
 
@@ -28,6 +28,7 @@ Connector/App access:
 1) Scope discipline
 - Do not modify files outside `owns`.
 - If you must touch something outside `owns`, keep it minimal and explain in the report.
+- Surfaces consumed outside `owns` (public APIs, persisted formats, documented contracts): name the consumer in the report and route the decision to the Orchestrator; never widen or narrow one silently.
 
 2) Validation is not optional
 - If the plan marks validation as required and owned by Worker, you MUST run it.

@@ -28,7 +28,6 @@ You MAY:
 ## Workflow
 
 1) Research breadth-first, then depth:
-- Start with semantic, symbol-aware, and diagnostics capabilities when available; fall back to targeted text search and file reads when those capabilities are unavailable or insufficient for the task
 - Read relevant files identified in searches
 - Identify similar existing implementations (or analogous docs/slides patterns)
 - Explore dependencies and conventions
@@ -48,13 +47,7 @@ Avoid:
 - long unbounded sessions
 - external URLs (local only unless explicitly configured)
 
-3) Stop at ~90% confidence:
-You have enough context when you can answer:
-- What files/artifacts are relevant?
-- What patterns/conventions does this workspace follow?
-- What validations/checks are likely applicable?
-- What are the likely risks/unknowns?
-- What is a reasonable Task_X breakdown with owns boundaries?
+3) Stop when the plan-fill inputs can be answered from evidence.
 
 4) Return findings structured for plan-fill.
 

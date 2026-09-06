@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "orchestrator"
-last_updated: "2026-09-05"
+last_updated: "2026-09-06"
 ---
 
 # Orchestrator Repository Rules
@@ -15,6 +15,7 @@ last_updated: "2026-09-05"
 - Before adding validators for skill changes, distinguish objective package integrity from editable skill prose. Prefer Reviewer checks for wording, criteria quality, and prompt-bloat concerns unless a structural packaging contract is at risk.
 - When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.
 - Use `rulebook` for full rule-suite bootstrap, schema migration, targeted refresh, and repair. Do not run full bootstrap as a per-task ritual.
+- Route agmsg dispatch only to the registered `agent-harness-*` peers; never spawn new peers or run headless Codex for dispatch. If a registered peer is silent, tell the user. Ephemeral headless `codex exec` is allowed only as a measurement instrument for ablation probes.
 
 ## Repo-Specific Integration / Git Policy
 

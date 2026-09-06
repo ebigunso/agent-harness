@@ -43,9 +43,7 @@ the Worker report records `status: skipped` plus waiver evidence in `evidence`.
 ## Mappings And Rules
 
 - Worker `done` means the assigned Task_X report completed successfully; it does not imply the plan is done.
-- Reviewer `APPROVED` is required for non-trivial completion unless explicitly waived by the Orchestrator or user.
 - `skipped` is not the same as `waived`.
 - A required validation that was not run can be treated as `waived` in plan/closeout state only when explicit waiver evidence exists.
 - In Worker YAML, that same situation is represented as `status: skipped` plus waiver evidence.
-- Missing required evidence blocks final completion.
-- A plan can be `done` only after all tasks are done or waived, required validation is pass or waived, blockers are resolved, and required Reviewer status is `APPROVED` or explicitly waived.
+- Plan `done` and blocked conditions: `SKILL.md` Validation Gate and Completion Closeout Gate.

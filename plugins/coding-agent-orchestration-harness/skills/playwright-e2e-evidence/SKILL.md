@@ -41,14 +41,6 @@ If you need a canonical spec template:
 If you need a canonical evidence template:
 - Read references/evidence-template.yaml
 
-If you need common viewport presets:
-- Read references/viewport-presets.md
-
-If you need flow patterns and interaction conventions:
-- Read references/flow-patterns.md
 
 If the selected execution provider is `playwright-cli`:
 - Read references/playwright-provider-path.md
-
-If E2E fails or is flaky and you need triage guidance:
-- Read references/failure-triage.md

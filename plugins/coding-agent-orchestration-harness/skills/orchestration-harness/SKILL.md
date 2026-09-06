@@ -50,9 +50,8 @@ Gate procedure, edge cases, and plan lifecycle details: `references/lifecycle-ga
 
 ### 2. Research Dispatch Gate
 
-- Non-trivial work requires Researcher context before repository exploration outside `docs/coding-agent/**`, unless the work is trivial and the Orchestrator records `Research waived: <reason>` before execution.
-- Before Researcher returns, only read repo rules/plans/lessons and other allowed planning docs, ask needed clarifying questions, or create missing `docs/coding-agent/**` scaffolding.
-- If discovery is needed to decide whether work is trivial, treat the work as non-trivial and dispatch Researcher.
+- Dispatch Researchers for unfamiliar or cross-cutting areas before planning non-trivial work; the Orchestrator may read repository files directly to decide triviality and scope.
+- Non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
 
 ### 3. Dispatch Integrity Gate
 
@@ -126,7 +125,7 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 
 ## Replan Triggers
 
-Pause planned execution and ask for confirmation when a new insight materially changes the plan, such as:
+A new insight materially changes the plan when, for example:
 
 - UI behavior differs from assumptions;
 - a new approach has meaningful tradeoffs;
@@ -135,7 +134,7 @@ Pause planned execution and ask for confirmation when a new insight materially c
 - a requirement, component, or process step appears not to need to exist, or planned work is optimizing something unjustified;
 - a new security, performance, data correctness, or validation risk appears.
 
-Record replans in the plan Decision Log before continuing.
+Action: record the insight in the plan Decision Log and surface it in the next report or wave integration; pause for user confirmation only when the change is contract-shape (Escalation Ruling in `references/lifecycle-gates.md`), irreversible, or outward-facing. Procedure: `references/lifecycle-gates.md` Replan Procedure.
 
 ## Governance And Safety
 
