@@ -45,4 +45,4 @@ The Codex loader snippet contains no authority claim.
 
 ## Revisit When
 
-Checked on 2026-09-06 against Claude Fable 5.1 and GPT-6 Astra. Replacing either model with another reopens this record. A Codex model that refuses subagent dispatch without an authority claim reopens it. As of 2026-09-06 the reworded loader had not been verified on a real peer channel; that check is Task_4 of `docs/coding-agent/plans/active/frontier-guidance-follow-ups-plan.md`, and a failure there reopens this record.
+Checked on 2026-09-06 against Claude Fable 5.1 and GPT-6 Astra. Replacing either model with another reopens this record. A Codex model that refuses subagent dispatch without an authority claim reopens it. As of 2026-09-06 the reworded loader had not been verified on a real peer channel; that check is the live loader follow-up listed in PR #57, and a failure there reopens this record.
