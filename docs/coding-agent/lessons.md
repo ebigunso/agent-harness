@@ -445,3 +445,72 @@ Prevention:
 
 Evidence:
 - Reviewer finding 2026-09-05 (Task_4, MAJOR issue 1) and its delta approval.
+
+## 2026-09-06 - A Pointer's Source Check Covers The Target's Admission Clause  [tags: planning, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/plan-review-gate-plan.md` (pre-approval plan review).
+- Roles involved: Orchestrator, Claude Reviewer and Codex Reviewer (plan review)
+
+Symptom:
+- The draft plan routed standard-flow plan review into `long-horizon-audit.md`, whose own header says never to load it in standard task flow, and no task owned that file.
+
+Root cause:
+- References were chosen by their content without re-reading the target's admission or usage clause, and without checking the target sat in some task's `owns` or was unchanged.
+
+Fix applied:
+- Route dropped; the consumer-naming check it would have added already lives in core-principles.
+
+Prevention:
+- When a plan adds a routing entry or pointer, the source check includes the target's admission clause and confirms the target is in an `owns` set or unchanged.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: A plan that adds a pointer or routing entry verifies the target's own load or usage restriction and lists the target in `owns` when that restriction must change.
+
+Evidence:
+- Both plan reviews, MAJOR F1, 2026-09-06; plan Decision Log.
+
+## 2026-09-06 - Claim Only The Reachability Actually Exercised  [tags: validation, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/plan-review-gate-plan.md` (pre-approval plan review).
+- Roles involved: Orchestrator, Codex Reviewer (plan review)
+
+Symptom:
+- The live-test dispatch packet supplied plugin and repository roots, a working directory, and an explicit reference list that the bare snippet under review did not, so the test proved the packet worked, not the snippet the DoD claimed.
+
+Root cause:
+- The dispatched artifact and the artifact whose contract was claimed were different, and the plan did not say so.
+
+Fix applied:
+- DoD reworded to name the draft-packet test as such; a separate Task_6 dispatch with only the landed snippet became the reachability evidence, and it surfaced one real gap (the quality-baselines reference had no path).
+
+Prevention:
+- Record the exact text that was dispatched and any extra context the packet added; claim only the reachability that dispatch exercised. Test the landed artifact, not its draft.
+
+Evidence:
+- Codex plan review F3 and the Task_6 reachability dispatch, 2026-09-06; both recorded in the plan Decision Log.
+
+## 2026-09-06 - A Ruling That Changes An Acceptance Bullet Amends It In The Same Edit  [tags: planning, scope-owns]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/plan-review-gate-plan.md`, Wave 1 integration.
+- Roles involved: Orchestrator, Claude Reviewer (reachability test)
+
+Symptom:
+- A Worker asked whether to exceed its six-line cap by one blank line for style consistency. The Orchestrator allowed it and logged the ruling in the Progress Log, but left the acceptance bullet at six, so the final Reviewer scored against a superseded number.
+
+Root cause:
+- Rulings are logged as narrative; nothing prompts an edit to the acceptance line the ruling overrides.
+
+Fix applied:
+- Acceptance bullet amended to seven, citing the ruling.
+
+Prevention:
+- When a ruling changes an acceptance bullet, amend the bullet in place and cite the ruling, in the same edit that logs it.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: A ruling that changes a task's acceptance edits that acceptance bullet in the same action as the log entry.
+
+Evidence:
+- Reachability report finding 1, 2026-09-06; plan Progress Log Wave 1 and Task_2 acceptance.

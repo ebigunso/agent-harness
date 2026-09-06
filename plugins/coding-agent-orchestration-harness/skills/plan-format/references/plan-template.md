@@ -35,7 +35,7 @@ Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sent
 ## Context (workspace)
 - Related files/areas:
 - Existing patterns or references:
-- Repo reference docs consulted:
+- Design record consulted and deviations from its acceptance:
 
 ## Open Questions (max 3)
 - Q1:
@@ -43,8 +43,9 @@ Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sent
 - Q3:
 
 ## Assumptions
-- A1:
+- A1: <claim> — source: <file:line | design record path | unverified, checked by Task_N>
 - A2:
+- Hypothesis (only for fix-shaped plans where the cause is not yet established): <cause> ; falsified by: <observation>
 
 ## Tasks
 

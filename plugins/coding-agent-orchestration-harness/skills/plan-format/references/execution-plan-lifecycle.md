@@ -19,6 +19,10 @@ This reference describes how execution plans are maintained over time.
   - task waves
   - initial assumptions
 
+## 1b) Review
+
+- Dispatch a Reviewer per the `subagent-strategy` plan-review snippet; record what the review changed in the Decision Log.
+
 ## 2) Approve
 
 - status: `draft` → `approved`

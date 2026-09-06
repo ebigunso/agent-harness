@@ -143,6 +143,8 @@ Review checks:
 - Review by surface area: approving based on file count or size instead of risk and semantics.
 - Unjustified-existence polish: optimizing, extending, or polishing a thing whose existence is unjustified.
 - Speculative compatibility: shims, wrappers, dual code paths, or deprecation layers preserved for consumers no one can locate.
+- Enumeration from the ticket: case lists, vocabularies, or validation matrices built from a finding's citations instead of the producer's full branch set.
+- Mechanizing judgment: validators or gates for prose quality, design taste, or other properties that need a reader.
 
 ## Durable-Code Hygiene
 
