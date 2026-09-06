@@ -157,6 +157,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): status approved; execution begins after PR #57 merges.
   - Tradeoffs considered: none.
   - User approval: yes (2026-09-06).
+- 2026-09-06 Decision: Record proposed under the admission test (Task_1).
+  - Trigger / new insight: the standard change itself passes the admission test: it constrains how every future record is written (load-bearing); reverting to ledgers or in-place amendment is silent drift (severe); the skill text states the rules but not the failure modes that produced them (not derivable); the why is one sentence; the premises are active.
+  - Plan delta (what changed): draft ADR-D-0022 "Decision records carry active decisions, one each, immutable once merged, and accepted on their own" committed on the branch as a draft; presented to ebigunso for standalone acceptance; lands only on a yes.
+  - Tradeoffs considered: recording nothing would leave the four rules as skill text with no record of why the previous standard was replaced.
+  - User approval: pending (standalone acceptance ask, 2026-09-06).
 
 ## Notes
 - Risks: rewriting the standard while keeping the retirement mechanics intact; the Reviewer check in Task_1 targets exactly the two failure shapes this session produced.
