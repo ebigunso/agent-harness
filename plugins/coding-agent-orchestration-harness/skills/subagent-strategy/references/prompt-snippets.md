@@ -8,7 +8,7 @@ Keep them single-scope.
 Objective:
 - Map required validation and CI checks for the likely touched paths.
 
-Context / Rationale (optional; 2–5 bullets):
+Context / Rationale (optional; only what steers decisions):
 - <why validation mapping matters for this task>
 - <any constraints/tradeoffs>
 
@@ -47,7 +47,7 @@ Deliverables:
 Objective:
 - Establish current UI behavior baseline and propose E2E/visual spec fields.
 
-Context / Rationale (optional; 2–5 bullets):
+Context / Rationale (optional; only what steers decisions):
 - <what UI risks matter and why>
 - <what flows are critical>
 
@@ -79,7 +79,7 @@ Deliverables:
 Scope:
 - Review this wave only. Validate acceptance criteria and REQUIRED validation evidence.
 
-Context / Rationale (optional; 2–5 bullets):
+Context / Rationale (optional; only what steers decisions):
 - <why certain issues are high-risk>
 - <what to focus on>
 
