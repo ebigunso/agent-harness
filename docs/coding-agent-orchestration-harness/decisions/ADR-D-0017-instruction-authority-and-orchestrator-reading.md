@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 warrant:
   warranted_by: "without this record, future work would likely restore loader text that claims user authority, forbid the Orchestrator from reading before research, and turn record-and-surface back into pause-and-ask, because each reads as the safer default"
-  detected_signals: "cross-boundary authority shape; rejected alternatives likely to be re-proposed; premises tied to the current fleet"
+  detected_signals: "cross-boundary authority shape; rejected alternatives likely to be re-proposed; premises tied to Claude Fable 5.1 and GPT-6 Astra as checked on 2026-09-06"
   cost_of_violation: "silent: harness text that claims user authority outranks every Orchestrator-to-subagent instruction, and pause mandates stack on a model that already pauses; both look like caution"
   cost_of_over_extension: "dropping the three hard-stop cases, the plan-approval gate, or the research waiver record; those are consent and coordination contracts, not model compensation"
 supersedes: ["ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle.md"]

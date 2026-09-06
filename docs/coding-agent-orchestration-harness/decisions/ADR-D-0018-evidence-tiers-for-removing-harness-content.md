@@ -58,4 +58,4 @@ Checked on 2026-09-06 against Claude Fable 5.1 and GPT-6 Astra. Replacing either
 
 ## More Information
 
-Partially supersedes ADR-D-0015 (the per-removal ADR clause and the single evidence rule); its ablation requirement for guidance stands. Records for the 2026-09 removals and probes: `docs/coding-agent/experiments/frontier-guard-probes/`.
+Partially supersedes ADR-D-0015 (the per-removal ADR clause and the single evidence rule); its ablation requirement for guidance stands. Records for the removals and probes of PR #57 (2026-09-06): `docs/coding-agent/experiments/frontier-guard-probes/`.
