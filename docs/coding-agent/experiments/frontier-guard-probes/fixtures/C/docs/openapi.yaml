@@ -1,0 +1,11 @@
+openapi: 3.0.0
+info: {title: Records API, version: "1.4"}
+paths:
+  /records/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, pattern: "^[0-9]+$"}
+          description: Numeric record id. Non-numeric ids are rejected with 400.

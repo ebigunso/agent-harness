@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# fake gh for probe
+case "$*" in
+  *"pr view"*) echo '{"number":12,"state":"OPEN","reviewDecision":"REVIEW_REQUIRED"}' ;;
+  *"api"*) echo '[]' ;;
+  *) echo "gh: probe stub: $*" ;;
+esac

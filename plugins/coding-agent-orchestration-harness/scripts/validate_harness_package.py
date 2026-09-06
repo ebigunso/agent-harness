@@ -280,16 +280,8 @@ def check_operational_routing_surfaces(errors: list[str]) -> None:
 
     if not packet.exists():
         fail(errors, f"missing reviewer packet template: {packet}")
-    else:
-        packet_text = packet.read_text(encoding="utf-8")
-        for token in (
-            "review-latent-risk-public-api.md",
-            "review-latent-risk-entrypoints-admission.md",
-            "review-latent-risk-diagnostics.md",
-            "review-latent-risk-build-ci.md",
-        ):
-            if token not in packet_text:
-                fail(errors, f"{packet}: missing latent-risk routing token: {token}")
+    elif "review-latent-risk.md" not in packet.read_text(encoding="utf-8"):
+        fail(errors, f"{packet}: latent-risk routing hint must name review-latent-risk.md")
 
     if not snippets.exists():
         fail(errors, f"missing prompt snippets reference: {snippets}")
@@ -328,7 +320,6 @@ def check_clean_split_guards(errors: list[str]) -> None:
     worker_validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
     promotion_guidelines = ROOT / "skills" / "improvement-loop" / "references" / "promotion-guidelines.md"
     improvement_loop = ROOT / "skills" / "improvement-loop" / "SKILL.md"
-    post_correction_checklist = ROOT / "skills" / "improvement-loop" / "references" / "post-correction-micro-checklist.md"
     rule_templates = ROOT / "skills" / "rulebook" / "references" / "rule-suite-templates.md"
     rules_files = ROOT / "skills" / "rulebook" / "references" / "rules-files.md"
 
@@ -337,7 +328,6 @@ def check_clean_split_guards(errors: list[str]) -> None:
         worker_validator,
         promotion_guidelines,
         improvement_loop,
-        post_correction_checklist,
         rule_templates,
         rules_files,
     ]
@@ -394,16 +384,6 @@ def check_clean_split_guards(errors: list[str]) -> None:
         for phrase in stale_phrases:
             if phrase in text:
                 fail(errors, f"{improvement_loop}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
-
-    if post_correction_checklist.exists():
-        text = post_correction_checklist.read_text(encoding="utf-8")
-        stale_phrases = [
-            "Global Migration Candidate",
-            "update the owning first-party skill/reference",
-        ]
-        for phrase in stale_phrases:
-            if phrase in text:
-                fail(errors, f"{post_correction_checklist}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
 
     if promotion_guidelines.exists():
         text = promotion_guidelines.read_text(encoding="utf-8")

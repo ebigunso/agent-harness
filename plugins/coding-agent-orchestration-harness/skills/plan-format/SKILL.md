@@ -78,14 +78,8 @@ If you are writing or updating a plan:
 If you are unsure how to express validation items:
 - Read `references/validation-items.md`
 
-If you are unsure how to define waves:
-- Read `references/task-waves.md`
-
 If you need lifecycle guidance (active → completed, logs, replans):
 - Read `references/execution-plan-lifecycle.md`
-
-If you want examples across task types:
-- Read `references/examples.md`
 
 If the user asked for language/tech-specific planning depth:
 - Read language/framework-specific quality gates and references before finalizing decomposition.

@@ -28,6 +28,7 @@ Track enough state to avoid losing, duplicating, or misrouting background work:
 
 ## Waiting Behavior
 
+- For background peers, prefer Worker tasks completable in one short feedback loop — one module, one validation failure, one review slice — over whole-component assignments.
 - No report yet means `running`, not failed.
 - Do not prompt for an immediate final report right after dispatch.
 - Poll only when the runtime requires polling or when a dependency boundary is reached.

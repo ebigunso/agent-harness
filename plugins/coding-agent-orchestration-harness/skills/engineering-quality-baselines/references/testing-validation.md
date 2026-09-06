@@ -122,37 +122,3 @@ Precedence rule:
 1. Repository-local validation mapping is canonical for **required** checks.
 2. Repository-local governance/rules can add mandatory constraints.
 3. This global baseline defines selection and evidence behavior when local docs are silent.
-
-Fallback when repository-local required-validation mapping is missing or ambiguous:
-1. Inspect repository CI/build/test scripts and pipeline definitions to infer candidate required checks.
-2. Treat the ambiguity as an escalation condition; do not silently downgrade inferred required checks.
-3. Record assumptions explicitly in validation evidence (sources inspected, inferred required checks, and escalation target/owner).
-
-If sources disagree:
-- Treat local required-validation mapping as authoritative for blocking checks.
-- Escalate ambiguity rather than silently downgrading required checks.
-
----
-
-## Practical Decision Flow
-
-1. Identify changed surface (code paths, tests, docs, ops/runbooks).
-2. Load repository-local required-validation mapping.
-3. If mapping is missing/ambiguous, apply fallback inference from CI/build/test scripts and escalate.
-4. Mark each applicable check as required or optional recommended.
-5. Select validation depth (`targeted`, `extended`, or `full-sweep`) based on risk and uncertainty.
-6. Execute all required checks first.
-7. Execute optional recommended checks based on risk/time budget.
-8. Report evidence with explicit pass/fail/waived/skipped status, assumptions, and residual risk.
-
----
-
-## Completion Criteria
-
-Completion is valid when:
-- All applicable required checks passed, or
-- A required-check waiver is explicitly granted and risk is documented.
-
-Completion is not valid when:
-- Required checks are missing without waiver.
-- Evidence is insufficient to verify what was validated.

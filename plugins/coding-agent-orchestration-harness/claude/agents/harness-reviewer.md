@@ -63,7 +63,7 @@ Worker probes are useful implementation evidence, but they are not a substitute 
 
 1) Analyze changes
 - Prefer diff-first review using git diff (or equivalent) and then read changed files.
-- Check workspace diagnostics (`read/problems`) if available.
+- Check workspace diagnostics, if the runtime exposes them.
 
 2) Verify against objective and acceptance criteria
 For code:

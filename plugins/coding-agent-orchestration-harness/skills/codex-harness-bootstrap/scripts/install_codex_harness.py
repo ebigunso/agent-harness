@@ -19,9 +19,7 @@ AGENT_FILENAMES = [
     "harness_reviewer.toml",
 ]
 REFERENCE_FILENAMES = [
-    "codex-app-connector-policy-researcher.md",
-    "codex-app-connector-policy-worker.md",
-    "codex-app-connector-policy-reviewer.md",
+    "codex-app-connector-policy.md",
 ]
 
 SCOPES = ("user", "repo")

@@ -18,25 +18,9 @@ If `docs/coding-agent/rules/` does not exist, create the minimal repo-rule skele
 
 ## Plan Gate Details
 
-Before decomposing non-trivial work, challenge the requirements themselves and surface doubts to the requirement owner, regardless of who authored them.
+Trivial/non-trivial criteria, requirement challenge, plan and approval requirements, and lifecycle selection: `SKILL.md` Plan Gate (canonical).
 
-Trivial work may skip a plan only when all are true:
-
-- small and mechanical edit;
-- clearly bounded scope;
-- no meaningful behavior/design change;
-- no non-obvious validation beyond a quick sanity check.
-
-Non-trivial work requires a plan and approval when any are true, unless the user or Orchestrator explicitly waives the plan with a recorded reason and evidence:
-
-- new behavior or feature;
-- non-obvious bug fix;
-- refactor or cross-cutting change;
-- multiple files/components or unknown patterns;
-- dependency, config, or CI implications;
-- UI/UX behavior changes or visual correctness concerns.
-
-Follow-ups after completion re-run the Plan Gate. Do not chain non-trivial work without a new or updated plan and explicit approval unless the plan is explicitly waived with a recorded reason and evidence.
+Follow-up non-trivial work re-enters the Plan Gate (`SKILL.md`): chain it through a new or updated plan, never by extending the approved scope in place.
 
 Clarifications, follow-up requirements, and plan refinements are NOT plan approval. Execution requires an explicit approval or a direct execution instruction from the user; when in doubt, ask.
 
@@ -44,27 +28,19 @@ Plan review loop: the Orchestrator triages each Reviewer finding as fix, researc
 
 ## Research Dispatch Details
 
-For non-trivial requests:
+Gate: `SKILL.md` Research Dispatch Gate.
 
-1. Dispatch at least one Researcher before repository exploration outside `docs/coding-agent/**`.
-2. Before Researcher returns, only read allowed planning docs, ask necessary clarifying questions, or create missing planning scaffolding.
-3. Do not use repo-wide search or read implementation files outside allowed docs before Researcher returns.
-
-Research waivers are allowed only for trivial work per the Plan Gate. Record `Research waived: <reason>` before execution. If discovery is needed to decide whether work is trivial, treat it as non-trivial and dispatch Researcher.
+1. The Orchestrator may read repository files and run searches to decide triviality, scope, and validation; reading is not a substitute for a Researcher on unfamiliar or cross-cutting areas.
+2. Dispatch one Researcher per narrow focus (see `subagent-strategy`); parallel Researchers for complex or high-ambiguity work.
+3. When non-trivial work proceeds without a Researcher, record `Research waived: <reason>` in the plan before execution; the reason names what the Orchestrator read instead.
 
 ## Replan Procedure
 
-Pause planned execution when a significant new insight changes scope, risk, dependencies, or approach.
+Triggers: `SKILL.md` Replan Triggers.
 
-Then:
-
-1. Stop dispatching further Workers.
-2. Summarize the insight and impact.
-3. Propose a plan delta covering tasks, waves, and validation.
-4. Ask at most three questions.
-5. Continue only after user confirmation.
-
-Record the decision in the plan Decision Log.
+1. Record the insight, its impact, and the plan delta (tasks, waves, validation) in the plan Decision Log.
+2. Surface it in the next report or wave integration.
+3. Pause for user confirmation only when the change is contract-shape (Escalation Ruling below), irreversible, or outward-facing: stop dispatching further Workers, ask at most three questions, and continue only after confirmation.
 
 ## Escalation Ruling
 

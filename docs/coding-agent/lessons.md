@@ -514,3 +514,77 @@ Prevention:
 
 Evidence:
 - Reachability report finding 1, 2026-09-06; plan Progress Log Wave 1 and Task_2 acceptance.
+
+## 2026-09-06 - Dispatch To Registered Peers, Never Spawn New Ones  [tags: orchestration, delegation, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md` (audit probes and plan review).
+- Roles involved: Orchestrator
+
+Symptom:
+- The Orchestrator spawned two new Codex peers (`astra-probe`, `plan-reviewer`) with `spawn.sh` for probe runs and plan review instead of sending the work to the registered `agent-harness-*` peers; the user deleted the extra roles afterwards.
+
+Root cause:
+- The registered peers had not answered an earlier ping, and the reflex was to create capacity rather than report the silence and ask.
+
+Fix applied:
+- Wave 1 work sent to `agent-harness-worker`; spawned roles torn down.
+
+Prevention:
+- Send agmsg work only to peers already registered and running in the agmsg app; automatic delivery works only for those sessions. If a registered peer is silent, tell the user and ask, rather than spawning or going headless.
+- Sanctioned exception: a pure-baseline ablation probe may run as an ephemeral headless `codex exec` with skills and the user loader disabled, because it is a measurement instrument, not dispatch.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Route agmsg dispatch to the registered `agent-harness-*` peers only; never create new peers for a task.
+
+Evidence:
+- User correction 2026-09-06 ("send work towards already registered peers ... rather than spinning up new ones").
+
+## 2026-09-06 - Dry-Check The Published Invocation And Every Exit Path  [tags: validation, tooling, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md`, Task_5 (probe runner archive).
+- Roles involved: Orchestrator, Codex Reviewer
+
+Symptom:
+- The runner's stub dry check passed while the documented relative-root invocation was broken (paths resolved after `cd`), and a second pass passed while a setup failure exited 0 because the EXIT trap discarded the incoming status.
+
+Root cause:
+- The dry check asserted process exit only, from a shape that differed from the README command, and never drove the trap through a failing setup path.
+
+Fix applied:
+- Root resolved once; absolute prompt/output paths; EXIT handler preserves incoming status with restore failure taking precedence; dry check runs the exact README invocation under an isolated `CODEX_HOME` and covers normal, stale-backup, failing-stub, and setup-failure branches.
+
+Prevention:
+- A dry check runs the published invocation verbatim, asserts delivered content and outputs, and exercises every exit path through the real trap, not only the happy path.
+- Restoration logic must preserve failure semantics as well as file contents.
+
+Evidence:
+- Codex Reviewer Task_5 findings 2026-09-06 13:26 and 13:47; runner commits a8fc57a78d6c and 4ace1fdf5eab.
+
+## 2026-09-06 - ADRs Drifted Into Removal Ledgers Despite The Warrant Standard  [tags: documentation, skill-maintenance, review, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md`, Tasks 4 and 5 (the first ADR-D-0017 and a removal-ledger record, both since replaced; see that plan's Decision Log).
+- Roles involved: Orchestrator (author), Codex Reviewer
+
+Symptom:
+- ADR-I-0006 was a per-file deletion table with a warrant written around it; ADR-D-0017 mirrored skill wording. The user found both failed the lens: ADRs carry high-impact decisions and their constraints forward, not history.
+
+Root cause (preliminary):
+- An older ADR (ADR-D-0015) directed "an implementation ADR per removal", and two precedents (ADR-I-0004, ADR-I-0005) had that shape; the directive and the precedent outranked the warrant test in practice.
+- The plan pre-committed the ADRs as task deliverables with ledger-shaped acceptance, so review checked plan compliance, not the standard.
+- The template's Implementation Impact and Measurement Basis sections invited inventories; a filled template read as complete.
+- The adr.md collaboration flow (state signal, title, and mishandling scenario in conversation before drafting) was skipped; the ADRs were written at closeout as summaries.
+- Reviewer packets asked for "warrant and structure", which the reviewer verified as field presence.
+
+Fix applied:
+- ADR-I-0006 replaced by an evidence-classes design record (ADR-D-0019 after the 2026-09-06 renumbering); ADR-D-0017 rewritten constraints-first; ledger moved to the experiment README.
+
+Prevention (preliminary, pending the next round):
+- A directive inside an ADR or a precedent's shape does not bypass the warrant test; run the test on every proposed record.
+- Plans propose an ADR only after the warrant is stated in the Decision Log; a task may "propose an ADR if warranted", never "write ADR-X".
+- Reviewer packets for ADRs ask decision-density questions, not field presence.
+
+Evidence:
+- User correction 2026-09-06; ADR review rounds 2026-09-06 18:05 to 18:08.

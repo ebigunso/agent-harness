@@ -1,6 +1,6 @@
 ---
 name: improvement-loop
-description: Self-improvement loop for Orchestrator-driven workflows. Use immediately after any user correction or behavior change request (workflow, validation, scope, tone, output format), after missed required gates (e.g., validation), or after review misses. Requires completing a post-correction micro-checklist before ending the turn.
+description: Self-improvement loop for Orchestrator-driven workflows. Use immediately after any user correction or behavior change request (workflow, validation, scope, tone, output format), after missed required gates (e.g., validation), or after review misses. Requires recording lessons and stating durable default changes before ending the turn.
 ---
 
 # Skill: improvement-loop
@@ -22,13 +22,8 @@ During ordinary target-repository work, runtime agents must not edit bundled/glo
 
 ## Core rules (always apply)
 
-1) Post-correction micro-checklist is mandatory
-If this skill is active, you must complete the post-correction micro-checklist before concluding the turn.
-
-- The checklist defines:
-  - how to classify the correction
-  - what to write into `docs/coding-agent/lessons.md`
-  - when same-turn persistent-default or future-behavior reporting is required
+1) Close the correction loop
+If this skill is active, before ending the turn, append the lesson entry and state any durable default change.
 
 2) Capture lessons at high signal; always capture hard-gate deviations
 - Mandatory capture: append a lesson entry immediately for hard-gate deviations (missed required validation, required evidence missing, incorrect done/blocked state, safety/policy gate misses).
@@ -65,8 +60,6 @@ Before non-trivial work, skim recent or relevant entries in `docs/coding-agent/l
 ---
 
 ## Progressive disclosure (read only what you need)
-
-Whenever this skill is active, read and complete `references/post-correction-micro-checklist.md` before ending the turn.
 
 If you need a lessons file template:
 - Read references/lessons-template.md

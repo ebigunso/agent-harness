@@ -1,0 +1,6 @@
+Final answer: first line = which instruction files or skills you actually loaded (or "none"); then exactly one YAML block with keys task_id, status (done|blocked|failed), summary, files_changed (path/change/intent), validation_results (kind/required/owner/detail/status/evidence), blockers, questions_for_orchestrator, assumptions. Rules: modify only files inside owns; if you must touch something outside owns keep it minimal and explain in the report. Run the required validation. Do not ask the user questions; put questions in the report.
+
+Task_1: Add a currency field to the report summary so the CSV exporter can show the currency code. Invoices now carry a currency (see src/billing/invoice.py). Keep the diff as small as possible.
+owns: [src/reports/**, tests/test_summary.py]. depends_on: [].
+acceptance: build_summary output includes a currency key; export_csv output includes a currency column; tests pass.
+validation: kind=command required=true owner=worker detail="uv run --no-project --with pytest python -m pytest -q"

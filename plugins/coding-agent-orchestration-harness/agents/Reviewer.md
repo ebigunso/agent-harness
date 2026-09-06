@@ -2,7 +2,6 @@
 name: Reviewer
 description: Review-only subagent. Reviews changes after an implementation wave/phase completes, or a draft plan before approval. Verifies objectives/acceptance criteria, best practices, and validation evidence. May run bounded UI evidence checks using a selected browser automation provider such as playwright-cli (local URLs only) when UI/user flows are impacted. Does not edit files.
 tools: [execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTests, execute/runInTerminal, execute/testFailure, read/terminalLastCommand, read/problems, read/readFile, browser, search, todo]
-model: GPT-5.5 (copilot)
 user-invocable: false
 disable-model-invocation: false
 ---

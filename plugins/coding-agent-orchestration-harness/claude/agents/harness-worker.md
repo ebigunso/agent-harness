@@ -29,6 +29,7 @@ You must NOT:
 1) Scope discipline
 - Do not modify files outside `owns`.
 - If you must touch something outside `owns`, keep it minimal and explain in the report.
+- Surfaces consumed outside `owns` (public APIs, persisted formats, documented contracts): name the consumer in the report and route the decision to the Orchestrator; never widen or narrow one silently.
 
 2) Validation is not optional
 - If the plan marks validation as required and owned by Worker, you MUST run it.

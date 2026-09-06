@@ -2,50 +2,12 @@
 
 Use this structure for user-facing closeout after harness work.
 
-## Required Shape
+1. Outcome: `done` or `blocked`, per `SKILL.md` Validation Gate.
+2. Changed files/artifacts: only those from the completed work.
+3. Validation summary: each required check as `pass`, `fail`, `skipped` with reason, or `waived` with evidence; name checks that could not run.
+4. Review summary: Reviewer status (`APPROVED`, `NEEDS_REVISION`, `FAILED`, or waived with evidence) for non-trivial work; flows, viewports, and artifact paths when UI/E2E evidence was run.
+5. Repo rule updates, or none.
+6. Skill staging updates, or none.
+7. Questions or blockers, max 3; omit when none.
 
-1. Outcome: `done` or `blocked`.
-2. Changed files/artifacts.
-3. Validation summary.
-4. Review summary.
-5. Repo rule updates.
-6. Skill staging updates.
-7. Questions or blockers, max 3.
-
-## Outcome
-
-State whether the work is done or blocked. Do not report done when required evidence is missing.
-
-## Changed Files / Artifacts
-
-List meaningful files and artifacts. Keep the list scoped to the completed work.
-
-## Validation Summary
-
-Include required checks with status:
-
-- `pass`;
-- `fail`;
-- `skipped` with reason;
-- `waived` with evidence.
-
-Mention checks that could not be run.
-
-## Review Summary
-
-For non-trivial work, include Reviewer status:
-
-- `APPROVED`;
-- `NEEDS_REVISION`;
-- `FAILED`;
-- waived with evidence.
-
-If UI/E2E evidence was required or run, summarize flows/viewports and artifact paths.
-
-## Rule And Skill Updates
-
-Report repo rule updates and skill staging updates. If none occurred, say so briefly.
-
-## Questions / Blockers
-
-Ask at most three questions. If no questions remain, omit this section or state that no blockers remain.
+Prefer short paragraphs; use lists only for parallel items.

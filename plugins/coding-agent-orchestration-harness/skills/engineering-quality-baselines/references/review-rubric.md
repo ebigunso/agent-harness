@@ -9,7 +9,7 @@ It does **not** replace required validation, tests, or policy gates.
 - Every contract change is intentional; nothing is broken or preserved by accident.
 - Risks, assumptions, and follow-up items are visible.
 
-## Symmetric Checks (0 findings requires checking both directions)
+## Symmetric checks
 
 Each pair below has two failure directions. Checking only the familiar direction and passing the other by default is an incomplete review, not a pass.
 
@@ -21,29 +21,9 @@ Tests:
 - Flag over-constrained tests: would a legitimate refactor fail them? Do they pin implementation details instead of a depended-on contract?
 - Flag unguarded changed contracts: for each contract this change touches, name the test that fails if it breaks; if none exists, that is a finding.
 
-## Scorecard (0-2 each)
+## Gate-fail precedence
 
-- Correctness: handles expected paths and key edge cases.
-- Maintainability: clear structure, naming, and ownership boundaries.
-- Security: trust boundaries and sensitive data handling are addressed.
-- Validation: required checks were run and evidence is attached.
-
-Scoring guide:
-- 0 = missing or high risk
-- 1 = partially addressed
-- 2 = adequately addressed
-
-## Outcome Bands
-
-- 7-8: Approve (or approve with minor follow-ups).
-- 5-6: Needs revision before approval.
-- 0-4: Reject for rework; risks are not controlled.
-
-## Gate-Fail Precedence (Blocking)
-
-Scorecard bands are advisory summaries.
-
-If any relevant architecture, language, framework, or repository-required validation gate is **Fail**, the change is blocking regardless of total score and cannot be approved unless explicitly waived.
+If any relevant architecture, language, framework, or repository-required validation gate is **Fail**, the change is blocking and cannot be approved unless explicitly waived.
 
 ## Required Companion Check
 

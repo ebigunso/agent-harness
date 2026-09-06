@@ -35,19 +35,13 @@ This reference describes how execution plans are maintained over time.
 - After each wave:
   - append a Progress Log entry (what completed + validation evidence)
 
-### Deviations mid-execution (mandatory interrupt)
+### Deviations mid-execution
 
 If a deviation occurs mid-execution (unexpected outcome, blocked/failed, reviewer revision, waiver needed, new insight):
-1) Pause dispatch and stop edits.
-2) Run the improvement loop checklist:
-   - `docs/coding-agent/references/improvement-loop.md`
-3) Record a Decision Log entry:
-   - trigger/new insight
-   - plan delta
-   - tradeoffs
-   - approval status
-4) Update tasks/waves/validation as needed.
-5) Continue only after the plan delta is approved (when non-trivial).
+1) Record the insight in the Decision Log: trigger, plan delta, tradeoffs, and approval status.
+2) Surface it in the next report or wave integration and update tasks/waves/validation as needed.
+3) Apply the `improvement-loop` skill for correction events.
+4) Follow `orchestration-harness` Replan Triggers for contract-shape, irreversible, or outward-facing changes, and `engineering-quality-baselines` Drift Tripwires when the only path inside `owns` is a workaround.
 
 ## 4) Close
 
