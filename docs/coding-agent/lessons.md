@@ -489,7 +489,7 @@ Prevention:
 - Record the exact text that was dispatched and any extra context the packet added; claim only the reachability that dispatch exercised. Test the landed artifact, not its draft.
 
 Evidence:
-- Codex plan review F3 and reachability report `.agent-work/reviewer/plan-review-gate-reachability.md`, 2026-09-06.
+- Codex plan review F3 and the Task_6 reachability dispatch, 2026-09-06; both recorded in the plan Decision Log.
 
 ## 2026-09-06 - A Ruling That Changes An Acceptance Bullet Amends It In The Same Edit  [tags: planning, scope-owns]
 
