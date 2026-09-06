@@ -1,6 +1,6 @@
 # Frontier guard probes
 
-Behavior probes used to decide which harness guidance the daily-use models (Claude Fable 5.1, GPT-6 Astra) still need. Evidence record for ADR-D-0018 (evidence tiers) and ADR-D-0017 (guard relaxations).
+Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0018 (evidence classes), ADR-D-0017 (loader authority), ADR-D-0019 (Orchestrator reading), and ADR-D-0020 (record-and-surface).
 
 ## Layout
 
