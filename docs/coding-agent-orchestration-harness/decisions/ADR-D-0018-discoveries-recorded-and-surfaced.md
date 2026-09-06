@@ -13,10 +13,10 @@ warrant:
 supersedes: []
 superseded_by: null
 supersession_scope: null
-depends_on: ["ADR-D-0020-remove-harness-content-only-with-class-matched-evidence.md"]
+depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md"]
 ---
 
-# ADR-D-0019: Discoveries are recorded and surfaced; three cases pause
+# ADR-D-0018: Discoveries are recorded and surfaced; three cases pause
 
 ## Context and Problem Statement
 

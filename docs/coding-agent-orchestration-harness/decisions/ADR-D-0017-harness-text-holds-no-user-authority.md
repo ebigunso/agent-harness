@@ -10,7 +10,7 @@ warrant:
   detected_signals: "cross-boundary authority shape; rejected alternative likely to be re-proposed; premises tied to Claude Fable 5.1 and GPT-6 Astra as checked on 2026-09-06"
   cost_of_violation: "silent: harness text that claims user authority outranks every Orchestrator-to-subagent instruction on a model that ranks the user above skills, and the failure looks like caution"
   cost_of_over_extension: "reading this as permission to drop the plan-approval gate or any other consent contract; those are not authority claims"
-supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0021.md"]
+supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
 superseded_by: null
 supersession_scope: full
 ---

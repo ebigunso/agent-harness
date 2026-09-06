@@ -1,6 +1,6 @@
 # Frontier guard probes
 
-Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0020 (class-matched removal evidence), ADR-D-0017 (loader authority), and ADR-D-0019 (record-and-surface).
+Behavior probes run on 2026-09-06 to decide which harness guidance Claude Fable 5.1 and GPT-6 Astra need. Evidence record for ADR-D-0019 (class-matched removal evidence), ADR-D-0017 (loader authority), and ADR-D-0018 (record-and-surface).
 
 ## Layout
 
@@ -49,7 +49,7 @@ Exit codes: 0 all probes ran and the loader was restored with a matching hash; 2
 
 Compare `work/out*.txt` against `results-2026-09.md`. One run per cell is enough to refute "the model does this unprompted"; it is not enough to certify removal of a guard with incident history.
 
-## Removal ledger, PR #57, 2026-09-06 (ADR-D-0020 redundancy class)
+## Removal ledger, PR #57, 2026-09-06 (ADR-D-0019 redundancy class)
 
 Deleted or trimmed in PR #57, each classified as duplicate (D), tool-help mirror (M), or consumer-less (C), with the check used:
 

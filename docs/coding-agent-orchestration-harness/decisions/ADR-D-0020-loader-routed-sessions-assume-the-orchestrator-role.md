@@ -10,12 +10,12 @@ warrant:
   detected_signals: "cross-boundary identity shape (which role a session holds); rejected alternative likely to be re-proposed (loader carrying the workflow)"
   cost_of_violation: "a session that does not know it is the Orchestrator plans and dispatches without the Orchestrator rules, and the miss is invisible until review"
   cost_of_over_extension: "loading the full rule-suite lifecycle on every task; only the three rule files are loaded here"
-supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0021.md"]
+supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
 superseded_by: null
 supersession_scope: full
 ---
 
-# ADR-D-0021: Loader-routed sessions assume the Orchestrator role
+# ADR-D-0020: Loader-routed sessions assume the Orchestrator role
 
 ## Context and Problem Statement
 

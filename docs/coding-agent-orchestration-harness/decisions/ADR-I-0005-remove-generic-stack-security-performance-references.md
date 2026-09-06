@@ -13,7 +13,7 @@ warrant:
 supersedes: []
 superseded_by: null
 supersession_scope: null
-implements: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0020.md"]
+implements: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0019.md"]
 ---
 
 # ADR-I-0005: Remove generic stack, security, web-framework, and latent-risk-performance references

@@ -10,12 +10,12 @@ warrant:
   detected_signals: "evidence-ownership shape (what proof unlocks which removal); rejected alternatives likely to be re-proposed; a decider's ruling setting a durable governance default; premises tied to the models named in Revisit When"
   cost_of_violation: "guidance accretes at per-task token cost, or an under-evidenced guard relaxation fails silently: the model keeps looking careful while a drifted behavior returns"
   cost_of_over_extension: "treating a contract, schema, evidence requirement, or consent gate as removable content because it is restated somewhere; those are deduplicated to one copy and never removed"
-supersedes: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0020.md"]
+supersedes: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0019.md"]
 superseded_by: null
 supersession_scope: full
 ---
 
-# ADR-D-0020: Remove harness content only with evidence matched to what it protects
+# ADR-D-0019: Remove harness content only with evidence matched to what it protects
 
 ## Context and Problem Statement
 
@@ -60,4 +60,4 @@ Guidance ablations were run on 2026-08-29 against Claude Fable 5, GPT-5.6 Sol, a
 
 ## More Information
 
-Replaces ADR-D-0015 in full. Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004, ADR-I-0005); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/`. Guard relaxations made under the guard class: ADR-D-0019.
+Replaces ADR-D-0015 in full. Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004, ADR-I-0005); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/`. Guard relaxations made under the guard class: ADR-D-0018.

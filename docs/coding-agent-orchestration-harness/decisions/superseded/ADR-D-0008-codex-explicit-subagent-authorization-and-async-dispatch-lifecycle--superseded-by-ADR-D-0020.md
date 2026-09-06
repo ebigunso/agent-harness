@@ -8,13 +8,13 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: ADR-D-0021-loader-routed-sessions-assume-the-orchestrator-role.md
+superseded_by: ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md
 supersession_scope: full
 ---
 
 # ADR-D-0008: Codex Explicit Subagent Authorization, Orchestrator Identity, And Async Dispatch Lifecycle
 
-> Retired on 2026-09-06. This record bundled three decisions. The loader-authority clause is replaced by ADR-D-0017 (harness text holds no user authority); the Orchestrator-identity and rule-load clauses by ADR-D-0021; the async child lifecycle by ADR-D-0022.
+> Retired on 2026-09-06. This record bundled three decisions. The loader-authority clause is replaced by ADR-D-0017 (harness text holds no user authority); the Orchestrator-identity and rule-load clauses by ADR-D-0020; the async child lifecycle by ADR-D-0021.
 
 ## Context and Problem Statement
 
