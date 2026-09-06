@@ -3,7 +3,7 @@
 # Usage: bash run_baseline.sh <experiment-root>
 # Resets work/<X> from fixtures/<X>, runs prompts/<X>.txt in each, writes work/out<X>.txt.
 # Moves ~/.codex/AGENTS.md aside for the run window and restores it on exit; prints the hash before and after.
-# Exit codes: 0 all probes ran and the loader was restored intact; 2 setup refused; 3 a probe failed; 4 restore or hash check failed.
+# Exit codes: 0 all probes ran and the loader was restored intact; 2 setup refused; 3 a probe failed; 4 restore or hash check failed (takes precedence); 130/143 interrupted, loader restored first.
 set -u
 ROOT="$(cd "${1:?usage: run_baseline.sh <experiment-root>}" && pwd)" || exit 2
 CODEX_DIR="${CODEX_HOME:-$HOME/.codex}"
@@ -22,7 +22,8 @@ restore() {
   if [ "$after" = "$before" ]; then echo "AGENTS.md restored (sha256 match)"; else echo "RESTORE HASH MISMATCH: before=$before after=$after" >&2; rc=4; fi
   moved=0
 }
-trap 'restore; exit $rc' EXIT INT TERM
+on_exit() { st=$?; restore; if [ "$rc" -eq 4 ]; then exit 4; fi; if [ "$st" -ne 0 ]; then exit "$st"; fi; exit "$rc"; }
+trap on_exit EXIT; trap 'exit 130' INT; trap 'exit 143' TERM
 mkdir -p "$ROOT/work" || exit 2
 pids=(); names=()
 for X in A B C D; do
