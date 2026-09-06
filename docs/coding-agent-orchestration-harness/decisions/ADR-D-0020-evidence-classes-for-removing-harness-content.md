@@ -1,25 +1,25 @@
 ---
 status: accepted
 adr_type: design
-date: 2026-08-29
+date: 2026-09-06
 deciders: ["ebigunso"]
-consulted: ["Claude Fable 5", "Claude Fable 5.1", "GPT-6 Astra"]
+consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 warrant:
-  warranted_by: "without this record, future work would likely treat shipped guidance as permanent, demand an ablation to delete a tool-help mirror, or relax an incident-backed guard on intuition; the three classes look alike in a diff and the evidence each needs is not derivable from the content"
-  detected_signals: "evidence-ownership shape (what proof unlocks which removal); rejected alternatives likely to be re-proposed; a decider's ruling setting a durable governance default; premises tied to the models in use, named in Revisit When"
+  warranted_by: "without this record, future work would likely treat shipped guidance as permanent, demand an ablation to delete a tool-help mirror, relax an incident-backed guard on intuition, or write an ADR per removed file; the three classes look alike in a diff and the evidence each needs is not derivable from the content"
+  detected_signals: "evidence-ownership shape (what proof unlocks which removal); rejected alternatives likely to be re-proposed; a decider's ruling setting a durable governance default; premises tied to the models named in Revisit When"
   cost_of_violation: "guidance accretes at per-task token cost, or an under-evidenced guard relaxation fails silently: the model keeps looking careful while a drifted behavior returns"
   cost_of_over_extension: "treating a contract, schema, evidence requirement, or consent gate as removable content because it is restated somewhere; those are deduplicated to one copy and never removed"
-supersedes: []
+supersedes: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0020.md"]
 superseded_by: null
-supersession_scope: null
+supersession_scope: full
 ---
 
-# ADR-D-0015: Remove obsolete guidance as models improve
+# ADR-D-0020: Evidence classes for removing harness content
 
 ## Context and Problem Statement
 
-The harness ships content written to compensate for the limits of the models in use when it was written. Model capability moves; content does not expire on its own, and every loaded document costs tokens and attention on every task. Content is not one class: some duplicates text that lives elsewhere, some teaches a practice, some pins a behavior that has drifted before. One removal rule for all three either blocks trivial deletions behind experiments or lets guards go on intuition, and guards are where intuition fails silently.
+The harness ships content written to compensate for the limits of the models in use when it was written; capability moves and content does not expire on its own, while every loaded document costs tokens and attention on every task. Content is not one class: some duplicates text that lives elsewhere, some teaches a practice, some pins a behavior that has drifted before. ADR-D-0015 applied one rule to all of it, ablation first and an implementation ADR per removal, which blocked trivial deletions behind experiments and said nothing about guards, where intuition fails silently.
 
 ## Decision
 
@@ -38,8 +38,8 @@ A duplicate protects nothing worth measuring. An ablation measures review lift a
 ## Rejected Alternatives
 
 - Keep guidance indefinitely and bound its cost by routing: routing pays its own overhead and keeps the maintenance surface.
-- Compress aging guidance by default: presumes a salience gap that must itself be demonstrated; the 2026-08-29 ablation showed a control arm with no gap to fill.
-- One rule for everything, ablation first: spends an experiment on a help mirror and says nothing about guards.
+- Compress aging guidance by default: presumes a salience gap that must itself be demonstrated; the ablation of 2026-08-29 showed a control arm with no gap to fill.
+- One rule for everything, ablation first (ADR-D-0015): spends an experiment on a help mirror and says nothing about guards.
 - Judgment plus reviewer check for guards: two guard relaxations were proposed this way on 2026-09-06 and both were wrong on probe.
 - Highest class wins on dispute: the proofs measure different things; a disputed class adds its obligation.
 - One implementation ADR per removal: history without a constraint; git and the experiment records hold the same facts. Reopens only if removal records prove unfindable.
@@ -60,8 +60,4 @@ Guidance ablations were run on 2026-08-29 against Claude Fable 5, GPT-5.6 Sol, a
 
 ## More Information
 
-Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004, ADR-I-0005); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/`. Guard relaxations made under the guard class: ADR-D-0019.
-
-## Revisions
-
-- 2026-09-06, ebigunso (consulted Claude Fable 5.1, GPT-6 Astra): replaced the single ablation rule with three evidence classes, added the accumulation and never-removable rules, and dropped the per-removal implementation-ADR clause; ledgers live with experiment records. Reason: one rule blocked trivial deletions and let guard relaxations pass on intuition.
+Replaces ADR-D-0015 in full. Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004, ADR-I-0005); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/`. Guard relaxations made under the guard class: ADR-D-0019.

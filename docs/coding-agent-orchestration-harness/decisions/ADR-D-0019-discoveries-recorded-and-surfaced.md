@@ -13,7 +13,7 @@ warrant:
 supersedes: []
 superseded_by: null
 supersession_scope: null
-depends_on: ["ADR-D-0015-remove-obsolete-guidance-as-models-improve.md"]
+depends_on: ["ADR-D-0020-evidence-classes-for-removing-harness-content.md"]
 ---
 
 # ADR-D-0019: Discoveries are recorded and surfaced; three cases pause

@@ -13,7 +13,7 @@ warrant:
 supersedes: []
 superseded_by: null
 supersession_scope: null
-implements: ["ADR-D-0015-remove-obsolete-guidance-as-models-improve.md"]
+implements: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0020.md"]
 ---
 
 # ADR-I-0004: Remove per-language baseline references from engineering-quality-baselines

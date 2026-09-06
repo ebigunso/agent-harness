@@ -344,6 +344,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): ADR-D-0015 carries the evidence classes and a Revisions note; ADR-D-0018 deleted; ADR-D-0008 loses its authority clause with a Revisions note pointing at ADR-D-0017; ADR-D-0017 and ADR-D-0019 frontmatter updated. The branch adds two design records (ADR-D-0017, ADR-D-0019) and revises two (ADR-D-0008, ADR-D-0015).
   - Tradeoffs considered: partial supersession kept both files authoritative and was rejected as the worst of both models.
   - User approval: yes (2026-09-06).
+- 2026-09-06 Decision: ADRs are immutable; changed decisions retire the old record and write a complete new one.
+  - Trigger / new insight: user ruling that in-place revision carries too much procedure and risks silently rewriting the record of why a decision landed; the earlier revision allowance is withdrawn and partial supersession is abolished.
+  - Plan delta (what changed): ADR-D-0015 and ADR-D-0008 restored to their original text, marked superseded, and moved to decisions/superseded/; ADR-D-0020 (evidence classes) replaces ADR-D-0015 in full; ADR-D-0008 is split into ADR-D-0017 (loader authority), ADR-D-0021 (loader-routed sessions assume the Orchestrator role), and ADR-D-0022 (Orchestrator owns the async subagent lifecycle). Inbound paths updated, including the implements fields of ADR-I-0004 and ADR-I-0005.
+  - Tradeoffs considered: more files and ID churn, accepted for immutable history and one-file readability.
+  - User approval: yes (2026-09-06).
 
 ## Notes
 - Risks: adapter three-copy drift (mitigated by the sync checklist and Task_1 hashes); a deletion that a repo-local rule suite elsewhere points to (mitigated by the migrate stance and `--check` staleness); Task_6 cell (d) failing would mean the reworded loader broke ADR-D-0008 behavior, in which case the sentence is restored and ADR-D-0017 records the finding.

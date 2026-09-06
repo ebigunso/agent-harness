@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-05-17
 deciders:
@@ -8,10 +8,13 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ADR-D-0021-loader-routed-sessions-assume-the-orchestrator-role.md
+supersession_scope: full
 ---
 
 # ADR-D-0008: Codex Explicit Subagent Authorization, Orchestrator Identity, And Async Dispatch Lifecycle
+
+> Retired on 2026-09-06. This record bundled three decisions. The loader-authority clause is replaced by ADR-D-0017 (harness text holds no user authority); the Orchestrator-identity and rule-load clauses by ADR-D-0021; the async child lifecycle by ADR-D-0022.
 
 ## Context and Problem Statement
 
@@ -19,7 +22,7 @@ Codex can enter the harness through a managed `AGENTS.md` loader block that dire
 
 This creates three related Codex runtime risks:
 
-- the main Codex thread may not follow the harness workflow, including bounded harness subagent dispatch when required, unless the loader tells it to;
+- the main Codex thread may not recognize that loading `$orchestration-harness` is explicit user direction to follow the harness workflow, including bounded harness subagent dispatch when required;
 - the main Codex thread may not consistently recognize itself as the logical Orchestrator and may skip repository Orchestrator rules such as `docs/coding-agent/rules/orchestrator.md`;
 - Codex subagents run asynchronously or as background processes, so the parent thread may become impatient, duplicate active child work, or leave completed child processes open after final reports.
 
@@ -37,7 +40,7 @@ These are Orchestrator-side runtime workflow issues. They do not require changin
 
 ## Decision
 
-The managed Codex loader states that the user installed the harness and that a coding task follows the harness workflow, including bounded harness subagent dispatch when the harness requires it, unless the user's conversation says otherwise. The loader never presents itself as the user's own instruction (ADR-D-0017).
+Using the managed Codex loader or otherwise invoking `$orchestration-harness` for a coding task is explicit user direction to follow the harness workflow, including bounded harness subagent dispatch when the harness requires it, unless the user explicitly disables subagents.
 
 Runtime loaders may route an agent into `$orchestration-harness` without selecting a physical Orchestrator agent. Once the skill is loaded for a coding task, the current main-thread agent assumes the logical Orchestrator role for that task. This includes Codex sessions routed by the managed `AGENTS.md` loader.
 
@@ -152,7 +155,3 @@ Additional validation:
 - `plugins/coding-agent-orchestration-harness/skills/subagent-strategy/references/async-dispatch-lifecycle.md`
 - `plugins/coding-agent-orchestration-harness/skills/wave-integration/SKILL.md`
 - `plugins/coding-agent-orchestration-harness/codex/snippets/AGENTS.md`
-
-## Revisions
-
-- 2026-09-06, ebigunso (consulted Claude Fable 5.1, GPT-6 Astra): the Decision no longer calls loader use "explicit user direction"; the loader describes the user's installation and defers to the user's conversation. Reason: Claude Fable 5.1 and GPT-6 Astra rank the user's conversation above skill text, so a skill claiming user rank outranked Orchestrator-to-subagent instructions (ADR-D-0017).
