@@ -64,4 +64,4 @@ Records: guidance ablations under `docs/coding-agent/experiments/language-guide-
 
 ## Revisions
 
-- 2026-09-06, ebigunso (consulted Claude Fable 5.1, GPT-6 Astra): replaced the single ablation rule with three evidence classes, added the accumulation and never-removable rules, and dropped the per-removal implementation-ADR clause; ledgers now live with experiment records. Reason: one rule blocked trivial deletions and let guard relaxations pass on intuition.
+- 2026-09-06, ebigunso (consulted Claude Fable 5.1, GPT-6 Astra): replaced the single ablation rule with three evidence classes, added the accumulation and never-removable rules, and dropped the per-removal implementation-ADR clause; ledgers live with experiment records. Reason: one rule blocked trivial deletions and let guard relaxations pass on intuition.
