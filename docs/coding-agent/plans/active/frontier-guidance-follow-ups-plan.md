@@ -194,7 +194,10 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-07 11:25 Wave 1 in progress: [Task_2 done, Task_3 in progress, Task_1 awaiting the user]
+  - Summary: Task_2 (Codex worker) relaxed validate_worker_report.py so commands_run and tests are shape-checked when present and no longer required; producer contract unchanged; two fixtures added and wired into the smoke tests. PR #59 opened on feature/2026-09-07/worker-report-validator-relaxation. Task_3: protocol recovered from 47c409c and e221d34 into docs/coding-agent/experiments/guidance-class-ablation/protocol.md with score.py on feature/2026-09-07/guidance-class-ablation; Researcher drafting the fixture plan.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; every valid-*report*.yaml passes; git diff --check clean; Codex Reviewer APPROVED Task_2 (0d465cc..e27653e).
+  - Notes: Task_1 (installed-copy refresh) is user-run and gates Task_4.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -228,6 +231,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): status approved; execution begins after PR #57 merges.
   - Tradeoffs considered: none.
   - User approval: yes (2026-09-06).
+- 2026-09-07 Decision: Decision-record pointers corrected after the PR #57 renumbering.
+  - Trigger / new insight: this plan was drafted before ADR-D-0018 was renumbered; the loader-authority record is ADR-D-0017, discoveries are ADR-D-0018, class-matched removal evidence is ADR-D-0019, and loader-routed sessions assuming the Orchestrator role is ADR-D-0020.
+  - Plan delta (what changed): Task_4 acceptance reads as: a failure of (i) reopens ADR-D-0017; a failure of (ii) reopens ADR-D-0020. Context references to "ADR-D-0018 (class-matched removal evidence)" mean ADR-D-0019. No task content changes.
+  - Tradeoffs considered: none.
+  - User approval: not needed (pointer repair, no decision changed); recorded for the record.
 
 ## Notes
 - Risks: the ablation is the expensive item (fixtures times arms times models times seeds); Task_3 sizes it and the user can cap it at plan approval. Task_4 depends on the user's install refresh and on PR #57 merging first.
