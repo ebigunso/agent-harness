@@ -41,7 +41,3 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 - Keep first-party skill content version agnostic; track rollout phase and evolution plans outside the skill unless the version is part of a public compatibility contract.
 - Store runtime payload templates as inert plugin files unless the task intentionally installs them into a runtime discovery path.
 - Design and implementation decisions live under `docs/coding-agent-orchestration-harness/decisions/`.
-
-## Global Migration Candidates
-
-- When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.

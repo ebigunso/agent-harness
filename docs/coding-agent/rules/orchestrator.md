@@ -25,7 +25,3 @@ last_updated: "2026-09-06"
 - If nested branch creation fails with `unable to create directory for .git/refs/heads/...`, verify there is no conflicting loose or packed ref, then rerun the Git branch/switch command with filesystem approval; do not change naming conventions or edit `.git` internals as a workaround.
 - Stage only intended files when the worktree is mixed; never include unrelated untracked files silently.
 - PR titles describe the change; plugin version numbers stay in the manifests and the PR body, never in the title.
-
-## Global Migration Candidates
-
-- None.
