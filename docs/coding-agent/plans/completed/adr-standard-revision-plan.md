@@ -1,6 +1,6 @@
 # Plan: ADR standard revision
 
-- status: in_progress
+- status: completed
 - generated: 2026-09-06
 - last_updated: 2026-09-06
 - work_type: docs
@@ -146,6 +146,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Task_2 (Codex worker) routed plan-format, prompt-snippets, the reviewer packet, the Escalation Ruling reference, and the final-response contract to adr.md by path with operational forms only, and added the validator check for supersession_scope: partial on live records with its fixture; the Orchestrator added the acceptance-state item to the Final Response Summary line in orchestration-harness/SKILL.md (outside Task_2 owns, ruling recorded). Task_3 (Orchestrator): final prevention list in the lessons entry and one orchestrator rule.
   - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check clean; worker reports eight temporary-copy fixture checks with the validator firing on the partial-supersession fixture.
   - Notes: Task_4 final review dispatched.
+- 2026-09-07 11:20 Wave 3 completed: [Task_4]
+  - Summary: Codex Reviewer final review: DoD bullets 1-4 PASS with one MAJOR (the partial-supersession fixture was not exercised by any runnable check). Fixed in commit 1525974: run_validation_smoke_tests.py now places the fixture in a temporary live decisions directory (validator exit 3) and under superseded/ (exit 0). Delta re-review APPROVED.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0 including the new check; git diff --check clean.
+  - Notes: plan closed; PR opened for the branch.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
