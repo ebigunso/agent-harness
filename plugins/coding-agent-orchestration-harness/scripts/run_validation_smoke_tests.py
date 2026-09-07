@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -108,6 +109,27 @@ def run_bootstrap_smoke() -> bool:
     return ok
 
 
+def run_adr_supersession_smoke() -> bool:
+    """The validator must reject a live ADR with supersession_scope: partial and accept it once archived."""
+    fixture = ROOT / "tests" / "fixtures" / "invalid-adr-partial-supersession.md"
+    validator = ROOT / "scripts" / "validate_harness_package.py"
+    ok = True
+    with tempfile.TemporaryDirectory() as tmp:
+        repo = Path(tmp) / "repo"
+        shutil.copytree(ROOT.parent.parent / "docs", repo / "docs")
+        shutil.copytree(ROOT, repo / "plugins" / ROOT.name)
+        script = repo / "plugins" / ROOT.name / "scripts" / validator.name
+        live = repo / "docs" / "smoke" / "decisions" / fixture.name
+        live.parent.mkdir(parents=True)
+        shutil.copy(fixture, live)
+        ok &= run([PY, str(script)], 3)
+        archived = live.parent / "superseded" / fixture.name
+        archived.parent.mkdir()
+        live.rename(archived)
+        ok &= run([PY, str(script)], 0)
+    return ok
+
+
 def main() -> int:
     fixtures = ROOT / "tests" / "fixtures"
     checks: list[tuple[list[str], int]] = [
@@ -140,6 +162,7 @@ def main() -> int:
     for cmd, expected in checks:
         ok &= run(cmd, expected)
     ok &= run_bootstrap_smoke()
+    ok &= run_adr_supersession_smoke()
     return 0 if ok else 3
 
 
