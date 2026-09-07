@@ -214,6 +214,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: two ephemeral cells run and judged (results-2026-09-live-loader.md). Cell (i) PASS. Cell (ii) FAIL: harness loaded and Orchestrator role assumed (ADR-D-0020 supported; reopen review closed with no change), Worker spawn failed in the headless runtime, and the session self-waived plan review and approval under the Plan Gate's Orchestrator-waiver clause and implemented.
   - Validation evidence: Codex Reviewer verdict with transcript line references; checkout writes reverted by the Orchestrator.
   - Notes: blocker surfaced to ebigunso: the Plan Gate waiver boundary. Pilot ablation cells started on ebigunso's instruction (two seeds as registered).
+- 2026-09-08 Wave 2 Task_5 pilot, Astra half complete: [Task_5]
+  - Summary: 672 GPT-6 Astra cells (7 sections x 3 arms x 16 fixtures x 2 seeds) run as pure-baseline ephemeral sessions with the user loader aside and hash-restored (run/run_astra.sh; transcripts committed in 06b047e). Graded blind by 14 Claude Fable 5.1 graders (two per section, responses only, fixture id visible, arm and seed hidden; run/blind.py, run/unblind.py). Astra detection: arm A at ceiling (1.00) on cp-2, cp-9, npm locks, gRPC IPv6, shell cwd; Python encoding A 0.98 / B 1.00 / C 1.00; PowerShell JSON A 0.88 / B 0.98 / C 1.00. FP rate 0 everywhere except cp-9 arm C (0.12, one decoy finding).
+  - Validation evidence: 672/672 cells exit 0 and non-empty; unblind: 672 records, 0 ungraded, 0 id or fixture mismatches; results in work/results-astra.yaml (41e99e1).
+  - Notes: verdicts wait for the Fable half (worst-model rule). Grading caveat for outcome.md: the seven PowerShell JSON partials are responses that named the mechanism and proposed a different valid remediation than the key's; recorded as graded, not adjudicated. Fable runner method pending ebigunso's decision (subagent preamble cost).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
