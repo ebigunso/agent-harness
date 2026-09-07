@@ -253,6 +253,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): protocol.md Fixtures now reads: one primary named check per plant, quoted; secondary mappings disclosed; overlap is harmless because arm B loads only the measured section. The Researcher is re-commissioned for the 16 code-review sections under that criterion; cp-10 plants must target its own quoted checks and the section reports fewer than 12 if they do not exist. Recorded before any cell ran; the decision rule is unchanged.
   - Tradeoffs considered: literal exclusivity would mark 16 of 21 sections unmeasurable and infer nothing; rejected.
   - User approval: not needed (pre-registration detail below the decision rule); surfaced in the report.
+- 2026-09-08 Decision: Task_4 cells run as ephemeral headless Codex sessions, not user-driven registered peers.
+  - Trigger / new insight: ebigunso chose codex exec --ephemeral for both cells: no roster changes, and the harness-less cell cannot be contaminated by a stray skill or session state.
+  - Plan delta (what changed): each cell is a fresh `codex exec --ephemeral -s read-only` in the main checkout with the installed user loader active (no project_doc_max_bytes override, plugins and skills enabled); the "do not load the harness" instruction arrives in the first user turn rather than over a peer channel; the evidence header (codex --version, manifest SHA-256, checkout commit, loaded-instructions line) is requested in the prompt. Q2's "user drives the peer" is replaced by the Orchestrator launching the runs; the Reviewer still judges the transcripts read-only.
+  - Tradeoffs considered: the peer-channel form would test the same loader through a second instruction source, at the cost of manual roster work and contamination risk; not pursued.
+  - User approval: yes (2026-09-08).
 
 ## Notes
 - Risks: the ablation is the expensive item (fixtures times arms times models times seeds); Task_3 sizes it and the user can cap it at plan approval. Task_4 depends on the user's install refresh and on PR #57 merging first.
