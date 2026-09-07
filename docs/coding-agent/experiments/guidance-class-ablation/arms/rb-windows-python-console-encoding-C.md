@@ -1,0 +1,1 @@
+Windows UnicodeEncodeError after computation: legacy output cannot encode the character. Before rerunning a writer, check partial effects. Set command-scoped PYTHONIOENCODING=utf-8 and rerun. Owned stdout: sys.stdout.reconfigure(encoding="utf-8"); files: open(..., encoding="utf-8"). Capture error/character and successful override command/output.
