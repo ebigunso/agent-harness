@@ -1,0 +1,162 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7e-debb-72d0-b2f6-1548e0d58fc0
+--------
+user
+Reference material loaded for this review:
+
+# Persistent Shell CWD Normalization
+
+Use this guide when command failures may be caused by running from the wrong current working directory (cwd), especially in persistent terminal sessions.
+
+## When to read this
+
+Read this reference when any of the following appear:
+- repeated `cd <dir> && ...` command chains fail unexpectedly
+- errors like “path not found”, “no such file or directory”, or missing script/package from a directory where it should exist
+- command behavior changes between retries without code changes
+- you are using a persistent shell where cwd state is carried across commands
+
+## Quick triage checklist
+
+1) Capture current state before changing anything
+- run `pwd`
+- run `ls` (or `dir`) to confirm you are where you think you are
+- record failing command + error output
+
+2) Confirm intended run location
+- identify the intended directory for the command (repo root vs subdirectory)
+- if needed, verify script location from project files
+
+3) Normalize cwd minimally
+- use explicit navigation to intended path (single `cd` to the target)
+- avoid stacking duplicated `cd <same-dir> && ...` patterns in persistent sessions
+- rerun the original command unchanged after cwd normalization
+
+4) Validate and record
+- if fixed, record that cwd drift was root cause
+- capture both pre-normalization cwd and normalized cwd in troubleshooting evidence
+- if not fixed, continue with another runbook to avoid overfitting on cwd
+
+## Safe command pattern examples
+
+- Pattern A (normalize then run):
+  - `pwd`
+  - `cd <intended-path>`
+  - `<original-command>`
+
+- Pattern B (single explicit execution path):
+  - from repo root, use one explicit `cd <target> && <command>`
+  - avoid repeating nested `cd` assumptions across retries
+
+## Evidence expectations
+
+When cwd drift contributed to failure, include:
+- failing command and error text
+- pre-normalization cwd
+- normalized cwd
+- rerun command result
+- final status (`resolved` / `still failing`)
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; recorded paths and retry results are constructed for this example.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Node 20.18.0; npm 10.8.2. Intended execution base: C:/work/shop.
+
+Prior command in this same persistent shell: `Set-Location -LiteralPath 'C:/work/shop/web'` (exit/status 0, stdout/stderr empty).
+
+State captured before any repair:
+
+Command: `pwd`; exit/status 0; stderr empty. Path output: `C:/work/shop/web`.
+
+Command: `Get-ChildItem -Name`; exit/status 0; stderr empty. stdout:
+```text
+package.json
+src
+node_modules
+```
+
+Failing command: `cd web && npm run build`
+
+Exit code / shell status: 1
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+Set-Location: Cannot find path 'C:\work\shop\web\web' because it does not exist.
+```
+
+Read-only absolute-path inspection confirms these existing entries under the intended base:
+```text
+C:/work/shop/web/package.json
+C:/work/shop/web/src/index.ts
+```
+
+Captured comparison:
+
+1. `Set-Location -LiteralPath 'C:/work/shop'` — exit/status 0; stdout/stderr empty.
+2. `pwd` — normalized cwd C:/work/shop; exit/status 0.
+3. `cd web && npm run build` — exit/status 0.
+
+stdout:
+```text
+> web@1.0.0 build
+> tsc
+```
+
+stderr:
+```text
+(empty)
+```
+
+Final `pwd`: C:/work/shop/web; exit/status 0.
+
+Diagnostic observations: The tool UI still displays C:/work/shop as its remembered workspace root; the persistent shell has its own cwd, shown above. No code, branch, PATH, dependency, configuration or permission change occurred between attempts. All referenced files are accessible. The original command is repeated unchanged; only the explicit navigation differs. Command status 1 is the shell adapter status for failed Set-Location; npm never launched on that attempt. The earlier command had already entered web.
+
+codex
+**Cause:** Persistent-shell cwd drift. The shell was already at `C:/work/shop/web`, so `cd web` tried to enter nonexistent `C:/work/shop/web/web`. `Set-Location` failed with status 1; npm never launched. The UI’s remembered workspace root does not control shell cwd. This is a working-directory problem, not a code or dependency failure.
+
+**Smallest safe remediation:** Normalize to the intended base once, then rerun the original command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/shop'
+pwd
+cd web && npm run build
+```
+
+**Confirmation:** The captured comparison already confirms resolution: normalized cwd was `C:/work/shop`, the unchanged command ran `tsc` and exited 0 with empty stderr. Final cwd was `C:/work/shop/web`, so normalize again before repeating that command in the same shell.
+
+**Final status: resolved.**
+tokens used
+3,927
+**Cause:** Persistent-shell cwd drift. The shell was already at `C:/work/shop/web`, so `cd web` tried to enter nonexistent `C:/work/shop/web/web`. `Set-Location` failed with status 1; npm never launched. The UI’s remembered workspace root does not control shell cwd. This is a working-directory problem, not a code or dependency failure.
+
+**Smallest safe remediation:** Normalize to the intended base once, then rerun the original command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/shop'
+pwd
+cd web && npm run build
+```
+
+**Confirmation:** The captured comparison already confirms resolution: normalized cwd was `C:/work/shop`, the unchanged command ran `tsc` and exited 0 with empty stderr. Final cwd was `C:/work/shop/web`, so normalize again before repeating that command in the same shell.
+
+**Final status: resolved.**
+
+__ABLATION_DONE__ exit=0

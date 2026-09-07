@@ -1,0 +1,61 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d83-c5c1-7053-88b4-19c15fe2b762
+--------
+user
+Reference material loaded for this review:
+
+Fix causes at their origin; strengthen invariants. Does this suppress symptoms or add duplicated/compensating logic?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Prevent duplicate reservations for single-capacity slots under concurrent booking.
+
+```diff
+--- a/src/Bookings.java
++++ b/src/Bookings.java
+@@ -1,18 +1,19 @@
+ final class BookingService {
+     private final ReservationStore store;
+     BookingService(ReservationStore store) { this.store = store; }
+     void reserve(String slot, String customer) {
+         if (store.count(slot) == 0) {
+             store.insert(slot, customer);
+         } else {
+             throw new SlotFull(slot);
+         }
+     }
+ }
+ final class NightlyMaintenance {
+     private final ReservationStore store;
+     NightlyMaintenance(ReservationStore store) { this.store = store; }
+     void run() {
+         store.removeExpired();
++        store.deleteDuplicatesKeepingEarliest();
+     }
+ }
+```
+Commit message: "sweep duplicate bookings nightly"
+
+Reviewer notes: The authoritative database has no slot uniqueness constraint; count and insert are separate autocommit statements. Maintenance deletion is transactional. Concurrent HTTP and scheduler reservations call reserve. Existing booked reservations are relied on immediately, before the next sweep.
+
+codex
+- **`src/Bookings.java`, `BookingService.reserve`: Concurrent double-booking remains possible.** Separate autocommit `count` and `insert` statements let two callers both observe zero and insert. A transactional nightly sweep cannot prevent this, so the requested invariant remains unenforced. Require a database uniqueness constraint for the single-capacity slot and an atomic insert that translates a uniqueness conflict into `SlotFull`, covering both HTTP and scheduler callers.
+
+- **`src/Bookings.java`, `NightlyMaintenance.run`, added deletion:** The sweep silently deletes reservations already relied on by customers or downstream processes. Keeping the earliest row does not undo commitments made for the deleted bookings. Require explicit reconciliation of existing duplicates, including handling affected commitments, rather than unconditional nightly deletion.
+tokens used
+3,394
+- **`src/Bookings.java`, `BookingService.reserve`: Concurrent double-booking remains possible.** Separate autocommit `count` and `insert` statements let two callers both observe zero and insert. A transactional nightly sweep cannot prevent this, so the requested invariant remains unenforced. Require a database uniqueness constraint for the single-capacity slot and an atomic insert that translates a uniqueness conflict into `SlotFull`, covering both HTTP and scheduler callers.
+
+- **`src/Bookings.java`, `NightlyMaintenance.run`, added deletion:** The sweep silently deletes reservations already relied on by customers or downstream processes. Keeping the earliest row does not undo commitments made for the deleted bookings. Require explicit reconciliation of existing duplicates, including handling affected commitments, rather than unconditional nightly deletion.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,128 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d86-6aa6-7492-a942-f33c503a787e
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; Windows PowerShell 5.1.22621.4391; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `powershell.exe -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '  [true]  '
+$wireCount = '1'
+$raw = Get-Content -Raw data.json; $parsed = $raw | ConvertFrom-Json | Write-Output
+Write-Output ('raw=<' + $raw + '>')
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=<  [true]  >
+wire elements=1
+parsed type=System.Boolean
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
+    + FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. data.json contains exactly two spaces, [true], and two spaces.
+
+codex
+The checker’s assertion is wrong; `data.json` and the workspace configuration are fine. PowerShell’s pipeline unwraps the singleton array, so `$parsed` becomes `System.Boolean`. Its runtime type cannot establish the original JSON framing.
+
+Replace the final assertion with:
+
+```powershell
+$trimmed = $raw.Trim()
+if (-not ($trimmed.StartsWith('[') -and $trimmed.EndsWith(']'))) {
+    throw 'Expected JSON array'
+}
+```
+
+Keep the existing parse:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json | Write-Output
+```
+
+`ConvertFrom-Json` checks syntax; the trimmed raw-text check establishes outer array framing. Windows PowerShell 5.1 does not support `-NoEnumerate`, and a later pipeline could unwrap arrays again anyway.
+
+Confirm by rerunning the original command with these fixtures, recording exact raw JSON, known element count, the parse/assertion above, and exit status:
+
+| Raw JSON | Array elements | Expected exit |
+|---|---:|---:|
+| `  [true]  ` | 1 | 0 |
+| `[]` | 0 | 0 |
+| `[true,false]` | 2 | 0 |
+| `true` | Not an array | 1 |
+| `[true,` | Invalid JSON | 1 |
+
+For the original input, `parsed type=System.Boolean` can remain unchanged: success means the framing assertion accepts it. The existing `wire elements=1` output is hardcoded, so it is not independent evidence of element count.
+tokens used
+3,950
+The checker’s assertion is wrong; `data.json` and the workspace configuration are fine. PowerShell’s pipeline unwraps the singleton array, so `$parsed` becomes `System.Boolean`. Its runtime type cannot establish the original JSON framing.
+
+Replace the final assertion with:
+
+```powershell
+$trimmed = $raw.Trim()
+if (-not ($trimmed.StartsWith('[') -and $trimmed.EndsWith(']'))) {
+    throw 'Expected JSON array'
+}
+```
+
+Keep the existing parse:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json | Write-Output
+```
+
+`ConvertFrom-Json` checks syntax; the trimmed raw-text check establishes outer array framing. Windows PowerShell 5.1 does not support `-NoEnumerate`, and a later pipeline could unwrap arrays again anyway.
+
+Confirm by rerunning the original command with these fixtures, recording exact raw JSON, known element count, the parse/assertion above, and exit status:
+
+| Raw JSON | Array elements | Expected exit |
+|---|---:|---:|
+| `  [true]  ` | 1 | 0 |
+| `[]` | 0 | 0 |
+| `[true,false]` | 2 | 0 |
+| `true` | Not an array | 1 |
+| `[true,` | Invalid JSON | 1 |
+
+For the original input, `parsed type=System.Boolean` can remain unchanged: success means the framing assertion accepts it. The existing `wire elements=1` output is hardcoded, so it is not independent evidence of element count.
+
+__ABLATION_DONE__ exit=0

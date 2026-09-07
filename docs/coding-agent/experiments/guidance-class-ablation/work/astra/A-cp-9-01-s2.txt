@@ -1,0 +1,74 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d74-6c2d-76b0-ad13-53344eacd3c0
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Make account-list timeout handling useful to callers.
+
+```diff
+--- a/accounts/list.go
++++ b/accounts/list.go
+@@ -1,7 +1,10 @@
+ func ListAccounts(ctx context.Context, db Store) ([]Account, error) {
+     accounts, err := db.List(ctx)
+     if err != nil {
++        if errors.Is(err, context.DeadlineExceeded) {
++            return []Account{}, nil
++        }
+         return nil, fmt.Errorf("list accounts: %w", err)
+     }
+     return accounts, nil
+ }
+```
+Commit message: "keep account listing available during timeouts"
+
+Reviewer notes: Existing file imports context, errors and fmt. HTTP callers serialize a nil error as 200; an empty list means the account has no records. Store.List returns wrapped context.DeadlineExceeded on database timeout. No stale-result contract exists.
+
+2026-09-07T19:59:37.392937Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T19:59:37.439320Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T19:59:38.894003Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T19:59:39.337360Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 2/5
+2026-09-07T19:59:39.902685Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 3/5
+2026-09-07T19:59:40.868076Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 4/5
+2026-09-07T19:59:42.743791Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 5/5
+2026-09-07T19:59:46.366307Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+warning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Unknown error, url: wss://chatgpt.com/backend-api/codex/responses, cf-ray: a3784bbac99ad3fa-KIX
+codex
+I’ll check for the required review guidance, then assess how the timeout change affects callers.
+
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command "rg --files --hidden C:/Users/Kohta/.agents/skills C:/Users/Kohta/.codex/skills -g SKILL.md -g '*orchestration*'" in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 234ms:
+C:/Users/Kohta/.codex/skills\.system\skill-installer\SKILL.md
+C:/Users/Kohta/.agents/skills\skill-creator\SKILL.md
+C:/Users/Kohta/.codex/skills\.system\skill-creator\SKILL.md
+C:/Users/Kohta/.agents/skills\prompt-review\SKILL.md
+C:/Users/Kohta/.codex/skills\.system\review-agent\SKILL.md
+C:/Users/Kohta/.codex/skills\.system\plugin-creator\SKILL.md
+C:/Users/Kohta/.codex/skills\.system\openai-docs\SKILL.md
+C:/Users/Kohta/.agents/skills\agmsg\SKILL.md
+C:/Users/Kohta/.codex/skills\.system\imagegen\SKILL.md
+
+codex
+`$orchestration-harness` is unavailable in the skill locations, so I’m proceeding with a minimal review of the fixture.
+
+codex
+- **`accounts/list.go`, added timeout branch — blocks approval:** Returning `[]Account{}, nil` converts a database timeout into a successful “no records” result. HTTP callers consequently return 200 with misleading data, and callers lose the ability to detect or retry the timeout. Require returning an error that preserves `context.DeadlineExceeded` through wrapping; the existing `fmt.Errorf("list accounts: %w", err)` already does this.
+tokens used
+4,059
+- **`accounts/list.go`, added timeout branch — blocks approval:** Returning `[]Account{}, nil` converts a database timeout into a successful “no records” result. HTTP callers consequently return 200 with misleading data, and callers lose the ability to detect or retry the timeout. Require returning an error that preserves `context.DeadlineExceeded` through wrapping; the existing `fmt.Errorf("list accounts: %w", err)` already does this.
+
+__ABLATION_DONE__ exit=0

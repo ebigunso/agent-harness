@@ -23,7 +23,7 @@ if [ -f "$LOADER" ]; then mv "$LOADER" "$BACKUP" || exit 2; moved=1; echo "AGENT
 run_one() {
   local p="$1" cell out
   cell=$(basename "$p" .txt); out="$ROOT/work/astra/$cell.txt"
-  if [ -f "$out" ] && grep -q '^__ABLATION_DONE__' "$out"; then return 0; fi
+  if [ -f "$out" ] && grep -q '^__ABLATION_DONE__ exit=0' "$out"; then return 0; fi
   ( cd "$ROOT/work/empty" && timeout 600 codex exec --ephemeral --disable plugins --disable hooks -c project_doc_max_bytes=0 --skip-git-repo-check -s read-only - < "$p" > "$out.tmp" 2>&1 )
   local st=$?
   { cat "$out.tmp"; echo; echo "__ABLATION_DONE__ exit=$st"; } > "$out"; rm -f "$out.tmp"

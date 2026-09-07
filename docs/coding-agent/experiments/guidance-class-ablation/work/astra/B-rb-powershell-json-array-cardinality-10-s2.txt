@@ -1,0 +1,114 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d80-3e3e-7ff0-8c23-a3398fccc802
+--------
+user
+Reference material loaded for this review:
+
+# PowerShell one-element JSON arrays appear scalar after ConvertFrom-Json
+
+## Symptoms
+- a JSON payload known to contain an array validates as "not an array" (or vice versa) in PowerShell when the array has exactly one element
+- `-is [array]` checks give different results for the same JSON shape depending on element count
+- cardinality assertions on JSON pass or fail nondeterministically as data volume changes
+
+## Likely cause
+PowerShell's pipeline unrolls collections: a one-element array emitted through the pipeline after `ConvertFrom-Json` arrives as the bare element, so a post-pipeline `-is [array]` check reports scalar even though the serialized JSON was framed with `[`/`]`.
+
+## Safe, ordered steps
+
+1) Never treat a post-pipeline `-is [array]` check as proof of JSON array framing
+- the check reflects pipeline unrolling, not the wire format
+
+2) Assert framing on the raw serialized value
+- check that the trimmed raw JSON string starts with `[` and ends with `]` when validating cardinality-stable JSON
+
+3) Or parse without enumeration (PowerShell 7+/pwsh only)
+- use `ConvertFrom-Json -NoEnumerate` (and avoid re-piping the result) so one-element arrays stay arrays
+- `-NoEnumerate` does not exist in Windows PowerShell 5.1; there, use step 2 (raw `[`/`]` framing) instead
+
+## Evidence to capture
+- the raw serialized JSON (or at least its first/last characters)
+- element count of the array under test
+- the exact parse + assertion expression used
+
+## Scope
+Windows/PowerShell (Windows PowerShell and pwsh); any JSON validation where array-vs-scalar framing matters.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"state":"ok"}]'
+$wireCount = '1'
+$raw = (Invoke-WebRequest http://127.0.0.1:5080/items).Content; $parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"state":"ok"}]
+wire elements=1
+parsed type=System.Management.Automation.PSCustomObject
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. Node 20.18.0 tiny HTTP producer returns HTTP 200 and Content-Type application/json with exact body [{"state":"ok"}]; independently captured raw response matches. No transport/authentication error. Scenario port is 5080.
+
+codex
+**Cause:** PowerShell enumerated the parsed singleton array, so `$parsed` became a `PSCustomObject`. The raw response is correctly framed as an array. This is a checker bug, not a workspace, HTTP producer, or transport problem.
+
+**Smallest safe remediation:** On PowerShell 7.4.6, preserve the parsed array with `-NoEnumerate`:
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+Keep the existing `-isnot [array]` assertion and avoid piping the parsed result through another enumerating pipeline. Don’t wrap arbitrary parsed values in `@(...)`; that would also accept scalar JSON.
+
+**Confirmation:** Rerun the command: expect `parsed type=System.Object[]` and exit code `0`. Check `[]`, `[{"state":"ok"}]`, and a two-element array all pass with counts `0`, `1`, and `2`; object, string, number, boolean, and `null` wire values must fail. Capture each raw body, actual parsed count, and exact parse/assertion expression—the hardcoded `$wireCount = '1'` does not verify cardinality.
+tokens used
+4,032
+**Cause:** PowerShell enumerated the parsed singleton array, so `$parsed` became a `PSCustomObject`. The raw response is correctly framed as an array. This is a checker bug, not a workspace, HTTP producer, or transport problem.
+
+**Smallest safe remediation:** On PowerShell 7.4.6, preserve the parsed array with `-NoEnumerate`:
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+Keep the existing `-isnot [array]` assertion and avoid piping the parsed result through another enumerating pipeline. Don’t wrap arbitrary parsed values in `@(...)`; that would also accept scalar JSON.
+
+**Confirmation:** Rerun the command: expect `parsed type=System.Object[]` and exit code `0`. Check `[]`, `[{"state":"ok"}]`, and a two-element array all pass with counts `0`, `1`, and `2`; object, string, number, boolean, and `null` wire values must fail. Capture each raw body, actual parsed count, and exact parse/assertion expression—the hardcoded `$wireCount = '1'` does not verify cardinality.
+
+__ABLATION_DONE__ exit=0

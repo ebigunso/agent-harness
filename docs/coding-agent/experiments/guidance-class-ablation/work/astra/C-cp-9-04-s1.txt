@@ -1,0 +1,61 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d84-38d4-7b40-aace-d9f9bb03fa44
+--------
+user
+Reference material loaded for this review:
+
+Handle boundary errors with context; never hide or blur failures. Keep fallbacks safe, visible, bounded and correct.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add retry handling for transient inventory-client failures.
+
+```diff
+--- a/src/inventory.mjs
++++ b/src/inventory.mjs
+@@ -1,3 +1,7 @@
+ export async function fetchInventory(api, sku) {
+-  return await api.inventory(sku);
++  try {
++    return await api.inventory(sku);
++  } catch (error) {
++    return fetchInventory(api, sku);
++  }
+ }
+```
+Commit message: "retry inventory failures"
+
+Reviewer notes: inventory is a read-only async request. It rejects invalid SKU with a permanent ValidationError and temporary network errors with TransportError. The request has a per-attempt timeout but no overall budget. The call graph contains no external retry scheduler.
+
+2026-09-07T20:16:52.810507Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:16:52.836778Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:16:54.346752Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:16:54.775558Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 2/5
+2026-09-07T20:16:55.419498Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 3/5
+2026-09-07T20:16:56.397382Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 4/5
+2026-09-07T20:16:58.152436Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 5/5
+codex
+- **`src/inventory.mjs`, catch block:** Retries every error, including permanent `ValidationError` failures. An invalid SKU will generate repeated requests that cannot succeed. Require explicit classification: retry only transient `TransportError` failures and propagate permanent or unexpected errors with their original context.
+
+- **`src/inventory.mjs`, recursive retry call:** Retries indefinitely with no delay or overall budget. Per-attempt timeouts do not bound the operation, so a persistent outage leaves callers waiting indefinitely and can flood the service when failures occur quickly. Require bounded attempts or an overall deadline, bounded backoff, and a final rejection preserving the underlying error plus useful retry context.
+tokens used
+3,306
+- **`src/inventory.mjs`, catch block:** Retries every error, including permanent `ValidationError` failures. An invalid SKU will generate repeated requests that cannot succeed. Require explicit classification: retry only transient `TransportError` failures and propagate permanent or unexpected errors with their original context.
+
+- **`src/inventory.mjs`, recursive retry call:** Retries indefinitely with no delay or overall budget. Per-attempt timeouts do not bound the operation, so a persistent outage leaves callers waiting indefinitely and can flood the service when failures occur quickly. Require bounded attempts or an overall deadline, bounded backoff, and a final rejection preserving the underlying error plus useful retry context.
+
+__ABLATION_DONE__ exit=0

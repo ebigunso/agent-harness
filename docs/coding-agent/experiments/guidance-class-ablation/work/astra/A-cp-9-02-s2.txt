@@ -1,0 +1,44 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d77-85b7-7af3-8c71-e98898072e66
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Let an import handle a bad row while giving the operator an accurate outcome.
+
+```diff
+--- a/importer/load.py
++++ b/importer/load.py
+@@ -1,4 +1,7 @@
+ def import_rows(rows, store):
+     for number, row in enumerate(rows, start=1):
+-        store.insert(row)
++        try:
++            store.insert(row)
++        except Exception:
++            continue
+     return {"status": "complete"}
+```
+Commit message: "continue past import errors"
+
+Reviewer notes: Each insert validates then commits one row atomically; there is no partial insert on exception. Completion summary is the sole operator-visible result. Inputs contain one invalid row among valid rows; no external log records failed rows.
+
+codex
+- **`importer/load.py` — exception handler and completion summary:** Failed rows are silently discarded, yet the sole operator-visible result is `{"status": "complete"}`. With the stated input, the operator cannot tell that one row was rejected or identify it for correction. Require a summary that distinguishes full success from completion with rejections, reports successful and failed counts, and identifies rejected row numbers with useful error reasons.
+
+- **`importer/load.py` — `except Exception`:** This treats every insert failure as a bad row, including storage failures and programming errors. Such failures could discard valid rows while the import keeps running. Require catching only the expected row-validation exceptions; unexpected failures should stop the import and surface an accurate failure outcome.
+tokens used
+3,269
+- **`importer/load.py` — exception handler and completion summary:** Failed rows are silently discarded, yet the sole operator-visible result is `{"status": "complete"}`. With the stated input, the operator cannot tell that one row was rejected or identify it for correction. Require a summary that distinguishes full success from completion with rejections, reports successful and failed counts, and identifies rejected row numbers with useful error reasons.
+
+- **`importer/load.py` — `except Exception`:** This treats every insert failure as a bad row, including storage failures and programming errors. Such failures could discard valid rows while the import keeps running. Require catching only the expected row-validation exceptions; unexpected failures should stop the import and surface an accurate failure outcome.
+
+__ABLATION_DONE__ exit=0

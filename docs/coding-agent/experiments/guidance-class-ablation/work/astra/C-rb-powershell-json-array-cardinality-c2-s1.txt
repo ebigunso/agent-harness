@@ -1,0 +1,95 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d86-e060-7a10-8ca5-ca613804f52d
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/check-items.ps1`
+
+Source, probes/check-items.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"id":7}]'
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+Write-Output ('raw=' + $raw)
+Write-Output ('parsed type=' + $parsed.GetType().FullName)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+if (-not $parsed[0].PSObject.Properties['name']) { throw 'item[0].name is required' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"id":7}]
+parsed type=System.Object[]
+```
+
+stderr:
+```text
+item[0].name is required
+At C:\work\json-shape\probes\check-items.ps1:8 char:52
++ … [0].PSObject.Properties['name']) { throw 'item[0].name is required' }
++                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (item[0].name is required:String) [], RuntimeException
++ FullyQualifiedErrorId : item[0].name is required
+```
+
+Diagnostic observations: Shape check passed. The schema requires both id and name; name is absent. Parsed result is never re-piped. No files are modified.
+
+codex
+**Cause:** Input schema failure, not a workspace problem. The raw JSON `[{"id":7}]` contains one element and lacks required `name`. `ConvertFrom-Json -NoEnumerate` preserved `System.Object[]`; the array check passed, and the missing-property assertion threw.
+
+**Smallest safe remediation:** Add the required `name` value to the payload, for example:
+```powershell
+$raw = '[{"id":7,"name":"example"}]'
+```
+Use the intended name; keep the validation unchanged.
+
+**Confirmation:** Rerun the same command and expect exit code `0`. Record the updated raw JSON, `$parsed.Count` (expected `1`), and the exact parse/assertions:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+if (-not $parsed[0].PSObject.Properties['name']) { throw 'item[0].name is required' }
+```
+Both assertions should pass. The existing `id` remains present. No PowerShell or workspace configuration change is needed.
+tokens used
+3,736
+**Cause:** Input schema failure, not a workspace problem. The raw JSON `[{"id":7}]` contains one element and lacks required `name`. `ConvertFrom-Json -NoEnumerate` preserved `System.Object[]`; the array check passed, and the missing-property assertion threw.
+
+**Smallest safe remediation:** Add the required `name` value to the payload, for example:
+```powershell
+$raw = '[{"id":7,"name":"example"}]'
+```
+Use the intended name; keep the validation unchanged.
+
+**Confirmation:** Rerun the same command and expect exit code `0`. Record the updated raw JSON, `$parsed.Count` (expected `1`), and the exact parse/assertions:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+if (-not $parsed[0].PSObject.Properties['name']) { throw 'item[0].name is required' }
+```
+Both assertions should pass. The existing `id` remains present. No PowerShell or workspace configuration change is needed.
+
+__ABLATION_DONE__ exit=0

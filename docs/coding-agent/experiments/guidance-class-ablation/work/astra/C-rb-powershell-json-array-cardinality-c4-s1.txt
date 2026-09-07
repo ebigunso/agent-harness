@@ -1,0 +1,74 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d86-f00f-7501-be32-61daff8a6e30
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/unique.ps1`
+
+Source, probes/unique.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[1,1]'
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+Write-Output ('raw=' + $raw)
+Write-Output ('parsed type=' + $parsed.GetType().FullName)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+$seen = [System.Collections.Generic.HashSet[long]]::new()
+foreach ($item in $parsed) {
+    if (-not $seen.Add($item)) { throw "Duplicate item $item" }
+}
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[1,1]
+parsed type=System.Object[]
+```
+
+stderr:
+```text
+Duplicate item 1
+At C:\work\json-shape\probes\unique.ps1:10 char:34
++     if (-not $seen.Add($item)) { throw "Duplicate item $item" }
++                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Duplicate item 1:String) [], RuntimeException
++ FullyQualifiedErrorId : Duplicate item 1
+```
+
+Diagnostic observations: Contract requires unique integer IDs. Shape and element types are correct; value 1 is repeated. No files are modified.
+
+codex
+- **Cause:** `[1,1]` contains duplicate ID `1`. Parsing produced `System.Object[]`; the array assertion passed, but the second `$seen.Add(1)` returned false and triggered the throw. This is an input-data violation, not a workspace problem.
+- **Smallest safe remediation:** Correct the input IDs. If the second entry is accidental, change `$raw` to `'[1]'`. Keep the uniqueness check.
+- **Confirmation:** Rerun the command and record raw JSON `[1]`, element count `1`, and the exact parse `$raw | ConvertFrom-Json -NoEnumerate`. Confirm `$parsed -is [array]` is true, every `$seen.Add($item)` returns true, stderr is empty, and the exit code is `0`.
+tokens used
+3,557
+- **Cause:** `[1,1]` contains duplicate ID `1`. Parsing produced `System.Object[]`; the array assertion passed, but the second `$seen.Add(1)` returned false and triggered the throw. This is an input-data violation, not a workspace problem.
+- **Smallest safe remediation:** Correct the input IDs. If the second entry is accidental, change `$raw` to `'[1]'`. Keep the uniqueness check.
+- **Confirmation:** Rerun the command and record raw JSON `[1]`, element count `1`, and the exact parse `$raw | ConvertFrom-Json -NoEnumerate`. Confirm `$parsed -is [array]` is true, every `$seen.Add($item)` returns true, stderr is empty, and the exit code is `0`.
+
+__ABLATION_DONE__ exit=0

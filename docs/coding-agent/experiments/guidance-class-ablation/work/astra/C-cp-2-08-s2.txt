@@ -1,0 +1,62 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d83-a21a-7c60-8cd4-77876eab4fd0
+--------
+user
+Reference material loaded for this review:
+
+Fix causes at their origin; strengthen invariants. Does this suppress symptoms or add duplicated/compensating logic?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Correct dollar units across web, email, receipts and accounting exports.
+
+```diff
+--- a/lib/amounts.rb
++++ b/lib/amounts.rb
+@@ -1,21 +1,21 @@
+ require "bigdecimal"
+
+ def serialize(invoice)
+   { dollars: invoice.cents }
+ end
+
+ def web_amount(invoice)
+-  serialize(invoice)[:dollars]
++  BigDecimal(serialize(invoice)[:dollars].to_s) / 100
+ end
+
+ def email_amount(invoice)
+-  serialize(invoice)[:dollars]
++  BigDecimal(serialize(invoice)[:dollars].to_s) / 100
+ end
+
+ def receipt_amount(invoice)
+-  serialize(invoice)[:dollars]
++  BigDecimal(serialize(invoice)[:dollars].to_s) / 100
+ end
+
+ def accounting_amount(invoice)
+   serialize(invoice)[:dollars]
+ end
+```
+Commit message: "convert cents in visible presenters"
+
+Reviewer notes: The serializer contract is dollars as a decimal value; invoice.cents is an integer. For cents=1234 all four callers must yield 12.34. BigDecimal is already the project money representation; these conversions avoid integer truncation.
+
+codex
+- **`lib/amounts.rb` — `serialize` and the amount callers:** The serializer still returns integer cents under its `dollars` contract. The new conversions compensate in three presenters, but `accounting_amount` remains incorrect: for `cents = 1234`, it returns `1234` instead of `12.34`. Require conversion at the source: `{ dollars: BigDecimal(invoice.cents.to_s) / 100 }`, with all four callers consuming that value directly. Remove the presenter conversions to prevent double conversion, and verify the serializer and all four callers return decimal `12.34`.
+tokens used
+3,359
+- **`lib/amounts.rb` — `serialize` and the amount callers:** The serializer still returns integer cents under its `dollars` contract. The new conversions compensate in three presenters, but `accounting_amount` remains incorrect: for `cents = 1234`, it returns `1234` instead of `12.34`. Require conversion at the source: `{ dollars: BigDecimal(invoice.cents.to_s) / 100 }`, with all four callers consuming that value directly. Remove the presenter conversions to prevent double conversion, and verify the serializer and all four callers return decimal `12.34`.
+
+__ABLATION_DONE__ exit=0

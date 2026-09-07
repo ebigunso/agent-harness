@@ -1,0 +1,104 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d87-bebb-7d31-8cf7-662957ae4082
+--------
+user
+Reference material loaded for this review:
+
+Windows Docker published-port gRPC hangs, REST fast, no server call: localhost may resolve to ::1 whose proxy accepts TCP but stalls HTTP/2. Retry the same RPC at 127.0.0.1:<port>; if it works, use IPv4 in local config. If both fail, inspect service, published ports and container health. Record targets/port, deadline output, REST timing and IPv4 retry.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; Docker address asymmetry and timing are constructed observations, not a claim of live reproduction.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Docker Desktop 4.35.1, WSL2 backend; Node 20.18.0; @grpc/grpc-js 1.12.2; cwd C:/work/grpc-local. Service port 50051 is plaintext h2c gRPC, sibling port 50080 is HTTP/1.1 health. There is no TLS/certificate-name check. Project probe files and dependencies exist, are validated, and built/cached.
+
+Probe contract: The project probe accepts --target, --timeout (seconds; Go accepts a duration), and where shown --method. It prints response values to stdout only after a successful call. It explicitly maps deadline status to process exit 2 and stderr "DEADLINE_EXCEEDED: deadline expired after 2s"; UNAVAILABLE maps to 2, PERMISSION_DENIED and UNIMPLEMENTED to 3. These are probe-defined normalized messages, not claims about each library's default CLI formatting. It does not override localhost resolution or retry with a different address.
+
+Command: `node probes/unary.mjs --target localhost:50052 --timeout 2`
+
+Exit code: 2
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+UNAVAILABLE: connection refused
+```
+
+Address-only comparison:
+
+Command: `node probes/unary.mjs --target 127.0.0.1:50052 --timeout 2`
+
+Exit code: 2
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+UNAVAILABLE: connection refused
+```
+
+HTTP sibling comparison:
+
+Command:
+```powershell
+curl.exe --silent --show-error --max-time 2 --write-out '\nhttp_code=%{http_code} total_seconds=%{time_total}\n' http://localhost:50080/health
+```
+Exit code: 0.
+
+stdout:
+```text
+200 OK
+http_code=200 total_seconds=0.012000
+```
+
+stderr: (empty).
+
+Diagnostic observations: Docker port inspection shows only host 50051 for gRPC and 50080 for health. No listener or mapping exists on 50052. Both refused calls are absent from the server invocation log. Correctly targeted 50051 probes are healthy.
+
+Service/port evidence:
+```text
+published=50051/tcp,50080/tcp; requested=50052/tcp; no invocation
+```
+
+codex
+**Cause:** The command targets port **50052**, but Docker publishes gRPC on **50051**. Both addresses return connection refused because 50052 has no listener or mapping. This is a target-port error, not a workspace problem or the referenced IPv6/HTTP/2 stall.
+
+**Smallest safe remediation:** Correct the target:
+```powershell
+node probes/unary.mjs --target localhost:50051 --timeout 2
+```
+If configuration supplied 50052, change that value to 50051.
+
+**Confirm:** Expect exit code 0, response values on stdout, and a corresponding server invocation. The supplied observations already report healthy probes on 50051; the fast HTTP health response alone does not validate gRPC.
+tokens used
+3,682
+**Cause:** The command targets port **50052**, but Docker publishes gRPC on **50051**. Both addresses return connection refused because 50052 has no listener or mapping. This is a target-port error, not a workspace problem or the referenced IPv6/HTTP/2 stall.
+
+**Smallest safe remediation:** Correct the target:
+```powershell
+node probes/unary.mjs --target localhost:50051 --timeout 2
+```
+If configuration supplied 50052, change that value to 50051.
+
+**Confirm:** Expect exit code 0, response values on stdout, and a corresponding server invocation. The supplied observations already report healthy probes on 50051; the fast HTTP health response alone does not validate gRPC.
+
+__ABLATION_DONE__ exit=0

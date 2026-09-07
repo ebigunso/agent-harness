@@ -1,0 +1,56 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7e-6263-7dd2-a040-74bb135042da
+--------
+user
+Reference material loaded for this review:
+
+### 9) Make Failure Modes Explicit and Safe
+
+- Handle errors at appropriate boundaries with useful context.
+- Avoid swallowing failures or converting them into ambiguous states.
+- Design fallback behavior to be safe, observable, and bounded.
+
+Review checks:
+- Are failure paths visible and diagnosable?
+- Do fallbacks preserve safety and correctness expectations?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Handle a customer lookup database outage explicitly at the repository boundary.
+
+```diff
+--- a/lib/customers.rb
++++ b/lib/customers.rb
+@@ -1,8 +1,10 @@
+ def find_customer(email)
+   database.find_by_email(email)
++rescue DatabaseUnavailable
++  nil
+ end
+
+ def get_or_create(email)
+   customer = find_customer(email)
+   customer || database.create_customer(email)
+ end
+```
+Commit message: "return nil when customer lookup is unavailable"
+
+Reviewer notes: find_by_email returns nil only for absent rows. During replica outages the write primary can still accept creates. Calls are serialized for this fixture, and no create race is being tested. The contract reserves nil for genuine not-found.
+
+codex
+- **`lib/customers.rb`, `find_customer` rescue clause:** Returning `nil` for `DatabaseUnavailable` violates the contract that `nil` means genuinely not found and hides the outage. Consequently, `get_or_create` may create a duplicate customer on the writable primary when the existing customer could not be looked up. Require an explicit failure at the repository boundary—propagate the exception or wrap it in a contextual repository error—and ensure `get_or_create` creates only after a successful lookup confirms absence. Verify that an outage remains diagnosable and never triggers creation.
+tokens used
+3,227
+- **`lib/customers.rb`, `find_customer` rescue clause:** Returning `nil` for `DatabaseUnavailable` violates the contract that `nil` means genuinely not found and hides the outage. Consequently, `get_or_create` may create a duplicate customer on the writable primary when the existing customer could not be looked up. Require an explicit failure at the repository boundary—propagate the exception or wrap it in a contextual repository error—and ensure `get_or_create` creates only after a successful lookup confirms absence. Verify that an outage remains diagnosable and never triggers creation.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,52 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d73-d0fc-7550-809d-6b8bb8fc068d
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Restore exports to the configured absolute output root for CLI and batch.
+
+```diff
+--- a/app/export.py
++++ b/app/export.py
+@@ -1,14 +1,19 @@
+ from pathlib import Path
+
+ def destination(config, name):
+     return Path(config.export_subdir) / name
+
+ def write_export(config, name, data):
+-    destination(config, name).write_bytes(data)
++    target = destination(config, name)
++    try:
++        target.write_bytes(data)
++    except FileNotFoundError:
++        target.parent.mkdir(parents=True, exist_ok=True)
++        target.write_bytes(data)
+
+ def cli_export(config, name, data):
+     write_export(config, name, data)
+
+ def batch_export(config, jobs):
+     for name, data in jobs:
+         write_export(config, name, data)
+```
+Commit message: "create missing export folders"
+
+Reviewer notes: config.export_root is /srv/exports, export_subdir is daily, and names are validated basenames. The configured /srv/exports/daily directory exists and is writable; cwd is /srv/app. A refactor dropped export_root in destination. Test data is regenerable and writes are sequential.
+
+codex
+- **`app/export.py:destination()` and the new fallback in `write_export()`** — The configured `export_root` is still omitted. With the supplied configuration, both CLI and batch target `/srv/app/daily/<name>` instead of `/srv/exports/daily/<name>`. The fallback attempts to create that incorrect directory, so it does not restore the required behavior. Require `destination()` to return `Path(config.export_root) / config.export_subdir / name`, with regression coverage confirming CLI and batch exports use the configured root regardless of cwd.
+tokens used
+17,037
+- **`app/export.py:destination()` and the new fallback in `write_export()`** — The configured `export_root` is still omitted. With the supplied configuration, both CLI and batch target `/srv/app/daily/<name>` instead of `/srv/exports/daily/<name>`. The fallback attempts to create that incorrect directory, so it does not restore the required behavior. Require `destination()` to return `Path(config.export_root) / config.export_subdir / name`, with regression coverage confirming CLI and batch exports use the configured root regardless of cwd.
+
+__ABLATION_DONE__ exit=0

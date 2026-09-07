@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d77-abd4-7682-a70a-4538bba172ca
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Provide a safe fallback when the authorization service is unavailable.
+
+```diff
+--- a/Authorization.cs
++++ b/Authorization.cs
+@@ -1,3 +1,8 @@
+ public async Task<bool> CanAccess(UserId user, ResourceId resource) {
+-    return await policy.Check(user, resource);
++    try {
++        return await policy.Check(user, resource);
++    } catch (PolicyUnavailable error) {
++        log.Warning(error, "Policy unavailable; using local cache");
++        return cache.Get(user, resource)?.Allowed ?? false;
++    }
+ }
+```
+Commit message: "use cached access policy during outages"
+
+Reviewer notes: Method belongs to the existing injected authorization service; symbols are defined in the project. Entries include Allowed and FetchedAt but never expire. Revocations take effect immediately under the access contract; offline grants are not authorized. An entry allowing access from last week can remain after revocation. Cache misses deny access.
+
+codex
+- **Authorization.cs, fallback return in `catch (PolicyUnavailable)` — stale cache entries can grant revoked access.** Entries never expire, so a cached `Allowed = true` from last week can authorize access after an immediate revocation. Denying cache misses does not protect against stale grants, and offline grants violate the access contract. **Require denying access when the policy service is unavailable.** Adding a TTL alone would not satisfy immediate revocation.
+tokens used
+3,225
+- **Authorization.cs, fallback return in `catch (PolicyUnavailable)` — stale cache entries can grant revoked access.** Entries never expire, so a cached `Allowed = true` from last week can authorize access after an immediate revocation. Denying cache misses does not protect against stale grants, and offline grants violate the access contract. **Require denying access when the policy service is unavailable.** Adding a TTL alone would not satisfy immediate revocation.
+
+__ABLATION_DONE__ exit=0

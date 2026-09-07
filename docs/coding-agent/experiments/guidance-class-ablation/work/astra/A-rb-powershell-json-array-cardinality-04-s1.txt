@@ -1,0 +1,97 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d79-1beb-7a43-bba6-6f1e54b034e6
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"id":7}]'
+$wireCount = '1'
+$parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"id":7}]
+wire elements=1
+parsed type=System.Management.Automation.PSCustomObject
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+2026-09-07T20:04:44.496692Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:04:44.587916Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:04:46.243110Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:04:46.648907Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 2/5
+2026-09-07T20:04:47.244229Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 3/5
+2026-09-07T20:04:48.293908Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 4/5
+2026-09-07T20:04:50.318236Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 5/5
+2026-09-07T20:04:54.009412Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+warning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Unknown error, url: wss://chatgpt.com/backend-api/codex/responses, cf-ray: a378533e993b7a2c-KIX
+codex
+I’ll check PowerShell’s JSON array handling to identify the smallest fix that preserves the wire-value contract.
+web search: 
+web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array
+codex
+**Cause:** The script loses array shape during conversion. `ConvertFrom-Json` enumerates the JSON array, so assignment captures its sole element as a `PSCustomObject`; the assertion then throws. This is a script logic issue, not a workspace configuration or permission problem. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#example-5-round-trip-a-single-element-array)
+
+**Smallest safe remediation:** Change only the parsing line:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+Keep the array assertion. Avoid wrapping the result in `@(...)`: that would also wrap scalar inputs, incorrectly accepting them.
+
+**Confirmation:** Rerun the command; expect `parsed type=System.Object[]`, exit code `0`, and empty stderr. Then check `[]`, `[{"id":7}]`, and `[{"id":7},{"id":8}]` pass with counts 0, 1, and 2. Verify non-array inputs such as `7`, `"x"`, `true`, `null`, and `{"id":7}` still fail the assertion.
+tokens used
+7,685
+**Cause:** The script loses array shape during conversion. `ConvertFrom-Json` enumerates the JSON array, so assignment captures its sole element as a `PSCustomObject`; the assertion then throws. This is a script logic issue, not a workspace configuration or permission problem. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#example-5-round-trip-a-single-element-array)
+
+**Smallest safe remediation:** Change only the parsing line:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+Keep the array assertion. Avoid wrapping the result in `@(...)`: that would also wrap scalar inputs, incorrectly accepting them.
+
+**Confirmation:** Rerun the command; expect `parsed type=System.Object[]`, exit code `0`, and empty stderr. Then check `[]`, `[{"id":7}]`, and `[{"id":7},{"id":8}]` pass with counts 0, 1, and 2. Verify non-array inputs such as `7`, `"x"`, `true`, `null`, and `{"id":7}` still fail the assertion.
+
+__ABLATION_DONE__ exit=0

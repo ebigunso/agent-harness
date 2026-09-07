@@ -1,0 +1,99 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d80-8340-7563-97a6-5a13a38c411b
+--------
+user
+Reference material loaded for this review:
+
+# PowerShell one-element JSON arrays appear scalar after ConvertFrom-Json
+
+## Symptoms
+- a JSON payload known to contain an array validates as "not an array" (or vice versa) in PowerShell when the array has exactly one element
+- `-is [array]` checks give different results for the same JSON shape depending on element count
+- cardinality assertions on JSON pass or fail nondeterministically as data volume changes
+
+## Likely cause
+PowerShell's pipeline unrolls collections: a one-element array emitted through the pipeline after `ConvertFrom-Json` arrives as the bare element, so a post-pipeline `-is [array]` check reports scalar even though the serialized JSON was framed with `[`/`]`.
+
+## Safe, ordered steps
+
+1) Never treat a post-pipeline `-is [array]` check as proof of JSON array framing
+- the check reflects pipeline unrolling, not the wire format
+
+2) Assert framing on the raw serialized value
+- check that the trimmed raw JSON string starts with `[` and ends with `]` when validating cardinality-stable JSON
+
+3) Or parse without enumeration (PowerShell 7+/pwsh only)
+- use `ConvertFrom-Json -NoEnumerate` (and avoid re-piping the result) so one-element arrays stay arrays
+- `-NoEnumerate` does not exist in Windows PowerShell 5.1; there, use step 2 (raw `[`/`]` framing) instead
+
+## Evidence to capture
+- the raw serialized JSON (or at least its first/last characters)
+- element count of the array under test
+- the exact parse + assertion expression used
+
+## Scope
+Windows/PowerShell (Windows PowerShell and pwsh); any JSON validation where array-vs-scalar framing matters.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; Windows PowerShell 5.1.22621.4391; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `powershell.exe -NoProfile -File probes/parse.ps1`
+
+Source, probes/parse.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[1,'
+Write-Output ('raw=' + $raw)
+$parsed = $raw | ConvertFrom-Json
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[1,
+```
+
+stderr:
+```text
+ConvertFrom-Json : Invalid array passed in, extra trailing ','. (3): [1,
+At C:\work\json-shape\probes\parse.ps1:5 char:18
++ $parsed = $raw | ConvertFrom-Json
++                  ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [ConvertFrom-Json], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.ConvertFromJsonCommand
+```
+
+Diagnostic observations: Payload ends after the comma; no closing bracket or second value. Syntax fails before any array-type assertion. No files are modified.
+
+codex
+**Cause:** `$raw = '[1,'` is malformed, incomplete JSON: it ends after a comma without another value or a closing bracket. Parsing fails before any array-type assertion. This is an input defect in the probe, not a workspace configuration or pipeline-unrolling problem.
+
+**Smallest safe remediation:** Correct the payload to the intended complete JSON. If it should contain only `1`, use `$raw = '[1]'`. If more values were intended, restore the missing content.
+
+**Confirmation:** Rerun the same command and verify exit code `0`, no parser error, and stdout showing the corrected payload. For array framing, check the trimmed raw JSON starts with `[` and ends with `]`, alongside successful parsing. Do not use post-pipeline `-is [array]`; Windows PowerShell 5.1 also lacks `-NoEnumerate`.
+tokens used
+3,696
+**Cause:** `$raw = '[1,'` is malformed, incomplete JSON: it ends after a comma without another value or a closing bracket. Parsing fails before any array-type assertion. This is an input defect in the probe, not a workspace configuration or pipeline-unrolling problem.
+
+**Smallest safe remediation:** Correct the payload to the intended complete JSON. If it should contain only `1`, use `$raw = '[1]'`. If more values were intended, restore the missing content.
+
+**Confirmation:** Rerun the same command and verify exit code `0`, no parser error, and stdout showing the corrected payload. For array framing, check the trimmed raw JSON starts with `[` and ends with `]`, alongside successful parsing. Do not use post-pipeline `-is [array]`; Windows PowerShell 5.1 also lacks `-NoEnumerate`.
+
+__ABLATION_DONE__ exit=0

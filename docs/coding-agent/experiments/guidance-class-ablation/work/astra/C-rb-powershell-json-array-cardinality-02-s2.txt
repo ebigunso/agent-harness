@@ -1,0 +1,120 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d85-cbd2-7882-bf55-233e44f9e9be
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[]'
+$wireCount = '0'
+$parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[]
+wire elements=0
+parsed type=<null>
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+codex
+The failure is in the checker, not the workspace. `ConvertFrom-Json` enumerates the empty JSON array into zero pipeline outputs, so `$parsed` becomes `$null`. The assertion then rejects valid `[]`.
+
+On PowerShell 7.4.6, the smallest safe fix is to replace the parse line with:
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+Keep the existing assertion:
+
+```powershell
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Do not re-pipe the parsed result, which can enumerate it again.
+
+Confirm by rerunning the command and testing these inputs with that exact parse/assertion:
+
+| Raw JSON | Element count | Expected result |
+|---|---:|---|
+| `[]` | 0 | Pass |
+| `[1]` | 1 | Pass |
+| `[1,2]` | 2 | Pass |
+| `1`, `"x"`, `null` | N/A | Reject |
+
+Record raw JSON, actual `$parsed.Count` for accepted arrays, and exit status. The original `[]` case should report `parsed type=System.Object[]`, count `0`, and exit code `0`.
+tokens used
+3,694
+The failure is in the checker, not the workspace. `ConvertFrom-Json` enumerates the empty JSON array into zero pipeline outputs, so `$parsed` becomes `$null`. The assertion then rejects valid `[]`.
+
+On PowerShell 7.4.6, the smallest safe fix is to replace the parse line with:
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+Keep the existing assertion:
+
+```powershell
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Do not re-pipe the parsed result, which can enumerate it again.
+
+Confirm by rerunning the command and testing these inputs with that exact parse/assertion:
+
+| Raw JSON | Element count | Expected result |
+|---|---:|---|
+| `[]` | 0 | Pass |
+| `[1]` | 1 | Pass |
+| `[1,2]` | 2 | Pass |
+| `1`, `"x"`, `null` | N/A | Reject |
+
+Record raw JSON, actual `$parsed.Count` for accepted arrays, and exit status. The original `[]` case should report `parsed type=System.Object[]`, count `0`, and exit code `0`.
+
+__ABLATION_DONE__ exit=0

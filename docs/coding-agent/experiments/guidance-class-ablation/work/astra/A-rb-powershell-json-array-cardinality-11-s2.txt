@@ -1,0 +1,84 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7a-051a-7650-8501-363735540489
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '7'
+$wireCount = 'not an array'
+$parsed = @($raw | ConvertFrom-Json)
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -is [array]) { throw 'Scalar wire JSON accepted as array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=7
+wire elements=not an array
+parsed type=System.Object[]
+```
+
+stderr:
+```text
+Scalar wire JSON accepted as array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:28
++ …  ($parsed -is [array]) { throw 'Scalar wire JSON accepted as array' }
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Scalar wire JSON accepted as array:String) [], RuntimeException
++ FullyQualifiedErrorId : Scalar wire JSON accepted as array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. This inverse test checks rejection of scalar wire JSON 7; wrapping the parsed value has made the assertion fail.
+
+codex
+**Cause:** The script’s `@(...)` forces the parsed scalar `7` into a `System.Object[]`. The assertion detects that wrapper and throws, producing exit code 1. This is a script logic defect, not a workspace or execution-policy problem.
+
+**Smallest safe remediation:** Replace the parsing line with:
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+Removing `@(...)` prevents forced wrapping; `-NoEnumerate` preserves actual JSON arrays, including empty and singleton arrays.
+
+**Confirmation:** Rerun the command with `7`: expect a scalar parsed type, no exception, and exit code 0 for this inverse test. Separately check `[]`, `[7]`, and `[7,8]`: each must remain an array with respectively 0, 1, and 2 elements. Those array cases belong in positive tests; the current inverse assertion intentionally throws for arrays.
+tokens used
+3,626
+**Cause:** The script’s `@(...)` forces the parsed scalar `7` into a `System.Object[]`. The assertion detects that wrapper and throws, producing exit code 1. This is a script logic defect, not a workspace or execution-policy problem.
+
+**Smallest safe remediation:** Replace the parsing line with:
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+Removing `@(...)` prevents forced wrapping; `-NoEnumerate` preserves actual JSON arrays, including empty and singleton arrays.
+
+**Confirmation:** Rerun the command with `7`: expect a scalar parsed type, no exception, and exit code 0 for this inverse test. Separately check `[]`, `[7]`, and `[7,8]`: each must remain an array with respectively 0, 1, and 2 elements. Those array cases belong in positive tests; the current inverse assertion intentionally throws for arrays.
+
+__ABLATION_DONE__ exit=0
