@@ -65,7 +65,7 @@ Let dB = B - A and dC = C - A on planted fixtures, worst model. The worst model 
 
 FP guard: an arm whose FP rate on decoys exceeds that model's A + 10pp on any fleet model cannot be adopted regardless of lift; the guard is checked on every model, not only the worst one, because the adopted text ships to the whole fleet. A KEEP or COMPRESS candidate failing the guard is recorded as a blocker in `outcome.md`, not resolved by the rule.
 
-Completeness: a verdict is issued only when the section has, on every fleet model, all three arms, every planted fixture at the registered seed count (or the recorded cap), and every decoy graded; missing evidence is reported as INCOMPLETE, never scored as zero.
+Completeness: `manifest.yaml` registers the fleet, the seed count, and every fixture per section, frozen with this protocol. A verdict is issued only when every registered model appears exactly once and the section has, on every model, all three arms and every registered fixture (plants and decoys) graded at the registered seed count or the recorded cap; a missing record or a missing grading value makes the section INCOMPLETE, never zero.
 
 Ceiling note, carried from the Rust block (`47c409c:...stage1/results-rust.yaml`): if arm A scores at ceiling on a section, dB = 0 and outcome 1 applies; the ceiling is itself the finding for a content-redundancy question.
 
@@ -103,7 +103,7 @@ records:
     output_tokens: 0
 ```
 
-`score.py` (adapted from `47c409c:...score_stage1.py`) tabulates detection and FP rate per (section, arm, model), enforces completeness, and prints the verdict per section under the rule above; `python score.py --self-test` exercises every branch, the tie rule, the per-model FP guard, and the incompleteness cases. A recorded seed cap is passed as `--seeds N`.
+`score.py` (adapted from `47c409c:...score_stage1.py`) validates results against `manifest.yaml`, tabulates detection and FP rate per (section, arm, model), and prints the verdict per section under the rule above; `python score.py --self-test` exercises every branch, the tie rule in both argument orders, the per-model FP guard, and seven incompleteness cases. A recorded seed cap is passed as `--seeds N`.
 
 ## Cost and run order
 
