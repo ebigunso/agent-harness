@@ -569,22 +569,25 @@ Context:
 - Roles involved: Orchestrator (author), Codex Reviewer
 
 Symptom:
-- ADR-I-0006 was a per-file deletion table with a warrant written around it; ADR-D-0017 mirrored skill wording. The user found both failed the lens: ADRs carry high-impact decisions and their constraints forward, not history.
+- ADR-I-0006 was a per-file deletion table with a warrant written around it; ADR-D-0017 bundled three decisions and mirrored skill wording. The user found both failed the lens: ADRs carry high-impact decisions and their constraints forward, not history.
 
-Root cause (preliminary):
-- An older ADR (ADR-D-0015) directed "an implementation ADR per removal", and two precedents (ADR-I-0004, ADR-I-0005) had that shape; the directive and the precedent outranked the warrant test in practice.
+Root cause:
+- An older ADR (ADR-D-0015) directed "an implementation ADR per removal", and two precedents (ADR-I-0004, ADR-I-0005) had that shape; the directive and the precedent outranked the standard in practice.
 - The plan pre-committed the ADRs as task deliverables with ledger-shaped acceptance, so review checked plan compliance, not the standard.
 - The template's Implementation Impact and Measurement Basis sections invited inventories; a filled template read as complete.
-- The adr.md collaboration flow (state signal, title, and mishandling scenario in conversation before drafting) was skipped; the ADRs were written at closeout as summaries.
+- The collaboration flow (state the proposal in conversation before drafting) was skipped; the ADRs were written at closeout as summaries.
 - Reviewer packets asked for "warrant and structure", which the reviewer verified as field presence.
+- Plan approval was treated as acceptance of the records it named.
 
 Fix applied:
-- ADR-I-0006 replaced by an evidence-classes design record (ADR-D-0019 after the 2026-09-06 renumbering); ADR-D-0017 rewritten constraints-first; ledger moved to the experiment README.
+- PR #57: ledger record replaced, bundled record split, records rewritten at decision altitude, retirements instead of in-place amendment; each record accepted by the user on its own. Standard rewritten in `durable-docs-authoring/references/adr.md` (admission test, one decision per record, prose why, no relative time, proposed/accepted/superseded lifecycle with immutability at merge, standalone acceptance).
 
-Prevention (preliminary, pending the next round):
-- A directive inside an ADR or a precedent's shape does not bypass the warrant test; run the test on every proposed record.
-- Plans propose an ADR only after the warrant is stated in the Decision Log; a task may "propose an ADR if warranted", never "write ADR-X".
-- Reviewer packets for ADRs ask decision-density questions, not field presence.
+Prevention:
+- Run the admission test in `adr.md` on every proposed record, including one a plan or an older record told you to write; a directive or a precedent admits nothing.
+- A plan task may propose a record only if the test passes; acceptance criteria never enumerate a record's contents.
+- Present every record to the human on its own (title, decision, constraint, why) and land it only on an explicit yes; plan approval and merge do not accept.
+- Reviewer packets for records ask the admission questions and whether a maintainer can act on the Decision alone, not whether fields are present.
+- Repo rule added to `docs/coding-agent/rules/orchestrator.md` on 2026-09-06.
 
 Evidence:
-- User correction 2026-09-06; ADR review rounds 2026-09-06 18:05 to 18:08.
+- User corrections 2026-09-06; ADR review rounds on PR #57; Task_1 review of the standard revision plan.

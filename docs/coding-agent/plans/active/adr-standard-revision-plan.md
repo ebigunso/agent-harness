@@ -1,6 +1,6 @@
 # Plan: ADR standard revision
 
-- status: approved
+- status: in_progress
 - generated: 2026-09-06
 - last_updated: 2026-09-06
 - work_type: docs
@@ -138,7 +138,10 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-06 23:40 Wave 1 completed: [Task_1]
+  - Summary: adr.md rewritten around the admission test, form, lifecycle (proposed, accepted, superseded; immutable at merge with the confirmed pointer-repair and typo exception), and standalone acceptance; template, readme, and skill trigger aligned; the standard change itself failed the admission test and its draft record was withdrawn.
+  - Validation evidence: validate_harness_package.py pass; git diff --check clean; grep for warrant in the skill returns nothing; Codex Reviewer APPROVED after one delta round, with the exception ruling confirmed by the user.
+  - Notes: no record lands from this plan.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -171,7 +174,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Trigger / new insight: Task_1 review flagged "meaning-preserving wording edits" as an unapproved exception to immutability.
   - Plan delta (what changed): adr.md now permits after merge only pointer repairs forced by a retirement elsewhere and typo fixes that change no meaning; everything else replaces. Status lifecycle is proposed, accepted, superseded, with acceptance (the human yes) separate from immutability (the merge).
   - Tradeoffs considered: strict zero-edit immutability would make retirement pointer repair impossible.
-  - User approval: pending; surfaced in the report for the user to confirm or narrow further.
+  - User approval: yes, exception confirmed as written (2026-09-06).
 
 ## Notes
 - Risks: rewriting the standard while keeping the retirement mechanics intact; the Reviewer check in Task_1 targets exactly the two failure shapes this session produced.
