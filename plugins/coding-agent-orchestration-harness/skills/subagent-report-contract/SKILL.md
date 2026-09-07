@@ -18,6 +18,8 @@ This skill standardizes the Worker subagent final output format so the Orchestra
 
 ## YAML schema (required keys)
 
+`commands_run` and `tests` remain required to emit, but validators no longer require them; `validation_results` is the evidence list.
+
 task_id: "Task_2"              # from Orchestrator prompt
 status: done | blocked | failed
 
@@ -144,7 +146,7 @@ Guidance:
 ## Filling notes
 
 - files_changed: include only files actually modified/created/deleted.
-- commands_run: if you cannot run a required command, use result=skipped and explain.
+- validation_results[*].evidence: if a required command did not run, name the skipped command and its reason here, including waiver evidence when applicable.
 - validation_results: include every validation item assigned in the task contract; required worker-owned failures/skips cannot accompany `status: done` unless the skip has explicit waiver evidence.
 - ui_probes: include only if a bounded Worker UI probe was run or materially affected implementation. Do not use it as a substitute for Reviewer-owned validation evidence.
 - If required validation evidence is missing and cannot be produced, status should be blocked (not done).

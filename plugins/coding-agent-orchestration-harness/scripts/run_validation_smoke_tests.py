@@ -126,6 +126,8 @@ def main() -> int:
         ([PY, str(ROOT / "skills" / "wave-integration" / "scripts" / "validate_closeout.py"), "--plan", str(fixtures / "valid-closeout-plan.md"), "--summary", str(fixtures / "valid-closeout-summary-with-governance.yaml")], 0),
         ([PY, str(ROOT / "skills" / "wave-integration" / "scripts" / "validate_closeout.py"), "--plan", str(fixtures / "valid-closeout-plan.md"), "--summary", str(fixtures / "invalid-closeout-governance-shape.yaml")], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report.yaml")], 0),
+        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report-no-legacy-keys.yaml")], 0),
+        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-malformed-commands-run.yaml")], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report-reviewer-candidate.yaml")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report-lesson-candidate.yaml")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--message-file", str(fixtures / "valid-worker-message.md")], 0),

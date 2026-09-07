@@ -1,0 +1,18 @@
+task_id: "Task_1"
+status: done
+summary: "Implemented docs update."
+files_changed:
+  - path: "docs/example.md"
+    change: modified
+    intent: "Document behavior"
+validation_results:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "python -m py_compile example.py"
+    status: pass
+    evidence: "Exit code 0."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
