@@ -1,6 +1,6 @@
 # Plan: ADR corpus audit and cleanup
 
-- status: in_progress
+- status: completed
 - generated: 2026-09-06
 - last_updated: 2026-09-07
 - work_type: docs
@@ -124,6 +124,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: twelve records accepted and eleven retired (see Decision Log); supersedes paths updated to the archive filenames; path pointers repaired in six completed plans and rules/_lifecycle.json; ID mentions in prose left as written.
   - Validation evidence: validate_harness_package.py pass; git diff --check clean; absence search for the eleven old filenames outside superseded/ returns nothing; live records 23, archived 15.
   - Notes: Task_2 conformance review dispatched.
+- 2026-09-08 12:50 Wave 3 completed: [Task_3]
+  - Summary: Task_2 review found two MAJOR conformance issues (D-0024 bundled the index-last rule; D-0025 and D-0031 reproduced operational lists their Not covered lines exclude), fixed in 76359c9 with decisions unchanged; delta APPROVED. Final review APPROVED against the Definition of Done: 24 original records with verdicts, 23 live records (8 keeps, 3 recorded declines, 12 accepted replacements), 15 archived.
+  - Validation evidence: validate_harness_package.py pass; git diff --check clean; absence search clean; Codex Reviewer APPROVED (Task_2 delta and Task_3).
+  - Notes: plan closed; PR opened.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
