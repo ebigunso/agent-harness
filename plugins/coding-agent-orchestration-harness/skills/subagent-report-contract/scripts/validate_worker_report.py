@@ -326,9 +326,7 @@ def validate_root(doc: Any) -> bool:
         "status",
         "summary",
         "files_changed",
-        "commands_run",
         "validation_results",
-        "tests",
         "blockers",
         "questions_for_orchestrator",
         "assumptions",
@@ -361,18 +359,19 @@ def validate_root(doc: Any) -> bool:
     ok &= validate_commands_run(doc.get("commands_run", []))
     ok &= validate_validation_results(doc.get("validation_results", []), status)
 
-    tests = doc.get("tests")
-    if not is_dict(tests):
-        err("tests must be a dict")
-        ok = False
-    else:
-        ok &= require_keys(tests, ["ran", "notes"], "tests")
-        if "ran" in tests and not is_bool(tests["ran"]):
-            err("tests.ran must be boolean")
+    if "tests" in doc:
+        tests = doc["tests"]
+        if not is_dict(tests):
+            err("tests must be a dict")
             ok = False
-        if "notes" in tests and not is_str(tests["notes"]):
-            err("tests.notes must be a string")
-            ok = False
+        else:
+            ok &= require_keys(tests, ["ran", "notes"], "tests")
+            if "ran" in tests and not is_bool(tests["ran"]):
+                err("tests.ran must be boolean")
+                ok = False
+            if "notes" in tests and not is_str(tests["notes"]):
+                err("tests.notes must be a string")
+                ok = False
 
     for k in ["blockers", "questions_for_orchestrator", "assumptions"]:
         if k in doc and not is_list(doc[k]):
