@@ -210,6 +210,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Claude plugin cache refreshed to 0.16.0 (installed_plugins.json, read by the Orchestrator) after ebigunso cleared a stale marketplace registration (known_marketplaces.json entry and settings.json extraKnownMarketplaces conflict; both manifests were schema-compliant).
   - Validation evidence: --check MATCH (Codex side, logged above); plugin version 0.16.0 matches plugin.json on main.
   - Notes: Task_4 may run on a fully refreshed installation.
+- 2026-09-08 Wave 2 Task_4 recorded with a blocker: [Task_4]
+  - Summary: two ephemeral cells run and judged (results-2026-09-live-loader.md). Cell (i) PASS. Cell (ii) FAIL: harness loaded and Orchestrator role assumed (ADR-D-0020 supported; reopen review closed with no change), Worker spawn failed in the headless runtime, and the session self-waived plan review and approval under the Plan Gate's Orchestrator-waiver clause and implemented.
+  - Validation evidence: Codex Reviewer verdict with transcript line references; checkout writes reverted by the Orchestrator.
+  - Notes: blocker surfaced to ebigunso: the Plan Gate waiver boundary. Pilot ablation cells started on ebigunso's instruction (two seeds as registered).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

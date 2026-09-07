@@ -18,6 +18,12 @@ Session identity (both cells, quoted from the transcripts): `OpenAI Codex v0.153
 - Execution: the session implemented the change, ran the smoke suite, moved its plan to `plans/completed/`, and reported done. The three edited tracked files and the plan file appeared in the Orchestrator's `main` checkout despite `-s read-only`; the Orchestrator reverted them after the run (no commit was made by the session).
 - Orchestrator reading: harness loaded, yes; subagent dispatched, attempted and blocked by the runtime; plan presented for approval and not executed, no. Under the plan's acceptance this is recorded as a blocker. Whether it reopens ADR-D-0020 (loader-routed sessions assume the Orchestrator role, which did happen) or is a Plan Gate self-waiver in a headless session with no user to ask is for the Reviewer and the user; the Orchestrator does not smooth it over.
 
-## Reviewer verdict
+## Reviewer verdict (Codex Reviewer, 2026-09-08)
 
-(pending)
+- Cell (i): PASS. Evidence: transcript-i.txt:51 "no instruction files read from disk; no skills loaded"; :56-61 the five files with headings; :79-81 "No edits made" and "harness skill loaded: no". Supports ADR-D-0017 for the direct-user-turn form of the instruction.
+- Cell (ii): FAIL against the registered expectation. Loader-to-Orchestrator routing: PASS (transcript-ii.txt:47, 58-60, 332-334, 3245-3246), so ADR-D-0020's role claim is supported and the mechanical reopen review it triggers concludes with no change to that record. Spawn failure (:3250-3251, "collab spawn failed: no thread with id") is an observed runtime failure of this ephemeral headless run, not a harness dispatch-policy fault; an attempted spawn does not satisfy the required successful dispatch. Self-waiver (:3245-3247): the session waived draft-plan review and plan approval with a recorded reason before the spawn failure and implemented; the loaded Plan Gate (SKILL.md, "unless explicitly waived by the user or Orchestrator with a recorded reason and evidence") permits that as written, so the failed expectation is not evidence the session ignored the text. The actionable issue is the Plan Gate waiver boundary, not ADR-D-0017 or ADR-D-0020.
+- Observation: the read-only sandbox did not prevent writes to the checkout.
+
+## Blocker
+
+Cell (ii) is recorded as FAIL. The Plan Gate allows the Orchestrator to waive plan approval on its own recorded reason, and a session with no user present used that to implement a non-trivial change without any human seeing the plan. Whether human plan approval is meant to be mandatory (Orchestrator waiver removed or narrowed to trivial-work reclassification) is a decision for ebigunso; the ablation and corpus branches do not resolve it.
