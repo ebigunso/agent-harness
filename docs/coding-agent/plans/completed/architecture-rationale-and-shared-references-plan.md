@@ -30,9 +30,9 @@
   - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md`
   - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/`
 - Existing patterns or references:
-  - `superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md`
-  - `superseded/ADR-I-0001-runtime-adapter-layout--superseded-by-ADR-I-0006.md`
-  - `superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0001-runtime-adapter-layout--superseded-by-ADR-I-0006.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md`
 - Repo reference docs consulted:
   - `docs/coding-agent/rules/index.md`
   - `docs/coding-agent/rules/common.md`

@@ -11,13 +11,13 @@ Purpose:
 
 - Status: staged
 - Category: validator
-- Proposed home: `plugins/coding-agent-orchestration-harness/skills/skills-maintenance/SKILL.md` (validator authoring guidance) or the relevant check in `scripts/validate_harness_package.py`
+- Proposed home: `plugins/coding-agent-orchestration-harness/skills/skills-maintenance/SKILL.md` (validator authoring guidance) or the relevant check in `plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py`
 - Generalized rule:
   When adding package validation for an enum or schema change, check the exact enum owner or contract field rather than a broad substring.
 - Trigger:
   A validator check is added or changed for an enum value, schema key, or contract field.
 - Evidence from this repo:
-  Carried over from the legacy "Global Migration Candidates" section of `docs/coding-agent/rules/common.md`, removed on 2026-09-08 under ADR-D-0007's boundary (rule files carry active policy only).
+  Carried over from the legacy "Global Migration Candidates" section of `docs/coding-agent/rules/common.md`, removed on 2026-09-08 under the boundary ADR-D-0026 carries (rule files carry active policy only).
 - Why this generalizes:
   Substring checks fire on unrelated text and miss the owning field; the mistake recurs in any repository that grows validators.
 - Suggested change:
