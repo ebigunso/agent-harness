@@ -202,6 +202,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: protocol.md, fixture-plan.md (336 fixtures, 21 sections), manifest.yaml, and score.py frozen on feature/2026-09-07/guidance-class-ablation at cd98077. Two Reviewer rounds: tie handling (most protective outcome on tied worst models), FP guard on every fleet model, completeness enforced against the manifest, attribution lines corrected.
   - Validation evidence: score.py --self-test ok; Codex Reviewer APPROVED (fbac676..cd98077); git diff --check clean.
   - Notes: Task_5 authoring starts with the pre-registered pilot (five runbooks, cp-2, cp-9); Task_2 merged in PR #59.
+- 2026-09-08 Task_1 Refresh 1, Codex side complete: [Task_1]
+  - Summary: ebigunso ran install_codex_harness.py --scope user --overwrite-agents --user-instructions add, then --check: MATCH for harness_researcher.toml, harness_worker.toml, harness_reviewer.toml, references/codex-app-connector-policy.md, and the install manifest; user instructions updated. codex-cli 0.153.4. Manifest SHA-256 prefix 5bb2affb0bdca37e (read by the Orchestrator).
+  - Validation evidence: pasted --check output above; Claude plugin cache still 0.10.1 installed 2026-08-09 (read from installed_plugins.json), so the Claude side of Refresh 1 is outstanding.
+  - Notes: Task_4 Codex cells depend only on the Codex side and may start; the Claude plugin update completes Task_1.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
