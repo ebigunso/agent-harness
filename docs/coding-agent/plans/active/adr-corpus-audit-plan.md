@@ -136,6 +136,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): status approved; execution begins after PR #57 merges.
   - Tradeoffs considered: none.
   - User approval: yes (2026-09-06).
+- 2026-09-07 Decision: Four standard-application rulings by ebigunso.
+  - Trigger / new insight: Task_1 audit listed eleven places the standard was unclear; four changed the verdicts materially.
+  - Plan delta (what changed): (1) a rewrite that changes only shape (wording, missing sections, no reopen conditions) is declined; the record stays accepted with its number, and the decline is recorded per Definition of Done. (2) A rejected alternative with a bare reason counts as "rejected outright" and conforms. (3) Frontmatter keys outside the template (warrant, supersession_scope, implements) are removed from live records so the template is the visible norm; this deletion adds nothing and is applied to ADR-D-0016 through ADR-D-0021 in this plan. (4) The template section set is a default, not a Form rule.
+  - Tradeoffs considered: renumbering most of the corpus for shape-only fixes (rejected by ruling 1); leaving exemplar records with legacy keys (rejected by ruling 3 because the newest records would model the wrong format).
+  - User approval: yes (2026-09-07).
 
 ## Notes
 - Risks: many rewrites at once; Task_2 presents one record per ask so acceptance stays deliberate. A citation from another repository to a moved record breaks until that repository runs the audit handoff; the moved file's header limits the damage to a stale path.

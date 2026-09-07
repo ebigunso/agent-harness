@@ -5,14 +5,8 @@ date: 2026-09-06
 deciders: ["ebigunso"]
 consulted: ["GPT-5.5 Pro", "Claude Fable 5.1"]
 informed: []
-warrant:
-  warranted_by: "without this record, future work would likely make subagents close their own processes or treat an idle child as a failed one, because an open process after a final report looks like unfinished work"
-  detected_signals: "cross-boundary ownership shape (who closes a child process); rejected alternative likely to be re-proposed"
-  cost_of_violation: "an impatient parent duplicates live child work or force-closes a child mid-task; a subagent that exits itself loses the report handoff"
-  cost_of_over_extension: "applying cleanup rules to runtimes that expose no close or terminate action; there the record asks only that the idle process not be reused"
 supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
 superseded_by: null
-supersession_scope: full
 ---
 
 # ADR-D-0021: The Orchestrator owns the async subagent lifecycle
