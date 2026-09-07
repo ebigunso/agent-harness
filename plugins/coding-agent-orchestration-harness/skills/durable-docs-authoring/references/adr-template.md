@@ -12,7 +12,7 @@ superseded_by: null   # current relative path; set only on the retired record
 
 # ADR-{D|I}-XXXX: {The decision, stated as a sentence a reader could act on}
 
-<!-- Two tracks (design D / implementation I) with per-track numbering are the default; a repository may collapse to a single track. IDs are never reused. One decision per record; see references/adr.md. -->
+<!-- Two tracks (design D / implementation I) with per-track numbering are the default; a repository may collapse to a single track. Merged IDs are never reused. One decision per record; see references/adr.md. -->
 
 ## Context and Problem Statement
 {The fork in one paragraph: what pressure made this a decision point. No history of the investigation; see references/adr.md.}

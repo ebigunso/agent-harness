@@ -38,7 +38,7 @@ Record-plus-rule pairs are the expected shape for enforced contracts; the homes 
 - **Proposed.** A record on a branch carries `status: proposed` until a human accepts it on its own (see Acceptance). While proposed it is a draft: rewritten, renumbered, split, or dropped freely; the plan's Decision Log carries the drafting history; a dropped draft frees its number.
 - **Accepted.** The status flips to `accepted` on the explicit yes, before merge. Immutability attaches at merge to `main`, because that is when readers may have built on it. After merge a record changes only when a retirement elsewhere requires repairing a pointer in it, or to correct a typo that changes no meaning. Any change to the decision, its boundary, its reasons, or its reopen conditions is a new complete record, and the old one is retired. Refinement and reversal both replace; there is no partial supersession.
 - **Superseded.** Retirement is one atomic operation: set `status: superseded`, add a header line under the title ("Retired on DATE. Replaced by ADR-X." or "Retired on DATE; nothing in it still binds."), move the file to `superseded/` with the `--superseded-by-ADR-X` or `--retired` suffix, repair every inbound reference in the repository, and prove it with an absence search for the old filename. A retired record is frozen.
-- IDs are never reused; a gap in an active directory means a retirement.
+- A number is taken at merge: merged IDs are never reused, and a gap in an active directory means a retirement.
 
 ## Acceptance
 

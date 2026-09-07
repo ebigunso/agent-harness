@@ -18,7 +18,7 @@ docs/decisions/
 
 ## Numbering and tracks
 
-Separate numbering per track; IDs are never reused, and a gap in an active directory means a retirement.
+Separate numbering per track; a number is taken at merge, merged IDs are never reused, and a gap in an active directory means a retirement.
 - `ADR-D-NNNN` — design track: use when overlooking the decision would risk violating the project's core philosophy.
 - `ADR-I-NNNN` — implementation track: use when the decision is primarily about how the system is built (storage, APIs, schemas, tooling, operations).
 
