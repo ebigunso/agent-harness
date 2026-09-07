@@ -1,0 +1,193 @@
+records:
+  - id: 30bf93b9353a
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 at print(rendered); command-scoped PYTHONIOENCODING via cmd /c; verifies exit 0 and User Ж"
+  - id: 52a4b8093c4a
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 at print site; -X utf8 per-invocation UTF-8 stdout override; verifies exit 0 and glyph"
+  - id: aa3273c3ea67
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 pipe encoding; PYTHONIOENCODING with explicit restore; verifies exit 0 and User Ж"
+  - id: b4bbde75001f
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 at print(rendered); session-wide env PYTHONIOENCODING, no restore step but scope acknowledged; verifies"
+  - id: c5a01defb27c
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 at print site; -X utf8 invocation-scoped; verifies exit 0 and User Ж"
+  - id: f78bc8fed272
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 pipe; child-scoped PYTHONIOENCODING via cmd /c; verifies exit 0, stdout, stderr"
+  - id: 7f2387433bdb
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at print after DB decode ok; -X utf8; verifies encoding, exit 0, Launch 🚀"
+  - id: adf2d9c5cdb7
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at print; PYTHONIOENCODING with try/finally restore; verifies exit 0 and glyph"
+  - id: b5a26244c00e
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at print; env PYTHONIOENCODING with restore mention; verifies exit 0 and glyph"
+  - id: c71fdd0ace6c
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at print; -X utf8; verifies encoding, exit 0, Launch 🚀"
+  - id: d1b039cab984
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at print(row.description); cmd /c scoped PYTHONIOENCODING; checks partial effects; verifies"
+  - id: d778207fa4c7
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at print; session env PYTHONIOENCODING, no restore step; verifies exit 0 and glyph"
+  - id: 20eae6e27389
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print PASS ✓; env PYTHONIOENCODING, no restore step; verifies exit 0 and glyph"
+  - id: 2401db41d707
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print; PYTHONIOENCODING for invocation; verifies PASS ✓ and exit 0"
+  - id: 2bdfeffaca57
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print; PYTHONIOENCODING with try/finally restore; verifies PASS ✓ and exit 0"
+  - id: 4a6a1b62cf44
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print; -X utf8; verifies PASS ✓ and exit 0"
+  - id: 9b2fe2ab248a
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print; env PYTHONIOENCODING, no restore step; verifies PASS ✓ and exit 0"
+  - id: b9f11868e55e
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print; child-pwsh-scoped PYTHONIOENCODING; verifies PASS ✓ and exit 0"
+  - id: 2703e56682a9
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at print(status); flush irrelevant; cmd /c scoped PYTHONIOENCODING; verifies Working 🧪 and exit 0"
+  - id: 6f699fa2f747
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at print; flush irrelevant; env PYTHONIOENCODING with restore/remove; verifies"
+  - id: 8d34a0a9fe47
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at print; flush irrelevant; -X utf8; verifies encoding, glyph, exit 0"
+  - id: 90dc08cc7a94
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at print; flush irrelevant; -X utf8; verifies exit 0 and Working 🧪"
+  - id: d424b0616b07
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at print; cmd /c scoped PYTHONIOENCODING; checks partial effects; verifies exit 0 and glyph"
+  - id: ef7f7a283f07
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at print; flush irrelevant; env PYTHONIOENCODING, no restore step; verifies exit 0 and glyph"
+  - id: 061ca577f364
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "locale cp932 report.txt handle; truncation noted; encoding=utf-8 on open; regenerate and verify file; stdout override rejected"
+  - id: 1eb877b6da54
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 file handle; truncation noted; explicit UTF-8 open; regenerate; read back as UTF-8 with em dash"
+  - id: 3901c0c35c24
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 file handle; truncation noted; explicit UTF-8 open; regenerate and verify; PYTHONIOENCODING insufficient stated"
+  - id: 48cd5ea2e9a8
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 file handle; truncation noted; explicit UTF-8 open; regenerate and verify content"
+  - id: 4bb082469071
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 file handle at line 25; truncation noted; explicit UTF-8 open; regenerate and verify em dash"
+  - id: f3059304ae66
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "locale cp932 file handle; truncation noted; explicit UTF-8 open; regenerate and verify; stdout override rejected"
+  - id: 4246e60cd989
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "manifest confirmed complete, no rollback; cp932 at print; env PYTHONIOENCODING (no restore) and rerun; verifies hash unchanged and exit 0"
+  - id: 5dee847f08d4
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "manifest complete, no repair; cp932 at print; PYTHONIOENCODING; verifies built 🚀, exit 0, hash"
+  - id: 820ee22c1a55
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "manifest complete; cp932 at print; PYTHONIOENCODING with restore; verifies output, exit 0, hash"
+  - id: be8bb25227bd
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "manifest complete, rerun justified as deterministic; cp932 at print; PYTHONIOENCODING with try/finally restore; verifies"
+  - id: d205a635ceaa
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "manifest complete, partial effects checked; cp932 at print; cmd /c scoped PYTHONIOENCODING; verifies hash and exit 0"
+  - id: f6eccfdf6836
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "manifest complete, no rollback; cp932 at print; env PYTHONIOENCODING (no restore); verifies output, exit 0, hash"
+  - id: 1f6c56e47749
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization diagnosed; str conversion; no encoding change; side-effect check before rerun is harmless"
+  - id: 31f81412dd14
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization; str conversion; no encoding override"
+  - id: 7f0172ec57f5
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization; targeted default= handler preserving string; no encoding change"
+  - id: cd62e170510c
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization; str conversion; no encoding change"
+  - id: d12527bbbec1
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization; str conversion; PYTHONIOENCODING explicitly rejected"
+  - id: e4367273e4e8
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization; str conversion or scoped default handler; no encoding change"
+  - id: 38aa5c32c0c1
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "ZeroDivisionError on input; input validation suggested (known acceptable nitpick); encoding rejected"
+  - id: 3aa9c3221323
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "ZeroDivisionError; fix input or guard (acceptable nitpick); encoding rejected"
+  - id: 58547c66724d
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "ZeroDivisionError; guard denominator (acceptable nitpick); cp932 unrelated"
+  - id: 7a53c0bef067
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "ZeroDivisionError; fix input or guard (acceptable nitpick); UTF-8 override rejected"
+  - id: 89bcd9a172d4
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "Japanese-language response; ZeroDivisionError, fix input or guard (acceptable nitpick); encoding rejected"
+  - id: ffc23f80cf47
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "ZeroDivisionError; fix input or guard (acceptable nitpick); PYTHONIOENCODING rejected"

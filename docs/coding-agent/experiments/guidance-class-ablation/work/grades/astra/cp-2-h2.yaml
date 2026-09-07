@@ -1,0 +1,193 @@
+records:
+  - id: 262b90d7cd3b
+    fixture: cp-2-07
+    score: 1.0
+    note: "Names RecordIds.Next() reseeding new Random(42) per call as the collision source shared with QueueConsumer; 409 catch only masks; requires DB sequence via shared allocation for all producers."
+  - id: 498c2931c9ee
+    fixture: cp-2-07
+    score: 1.0
+    note: "Names RecordIds.Next() reseeding new Random(42) per call as the collision source shared with QueueConsumer; 409 catch only masks; requires DB sequence via shared allocation for all producers."
+  - id: 9520a8bcb470
+    fixture: cp-2-07
+    score: 1.0
+    note: "Names RecordIds.Next() reseeding new Random(42) per call as the collision source shared with QueueConsumer; 409 catch only masks; requires DB sequence via shared allocation for all producers."
+  - id: 95409e1e1dd8
+    fixture: cp-2-07
+    score: 1.0
+    note: "Names RecordIds.Next() reseeding new Random(42) per call as the collision source shared with QueueConsumer; 409 catch only masks; requires DB sequence via shared allocation for all producers."
+  - id: c9d6dbb84721
+    fixture: cp-2-07
+    score: 1.0
+    note: "Names RecordIds.Next() reseeding new Random(42) per call as the collision source shared with QueueConsumer; 409 catch only masks; requires DB sequence via shared allocation for all producers."
+  - id: f3846c398ed5
+    fixture: cp-2-07
+    score: 1.0
+    note: "Names RecordIds.Next() reseeding new Random(42) per call as the collision source shared with QueueConsumer; 409 catch only masks; requires DB sequence via shared allocation for all producers."
+  - id: 2ccfc397be98
+    fixture: cp-2-08
+    score: 1.0
+    note: "Names serialize returning integer cents under :dollars as the source; presenter /100 are local compensation; accounting_amount still wrong; requires converting once in serialize and removing presenter divisions."
+  - id: 565639002f2b
+    fixture: cp-2-08
+    score: 1.0
+    note: "Names serialize returning integer cents under :dollars as the source; presenter /100 are local compensation; accounting_amount still wrong; requires converting once in serialize and removing presenter divisions."
+  - id: 5946fa5c2d81
+    fixture: cp-2-08
+    score: 1.0
+    note: "Names serialize returning integer cents under :dollars as the source; presenter /100 are local compensation; accounting_amount still wrong; requires converting once in serialize and removing presenter divisions."
+  - id: 6bc2d07c497b
+    fixture: cp-2-08
+    score: 1.0
+    note: "Names serialize returning integer cents under :dollars as the source; presenter /100 are local compensation; accounting_amount still wrong; requires converting once in serialize and removing presenter divisions."
+  - id: a60d8de4a6b4
+    fixture: cp-2-08
+    score: 1.0
+    note: "Names serialize returning integer cents under :dollars as the source; presenter /100 are local compensation; accounting_amount still wrong; requires converting once in serialize and removing presenter divisions."
+  - id: d89d78063dce
+    fixture: cp-2-08
+    score: 1.0
+    note: "Names serialize returning integer cents under :dollars as the source; presenter /100 are local compensation; accounting_amount still wrong; requires converting once in serialize and removing presenter divisions."
+  - id: 0d6a970a16bc
+    fixture: cp-2-09
+    score: 1.0
+    note: "Names mesh_indices <= off-by-one emitting index vertex_count; production still bad; clamp only compensates preview and breaks one-index-per-vertex; requires i < vertex_count and removing clamp."
+  - id: 43dfe542905e
+    fixture: cp-2-09
+    score: 1.0
+    note: "Names mesh_indices <= off-by-one emitting index vertex_count; production still bad; clamp only compensates preview and breaks one-index-per-vertex; requires i < vertex_count and removing clamp."
+  - id: 638466629afa
+    fixture: cp-2-09
+    score: 1.0
+    note: "Names mesh_indices <= off-by-one emitting index vertex_count; production still bad; clamp only compensates preview and breaks one-index-per-vertex; requires i < vertex_count and removing clamp."
+  - id: 9f9cc8d26e9a
+    fixture: cp-2-09
+    score: 1.0
+    note: "Names mesh_indices <= off-by-one emitting index vertex_count; production still bad; clamp only compensates preview and breaks one-index-per-vertex; requires i < vertex_count and removing clamp."
+  - id: c0eb261d3626
+    fixture: cp-2-09
+    score: 1.0
+    note: "Names mesh_indices <= off-by-one emitting index vertex_count; production still bad; clamp only compensates preview and breaks one-index-per-vertex; requires i < vertex_count and removing clamp."
+  - id: f22b57799327
+    fixture: cp-2-09
+    score: 1.0
+    note: "Names mesh_indices <= off-by-one emitting index vertex_count; production still bad; clamp only compensates preview and breaks one-index-per-vertex; requires i < vertex_count and removing clamp."
+  - id: 2bb8219d976d
+    fixture: cp-2-10
+    score: 1.0
+    note: "Names read-then-insert race in BookingService.reserve (separate autocommit count/insert, no constraint); nightly sweep cannot prevent; requires DB uniqueness constraint / atomic insert translating to SlotFull; also flags sweep deleting accepted bookings."
+  - id: 5d19d276e01b
+    fixture: cp-2-10
+    score: 1.0
+    note: "Names read-then-insert race in BookingService.reserve (separate autocommit count/insert, no constraint); nightly sweep cannot prevent; requires DB uniqueness constraint / atomic insert translating to SlotFull; also flags sweep deleting accepted bookings."
+  - id: 81142f81ae0f
+    fixture: cp-2-10
+    score: 1.0
+    note: "Names read-then-insert race in BookingService.reserve (separate autocommit count/insert, no constraint); nightly sweep cannot prevent; requires DB uniqueness constraint / atomic insert translating to SlotFull; also flags sweep deleting accepted bookings."
+  - id: 9af932573a31
+    fixture: cp-2-10
+    score: 1.0
+    note: "Names read-then-insert race in BookingService.reserve (separate autocommit count/insert, no constraint); nightly sweep cannot prevent; requires DB uniqueness constraint / atomic insert translating to SlotFull; also flags sweep deleting accepted bookings."
+  - id: bf7c97ec3723
+    fixture: cp-2-10
+    score: 1.0
+    note: "Names read-then-insert race in BookingService.reserve (separate autocommit count/insert, no constraint); nightly sweep cannot prevent; requires DB uniqueness constraint / atomic insert translating to SlotFull; also flags sweep deleting accepted bookings."
+  - id: df4b58265b2a
+    fixture: cp-2-10
+    score: 1.0
+    note: "Names read-then-insert race in BookingService.reserve (separate autocommit count/insert, no constraint); nightly sweep cannot prevent; requires DB uniqueness constraint / atomic insert translating to SlotFull; also flags sweep deleting accepted bookings."
+  - id: 213c04d22bed
+    fixture: cp-2-11
+    score: 1.0
+    note: "Names validDate regression (shape-only, checkdate dropped) leaving apiAccepts/importAccepts broken; form regex copy is a fork; requires restoring checkdate in shared validDate with all three callers delegating."
+  - id: 3c5a2008eb62
+    fixture: cp-2-11
+    score: 1.0
+    note: "Names validDate regression (shape-only, checkdate dropped) leaving apiAccepts/importAccepts broken; form regex copy is a fork; requires restoring checkdate in shared validDate with all three callers delegating."
+  - id: 6251b3d21038
+    fixture: cp-2-11
+    score: 1.0
+    note: "Names validDate regression (shape-only, checkdate dropped) leaving apiAccepts/importAccepts broken; form regex copy is a fork; requires restoring checkdate in shared validDate with all three callers delegating."
+  - id: 9fde6c5d6fd9
+    fixture: cp-2-11
+    score: 1.0
+    note: "Names validDate regression (shape-only, checkdate dropped) leaving apiAccepts/importAccepts broken; form regex copy is a fork; requires restoring checkdate in shared validDate with all three callers delegating."
+  - id: b1cc8f8ba953
+    fixture: cp-2-11
+    score: 1.0
+    note: "Names validDate regression (shape-only, checkdate dropped) leaving apiAccepts/importAccepts broken; form regex copy is a fork; requires restoring checkdate in shared validDate with all three callers delegating."
+  - id: d9f8b064ec7c
+    fixture: cp-2-11
+    score: 1.0
+    note: "Names validDate regression (shape-only, checkdate dropped) leaving apiAccepts/importAccepts broken; form regex copy is a fork; requires restoring checkdate in shared validDate with all three callers delegating."
+  - id: 42c4bb13bcc0
+    fixture: cp-2-12
+    score: 1.0
+    note: "Names tenantKeys retained in service-owned Session after logout; app.restart only restarts foreground, background sync keeps keys; requires clearing tenantKeys in Session.logout on the shared executor instead of restart."
+  - id: 58daba72743d
+    fixture: cp-2-12
+    score: 1.0
+    note: "Names tenantKeys retained in service-owned Session after logout; app.restart only restarts foreground, background sync keeps keys; requires clearing tenantKeys in Session.logout on the shared executor instead of restart."
+  - id: 5c3f76a60577
+    fixture: cp-2-12
+    score: 1.0
+    note: "Names tenantKeys retained in service-owned Session after logout; app.restart only restarts foreground, background sync keeps keys; requires clearing tenantKeys in Session.logout on the shared executor instead of restart."
+  - id: 9ab33bd6499b
+    fixture: cp-2-12
+    score: 1.0
+    note: "Names tenantKeys retained in service-owned Session after logout; app.restart only restarts foreground, background sync keeps keys; requires clearing tenantKeys in Session.logout on the shared executor instead of restart."
+  - id: 9f110b259790
+    fixture: cp-2-12
+    score: 1.0
+    note: "Names tenantKeys retained in service-owned Session after logout; app.restart only restarts foreground, background sync keeps keys; requires clearing tenantKeys in Session.logout on the shared executor instead of restart."
+  - id: f8c372af4c18
+    fixture: cp-2-12
+    score: 1.0
+    note: "Names tenantKeys retained in service-owned Session after logout; app.restart only restarts foreground, background sync keeps keys; requires clearing tenantKeys in Session.logout on the shared executor instead of restart."
+  - id: 16e56f805cb2
+    fixture: cp-2-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 4745d3862b65
+    fixture: cp-2-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 672d0d0903dc
+    fixture: cp-2-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 722c6064bc3e
+    fixture: cp-2-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 7f92f009d411
+    fixture: cp-2-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: d2e4ea1ab39f
+    fixture: cp-2-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 078edb84bcfa
+    fixture: cp-2-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 07ff33656a80
+    fixture: cp-2-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 6c06be851129
+    fixture: cp-2-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 7463e4087448
+    fixture: cp-2-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 817f913c283a
+    fixture: cp-2-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
+  - id: 9daf341e5a61
+    fixture: cp-2-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings; no false positives."
