@@ -1,7 +1,7 @@
 ---
 status: accepted
 adr_type: design
-date: 2026-09-07
+date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
@@ -46,4 +46,4 @@ Not covered: the sidecar's schema, the set of role files, the bootstrap write or
 
 ## More Information
 
-Replaces ADR-D-0006 together with ADR-D-0025; the file list, write order, read triggers, and refresh triggers ADR-D-0006 enumerated are `rulebook` skill text. Freshness derivation: ADR-D-0025. Validators enforce contracts, not prose: ADR-I-0003.
+Replaces ADR-D-0006 together with ADR-D-0025; the file list, write order, read triggers, and refresh triggers ADR-D-0006 enumerated are `rulebook` skill text. Freshness derivation: ADR-D-0025. Validators enforce contracts, not prose: ADR-I-0007.
