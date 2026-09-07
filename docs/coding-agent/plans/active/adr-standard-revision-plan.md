@@ -142,6 +142,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: adr.md rewritten around the admission test, form, lifecycle (proposed, accepted, superseded; immutable at merge with the confirmed pointer-repair and typo exception), and standalone acceptance; template, readme, and skill trigger aligned; the standard change itself failed the admission test and its draft record was withdrawn.
   - Validation evidence: validate_harness_package.py pass; git diff --check clean; grep for warrant in the skill returns nothing; Codex Reviewer APPROVED after one delta round, with the exception ruling confirmed by the user.
   - Notes: no record lands from this plan.
+- 2026-09-07 11:15 Wave 2 completed: [Task_2, Task_3]
+  - Summary: Task_2 (Codex worker) routed plan-format, prompt-snippets, the reviewer packet, the Escalation Ruling reference, and the final-response contract to adr.md by path with operational forms only, and added the validator check for supersession_scope: partial on live records with its fixture; the Orchestrator added the acceptance-state item to the Final Response Summary line in orchestration-harness/SKILL.md (outside Task_2 owns, ruling recorded). Task_3 (Orchestrator): final prevention list in the lessons entry and one orchestrator rule.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check clean; worker reports eight temporary-copy fixture checks with the validator firing on the partial-supersession fixture.
+  - Notes: Task_4 final review dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

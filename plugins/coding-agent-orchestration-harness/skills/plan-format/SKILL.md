@@ -68,6 +68,8 @@ Design assumptions:
 
 10) Plan altitude: a plan states what, why, and constraints, and leaves how to the Worker; it does not restate what the Worker can discover cheaply. This does not override user-requested decomposition depth (rule 9).
 
+11) ADR-producing tasks: use "propose an ADR if the admission test passes" per `durable-docs-authoring/references/adr.md`; do not enumerate record contents in acceptance criteria.
+
 ---
 
 ## Progressive disclosure (read only what you need)

@@ -401,6 +401,21 @@ def check_clean_split_guards(errors: list[str]) -> None:
             fail(errors, f"{rules_files}: must not route rule_candidates by intended_home")
 
 
+def check_adr_supersession(errors: list[str]) -> None:
+    docs = ROOT.parents[1] / "docs"
+    for path in docs.glob("**/decisions/**/*.md"):
+        if "superseded" in path.relative_to(docs).parts:
+            continue
+        text = path.read_text(encoding="utf-8-sig")
+        frontmatter = re.match(r"\A---[ \t]*\n(.*?)\n---[ \t]*(?:\n|\Z)", text, re.DOTALL)
+        if frontmatter and re.search(
+            r"^supersession_scope:[ \t]*(?:partial|'partial'|\"partial\")[ \t]*(?:#.*)?$",
+            frontmatter.group(1),
+            re.MULTILINE,
+        ):
+            fail(errors, f"{path}: live ADR must not use supersession_scope: partial")
+
+
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
@@ -415,6 +430,7 @@ def main() -> int:
     check_latent_risk_references(errors)
     check_operational_routing_surfaces(errors)
     check_clean_split_guards(errors)
+    check_adr_supersession(errors)
 
     for message in warnings:
         print(f"WARNING: {message}", file=sys.stderr)

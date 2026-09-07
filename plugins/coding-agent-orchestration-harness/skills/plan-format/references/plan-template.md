@@ -141,6 +141,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed):
   - Tradeoffs considered:
   - User approval: yes/no (link to discussion if applicable)
+  - Record proposed: <path or none; acceptance state> (per `durable-docs-authoring/references/adr.md`)
 
 ## Notes
 - Risks:

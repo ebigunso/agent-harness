@@ -144,4 +144,4 @@ Action: record the insight in the plan Decision Log and surface it in the next r
 
 ## Final Response Summary
 
-Final responses state outcome (done or blocked), changed files/artifacts, validation summary, review summary, repo rule updates, skill staging updates, and open questions/blockers (max 3), per `references/final-response-contract.md`.
+Final responses state outcome (done or blocked), changed files/artifacts, validation summary, review summary, repo rule updates, skill staging updates, decision records proposed with their acceptance state, and open questions/blockers (max 3), per `references/final-response-contract.md`.

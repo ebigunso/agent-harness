@@ -74,6 +74,23 @@ Deliverables:
 - Each finding names the fact, record, or reference it contradicts.
 - Your verdict is advisory to the Orchestrator. Question the decomposition given; do not propose another.
 
+## Reviewer snippet (ADR review)
+
+Review <record> against `durable-docs-authoring/references/adr.md`:
+- What future design or implementation does the decision constrain?
+- What would ignoring it cost to detect or undo?
+- Can its reasoning be reconstructed from the artifact, git history, or a plan?
+- Can its why be stated for a first-time reader in a sentence or two?
+- Does it contain stale, superseded, or wrong content?
+- Is its only constraint "do not re-add these files"?
+- Does it concern the repository's product domain?
+- Does it ratify an existing exception without considering remediation?
+- Can a maintainer act on the Decision alone?
+- Which section is re-derivable?
+- Is implementation wording mirrored?
+- Is any wording time-relative?
+- Is more than one decision present?
+
 ## Reviewer snippet (E2E/visual gate)
 
 Scope:

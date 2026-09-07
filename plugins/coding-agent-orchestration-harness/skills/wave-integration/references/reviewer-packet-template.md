@@ -12,6 +12,10 @@ Use this shape when dispatching Reviewer after a Worker wave.
 
 ## Acceptance Criteria
 
+## ADRs proposed
+
+<paths or none; acceptance states> — `durable-docs-authoring/references/adr.md`
+
 ## Required Validation Checklist
 
 ## Worker Validation Evidence

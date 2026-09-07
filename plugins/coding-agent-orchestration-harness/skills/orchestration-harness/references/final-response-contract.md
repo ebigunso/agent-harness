@@ -8,6 +8,7 @@ Use this structure for user-facing closeout after harness work.
 4. Review summary: Reviewer status (`APPROVED`, `NEEDS_REVISION`, `FAILED`, or waived with evidence) for non-trivial work; flows, viewports, and artifact paths when UI/E2E evidence was run.
 5. Repo rule updates, or none.
 6. Skill staging updates, or none.
-7. Questions or blockers, max 3; omit when none.
+7. ADRs proposed, with acceptance state, or none — `durable-docs-authoring/references/adr.md`.
+8. Questions or blockers, max 3; omit when none.
 
 Prefer short paragraphs; use lists only for parallel items.
