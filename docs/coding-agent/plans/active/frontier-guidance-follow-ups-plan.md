@@ -236,6 +236,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): Task_4 acceptance reads as: a failure of (i) reopens ADR-D-0017; a failure of (ii) reopens ADR-D-0020. Context references to "ADR-D-0018 (class-matched removal evidence)" mean ADR-D-0019. No task content changes.
   - Tradeoffs considered: none.
   - User approval: not needed (pointer repair, no decision changed); recorded for the record.
+- 2026-09-07 Decision: Fixture mapping is primary-target with disclosed secondaries, not exclusive.
+  - Trigger / new insight: the Task_3 Researcher dispatch asked that each planted defect map to its section and to no other measured section; the Researcher showed that reading admits zero plants in every code-review section (cp-3/ag-3, cp-5/ag-5, cp-6/ag-4 share checks; cp-10 is encompassing). The plan requires only that a defect map to a specific check, not generic code quality.
+  - Plan delta (what changed): protocol.md Fixtures now reads: one primary named check per plant, quoted; secondary mappings disclosed; overlap is harmless because arm B loads only the measured section. The Researcher is re-commissioned for the 16 code-review sections under that criterion; cp-10 plants must target its own quoted checks and the section reports fewer than 12 if they do not exist. Recorded before any cell ran; the decision rule is unchanged.
+  - Tradeoffs considered: literal exclusivity would mark 16 of 21 sections unmeasurable and infer nothing; rejected.
+  - User approval: not needed (pre-registration detail below the decision rule); surfaced in the report.
 
 ## Notes
 - Risks: the ablation is the expensive item (fixtures times arms times models times seeds); Task_3 sizes it and the user can cap it at plan approval. Task_4 depends on the user's install refresh and on PR #57 merging first.
