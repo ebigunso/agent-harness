@@ -17,7 +17,7 @@ Purpose:
 - Trigger:
   A validator check is added or changed for an enum value, schema key, or contract field.
 - Evidence from this repo:
-  Carried over from the legacy "Global Migration Candidates" section of `docs/coding-agent/rules/common.md`, removed on 2026-09-08 under the boundary ADR-D-0026 carries (rule files carry active policy only).
+  Carried over from the legacy "Global Migration Candidates" section of `docs/coding-agent/rules/common.md`, removed on 2026-09-08 because ADR-D-0026 keeps role rule files to active policy only.
 - Why this generalizes:
   Substring checks fire on unrelated text and miss the owning field; the mistake recurs in any repository that grows validators.
 - Suggested change:

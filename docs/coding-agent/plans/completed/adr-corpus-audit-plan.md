@@ -15,7 +15,7 @@
 - Every new or rewritten record has a standalone acceptance entry in this plan's Decision Log.
 
 ## Scope / Non-goals
-- Scope: `docs/coding-agent-orchestration-harness/decisions/**`, and pointer-only edits (a filename or ID reference to a moved or renumbered record, nothing else on the line) in `docs/coding-agent/rules/_lifecycle.json`, `docs/coding-agent/rules/*.md`, `docs/coding-agent/lessons.md`, `docs/coding-agent/plans/completed/**`, `docs/coding-agent/plans/active/**`, and `docs/coding-agent/experiments/**`. Plan and lesson prose is not rewritten; only links are repaired so they resolve.
+- Scope: `docs/coding-agent-orchestration-harness/decisions/**`, and pointer-only edits (a filename or ID reference to a moved or renumbered record, nothing else on the line) in `docs/coding-agent/rules/_lifecycle.json`, `docs/coding-agent/rules/*.md`, `docs/coding-agent/lessons.md`, `docs/coding-agent/plans/completed/**`, `docs/coding-agent/plans/active/**`, and `docs/coding-agent/experiments/**`. Plan and lesson prose is not rewritten; only links are repaired so they resolve. One approved exception outside this scope, the removal of the legacy "Global Migration Candidates" sections from the rule files, is recorded in the Decision Log entry dated 2026-09-08.
 - Non-goals: changing the standard (that is `adr-standard-revision-plan.md`, which this plan depends on); auditing other repositories (the handoff text lives in the 2026-09-06 conversation, not in this repository).
 
 ## Compatibility stance
