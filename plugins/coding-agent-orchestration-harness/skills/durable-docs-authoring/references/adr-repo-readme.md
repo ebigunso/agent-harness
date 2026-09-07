@@ -1,6 +1,6 @@
 # Decision Records
 
-This directory contains decision records (ADRs), split into two tracks so high-level design decisions do not mix with implementation choices. New records follow [template.md](template.md); the admission test, form, lifecycle, and acceptance rules are in the harness reference `durable-docs-authoring/references/adr.md`.
+This directory contains decision records (ADRs), split into two tracks so high-level design decisions do not mix with implementation choices. New records follow the harness template `durable-docs-authoring/references/adr-template.md`, copied here as `template.md` when the repository keeps its own; the admission test, form, lifecycle, and acceptance rules are in the harness reference `durable-docs-authoring/references/adr.md`.
 
 ## Directory layout
 ```text
