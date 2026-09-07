@@ -206,6 +206,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: ebigunso ran install_codex_harness.py --scope user --overwrite-agents --user-instructions add, then --check: MATCH for harness_researcher.toml, harness_worker.toml, harness_reviewer.toml, references/codex-app-connector-policy.md, and the install manifest; user instructions updated. codex-cli 0.153.4. Manifest SHA-256 prefix 5bb2affb0bdca37e (read by the Orchestrator).
   - Validation evidence: pasted --check output above; Claude plugin cache still 0.10.1 installed 2026-08-09 (read from installed_plugins.json), so the Claude side of Refresh 1 is outstanding.
   - Notes: Task_4 Codex cells depend only on the Codex side and may start; the Claude plugin update completes Task_1.
+- 2026-09-08 Task_1 completed: [Task_1]
+  - Summary: Claude plugin cache refreshed to 0.16.0 (installed_plugins.json, read by the Orchestrator) after ebigunso cleared a stale marketplace registration (known_marketplaces.json entry and settings.json extraKnownMarketplaces conflict; both manifests were schema-compliant).
+  - Validation evidence: --check MATCH (Codex side, logged above); plugin version 0.16.0 matches plugin.json on main.
+  - Notes: Task_4 may run on a fully refreshed installation.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
