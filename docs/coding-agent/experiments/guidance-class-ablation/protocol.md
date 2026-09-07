@@ -57,13 +57,15 @@ Detection per (section, model, arm) = mean hit score over planted fixtures x see
 
 ## Decision rule (pre-registered; evaluated per measured section on the worst model)
 
-Let dB = B - A and dC = C - A on planted fixtures, worst model. The worst model for a section is the one with the lowest arm-A detection on that section (the model the guidance could help most); its dB and dC decide.
+Let dB = B - A and dC = C - A on planted fixtures, worst model. The worst model for a section is the one with the lowest arm-A detection on that section (the model the guidance could help most); its dB and dC decide. Ties on arm-A detection: the rule is evaluated on every tied model and the most protective outcome stands (KEEP over COMPRESS over DELETE), so the verdict never depends on input order.
 
 1. dB < 10pp: DELETE the section; adopt nothing.
 2. dB >= 10pp and dC >= dB - 5pp: COMPRESS; replace the section with the arm-C text.
 3. dB >= 10pp and dC < dB - 5pp: KEEP the full section.
 
-FP guard: any arm whose FP rate on decoys exceeds A + 10pp cannot be adopted regardless of lift (a KEEP or COMPRESS candidate failing the guard is recorded as a blocker in `outcome.md`, not resolved by the rule).
+FP guard: an arm whose FP rate on decoys exceeds that model's A + 10pp on any fleet model cannot be adopted regardless of lift; the guard is checked on every model, not only the worst one, because the adopted text ships to the whole fleet. A KEEP or COMPRESS candidate failing the guard is recorded as a blocker in `outcome.md`, not resolved by the rule.
+
+Completeness: a verdict is issued only when the section has, on every fleet model, all three arms, every planted fixture at the registered seed count (or the recorded cap), and every decoy graded; missing evidence is reported as INCOMPLETE, never scored as zero.
 
 Ceiling note, carried from the Rust block (`47c409c:...stage1/results-rust.yaml`): if arm A scores at ceiling on a section, dB = 0 and outcome 1 applies; the ceiling is itself the finding for a content-redundancy question.
 
@@ -71,17 +73,18 @@ Ceiling note, carried from the Rust block (`47c409c:...stage1/results-rust.yaml`
 
 | Element | Source | Status |
 |---|---|---|
-| Worst-model aggregation | `protocol-v2.md:51` ("evaluated on the WORST of the 3 models") | retained |
+| Worst-model aggregation | `protocol-v2.md:51-53` ("evaluated on the WORST of the 3 models") | retained; tie handling added above |
 | 10pp lift threshold | `protocol-v2.md:55`; `protocol.md` decision rule | retained |
 | 5pp replacement tolerance | `protocol-v2.md:56-57` | retained |
-| Clean-decoy FP guard, A + 10pp | `protocol-v2.md:62-63`; batch-2 `protocol.md:12` | retained |
+| Clean-decoy FP guard, A + 10pp, any arm cannot be adopted | `protocol-v2.md:62-63` | retained, scope stated as every fleet model (batch-2 `protocol.md:11` uses the same threshold with the opposite consequence, cannot delete; not adopted here) |
 | Hit / partial / miss grading, key-errata regrade, blinding | `protocol.md` Grading and Blinding | retained |
-| 12 planted + 4 decoys per unit, 2 seeds | batch-2 `protocol.md:9-11` | retained (unit is a section, not a document) |
-| Arm D (replacement document `boundary-modeling.md`) | `protocol-v2.md:24-30` | adapted: no candidate replacement document exists; arm C (compressed section) takes its place, so REPLACE becomes COMPRESS |
-| Conditional arm C on mechanics fixtures | `protocol-v2.md:44-46, 59-60` | dropped: these targets have no language-mechanics class |
-| Architectural versus mechanics fixture split | `protocol-v2.md:32-42` | dropped: one class per section |
+| 12 planted + 4 decoys per unit | batch-2 `protocol.md:9` | retained (unit is a section, not a document) |
+| 2 seeds, pre-registered deviation from 3 | batch-2 `protocol.md:7-8` | retained |
+| Arm D (replacement document `boundary-modeling.md`) | `protocol-v2.md:13-14, 23, 56` | adapted: no candidate replacement document exists; arm C (compressed section) takes its place, so REPLACE becomes COMPRESS |
+| Conditional arm C on mechanics fixtures | `protocol-v2.md:45-46, 59-60` | dropped: these targets have no language-mechanics class |
+| Architectural versus mechanics fixture split | `protocol-v2.md:25-41` | dropped: one class per section |
 | Arm A loads `core-principles.md` | `protocol.md` Arm contexts | adapted: arm A loads nothing, because core-principles is under test |
-| Fleet Fable 5 / Sol 5.6 / Luna 5.6, 3 seeds | `protocol-v2.md:12-13` | adapted per plan Q1: Fable 5.1 and Astra, 2 seeds |
+| Fleet Fable 5 / Sol 5.6 / Luna 5.6, 3 seeds | `protocol-v2.md:9, 43-44` | adapted per plan Q1: Fable 5.1 and Astra, 2 seeds |
 
 ## Results format
 
@@ -100,7 +103,7 @@ records:
     output_tokens: 0
 ```
 
-`score.py` (adapted from `47c409c:...score_stage1.py`) tabulates detection and FP rate per (section, arm) and prints the verdict per section under the rule above.
+`score.py` (adapted from `47c409c:...score_stage1.py`) tabulates detection and FP rate per (section, arm, model), enforces completeness, and prints the verdict per section under the rule above; `python score.py --self-test` exercises every branch, the tie rule, the per-model FP guard, and the incompleteness cases. A recorded seed cap is passed as `--seeds N`.
 
 ## Cost and run order
 
