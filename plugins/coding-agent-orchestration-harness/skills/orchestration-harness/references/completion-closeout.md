@@ -28,7 +28,7 @@ Worker `done` does not imply plan `done`.
 5. Move completed active plan to `docs/coding-agent/plans/completed/` when applicable.
 6. Only then report final done.
 
-Before final done, sweep the plan's Decision Log for entries that meet the ADR warrant criteria in `skills/durable-docs-authoring/references/adr.md` but have no ADR proposed; propose each missing ADR or record the user's decline.
+Before final done, sweep the plan's Decision Log for entries that pass the admission test in `durable-docs-authoring/references/adr.md` but have no record proposed; propose each missing record on its own for acceptance, or note the user's decline.
 
 Pre-merge value audit after churn: if the work accumulated repeated fix rounds on one area, apply the value-audit appendix in `skills/engineering-quality-baselines/references/long-horizon-audit.md` before merge — triggered by churn, never run continuously.
 

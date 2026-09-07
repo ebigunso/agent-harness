@@ -57,7 +57,7 @@ For contract-shape rulings:
 2. If self-verification cannot cover that radius, dispatch a Researcher first and rule only on its evidence.
 3. Delivering the ruling and recording it in the plan Decision Log are one action — never send the answer without the log entry.
 
-When recording a ruling, check the ADR warrant criteria in `skills/durable-docs-authoring/references/adr.md`; if they are met, propose an ADR per that reference before the affected work closes.
+When recording a ruling, run the admission test in `durable-docs-authoring/references/adr.md`; if it passes, propose an ADR and make its acceptance ask separately from the ruling.
 
 ## Plan Lifecycle
 

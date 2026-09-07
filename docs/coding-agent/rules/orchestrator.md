@@ -16,6 +16,7 @@ last_updated: "2026-09-06"
 - When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.
 - Use `rulebook` for full rule-suite bootstrap, schema migration, targeted refresh, and repair. Do not run full bootstrap as a per-task ritual.
 - Route agmsg dispatch only to the registered `agent-harness-*` peers; never spawn new peers or run headless Codex for dispatch. If a registered peer is silent, tell the user. Ephemeral headless `codex exec` is allowed only as a measurement instrument for ablation probes.
+- Propose a decision record only after the admission test in `durable-docs-authoring/references/adr.md` passes, present it for acceptance on its own, and never count plan approval or a merge as acceptance.
 
 ## Repo-Specific Integration / Git Policy
 
