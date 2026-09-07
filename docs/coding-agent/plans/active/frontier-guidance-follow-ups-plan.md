@@ -198,6 +198,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Task_2 (Codex worker) relaxed validate_worker_report.py so commands_run and tests are shape-checked when present and no longer required; producer contract unchanged; two fixtures added and wired into the smoke tests. PR #59 opened on feature/2026-09-07/worker-report-validator-relaxation. Task_3: protocol recovered from 47c409c and e221d34 into docs/coding-agent/experiments/guidance-class-ablation/protocol.md with score.py on feature/2026-09-07/guidance-class-ablation; Researcher drafting the fixture plan.
   - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; every valid-*report*.yaml passes; git diff --check clean; Codex Reviewer APPROVED Task_2 (0d465cc..e27653e).
   - Notes: Task_1 (installed-copy refresh) is user-run and gates Task_4.
+- 2026-09-07 12:10 Wave 1 completed: [Task_3]
+  - Summary: protocol.md, fixture-plan.md (336 fixtures, 21 sections), manifest.yaml, and score.py frozen on feature/2026-09-07/guidance-class-ablation at cd98077. Two Reviewer rounds: tie handling (most protective outcome on tied worst models), FP guard on every fleet model, completeness enforced against the manifest, attribution lines corrected.
+  - Validation evidence: score.py --self-test ok; Codex Reviewer APPROVED (fbac676..cd98077); git diff --check clean.
+  - Notes: Task_5 authoring starts with the pre-registered pilot (five runbooks, cp-2, cp-9); Task_2 merged in PR #59.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
