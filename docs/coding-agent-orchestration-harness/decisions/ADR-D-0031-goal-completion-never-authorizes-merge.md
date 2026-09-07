@@ -17,7 +17,7 @@ Goal mode moves oversight to review-after, which only works if the retrospective
 
 ## Decision
 
-Goal completion is not merge authorization. Before a goal branch may merge, the loop produces a concise self-asserted completion report: the satisfied goal condition with evidence, an assessment-cadence assertion, per-invariant integrity assertions with their proving checks, envelope compliance with every judgment call the loop was allowed to make surfaced, a trajectory summary, and a checkpoint index mapping commits to iterations. The report is reviewer-verified prose: before it is accepted, the pre-merge reviewer verifies its assertions against the journal, where the verbatim evidence lives, and a report whose assertions fail is invalid and cannot support merge. Merge stays behind the existing human hard stop, informed by the verified report.
+Goal completion is not merge authorization. Before a goal branch may merge, the loop produces a concise self-asserted completion report whose sections the goal-mode reference owns, and the report is reviewer-verified prose: before it is accepted, the pre-merge reviewer verifies its assertions against the journal, where the verbatim evidence lives, and a report whose assertions fail is invalid and cannot support merge. Merge stays behind the existing human hard stop, informed by the verified report.
 
 ## Why
 

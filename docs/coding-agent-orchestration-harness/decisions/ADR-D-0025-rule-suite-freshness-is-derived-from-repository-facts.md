@@ -17,7 +17,7 @@ A repository rule suite goes stale when the sources it was written from change: 
 
 ## Decision
 
-Rule-suite validity is derived, never trusted from stored state. A suite is valid when its required files exist, the index and every role file share one suite ID, the schema version matches what the plugin requires, and no relevant source drift or contradiction is known. Git commit SHAs are not a freshness baseline. Refresh is targeted and triggered by facts: changes to rule-source paths in the current task, drift detected through lifecycle metadata, contradictions reported by any role or the user, schema migration, or repeated review misses that expose missing policy. Bootstrap is never a per-task ritual.
+Rule-suite validity is derived from what the repository contains each time it is needed, never trusted from stored state, and a Git commit SHA is not a freshness baseline. Refresh is targeted and triggered by observed facts about the repository and the work, never by elapsed time or a stored flag; bootstrap is never a per-task ritual. The validity conditions and the refresh triggers themselves are `rulebook` skill text.
 
 ## Why
 
@@ -31,7 +31,7 @@ A stored status is one more thing that can be stale, and it fails in the worst d
 
 ## Decision Boundary
 
-Invariant: no stored "fresh" or "verified" state and no commit baseline decides validity; every validity check derives from files, suite ID, schema version, and known drift or contradictions.
+Invariant: no stored "fresh" or "verified" state and no commit baseline decides validity; every validity check derives from current repository facts.
 
 Not covered: the exact refresh triggers, which sections a refresh touches, and the drift heuristics, which live in the `rulebook` skill and the sidecar schema.
 

@@ -17,7 +17,7 @@ A repository's rule suite under `docs/coding-agent/rules/` is read on most non-t
 
 ## Decision
 
-Lifecycle metadata lives in a sidecar (`_lifecycle.json`) that agents read only for bootstrap, repair, schema migration, targeted refresh, source-drift diagnosis, or contradiction handling. The index stays a low-token routing file and bootstrap success marker, written last so an interrupted bootstrap leaves no installed suite. Role rule files carry operating policy only.
+Lifecycle metadata lives in a sidecar (`_lifecycle.json`) that agents read only for bootstrap, repair, schema migration, targeted refresh, source-drift diagnosis, or contradiction handling. The index stays a low-token routing file, and role rule files carry operating policy only.
 
 ## Why
 
@@ -30,14 +30,14 @@ Every byte in the index is paid on every task that reads it, while lifecycle dat
 
 ## Decision Boundary
 
-Invariant: no lifecycle data (source snapshots, fingerprints, refresh groups, mappings) in the index or the role rule files; the index is written last.
+Invariant: no lifecycle data (source snapshots, fingerprints, refresh groups, mappings) in the index or the role rule files.
 
-Not covered: the sidecar's schema, the set of role files, write order beyond "index last", and read triggers, which live in the `rulebook` skill.
+Not covered: the sidecar's schema, the set of role files, the bootstrap write order and success marker, and read triggers, which live in the `rulebook` skill.
 
 ## Validation
 
 - Package validation checks that the index template stays compact and points at the sidecar.
-- Rulebook bootstrap writes the index last; smoke tests verify the write order.
+- Review of a rulebook change asks whether a new field in the index or a role file is lifecycle data.
 
 ## Revisit When
 
