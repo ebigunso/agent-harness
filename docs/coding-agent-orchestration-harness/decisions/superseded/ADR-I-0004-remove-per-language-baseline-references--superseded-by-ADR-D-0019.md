@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: implementation
 date: 2026-08-29
 deciders: ["ebigunso"]
@@ -11,12 +11,14 @@ warrant:
   cost_of_wrong_preservation: "if a future fleet model regresses on language-level review quality, keeping this removal in force silently lowers review depth until the regression is noticed downstream"
   cost_of_over_extension: "reading this as license to delete other reference categories (latent-risk routing, security boundaries, validation/evidence contracts) that were explicitly out of the experiment's scope"
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md
 supersession_scope: null
 implements: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0019.md"]
 ---
 
 # ADR-I-0004: Remove per-language baseline references from engineering-quality-baselines
+
+Retired on 2026-09-07. Replaced by ADR-D-0019, which carries the class-matched-evidence rule and the reintroduction invariant; the removal ledger below is history and no longer binds.
 
 ## Context and Problem Statement
 

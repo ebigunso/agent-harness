@@ -112,7 +112,14 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-07 12:00 Wave 1 completed: [Task_1]
+  - Summary: Claude Researcher audit of the 24 live records, two revision rounds with the Codex Reviewer (consistent rejected-alternatives reading, per-record inventory with file:line pointers, criterion scores reconciled). Under the user's rulings: keep 8 (D-0004, D-0011, D-0014, D-0017 to D-0021), substantive rewrite 5 (D-0001, D-0002, D-0007, I-0001, I-0003), shape-only decline 3 (D-0003, D-0009, D-0016), split 4 (D-0006, D-0010, D-0012, D-0013), fold 2 (D-0005, I-0002), retire 2 (I-0004, I-0005). Report kept with the session records.
+  - Validation evidence: Reviewer spot-check of five verdicts; coverage 24/24; final delta (one pointer reclassified) sent for approval.
+  - Notes: ruling 3 applied in 22e0b25 (legacy frontmatter keys removed from D-0016 to D-0021).
+- 2026-09-07 12:05 Wave 2 batch A applied: [Task_2]
+  - Summary: ADR-I-0004 and ADR-I-0005 retired into ADR-D-0019 (status superseded, retirement header, moved to superseded/ with --superseded-by-ADR-D-0019); ADR-D-0019 More Information pointer repaired. No file-path pointers to either record existed outside decisions/; ID mentions in plans and lessons stay as written.
+  - Validation evidence: validate_harness_package.py pass; git diff --check clean; absence search for both old filenames outside superseded/ returns nothing.
+  - Notes: batches B to E need standalone acceptance per record; drafts follow.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
