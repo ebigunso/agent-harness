@@ -6,8 +6,8 @@ deciders: []
 consulted: []   # durable identities: full model names or person names, never roles or platforms, e.g. "Claude Fable 5.1", "GPT-6 Astra"
 informed: []
 supersedes: []        # current relative paths of records this one replaces in full; update when an archive move renames the target file
-superseded_by: null   # current relative path; set only on the retired record
-# Optional keys, include only when applicable — depends_on: [] (records this decision builds on); both carry current relative paths
+superseded_by: null   # null while the record governs; the retired record carries the current relative path of its replacement
+# Optional key, include only when applicable — depends_on: [] (records this decision builds on, as current relative paths)
 ---
 
 # ADR-{D|I}-XXXX: {The decision, stated as a sentence a reader could act on}
