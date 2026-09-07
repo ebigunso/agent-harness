@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: implementation
 date: 2026-05-09
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - GPT-5.5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-I-0006-runtime-adapters-live-outside-other-runtimes-discovery-scans.md
 ---
 
 # ADR-I-0001: Use Runtime-Specific Adapter Paths With Shared Skills
+
+Retired on 2026-09-08. Replaced by ADR-I-0006.
 
 ## Context and Problem Statement
 

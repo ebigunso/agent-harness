@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: implementation
 date: 2026-09-07
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-I-0001-runtime-adapter-layout.md", "ADR-I-0002-codex-bootstrap-and-loader-strategy.md"]
+supersedes: ["superseded/ADR-I-0001-runtime-adapter-layout--superseded-by-ADR-I-0006.md", "superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md"]
 superseded_by: null
 ---
 

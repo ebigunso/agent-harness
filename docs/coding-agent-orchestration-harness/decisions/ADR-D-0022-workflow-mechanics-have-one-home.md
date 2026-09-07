@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-09-07
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-D-0001-canonical-harness-workflow-location.md", "ADR-D-0005-runtime-prompt-budgeting.md", "ADR-I-0002-codex-bootstrap-and-loader-strategy.md"]
+supersedes: ["superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md", "superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md", "superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md"]
 superseded_by: null
 ---
 

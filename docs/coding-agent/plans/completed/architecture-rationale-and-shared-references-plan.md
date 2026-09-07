@@ -30,9 +30,9 @@
   - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md`
   - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/`
 - Existing patterns or references:
-  - `ADR-D-0001-canonical-harness-workflow-location.md`
-  - `ADR-I-0001-runtime-adapter-layout.md`
-  - `ADR-I-0002-codex-bootstrap-and-loader-strategy.md`
+  - `superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md`
+  - `superseded/ADR-I-0001-runtime-adapter-layout--superseded-by-ADR-I-0006.md`
+  - `superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md`
 - Repo reference docs consulted:
   - `docs/coding-agent/rules/index.md`
   - `docs/coding-agent/rules/common.md`
@@ -52,10 +52,10 @@
 ### Task_1: Add Design ADRs
 - type: docs
 - owns:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0002-explicit-orchestrator-entrypoint.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0002-explicit-orchestrator-entrypoint--superseded-by-ADR-D-0023.md`
   - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0003-runtime-namespaced-role-identities.md`
   - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0004-worker-ui-probes-vs-reviewer-evidence.md`
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0005-runtime-prompt-budgeting.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md`
 - depends_on: []
 - description: |
   Add design ADRs explaining explicit Orchestrator entrypoint, runtime role namespacing, Worker UI probes versus Reviewer evidence, and runtime prompt budgeting.
@@ -72,7 +72,7 @@
 ### Task_2: Add Validation Strategy ADR
 - type: docs
 - owns:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-I-0003-contract-first-validation-strategy.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0003-contract-first-validation-strategy--superseded-by-ADR-I-0007.md`
 - depends_on: []
 - description: |
   Add implementation ADR for contract-first validation, strict completion checks, and balanced default runtime validation.

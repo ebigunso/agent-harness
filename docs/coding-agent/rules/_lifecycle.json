@@ -120,7 +120,7 @@
       "notes": "Records the completed implementation plan and validation evidence for rule-suite lifecycle support."
     },
     {
-      "path": "docs/coding-agent-orchestration-harness/decisions/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md",
+      "path": "docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle--superseded-by-ADR-D-0024.md",
       "supports": [
         "orchestrator.repo_policies",
         "reviewer.review_risk_hotspots"

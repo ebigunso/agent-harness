@@ -37,8 +37,8 @@
   - `plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json`
   - `plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json`
 - Existing patterns or references:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-I-0001-runtime-adapter-layout.md`
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-I-0002-codex-bootstrap-and-loader-strategy.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0001-runtime-adapter-layout--superseded-by-ADR-I-0006.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md`
   - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`
 - Repo reference docs consulted:
   - `docs/coding-agent/rules/index.md`

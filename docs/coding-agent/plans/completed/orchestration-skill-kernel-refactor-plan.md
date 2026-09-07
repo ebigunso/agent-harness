@@ -31,7 +31,7 @@
 - Existing patterns or references:
   - `skills/plan-format/references/*.md`
   - `skills/subagent-strategy/references/*.md`
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0001-canonical-harness-workflow-location.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md`
 - Repo reference docs consulted:
   - `docs/coding-agent/rules/index.md`
   - `docs/coding-agent/rules/common.md`

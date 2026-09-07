@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-09-07
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md"]
+supersedes: ["superseded/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle--superseded-by-ADR-D-0024.md"]
 superseded_by: null
 ---
 

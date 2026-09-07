@@ -120,6 +120,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: ADR-I-0004 and ADR-I-0005 retired into ADR-D-0019 (status superseded, retirement header, moved to superseded/ with --superseded-by-ADR-D-0019); ADR-D-0019 More Information pointer repaired. No file-path pointers to either record existed outside decisions/; ID mentions in plans and lessons stay as written.
   - Validation evidence: validate_harness_package.py pass; git diff --check clean; absence search for both old filenames outside superseded/ returns nothing.
   - Notes: batches B to E need standalone acceptance per record; drafts follow.
+- 2026-09-08 12:30 Wave 2 batches B to E applied: [Task_2]
+  - Summary: twelve records accepted and eleven retired (see Decision Log); supersedes paths updated to the archive filenames; path pointers repaired in six completed plans and rules/_lifecycle.json; ID mentions in prose left as written.
+  - Validation evidence: validate_harness_package.py pass; git diff --check clean; absence search for the eleven old filenames outside superseded/ returns nothing; live records 23, archived 15.
+  - Notes: Task_2 conformance review dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -148,6 +152,86 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): (1) a rewrite that changes only shape (wording, missing sections, no reopen conditions) is declined; the record stays accepted with its number, and the decline is recorded per Definition of Done. (2) A rejected alternative with a bare reason counts as "rejected outright" and conforms. (3) Frontmatter keys outside the template (warrant, supersession_scope, implements) are removed from live records so the template is the visible norm; this deletion adds nothing and is applied to ADR-D-0016 through ADR-D-0021 in this plan. (4) The template section set is a default, not a Form rule.
   - Tradeoffs considered: renumbering most of the corpus for shape-only fixes (rejected by ruling 1); leaving exemplar records with legacy keys (rejected by ruling 3 because the newest records would model the wrong format).
   - User approval: yes (2026-09-07).
+- 2026-09-08 Decision: ADR-D-0022 accepted.
+  - Trigger / new insight: Task_1 verdict (rewrite); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Workflow mechanics have one home, and every runtime surface routes to it" lands with status accepted; replaces ADR-D-0001, ADR-D-0005, and the loader-only clause of ADR-I-0002, retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0023 accepted.
+  - Trigger / new insight: Task_1 verdict (rewrite); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Where a runtime offers agent selection, the harness is entered by selecting the Orchestrator" lands with status accepted; replaces ADR-D-0002, retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-I-0006 accepted.
+  - Trigger / new insight: Task_1 verdict (rewrite); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Each runtime's adapters live outside every other runtime's discovery scan" lands with status accepted; replaces ADR-I-0001 and the template clause of ADR-I-0002, retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0024 accepted.
+  - Trigger / new insight: Task_1 verdict (split); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Rule-suite lifecycle metadata lives in a sidecar read only for lifecycle work" lands with status accepted; replaces ADR-D-0006 (with ADR-D-0025), retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0025 accepted.
+  - Trigger / new insight: Task_1 verdict (split); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Rule-suite freshness is derived from repository facts, never from a stored status" lands with status accepted; replaces ADR-D-0006 (with ADR-D-0024), retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0026 accepted.
+  - Trigger / new insight: Task_1 verdict (rewrite); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Target-repository work stages harness improvements locally and never edits bundled harness files" lands with status accepted; replaces ADR-D-0007, retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0027 accepted.
+  - Trigger / new insight: Task_1 verdict (split); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "A goal loop's forbidden set is a criterion, ratified before the loop and immutable during it" lands with status accepted; replaces ADR-D-0010 (with ADR-D-0028), retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0028 accepted.
+  - Trigger / new insight: Task_1 verdict (split); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "A goal loop ends on stall, not on resource consumption" lands with status accepted; replaces ADR-D-0010 (with ADR-D-0027), retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0029 accepted.
+  - Trigger / new insight: Task_1 verdict (split); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "The optimizer never judges its own continuation" lands with status accepted; replaces ADR-D-0012 (with ADR-D-0030), retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0030 accepted.
+  - Trigger / new insight: Task_1 verdict (split); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "The assessor is a Reviewer dispatch profile with a fixed, journaled template, not a fourth role" lands with status accepted; replaces ADR-D-0012 (with ADR-D-0029), retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0031 accepted.
+  - Trigger / new insight: Task_1 verdict (rewrite); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Goal completion never authorizes merge; a human retrospective on a verified completion report does" lands with status accepted; replaces ADR-D-0013, retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-I-0007 accepted.
+  - Trigger / new insight: Task_1 verdict (rewrite); presented to ebigunso on its own as title, decision, constraint, and why, with the full draft attached.
+  - Plan delta (what changed): "Validators enforce contracts, required evidence, and completion state, never prose or strategy" lands with status accepted; replaces ADR-I-0003, retired to superseded/ with headers dated 2026-09-08.
+  - Tradeoffs considered: recorded in the record's Rejected Alternatives.
+  - User approval: yes (2026-09-08, "I accept all the drafted ADRs").
+- 2026-09-08 Decision: ADR-D-0003 rewrite declined (shape-only).
+  - Trigger / new insight: Task_1 verdict rewrite on time-relative wording at line 20; the decision itself is unchanged.
+  - Plan delta (what changed): under ruling 1 the record stays accepted with its number and is exempt from the conformance bullet; no edit.
+  - Tradeoffs considered: a replacement record for wording alone would renumber a live decision for no change in meaning.
+  - User approval: yes, by ruling 1 (2026-09-07).
+- 2026-09-08 Decision: ADR-D-0009 rewrite declined (shape-only).
+  - Trigger / new insight: Task_1 verdict rewrite on Consequences mirror skill text at line 52; the decision itself is unchanged.
+  - Plan delta (what changed): under ruling 1 the record stays accepted with its number and is exempt from the conformance bullet; no edit.
+  - Tradeoffs considered: a replacement record for wording alone would renumber a live decision for no change in meaning.
+  - User approval: yes, by ruling 1 (2026-09-07).
+- 2026-09-08 Decision: ADR-D-0016 rewrite declined (shape-only).
+  - Trigger / new insight: Task_1 verdict rewrite on time-relative statement at line 60; the decision itself is unchanged.
+  - Plan delta (what changed): under ruling 1 the record stays accepted with its number and is exempt from the conformance bullet; no edit.
+  - Tradeoffs considered: a replacement record for wording alone would renumber a live decision for no change in meaning.
+  - User approval: yes, by ruling 1 (2026-09-07).
+- 2026-09-08 Decision: Legacy "Global Migration Candidates" sections removed from the rule files.
+  - Trigger / new insight: Task_1 found the section in common.md (one bullet) and empty copies in orchestrator.md, reviewer.md, worker.md, the shape ADR-D-0007 and ADR-D-0026 forbid; outside this plan's pointer-only scope.
+  - Plan delta (what changed): with ebigunso's approval the sections are removed and the bullet staged as HMC-20260908 in docs/coding-agent/skill-candidates.md (commit 0d71b54).
+  - Tradeoffs considered: leaving a forbidden shape live while landing the record that forbids it.
+  - User approval: yes (2026-09-08).
 
 ## Notes
 - Risks: many rewrites at once; Task_2 presents one record per ask so acceptance stays deliberate. A citation from another repository to a moved record breaks until that repository runs the audit handoff; the moved file's header limits the damage to a stale path.

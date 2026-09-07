@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-07-16
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop.md
 ---
 
 # ADR-D-0010: Authority Envelope With Irreversibility Criterion And Progress Obligation
+
+Retired on 2026-09-08. Replaced by ADR-D-0027 and ADR-D-0028.
 
 ## Context and Problem Statement
 

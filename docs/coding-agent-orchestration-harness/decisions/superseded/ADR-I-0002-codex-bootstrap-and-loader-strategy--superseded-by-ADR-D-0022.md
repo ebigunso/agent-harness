@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: implementation
 date: 2026-05-09
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - GPT-5.5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0022-workflow-mechanics-have-one-home.md
 ---
 
 # ADR-I-0002: Install Codex Agents From Inert Templates With Loader-Only Instructions
+
+Retired on 2026-09-08. Replaced by ADR-D-0022 and ADR-I-0006.
 
 ## Context and Problem Statement
 

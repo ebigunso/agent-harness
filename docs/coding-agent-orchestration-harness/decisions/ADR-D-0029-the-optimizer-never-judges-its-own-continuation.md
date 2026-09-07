@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-09-07
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-D-0012-independent-in-loop-assessor.md"]
+supersedes: ["superseded/ADR-D-0012-independent-in-loop-assessor--superseded-by-ADR-D-0029.md"]
 superseded_by: null
 ---
 

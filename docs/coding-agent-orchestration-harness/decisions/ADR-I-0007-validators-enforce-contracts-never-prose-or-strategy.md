@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: implementation
 date: 2026-09-07
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-I-0003-contract-first-validation-strategy.md"]
+supersedes: ["superseded/ADR-I-0003-contract-first-validation-strategy--superseded-by-ADR-I-0007.md"]
 superseded_by: null
 ---
 
