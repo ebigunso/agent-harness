@@ -56,7 +56,7 @@ Protected lines were not touched: principle 1, Common Anti-Patterns, Quick Revie
 
 ## Remaining sections
 
-The pre-registered cap ("if every section in the pilot shows arm A at ceiling, the user may cap the remainder at one seed") is met: arm A is 1.00 on every pilot section on both models. The cap is an option for ebigunso to record, not an automatic change; until recorded, the fourteen unmeasured sections run at two seeds (2,688 review calls plus grading). No outcome is inferred for any unmeasured section.
+The pre-registered cap ("if every section in the pilot shows arm A at ceiling, the user may cap the remainder at one seed") is met: arm A is 1.00 on every pilot section on both models. ebigunso recorded the one-seed cap on 2026-09-08 (plan Decision Log) before any of those cells ran; the fourteen sections run at one seed (1,344 review calls plus grading). No outcome is inferred for any unmeasured section until it is measured.
 
 ## Records
 

@@ -283,6 +283,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): ebigunso ruled that a response naming the planted mechanism and prescribing any working remediation scores 1.0; the key's remediation route no longer decides between hit and partial. Applied after results existed, so it is recorded here as a post-hoc grading clarification, applied uniformly to every runbook section, both models, all arms by a full blind regrade; the decision thresholds are unchanged. The 23 searching Astra control cells are rerun with web search disabled (run_astra.sh now passes web_search=disabled); cp-9-c2 gets its import context and its 12 cells are rerun and regraded; superseded outputs are kept under work/rerun-superseded/.
   - Tradeoffs considered: keeping the strict key would ship a compressed runbook on the strength of a remediation-route disagreement, not a detection difference.
   - User approval: yes (2026-09-08, "Credit correct mechanism with any working remediation as a hit").
+- 2026-09-08 Decision: One-seed cap recorded for the fourteen remaining sections.
+  - Trigger / new insight: the pre-registered cap condition (every pilot section with arm A at ceiling) is met on both models after the approved pilot (ff91d53).
+  - Plan delta (what changed): principles 3 through 8 and 10 and gates 1 through 7 run at one seed (14 x 3 arms x 16 fixtures x 2 models = 1,344 review calls) with the same runners, blinding, grading rule, and decision rule; recorded here before any of those cells run. Everything else in protocol.md stands.
+  - Tradeoffs considered: two seeds as registered (double cost for a variance the pilot showed to be zero on ceiling cells); stopping with the sections unmeasured (leaves the plan's Definition of Done open).
+  - User approval: yes (2026-09-08, "Record the one-seed cap and run the remaining sections").
 
 ## Notes
 - Risks: the ablation is the expensive item (fixtures times arms times models times seeds); Task_3 sizes it and the user can cap it at plan approval. Task_4 depends on the user's install refresh and on PR #57 merging first.
