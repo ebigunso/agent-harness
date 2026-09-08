@@ -41,7 +41,7 @@ def main():
             assert fields == {"id": ident, "section": section, "type": kind}, ident
             assert ident in key_text and "Task framing:" in text, ident
             counts[kind] += 1
-            if section.startswith("cp-"):
+            if section.startswith(("cp-", "ag-")):
                 diff = re.search(r"```diff\n(.*?)```", text, re.S)
                 assert diff and "Commit message:" in text and "Reviewer notes:" in text, ident
                 subprocess.run(["git", "apply", "--numstat", "-"], input=diff[1].encode(), cwd=ROOT, check=True, capture_output=True)
