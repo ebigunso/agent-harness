@@ -1,0 +1,17 @@
+**Verdict: not acceptable as-is.** Behavior is unchanged today (the diff still produces `reserve, charge`), but the change doesn't actually do what the task asks and it introduces a fragile coupling that the reviewer notes explicitly warn against.
+
+**1. `Orders.cs`, `ProcessOrder` — the change doesn't record anything.**
+`Log` is `static void Log(string message, Action callback) { callback(); }`. The `message` argument is discarded; nothing is written to `events`, a logger, or anywhere else. After this diff, "start" and "reserved" are never observable. The commit message says "record order processing phases," but the only effect of the two `Log` calls is to bump a local counter. The task is unmet.
+*Require:* actually emit the phase information — e.g. append phase markers to `events` (or to a real sink) — or make `Log` write its message somewhere. If phase recording is out of scope for this PR, don't claim it in the commit message.
+
+**2. `Orders.cs`, `ProcessOrder` — business steps are gated on a logging side effect.**
+`reserve` and `charge` are now only added if `phase` has the expected value, and `phase` is only advanced by the callback that `Log` chooses to invoke. The notes say logging is observational; this makes it load-bearing. If `Log` is ever changed to be level-filtered, buffered, deferred/async, no-op in tests, or to invoke the callback zero or multiple times, the order silently skips reservation and/or charging — no exception, just missing steps. That's a silent-failure path in the money-handling code created purely to thread a counter through a logger.
+*Require:* keep `events.Add("reserve")` and `events.Add("charge")` unconditional and independent of `Log`. If a phase counter is genuinely wanted, increment it inline (`phase++`) rather than inside a callback owned by the logging call, and don't use it to guard the core steps.
+
+**3. `Orders.cs`, `ProcessOrder` — the `if (phase == N)` guards misrepresent intent and have no failure branch.**
+Reading the code, `reserve`/`charge` now look conditional, but there is no legitimate scenario in which they should be skipped. There's also no `else`/assert, so an unexpected phase value degrades silently rather than failing loudly. This is the same root issue as #2 but worth calling out as a maintainability/readability defect: the next person will assume the condition is meaningful.
+*Require:* remove the guards. If you want a sanity check on ordering, use an assertion or throw on unexpected state rather than silently skipping.
+
+**Minor / pre-existing, flag only:** `Log(string, Action)` is an odd signature for a logger — a callback parameter invites exactly this kind of control-flow-through-logging pattern. Not introduced by this diff, but worth simplifying to `Log(string)` while you're here so the temptation is gone.
+
+__ABLATION_DONE__ exit=0

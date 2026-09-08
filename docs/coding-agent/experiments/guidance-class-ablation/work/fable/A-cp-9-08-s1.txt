@@ -1,0 +1,14 @@
+**Verdict: block.**
+
+**1. `lib/customers.rb`, `find_customer` — `rescue DatabaseUnavailable; nil` conflates an outage with a not-found result.**
+The reviewer notes state the contract: `find_by_email` returns `nil` only for a genuinely absent row, and `nil` is reserved for not-found. This rescue makes `nil` mean "absent *or* the database was unreachable," which callers cannot distinguish. That's not "handling the outage explicitly at the repository boundary" — it's erasing it. The information that lookup failed is lost entirely (no re-raise, no distinct return, not even a log).
+Required instead: surface the outage as a distinct signal. Either let `DatabaseUnavailable` propagate (or wrap it in a repository-level error such as `CustomerLookupUnavailable`), or return an explicit result object/sentinel that is distinguishable from `nil`. Do not reuse the not-found value.
+
+**2. `lib/customers.rb`, `get_or_create` — the change causes duplicate customer creation during replica outages.**
+`get_or_create` does `find_customer(email) || database.create_customer(email)`. With the new rescue, a replica outage makes `find_customer` return `nil` for a customer that *does* exist, and since the write primary is still accepting creates, `create_customer` runs and inserts a duplicate. This is a data-integrity regression introduced directly by the diff, not a pre-existing race (the notes rule out concurrency as the concern). Any downstream uniqueness assumptions (billing, login by email) are now at risk.
+Required instead: `get_or_create` must not fall through to create when lookup did not complete. With finding #1 fixed, this means it either propagates the outage error or checks the explicit result and aborts/raises on the unavailable case. Add a test: `find_by_email` raises `DatabaseUnavailable` → `get_or_create` raises (or returns the unavailable result) and `create_customer` is **not** called.
+
+**3. Commit message / task mismatch.**
+The task was to handle the outage explicitly; the commit message ("return nil when customer lookup is unavailable") accurately describes what was done, but what was done is implicit swallowing, so the change does not satisfy the stated task even on its own terms. Update the commit message once the behavior is corrected to reflect that lookup failures are surfaced, not masked.
+
+__ABLATION_DONE__ exit=0

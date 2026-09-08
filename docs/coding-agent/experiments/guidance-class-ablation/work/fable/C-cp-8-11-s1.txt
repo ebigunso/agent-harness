@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`codes.cpp`, whole diff — accidental complexity with no gain.**
+   The change replaces a 4-line linear scan over a `constexpr std::array` with a template metaprogramming scaffold (`Entry`, `TypeList`, `Find` primary + two specializations) that, at runtime, does exactly the same thing: a sequential compare chain returning the index or `-1`. The task is "look up three fixed display codes"; there is one caller, three entries, and (per notes) no performance constraint. The abstraction has no second real use, and the values/indices are still hard-coded inline in `lookup`, so nothing became more data-driven or reusable. Cost: every reader now has to understand partial specialization, parameter packs, and recursive instantiation to verify behavior that was previously obvious at a glance; adding a fourth entry means editing a template argument list instead of an initializer; compile errors in this shape are notoriously opaque. Behavior is identical (confirmed by the notes), so this is pure maintenance cost. **Require:** revert to the original array scan (or, if anything, `std::find` on the array). Keep the template version only if a concrete second consumer of compile-time entry lists exists in the codebase — it doesn't in this diff.
+
+2. **`codes.cpp`, `Entry<V,I>` — index is redundant state.**
+   The array version derived the index from position; the new version makes the caller spell out `Entry<10,0>, Entry<20,1>, Entry<30,2>`. Nothing enforces that indices are contiguous, unique, or in order, so a reordering or copy-paste edit can silently return a wrong index while still compiling. This is a small regression in correctness-by-construction introduced by the refactor. **Require:** if the template form were kept, derive the index from pack position rather than accepting it as a parameter — but the simpler fix is finding 1.
+
+3. **Commit message — describes the task, not the change.**
+   "look up three fixed display codes" is the feature description that already applied to the old code. It doesn't say *why* the implementation was rewritten. **Require:** a message stating the motivation (and, given finding 1, there isn't one to state — which is the point).
+
+**Verdict:** block. Not for correctness — the notes confirm equivalent behavior — but the change adds nontrivial cognitive load and a new way to introduce index bugs while removing nothing. Restore the array scan.
+
+__ABLATION_DONE__ exit=0

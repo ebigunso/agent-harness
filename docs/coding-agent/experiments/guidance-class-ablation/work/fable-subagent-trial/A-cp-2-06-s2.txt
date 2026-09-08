@@ -1,0 +1,31 @@
+Verdict: BLOCK. The change does not do what the task asks, and the one edit it makes hides the real bug instead of fixing it.
+
+Findings
+
+1. src/documents.rs, fn load (unchanged) — decompression is still missing.
+   What is wrong: The task is "restore reading gzip-compressed .txt.gz documents". `load` still does `fs::read(path)` and returns the raw gzip bytes. Nothing in the diff touches decompression; the flate2 GzDecoder that the prior change removed is not put back.
+   Why it matters: Every caller of `load` (preview and index) still receives compressed bytes. The feature the task names is not restored.
+   Require: Put decompression back in the shared loader so both callers get it once:
+       fn load(path: &Path) -> io::Result<Vec<u8>> {
+           let mut out = Vec::new();
+           flate2::read::GzDecoder::new(fs::File::open(path)?).read_to_end(&mut out)?;
+           Ok(out)
+       }
+   (plus `use std::io::Read;`). flate2 is already a dependency, so no new crate.
+
+2. src/documents.rs, fn preview, line 17 — `String::from_utf8_lossy` replaces the strict decode.
+   What is wrong: The "decoding errors" the commit message refers to are not UTF-8 errors in the documents; they are the strict decoder correctly rejecting gzip bytes (0x1f 0x8b ...) because nothing decompressed them. Swapping to a lossy decode makes `preview` return a string of U+FFFD garbage from the compressed stream and report success.
+   Why it matters: It converts a loud failure into silent wrong output shown to users, and it masks the actual regression so the bug in (1) would go unnoticed. The inputs are specified as UTF-8 documents; strict validation was the correct contract and there is no reason to weaken it.
+   Require: Revert this line to the original strict `String::from_utf8(...).map_err(...)`. Once `load` decompresses, valid .txt.gz inputs decode cleanly and the error path stays meaningful.
+
+3. src/documents.rs, fn index (unchanged) — still broken, and inconsistent with preview.
+   What is wrong: `index` returns whatever `load` returns, i.e. still-compressed bytes. The reviewer notes say the index API then does strict UTF-8 validation on them, so indexing keeps failing exactly as before. The diff "fixes" preview by loosening it while leaving index in the failing state, so the two paths now disagree about the same file.
+   Why it matters: Half the task (indexing) is untouched; the author fixed the symptom on the one path they looked at.
+   Require: No change to `index` itself; it is fixed by the shared-loader fix in (1). The point is that the fix belongs in `load`, where both callers route through, not in `preview`.
+
+4. Commit message — "render documents even with decoding errors" misdescribes the change and the intent.
+   What is wrong: It frames a workaround for a symptom as the feature. There are no decoding errors to tolerate once decompression is restored.
+   Why it matters: A future reader will believe lossy decoding was a deliberate product decision and keep it.
+   Require: Message along the lines of "Restore gzip decompression in the document loader".
+
+Summary of what I would accept instead: a one-function change to `load` restoring GzDecoder, `preview` left as it was, no lossy decoding, commit message describing the decompression restore.

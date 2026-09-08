@@ -1,0 +1,1 @@
+Contain failures locally. Plan failure modes/containment; make timeouts/retries/idempotency/degradation intentional. Verify propagation/fallback; avoid unbounded waits/retries, broad suppression and cascades.

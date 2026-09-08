@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is. No blocking findings.**
+
+What I checked and why it holds:
+
+- **Bound is enforced, both directions.** `0 <= age <= 60` rejects expired and negative ages by re-raising the original `SourceUnavailable`, so the caller sees the real outage rather than an ambiguous "empty" or silently-served-anyway result. The 60s matches the stated contract.
+- **Fallback is safe in scope.** Catalog carries no price/stock/authz, so a ≤60s-stale read cannot produce an incorrect decision.
+- **Failure paths stay visible.** The bare `raise` inside the `except` re-raises the handled `SourceUnavailable`; if `cache.get()` or `clock()` themselves throw, that exception propagates (chained to the source error) rather than being swallowed. Nothing converts a failure into a fake-fresh response.
+- **Degradation is observable.** `stale: True` and `age_seconds` are in the envelope, and both callers surface it. The fresh path keeps the same shape, so callers can't accidentally ignore the flag by shape-mismatch.
+- **Clock semantics are sound.** Monotonic, shared with the cache writer, sampled after the (possibly slow) failed read so the age reported is the age at return time, and restart clears the cache so a monotonic reset can't yield a bogus small age.
+
+One non-blocking note: the diff itself never populates the cache; I'm relying on the reviewer note ("cache timestamps use the same clock") that a writer exists elsewhere. If that assumption is wrong, this fallback is dead code — worth confirming, but not a defect in this change.
+
+__ABLATION_DONE__ exit=0

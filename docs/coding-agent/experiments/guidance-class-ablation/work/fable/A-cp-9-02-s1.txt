@@ -1,0 +1,15 @@
+**Verdict: not acceptable as-is.** The change satisfies the first half of the task (the import no longer aborts on a bad row) but directly violates the second half: the operator gets an outcome that is wrong whenever anything was skipped.
+
+**1. `importer/load.py`, `return {"status": "complete"}` — reports success unconditionally, hiding skipped rows.**
+After this change, a run with one invalid row among valid rows silently drops that row and still returns `{"status": "complete"}`. Per the reviewer notes, this summary is the *only* thing the operator sees and there is no external log of failures, so the skipped row is unrecoverable information: the operator has no way to know data was lost, which row, or why. This is worse than the pre-change behaviour (a crash at least signalled a problem). It's also telling that the loop still computes `number` and never uses it — the row index is exactly what the failure report needs.
+
+Require: record each failure (at minimum row `number` and the exception message), and make the summary reflect it — e.g. `{"status": "complete"}` only when `failed` is empty, otherwise something like `{"status": "partial", "inserted": n, "failed": [{"row": number, "error": str(exc)}, ...]}`. The exact shape is negotiable; the invariant that "complete" is never returned when rows were skipped is not.
+
+**2. `importer/load.py`, `except Exception: continue` — catches far more than "bad row".**
+The intent is to skip an invalid row, but `Exception` also swallows connection loss, permission errors, a misconfigured `store`, and plain bugs in `insert`. In those cases *every* row fails, the loop quietly runs to the end, and the operator is again told "complete" with zero rows loaded. Broad catch-and-continue turns systemic failures into invisible ones.
+
+Require: catch the specific exception type(s) the store raises for a row-level validation/insert rejection (e.g. `ValidationError` / whatever `store.insert` documents), and let everything else propagate. If the store's error hierarchy doesn't distinguish these, that's a gap to fix or at least document, not a reason to catch `Exception`.
+
+(Atomicity of `store.insert` is confirmed by the notes, so I have no concern about partial rows on exception — the two items above are the blocking issues.)
+
+__ABLATION_DONE__ exit=0

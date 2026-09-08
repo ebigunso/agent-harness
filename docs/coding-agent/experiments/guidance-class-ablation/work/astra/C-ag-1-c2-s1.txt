@@ -1,0 +1,43 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e2-f8e6-7de0-aabc-39edbffc9c02
+--------
+user
+Reference material loaded for this review:
+
+Keep layer responsibilities clear; business rules in domain/app. Map affected owners in plan; verify correct placement and explain moves. No UI policy, policy in data access, or catch-all utilities.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Render authoritative checkout quote.
+
+```diff
+--- a/Checkout.tsx
++++ b/Checkout.tsx
+@@ -0,0 +1,5 @@
++import * as React from "react";
++export function Checkout({quantity, quote, onSubmit}: {quantity: number; quote: number; onSubmit: (q: number) => void}) {
++ const valid = Number.isSafeInteger(quantity) && quantity > 0;
++ return <><output>{quote}</output><button disabled={!valid} onClick={() => { if(valid) onSubmit(quantity); }}>Order</button></>;
++}
+```
+Commit message: "render authoritative checkout quote"
+
+Reviewer notes: React installed. Server result is authoritative display data; onSubmit is the application API adapter, which repeats quantity validation and recomputes policy server-side. UI validation is UX only.
+
+codex
+Acceptable as-is. No findings. The component renders the authoritative quote unchanged; quantity validation is a UX guard, while the application/server retains validation and checkout policy enforcement.
+tokens used
+3,157
+Acceptable as-is. No findings. The component renders the authoritative quote unchanged; quantity validation is a UX guard, while the application/server retains validation and checkout policy enforcement.
+
+__ABLATION_DONE__ exit=0

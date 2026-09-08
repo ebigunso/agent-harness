@@ -1,0 +1,28 @@
+**Verdict: not a workspace problem — it's a script bug (pipeline enumeration of `ConvertFrom-Json` output).**
+
+**Cause**
+
+`ConvertFrom-Json` emits the parsed JSON array to the pipeline, and PowerShell enumerates it. For `[null]` that yields exactly one element, `$null`, so `$parsed` ends up as `$null` — hence `parsed type=<null>` and the `-isnot [array]` throw at line 10. Nothing is wrong with the JSON, the runtime, or execution policy; the probe simply discards the array wrapper before checking for it.
+
+Note the probe is broken for the whole contract, not just this case: `[]` → `$parsed` is `$null` (rejected), `[1]` → `$parsed` is an `Int64` (rejected), and only 2+ element arrays survive because PowerShell re-collects multiple outputs into `object[]`. So the checker currently rejects two of the three array shapes it is supposed to accept.
+
+**Smallest safe remediation**
+
+Change line 5 to keep the array intact:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+`-NoEnumerate` exists in PowerShell 6+, so it's available on 7.4.6. No other change is needed; the scalar-rejection path still works because a scalar `null`/`1`/`"x"` is never an array either way.
+
+**Confirmation**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1` → expect exit code 0 and `parsed type=System.Object[]`.
+2. Spot-check the contract boundaries by swapping `$raw` (or a quick one-liner):
+   - `'[]'`, `'[1]'`, `'[1,2]'` → all report `System.Object[]`, exit 0.
+   - `'null'`, `'1'`, `'"x"'` → still throw `Expected JSON array`, exit 1.
+   
+   e.g. `pwsh -NoProfile -c "('[]' | ConvertFrom-Json -NoEnumerate) -is [array]"` → `True`, and `pwsh -NoProfile -c "('1' | ConvertFrom-Json -NoEnumerate) -is [array]"` → `False`.
+
+__ABLATION_DONE__ exit=0

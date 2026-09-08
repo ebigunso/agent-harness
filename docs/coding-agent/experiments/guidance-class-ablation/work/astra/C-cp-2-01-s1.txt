@@ -1,0 +1,51 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d83-5268-7eb2-b628-bb8fa134f07d
+--------
+user
+Reference material loaded for this review:
+
+Fix causes at their origin; strengthen invariants. Does this suppress symptoms or add duplicated/compensating logic?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Fix duplicate imported record IDs for reports, CLI imports and scheduled imports.
+
+```diff
+--- a/app/imports.py
++++ b/app/imports.py
+@@ -1,12 +1,12 @@
+ def import_rows(store, rows):
+     for row in rows:
+         store.append(row)
+
+ def cli_import(store, rows):
+     import_rows(store, rows)
+
+ def scheduled_import(store, rows):
+     import_rows(store, rows)
+
+ def report(store):
+-    return list(store.rows())
++    return list({row["id"]: row for row in store.rows()}.values())
+```
+Commit message: "hide repeated IDs in import report"
+
+Reviewer notes: The store is an append-only table with no ID constraint. Inputs have valid IDs; running either import twice reproduces duplicate stored records. All import/write code is in scope. The reporting dictionary keeps the last row, but imported records themselves must be unique.
+
+codex
+- **`app/imports.py`, `report()` / `import_rows()`: Duplicate IDs remain stored.** The dictionary only hides duplicates in reports; CLI and scheduled imports still append repeated IDs through `import_rows()`. This violates the requirement that imported records themselves be unique and silently makes reports select the last duplicate. Require uniqueness enforcement at the shared import/write boundary, with defined handling for existing IDs, rather than report-level compensation. Verify that repeating either import leaves only one stored record per ID.
+tokens used
+3,296
+- **`app/imports.py`, `report()` / `import_rows()`: Duplicate IDs remain stored.** The dictionary only hides duplicates in reports; CLI and scheduled imports still append repeated IDs through `import_rows()`. This violates the requirement that imported records themselves be unique and silently makes reports select the last duplicate. Require uniqueness enforcement at the shared import/write boundary, with defined handling for existing IDs, rather than report-level compensation. Verify that repeating either import leaves only one stored record per ID.
+
+__ABLATION_DONE__ exit=0

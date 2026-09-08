@@ -1,0 +1,17 @@
+**Verdict: block.** The diff makes no functional change and strictly degrades the only thing it touches.
+
+**1. `Config.java`, line 3 — diagnostic loses `field` and `line`**
+
+- **What's wrong:** The message `field + " at line " + line + ": value required"` is replaced with the constant `"invalid config"`. The field name and source line are still in scope at this call; the change discards them.
+- **Why it matters:** With ~200 named settings, `"invalid config"` gives an operator no way to locate the offending value short of bisecting the file. The previous message identified the setting, the line, and the reason (blank). This is a pure regression in operability with no offsetting benefit — no behavior changed, no code was simplified in any meaningful way, and it directly contradicts the stated goal of improving clarity and diagnostics.
+- **Required instead:** Keep the field and line in the message. If the author wants to touch the wording at all, the acceptable direction is *more* specific, e.g. `field + " at line " + line + ": value must not be blank"`. If there's no improvement to make, drop the diff.
+
+**2. Commit message — describes behavior that already existed**
+
+- **What's wrong:** "reject blank configuration values" implies new validation. The reviewer notes confirm the parser rejected the same inputs before and after; the only actual change is the error text.
+- **Why it matters:** A future reader running `git log`/`blame` on this line will believe the rejection was introduced here and won't realize the commit is what removed the field/line context. Misleading history is its own maintenance cost.
+- **Required instead:** The commit message must describe the real change. Given finding #1, the real change shouldn't ship, so this resolves itself by not merging.
+
+No other findings. The correct outcome is to reject the change outright rather than iterate on it; the pre-diff code already satisfies the task.
+
+__ABLATION_DONE__ exit=0

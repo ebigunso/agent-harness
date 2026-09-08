@@ -1,0 +1,11 @@
+**Verdict: acceptable as-is.** The change does what the task asks: the only way to obtain an `AccountId` is through `new`, the field is private so the nonempty invariant can't be bypassed from outside the module, the check (`is_empty` on bytes) matches the stated contract, and the test exercises both sides of the boundary. I have no blocking findings.
+
+Non-blocking notes I'd leave as comments (not required for merge):
+
+1. **`lib.rs`, `AccountId::len`** — A public `len()` with no `is_empty()` will trip clippy's `len_without_is_empty`; if CI runs clippy with `-D warnings` this will fail. An `is_empty()` that always returns `false` would be misleading, so I'd prefer either a targeted `#[allow(clippy::len_without_is_empty)]` with a one-line comment explaining the invariant, or returning `NonZeroUsize` so the invariant is expressed in the signature rather than only in prose. Author's choice.
+
+2. **`lib.rs`, test `boundary`** — `.ok().unwrap()` discards the error before unwrapping for no reason; `&'static str` is `Debug`, so `.unwrap()` (or `.expect("valid id")`) works directly and gives a better failure message. Style only.
+
+Nothing else. The reviewer notes already address the points I'd otherwise have raised (nonblank vs nonempty, construction guarded by the private field, no redundant re-validation in `len`), and I agree with them.
+
+__ABLATION_DONE__ exit=0

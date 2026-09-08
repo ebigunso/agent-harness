@@ -1,0 +1,32 @@
+**Verdict: block.** The Rust side is fine in isolation, but the change is only half done — the frontend contract was not updated, and its fallback logic will render the new state as the one state it must never be.
+
+## Findings
+
+### 1. `schema.ts` — `Status` type not extended (contract drift)
+`export type Status = "Approved" | "Rejected";` still reflects the old enum. The reviewer notes say this file was generated from the Rust enum; the enum changed and the generated artifact was not regenerated. The TS and Rust contracts now disagree on the set of valid values.
+
+**Require:** regenerate (or hand-update, consistent with how the file is maintained) to `"Approved" | "Rejected" | "PendingReview"`, matching the exact string `wire()` emits.
+
+### 2. `schema.ts` — `mapStatus` silently coerces `"PendingReview"` to `"Approved"` (correctness / data loss)
+```ts
+return raw === "Rejected" ? "Rejected" : "Approved";
+```
+Anything that isn't `"Rejected"` becomes `"Approved"`. With the new backend, every pending review will display as approved — the exact outcome the task says must never happen. This is a lossy, default-to-permissive coercion of an unknown value, which is the worst possible failure mode for a review-status field.
+
+**Require:**
+- Match each known string explicitly: `"Approved"`, `"Rejected"`, `"PendingReview"`.
+- Do not default unknown input to `"Approved"`. Either throw / return a `Result`-style error, or map to an explicit `"Unknown"`/pending-ish state that the UI renders conservatively. A future enum addition must not silently become "approved" again.
+- Add a test asserting `mapStatus("PendingReview") === "PendingReview"` and that an unrecognized string does not yield `"Approved"`.
+
+### 3. Wire-format change is unversioned (compatibility)
+Adding a variant to a plain-string API enum is a breaking change for any consumer built against the two-value contract — and as #2 shows, the existing consumer actively misinterprets it rather than rejecting it. Nothing in the diff or commit message flags this.
+
+**Require:** at minimum, deploy the frontend fix before or together with the backend change, and note the contract change in the commit/PR description. If other consumers exist (mobile, other services), confirm they handle the new value or gate the new status behind a version/feature flag until they do.
+
+### 4. `status.rs` — no inbound parsing shown; verify the deserialization path
+Only `wire()` (enum → string) is in the diff. If there is a corresponding string → `Status` parser (e.g. `FromStr`, serde impl, or DB mapping), it must also accept `"PendingReview"` and must not have the same "default to Approved" pattern. If it doesn't exist, no action; if it does, it needs the same treatment as #2.
+
+## Acceptable as-is
+- `status.rs`: adding the variant and the exhaustive `match` arm is correct; the compiler enforces the Rust side stays in sync.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,49 @@
+**Verdict: block.** The change introduces two writers with conflicting rules for the same invariant, and one of the rules is numerically wrong even on its own terms.
+
+## Findings
+
+### 1. `balance.ts:2-3` — Two writers, two conversion rules for one stored field
+`api` uses `Math.round(dollars*100)`; `imported` uses `Math.trunc(dollars*100)`. Both own `balanceCents`, so the stored value depends on which path last wrote it, not on the input.
+
+Truth table for the validated input domain (finite, `0 ≤ dollars ≤ 1000`):
+
+| input   | `dollars*100` (IEEE) | api (round) | imported (trunc) | agree? |
+|---------|----------------------|-------------|------------------|--------|
+| 1.23    | 123                  | 123         | 123              | yes    |
+| 1.239   | 123.9                | 124         | 123              | **no** |
+| 1.235   | 123.50000000000001   | 124         | 123              | **no** |
+| 0.29    | 28.999999999999996   | 29          | 28               | **no** |
+| 1.15    | 114.99999999999999   | 115         | 114              | **no** |
+| 1.005   | 100.49999999999999   | 100         | 100              | yes, but both ≠ 101 if "half-up" is the rule |
+
+Why it matters: the same customer submitted via API then re-imported (or vice versa) drifts by a cent; reconciliation between import file and API state is impossible; repeated imports are not idempotent relative to API writes. This is exactly the "conflicting writers" case the guidance rejects.
+
+Require: one `toCents(dollars: number): number` function, used by both entry points, implementing the single agreed rule. Neither entry point should do its own arithmetic.
+
+### 2. `balance.ts:3` — `Math.trunc(dollars*100)` is wrong even if truncation is the agreed rule
+Truncation is applied to a binary-float product, not to the decimal the caller supplied. `0.29` → `28`, `1.15` → `114`, `2.3` → `229`. These are exact-cent inputs that lose a cent. This is not a policy disagreement; it's a defect independent of finding 1.
+
+Require: if truncation of sub-cent precision is the policy, truncate a decimal-corrected value (e.g. `Math.trunc(Math.round(dollars * 1e6) / 1e4)`, or parse the decimal string / accept cents as an integer at the boundary). If nearest-cent is the policy, `Math.round(dollars*100)` is acceptable for this domain but note `1.005 → 100` (half-down artifact); if half-up on the decimal is required, correct before rounding (`Math.round(Math.round(dollars*1e6)/1e4)` or a decimal library).
+
+### 3. No decision on sub-cent input; the conversion silently coerces
+The notes say `1.239` passes validation. The diff silently maps it to *some* integer, and the two paths disagree on which. Nothing in the code or commit records which rule was chosen or why.
+
+Require: pick and document one of (a) reject sub-cent input at validation (invariant: input is representable in cents), or (b) accept and apply one named rule (round-half-up / truncate). Add tests pinning the rule with at least the rows in the table above, plus the boundary values `0` and `1000`, so the rule can't drift again.
+
+### 4. Mutators trust upstream validation with no local enforcement
+`api`/`imported` are the authoritative writers of `balanceCents` but rely on an out-of-band guarantee that `dollars` is finite/nonnegative/≤1000. `NaN`, `Infinity`, or a negative value will be written straight through as the customer's balance.
+
+Require: the shared `toCents` should assert its precondition (finite, in range) and throw, and assert its postcondition (`Number.isSafeInteger(result) && result >= 0`). Upstream validation can stay, but the writer must not depend on it.
+
+### 5. Task scope — "update customer balances through API and import" is met only nominally
+The functions mutate the passed object in place and return nothing; there is no import batch handling, no per-row error reporting, and no indication of how a partial import failure leaves state. Given "single-process serialized writes" I won't block on concurrency, but I'd want the import path to either succeed per row with a result, or fail the row without touching the customer. As written, finding 4 means an invalid row corrupts the balance rather than failing.
+
+Require: `imported` (and `api`) should validate before assignment so the customer is never left in an invalid intermediate state; return or throw a result the caller can act on.
+
+## Summary of required changes
+1. Single `toCents` implementing one documented rule, used by both `api` and `imported`.
+2. Conversion must operate on decimal-corrected values, not raw `dollars*100`, regardless of rule.
+3. Decide reject-vs-coerce for sub-cent input; tests covering `1.239`, `1.235`, `0.29`, `1.15`, `1.005`, `0`, `1000`.
+4. Precondition/postcondition checks inside the writer; no silent write of invalid values.
+
+__ABLATION_DONE__ exit=0

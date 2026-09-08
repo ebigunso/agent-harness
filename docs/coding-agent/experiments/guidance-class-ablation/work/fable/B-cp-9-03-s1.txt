@@ -1,0 +1,13 @@
+**Verdict: block.**
+
+**1. `src/PaymentClient.java`, `charge()` — `catch (GatewayTimeout)` branch marks the order paid and returns `PAID`.**
+
+- **What's wrong:** A gateway timeout means the outcome of the remote capture is *unknown* — the reviewer notes say it can occur before or after the charge landed. The new branch resolves that ambiguity by asserting the most optimistic outcome: it persists `markPaid` and returns `ChargeStatus.PAID` regardless of whether money moved.
+- **Why it matters:** This is exactly the misreporting the task was meant to prevent. If the timeout happened before capture, the order ships/completes with no payment collected, the customer is never charged, and there's no signal anywhere that anything went wrong. If the timeout happened after capture, it happens to be correct — but only by luck. The failure is also silent: the exception is swallowed with no log, no metric, no stored marker, so reconciliation has nothing to find and support cannot diagnose "paid" orders with no gateway record. The commit message ("complete checkout on gateway timeout") describes the bug as the feature.
+- **What I'd require:** On `GatewayTimeout`, do not claim success. Since `paymentKey` is stable and the gateway is idempotent, the safe options are (a) retry the charge with the same key a bounded number of times, and/or (b) if still unresolved, persist `store.markPending(order.id())` and return `ChargeStatus.PENDING`, so the existing reconciliation job queries the gateway by `paymentKey` and settles it to paid/failed. Either way, the timeout must be logged with order id and payment key. Only the path where `gateway.charge` actually returned should reach `markPaid` / `PAID`.
+
+Minor, same location: as written the try/catch has duplicated `markPaid`/`return PAID` in both arms, which is a symptom of the above — once the catch does something different, the duplication disappears. Also the `charge()` return value from the gateway is discarded; if it carries a capture id/status, it should be checked rather than assumed successful.
+
+No other issues; the non-timeout path is unchanged and fine.
+
+__ABLATION_DONE__ exit=0

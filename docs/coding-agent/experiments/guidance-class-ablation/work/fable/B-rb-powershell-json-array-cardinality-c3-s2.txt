@@ -1,0 +1,31 @@
+**Cause**
+
+The script hard-codes an invalid JSON literal: `$raw = '[1,'`. The string ends after the comma with no second value and no closing `]`. `ConvertFrom-Json` in Windows PowerShell 5.1 rejects it with `ArgumentException: Invalid array passed in, extra trailing ','`, and because `$ErrorActionPreference = 'Stop'` is set, that non-terminating error becomes terminating and the script exits 1 on line 5.
+
+This is not an environment, permissions, or PowerShell-version problem, and it is **not** the one-element-array/pipeline-unrolling issue from the reference material — that issue only arises *after* a successful parse. Here the parse never succeeds because the input is syntactically malformed. The problem is in the script's own data.
+
+**Smallest safe remediation**
+
+Correct the literal on line 3 to well-formed JSON for the shape you intend to probe, e.g.:
+
+```powershell
+$raw = '[1]'
+```
+
+Nothing else in the script needs to change. (If the truncated string was meant to be a deliberate malformed-input fixture, then the fix is instead to wrap the parse in `try { ... } catch { ... }` and assert on the error — but the script as written gives no sign of that intent.)
+
+**Confirmation**
+
+Re-run `powershell.exe -NoProfile -File probes/parse.ps1` and check:
+
+- exit code is 0
+- stdout shows `raw=[1]`
+- stderr is empty (no `ConvertFrom-Json` error)
+
+Optionally add `$parsed | ConvertTo-Json -Compress` after line 5 to see the round-trip.
+
+**Secondary caution (only once the parse works)**
+
+If the next step in this probe is a `$parsed -is [array]` check, be aware that in 5.1 `'[1]' | ConvertFrom-Json` unrolls the one-element array to the bare scalar `1`, so that check will report "not an array" even though the JSON was framed with `[`/`]`. `-NoEnumerate` is unavailable in 5.1; assert framing on `$raw.Trim()` starting with `[` and ending with `]` instead. That's a separate concern from today's failure.
+
+__ABLATION_DONE__ exit=0

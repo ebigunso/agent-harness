@@ -1,0 +1,17 @@
+**Cause:** Not a workspace problem. The cwd is correct (`C:/work/reports`), and Python resolved the path exactly as intended (`C:\work\reports\scripts\removed.py`). The file simply doesn't exist there: git history and `git ls-files` show `scripts/removed.py` was intentionally renamed to `scripts/check.py` in the committed tree, with no uncommitted deletion. The failing command was a stale terminal-history entry referencing the old filename. Exit code 2 with `[Errno 2] No such file or directory` is Python's standard response to a nonexistent script path.
+
+**Smallest safe remediation:** Run the current script name instead — the one the README documents and that was confirmed present in the pre-check:
+
+```powershell
+python scripts/check.py
+```
+
+Do **not** recreate `removed.py`, restore it from history, add a shim, or touch git state — the rename is intentional and the repo is consistent.
+
+**Confirmation:**
+1. `python scripts/check.py` runs without the `can't open file` error (exit code reflects the script's own behavior, not a file-not-found).
+2. Optionally, `Get-Item -LiteralPath scripts/check.py` still returns `C:/work/reports/scripts/check.py`, and `git status` shows no new changes — verifying nothing in the workspace was modified.
+
+If muscle memory is the concern, clear the stale history entry (e.g., `Remove-PSReadlineKeyHandler` isn't needed; just avoid recalling it or edit `(Get-PSReadLineOption).HistorySavePath`), but that's optional and outside the fix itself.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,23 @@
+**Verdict: block.**
+
+**1. `worker.cpp`, `item()` — full stack trace on every successful item, into the failure sink**
+
+- What's wrong: Every routine success now emits `"allocated " + std::to_string(std::stacktrace::current())` at INFO level to the same quota-limited sink that failures use.
+- Why it matters: This is pure noise that displaces signal. A stack trace captured at a fixed call site inside `item()` is essentially identical every time — it carries no per-item information — but costs hundreds of bytes to kilobytes per event. On a hot path that means the quota fills with redundant success traces and the failure records (the actionable ones) get evicted or the sink rejects them. Net effect: observability of failures gets *worse* after a change meant to improve tracing.
+- What I'd require instead: Remove the stack trace from the success path. Success should be a compact, cheap signal — a counter/metric, or at most a single short line with an identifying field (item id, size, whatever distinguishes one allocation from another). If a call stack is ever needed, capture it only on the failure branch, or gate it behind a DEBUG level / sampling so it can't consume the shared quota by default.
+
+**2. `worker.cpp`, `item()` — `std::stacktrace::current()` on the hot path**
+
+- What's wrong: `stacktrace::current()` unconditionally walks and symbolizes the stack (and allocates) for every item, regardless of whether the sink is even enabled.
+- Why it matters: This is expensive relative to the work `item()` does, and it's performed even when the output will be dropped by quota. It also adds allocation inside a routine whose purpose is to track allocation, which is at minimum confusing and at worst re-entrant with whatever `allocate` instruments.
+- What I'd require instead: Don't capture unconditionally. If any trace capture survives review, it must be behind a level/sampling check so the cost is only paid when the output will actually be kept.
+
+**3. `worker.cpp`, `item()` — the success message is not a meaningful signal**
+
+- What's wrong: The log text is the constant string `"allocated"` plus the stack. There is no item identity, no size, nothing that lets an operator correlate a success with a subsequent failure or spot a pattern.
+- Why it matters: The task is to trace successful allocations; a log line that can't distinguish one allocation from another doesn't trace anything, it just proves `item()` ran. A stack trace is the wrong substitute for context.
+- What I'd require instead: Pass the relevant identifying fields into `item()` (or to the `info` callback) and log those in a single short line; keep the field set minimal and non-sensitive.
+
+Note: the diff leaves the failure path (exception from `allocate()`) unlogged. That's out of scope for this commit as framed, but the fix above should not make it harder to add a failure-side log that keeps its quota headroom.
+
+__ABLATION_DONE__ exit=0

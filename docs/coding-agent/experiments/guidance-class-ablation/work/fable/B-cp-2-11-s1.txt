@@ -1,0 +1,29 @@
+**Verdict: block.** The change patches one caller instead of restoring the shared validator, so two of the three surfaces named in the task are still broken.
+
+### Findings
+
+**1. `src/dates.php` — `validDate()` is still shape-only; `apiAccepts` and `importAccepts` remain regressed.**
+- What's wrong: The regression removed `checkdate` from `validDate`. The diff leaves `validDate` untouched, so the API and import paths still accept `2023-02-29`, `2024-04-31`, `2023-06-31`, and `0000-01-01` (regex allows year `0000`; `checkdate` correctly rejects year 0 under the 0001–9999 contract). The task explicitly says form, API *and* imports must be restored; this delivers one of three.
+- Why it matters: Invalid calendar dates will continue to enter the system through the API and bulk import — the highest-volume paths — while the form gives a false sense that the bug is fixed.
+- Require: Put the calendar check back where it was removed, in `validDate`:
+  ```php
+  function validDate(string $value): bool {
+      if (preg_match('/^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/D', $value, $p) !== 1) {
+          return false;
+      }
+      return checkdate((int)$p[2], (int)$p[3], (int)$p[1]);
+  }
+  ```
+  All three `*Accepts` functions then return to correct behavior with no further changes.
+
+**2. `src/dates.php` — `formAccepts()` duplicates the regex and validation logic instead of using the shared function.**
+- What's wrong: The pattern is now copied verbatim into `formAccepts`, and the caller no longer routes through `validDate`. This is a symptom patch layered on top of a broken invariant.
+- Why it matters: Two sources of truth for "what is a date". Any future change to the format or calendar rules has to be made twice, and the three surfaces can silently diverge again — which is exactly the class of bug being fixed here.
+- Require: Once `validDate` is fixed per #1, revert `formAccepts` to `return validDate($value);`. There should be exactly one date-validation implementation with three thin callers, as before the regression.
+
+**3. Commit message understates scope.** "validate form calendar dates" describes a form-only fix, which is what was delivered but not what was asked. After the fixes above, retitle to reflect restoring shared calendar validation (e.g. "Restore checkdate in validDate for form/API/import"). Minor, but it should not be merged with a message that implies the API/import regressions were intentionally left.
+
+### Not raised
+- The regex itself is fine (anchored, `/D` prevents trailing newline, month/day ranges are sane as a pre-filter). Year `0000` slipping past the regex is acceptable because `checkdate` rejects it once restored.
+
+__ABLATION_DONE__ exit=0

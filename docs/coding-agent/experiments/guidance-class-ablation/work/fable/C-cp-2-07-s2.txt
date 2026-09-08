@@ -1,0 +1,16 @@
+**Verdict: block.** The change doesn't fix the collisions; it relabels them.
+
+**1. `Records.cs`, `RecordIds.Next()` — root cause untouched**
+`new Random(42).Next()` constructs a fresh `Random` with a fixed seed on every call, so it returns the *same* integer every time. Every insert after the very first one collides, from every producer. This is the entire cause of the reported problem and the diff leaves it in place. Since the notes say a database sequence is available and the IDs aren't used for authorization, require `RecordIds.Next()` (or better, `Store.Insert`) to take its ID from the sequence. Do not "fix" it by making the `Random` static/unseeded — that reduces the collision rate but doesn't establish the uniqueness invariant the store requires across independent producers.
+
+**2. `Records.cs`, `RecordsController.Create` — catch converts a server bug into a client-facing 409**
+Returning `Conflict` here is wrong on two counts: the client did nothing that conflicts (the ID is server-generated), and the record is silently not persisted, so callers see a "success-shaped" 4xx and their data is lost. Once IDs come from the sequence, a `DuplicateKeyException` from `Insert` means a server-side invariant violation and should surface as an error, not be swallowed. Remove the try/catch. If a genuine client-driven conflict semantic exists elsewhere, that belongs at the point where a client-supplied key is checked, not around a generated one.
+
+**3. `Records.cs`, `QueueConsumer.Handle` — still broken, and the fix approach doesn't scale**
+The consumer uses the same generator and gets no change, so every message after the first still throws — the queue will retry/poison-pill indefinitely. The task explicitly names the queue path. This also illustrates why the patch's approach is wrong: making it "work" the same way would mean copying the catch into every producer, i.e. compensating logic at N sites for a defect at one site. Fixing the generator resolves both paths with no per-caller handling.
+
+**4. Commit message** — "return conflict instead of internal error" describes a symptom change, not the assigned fix; it should read something like "generate record IDs from the DB sequence instead of a fixed-seed Random".
+
+Minimal acceptable change: replace the body of `RecordIds.Next()` with a call that pulls the next value from the database sequence (or move ID assignment into `Store.Insert`), and revert the try/catch in the controller.
+
+__ABLATION_DONE__ exit=0

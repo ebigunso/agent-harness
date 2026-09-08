@@ -1,0 +1,56 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d7-32e8-74b1-b4fe-ad1572297b86
+--------
+user
+Reference material loaded for this review:
+
+### Gate 2: Correct Dependency Direction
+
+**Expectation**
+- Dependencies point from outer layers toward stable inner abstractions.
+- Core behavior does not depend directly on volatile delivery or storage details.
+
+**Evidence expectations**
+- Plan documents dependency direction for touched components.
+- Review verifies new imports/calls do not invert boundaries.
+- Abstraction seams are explicit where external systems are involved.
+
+**Anti-patterns**
+- Domain logic directly calling framework, transport, or vendor clients.
+- Circular dependencies between modules.
+- Feature code bypassing interfaces to reach lower-level internals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Translate domain rejection at controller.
+
+```diff
+--- a/Controller.java
++++ b/Controller.java
+@@ -0,0 +1,4 @@
++enum Outcome { ALLOWED, REJECTED }
++final class Rule { static Outcome apply(boolean active) { return active ? Outcome.ALLOWED : Outcome.REJECTED; } }
++record HttpResponse(int status) {}
++final class Controller { static HttpResponse handle(boolean active) { return new HttpResponse(Rule.apply(active) == Outcome.ALLOWED ? 200 : 403); } }
+```
+Commit message: "translate domain rejection at controller"
+
+Reviewer notes: Java 17. HttpResponse is a complete outer transport DTO. Domain enum/function have no dependency on it; controller owns HTTP mapping.
+
+codex
+Acceptable as-is. No findings: `Rule` returns a domain `Outcome` without depending on transport details, and `Controller` owns the translation to HTTP 200 or 403. Dependency direction is correct.
+tokens used
+3,219
+Acceptable as-is. No findings: `Rule` returns a domain `Outcome` without depending on transport details, and `Controller` owns the translation to HTTP 200 or 403. Dependency direction is correct.
+
+__ABLATION_DONE__ exit=0

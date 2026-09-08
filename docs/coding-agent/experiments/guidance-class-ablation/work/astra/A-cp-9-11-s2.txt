@@ -1,0 +1,42 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d77-df01-7a72-87aa-4d3004a4e2f4
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Handle allocation failures without wedging the service worker.
+
+```diff
+--- a/src/service.cpp
++++ b/src/service.cpp
+@@ -1,3 +1,9 @@
+ Result Service::process(const Input& input) {
+-    return engine_.allocate_and_run(input);
++    for (;;) {
++        try {
++            return engine_.allocate_and_run(input);
++        } catch (const std::bad_alloc&) {
++            continue;
++        }
++    }
+ }
+```
+Commit message: "retry allocation until successful"
+
+Reviewer notes: Existing header includes <new>. This service has one dispatch thread. Validated input can require more memory than the fixed worker limit; identical retries cannot reduce the allocation. engine_.allocate_and_run releases partial resources on throw and produces no external side effects before success.
+
+codex
+- **`src/service.cpp:2–8` — Unbounded retries wedge the only dispatch thread.** Valid input can require more memory than the fixed worker limit, so identical retries can fail forever. The tight loop consumes CPU and prevents all subsequent requests from being serviced, violating the task’s goal. Require a bounded failure path that reports allocation failure and returns control to dispatch; any retries must be limited.
+tokens used
+3,198
+- **`src/service.cpp:2–8` — Unbounded retries wedge the only dispatch thread.** Valid input can require more memory than the fixed worker limit, so identical retries can fail forever. The tight loop consumes CPU and prevents all subsequent requests from being serviced, violating the task’s goal. Require a bounded failure path that reports allocation failure and returns control to dispatch; any retries must be limited.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`importer.rb`, `import_row` — no validation of `account_id` before the persistent write.**
+   `row[:account_id]` is operator-supplied and may be `nil`, and the schema requires one *existing* account per entry, yet the row is appended unconditionally. Since `entries` is the write boundary, this persists schema-invalid ledger rows. The failure then surfaces later and far away: `nightly` does `entry.fetch(:account_id).upcase`, and `fetch` only guards key *presence*, not a `nil` *value*, so a single bad row raises `NoMethodError: undefined method 'upcase' for nil` and aborts the entire nightly batch for every account. Also, an account_id that is present but doesn't exist sails through both functions silently and is grouped under a phantom account.
+   **Require:** validate at import time, before `entries <<`: reject `nil`/blank account_id and verify the account exists (lookup against the accounts store), raising or collecting an error that identifies the row. Note `row_number` is currently an unused parameter — it's clearly there for exactly this error message, which suggests the validation was dropped rather than never intended.
+
+2. **`importer.rb`, `nightly` — normalization (`upcase`) happens at read time instead of at write time.**
+   Storing raw `account_id` and canonicalizing only when grouping means the persisted data is inconsistent (`"acc1"` and `"ACC1"` are distinct rows that only merge in this one code path), and any existence check in (1) would compare the un-normalized value. It also assumes `account_id` is always a `String`.
+   **Require:** normalize the id once in `import_row` (as part of the validation in (1)) and store the canonical form; `nightly` should then group on the stored value without transforming it. A defensive `nil` guard in `nightly` is fine but is not a substitute for the write-boundary fix.
+
+Not acceptable as-is; (1) is blocking.
+
+__ABLATION_DONE__ exit=0

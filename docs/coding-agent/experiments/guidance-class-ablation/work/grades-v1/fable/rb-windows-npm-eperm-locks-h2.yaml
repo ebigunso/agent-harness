@@ -1,0 +1,193 @@
+records:
+  - id: 82dd37f0c299
+    fixture: rb-windows-npm-eperm-locks-07
+    score: 1.0
+    note: "Names canvas.node mapped by repo chart-preview worker PID 4107; Stop-Process on that PID only, rerun npm ci, confirm via tasklist /m and exit 0."
+  - id: 97f3bb59650a
+    fixture: rb-windows-npm-eperm-locks-07
+    score: 1.0
+    note: "Correct holder/mechanism and PID-specific stop then rerun; goes straight to taskkill /PID /F without a graceful attempt, but rejects broad kill and deletion."
+  - id: ebc34704d4b7
+    fixture: rb-windows-npm-eperm-locks-07
+    score: 1.0
+    note: "Names holder PID 4107 with re-verification, graceful Stop-Process then /F last resort, rerun npm ci, full confirmation record."
+  - id: f5f343423dad
+    fixture: rb-windows-npm-eperm-locks-07
+    score: 1.0
+    note: "Identifies canvas.node holder PID 4107, prefers graceful stop else taskkill /PID, rerun npm ci; correct confirmation."
+  - id: f6674187991f
+    fixture: rb-windows-npm-eperm-locks-07
+    score: 1.0
+    note: "Mapped-DLL mechanism, orphan worker PID 4107, Stop-Process (force only if needed), rerun npm ci, tasklist confirmation."
+  - id: f79f7c398764
+    fixture: rb-windows-npm-eperm-locks-07
+    score: 1.0
+    note: "Names holder, graceful first then confirmed-PID /F, rerun unchanged command, records evidence as key requires."
+  - id: 533156280fc8
+    fixture: rb-windows-npm-eperm-locks-08
+    score: 1.0
+    note: "onnxruntime_binding.node held by repo model-preview server PID 4108; graceful stop, PID-only fallback, rerun npm install, confirm."
+  - id: 8afd841f84ff
+    fixture: rb-windows-npm-eperm-locks-08
+    score: 1.0
+    note: "Correct mechanism and holder PID 4108; Stop-Process then rerun install and restart worker; rejects deletion/cache clear."
+  - id: a37f56179d26
+    fixture: rb-windows-npm-eperm-locks-08
+    score: 1.0
+    note: "Names holder PID 4108 model preview server, graceful stop else taskkill /PID, rerun npm install, tasklist confirmation."
+  - id: a472b241e528
+    fixture: rb-windows-npm-eperm-locks-08
+    score: 1.0
+    note: "Mapped-DLL EBUSY from PID 4108; verifies PID, Stop-Process, rerun install; rejects --force/deletion workarounds."
+  - id: c8db7e475947
+    fixture: rb-windows-npm-eperm-locks-08
+    score: 1.0
+    note: "Graceful stop of PID 4108 first, /F only after re-confirming PID, rerun npm install, complete log record."
+  - id: dc33e134bd7e
+    fixture: rb-windows-npm-eperm-locks-08
+    score: 1.0
+    note: "Correct holder and mechanism, ordered graceful then PID-specific /F, rerun install, confirmation via tasklist and exit 0."
+  - id: 1b3b520bcf48
+    fixture: rb-windows-npm-eperm-locks-09
+    score: 1.0
+    note: "Identifies electron.exe PID 4109 as holder (not node-only); graceful close, /PID fallback, rerun npm ci; flags Electron ABI rebuild."
+  - id: 20392a8c1234
+    fixture: rb-windows-npm-eperm-locks-09
+    score: 1.0
+    note: "Electron holder identified, graceful shutdown before any taskkill, rerun npm ci, confirmation and record; notes electron-rebuild follow-up."
+  - id: 6325836dddae
+    fixture: rb-windows-npm-eperm-locks-09
+    score: 1.0
+    note: "electron.exe PID 4109 named as sole holder; clean stop then PID-specific /F, retry npm ci, tasklist confirmation."
+  - id: a4797e6a73da
+    fixture: rb-windows-npm-eperm-locks-09
+    score: 1.0
+    note: "Electron preview PID 4109 holds pty.node; verify, Stop-Process, force only if needed, rerun npm ci; ABI caveat."
+  - id: add1572f0f49
+    fixture: rb-windows-npm-eperm-locks-09
+    score: 1.0
+    note: "Names electron.exe holder, graceful stop, warns against kill-by-image-name, rerun npm ci, evidence record."
+  - id: cf6c06d637b3
+    fixture: rb-windows-npm-eperm-locks-09
+    score: 1.0
+    note: "electron.exe PID 4109 identified; Stop-Process/graceful close then rerun npm ci; rejects admin/AV/cache workarounds."
+  - id: 382bb853ca75
+    fixture: rb-windows-npm-eperm-locks-10
+    score: 1.0
+    note: "Code.exe PID 4110 editor test host named as holder; stop test session/reload window first, /PID last resort, rerun npm ci."
+  - id: 3b57b26ebcad
+    fixture: rb-windows-npm-eperm-locks-10
+    score: 1.0
+    note: "Editor extension/test host PID 4110 identified; release from inside editor first, taskkill /PID fallback, rerun npm ci."
+  - id: 4127c0a59a10
+    fixture: rb-windows-npm-eperm-locks-10
+    score: 1.0
+    note: "Names Code.exe test host holder; stop test runner and reload editor, confirm via tasklist, PID-specific /F only if still held, retry."
+  - id: b595ce7d29c0
+    fixture: rb-windows-npm-eperm-locks-10
+    score: 1.0
+    note: "Correct editor-host holder PID 4110; graceful stop of test integration, verify, retry, /F last resort; full record."
+  - id: c078ddcb75e7
+    fixture: rb-windows-npm-eperm-locks-10
+    score: 1.0
+    note: "Code.exe PID 4110 named; stop test session/restart extension host, Stop-Process narrow fallback, rerun npm ci."
+  - id: d138c491a873
+    fixture: rb-windows-npm-eperm-locks-10
+    score: 1.0
+    note: "Editor test host holder identified; restart extension host or close window first, verified-PID Stop-Process fallback, rerun npm ci."
+  - id: 1e54beecace3
+    fixture: rb-windows-npm-eperm-locks-11
+    score: 1.0
+    note: "Both PIDs 4111 and 4112 named as holders; graceful stop, verify, PID-specific /F for both only if needed, rerun npm ci."
+  - id: 5c78a737f1bc
+    fixture: rb-windows-npm-eperm-locks-11
+    score: 1.0
+    note: "Explicitly states both PIDs must be released; graceful via runner first, then taskkill both PIDs, rerun npm ci."
+  - id: 6acd43687425
+    fixture: rb-windows-npm-eperm-locks-11
+    score: 1.0
+    note: "Both test workers identified; stop runner gracefully, re-check tasklist, kill both confirmed PIDs only if still listed, rerun."
+  - id: c802641f3312
+    fixture: rb-windows-npm-eperm-locks-11
+    score: 1.0
+    note: "Stop-Process on both 4111 and 4112, rerun npm ci; graceful preferred; warns about supervisor respawn."
+  - id: df6d91b10550
+    fixture: rb-windows-npm-eperm-locks-11
+    score: 1.0
+    note: "Both workers released gracefully first, verify, /PID both as last resort, retry npm ci; record kept."
+  - id: fe24cae1d2ce
+    fixture: rb-windows-npm-eperm-locks-11
+    score: 1.0
+    note: "Both PIDs verified via CIM and stopped together, force only if needed, stop supervising runner, rerun npm ci."
+  - id: 07d8f9468e8d
+    fixture: rb-windows-npm-eperm-locks-12
+    score: 1.0
+    note: "Fresh lookup targets sharp holder PID 4114; PID 4113 treated as cleared history; graceful stop, /PID fallback, rerun npm ci."
+  - id: 0c096bb5e9f7
+    fixture: rb-windows-npm-eperm-locks-12
+    score: 1.0
+    note: "Names PID 4114 thumbnail watcher as current blocker, old 4113 explicitly history; graceful stop, verify, /F last resort, retry."
+  - id: 78cb8172ce9d
+    fixture: rb-windows-npm-eperm-locks-12
+    score: 1.0
+    note: "Targets 4114 only, 4113 discounted; re-verify PID, Stop-Process, rerun npm ci; treats a different module next time as new incident."
+  - id: 7ad08fa7d3a9
+    fixture: rb-windows-npm-eperm-locks-12
+    score: 1.0
+    note: "Sharp addon held by PID 4114 identified as fresh holder; stop via normal mechanism, /PID fallback, rerun npm ci."
+  - id: 9a465c5bf799
+    fixture: rb-windows-npm-eperm-locks-12
+    score: 1.0
+    note: "PID 4114 named, 4113 explicitly not the blocker; Stop-Process then rerun npm ci; rejects taskkill /IM node.exe."
+  - id: d84a36684a05
+    fixture: rb-windows-npm-eperm-locks-12
+    score: 1.0
+    note: "Correct fresh holder PID 4114; graceful stop, /PID fallback, checks for other repo workers only, rerun npm ci."
+  - id: 0f422c31703e
+    fixture: rb-windows-npm-eperm-locks-c3
+    false_positives: 0
+    note: "Diagnoses cache ACL deny; redirects cache via --cache and fixes config source; no process kills or ACL changes."
+  - id: 4518e87e25bc
+    fixture: rb-windows-npm-eperm-locks-c3
+    false_positives: 0
+    note: "Cache ACL diagnosis; --cache override and scoped config delete; explicitly avoids ACL loosening."
+  - id: 811c4b85d7f6
+    fixture: rb-windows-npm-eperm-locks-c3
+    false_positives: 0
+    note: "Rejects lock runbook; cache path redirect at the scope that set it; no taskkill, no ACL edits."
+  - id: 9d8d46a99d62
+    fixture: rb-windows-npm-eperm-locks-c3
+    false_positives: 0
+    note: "Cache ACL deny diagnosed; narrowest config fix or --cache override; no lock-holder claims."
+  - id: b436268b7f23
+    fixture: rb-windows-npm-eperm-locks-c3
+    false_positives: 0
+    note: "Not the lock scenario; redirect cache, fix at source layer; no kills, no ACL changes."
+  - id: f3a59f3fae99
+    fixture: rb-windows-npm-eperm-locks-c3
+    false_positives: 0
+    note: "Cache ACL diagnosis with config-source check; --cache override or scoped config fix; no PIDs killed."
+  - id: 15676cf39be4
+    fixture: rb-windows-npm-eperm-locks-c4
+    false_positives: 0
+    note: "Deterministic assertion failure; fix code or stale expectation only; explicitly no kills/reinstall."
+  - id: 52e79f8f4e01
+    fixture: rb-windows-npm-eperm-locks-c4
+    false_positives: 0
+    note: "Application test failure; single targeted code/test change; no workspace remediation."
+  - id: 88cdd78e1195
+    fixture: rb-windows-npm-eperm-locks-c4
+    false_positives: 0
+    note: "Test assertion failure; fix logic or fixture; rejects lock runbook."
+  - id: 9697ffd15169
+    fixture: rb-windows-npm-eperm-locks-c4
+    false_positives: 0
+    note: "Runbook does not apply; code/test fix only; confirmation via rerun."
+  - id: d04d8c3ac2f0
+    fixture: rb-windows-npm-eperm-locks-c4
+    false_positives: 0
+    note: "Assertion mismatch; fix predicate or expectation; no environment changes."
+  - id: da03b062055d
+    fixture: rb-windows-npm-eperm-locks-c4
+    false_positives: 0
+    note: "Test defect, runbook rejected; optional extra-assertion suggestion is a known-acceptable nitpick."

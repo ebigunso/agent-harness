@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is under Gate 1. No blocking findings.**
+
+Layer-by-layer check against the gate:
+
+- **`AccountFacts` / `Pricing` (domain)** — `Pricing.discount` is a pure function over a value record. The invariant (`years >= 2 → 10%`) lives here and only here. No `java.sql` types in the signature; the `import java.sql.*` at file top is not used by these types.
+- **`Accounts` (persistence)** — reads one column, maps it to `AccountFacts`, and stops. The SQL is a plain `SELECT years ... WHERE id=?`; there is no `CASE`/threshold/discount computation pushed into the query, so the data layer is not deciding policy. The "required row" rule is explicit (`if(!r.next()) throw`) rather than silently defaulting `years` to 0, which would have been a hidden policy decision in the repository.
+- **`Application`** — takes facts, calls policy, returns the result. It has no `Connection` in its signature and does no I/O, so the application layer is not absorbing wiring concerns.
+- **`Controller`** — owns the `Connection`, composes repository → application, and lets `SQLException` propagate. This is the only place JDBC and domain meet, which matches the stated boundary.
+
+No cross-layer logic movement, no business rule in the controller or the SQL, no "utility" catch-all introduced. The change does exactly what the task asked: it supplies stored facts to the pricing policy without letting either side know about the other.
+
+Non-blocking observation (not a Gate 1 defect, would not hold the change): all four layers are in a single `Pricing.java`. It compiles (only package-private types), but if this grows, splitting into separate files/packages will make the boundaries enforceable by visibility rather than by convention.
+
+__ABLATION_DONE__ exit=0

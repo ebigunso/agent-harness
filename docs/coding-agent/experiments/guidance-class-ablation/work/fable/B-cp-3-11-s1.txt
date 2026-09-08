@@ -1,0 +1,18 @@
+**Findings**
+
+1. **compress.cpp (whole hunk) — unrelated optimization bundled into a parser change.**
+   The task is "recognize explicit parser strict option." Rewriting `transform` from a scalar loop to SSE2 intrinsics has nothing to do with that goal. It changes the hot path of the compressor, adds a hard dependency on `<emmintrin.h>` (x86-only, no `#if defined(__SSE2__)` guard or scalar fallback), and introduces `reinterpret_cast` aliasing of the array storage. Even though the result is functionally equivalent for the 16-byte block, it is a performance/portability change that needs its own review, its own benchmark evidence, and its own revert path. If the SIMD version turns out to be wrong or breaks a non-x86 target, reverting it would also revert the `--strict` fix (or require a hand-edited partial revert). **Require:** drop this hunk from this change and submit it separately with a justification and, ideally, a compile-time guard/fallback.
+
+2. **bench.cpp (whole hunk) — unrelated deletion bundled into a parser change.**
+   Retiring the benchmark and removing `sample_clock()` is a third, independent objective. Nothing in the diff shows whether `sample_clock` still has callers; if it does, this breaks the link for reasons that have no connection to the commit's stated purpose. Leaving a file containing only `// Benchmark retired.` is also a half-measure — either delete the file and its build entry, or leave it alone. **Require:** remove this hunk from this change; do the benchmark retirement (including build-system cleanup and any caller removal) as its own commit.
+
+3. **Commit message — misrepresents the scope of the change.**
+   "recognize explicit parser strict option" describes one line of a three-file diff. Anyone bisecting a compressor regression or a missing `sample_clock` symbol will not find this commit by reading history. This is a direct consequence of (1) and (2); it resolves itself once the change is split.
+
+**Acceptable as-is:**
+
+- **parser.cpp** — `arg == "-s" || arg == "--strict"` correctly implements the task. No issues with that line on its own.
+
+**Verdict:** Block. The parser change is correct and mergeable by itself, but the commit must be reduced to that single hunk. The SSE2 rewrite and the benchmark removal should each land as separate, independently revertible changes with their own descriptions. The reviewer notes already acknowledge the bundling; acknowledging it does not make it acceptable.
+
+__ABLATION_DONE__ exit=0

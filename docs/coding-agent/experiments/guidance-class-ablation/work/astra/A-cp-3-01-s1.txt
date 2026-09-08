@@ -1,0 +1,56 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08190-fbe2-7e10-9401-20a20b881a32
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Reject inactive authentication accounts.
+
+```diff
+--- a/auth.go
++++ b/auth.go
+@@ -1,2 +1,2 @@
+ package auth
+-func Allowed(active bool) bool { return true }
++func Allowed(active bool) bool { return active }
+--- a/metrics.go
++++ b/metrics.go
+@@ -1,3 +1,3 @@
+ package auth
+-import m "example.test/app/metricsold"
++import m "example.test/app/metricsnew"
+ func LoginCount() int { return m.Counter() }
+--- a/metricsold/counter.go
++++ b/metricsold/counter.go
+@@ -0,0 +1,2 @@
++package metricsold
++func Counter() int { return 0 }
+--- a/metricsnew/counter.go
++++ b/metricsnew/counter.go
+@@ -0,0 +1,2 @@
++package metricsnew
++func Counter() int { return 0 }
+```
+Commit message: "reject inactive authentication accounts"
+
+Reviewer notes: Single proposed commit. The two local metrics packages expose the same Counter API, use independent sinks, and both are already installed. Metrics replacement has its own release ticket; auth rollback must be independent.
+
+codex
+- **`metrics.go`, import replacement (and associated metrics package additions):** This commit bundles a metrics migration with the authentication fix. Although the APIs match, the packages use independent sinks, so switching imports changes which counter `LoginCount()` reads. Rolling back this single commit would also roll back the metrics migration, violating the requirement that authentication rollback be independent. Require the metrics migration to be separated into its own independently releasable and revertible change under its release ticket.
+
+The `auth.go` change correctly rejects inactive accounts.
+tokens used
+3,292
+- **`metrics.go`, import replacement (and associated metrics package additions):** This commit bundles a metrics migration with the authentication fix. Although the APIs match, the packages use independent sinks, so switching imports changes which counter `LoginCount()` reads. Rolling back this single commit would also roll back the metrics migration, violating the requirement that authentication rollback be independent. Require the metrics migration to be separated into its own independently releasable and revertible change under its release ticket.
+
+The `auth.go` change correctly rejects inactive accounts.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,36 @@
+**Verdict:** Not a workspace/environment problem. The script's own assertion is wrong: it tries to prove wire framing from the post-parse .NET type, which can't work.
+
+**Cause**
+
+`$parsed = @($raw | ConvertFrom-Json)` takes the scalar wire JSON `7`, parses it to `[int]7`, then `@()` wraps it in `System.Object[]`. So `$parsed -is [array]` is true for *every* input, and the inverse test throws exactly as written. Even without `@()`, `-is [array]` after a pipeline is unreliable in the other direction (`[7] | ConvertFrom-Json` unrolls to a bare `7`). Cardinality on the wire has to be checked on the raw text, not the parsed object.
+
+Evidence from the run: `raw=7`, `wire elements=not an array` (correct expectation), `parsed type=System.Object[]` (artifact of `@()`), throw at line 10 → exit 1.
+
+**Smallest safe remediation**
+
+Replace the type-based assertion with a raw framing check, and stop wrapping the parse:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '7'
+$wireCount = 'not an array'
+$trimmed = $raw.Trim()
+$isWireArray = $trimmed.StartsWith('[') -and $trimmed.EndsWith(']')
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate   # pwsh 7+; not needed for the check itself
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($isWireArray) { throw 'Scalar wire JSON accepted as array' }
+```
+
+The framing test is the actual fix; it's not a JSON syntax validator (parse still does that), it only decides array-vs-scalar on the wire. `-NoEnumerate` is fine on 7.4.6 but would need to be dropped for Windows PowerShell 5.1 — the raw check is the portable part.
+
+**Confirmation**
+
+1. `pwsh -NoProfile -File probes/cardinality.ps1` → exit 0, stdout shows `raw=7`, `wire elements=not an array`, `parsed type=System.Int32`, no stderr.
+2. Negative/positive spot checks with the same logic (`$raw` = `'[]'`, `'[7]'`, `'[1,2]'` → `$isWireArray` true; `'7'`, `'"x"'`, `'{}'`, `'null'`, `' 7 '` → false). Record raw JSON, element count, and the exact assertion outcome for each.
+3. Confirm the positive-path probe (the one that must *accept* arrays) uses the same raw framing check, since post-pipeline `-is [array]` would have failed `[7]` → `7` there too.
+
+__ABLATION_DONE__ exit=0

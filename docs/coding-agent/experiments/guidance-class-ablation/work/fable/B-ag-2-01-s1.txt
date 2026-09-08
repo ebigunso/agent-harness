@@ -1,0 +1,42 @@
+**Verdict: Block.** The change inverts the dependency direction that the existing code was designed around, and it does so without any stated reason.
+
+## Findings
+
+### 1. `domain/price.go` — domain package now imports the vendor SDK directly
+
+**What's wrong:** `domain` now has `import "example.test/app/vendorcloud"` and `Price()` constructs `vendorcloud.Client{}` inline. The core pricing rule (`+10`) is now hard-wired to a specific volatile external quote API.
+
+**Why it matters:** This is the exact anti-pattern the gate calls out ("domain logic directly calling framework, transport, or vendor clients"). Dependency direction is reversed: the stable core now depends on the least stable component in the module. Consequences:
+- Any change to the vendor API (auth, signature, error handling, a second vendor) forces edits in `domain`.
+- `Price` can no longer be unit-tested without the real client — there's no seam to inject a fake.
+- `domain` picks up whatever transitive dependencies `vendorcloud` grows (HTTP, SDKs, config), poisoning the core package's dependency graph.
+
+**Require instead:** Revert the import. `domain` must not know `vendorcloud` exists. The vendor client should be wired in at the composition root (`main` or an app/wiring package), which is an outer layer and is the correct place to reference both `domain` and `vendorcloud`.
+
+### 2. `domain/price.go` — the existing `Quote` port was abandoned instead of used
+
+**What's wrong:** The diff keeps `type Quote interface { Quote() int }` but removes the `q Quote` parameter from `Price`, leaving the interface orphaned and dead. The seam that already existed to solve precisely this problem was bypassed.
+
+**Why it matters:** The task ("fetch a quote for domain pricing") was fully achievable with zero changes to `domain`: `vendorcloud.Client` already satisfies `domain.Quote` structurally (`Quote() int`). Deleting the parameter removes the only injection point and turns a dependency-inverted design into a concrete coupling. Leaving the now-unused interface behind is also misleading — a reader will assume it's the seam, and it no longer is.
+
+**Require instead:** Restore the original signature `func Price(q Quote) int { return q.Quote() + 10 }`. Callers pass `vendorcloud.Client{}` from outside the domain. If a convenience constructor is wanted, it belongs in the outer layer, e.g.:
+
+```go
+// in package main / app wiring
+price := domain.Price(vendorcloud.Client{})
+```
+
+### 3. Plan/commit evidence — dependency direction not documented
+
+**What's wrong:** The commit message ("fetch a quote for domain pricing") restates the task and says nothing about why the domain→vendor edge was introduced or why the port was dropped. The gate expects the plan to document dependency direction for touched components; there is no such statement.
+
+**Why it matters:** Even if there were a legitimate reason to change the boundary, a reviewer can't evaluate it. As it stands, the silence suggests the boundary wasn't considered at all.
+
+**Require instead:** Any change to `domain`'s imports should call out the intended direction explicitly in the commit/PR description. In this case the right description is roughly: "no changes to domain; wire `vendorcloud.Client` into `domain.Price` at the composition root."
+
+## Not raised
+
+- `go.mod` and `vendorcloud/client.go` are fine on their own — the SDK facade is where vendor-specific code belongs.
+- No circular dependency yet (vendorcloud doesn't import domain), but the domain→vendorcloud edge is the one that would make a future cycle possible.
+
+__ABLATION_DONE__ exit=0

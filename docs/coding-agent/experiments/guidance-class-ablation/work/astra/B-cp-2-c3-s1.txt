@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7d-ff10-70b3-95a4-11d1539cbe52
+--------
+user
+Reference material loaded for this review:
+
+### 2) Prefer Root-Cause Fixes Over Symptom Patches
+
+- Address the source of the issue instead of adding repeated local workarounds.
+- Avoid duplicating fragile logic across modules.
+- Strengthen invariants where failures originate.
+
+Review checks:
+- Does the change remove the cause or only suppress outcomes?
+- Is duplicated or compensating logic being introduced?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Normalize the optional trailing slash in the shared URL builder and remove both caller compensations.
+
+```diff
+--- a/src/url.ts
++++ b/src/url.ts
+@@ -1,9 +1,9 @@
+ export function resourceUrl(base: string, segment: string): string {
+-  return base + "/" + segment;
++  return base.replace(/\/$/, "") + "/" + segment;
+ }
+ export function cliUrl(base: string, segment: string): string {
+-  return resourceUrl(base.replace(/\/$/, ""), segment);
++  return resourceUrl(base, segment);
+ }
+ export function serviceUrl(base: string, segment: string): string {
+-  return resourceUrl(base.replace(/\/$/, ""), segment);
++  return resourceUrl(base, segment);
+ }
+```
+Commit message: "normalize base URLs in one place"
+
+Reviewer notes: Validated internal contract: base is an absolute HTTP(S) URL with no query/fragment and at most one trailing slash; segment is a nonempty percent-encoded path segment, never slash/dot segments. Expected resourceUrl("https://example.test/api/", "a%20b") equals resourceUrl("https://example.test/api", "a%20b"). Both callers verified.
+
+codex
+Acceptable as-is. The shared builder removes the optional trailing slash under the validated contract, and both callers remove their compensations. This fixes the cause centrally without duplicating logic. No findings.
+tokens used
+3,295
+Acceptable as-is. The shared builder removes the optional trailing slash under the validated contract, and both callers remove their compensations. This fixes the cause centrally without duplicating logic. No findings.
+
+__ABLATION_DONE__ exit=0

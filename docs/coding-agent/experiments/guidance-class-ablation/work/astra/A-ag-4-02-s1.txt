@@ -1,0 +1,37 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c2-afee-75b0-8f8a-7a19b5dbecee
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Represent empty work from RPC.
+
+```diff
+--- a/rpc.go
++++ b/rpc.go
+@@ -0,0 +1,5 @@
++package rpc
++func Fetch(call func() ([]string,error)) []string {
++ rows,err:=call(); if err!=nil { return nil }; if len(rows)==0 { return nil }; return rows
++}
++func HasWork(call func() ([]string,error)) bool { return len(Fetch(call))>0 }
+```
+Commit message: "represent empty work from rpc"
+
+Reviewer notes: RPC function returns items plus error; jobs are strings. Consumer must distinguish legitimate empty success from unavailable service and surface unavailable for retry. Current adapter discards distinction.
+
+codex
+- **`rpc.go:3–5` — RPC failures are indistinguishable from successful empty responses.** `Fetch` returns `nil` for both, and `HasWork` reports `false` in either case. Consumers cannot detect an unavailable service and retry as required. Preserve the error through both APIs—for example, `Fetch(...) ([]string, error)` and `HasWork(...) (bool, error)`—so empty success returns no error and RPC failure remains observable.
+tokens used
+14,436
+- **`rpc.go:3–5` — RPC failures are indistinguishable from successful empty responses.** `Fetch` returns `nil` for both, and `HasWork` reports `false` in either case. Consumers cannot detect an unavailable service and retry as required. Preserve the error through both APIs—for example, `Fetch(...) ([]string, error)` and `HasWork(...) (bool, error)`—so empty success returns no error and RPC failure remains observable.
+
+__ABLATION_DONE__ exit=0

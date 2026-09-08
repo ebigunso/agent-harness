@@ -1,0 +1,114 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d86-b28d-7902-b8d2-e9cfcb7564a3
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '7'
+$wireCount = 'not an array'
+$parsed = @($raw | ConvertFrom-Json)
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -is [array]) { throw 'Scalar wire JSON accepted as array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=7
+wire elements=not an array
+parsed type=System.Object[]
+```
+
+stderr:
+```text
+Scalar wire JSON accepted as array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:28
++ …  ($parsed -is [array]) { throw 'Scalar wire JSON accepted as array' }
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Scalar wire JSON accepted as array:String) [], RuntimeException
++ FullyQualifiedErrorId : Scalar wire JSON accepted as array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. This inverse test checks rejection of scalar wire JSON 7; wrapping the parsed value has made the assertion fail.
+
+codex
+The failure is in the probe’s assertion, **not the workspace**. `@($raw | ConvertFrom-Json)` wraps scalar JSON `7` in a `System.Object[]`. Therefore, `$parsed -is [array]` tests the wrapper, not the wire JSON’s shape, and triggers the throw.
+
+The smallest safe fix is to check raw framing while retaining parsing for syntax validation:
+
+```powershell
+$parsed = @($raw | ConvertFrom-Json)
+$trimmed = $raw.Trim()
+$isWireArray = $trimmed.StartsWith('[') -and $trimmed.EndsWith(']')
+if ($isWireArray) { throw 'Scalar wire JSON accepted as array' }
+```
+
+This is the **inverse-test assertion**: it fails if the scalar fixture is classified as an array. The actual contract checker should reject when `$isWireArray` is false. Framing alone does not validate JSON syntax.
+
+Confirm by rerunning the command: this scalar rejection test should exit `0`. Then exercise the shared classification logic with these fixtures, recording raw JSON, wire element count, and the exact parse/assertion used:
+
+| Raw JSON | Wire elements | Expected contract result |
+|---|---:|---|
+| `7` | not an array | Reject |
+| `[]` | 0 | Accept |
+| `[7]` | 1 | Accept |
+| `[7,8]` | 2 | Accept |
+
+For accepted arrays, `$parsed.Count` supplies the element count. Malformed JSON should still fail during `ConvertFrom-Json`.
+tokens used
+3,859
+The failure is in the probe’s assertion, **not the workspace**. `@($raw | ConvertFrom-Json)` wraps scalar JSON `7` in a `System.Object[]`. Therefore, `$parsed -is [array]` tests the wrapper, not the wire JSON’s shape, and triggers the throw.
+
+The smallest safe fix is to check raw framing while retaining parsing for syntax validation:
+
+```powershell
+$parsed = @($raw | ConvertFrom-Json)
+$trimmed = $raw.Trim()
+$isWireArray = $trimmed.StartsWith('[') -and $trimmed.EndsWith(']')
+if ($isWireArray) { throw 'Scalar wire JSON accepted as array' }
+```
+
+This is the **inverse-test assertion**: it fails if the scalar fixture is classified as an array. The actual contract checker should reject when `$isWireArray` is false. Framing alone does not validate JSON syntax.
+
+Confirm by rerunning the command: this scalar rejection test should exit `0`. Then exercise the shared classification logic with these fixtures, recording raw JSON, wire element count, and the exact parse/assertion used:
+
+| Raw JSON | Wire elements | Expected contract result |
+|---|---:|---|
+| `7` | not an array | Reject |
+| `[]` | 0 | Accept |
+| `[7]` | 1 | Accept |
+| `[7,8]` | 2 | Accept |
+
+For accepted arrays, `$parsed.Count` supplies the element count. Malformed JSON should still fail during `ConvertFrom-Json`.
+
+__ABLATION_DONE__ exit=0

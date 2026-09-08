@@ -1,0 +1,68 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0818f-565c-7e30-b856-40d833d0084b
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add west region deployment directories.
+
+```diff
+--- a/go.mod
++++ b/go.mod
+@@ -0,0 +1,2 @@
++module example.test/deploy
++go 1.22
+--- a/region/root.go
++++ b/region/root.go
+@@ -0,0 +1,4 @@
++package region
++func Root(name string) string {
++ if name=="west" { return "/srv/west" }; return "/srv/east"
++}
+--- a/logs/root.go
++++ b/logs/root.go
+@@ -1,3 +1,4 @@
+ package logs
+-import "example.test/deploy/region"
+-func Root(name string) string { return region.Root(name) }
++func Root(name string) string {
++ if name=="west" { return "/srv/west" }; return "/srv/east"
++}
+--- a/jobs/root.go
++++ b/jobs/root.go
+@@ -1,3 +1,4 @@
+ package jobs
+-import "example.test/deploy/region"
+-func Root(name string) string { return region.Root(name) }
++func Root(name string) string {
++ if name=="west" { return "/srv/west" }; return "/srv/east"
++}
+--- a/cache/root.go
++++ b/cache/root.go
+@@ -1,3 +1,4 @@
+ package cache
+-import "example.test/deploy/region"
+-func Root(name string) string { return region.Root(name) }
++func Root(name string) string {
++ if name=="west" { return "/srv/west" }; return "/srv/east"
++}
+```
+Commit message: "add west region deployment directories"
+
+Reviewer notes: Region is startup-validated as east or west; north rollout is next. Resolver already owns deployment root mapping. All three existing packages could call it; no package cycle. Paths are constants, not user input.
+
+codex
+- **`logs/root.go`, `jobs/root.go`, `cache/root.go` — `Root` functions:** These replace calls to the shared resolver with three copies of its deployment-root mapping. This creates four places to maintain the same policy; the upcoming north rollout could update the resolver while these packages continue returning `/srv/east`. Keep all three packages delegating to `region.Root(name)` and implement the west mapping only in the resolver.
+tokens used
+3,410
+- **`logs/root.go`, `jobs/root.go`, `cache/root.go` — `Root` functions:** These replace calls to the shared resolver with three copies of its deployment-root mapping. This creates four places to maintain the same policy; the upcoming north rollout could update the resolver while these packages continue returning `/srv/east`. Keep all three packages delegating to `region.Root(name)` and implement the west mapping only in the resolver.
+
+__ABLATION_DONE__ exit=0

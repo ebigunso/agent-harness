@@ -1,0 +1,23 @@
+**Verdict: block.** The change does the opposite of the task. The task asks for useful diagnostic context at the job boundary; this diff removes all of it.
+
+**Findings**
+
+1. **`src/worker.rs`, `run_job`, both `map_err` closures — underlying error discarded (`|_|`).**
+   The parse and store errors are dropped and replaced with a constant string. Per the reviewer notes, these `Display` values are already sanitized and carry useful error categories, no lower layer logs them, and the supervisor logs only the returned error. So after this change the only record of a failure anywhere in the system is the literal text `"job failed"`. An operator cannot tell a malformed payload from a store outage. This is exactly the "hide or blur failures" pattern the guideline prohibits, and there is no sensitivity justification for it (notes confirm no payloads/secrets in these messages).
+   **Require:** keep `{e}` in the message: `format!("job {} parse: {e}", job.id)` / `format!("job {} store: {e}", job.id)`.
+
+2. **Same location — job id removed.**
+   `job.id` is a nonsensitive UUID and is the one key that lets someone correlate a supervisor log line back to the failing job (retry it, inspect it, find its source). Dropping it makes every failure anonymous; with concurrent workers you cannot even tell which job a given log line refers to.
+   **Require:** include `job.id` in every error returned from this boundary.
+
+3. **Same location — stage label removed; both branches return identical text.**
+   Parse and store failures now produce byte-identical errors. Even ignoring the lost inner error, the code has erased the one bit of structure that distinguishes "bad input" (don't retry) from "backend failure" (retry). Callers, alerting rules, and tests can no longer branch on it.
+   **Require:** keep the distinct `parse:` / `store:` prefixes (or an equivalent stage marker).
+
+4. **Commit message — "standardize worker error text" misdescribes the change.**
+   Uniform error text is not a goal in itself, and this "standardization" is a loss of diagnostic information, not a formatting cleanup. The message hides the regression from anyone reading history.
+   **Require:** either revert to the original messages (in which case the commit is unnecessary) or, if the intent was genuinely to add context per the task, describe what context was added.
+
+**What acceptable looks like:** the pre-change code already satisfies the task's minimum (job id + stage + sanitized cause). If the author wants to go further, add more boundary context (e.g. job kind, attempt number) on top of that — do not remove what's there.
+
+__ABLATION_DONE__ exit=0

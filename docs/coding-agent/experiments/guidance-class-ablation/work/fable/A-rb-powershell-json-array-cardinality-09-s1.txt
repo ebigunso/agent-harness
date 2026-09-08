@@ -1,0 +1,43 @@
+## Cause
+
+This is **not a workspace/data problem**. `data.json` is valid, and `  [true]  ` is a single‑element JSON *array*, which the contract explicitly accepts. The bug is in the probe script.
+
+Line 6:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json | Write-Output
+```
+
+`ConvertFrom-Json` returns the parsed array as a single object, but the trailing `| Write-Output` **enumerates** the pipeline by default. A one‑element collection that is enumerated and then captured collapses to its lone member, so `$parsed` becomes a `System.Boolean` (`$true`) instead of an `Object[]`. The guard `if ($parsed -isnot [array])` then fires a false negative and throws.
+
+This is the classic PowerShell single‑element unwrapping trap. Note it would also mis‑handle an empty array (`[]` → `$null`); multi‑element arrays only "work" by accident because two or more items get re‑collected into `Object[]`.
+
+## Smallest safe remediation
+
+Delete the gratuitous `| Write-Output` so the array is captured intact:
+
+```powershell
+$raw = Get-Content -Raw data.json; $parsed = $raw | ConvertFrom-Json
+```
+
+Do **not** "fix" it with `@(...)`, because that would wrap a scalar `true` into a one‑element array and defeat the contract's requirement to reject scalar wire values. Removing the enumeration is the minimal change and preserves correct behavior for empty, singleton, and multi‑element arrays while still rejecting scalars. (`Write-Output -NoEnumerate` would also work but is larger.)
+
+## Confirmation
+
+1. Re‑run the probe and check the exit code:
+   ```powershell
+   powershell.exe -NoProfile -File probes/cardinality.ps1
+   $LASTEXITCODE
+   ```
+   Expect exit `0`, no stderr, and `parsed type=System.Object[]`.
+
+2. Verify the guard matches the contract across all cardinalities (without touching `data.json`):
+   ```powershell
+   foreach ($j in '[]','[true]','[1,2,3]','true') {
+     $p = $j | ConvertFrom-Json
+     '{0,-8} isArray={1}' -f $j, ($p -is [array])
+   }
+   ```
+   Expect `[]`→True, `[true]`→True, `[1,2,3]`→True, `true`→False — i.e., all arrays pass and the scalar is still rejected.
+
+__ABLATION_DONE__ exit=0

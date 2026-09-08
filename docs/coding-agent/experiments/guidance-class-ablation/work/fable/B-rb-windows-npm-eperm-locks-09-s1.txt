@@ -1,0 +1,26 @@
+**Cause:** This is a workspace problem — a file lock, not a permissions/ACL or lockfile issue. `npm ci` removes `node_modules` before reinstalling and failed on `unlink` of `node_modules\node-pty\build\Release\pty.node` (EPERM, errno -4048). `tasklist /m pty.node` shows exactly one holder: `electron.exe` PID 4109, an Electron terminal preview launched from `C:/work/npm-lock/preview/main.js` — i.e. a process owned by this repo that has the native addon loaded. Windows won't allow deleting a mapped DLL/`.node` while a process has it loaded. Registry, cache, ACLs, and package.json/lock sync are all confirmed fine, so nothing else needs touching.
+
+**Smallest safe remediation:**
+
+1. Stop the Electron preview cleanly first (close the window / stop whatever launched `preview/main.js`). This is the repo's own process, so ending it is safe and doesn't affect anything outside the workspace.
+2. Only if it doesn't exit, force it:
+   ```
+   taskkill /PID 4109 /F
+   ```
+3. Retry:
+   ```
+   npm ci
+   ```
+
+Do not delete `node_modules` manually, adjust permissions, disable antivirus, or run elevated — none of those address the cause and the observations rule them out.
+
+**Confirmation:**
+
+- Before retrying, `tasklist /m pty.node` should return no rows (or "INFO: No tasks are running which match the specified criteria").
+- `npm ci` exits 0 with no EPERM/EBUSY in stderr.
+- `node_modules\node-pty\build\Release\pty.node` exists post-install.
+- Optionally relaunch the preview and confirm node-pty loads (it was built for the Electron ABI and loaded before, so a clean reinstall should preserve that assuming the same postinstall/rebuild step runs).
+
+**Evidence to keep:** the original `npm ci` stderr, the `tasklist /m pty.node` output identifying PID 4109 / `electron.exe`, the PID killed (if forced), and the retry exit code. If a retry fails on a *different* `.node` file, repeat the `tasklist /m <module>.node` step for that filename and check `tasklist | findstr node` for stray node/electron processes.
+
+__ABLATION_DONE__ exit=0

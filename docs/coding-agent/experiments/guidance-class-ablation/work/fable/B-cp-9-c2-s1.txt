@@ -1,0 +1,15 @@
+**Verdict: acceptable as-is. No blocking findings.**
+
+Checked against the failure-mode criteria:
+
+- **Failure path is visible.** Degradation is carried in the result envelope (`stale: True`, `age_seconds`), and the notes confirm both callers surface it. The fallback is not a silent substitution.
+- **Fallback is bounded and safe.** `0 <= age <= 60` enforces the contract's 60s limit and rejects negative ages; monotonic clock sampled immediately before return, same clock used for `saved_at`, cache cleared on restart — so the age is a real bound, not an approximation. The catalog carries no price/stock/authz data, so serving 60s-old descriptions has no correctness or safety exposure.
+- **No swallowing / no ambiguous states.** Cache miss and expired cache both re-raise the original `SourceUnavailable` via bare `raise` (traceback preserved). Any exception from `cache.get()` or `clock()` propagates with the source error as `__context__`. There is no path that returns a fresh-looking result from stale data or a stale-looking result from fresh data.
+- **Scope matches the task.** Only `SourceUnavailable` triggers the fallback; other errors are untouched.
+
+Non-blocking notes (would not hold the change):
+
+1. `catalog/read.py`, success path — the function reads from `cache` but never writes to it. The notes imply a separate writer stamps `saved_at` with the same clock; I'm taking that on the notes. If the writer runs on its own schedule, the effective staleness ceiling is 60s from the writer's last save, not from the last successful `read_catalog` — worth a one-line comment so the next reader doesn't assume this function maintains the cache.
+2. `age_seconds` is `0` (int) on the fresh path and whatever `clock()` returns (likely float) on the stale path. Harmless, but trivially normalisable if callers compare or serialise it.
+
+__ABLATION_DONE__ exit=0

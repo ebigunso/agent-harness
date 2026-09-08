@@ -1,0 +1,42 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c4-4793-78e2-9b25-950f90b8378d
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Make character index units explicit.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,10 @@
++pub struct CharacterAt<'a> { pub text: &'a str, pub scalar_index: usize }
++pub struct CharacterResult { pub value: Option<char> }
++pub fn select(input: CharacterAt<'_>) -> CharacterResult {
++ CharacterResult { value: input.text.chars().nth(input.scalar_index) }
++}
++#[test]
++fn unicode() {
++ assert_eq!(select(CharacterAt { text:"éa", scalar_index:1 }).value,Some('a'));
++ assert_eq!(select(CharacterAt { text:"éa", scalar_index:2 }).value,None);
++}
+```
+Commit message: "make character index units explicit"
+
+Reviewer notes: Input is Unicode scalar index, not byte offset. Missing position explicitly returns None. Structs carry only needed fields, borrow lifetime is limited to call, and output char is owned.
+
+codex
+Acceptable as-is. `scalar_index` explicitly identifies Unicode scalar indexing, `.chars().nth()` implements it correctly, and out-of-range indices return `None`. No findings.
+tokens used
+3,154
+Acceptable as-is. `scalar_index` explicitly identifies Unicode scalar indexing, `.chars().nth()` implements it correctly, and out-of-range indices return `None`. No findings.
+
+__ABLATION_DONE__ exit=0

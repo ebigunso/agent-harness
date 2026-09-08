@@ -1,0 +1,60 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081aa-7c6e-7a61-b44d-928b78e61662
+--------
+user
+Reference material loaded for this review:
+
+Improve clarity/boundaries/diagnostics in existing design; avoid fast debt. Assess maintainability and risk/cost.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add label to protocol record.
+
+```diff
+--- a/schema.fields
++++ b/schema.fields
+@@ -0,0 +1 @@
++id:u32
+--- a/generated.rs
++++ b/generated.rs
+@@ -1 +1 @@
+-pub struct Record { pub id: u32 }
++pub struct Record { pub id: u32, pub label: String }
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -0,0 +1 @@
++include!("../generated.rs");
+--- a/build.rs
++++ b/build.rs
+@@ -1,7 +1 @@
+-use std::fs;
+-fn main() {
+-    let fields = fs::read_to_string("schema.fields").unwrap();
+-    let body = fields.lines().map(|line| format!("pub {},", line)).collect::<String>();
+-    fs::write("generated.rs", format!("pub struct Record {{ {} }}", body)).unwrap();
+-    println!("cargo:rerun-if-changed=schema.fields");
+-}
++fn main() {}
+```
+Commit message: "add label to protocol record"
+
+Reviewer notes: Generator input is schema.fields; generated.rs is checked in and included by lib.rs. Build script below is the existing complete generator, with fixed allowed field types in this private schema. No external serialization consumers yet; next schema regeneration is planned.
+
+2026-09-08T15:37:13.590087Z ERROR codex_models_manager::manager: failed to refresh available models: timeout waiting for child process to exit
+codex
+- **`build.rs:1`, `schema.fields:1`, and `generated.rs:1` — The label is added only to generated output, while schema generation is disabled.** The authoritative schema still defines only `id`. Restoring the existing generator for the planned regeneration would remove `label`; leaving the empty build script means future schema edits silently stop updating `Record`. This breaks schema/output consistency and introduces maintenance debt. Require adding `label:String` to `schema.fields`, preserving the generator and its rerun directive, and regenerating the checked-in `generated.rs`. Verify regeneration produces both fields and leaves the checked-in output unchanged.
+tokens used
+3,460
+- **`build.rs:1`, `schema.fields:1`, and `generated.rs:1` — The label is added only to generated output, while schema generation is disabled.** The authoritative schema still defines only `id`. Restoring the existing generator for the planned regeneration would remove `label`; leaving the empty build script means future schema edits silently stop updating `Record`. This breaks schema/output consistency and introduces maintenance debt. Require adding `label:String` to `schema.fields`, preserving the generator and its rerun directive, and regenerating the checked-in `generated.rs`. Verify regeneration produces both fields and leaves the checked-in output unchanged.
+
+__ABLATION_DONE__ exit=0

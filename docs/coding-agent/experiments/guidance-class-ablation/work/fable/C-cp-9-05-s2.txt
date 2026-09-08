@@ -1,0 +1,27 @@
+**Verdict: block.** The change does the opposite of the stated task.
+
+### Findings
+
+**1. `src/worker.rs`, `run_job` — both `map_err` closures discard all diagnostic context.**
+
+- **What's wrong:** `map_err(|_| "job failed".to_owned())` drops the underlying error (`_`), drops the job id, and drops which stage failed (parse vs. store). Both failure paths now return an identical, contextless string.
+- **Why it matters:** Per the reviewer notes, the supervisor logs *only* the returned error and no lower layer logs these failures. That means this `Result` is the sole channel for failure diagnostics. After this change an operator sees `job failed` with no way to tell which job, whether the payload was malformed or the store was unavailable, or what category of error occurred. That is precisely "hiding/blurring failures," and it directly contradicts the task ("report failed worker jobs at the job boundary with useful diagnostic context"). The prior code already did what the task asks for.
+- **No justification exists for stripping:** the notes confirm `Job.id` is a nonsensitive UUID and the parse/store `Display` output is already sanitized (categories only, no payloads or secrets). There is no leak being prevented; this is pure information loss.
+- **Require instead:** keep the job id, the stage, and the underlying error in the returned string, e.g. the original
+
+  ```rust
+  let document = parse(&job.payload)
+      .map_err(|e| format!("job {} parse: {e}", job.id))?;
+  store.save(document)
+      .map_err(|e| format!("job {} store: {e}", job.id))
+  ```
+
+  If the goal was uniform *formatting* across worker errors, standardize the shape (e.g. `job {id} {stage}: {cause}` via a small helper) rather than the content. Returning `String` stays as-is per the established interface.
+
+**2. Commit message "standardize worker error text" misdescribes the change.**
+
+- **What's wrong:** This is not a formatting standardization; it is removal of error context and a behavioral regression in observability.
+- **Why it matters:** A misleading message makes this easy to wave through and hard to find later when someone asks why worker failures stopped being diagnosable.
+- **Require instead:** Either drop the change (per finding 1) or, if a genuine formatting consolidation is submitted, describe it accurately and note that the diagnostic content is preserved.
+
+__ABLATION_DONE__ exit=0

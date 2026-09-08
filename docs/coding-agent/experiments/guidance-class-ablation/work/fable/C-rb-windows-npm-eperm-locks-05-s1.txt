@@ -1,0 +1,35 @@
+**Cause**
+
+This is a workspace problem, not a permissions/registry/lockfile problem. `npm install` needs to replace `node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node`, but on Windows a loaded native addon (a DLL) cannot be unlinked while any process has it mapped. `tasklist /m bcrypt_lib.node` shows exactly one holder: `node.exe` PID 4105, which is this repo's Jest integration-test worker started with `node_modules/jest/bin/jest.js --watch`. It ran a test that `require`'d bcrypt, and in watch mode it keeps the worker (and the addon) resident after the run completes. The probe-file test, writable cache, and synchronized lockfile all rule out ACL/EPERM and dependency-resolution causes; errno -4082 is libuv's EBUSY, consistent with a mapped-file lock.
+
+**Smallest safe remediation**
+
+1. Stop the Jest watcher gracefully: in the terminal running it, press `q` (or `Ctrl+C`). This exits the parent and its workers, releasing the addon. Do not delete `node_modules` or run `npm cache clean` — neither addresses the lock.
+2. Only if it does not exit within a few seconds, and after re-confirming the PID is still the repo-owned Jest process:
+   ```powershell
+   tasklist /m bcrypt_lib.node        # re-verify holder is still 4105
+   taskkill /PID 4105 /F
+   ```
+3. Re-run the original command:
+   ```powershell
+   npm install
+   ```
+
+**Confirmation**
+
+- Before retrying: `tasklist /m bcrypt_lib.node` should report `INFO: No tasks are running which match the specified criteria.`
+- `npm install` exits 0 with no EBUSY/EPERM in stderr.
+- The addon reloads on the fresh install: `node -e "require('bcrypt'); console.log('ok')"` prints `ok`.
+- Restart the watcher (`npx jest --watch`) and confirm tests run as before.
+
+If the retry fails on a different `.node` path, that's a second holder: inspect the newly named module with `tasklist /m <module>.node` and `tasklist | findstr node`, and repeat the same stop → retry cycle rather than escalating to `/F` for everything.
+
+**Record for the incident note**
+
+- Command/error: `npm install` → `EBUSY unlink C:\work\npm-lock\node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node` (errno -4082)
+- Locked module: `bcrypt_lib.node` (bcrypt 5.1.1)
+- Holder: `node.exe` PID 4105, Jest `--watch` worker, repo-owned
+- Action: graceful stop (or `taskkill /PID 4105 /F` if it was needed — note which)
+- Retry: `npm install` exit code and `tasklist /m bcrypt_lib.node` result after the fix
+
+__ABLATION_DONE__ exit=0

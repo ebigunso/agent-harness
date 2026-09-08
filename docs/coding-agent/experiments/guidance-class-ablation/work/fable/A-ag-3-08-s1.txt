@@ -1,0 +1,15 @@
+**Blocking finding**
+
+- **scope.rb, `listed`** — The refactor reorders the operations: original was `select(active).first(2)` (filter, then take two), new is `active(rows.first(2))` (take two, then filter). These are not equivalent. For input `[{active: false}, {active: true}, {active: true}]`, the original returns two rows; the new version truncates to the first two rows, filters, and returns one. For `[{active: false}, {active: false}, {active: true}, {active: true}]` it returns an empty array. This directly violates the stated contract ("first two active rows in input order, even when inactive rows precede them") and the commit message's "without behavior change" claim. Require:
+
+  ```ruby
+  def listed(rows)
+    active(rows).first(2)
+  end
+  ```
+
+  and add a test with inactive rows preceding the active ones so this ordering can't regress silently — the change would have passed any test where the first two rows happen to be active.
+
+Nothing else to flag; the `active` extraction itself is fine.
+
+__ABLATION_DONE__ exit=0

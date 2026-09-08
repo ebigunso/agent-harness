@@ -1,0 +1,55 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b6-5266-79f0-baa3-290f55fd0cbb
+--------
+user
+Reference material loaded for this review:
+
+Cut accidental complexity. Abstract for multiple real uses. Keep deps directed/acyclic; weigh clarity/maintenance gains.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Wire one mail adapter.
+
+```diff
+--- a/Root.scala
++++ b/Root.scala
+@@ -1,4 +1,16 @@
++import scala.collection.mutable.Map
+ trait Mail { def send(text: String): String }
+ class LocalMail extends Mail { def send(text: String): String = text }
+ class Service(mail: Mail) { def notify(text: String): String = mail.send(text) }
+-object Root { def service = new Service(new LocalMail) }
++class Container {
++  private val bindings = Map.empty[String, () => Any]
++  def bind(key: String, build: () => Any): Unit = { bindings(key) = build }
++  def resolve(key: String): Any = bindings(key)()
++}
++object Root {
++  def service: Service = {
++    val container = new Container
++    container.bind("mail", () => new LocalMail)
++    new Service(container.resolve("mail").asInstanceOf[Mail])
++  }
++}
+```
+Commit message: "wire one mail adapter"
+
+Reviewer notes: Scala 2.13. Existing Root already supports direct constructor wiring. There is one Mail adapter with no lifecycle variation. Container lookup is fixed trusted local code and succeeds.
+
+codex
+- **`Root.scala` — `Container` and `Root.service`:** A mutable, string-keyed dependency container replaces straightforward constructor wiring for a single adapter, with no lifecycle variation or additional use to justify it. This adds indirection and maintenance overhead while replacing compile-time type checking with `Any` and an unchecked cast. The fixed lookup succeeds, but the abstraction provides no benefit for this task. Require direct wiring: `def service: Service = new Service(new LocalMail)`, removing `Container` and the mutable `Map` import.
+tokens used
+3,302
+- **`Root.scala` — `Container` and `Root.service`:** A mutable, string-keyed dependency container replaces straightforward constructor wiring for a single adapter, with no lifecycle variation or additional use to justify it. This adds indirection and maintenance overhead while replacing compile-time type checking with `Any` and an unchecked cast. The fixed lookup succeeds, but the abstraction provides no benefit for this task. Require direct wiring: `def service: Service = new Service(new LocalMail)`, removing `Container` and the mutable `Map` import.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,18 @@
+**Cause:** This is an authentication failure, not a file lock. The private-scope registry returned `HTTP 401 Unauthorized` with `WWW-Authenticate: Bearer`, meaning the bearer token npm sent for that scope was rejected (expired, revoked, or wrong for that registry). The npm error `E401` is a direct reflection of that response.
+
+The loaded EPERM/EBUSY runbook does **not** apply here: no unlink was attempted, `tasklist /m sharp-win32-x64.node` shows nothing, and killing processes would have no effect. Do not follow steps 2–3 of that runbook.
+
+**Is it a workspace problem?** No. The workspace itself is fine — `.npmrc` scope/registry URL is correct, `package.json` and the lockfile agree, cwd and cache are writable. The problem is the credential attached to the machine/user (or CI secret) for that registry.
+
+**Smallest safe remediation:** refresh the token for that registry only — nothing else.
+
+- Interactive machine: `npm login --registry <private-registry-url> --scope @<scope>` (this rewrites just the `//host/:_authToken=` line in the user `.npmrc`).
+- If the token comes from an env var or a CI secret (`NPM_TOKEN` referenced in `.npmrc`), regenerate the token in the registry and update that secret; don't edit the project `.npmrc`.
+- Don't delete `node_modules`, clear the cache, or change the registry URL; none of those are implicated.
+
+**Confirmation:**
+1. `npm whoami --registry <private-registry-url>` — should print a username, not E401.
+2. Re-run `npm install`. Expect exit code 0 and no `E401` in stderr.
+3. If it still fails 401, check that the token is scoped to the correct registry host in `.npmrc` (the `//host/:_authToken` key must match the URL npm actually requests; a `/` vs no-`/` mismatch or a proxy host rewrite is a common leftover cause). `npm config get //<host>/:_authToken` (value will be redacted) confirms which key npm is reading.
+
+__ABLATION_DONE__ exit=0

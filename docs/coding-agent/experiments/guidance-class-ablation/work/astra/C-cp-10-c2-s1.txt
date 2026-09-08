@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081ab-b61c-7191-9d2e-7a38f18e3294
+--------
+user
+Reference material loaded for this review:
+
+Improve clarity/boundaries/diagnostics in existing design; avoid fast debt. Assess maintainability and risk/cost.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Include row and field in invalid age error.
+
+```diff
+--- a/importer.py
++++ b/importer.py
+@@ -1,7 +1,7 @@
+ def parse_age(raw, row):
+     try:
+         return int(raw)
+     except ValueError as exc:
+-        raise ValueError("invalid age") from exc
++        raise ValueError(f"row {row}, field age: expected integer, got {raw!r}") from exc
+ def display_name(name):
+     return name.strip()
+```
+Commit message: "include row and field in invalid age error"
+
+Reviewer notes: Input is string; integer syntax errors must identify the source field/row. Unrelated display code is already clear. Exception cause preserved for debugging.
+
+codex
+Acceptable as-is. The error identifies the row and `age` field, explains the expected format, and includes the invalid value. Exception chaining is preserved, and the change stays within scope. No findings.
+tokens used
+3,120
+Acceptable as-is. The error identifies the row and `age` field, explains the expected format, and includes the invalid value. Exception chaining is preserved, and the change stays within scope. No findings.
+
+__ABLATION_DONE__ exit=0

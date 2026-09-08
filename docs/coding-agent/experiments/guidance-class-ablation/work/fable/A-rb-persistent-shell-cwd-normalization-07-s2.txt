@@ -1,0 +1,17 @@
+**Cause:** Wrong working directory in the persistent shell. The earlier `Set-Location -LiteralPath 'C:/work/assets'` moved the shell's cwd to `C:/work/assets` (which contains only `logo.svg`, no `go.mod`). `go test ./...` resolves the pattern relative to the shell's cwd, so Go found no module there and reported `directory prefix . does not contain main module`. The tool UI's remembered root (`C:/work/go-service`) does not govern the shell's cwd. This is a cwd drift problem, not a code, dependency, toolchain, or permission problem.
+
+**Smallest safe remediation:** Navigate back to the module root, then re-run the unchanged command:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/go-service'
+go test ./...
+```
+
+No edits to code, `go.mod`, PATH, or configuration are needed. (If you want to avoid future drift, run the test with an explicit `-C` flag instead of relying on the persistent shell cwd: `go test -C 'C:/work/go-service' ./...`.)
+
+**Confirmation:**
+1. `pwd` prints `C:/work/go-service`.
+2. `Test-Path -LiteralPath './go.mod'` returns `True`.
+3. `go test ./...` exits 0 with `ok  example.test/go-service ...` on stdout and empty stderr — which matches the captured comparison run, confirming the only variable was the working directory.
+
+__ABLATION_DONE__ exit=0

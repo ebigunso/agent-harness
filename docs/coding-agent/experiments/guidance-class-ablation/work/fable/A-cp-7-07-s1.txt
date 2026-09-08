@@ -1,0 +1,32 @@
+**Verdict: block.** The core problem is that a billed, network-dependent side effect has been wired into a pure calculation that doesn't use it.
+
+## Findings
+
+### 1. `Checkout.CalculateTax` opens a billed vendor session it never uses — **blocking**
+`Checkout.cs`, `CalculateTax`. The method body is `domestic ? subtotal * 0.10m : 0m`. The `session` variable is created and disposed but contributes nothing to the result. Every checkout tax calculation therefore incurs a vendor charge and a network round-trip for no functional reason, and any failure of the sidecar (down, slow, non-2xx) will throw out of a computation that has no dependency on it. This is a cost and availability regression with zero benefit.
+
+Require: either remove `VendorSession.Open()` from `CalculateTax` entirely (if the pure formula is the intended behavior), or, if destination tax genuinely needs vendor data, actually use the session to fetch the rate and make the dependency explicit. As written it is neither.
+
+### 2. `VendorSession.Dispose` does not close the vendor-side session — **blocking**
+`Dispose()` only disposes the local `HttpClient`. Nothing tells the vendor the session is over. Since `POST /session` is billed, every call leaks a live session on the vendor side until it times out (if it ever does). Combined with finding 1 this means one leaked billed session per tax calculation.
+
+Require: `Dispose` (or an explicit `Close`) must issue the vendor's session-termination call, with the session identifier returned from the `POST` retained for that purpose.
+
+### 3. No injection seam; untestable without hitting the live sidecar — **blocking**
+`VendorSession.Open()` constructs its own `HttpClient` against a hardcoded address. There is no way to substitute a handler or endpoint, so any unit test of `CalculateTax` either requires a running sidecar (and incurs real vendor billing per test run) or cannot exist. The reviewer notes confirm "no transport replacement hook exists."
+
+Require: accept an `HttpMessageHandler`, `HttpClient`, or `IHttpClientFactory` via constructor/parameter, and take the base address from configuration rather than a literal. Then the pure branch of `CalculateTax` can be tested in isolation.
+
+### 4. New `HttpClient` per call with sync-over-async blocking on the checkout path — **flag**
+Instantiating `HttpClient` per call is the well-known socket-exhaustion anti-pattern under load. `.GetAwaiter().GetResult()` blocks a thread pool thread on I/O during checkout and risks deadlock if a caller has a synchronization context. Both would resolve naturally if finding 1 is fixed by removing the call; if the session stays, this needs to become `async Task<decimal>` with a shared/factory-managed client.
+
+### 5. Hardcoded endpoint contradicts "configured sidecar" — **flag**
+`new Uri("http://127.0.0.1:5080/")` is a literal, not configuration. The notes describe the endpoint as configured; the code does not reflect that. Fold into the fix for finding 3.
+
+### 6. Scope question: `bool domestic` and flat `0.10m` do not model "destination" tax — **flag / question for author**
+The task is "destination tax," which normally varies by destination jurisdiction. The implementation accepts a boolean and applies a single hardcoded rate. If the flat 10% is a deliberate interim rule, that should be stated in the commit and the rate named as a constant rather than a magic literal. If it isn't, the signature needs a destination parameter. Not blocking on its own, but the commit message overstates what was delivered.
+
+## Summary
+Fixing finding 1 (remove the unused session) collapses most of the rest for this change. If the session is actually required for destination lookup, then 2, 3, and 4 all become hard requirements before merge.
+
+__ABLATION_DONE__ exit=0

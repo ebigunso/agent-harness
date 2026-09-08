@@ -1,0 +1,41 @@
+## Cause
+
+This is not a package, lockfile, cache, registry, or permission problem — all of those check out. It's a Windows file lock.
+
+npm is trying to unlink `node_modules\sharp\build\Release\sharp-win32-x64.node` (a normal step when reinstalling/rebuilding a package), but that file is a native addon (a DLL) currently mapped into a running process: `node.exe` PID 4102, the repository's own image worker started from `workers/images.js`. Windows does not allow unlinking or overwriting a loaded DLL, so `unlink` fails with `EBUSY` (errno -4082). The worker is orphaned — its launch terminal disconnected but the process kept running — which is why the lock persists even though nothing "looks" active.
+
+Retrying `npm install`, clearing the npm cache, or deleting `node_modules` won't help; the delete of that one file will keep failing as long as PID 4102 holds it.
+
+## Smallest safe remediation
+
+1. Confirm the PID really is the repo's worker before touching it:
+   ```powershell
+   Get-CimInstance Win32_Process -Filter "ProcessId = 4102" | Select-Object ProcessId, CommandLine
+   ```
+   Expect the command line to reference `C:/work/npm-lock/workers/images.js`.
+
+2. Stop that one process (it's owned by this repo, so this is safe; nothing else is using the module):
+   ```powershell
+   Stop-Process -Id 4102
+   ```
+   (If it's under a supervisor like pm2 or a scheduled task that will respawn it, stop it through that supervisor instead, so it doesn't relaunch mid-install.)
+
+3. Re-run the original command:
+   ```powershell
+   npm install
+   ```
+
+4. Restart the worker afterwards (`node workers/images.js`, or via whatever normally launches it).
+
+No changes to `package.json`, `package-lock.json`, the npm cache, or `node_modules` are needed.
+
+## Confirmation
+
+- `tasklist /m sharp-win32-x64.node` returns no rows (nothing holds the addon).
+- `npm install` exits 0 with no `EBUSY` in stderr.
+- The addon still loads on this runtime: `node -e "require('sharp'); console.log('ok')"` prints `ok`.
+- The image worker starts cleanly again and, once running, `tasklist /m sharp-win32-x64.node` shows the new worker PID — which is expected and fine until the next time you need to touch `sharp`.
+
+Note for the future: any install/rebuild that touches `sharp` (or any other native addon) must be done while the worker is stopped; that's the general rule on Windows, not a quirk of this repo.
+
+__ABLATION_DONE__ exit=0

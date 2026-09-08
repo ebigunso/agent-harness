@@ -1,0 +1,61 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819f-121c-73b1-a321-8800df699a9f
+--------
+user
+Reference material loaded for this review:
+
+### 3) Keep Changes Small, Cohesive, and Reversible
+
+- Group related edits into a single coherent unit.
+- Avoid coupling unrelated refactors with functional changes.
+- Make rollback straightforward by limiting blast radius.
+
+Review checks:
+- Is the diff focused on one clear goal?
+- Can this change be safely reverted without collateral edits?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add optional invoice note storage.
+
+```diff
+--- a/migration.py
++++ b/migration.py
+@@ -0,0 +1,15 @@
++import sqlite3
++def up(db):
++    db.execute("ALTER TABLE invoices ADD COLUMN note TEXT")
++def down(db):
++    db.execute("ALTER TABLE invoices DROP COLUMN note")
++def check():
++    with sqlite3.connect(":memory:") as db:
++        db.execute("CREATE TABLE invoices (id INTEGER PRIMARY KEY)")
++        db.execute("INSERT INTO invoices VALUES (1)")
++        up(db)
++        assert db.execute("SELECT id, note FROM invoices").fetchall() == [(1, None)]
++        down(db)
++        assert db.execute("SELECT * FROM invoices").fetchall() == [(1,)]
++if __name__ == "__main__":
++    check()
+```
+Commit message: "add optional invoice note storage"
+
+Reviewer notes: SQLite 3.35+; offline transactional migration; note has no independent consumers before release. Upgrade/downgrade is one bounded unit. Check in diff uses a fresh in-memory database.
+
+codex
+Acceptable as-is. The diff is focused on optional invoice note storage: the nullable `TEXT` column preserves existing rows, and the check verifies upgrade and downgrade. Given SQLite 3.35+, transactional execution, and no independent consumers before release, I would raise no findings.
+tokens used
+3,298
+Acceptable as-is. The diff is focused on optional invoice note storage: the nullable `TEXT` column preserves existing rows, and the check verifies upgrade and downgrade. Given SQLite 3.35+, transactional execution, and no independent consumers before release, I would raise no findings.
+
+__ABLATION_DONE__ exit=0

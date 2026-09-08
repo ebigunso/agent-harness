@@ -1,0 +1,21 @@
+**Cause:** cwd drift in the persistent shell. A prior `Set-Location -LiteralPath 'C:/work/scratch'` left the shell in `C:/work/scratch` (confirmed by `pwd` and `Get-ChildItem` showing only `notes.txt`). Cargo resolves the workspace by walking up from the shell's cwd, and there is no `Cargo.toml` in `C:\work\scratch` or its parents, so `cargo test -p api` failed with exit 101 before doing any work. The tool UI's remembered root (`C:/work/rust-service`) is not the shell's cwd. This is a workspace/cwd problem, not a code, toolchain, dependency, or permission problem — nothing else changed between attempts.
+
+**Smallest safe remediation:** Navigate the persistent shell back to the intended base with a single explicit `cd`, then rerun the command unchanged:
+
+```powershell
+pwd
+Set-Location -LiteralPath 'C:/work/rust-service'
+cargo test -p api
+```
+
+Going forward, avoid leaving the persistent shell in a scratch directory, or use an explicit one-shot form that doesn't depend on shell state: `cargo test --manifest-path C:/work/rust-service/Cargo.toml -p api`.
+
+**Confirmation:** Already captured in the comparison run:
+- Pre-normalization cwd: `C:/work/scratch` → failure, exit 101, `could not find Cargo.toml`.
+- Normalized cwd: `C:/work/rust-service` (verified by `pwd`).
+- Rerun of the identical `cargo test -p api`: exit 0, `test tests::ping ... ok`, `1 passed; 0 failed`.
+- Final `pwd`: `C:/work/rust-service`.
+
+Status: **resolved** — root cause was cwd drift; no further runbook needed.
+
+__ABLATION_DONE__ exit=0

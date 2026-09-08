@@ -1,0 +1,40 @@
+**Cause**
+
+`export_report.py` line 25 calls `open('report.txt','w')` with no `encoding=`. On this Windows box UTF-8 mode is off (`sys.flags.utf8_mode = 0`), so Python 3.12 falls back to the locale encoding, cp932. The report text contains U+2014 (EM DASH), which cp932 cannot represent (cp932's 0x815C maps to U+2015 HORIZONTAL BAR, not U+2014), so the write raises `UnicodeEncodeError`.
+
+Two things to be clear about:
+
+- stdout is not involved — `sys.stdout.encoding = cp932` is coincidental; the failing handle is the file. `PYTHONIOENCODING` would not fix this.
+- Mode `'w'` truncated `report.txt` *before* the write failed, which is why it is now 0 bytes. The previous report is gone, but the inputs are intact, so a successful rerun regenerates it.
+
+This is a workspace (script) defect, not a platform fault: the script depends on an unspecified locale default and will fail the same way on any cp932 machine.
+
+**Smallest safe remediation**
+
+Make the encoding explicit at the point of failure:
+
+```python
+# export_report.py, line 25
+with open('report.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+That's a one-line change confined to the script and independent of the user's locale or environment variables. (Setting `PYTHONUTF8=1` would also work, but it changes the default for every `open()` in every script on the machine — broader than needed.) Optional hardening, not required to fix this: write to a temp file and `os.replace()` it over `report.txt` so a future failure can't leave a truncated output.
+
+Confirm that whatever consumes `report.txt` expects UTF-8; if it must be cp932, the real fix is to change the content (e.g. substitute U+2015 or `--`), not the encoding.
+
+**Confirmation**
+
+```powershell
+python export_report.py; $LASTEXITCODE          # expect 0, no traceback
+(Get-Item report.txt).Length                    # expect > 0
+python -c "print(open('report.txt', encoding='utf-8').read()[:80])"  # em dash present, decodes cleanly
+```
+
+Optionally check the raw bytes contain `E2 80 94` (UTF-8 for U+2014):
+
+```powershell
+Format-Hex report.txt | Select-Object -First 3
+```
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,27 @@
+**Cause**
+
+`npm ci` must remove `node_modules` before reinstalling. The `unlink` of `C:\work\npm-lock\node_modules\canvas\build\Release\canvas.node` fails with EPERM (errno -4048) because a process still has the native addon mapped. `tasklist /m canvas.node` identifies it as `node.exe` PID 4107, a chart-preview worker launched from `C:/work/npm-lock/workers/chart-preview.js` — a leftover child of this repo's own script. This is not a permissions, cache, lockfile, registry, or antivirus problem (probe file beside the module can be created/removed, ACLs are fine, lockfile is in sync).
+
+**Smallest safe remediation**
+
+1. Stop the worker. Prefer a graceful stop if the parent script exposes one; otherwise, since the process is confirmed to be this repo's orphaned chart-preview worker and nothing else is loading `canvas.node`, terminate it directly:
+   ```
+   taskkill /PID 4107 /F
+   ```
+2. Re-run the original command:
+   ```
+   npm ci
+   ```
+
+No cache clean, no `node_modules` deletion by hand, no elevation — none of those address the lock and would add risk.
+
+**Confirmation**
+
+- `tasklist /m canvas.node` returns no rows (module no longer loaded by any process).
+- `tasklist | findstr node` shows no other stray node processes from this repo.
+- `npm ci` exits 0 with the `unlink` error gone.
+- Optional: `node -e "require('canvas')"` from `C:/work/npm-lock` loads the rebuilt addon.
+
+**Follow-up (not required for the fix)**: the parent script should reap its chart-preview child on exit so the worker doesn't outlive it and re-lock the module on the next install.
+
+__ABLATION_DONE__ exit=0

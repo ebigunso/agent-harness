@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08192-c51b-7e80-bae0-e05260a86131
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record order processing phases.
+
+```diff
+--- a/Orders.cs
++++ b/Orders.cs
+@@ -1,9 +1,12 @@
+ using System;
+ using System.Collections.Generic;
+ static class Orders {
+     static void Log(string message, Action callback) { callback(); }
+     public static void ProcessOrder(List<string> events) {
+-        events.Add("reserve");
+-        events.Add("charge");
++        int phase = 0;
++        Log("start", () => phase++);
++        if (phase == 1) events.Add("reserve");
++        Log("reserved", () => phase++);
++        if (phase == 2) events.Add("charge");
+     }
+ }
+```
+Commit message: "record order processing phases"
+
+Reviewer notes: Synchronous local workflow; each order calls ProcessOrder once. Actions append events only. Expected order remains reserve, charge. Logging is normally observational.
+
+codex
+- **`Orders.cs`, `ProcessOrder`:** Logging callbacks now advance `phase`, which determines whether reservation and charging occur. The synchronous implementation currently produces `reserve, charge`, but this makes normally observational logging responsible for executing business steps; suppressing a callback would silently skip processing. Require phase advancement in the processing flow itself, with logging only observing it, and preserve unconditional reservation followed by charging.
+tokens used
+3,292
+- **`Orders.cs`, `ProcessOrder`:** Logging callbacks now advance `phase`, which determines whether reservation and charging occur. The synchronous implementation currently produces `reserve, charge`, but this makes normally observational logging responsible for executing business steps; suppressing a callback would silently skip processing. Require phase advancement in the processing flow itself, with logging only observing it, and preserve unconditional reservation followed by charging.
+
+__ABLATION_DONE__ exit=0

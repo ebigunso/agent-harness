@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is. No findings.**
+
+What I checked:
+
+- **Single intent, fully traced.** The rename `enabled` → `visible` touches exactly the two sites where the component exists: the record declaration and the one accessor call in `App.show`. No other edits are bundled in.
+- **Behavior preserved.** `show` still returns `c.visible() && active`, which is the same expression over the same boolean as before; the truth table is unchanged. `defaults()` still constructs `new Config(false)`, so the default value is untouched and the positional constructor call is unaffected by the component rename.
+- **No hidden surface.** Per the notes the record is internal with no serialization, persistence, or reflection-based access, so the component name change cannot leak into wire formats, JSON keys, or config files. Nothing in the diff suggests otherwise.
+- **Commit message matches the diff.** "Rename internal enabled field mechanically" describes exactly what happened.
+
+One non-blocking observation: the task framing doesn't state the target name, and `visible` is a semantic shift from `enabled` (the method is `show`, so it's a defensible fit). If a different name was expected upstream, that's a naming decision for the author, not a correctness defect in this change.
+
+__ABLATION_DONE__ exit=0

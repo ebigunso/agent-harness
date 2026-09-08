@@ -1,0 +1,17 @@
+**Cause:** Not a workspace problem. The cwd and repo root are correct (`--show-toplevel` → `C:/work/repo`, `.git` present). `git rev-parse --verify missing-branch` exited 128 with `fatal: Needed a single revision` simply because no ref named `missing-branch` exists — `git branch --list` shows only `main`, and `git show-ref` has no such ref. This is `rev-parse --verify` behaving exactly as designed: it fails when the argument doesn't resolve to a single object.
+
+**Smallest safe remediation:** Don't change directories or repair anything. Either:
+
+1. Use a name that exists — e.g. `git rev-parse --verify main` (or `origin/missing-branch` if it lives on a remote; run `git fetch --prune` first, then `git branch -r`), or
+2. If the intent was to *check whether* the branch exists, treat the non-zero exit as the answer and suppress the noise:
+   ```powershell
+   git rev-parse --verify --quiet missing-branch; $exists = ($LASTEXITCODE -eq 0)
+   ```
+3. If the branch is genuinely supposed to exist locally, create it deliberately (`git switch -c missing-branch` / `git branch missing-branch <start-point>`) — only if that's the actual intent; don't do this just to make the command pass.
+
+**Confirmation:**
+- `git rev-parse --verify main` exits 0 and prints a 40-char SHA (proves rev-parse works in this repo).
+- `git rev-parse --verify --quiet missing-branch` exits 1 with no stderr (proves the failure is purely "ref not found", not a repo/cwd error).
+- `pwd` still reports `C:/work/repo`, unchanged.
+
+__ABLATION_DONE__ exit=0

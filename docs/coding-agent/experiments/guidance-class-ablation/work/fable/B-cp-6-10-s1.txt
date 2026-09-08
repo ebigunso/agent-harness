@@ -1,0 +1,30 @@
+**Verdict: block.** The rename was applied to only one side of a shared persisted contract, and the reader fails silently rather than loudly.
+
+## Findings
+
+### 1. `store.go` / `Reader.java` — writer and reader now disagree on the field name (contract drift, silent field loss)
+- **What's wrong:** `Encode` now emits `{"client": ...}`, but `Reader.customer()` still does `document.path("customer").asText()`. Every record written after this change will be read back as an empty string.
+- **Why it matters:** This is the worst kind of drift because it's silent. Jackson's `path()` returns a `MissingNode` for absent keys, and `MissingNode.asText()` returns `""` — no exception, no log, no null. Callers get a plausible-looking empty customer name and nothing tells you data was dropped. The commit message claims a rename of the persisted field, but it only renamed the producer; the consumer half of the contract was not touched.
+- **Require instead:** Update `Reader` in the same change to read `client`. Also replace the `path(...).asText()` pattern with something that fails on absence (e.g. `get("client")` with an explicit null check / exception, or `hasNonNull` guard) so a future drift like this surfaces immediately instead of degrading to `""`.
+
+### 2. No compatibility path for existing `customer` documents
+- **What's wrong:** Reviewer notes say existing documents with `customer` remain in storage. The change contains no migration, no dual-key read, and no version marker. Once the reader is fixed to read `client` (per finding 1), those legacy records will hit the same silent-empty-string failure from the other direction.
+- **Why it matters:** A persisted-field rename is a schema migration, not a string edit. Either every stored document is rewritten, or the reader must tolerate both shapes for the lifetime of the old data. The diff does neither, so at no point in the rollout do both old and new records read correctly.
+- **Require instead:** One of:
+  - Reader accepts `client` and falls back to `customer` (with a comment noting the fallback is for pre-rename records and when it can be removed), or
+  - A backfill/migration that rewrites `customer` → `client` on all stored records, run and verified before the writer change ships, or
+  - A schema/version field so the reader can dispatch deterministically.
+  Also sequence the rollout: reader must be tolerant of both keys *before* the writer starts emitting the new one.
+
+### 3. No test pinning the cross-language contract
+- **What's wrong:** Nothing in the change exercises "Go writes, Java reads." The drift in finding 1 would not be caught by any test either side has.
+- **Why it matters:** Two implementations in two languages sharing a wire format with no shared fixture is exactly the setup where this class of bug recurs.
+- **Require instead:** A checked-in JSON fixture (or golden file) produced by `Encode`, consumed by a Java test asserting `Reader` returns the original name — and a second fixture for the legacy `customer` shape while the fallback in finding 2 exists.
+
+### 4. Minor: diff header vs. reviewer notes disagree on `Reader.java`
+- The hunk header (`@@ -0,0 +1,8 @@`) presents `Reader.java` as a newly added file, while the notes say the reader is unchanged. If it really is new, then this PR is *adding* a reader that is already wrong on day one; if it's pre-existing, the diff is misrepresenting it. Either way, clean this up so the change under review reflects what's actually landing.
+
+## Summary
+The change is a half-applied rename that breaks the producer/consumer contract and does so without any error signal. It needs: the reader updated, a legacy-data strategy (dual-read or migration) with rollout ordering, fail-loud handling for a missing key, and a contract test covering both document shapes.
+
+__ABLATION_DONE__ exit=0

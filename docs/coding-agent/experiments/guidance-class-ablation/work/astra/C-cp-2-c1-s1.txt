@@ -1,0 +1,53 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d83-f224-7803-92f9-83fc42062c4b
+--------
+user
+Reference material loaded for this review:
+
+Fix causes at their origin; strengthen invariants. Does this suppress symptoms or add duplicated/compensating logic?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Make the shared line parser accept LF and CRLF identically.
+
+```diff
+--- a/app/lines.py
++++ b/app/lines.py
+@@ -1,8 +1,14 @@
+ def parse(text):
+-    return text.split("\n")
++    return text.replace("\r\n", "\n").split("\n")
+
+ def cli(text):
+     return parse(text)
+
+ def scheduled(text):
+     return parse(text)
++
++def test_newlines():
++    for caller in (cli, scheduled):
++        assert caller("a\r\nb\r\n") == ["a", "b", ""]
++        assert caller("a\nb\n") == ["a", "b", ""]
++        assert caller("") == [""]
+```
+Commit message: "normalize CRLF at parser entry"
+
+Reviewer notes: Contract: preserve trailing empty records and standalone CR characters; do not trim whitespace or support other newline conventions. Both callers use this parser. Examples execute under pytest or by calling test_newlines.
+
+codex
+Acceptable as-is. The shared parser normalizes CRLF at the source while preserving trailing empty records, standalone CR characters, and whitespace. Both callers inherit the fix without duplicated logic. No findings.
+tokens used
+3,199
+Acceptable as-is. The shared parser normalizes CRLF at the source while preserving trailing empty records, standalone CR characters, and whitespace. Both callers inherit the fix without duplicated logic. No findings.
+
+__ABLATION_DONE__ exit=0

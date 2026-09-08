@@ -1,0 +1,82 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0815a-6459-7ab2-95f1-b12cc117dbbd
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '["north"]'
+$wireCount = '1'
+$parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=["north"]
+wire elements=1
+parsed type=System.String
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+codex
+Cause: `ConvertFrom-Json` enumerates the JSON array by default. Assigning its single emitted element to `$parsed` produces a `System.String`, so the assertion fails. This is a script behavior issue, not a workspace or permissions problem.
+
+Smallest safe fix:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+This preserves JSON arrays, including empty and singleton arrays, while leaving scalar values as scalars. Avoid wrapping the result in `@(...)`, which would also make scalar inputs pass the array check.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]` and exit code `0`. Also test `[]` and a multiple-element array for success, and scalar JSON such as `"north"`, `1`, and `null` for rejection.
+tokens used
+14,701
+Cause: `ConvertFrom-Json` enumerates the JSON array by default. Assigning its single emitted element to `$parsed` produces a `System.String`, so the assertion fails. This is a script behavior issue, not a workspace or permissions problem.
+
+Smallest safe fix:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+This preserves JSON arrays, including empty and singleton arrays, while leaving scalar values as scalars. Avoid wrapping the result in `@(...)`, which would also make scalar inputs pass the array check.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]` and exit code `0`. Also test `[]` and a multiple-element array for success, and scalar JSON such as `"north"`, `1`, and `null` for rejection.
+
+__ABLATION_DONE__ exit=0

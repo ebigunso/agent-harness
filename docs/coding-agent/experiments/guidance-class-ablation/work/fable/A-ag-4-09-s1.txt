@@ -1,0 +1,38 @@
+**Verdict: block.** The change does the opposite of the task.
+
+## Findings
+
+### 1. `Lookup.kt`, `lookup()` — translation removed, not implemented
+
+**What's wrong:** The task was to translate the failed network lookup, i.e. map the SDK's `VendorFailure` onto the stable contract's `Unavailable`. The diff deletes the only place that translation happened and replaces it with a bare passthrough (`= call()`). `VendorFailure` now escapes `lookup` untranslated.
+
+**Why it matters:** The stable contract exposes `Unavailable`, and `caller` catches only that. With this change, a `VendorFailure` from the SDK propagates straight through `lookup`, past `caller`'s `catch (e: Unavailable)`, and up the stack as an unhandled exception. The `"retry"` path is now dead code for the exact failure it was written to handle. This is a behavioral regression on the primary failure mode, and it leaks a vendor type across a boundary that was deliberately abstracted.
+
+Since the reviewer notes confirm `VendorFailure` is the complete SDK failure type and nothing else is in scope, there is no case in which this passthrough is correct — every SDK failure is now mishandled.
+
+**Required instead:** Keep (or restore) the mapping:
+
+```kotlin
+fun lookup(call: () -> String): String =
+    try { call() } catch (e: VendorFailure) { throw Unavailable() }
+```
+
+Optionally chain the cause (`Unavailable(cause = e)` after giving `Unavailable` a cause-accepting constructor) so diagnostics aren't lost, but that's a nice-to-have; the hard requirement is that `VendorFailure` never escapes `lookup`.
+
+### 2. Commit message misdescribes the change
+
+**What's wrong:** "translate failed network lookup" describes adding/preserving a translation; the diff removes one.
+
+**Why it matters:** Anyone reading history will assume the boundary is still enforced. Also a signal that the author may have misread the task (e.g. thought "translate" meant "pass through directly").
+
+**Required instead:** Fix the code per finding 1; the message is then accurate. If there were some deliberate reason to drop the translation, that would need to be stated explicitly and `caller` would need to change in lockstep — but nothing in the notes supports that.
+
+### 3. No test covering the `VendorFailure → "retry"` path
+
+**What's wrong:** A one-line regression that inverts the module's whole purpose got through with no failing test. Nothing in the diff adds one.
+
+**Why it matters:** This is exactly the kind of change a single test would have caught.
+
+**Required instead:** A test asserting `caller { throw VendorFailure() } == "retry"` (and ideally one asserting `lookup { throw VendorFailure() }` throws `Unavailable`, not `VendorFailure`).
+
+__ABLATION_DONE__ exit=0

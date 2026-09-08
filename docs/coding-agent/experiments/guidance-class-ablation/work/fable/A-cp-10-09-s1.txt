@@ -1,0 +1,30 @@
+**Verdict: block.** The change replaces a behavioral test with a structural one and loses the only assertions that protect the public contract.
+
+**Findings**
+
+1. **test_calc.py, `test_total` — output assertions removed, nothing replaces them.**
+   The old test pinned `calculate(100) == 110` and `calculate(0) == 0`. The new test never inspects the return value. `return _base(cents) - _tax(cents)`, `return _tax(cents)`, or `return None` all pass as long as both helpers are invoked once with `100`, in that order. This is a net loss of coverage on the one thing the module exists to do. Require: restore the value assertions (`calc.calculate(100) == 110`, `calc.calculate(0) == 0`); consider adding a floor-division case such as `calculate(15) == 16` since `//` is now the rounding rule.
+
+2. **test_calc.py — test is coupled to private helper names and call order.**
+   Asserting `tracker.mock_calls == [call.base(100), call.tax(100)]` fails on any equivalent refactor: inlining `_base`, renaming a helper, computing tax first (`_tax(c) + _base(c)`), or memoizing. Those are all legal changes to a pure function's internals. `calculate` is the public API; `_base`/`_tax` are underscore-private and the test should not reach into them via `patch.object` at all. Require: drop the patching/mocking entirely. If the helpers warrant their own coverage, test them directly and plainly (`calc._tax(100) == 10`), not by spying on `calculate`'s call graph.
+
+3. **test_calc.py — `0` edge case dropped.**
+   Only `100` is exercised now. The zero/boundary case was cheap and meaningful (`0 // 10`). Require: keep it.
+
+4. **Scope / intent mismatch with the commit message.**
+   "Helper extraction" is a behavior-preserving refactor; by definition the existing behavioral tests should have continued to pass unchanged. That they were rewritten is a signal the author was making the tests match the new shape rather than verifying the refactor. The correct "update" here is essentially no change to the assertions.
+
+**What I'd accept**
+
+```python
+import calc
+
+def test_total():
+    assert calc.calculate(100) == 110
+    assert calc.calculate(0) == 0
+    assert calc.calculate(15) == 16  # floor-division tax
+```
+
+Optionally a separate `test_tax` for `_tax` if you want the helper covered on its own. No `unittest.mock` in this file.
+
+__ABLATION_DONE__ exit=0

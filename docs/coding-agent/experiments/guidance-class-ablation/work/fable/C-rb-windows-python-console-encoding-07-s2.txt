@@ -1,0 +1,44 @@
+## Cause
+
+This is a workspace/environment problem, not a bug in the script.
+
+`print(rendered)` writes to `sys.stdout`, which is bound to the **cp1252** codec because stdout is a captured pipe (non-interactive) and `utf8_mode = 0`. Rendering succeeded — Jinja2 produced the string containing `Ж` (`\u0416`) fine — but the failure happens at the **encoding step on output**: cp1252 has no mapping for `Ж`, so `charmap_encode` raises `UnicodeEncodeError`. The string and the template are correct; only the legacy output codec is the problem.
+
+## Partial-effect check (before rerunning)
+
+- stdout is empty → nothing was partially emitted.
+- The observations confirm no file writes and no template-loading errors.
+- The exception fired at `print`, after rendering completed.
+
+So a rerun is safe and idempotent — there is no half-written file or state to clean up.
+
+## Smallest safe remediation
+
+Set the encoding for just this invocation (command-scoped, no global/system change):
+
+PowerShell 7:
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python templates.py
+```
+
+This overrides the stdout codec to UTF-8 only for the child process, leaving your session and system defaults untouched.
+
+## Confirmation
+
+- Exit code is `0`.
+- stdout now contains the rendered line including the character, e.g. `User Ж`.
+- No `UnicodeEncodeError` in stderr.
+
+## Note for a durable fix (optional, if the script owns its stream)
+
+If you'd rather not depend on an env var each time, make the script self-sufficient by reconfiguring the streams it owns:
+
+```python
+sys.stdout.reconfigure(encoding="utf-8")   # for stdout it owns
+# and for any files:
+open(path, "w", encoding="utf-8")
+```
+
+Prefer the command-scoped `PYTHONIOENCODING` for a one-off rerun; use `reconfigure`/explicit `encoding=` when you want the script itself to guarantee correct output regardless of how it's launched.
+
+__ABLATION_DONE__ exit=0

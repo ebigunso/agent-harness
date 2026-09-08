@@ -1,0 +1,15 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+Reasoning I checked:
+
+- **`src/url.ts` `resourceUrl`** — `base.replace(/\/$/, "")` strips exactly one trailing slash, which is sufficient under the stated contract (at most one trailing slash on `base`). `$` without the `m` flag anchors to end-of-input in JS (no Perl-style "before trailing newline" match), so there's no surprise there. For `"https://example.test/api/"` and `"https://example.test/api"` both produce `"https://example.test/api/a%20b"`, matching the expected equivalence.
+
+- **`cliUrl` / `serviceUrl`** — Previously: strip one slash, then `+ "/" + segment`. Now: pass through, `resourceUrl` strips one slash, then `+ "/" + segment`. Byte-for-byte identical output for every input in the contract's domain. Removing the caller compensation is exactly what the task asked for.
+
+- **Behavior change for any other direct `resourceUrl` callers** — a base with a trailing slash previously yielded `.../api//segment`; now yields `.../api/segment`. That's the intended fix, not a regression, and the task explicitly scopes normalization to the shared builder.
+
+- **Segment side** — contract says segment is nonempty and never a slash/dot segment, so no leading-slash double-up or `..` concerns arise from this change.
+
+One non-blocking observation only: `cliUrl` and `serviceUrl` are now identity wrappers over `resourceUrl`. That's fine if they exist as semantic entry points for the two callers; if not, a follow-up could collapse them. I would not hold the change for it.
+
+__ABLATION_DONE__ exit=0

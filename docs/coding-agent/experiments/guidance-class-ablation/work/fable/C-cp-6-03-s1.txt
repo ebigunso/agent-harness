@@ -1,0 +1,46 @@
+**Verdict: block.** The change silently loses data on the exact inputs the notes say must stay distinct.
+
+## Findings
+
+### 1. `ids.go` / `ids.ts` — int64 identifiers are transported as JSON numbers and parsed into JS `number`, which collapses distinct IDs
+
+- **What:** `json.Marshal([]int64{...})` emits bare numerals `9007199254740992` and `9007199254740993`. `JSON.parse` in the TS side converts them to IEEE‑754 doubles. 2^53+1 is not representable; it rounds to 2^53. `new Set(...)` then contains a single element, `9007199254740992`, and the second account is gone.
+- **Why it matters:** These are identifiers, so the failure isn't an off‑by‑one in arithmetic — it's aliasing two different accounts into one. There is no error, no warning; the loss happens inside the parser before any application code sees the value. Anything past 2^53 (a realistic range for snowflake / DB int64 IDs) is affected, and the set semantics hide it further by deduplicating the collision.
+- **Require:** Move the wire representation to something that survives a JS parser without loss:
+  - Go: serialize IDs as JSON strings, e.g. a `type AccountID int64` with `MarshalJSON` producing `"9007199254740993"`, or `json:",string"` on a struct field. Do not rely on the caller remembering to do this per call site.
+  - TS: change the signature to `Set<string>` (or `Set<bigint>` via `BigInt(s)` after string parse). If keeping numeric, `JSON.parse` must not be used on raw text — you'd need a bigint‑aware parser — so strings are the simpler, standard choice for opaque identifiers.
+  - Since the reviewer notes state the values are never arithmetic operands, `string` is the correct model on the TS side; there is no reason to pay for `number`/`bigint` at all.
+
+### 2. `ids.ts` — `as number[]` is an unchecked assertion, not a contract
+
+- **What:** The parser blindly casts whatever `JSON.parse` returns. No check that it's an array, no check of element type, no rejection of the numeric form once the wire format changes.
+- **Why it matters:** This is the seam where the Go and TS shapes meet, and today there's nothing that would catch drift on either side (e.g. Go emitting numbers again after a refactor, or an object wrapper being introduced). Combined with finding 1, a regression to numeric encoding would go completely unnoticed at runtime.
+- **Require:** Validate the decoded shape: array, every element a string matching `/^-?\d+$/` (or whatever the ID grammar is), and throw on violation. A precision guard — reject any element that arrived as a `number` — is a cheap way to make the finding‑1 failure mode loud instead of silent.
+
+### 3. Both files — wire format is changing (must change) with no explicit version or shared schema
+
+- **What:** The diff introduces a producer and consumer with the contract living only in two implementations' incidental behavior. Once we switch to string encoding, existing/other consumers parsing numbers would break, and there's nothing marking which form a payload is in.
+- **Why it matters:** Identifier encoding is exactly the kind of thing that gets copy‑pasted into other clients. Without a named type / schema and a version marker, the next drift is again silent.
+- **Require:** Define the ID type once on each side (`AccountID` in Go with its own marshaller; `type AccountID = string` in TS with the validating parser) and reference it from any payload that carries IDs. If this endpoint is already consumed, gate the string encoding behind an explicit version (field, media type, or path) and migrate consumers rather than flipping in place.
+
+## Minimal acceptable shape
+
+```go
+type AccountID int64
+func (a AccountID) MarshalJSON() ([]byte, error) { return json.Marshal(strconv.FormatInt(int64(a), 10)) }
+func Response() ([]byte, error) { return json.Marshal([]AccountID{9007199254740992, 9007199254740993}) }
+```
+
+```ts
+export type AccountID = string;
+export function parse(raw: string): Set<AccountID> {
+  const v: unknown = JSON.parse(raw);
+  if (!Array.isArray(v) || !v.every(x => typeof x === "string" && /^-?\d+$/.test(x)))
+    throw new Error("invalid account id payload");
+  return new Set(v);
+}
+```
+
+Add a test that round‑trips `9007199254740992` and `9007199254740993` and asserts `size === 2`; that test fails against the current diff.
+
+__ABLATION_DONE__ exit=0

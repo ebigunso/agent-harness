@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.**
+
+The diff is exactly one behavioral change — `Timeout: time.Second` → `Timeout: 2*time.Second` in `client.go` — which matches the stated task and the commit message. There are no drive-by edits, no unrelated refactoring, and no hidden behavior. The earlier log-naming cleanup is confirmed to live in a separate commit with its own revert evidence and no dependency on this change, so the scope boundary is clean.
+
+Non-blocking observations (not defects, just noting for completeness):
+
+- **No test touched.** If there is a test asserting the client timeout value, it should be updated in this commit; if there isn't one, that's a pre-existing gap, not something this change introduces.
+- **Magic number.** The timeout is an inline literal rather than a named constant. That's pre-existing style and out of scope for a "bump the value" commit; extracting it would be a separate refactor.
+
+Nothing here I would block or flag.
+
+__ABLATION_DONE__ exit=0

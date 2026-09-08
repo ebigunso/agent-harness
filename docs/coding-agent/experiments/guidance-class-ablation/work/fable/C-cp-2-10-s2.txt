@@ -1,0 +1,14 @@
+**Verdict: block.** The change doesn't address the task; it adds a compensating cleanup that leaves the race in place and introduces silent revocation of confirmed bookings.
+
+**1. `src/Bookings.java`, `BookingService.reserve` — root cause untouched**
+`count` and `insert` are separate autocommit statements with no uniqueness constraint behind them, so two concurrent `reserve` calls (HTTP + scheduler, per the notes) both see `count == 0` and both insert. The diff leaves this exactly as it was; duplicates are still created every time the race hits. The task was to *prevent* duplicate reservations, and this change prevents none.
+Require: enforce the invariant at the source of truth. Add a unique constraint on `slot` (or `slot` + "active" if expired rows persist) and make `reserve` attempt the insert and translate the constraint violation into `SlotFull`. If a constraint is genuinely impossible, the fallback is a single transaction with a row/advisory lock or an atomic conditional insert (`INSERT … WHERE NOT EXISTS`) — but the constraint is the correct fix because it holds regardless of which code path writes.
+
+**2. `src/Bookings.java`, `NightlyMaintenance.run` — `deleteDuplicatesKeepingEarliest` is symptom suppression that causes data loss**
+Per the notes, booked reservations are relied on immediately. So after a race, two customers each get a successful `reserve` and act on it; hours later the sweep silently deletes one of them with no error surfaced at booking time and no notification. That converts a visible failure (`SlotFull`) into an invisible one (a customer whose confirmed booking vanishes overnight). "Keep earliest" is also arbitrary under autocommit — insertion order says nothing about which request "should" have won. Once the constraint from (1) exists, this sweep is dead code that would only ever mask a constraint being dropped later.
+Require: remove the recurring sweep. If there are pre-existing duplicates in the table, handle them as a one-off migration step *before* adding the constraint (the constraint won't apply otherwise), with the affected rows reported so the business can contact the customers — not deleted silently on a schedule.
+
+**3. Commit message / scope**
+"sweep duplicate bookings nightly" describes cleanup, not prevention. If the author believes cleanup is all that's feasible, that should be stated explicitly with the reason the constraint can't be added — otherwise the PR is mislabeled as fixing the task.
+
+__ABLATION_DONE__ exit=0

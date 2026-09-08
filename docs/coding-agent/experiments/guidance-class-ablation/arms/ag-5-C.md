@@ -1,0 +1,1 @@
+Define owners, lifecycles and transitions; enforce invariants authoritatively. Derive full classification truth tables first. Check concurrent/repeated runs; reject optional-only guards, conflicting writers and invalid intermediate states.

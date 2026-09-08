@@ -1,0 +1,32 @@
+## Cause
+
+This is **not** a workspace, network, or Docker problem. It's an application-level **authorization failure**: the call reached the service and was rejected by policy.
+
+The evidence rules out the transport/loopback hypothesis:
+- `invoked=true` and `policy=role-required` — the request was received, the interceptor ran, and the server deliberately returned `PERMISSION_DENIED: role required`.
+- Exit code **3** maps (per the probe contract) to `PERMISSION_DENIED`/`UNIMPLEMENTED`, not to a deadline/`UNAVAILABLE` (which would be exit 2). There was no hang and no timeout.
+- `localhost` and `127.0.0.1` return the **identical** result. If this were the IPv6/`::1` HTTP/2 stall, IPv4 would succeed while `localhost` hung. It doesn't — so loopback resolution is irrelevant here.
+- HTTP/2 clearly works: the h2c gRPC channel established, sent the RPC, and got a structured gRPC status back in ~15 ms; the sibling REST port is just corroboration, not the discriminator.
+
+The Docker-Desktop/IPv6 gRPC-hang playbook does not apply. That pattern presents as a transport stall to timeout with the server logging *no* request. Here the server logged the request and answered.
+
+## Smallest safe remediation
+
+Supply the credential/role the `Private` method requires, then re-issue the call. Concretely:
+- Call with an identity/token that carries the required role (e.g., attach the appropriate call credentials/metadata the service's policy interceptor checks), or
+- Invoke a method your current identity is authorized for.
+
+Do **not** change `localhost` → `127.0.0.1`, adjust timeouts, or restart Docker — none of those address an authorization decision, and the address comparison already proves address is not the variable.
+
+(If the probe binary as given has no flag to attach credentials, the remediation is out of scope for the probe itself: the fix belongs to whatever issues the authenticated call, not to the workspace.)
+
+## How to confirm
+
+Re-run the same command with a properly-authorized identity and expect:
+- exit code **0**,
+- response values printed to **stdout** (the probe only prints on success),
+- server evidence changing from `status=PERMISSION_DENIED` to a success status while `invoked=true` remains.
+
+A useful negative control: repeat with no/insufficient role and confirm you still get exit 3 + `PERMISSION_DENIED: role required`. That demonstrates the only thing that changed the outcome was the credential, confirming this was authorization — not connectivity.
+
+__ABLATION_DONE__ exit=0

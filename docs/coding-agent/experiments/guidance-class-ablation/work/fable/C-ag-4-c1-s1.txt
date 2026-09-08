@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`client.ts` — `check()` is not validation; it's a tautology in production code.**
+   `check()` calls `id({account_id:"a"})` on a hard-coded literal and throws if the result isn't `"a"`. It never touches an API response, so it cannot detect the failure the rename introduces (a payload still carrying `user_id`). It is also exported from a production module with no caller, so it's dead code that looks like a safeguard. The reviewer note "Required `account_id` shape is validated before consumption" is not supported by the diff — nothing validates the real input. Require: delete `check()`. If a guard is wanted, put it at the actual boundary (see #2) and put the "does `id()` read the right field" assertion in a test file, not the runtime module.
+
+2. **`client.ts` — the consumer has no runtime failure contract for a payload that hasn't migrated.**
+   The type `{account_id: string}` is erased at runtime. If `client.ts` and `api.py` are deployed independently (they're different runtimes, so they almost certainly are), any window where the old server is live means `row.account_id` is silently `undefined` — no error, downstream code just gets a bad id. Being in the same commit does not make the rollout atomic. Require one of: (a) an explicit parse at the point the response is consumed that throws/logs if `account_id` is missing (and, if useful during rollout, a documented temporary fallback to `user_id` with a removal follow-up), or (b) a stated deploy order (server first, client second) recorded in the PR so the skew window is understood. Either way the success/failure contract for a stale payload must be explicit, not "returns undefined".
+
+3. **No test covers the migrated boundary.**
+   The only "test" is #1, which doesn't exercise `api.py`'s output. Require a test that asserts the server response contains `account_id` and not `user_id`, and a client-side test that `id()` reads `account_id` — so the two ends can't drift apart again without CI noticing.
+
+The rename itself (breaking, internal, both ends moved together, impact stated in the commit) is fine in principle; the change is blocked on #1 and #2.
+
+__ABLATION_DONE__ exit=0

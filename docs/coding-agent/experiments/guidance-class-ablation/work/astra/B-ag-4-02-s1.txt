@@ -1,0 +1,57 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d8-8772-7883-8269-d45b2ecb0855
+--------
+user
+Reference material loaded for this review:
+
+### Gate 4: Explicit Interface Contracts
+
+**Expectation**
+- Boundaries between components are explicit, minimal, and stable.
+- Inputs, outputs, and failure semantics are intentionally modeled.
+
+**Evidence expectations**
+- Plan states contract-impact scope (none/additive/breaking).
+- Review verifies contract updates are synchronized across producers/consumers.
+- Failure modes are explicit and not silently swallowed.
+
+**Anti-patterns**
+- Implicit contracts communicated only by call-site assumptions.
+- Breaking contract changes shipped without migration or compatibility notes.
+- Returning ambiguous success/failure signals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Represent empty work from RPC.
+
+```diff
+--- a/rpc.go
++++ b/rpc.go
+@@ -0,0 +1,5 @@
++package rpc
++func Fetch(call func() ([]string,error)) []string {
++ rows,err:=call(); if err!=nil { return nil }; if len(rows)==0 { return nil }; return rows
++}
++func HasWork(call func() ([]string,error)) bool { return len(Fetch(call))>0 }
+```
+Commit message: "represent empty work from rpc"
+
+Reviewer notes: RPC function returns items plus error; jobs are strings. Consumer must distinguish legitimate empty success from unavailable service and surface unavailable for retry. Current adapter discards distinction.
+
+codex
+- **`rpc.go:2–5` — RPC failures are indistinguishable from successful empty results.** `Fetch` returns `nil` for both an error and an empty success, and `HasWork` converts both to `false`. This silently treats an unavailable service as “no work,” preventing the consumer from surfacing the failure for retry. Require explicit error propagation, such as `Fetch(...) ([]string, error)` and `HasWork(...) (bool, error)`, with empty success represented as zero items and no error. Update consumers to handle failures, document the signature changes if replacing an existing API, and verify empty success, nonempty success, and RPC failure remain distinguishable.
+tokens used
+3,269
+- **`rpc.go:2–5` — RPC failures are indistinguishable from successful empty results.** `Fetch` returns `nil` for both an error and an empty success, and `HasWork` converts both to `false`. This silently treats an unavailable service as “no work,” preventing the consumer from surfacing the failure for retry. Require explicit error propagation, such as `Fetch(...) ([]string, error)` and `HasWork(...) (bool, error)`, with empty success represented as zero items and no error. Update consumers to handle failures, document the signature changes if replacing an existing API, and verify empty success, nonempty success, and RPC failure remain distinguishable.
+
+__ABLATION_DONE__ exit=0

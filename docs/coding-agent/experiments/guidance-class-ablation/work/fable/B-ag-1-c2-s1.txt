@@ -1,0 +1,16 @@
+## Review: `Checkout.tsx` — Gate 1 (Responsibility Boundaries)
+
+**Verdict: Acceptable as-is. No blocking findings.**
+
+### Why it passes
+
+- **Quote is not computed in the UI.** The component renders `quote` verbatim from props and never derives price from `quantity`. That's the core requirement of "render authoritative checkout quote" — the presentation layer displays the server's figure and does not participate in pricing policy.
+- **Validation is gating, not policy.** `Number.isSafeInteger(quantity) && quantity > 0` only controls whether the button is enabled. Per the stated architecture, `onSubmit` (the application adapter) re-validates and the server recomputes policy, so the UI check is non-authoritative UX. Repeating a cheap input-sanity predicate in the presentation layer for responsiveness is the accepted pattern; it does not move the invariant out of its owning layer.
+- **No transport or persistence leakage.** The component doesn't fetch, doesn't know the API shape, doesn't format server payloads. It takes data in, emits an intent out.
+- **Redundant `if(valid)` in the click handler** is harmless defensive coding against programmatic clicks on a disabled button; not a boundary issue.
+
+### One non-blocking note (would not block, would mention)
+
+- **`Checkout.tsx` line 3 — hardcoded validation predicate.** If the domain already exposes a `isValidQuantity`-style predicate (or the adapter's validation is exported), prefer importing it rather than re-typing `isSafeInteger && > 0` here. Not a Gate 1 violation today, but two independent copies of the same rule is how UI/domain validation drifts (e.g., a max-quantity rule added server-side that the button never learns about). Purely a maintainability suggestion; acceptable to defer.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,18 @@
+**Verdict: block.** The change does not actually deliver the total with tax — the displayed total will be `1000`, not `1100`.
+
+## Findings
+
+### 1. `invoice.js` — `mapInvoice` drops `taxAmount`, so `total()` never sees the tax
+
+**What's wrong:** `mapInvoice(wire)` returns only `{amount: wire.amount}`. The Python response (the full contract per the notes) sends `{"amount": 1000, "taxAmount": 100}`, but the adapter discards `taxAmount`. `total(invoice)` then reads `invoice.taxAmount`, gets `undefined`, and the `?? 0` fallback kicks in. Every invoice — including newly created, taxed ones — is displayed as `amount + 0`.
+
+**Why it matters:** This is the one thing the task asked for, and it silently fails. There is no error, no NaN, no warning: the user just sees an untaxed total on a taxed invoice. The `?? 0` fallback, which is legitimate for genuine legacy untaxed records, is doing double duty here as a bug-hider — it makes a mapper omission indistinguishable from a real legacy record. Because the "legacy = zero tax" behaviour is explicitly intended, nobody looking at the output would suspect a defect.
+
+**What I'd require:**
+- Carry the field through the adapter: `export function mapInvoice(wire) { return {amount: wire.amount, taxAmount: wire.taxAmount}; }`
+- Add a test that exercises the real path end-to-end, not `total()` in isolation: `total(mapInvoice({amount: 1000, taxAmount: 100}))` must equal `1100`. A unit test on `total()` alone with a hand-built object would pass today and still miss this bug.
+- Keep a second test for the legacy case (`mapInvoice({amount: 1000})` → total `1000`) so the fallback remains intentional and covered rather than incidental.
+
+No other issues: integer-cents arithmetic is fine, and the Python side matches the stated contract.
+
+__ABLATION_DONE__ exit=0

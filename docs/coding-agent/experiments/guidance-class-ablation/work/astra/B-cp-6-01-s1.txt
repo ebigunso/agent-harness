@@ -1,0 +1,54 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a2-4612-7553-adc8-3469def246a2
+--------
+user
+Reference material loaded for this review:
+
+### 6) Maintain Contract Fidelity Across Layers
+
+- Keep data models, service contracts, and adapters aligned.
+- Avoid silent field loss, implicit coercions, or shape drift.
+- Version and migrate interfaces deliberately when needed.
+
+Review checks:
+- Do upstream/downstream boundaries agree on schema and semantics?
+- Is contract drift prevented or merely tolerated?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Expose server timeout in browser adapter.
+
+```diff
+--- a/Timeout.java
++++ b/Timeout.java
+@@ -0,0 +1 @@
++public record Timeout(int timeoutSeconds) {}
+--- a/timeout.ts
++++ b/timeout.ts
+@@ -0,0 +1,4 @@
++type Timeout = {timeoutSeconds: number};
++export function schedule(config: Timeout, done: () => void) {
++  return setTimeout(done, config.timeoutSeconds);
++}
+```
+Commit message: "expose server timeout in browser adapter"
+
+Reviewer notes: Wire timeoutSeconds is a nonnegative integer <= 3600. Timer environment is browser TypeScript DOM. Java record is serialized by configured Jackson record support; required JSON field is timeoutSeconds.
+
+codex
+- **`timeout.ts:3` — Timeout units do not match the wire contract.** `timeoutSeconds` is in seconds, but browser `setTimeout` expects milliseconds. A value of `60` therefore schedules the callback after 60 ms instead of 60 seconds. Require `setTimeout(done, config.timeoutSeconds * 1000)`, with a test verifying the conversion.
+tokens used
+3,218
+- **`timeout.ts:3` — Timeout units do not match the wire contract.** `timeoutSeconds` is in seconds, but browser `setTimeout` expects milliseconds. A value of `60` therefore schedules the callback after 60 ms instead of 60 seconds. Require `setTimeout(done, config.timeoutSeconds * 1000)`, with a test verifying the conversion.
+
+__ABLATION_DONE__ exit=0

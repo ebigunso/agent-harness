@@ -1,0 +1,63 @@
+**Verdict: block.** The change inverts the dependency direction the module was built around.
+
+**Findings**
+
+1. **`pricing.py` line 2 — `import requests` in the domain module.**
+   The domain now imports a vendor/network library. This is exactly the "no framework/vendor calls in domain" rule the reference material forbids. The core is now coupled to HTTP, a specific transport library, and network availability. Any consumer of `price()` (tests, batch jobs, other domain code) now needs network access and `requests` on the path.
+   *Require:* remove the import from `pricing.py`. If an HTTP-backed quote source is needed, put it in an outer/adapter module (e.g. `adapters/vendor_quotes.py`) that imports `requests` and implements `QuoteProvider`.
+
+2. **`pricing.py` `price()` — signature change from `price(provider: QuoteProvider)` to `price()`.**
+   `QuoteProvider` is the existing stable inner seam. The change bypasses it: the Protocol is still declared but nothing consumes it, so it is now dead code and the seam is effectively deleted. Every existing caller that passes a provider breaks (`TypeError: price() takes 0 positional arguments`), and every test that used a stub provider no longer has an injection point. This is also an unrelated public-API change smuggled in under a message that says only "calculate domain price".
+   *Require:* keep `def price(provider: QuoteProvider) -> int` and leave the calculation as `provider.quote() + 10`. Composition (which provider to pass) belongs at the edge, not inside the domain.
+
+3. **`pricing.py` `price()` — hardcoded vendor URL `https://quotes.example.test/current` and timeout in domain code.**
+   The URL, the timeout value, and the response shape (`["cents"]`) are volatile vendor details. The reviewer note says "Domain now owns volatile URL and requests behavior" — that is a description of the defect, not a justification. Changing vendors, endpoints, or payload format now requires editing the domain module.
+   *Require:* move URL/timeout/response-parsing into the adapter. Configuration (endpoint, timeout) should be injected into the adapter, not baked into a literal.
+
+4. **`pricing.py` `price()` — "validated numeric JSON quote" is not actually validated.**
+   `response.json()["cents"]` will raise `KeyError` on a missing field and `TypeError` on a non-numeric value; neither is an intentional validation, and neither is translated into a domain error. `raise_for_status()` and `timeout` only cover HTTP status and socket timeouts; `requests.exceptions.ConnectionError`, JSON decode errors, and schema mismatches all leak raw `requests`/stdlib exceptions out of the domain. This is a secondary point once finding 1 is fixed, but the adapter must do this work properly.
+   *Require:* in the adapter, check the field exists and is an `int` (or coerce with an explicit rule), and raise a domain-level error type on any failure so callers of `QuoteProvider.quote()` never see `requests` exceptions.
+
+5. **No documentation of the new external seam.**
+   The reference material asks that edges be documented. The change introduces a live network dependency with no note on where it lives, how it is configured, or how tests are expected to stub it.
+   *Require:* a short note (module docstring or README entry) on the adapter describing the endpoint contract and the fact that `pricing.price` takes any `QuoteProvider`.
+
+**What I'd accept instead (sketch)**
+
+```python
+# pricing.py — unchanged domain
+from typing import Protocol
+
+class QuoteProvider(Protocol):
+    def quote(self) -> int: ...
+
+def price(provider: QuoteProvider) -> int:
+    return provider.quote() + 10
+```
+
+```python
+# adapters/vendor_quotes.py — outer edge
+import requests
+from pricing import QuoteProvider  # optional, for typing/assert
+
+class QuoteError(Exception): ...
+
+class HttpQuoteProvider:
+    def __init__(self, url: str, timeout: float = 2.0):
+        self._url, self._timeout = url, timeout
+
+    def quote(self) -> int:
+        try:
+            r = requests.get(self._url, timeout=self._timeout)
+            r.raise_for_status()
+            cents = r.json()["cents"]
+        except (requests.RequestException, ValueError, KeyError, TypeError) as e:
+            raise QuoteError(str(e)) from e
+        if not isinstance(cents, int):
+            raise QuoteError(f"non-integer quote: {cents!r}")
+        return cents
+```
+
+Callers wire `price(HttpQuoteProvider(settings.quote_url))` at the composition root. Domain stays free of `requests`, the seam stays intact, and the vendor details are isolated to one replaceable file.
+
+__ABLATION_DONE__ exit=0

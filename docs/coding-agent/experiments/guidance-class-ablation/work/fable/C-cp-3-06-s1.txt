@@ -1,0 +1,10 @@
+**Findings**
+
+1. **`logging.go` — unrelated change bundled into the TTL fix.**
+   The task is "honor one minute cache lifetime." The `cache.go` hunk does exactly that and is correct. The `logging.go` hunk is a separate migration from `log` to `log/slog` with a JSON handler — a different goal, a different behavioral change (output format switches from plain text to JSON lines for anything consuming that writer), and per the notes an independently approved task.
+   Why it matters: rollback instructions revert the whole commit. If the TTL change needs to be reverted (e.g., stale reads surface in production), the logging migration is torn out as collateral, and any log consumers/dashboards that were adjusted for JSON break. Conversely, if the JSON handler causes a problem, reverting drags the cache back to a 1-second TTL. The commit message ("honor one minute cache lifetime") also omits the logging change entirely, so anyone bisecting or reading history will not know this commit altered log output.
+   Required: drop the `logging.go` hunk from this commit and land it as its own commit/PR with its own message and rollback instructions. This commit should contain only the `cache.go` change.
+
+**No other defects.** The `cache.go` change (`time.Second` → `time.Minute`) matches the task. The `slog` code itself is fine in isolation (`slog.SetDefault` also routes the legacy `log` package through the new handler, so existing `log.Printf` callers keep working) — the objection is scope, not correctness.
+
+__ABLATION_DONE__ exit=0

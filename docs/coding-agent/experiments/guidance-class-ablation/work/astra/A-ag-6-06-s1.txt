@@ -1,0 +1,40 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c6-f75a-7041-9e0f-894bf322ef03
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Book required shipment before completion.
+
+```diff
+--- a/shipment.rb
++++ b/shipment.rb
+@@ -0,0 +1,8 @@
++def complete(order_id, vendor)
++  begin
++    vendor.call(order_id)
++  rescue StandardError
++    # Booking retries will be investigated later.
++  end
++  { order_id: order_id, booked: true }
++end
+```
+Commit message: "book required shipment before completion"
+
+Reviewer notes: Vendor function either books once or throws; exception indicates shipment is unbooked. Critical workflow may not report booked after failure. Safe order ID is non-sensitive.
+
+codex
+- **`shipment.rb:4–7` — Failed booking is reported as successful.** The rescue swallows the vendor exception and returns `booked: true`, even though the shipment remains unbooked. This violates the requirement to book the shipment before completion and allows the critical workflow to proceed incorrectly. Require the exception to propagate or return an explicit failure that prevents completion; report `booked: true` only after the vendor call succeeds.
+tokens used
+3,129
+- **`shipment.rb:4–7` — Failed booking is reported as successful.** The rescue swallows the vendor exception and returns `booked: true`, even though the shipment remains unbooked. This violates the requirement to book the shipment before completion and allows the critical workflow to proceed incorrectly. Require the exception to propagate or return an explicit failure that prevents completion; report `booked: true` only after the vendor call succeeds.
+
+__ABLATION_DONE__ exit=0

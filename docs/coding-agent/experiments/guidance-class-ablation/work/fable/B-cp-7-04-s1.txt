@@ -1,0 +1,17 @@
+**Verdict: not acceptable as-is.** The code change is correct; the evidence is not.
+
+**1. `auth.ts` / submitted evidence — the denial path was never exercised (blocking)**
+
+- What's wrong: The only evidence is an admin screenshot and a successful admin route response. Before this change `exportStatus` returned 200 unconditionally, so that exact evidence would have been produced by the *old* code too. It does not distinguish pre-change from post-change behavior and provides zero confirmation that the new `403` branch works or is reachable.
+- Why it matters: This is an authorization restriction. The entire purpose of the change is the deny branch, and that is the one branch with no evidence. If a typo, a wrong comparison, or a caller ignoring the return value slipped in, the happy-path evidence would still look identical. Evidence is not proportional to risk here.
+- Require: At minimum, a demonstrated `viewer` request to the export route returning 403 with no export payload. Better: add a unit test for `exportStatus` covering both `"admin" → 200` and `"viewer" → 403`. The function is a pure, deterministic seam with a closed input type — a two-case test is trivial and there is no excuse for shipping an authz change without one.
+
+**2. Integration with the export handler — confirm 403 actually aborts the export (needs confirmation, may be blocking)**
+
+- What's wrong: The diff changes only the status *decision*. Nothing in the diff or notes shows that the route handler short-circuits on a non-200 result rather than setting the status while still building/streaming the export body.
+- Why it matters: A 403 status with the account data still in the response is a data leak that looks "correct" in a status-code check. The screenshot evidence can't reveal this.
+- Require: Either point to the call site showing the handler returns early on 403, or make the denied-role check in finding 1 assert on an empty/error body, not just the status code.
+
+No issues with the logic itself: closed `Role` union, default-deny (only `"admin"` gets 200), 403 is the right code for an authenticated-but-unauthorized caller.
+
+__ABLATION_DONE__ exit=0

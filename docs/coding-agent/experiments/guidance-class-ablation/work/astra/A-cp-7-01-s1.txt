@@ -1,0 +1,42 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08196-1046-7b51-887a-745bea48a5cb
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Expire daily passes at local midnight.
+
+```diff
+--- a/expiry.py
++++ b/expiry.py
+@@ -0,0 +1,10 @@
++from datetime import datetime, timedelta
++import time
++def expired(expires_on):
++    return datetime.now().date() >= expires_on
++def test_midnight():
++    tomorrow = datetime.now().date() + timedelta(days=1)
++    assert not expired(tomorrow)
++    while datetime.now().date() < tomorrow:
++        time.sleep(0.1)
++    assert expired(tomorrow)
+```
+Commit message: "expire daily passes at local midnight"
+
+Reviewer notes: Passes expire when the local calendar date reaches expires_on; service timezone is selected by process environment. Test below is the proposed boundary validation and runs in that same zone.
+
+codex
+- **`expiry.py:5–10` — The boundary test depends on real time and can run for nearly 24 hours.** This would stall or time out normal test runs. It can also fail spuriously if midnight occurs between calculating `tomorrow` and the first assertion. Require a controlled clock (injected or mocked) and deterministic assertions immediately before, at, and after local midnight in the service timezone.
+tokens used
+3,262
+- **`expiry.py:5–10` — The boundary test depends on real time and can run for nearly 24 hours.** This would stall or time out normal test runs. It can also fail spuriously if midnight occurs between calculating `tomorrow` and the first assertion. Require a controlled clock (injected or mocked) and deterministic assertions immediately before, at, and after local midnight in the service timezone.
+
+__ABLATION_DONE__ exit=0

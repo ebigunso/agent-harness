@@ -1,0 +1,31 @@
+## Cause
+
+This is a workspace problem, not an npm/registry/permissions defect.
+
+`npm ci` must delete `node_modules` before reinstalling. It failed on `unlink` of `@parcel\watcher\build\Release\watcher.node` with EPERM (errno -4048). On Windows, a loaded native addon (`.node` DLL) cannot be unlinked while any process has it mapped. `tasklist /m watcher.node` identifies exactly one holder: `node.exe` PID 4104, which is this repo's own watch script (`scripts/watch.js`) that detached from its shell and kept running. The other observations (lockfile in sync, ordinary files create/delete fine beside the module, no ACL denial, registry OK) rule out permissions, antivirus, or a corrupt install as the cause.
+
+## Smallest safe remediation
+
+Stop the one process holding the binary, then rerun. Since the watcher is owned by this repository (not an unrelated tool) and has no attached shell to Ctrl+C, terminating it is appropriate:
+
+```powershell
+taskkill /PID 4104 /F
+npm ci
+```
+
+Do not delete `node_modules` by hand, change ACLs, disable antivirus, or run as admin — none of those address the lock and the last two widen risk unnecessarily. If the watch script is normally started by an npm script or task runner, restart it *after* the install completes.
+
+## Confirmation
+
+1. Lock released:
+   ```powershell
+   tasklist /m watcher.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.` (no `node.exe` row).
+2. `npm ci` exits 0 with no EPERM/EBUSY in stderr.
+3. `node_modules\@parcel\watcher\build\Release\watcher.node` exists again (fresh build/prebuild) and, optionally, `node -e "require('@parcel/watcher')"` loads without error.
+4. Restart `scripts/watch.js` and verify it works against the reinstalled module.
+
+If `npm ci` fails again on a *different* `.node` file, repeat step 2 of the runbook with that filename; if it fails on the *same* file, check `tasklist | findstr node` for a respawned watcher (e.g., a supervisor restarting it) and stop that parent first.
+
+__ABLATION_DONE__ exit=0

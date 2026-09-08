@@ -1,0 +1,24 @@
+**Cause**
+
+`npm ci` deletes `node_modules` before reinstalling. The unlink of `node_modules\canvas\build\Release\canvas.node` fails with `EPERM` (errno -4048) because the native addon is currently mapped into a running process: `node.exe` PID 4107, the chart-preview worker (`workers/chart-preview.js`) left alive after the parent script exited. Windows will not let you delete a DLL/`.node` that is loaded in a live process. This is not a permissions, ACL, lockfile, cache, or registry problem — the probe file beside the module can be created/removed fine, and the process is owned by this repository, so it's a workspace state issue: a stale child process holding the file.
+
+**Smallest safe remediation**
+
+Stop the orphaned worker, then rerun the install:
+
+```powershell
+Stop-Process -Id 4107          # the leftover chart-preview worker
+npm ci
+```
+
+Don't reach for `taskkill /F /IM node.exe` (would kill unrelated Node processes), and don't delete `node_modules` by hand or adjust ACLs — neither addresses the open handle. If the worker was started by a watcher/task runner that respawns it, stop that runner first so it doesn't re-lock the file mid-install.
+
+**Confirmation**
+
+1. `tasklist /m canvas.node` returns "No tasks are running which match the specified criteria" (no process has the addon loaded).
+2. `npm ci` exits 0 with no `EPERM`/`unlink` errors.
+3. `node -e "require('canvas')"` from `C:\work\npm-lock` loads the freshly installed addon without error.
+
+Longer-term (optional, not required for this fix): have the parent script terminate its chart-preview child on exit so the file isn't held after the run finishes.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,31 @@
+**Verdict: not a workspace/cwd problem.** The cwd runbook doesn't apply here; this is a genuine test failure in the code.
+
+**Evidence that rules out cwd drift**
+
+- `pwd` = `C:/work/rust-service` before and after; the prior `Set-Location` succeeded and no navigation happened.
+- `Cargo.toml`, `api/Cargo.toml`, and `api/src/lib.rs` all resolve at that root.
+- `cargo metadata` sees `api` as a member; compilation finished (`Finished test profile`) and the test binary ran (`Running unittests src/lib.rs`).
+- Exit code 101 is Cargo's "tests ran and at least one failed", not "couldn't find package/manifest". A cwd problem would have produced something like `could not find Cargo.toml` or `package ID specification 'api' did not match` before anything compiled.
+
+**Actual cause**
+
+`tests::count` at `api/src/lib.rs:18:9` asserts `left == right` with `left: 4`, `right: 3`. The code under test returns 4 where the test expects 3 (per the scenario, a regression: expected 3, computed 4). Everything infrastructural — resolution, build, test harness — worked.
+
+**Smallest safe remediation**
+
+Don't touch cwd, environment, or Cargo config. Fix the logic:
+
+1. `Get-Content api/src/lib.rs` (or open it) and read the function that `tests::count` exercises plus the assertion on line 18.
+2. Determine which side is wrong. Since this is described as a regression with expected 3, the fix is almost certainly to the implementation (an off-by-one / extra element counted), not to the assertion. Only change the test's expected value if you can show the spec actually changed — otherwise you'd be masking the regression.
+3. Make the minimal code change to restore the correct count.
+
+**Confirmation**
+
+```powershell
+cargo test -p api --lib          # the exact rerun Cargo suggested
+```
+Expect `test tests::count ... ok` and `test result: ok. 1 passed`, exit code 0. Then run the full `cargo test -p api` (and ideally `cargo test` at workspace root) to make sure the fix didn't shift the count somewhere else.
+
+For the troubleshooting record: pre- and post-cwd both `C:/work/rust-service`; cwd normalization not performed and not needed; root cause = logic regression in `api/src/lib.rs`; status = still failing until the code fix lands.
+
+__ABLATION_DONE__ exit=0

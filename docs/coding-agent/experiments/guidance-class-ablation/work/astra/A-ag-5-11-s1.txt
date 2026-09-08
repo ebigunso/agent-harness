@@ -1,0 +1,42 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c5-7bd6-7ae0-9d1a-59d16b71948b
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Publish completed job results.
+
+```diff
+--- a/job.cpp
++++ b/job.cpp
+@@ -0,0 +1,10 @@
++#include <string>
++struct Store {
++ virtual ~Store() = default;
++ virtual void markCompleted(const std::string& id) = 0;
++ virtual void writeResult(const std::string& id,const std::string& result) = 0;
++};
++void finish(Store& store,const std::string& id,const std::string& result) {
++ store.markCompleted(id);
++ store.writeResult(id,result);
++}
+```
+Commit message: "publish completed job results"
+
+Reviewer notes: C++17. Both Store methods persist independently; complete flag implies retrievable durable result. writeResult may fail or process may stop between calls. Failures propagate to worker; retry checks persisted completion.
+
+codex
+- **`job.cpp:8–9` — Completion is persisted before the result.** If `writeResult` fails or the process stops between calls, the job remains marked complete without a durable, retrievable result. A retry that checks persisted completion can then skip the job, leaving the result missing permanently. Require writing the result durably before marking completion, with safe retries if execution stops between those operations, or publishing both atomically.
+tokens used
+3,182
+- **`job.cpp:8–9` — Completion is persisted before the result.** If `writeResult` fails or the process stops between calls, the job remains marked complete without a durable, retrievable result. A retry that checks persisted completion can then skip the job, leaving the result missing permanently. Require writing the result durably before marking completion, with safe retries if execution stops between those operations, or publishing both atomically.
+
+__ABLATION_DONE__ exit=0

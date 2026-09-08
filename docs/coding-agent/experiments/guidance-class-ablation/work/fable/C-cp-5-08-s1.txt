@@ -1,0 +1,24 @@
+**Findings**
+
+1. **`hook.ts` L3–L4 — unknown event types crash with an unhelpful `TypeError`.**
+   The reviewer notes say the remote service *will* send future event types, so an unknown `type` is an expected input, not an edge case. For any such type, `handlers[type]` is `undefined` and the call throws `TypeError: handlers[type] is not a function` — no mention of the offending event type, and the caller can't distinguish "unsupported event" from a bug. The `as keyof typeof handlers` cast is what lets this compile; it asserts an invariant the transport does not guarantee (transport only validated that `type` is a string, not that it's one of ours).
+   **Require:** drop the cast and check membership at entry, then handle the unknown case explicitly. Either branch is defensible but must be a decision, not an accident:
+   ```ts
+   export function webhook(event: {type: string}) {
+     if (!Object.hasOwn(handlers, type)) {
+       // choose one, deliberately:
+       return "ignored";                                            // acknowledge-and-skip
+       // or: throw new Error(`webhook: unsupported event type "${event.type}"`);
+     }
+     return handlers[event.type as keyof typeof handlers]();
+   }
+   ```
+   (After the guard, the narrowing cast is honest; a `Map<string, () => string>` or a type predicate avoids it entirely.) Given the ack-only semantics and that future types are anticipated, I'd lean toward acknowledge-and-skip with a log, but the author should state which.
+
+2. **`hook.ts` L1/L4 — plain-object lookup accepts prototype keys.**
+   Because `handlers` is a normal object literal, `event.type` values like `"toString"`, `"valueOf"`, `"constructor"`, or `"__proto__"` resolve to `Object.prototype` members. `"toString"` returns `"[object Object]"` — which looks like a successful acknowledgement for an event we never handled; `"__proto__"` throws. This is remote-controlled input reaching a prototype chain.
+   **Require:** an own-property check (`Object.hasOwn`, as above), or build `handlers` with `Object.create(null)`, or use a `Map`. Any of these closes it; combining with finding 1 resolves both in one guard.
+
+Not acceptable as-is; both items block.
+
+__ABLATION_DONE__ exit=0

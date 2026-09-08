@@ -1,0 +1,47 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e8-36ae-75e3-a149-239f510ee595
+--------
+user
+Reference material loaded for this review:
+
+Define meaningful success/failure signals; inspect key boundary events. Assess sensitive-data exposure and minimize logged fields. Avoid silent failures and excessive noise hiding actionable indicators.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Support partial import success metrics.
+
+```diff
+--- a/importer.rb
++++ b/importer.rb
+@@ -0,0 +1,9 @@
++def import(rows, accepted, signal)
++  count = 0
++  rows.each do |row|
++    next if row.empty?
++    accepted << row
++    count += 1
++  end
++  signal.call("accepted", count)
++end
+```
+Commit message: "support partial import success metrics"
+
+Reviewer notes: Row is valid if nonempty; empty rows are rejected by explicit import policy. Partial acceptance is intended, but operators must inspect rejected count and safe row locations. Storage append cannot fail in this bounded in-memory batch.
+
+codex
+- **`importer.rb:4–8` — Rejections are silently discarded.** The only emitted metric is the accepted count; operators cannot inspect the rejected count or locate rejected rows, as required. Emit the rejected count and safe row locations, such as batch-relative row indices, alongside the accepted count. Use a batch summary without raw row contents to keep rejection information actionable while avoiding sensitive-data exposure and excessive logging.
+tokens used
+3,236
+- **`importer.rb:4–8` — Rejections are silently discarded.** The only emitted metric is the accepted count; operators cannot inspect the rejected count or locate rejected rows, as required. Emit the rejected count and safe row locations, such as batch-relative row indices, alongside the accepted count. Use a batch summary without raw row contents to keep rejection information actionable while avoiding sensitive-data exposure and excessive logging.
+
+__ABLATION_DONE__ exit=0

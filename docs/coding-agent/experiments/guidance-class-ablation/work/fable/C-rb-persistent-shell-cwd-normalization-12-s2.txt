@@ -1,0 +1,13 @@
+**Cause:** Working-directory drift in the persistent shell. A prior `Set-Location -LiteralPath 'C:/work/php-app/docs'` left the shell's cwd at `C:/work/php-app/docs` (confirmed by `pwd` and the `Get-ChildItem -Name` output showing only `README.md`). The relative path `bin/console` was therefore resolved as `C:/work/php-app/docs/bin/console`, which doesn't exist, so PHP reported `Could not open input file: bin/console` and exited 1. The tool UI's remembered root (`C:/work/php-app`) is not the shell's actual cwd. This is a workspace/cwd problem, not a code, PHP, PATH, dependency, or permission problem — `C:/work/php-app/bin/console` exists and is readable.
+
+**Smallest safe remediation:** Navigate once, explicitly, to the intended base — `Set-Location -LiteralPath 'C:/work/php-app'` — then rerun the original command unchanged: `php bin/console cache:clear`. No relative `cd ..` chaining, no edits to the command, no changes to code or environment.
+
+**Confirmation (already captured):**
+- Before: cwd `C:/work/php-app/docs`; command exit 1, stderr `Could not open input file: bin/console`.
+- Normalized: `Set-Location` exit 0; `pwd` → `C:/work/php-app`.
+- Retry of the identical command: exit 0; stdout `[OK] Cache for the "dev" environment (debug=true) was successfully cleared.`; stderr empty.
+- Final `pwd`: `C:/work/php-app`.
+
+Status: **resolved**. Same command, same files, same environment — only the cwd changed, which isolates cwd as the cause. If the retry had still failed after normalization, the next step would have been to look elsewhere (PHP invocation, file permissions, console script itself) rather than continuing to adjust cwd. For the rest of this session, either stay at `C:/work/php-app` or use the absolute path `C:/work/php-app/bin/console` to avoid a repeat.
+
+__ABLATION_DONE__ exit=0

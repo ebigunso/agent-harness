@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.** No blocking or flag-level findings.
+
+Checked against Gate 6:
+
+- **Containment scope** — `run` handles exactly one message. On `Poison`, only that message is diverted; nothing is retried, and the worker's state is unaffected beyond the queue entry. Non-`Poison` exceptions from `handler.apply` are not swallowed, which is correct: `Poison` is the documented failure contract, and masking undocumented failures behind the dead-letter path would hide root causes.
+- **Bounded, non-blocking** — `ArrayBlockingQueue(100)` with `offer` never blocks and never grows; `poll` on drain is non-blocking. No unbounded retry or blocking call on the critical path.
+- **Explicit degradation when full** — the full-queue case emits `dead_letter_full:<id>` and then throws `IllegalStateException` with the original `Poison` as cause. That fails only the current message, loudly, with the cause preserved; it does not silently drop the message or degrade into a cascade. The caller supervises per-message outcomes, so surfacing this as an exception is the right boundary.
+- **Error propagation** — `signal.accept` is stated nonthrowing, so the `signal.accept("processed:"+id)` inside the `try` cannot be misclassified, and the signal calls in the catch cannot interrupt the dead-letter path.
+- **Thread safety** — `ArrayBlockingQueue` is safe for concurrent `offer`/`poll`; the class holds no other mutable state.
+
+One non-blocking observation, not a required change: the dead-letter store is in-process memory, so entries are lost on a crash. For "isolate poison messages" that is in scope and consistent with the commit; if durable dead-lettering is a requirement, it would be a separate change, not a fix to this one.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,18 @@
+**Cause:** Working-directory drift in the persistent shell, not a broken workspace. The prior `cd '/c/work/jvm-app/service'` moved the shell's cwd into the `service` subproject, while the tool UI still shows `C:/work/jvm-app` as the root. `./gradlew` is a relative path resolved against the shell's actual cwd (`/c/work/jvm-app/service`), where no `gradlew` exists — only `build.gradle.kts` and `src`. Bash reports exit 127 "No such file or directory" because the wrapper script lives one level up at `C:/work/jvm-app/gradlew`. Nothing about Java, Gradle, the wrapper, permissions, line endings, or code changed; the identical command succeeded once run from the correct base.
+
+**Smallest safe remediation:** Run the wrapper from the project root, without altering any files:
+
+```bash
+cd /c/work/jvm-app && ./gradlew test
+```
+
+If you specifically want only the `service` subproject's tests, use the qualified task from the root (`./gradlew :service:test`) or the `-p` flag (`./gradlew -p service test`) — but either way, invoke the root-level `gradlew`. Do not copy `gradlew` into `service/` or edit anything; the wrapper is correctly located at the root of the multi-project build (alongside `settings.gradle.kts`).
+
+**Confirmation:**
+1. `pwd` prints `/c/work/jvm-app` (normalized `C:/work/jvm-app`).
+2. `ls -1 gradlew settings.gradle.kts` lists both files, exit 0.
+3. `./gradlew test` exits 0 and prints `> Task :service:test` followed by `BUILD SUCCESSFUL` — which the captured comparison run already demonstrates.
+
+This is a shell-state issue (cwd in the persistent shell diverged from the UI's remembered root), not a workspace, dependency, or environment defect.
+
+__ABLATION_DONE__ exit=0

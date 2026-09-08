@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c2-bb9b-74a1-b967-899bc492c2b7
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Acknowledge queued reports.
+
+```diff
+--- a/Queue.cs
++++ b/Queue.cs
+@@ -0,0 +1,7 @@
++public interface IQueue { bool Enqueue(string id); }
++public static class Endpoint {
++ public static int Post(IQueue queue,string id) {
++  queue.Enqueue(id);
++  return 204;
++ }
++}
+```
+Commit message: "acknowledge queued reports"
+
+Reviewer notes: 204 contract means accepted into durable queue; false means capacity rejection and must surface as retryable error. Queue implementation and HTTP status translation are modeled by return value.
+
+codex
+- **Queue.cs:4–5** — `Post` ignores `Enqueue`’s return value and returns `204` even when the queue rejects the report because it is full. This falsely acknowledges durable acceptance and can cause callers to discard reports instead of retrying. Require `204` only when `Enqueue` returns `true`; return a retryable error status, such as `503`, when it returns `false`.
+tokens used
+3,117
+- **Queue.cs:4–5** — `Post` ignores `Enqueue`’s return value and returns `204` even when the queue rejects the report because it is full. This falsely acknowledges durable acceptance and can cause callers to discard reports instead of retrying. Require `204` only when `Enqueue` returns `true`; return a retryable error status, such as `503`, when it returns `false`.
+
+__ABLATION_DONE__ exit=0

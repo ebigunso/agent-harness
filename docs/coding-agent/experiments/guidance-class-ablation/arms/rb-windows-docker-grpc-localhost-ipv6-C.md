@@ -1,0 +1,1 @@
+Windows Docker published-port gRPC hangs, REST fast, no server call: localhost may resolve to ::1 whose proxy accepts TCP but stalls HTTP/2. Retry the same RPC at 127.0.0.1:<port>; if it works, use IPv4 in local config. If both fail, inspect service, published ports and container health. Record targets/port, deadline output, REST timing and IPv4 retry.

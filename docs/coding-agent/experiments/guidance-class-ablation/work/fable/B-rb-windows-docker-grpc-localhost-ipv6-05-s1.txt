@@ -1,0 +1,25 @@
+**Cause**
+
+This is a workspace/host-networking problem, not a service or probe defect. `localhost` resolves to `::1` before `127.0.0.1`, so the failed channel dialed `[::1]:50051`. Docker Desktop's IPv6 port proxy accepted the TCP connect but never delivered HTTP/2 response headers, so the gRPC channel stalled at the transport layer until the 2 s deadline (probe exit 2, `DEADLINE_EXCEEDED`). The evidence lines up with that and rules out the service:
+
+- The sibling HTTP/1.1 port (50080) over the same `localhost` name answered in 12 ms — IPv6 proxying is fine for HTTP/1.1, only h2c stalls.
+- The service interceptor log shows no invocation for the failed call, so the request never reached the container.
+- The address-only comparison (`127.0.0.1:50051`, everything else identical) returned `pong`, exit 0, and the service log shows `invoked=true completed=true`.
+
+The probe itself is behaving as its contract says: it doesn't override resolution or retry another address, and it maps the deadline status to exit 2 with the normalized message. There is no TLS/SNI dimension since the port is plaintext h2c.
+
+**Smallest safe remediation**
+
+Change the gRPC target from `localhost:50051` to `127.0.0.1:50051` wherever the probe (and any other local gRPC client hitting Docker Desktop published ports) is configured — e.g. the command line, launch profile, or config value that supplies `--target`. Don't touch the service, port mappings, container, timeouts, or the probe's error handling; they are all correct. Editing the hosts file or disabling IPv6 host-wide is broader than needed and not justified here.
+
+**Confirmation**
+
+1. Re-run the exact failed command with only the target changed:
+   `dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --timeout 2`
+   Expect exit 0, stdout `pong`, empty stderr — this already matches the captured comparison.
+2. Check the service interceptor log shows a new line `probe method="unary Echo" transport=h2c invoked=true completed=true` for that run, proving the request reached the container rather than merely not timing out.
+3. Optionally, keep `localhost:50080` for the REST health check as a control — it should still return 200 in ~12 ms, confirming nothing else in the environment changed.
+
+If the `127.0.0.1` run ever regresses to `DEADLINE_EXCEEDED`, that would be a genuine service/port-publishing/container-health issue and should be investigated on those terms.
+
+__ABLATION_DONE__ exit=0

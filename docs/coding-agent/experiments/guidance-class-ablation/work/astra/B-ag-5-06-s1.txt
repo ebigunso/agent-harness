@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d9-fcd0-71d2-be3c-63a078431fcc
+--------
+user
+Reference material loaded for this review:
+
+### Gate 5: Data and State Integrity
+
+**Expectation**
+- Data ownership, lifecycle, and state transitions are consistent and enforceable.
+- Invariants are protected at authoritative boundaries.
+- For classification or attribution features, derive the full truth table before selecting the data model.
+
+**Evidence expectations**
+- Plan identifies impacted invariants and lifecycle transitions.
+- Review verifies invariant checks remain at reliable enforcement points.
+- Concurrent or repeated execution behavior is considered where relevant.
+
+**Anti-patterns**
+- Invariants enforced only in optional caller paths.
+- Conflicting write paths without ownership clarity.
+- State transitions that allow invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Apply delivered counter events.
+
+```diff
+--- a/Counter.cs
++++ b/Counter.cs
+@@ -0,0 +1,5 @@
++public record Event(string Id, int Delta);
++public sealed class Counter {
++ public int Value { get; private set; }
++ public void Consume(Event message) { Value += message.Delta; }
++}
+```
+Commit message: "apply delivered counter events"
+
+Reviewer notes: Transport is at least once; same event ID can repeat. Current consumer is serial and counts fit int. Event ID is authoritative identity; each event delta must apply once.
+
+codex
+- **`Counter.cs:4` — `Consume` applies duplicate events repeatedly.** The transport is at least once, but every delivery increments `Value`, even when its authoritative event ID has already been consumed. Redelivery therefore corrupts the counter. Require deduplication by `message.Id` inside `Consume`, making repeated deliveries no-ops. Recording the processed ID and updating `Value` must succeed together and share the same state lifecycle so retries cannot lose or reapply a delta.
+tokens used
+3,290
+- **`Counter.cs:4` — `Consume` applies duplicate events repeatedly.** The transport is at least once, but every delivery increments `Value`, even when its authoritative event ID has already been consumed. Redelivery therefore corrupts the counter. Require deduplication by `message.Id` inside `Consume`, making repeated deliveries no-ops. Recording the processed ID and updating `Value` must succeed together and share the same state lifecycle so retries cannot lose or reapply a delta.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,34 @@
+**Verdict: not acceptable as-is.** The change emits a launch signal but drops the one signal the task framing actually requires — whether the queued work succeeded or failed.
+
+## Findings
+
+### 1. `lib.rs:4` — job result is discarded; failures are silent (blocking)
+`let _ = thread::spawn(job);` throws away the `JoinHandle`, so the job's `Result<(), String>` is never observed. An `Err` from queued work — the reviewer notes explicitly say this must be inspectable — vanishes with no signal. A panic inside `job` is likewise swallowed on a detached thread. This is exactly the Gate 7 anti-pattern: a silent failure path with no diagnosable signal. The caller sees `spawned:{id}` and nothing else, so "spawned" is indistinguishable from "spawned and failed immediately."
+
+**Require:** run the job inside a closure on the spawned thread and emit a terminal signal keyed by `id`:
+
+```rust
+pub fn start(
+    id: String,
+    job: impl FnOnce() -> Result<(), String> + Send + 'static,
+    signal: impl Fn(String) + Send + Sync + 'static,
+) {
+    signal(format!("spawned:{id}"));
+    thread::spawn(move || {
+        match job() {
+            Ok(()) => signal(format!("completed:{id}")),
+            Err(e) => signal(format!("failed:{id}:{e}")),
+        }
+    });
+}
+```
+
+This forces the signature change from `FnOnce(String)` to `Fn(String) + Send + Sync + 'static` (it must be called twice and cross the thread boundary) — that change is necessary, not incidental. If panics in `job` are a realistic failure mode, wrap the call in `std::panic::catch_unwind` and emit `failed:{id}:panic` as well; otherwise a panicking job still disappears without trace.
+
+### 2. `lib.rs:3-4` — "spawned" signal is emitted before the spawn happens and cannot report spawn failure (flag)
+`thread::spawn` panics if the OS can't create a thread. The signal is fired first, so a spawn failure leaves a `spawned:{id}` record for a job that never started. **Require:** use `thread::Builder::new().name(id.clone()).spawn(...)`, which returns `io::Result<JoinHandle>`; emit `spawned:{id}` on `Ok` and `spawn_failed:{id}:{err}` on `Err` (or propagate the error). Naming the thread with the job id also makes it identifiable in debuggers/profilers at no cost.
+
+### 3. Failure signal content — define what the `Err` string is allowed to contain (flag, applies to the fix for #1)
+Once the failure signal forwards the job's `Err(String)`, that string is job-controlled. The reviewer notes establish that the id is safe to log and no payload is needed; the fix must not quietly reintroduce payload logging via the error string. **Require:** document on `start` that the `Err` value is a diagnostic reason, not input data, and keep the emitted signal to `failed:{id}:{reason}`. If callers can't be trusted to honor that, truncate or emit only the id and a category.
+
+__ABLATION_DONE__ exit=0

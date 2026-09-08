@@ -1,0 +1,125 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d81-2cb1-7e82-b37e-f51075b3adc6
+--------
+user
+Reference material loaded for this review:
+
+# gRPC hangs against Docker Desktop published ports on Windows (REST sibling port fine)
+
+## Symptoms
+- a gRPC client targeting `localhost:<port>` on Docker Desktop for Windows hangs until client timeout
+- a REST/HTTP endpoint on a sibling published port of the same service responds fast
+- the service's own logs show no incoming request for the hanging gRPC calls
+
+## Likely cause
+`localhost` can resolve to IPv6 `::1` first. Docker Desktop's IPv6 port proxy accepts the TCP connect but stalls HTTP/2, so the gRPC channel hangs at the transport layer while plain HTTP/1.1 (REST) still works. The service itself is healthy.
+
+## Safe, ordered steps
+
+1) Test IPv4 vs IPv6 connect paths before suspecting the service
+- retry the gRPC call with `127.0.0.1:<port>` instead of `localhost:<port>`
+- if IPv4 works and `localhost` hangs, the asymmetry is the loopback resolution, not the service
+
+2) Fix the connection string
+- prefer `127.0.0.1` over `localhost` in local connection strings for gRPC clients targeting Docker Desktop published ports on Windows
+
+3) Only if IPv4 also fails
+- then investigate the service, port publishing, and container health as usual
+
+## Evidence to capture
+- exact target address used (`localhost` vs `127.0.0.1`) and port
+- gRPC timeout/error output vs REST response timing on the sibling port
+- result of the IPv4 retry
+
+## Scope
+Windows + Docker Desktop published ports; gRPC (HTTP/2) clients connecting to local containers.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; Docker address asymmetry and timing are constructed observations, not a claim of live reproduction.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Docker Desktop 4.35.1, WSL2 backend; Kotlin 2.0.21; Java 21.0.5; grpc-java 1.68.1; cwd C:/work/grpc-local. Service port 50051 is plaintext h2c gRPC, sibling port 50080 is HTTP/1.1 health. There is no TLS/certificate-name check. Project probe files and dependencies exist, are validated, and built/cached.
+
+Probe contract: The project probe accepts --target, --timeout (seconds; Go accepts a duration), and where shown --method. It prints response values to stdout only after a successful call. It explicitly maps deadline status to process exit 2 and stderr "DEADLINE_EXCEEDED: deadline expired after 2s"; UNAVAILABLE maps to 2, PERMISSION_DENIED and UNIMPLEMENTED to 3. These are probe-defined normalized messages, not claims about each library's default CLI formatting. It does not override localhost resolution or retry with a different address.
+
+Failed unary Echo call:
+
+Command: `java -jar probes/kotlin-probe.jar --target localhost:50051 --timeout 2`
+
+Exit code: 2
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+DEADLINE_EXCEEDED: deadline expired after 2s
+```
+HTTP sibling comparison:
+
+Command:
+```powershell
+curl.exe --silent --show-error --max-time 2 --write-out '\nhttp_code=%{http_code} total_seconds=%{time_total}\n' http://localhost:50080/health
+```
+Exit code: 0.
+
+stdout:
+```text
+200 OK
+http_code=200 total_seconds=0.012000
+```
+
+stderr: (empty).
+
+Diagnostic observations:
+
+- Name-resolution trace orders localhost as ::1 then 127.0.0.1; the failed channel uses [::1]:50051. A TCP connect to that endpoint succeeds, but no HTTP/2 response headers arrive before the deadline.
+- The service is running; published mappings are host 50051 -> service 50051 and host 50080 -> service 50080. No invocation for the failed call appears in the service interceptor log.
+- The local configuration profile changed its target from 127.0.0.1:50051 to localhost:50051 immediately before this failure. Server code and image are unchanged.
+
+Captured address-only comparison (same method, payload, deadline, server, container and configuration except target):
+
+Command: `java -jar probes/kotlin-probe.jar --target 127.0.0.1:50051 --timeout 2`
+
+Exit code: 0
+
+stdout:
+```text
+pong
+```
+
+stderr:
+```text
+(empty)
+```
+
+Service log for the comparison call:
+```text
+probe method="unary Echo" transport=h2c invoked=true completed=true
+```
+
+codex
+- **Cause:** Changing the target to `localhost:50051` selected IPv6 `[::1]:50051`. In the supplied observations, that Docker Desktop path accepts TCP but stalls HTTP/2, causing the deadline. This is a local connection-target problem, not a workspace/build or service-code failure. The REST sibling’s success does not validate the gRPC transport.
+- **Smallest safe remediation:** Restore the local profile’s target to `127.0.0.1:50051`. No server changes, rebuilds, or longer timeout are needed.
+- **Confirm:** Run `java -jar probes/kotlin-probe.jar --target 127.0.0.1:50051 --timeout 2`. Expect exit `0`, stdout `pong`, empty stderr, and a completed unary Echo in the service log—as already captured. Then rerun the original caller using the corrected profile to verify it uses that target.
+tokens used
+4,171
+- **Cause:** Changing the target to `localhost:50051` selected IPv6 `[::1]:50051`. In the supplied observations, that Docker Desktop path accepts TCP but stalls HTTP/2, causing the deadline. This is a local connection-target problem, not a workspace/build or service-code failure. The REST sibling’s success does not validate the gRPC transport.
+- **Smallest safe remediation:** Restore the local profile’s target to `127.0.0.1:50051`. No server changes, rebuilds, or longer timeout are needed.
+- **Confirm:** Run `java -jar probes/kotlin-probe.jar --target 127.0.0.1:50051 --timeout 2`. Expect exit `0`, stdout `pong`, empty stderr, and a completed unary Echo in the service log—as already captured. Then rerun the original caller using the corrected profile to verify it uses that target.
+
+__ABLATION_DONE__ exit=0

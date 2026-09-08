@@ -1,0 +1,30 @@
+**Verdict: block.** The change does the opposite of the task — it hides timeouts from callers rather than making them useful.
+
+**1. `accounts/list.go`, the new `errors.Is(err, context.DeadlineExceeded)` branch — blocking**
+
+*What's wrong:* On a database timeout the function now returns `[]Account{}, nil`. That is a successful, empty result, indistinguishable from an account that genuinely has no records.
+
+*Why it matters:* Per the reviewer notes, HTTP callers serialize `nil` error as 200, and an empty list means "no records." So a DB slowdown now produces `200 []` to every caller. Downstream effects: UIs render "you have no accounts," clients that reconcile or cache will treat the empty set as authoritative and may delete/skip real data, and retry logic never fires because nothing looks like a failure. There is no stale-result or partial-result contract that would license this, and the timeout is silently dropped from logs/metrics because it never leaves the function as an error. This is a correctness/data-integrity regression dressed up as availability.
+
+*Require instead:* Never convert a timeout into a success. Keep returning an error, and make it *more* useful rather than less — e.g. wrap it in a package sentinel so callers don't need to know about `context`:
+
+```go
+var ErrTimeout = errors.New("account listing timed out")
+
+if errors.Is(err, context.DeadlineExceeded) {
+    return nil, fmt.Errorf("list accounts: %w: %w", ErrTimeout, err) // or errors.Join
+}
+return nil, fmt.Errorf("list accounts: %w", err)
+```
+
+and have the HTTP layer map `ErrTimeout` (or `context.DeadlineExceeded`) to 503/504 with a `Retry-After`. If a degraded "we couldn't load everything" response is actually a product requirement, it must be an explicit, distinguishable signal (typed error, or a result struct with a `Partial`/`Truncated` flag) that the transport surfaces as something other than a plain 200.
+
+**2. Change does not satisfy the stated task**
+
+"Make account-list timeout handling useful to callers" implies callers should be able to *detect and act on* timeouts. Before this diff, the `%w` wrap already let callers do `errors.Is(err, context.DeadlineExceeded)`; after it, they can't detect a timeout at all. Whatever the final shape, the PR needs to add a distinguishable signal (sentinel/typed error and/or transport mapping), plus a test asserting that a wrapped `DeadlineExceeded` from `Store.List` produces a non-nil error that `errors.Is` matches — and that it does *not* yield an empty successful list.
+
+**3. Commit message is misleading — minor, fix alongside #1**
+
+"keep account listing available during timeouts" describes serving fabricated empty results as "availability." Reword to describe the actual behavior once corrected (e.g. "surface store timeouts from ListAccounts as ErrTimeout").
+
+__ABLATION_DONE__ exit=0

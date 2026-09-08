@@ -1,0 +1,14 @@
+**Verdict: block.** Both tests are order-dependent through the mutable global `Rates.current`, and the production design forces that coupling.
+
+1. **`Invoice.java` — `Rates.current` is a mutable static global read by `Invoice.total`.**
+   Wrong: the rate is process-wide mutable state with no seam; the only way to exercise `Invoice` at a given rate is to poke the global. Why it matters: it's exactly what makes the tests below order-dependent, and it makes "rate snapshot is stable during a calculation" an accident of single-threadedness rather than a property of the code. Require: pass the rate into the calculation deterministically — e.g. `static double total(double base, double rate)` or an `Invoice(RateSource)` where `RateSource` is a tiny interface the test can implement with a constant. Callers that want "current" fetch it once and hand it in, which also guarantees the snapshot is fixed for the whole calculation.
+
+2. **`InvoiceTest.euros` — sets `Rates.current = 0.9` and never restores it.**
+   Wrong: the mutation leaks to `dollars` and to every test class that runs afterward. Why it matters: with JUnit's non-guaranteed method ordering, `dollars` fails whenever `euros` runs first, and downstream classes inherit 0.9. Require: no global mutation in tests. With the seam from (1), this becomes `assertEquals(9.0, Invoice.total(10, 0.9))`. (A `@BeforeEach`/`@AfterEach` save/restore would only paper over it — other classes already mutate the same global, so the "default" isn't reliable anyway.)
+
+3. **`InvoiceTest.dollars` — asserts `Invoice.total(10) == 10.0` while silently assuming `Rates.current == 1.0`.**
+   Wrong: per the reviewer notes, other suites set `Rates.current` before this class runs, so the precondition isn't established by the test. Why it matters: the test's outcome depends on which classes ran earlier; it's not evidence about `Invoice` at all. Require: state the rate explicitly, `Invoice.total(10, 1.0)`, so the test is self-contained.
+
+Not flagging: exact `assertEquals` on doubles (notes confirm toy exact values), threading of `Rates.current` (suite is single-threaded — moot once the global is gone), and the two package-private classes sharing `Invoice.java` (cosmetic; wouldn't block).
+
+__ABLATION_DONE__ exit=0

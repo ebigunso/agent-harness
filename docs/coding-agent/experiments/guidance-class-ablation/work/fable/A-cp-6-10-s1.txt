@@ -1,0 +1,27 @@
+**Verdict: block.** The writer was renamed but the reader that consumes the same persisted records was not, and there's no handling for the existing documents. This will silently produce wrong data.
+
+## Findings
+
+### 1. `Reader.java`, `document.path("customer").asText()` — reader still reads the old key (blocking)
+- **What's wrong:** `store.go` now writes `{"client": ...}`, but `Reader.customer()` still looks up `"customer"`. For every new record the reader will return `""`.
+- **Why it matters:** This is a silent failure, not a crash. `JsonNode.path()` returns a `MissingNode` for absent keys and `asText()` on it yields the empty string, so nothing throws — callers just get blank customer/client values. That's data corruption from the consumer's point of view and it won't show up until someone notices empty names downstream. Note the diff header shows `Reader.java` as a new file (`@@ -0,0 +1,8 @@`) while the notes say it's unchanged; either way, the code that ships reads the wrong key.
+- **Require:** Update the reader to read `"client"`. Also consider failing loudly on a missing field (`document.hasNonNull("client")` / `get()` + explicit check) instead of `path().asText()`, which masks exactly this class of bug.
+
+### 2. No migration path for existing `"customer"` documents (blocking)
+- **What's wrong:** The notes state existing documents with `"customer"` remain in storage. The change renames the key on write only; nothing reads or rewrites the legacy records.
+- **Why it matters:** Once the reader is fixed per #1 to read `"client"`, every pre-existing record will return `""` instead. Either way — before or after fixing the reader — one population of records is unreadable. A persisted-schema rename is not a one-line change.
+- **Require:** One of: (a) reader accepts both keys (`client`, falling back to `customer`) for as long as legacy records exist, or (b) a one-off migration that rewrites stored documents from `customer` → `client`, with the reader fallback kept until the migration is verified complete. Document which one and its rollout.
+
+### 3. Deployment ordering between writer and reader is unaddressed
+- **What's wrong:** Go writer and Java reader are separate artifacts. This PR changes the writer with no coordinated reader change.
+- **Why it matters:** If the writer deploys first, the reader breaks (per #1) for the window until the reader ships. If a fixed reader that *only* reads `"client"` deploys first, it breaks on records the old writer is still producing.
+- **Require:** Ship the reader change first, made tolerant of both keys; ship the writer rename second. Split the PRs or at least state the ordering in the commit message.
+
+### 4. No tests for the round-trip
+- **What's wrong:** No test was added or updated on either side. A round-trip test (Go `Encode` output fed to Java `Reader`, or at minimum a golden JSON fixture asserted by both) would have caught #1 immediately.
+- **Require:** Add a shared fixture/golden test covering both the new `"client"` shape and a legacy `"customer"` document.
+
+### 5. Minor: `Reader.customer(...)` method name (non-blocking)
+- If the concept is being renamed to "client", the accessor should follow (`Reader.client`) to avoid the writer and reader disagreeing on vocabulary going forward. Optional, but do it while touching the file.
+
+__ABLATION_DONE__ exit=0

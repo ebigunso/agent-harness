@@ -1,0 +1,20 @@
+**Cause:** Not a workspace or cwd problem. `pwd` is `C:/work/reports` before and after, matching the intended root and the tool UI root, and the interpreter's error path (`C:\work\reports\scripts\removed.py`) confirms the command resolved relative to the correct directory. The file simply doesn't exist there: git log / `git ls-files` show `scripts/removed.py` was intentionally renamed to `scripts/check.py` in the committed tree, with no uncommitted deletion. The failing command was a stale terminal-history entry referencing the old filename. `Get-Item` already proves `scripts/check.py` is present.
+
+The cwd normalization runbook does not apply — normalizing cwd would change nothing, since cwd is already correct.
+
+**Smallest safe remediation:** Run the renamed script instead; no navigation, file, or environment change needed:
+
+```powershell
+python scripts/check.py
+```
+
+Do not recreate `removed.py`, add a shim, or `cd` anywhere.
+
+**Confirmation:**
+1. `python scripts/check.py` exits 0 (or with whatever the script's documented success status is) and no `Errno 2` in stderr.
+2. Optionally `git ls-files scripts/` to reconfirm only `check.py` is tracked, and check that README's documented invocation (`python scripts/check.py`) matches what you ran.
+3. `pwd` still reports `C:/work/reports` — nothing was moved.
+
+**Evidence summary:** failing command `python scripts/removed.py`, exit 2, `[Errno 2] No such file or directory`; cwd before/after `C:/work/reports` (unchanged, correct); root cause: stale filename from terminal history, not cwd drift; status: resolved by invoking `scripts/check.py`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,55 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a2-509f-79c0-81af-4b730a8a3392
+--------
+user
+Reference material loaded for this review:
+
+### 6) Maintain Contract Fidelity Across Layers
+
+- Keep data models, service contracts, and adapters aligned.
+- Avoid silent field loss, implicit coercions, or shape drift.
+- Version and migrate interfaces deliberately when needed.
+
+Review checks:
+- Do upstream/downstream boundaries agree on schema and semantics?
+- Is contract drift prevented or merely tolerated?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Send large account identifiers.
+
+```diff
+--- a/ids.go
++++ b/ids.go
+@@ -0,0 +1,3 @@
++package ids
++import "encoding/json"
++func Response() ([]byte,error) { return json.Marshal([]int64{9007199254740992,9007199254740993}) }
+--- a/ids.ts
++++ b/ids.ts
+@@ -0,0 +1,3 @@
++export function parse(raw: string): Set<number> {
++  return new Set(JSON.parse(raw) as number[]);
++}
+```
+Commit message: "send large account identifiers"
+
+Reviewer notes: Go encodes IDs to JSON; TypeScript receives JSON text through parse. IDs 9007199254740992 and 9007199254740993 both exist and must remain distinct. Values are identifiers, never arithmetic operands.
+
+codex
+- **`ids.go:3` / `ids.ts:2` — Distinct account IDs collapse during parsing.** Go emits exact JSON integer literals, but JavaScript’s `JSON.parse` converts both `9007199254740992` and `9007199254740993` to the same `number`. The `Set` then silently drops one account identifier. The `as number[]` assertion provides no protection. **Require decimal strings on the wire and a `Set<string>` receiver**, with a producer-to-consumer regression test proving both IDs retain their exact values and remain distinct.
+tokens used
+3,306
+- **`ids.go:3` / `ids.ts:2` — Distinct account IDs collapse during parsing.** Go emits exact JSON integer literals, but JavaScript’s `JSON.parse` converts both `9007199254740992` and `9007199254740993` to the same `number`. The `Set` then silently drops one account identifier. The `as number[]` assertion provides no protection. **Require decimal strings on the wire and a `Set<string>` receiver**, with a producer-to-consumer regression test proving both IDs retain their exact values and remain distinct.
+
+__ABLATION_DONE__ exit=0

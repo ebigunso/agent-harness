@@ -1,0 +1,20 @@
+**Findings**
+
+1. **`job.cpp`, `finish()` — write ordering violates the stated invariant ("complete flag implies retrievable durable result").**
+   `markCompleted(id)` is persisted before `writeResult(id, result)`. Per the reviewer notes, the two persist independently and `writeResult` may fail or the process may stop between the calls. In either case the store is left with `completed = true` and no result — an invalid intermediate state that is externally observable (a reader that checks the flag will try to fetch a result that doesn't exist). Worse, because the worker's retry path "checks persisted completion", the retry sees the job as done and will *not* re-run it, so the missing result is never repaired. The failure is permanent, not transient.
+
+   **Required:** invert the order — persist the result first, then mark completed:
+   ```cpp
+   void finish(Store& store, const std::string& id, const std::string& result) {
+       store.writeResult(id, result);
+       store.markCompleted(id);
+   }
+   ```
+   With this order, a crash or failure between the calls leaves a durable result and `completed = false`; the retry re-executes `finish`, `writeResult` overwrites the same value, and `markCompleted` closes the transition. That is safe as long as `writeResult` is idempotent for a given `id` (same result on retry), which is the natural assumption for a completed job's output. If that assumption doesn't hold, say so in the interface docs and add a guard.
+
+2. **`job.cpp`, `Store` interface — no atomic publish primitive, so the invariant is enforced only by caller discipline.**
+   Even with the corrected ordering, the invariant lives in `finish()`'s call sequence rather than at the storage boundary. Any other caller (or a future refactor that swaps the two lines back) can reintroduce the bug. If the backing store supports it, prefer a single `publish(id, result)` on `Store` that writes the result and sets the flag in one durable operation, and make `markCompleted` non-public or documented as "must only be called after the result is durable." If the store genuinely cannot provide atomicity, the ordering + idempotent-retry argument from finding 1 is the enforcement mechanism and should be stated in a comment on `finish()` so it isn't undone by accident.
+
+**Verdict:** Block. Finding 1 is a correctness defect that produces a permanently inconsistent record under the failure modes the notes explicitly call out, and the retry design masks it rather than repairing it. Finding 2 is a hardening request I'd want addressed or at least acknowledged in the same change.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,28 @@
+**Verdict: Block.** The change does the opposite of the task.
+
+**Finding 1 — `src/worker.rs`, `run_job`, both `map_err` closures**
+
+*What's wrong:* The original errors carried the job id, the failing stage (`parse` vs `store`), and the underlying error's Display text. The new code discards all three (`|_|`) and returns the constant string `"job failed"` for every failure.
+
+*Why it matters:*
+- The task is to report failures at the job boundary *with useful diagnostic context*. This diff removes the only context that existed. Since the supervisor logs only the returned error and no lower layer logs these failures, every worker failure will now appear in logs as an undifferentiated `"job failed"` — no job id to correlate, no way to tell a malformed payload from a storage outage, no error category to alert on. This is exactly the "swallowing failures / converting them into ambiguous states" the guideline warns against.
+- The reviewer notes rule out the only plausible justification for stripping the message (leakage): the job id is a nonsensitive UUID and the parse/store errors are already sanitized. There is no security or privacy gain here.
+- Operationally, an incident like "store backend is down" becomes indistinguishable from "one bad payload," which degrades triage and can mask a systemic fault behind what looks like sporadic noise.
+- The commit message ("standardize error text") doesn't match the stated task, suggesting the change was motivated by cosmetic uniformity rather than the requirement.
+
+*What I'd require instead:* Keep the original behavior — retain job id, stage, and the underlying error in the returned string:
+
+```rust
+fn run_job(job: &Job, store: &Store) -> Result<(), String> {
+    let document = parse(&job.payload)
+        .map_err(|e| format!("job {} parse: {e}", job.id))?;
+    store.save(document)
+        .map_err(|e| format!("job {} store: {e}", job.id))
+}
+```
+
+If the goal was genuinely to standardize the *shape* of the message, do that without losing information (e.g. a shared helper `fn job_err(id: JobId, stage: &str, e: impl Display) -> String` producing a consistent `job <id> <stage>: <detail>` format). Anything that drops the id, the stage, or the error detail should not merge.
+
+No other findings; the diff is small and this single issue is the whole of it.
+
+__ABLATION_DONE__ exit=0

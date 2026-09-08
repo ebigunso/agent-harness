@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is. No blocking or flag-worthy findings.**
+
+Reasoning, for the record:
+
+- **Correctness of the fix (`retry/retry.go`, loop header):** The old loop `attempt := 1; attempt < maxAttempts` executed `maxAttempts - 1` times, so `max=1` never invoked `operation` and returned `nil` (spurious success), and `max=3` only tried twice. The new `attempt := 0; attempt < maxAttempts` executes exactly `maxAttempts` times, which is what the task asked for. Early return on success and returning the last error on exhaustion are unchanged and correct.
+- **`maxAttempts <= 0` returns `nil` without invoking `operation`:** This is pre-existing behavior, not introduced by the diff, and the notes state the invariant `maxAttempts >= 1` is enforced in both configuration loaders and that the only in-tree callers hardcode `3`. Given that, I would not block on adding a guard here.
+- **No delay/backoff:** Intentional per the stated policy (bounded, idempotent local read, retryable errors only). Not a defect.
+- **Callers (`CLI`, `Service`):** Both pass `3`, so behavior changes from 2 invocations to 3, which matches the intended semantics of the shared policy and the commit message.
+- **Verification:** The stated checks (max=1 → one call, error propagated; max=3 failing → three calls; early success stops) cover the relevant edge cases of this change.
+
+Nothing else in the diff warrants a comment.
+
+__ABLATION_DONE__ exit=0

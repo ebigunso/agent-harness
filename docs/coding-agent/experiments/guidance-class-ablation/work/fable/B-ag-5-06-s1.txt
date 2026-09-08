@@ -1,0 +1,34 @@
+## Findings
+
+**1. `Counter.cs`, `Consume` — duplicate deliveries are applied twice (blocking)**
+
+`Value += message.Delta` unconditionally applies every message. The reviewer notes state the transport is at-least-once and the same `Id` can be redelivered, and that each event's delta must apply exactly once. `Event.Id` is defined as the authoritative identity but is never read — the invariant "one delta per event ID" exists only in the commit message, not in the code. Under redelivery, `Value` silently drifts from the true count, and nothing downstream can detect or repair it. This is exactly the Gate 5 anti-pattern of an invariant with no enforcement point at the authoritative boundary (`Consume` is the only write path, so it must be the enforcement point).
+
+Require: `Consume` must check `Id` against a set of already-applied IDs before applying the delta, and record the ID on apply. Something like:
+
+```csharp
+public sealed class Counter {
+    private readonly HashSet<string> _applied = new();
+    public int Value { get; private set; }
+
+    public bool Consume(Event message) {
+        if (!_applied.Add(message.Id)) return false; // duplicate: no-op
+        Value += message.Delta;
+        return true;
+    }
+}
+```
+
+Returning whether the event was applied (or otherwise signalling a duplicate) is useful so the caller can ack without reprocessing. A unit test with the same event delivered twice asserting `Value` equals a single delta should accompany this.
+
+**2. `Counter.cs` — applied-ID set must share the lifecycle of `Value` (flag; depends on how #1 is fixed)**
+
+Once dedup state exists, it is part of the counter's state, not a cache. If `Value` is ever persisted, snapshotted, or rebuilt, the applied-ID set must be persisted/restored with it — otherwise after a restart the redelivered in-flight events are applied again and the invariant is broken exactly when at-least-once redelivery is most likely. Likewise, the set is unbounded as written; if event volume is meaningful, decide on retention (e.g., persistent store, or a bounded window if IDs are monotonic/ordered) rather than leaving that implicit. The plan should state where this state lives and how it is retained.
+
+**3. `Counter.cs` — no validation of `Id` (minor)**
+
+`record Event(string Id, int Delta)` permits `null`/empty `Id`. With dedup keyed on `Id`, a null or empty ID either throws inside the set or collapses distinct events into one. Reject null/empty `Id` in the record constructor or at `Consume`.
+
+Not flagged: int overflow and concurrency — the notes explicitly bound counts to `int` and state the consumer is serial. Note for the record that if the consumer ever becomes concurrent, the check-and-apply in #1 must be made atomic (lock or concurrent structure), since a check-then-act split would reintroduce the duplicate-apply bug.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,193 @@
+records:
+  - id: 33a64ff52952
+    fixture: ag-5-01
+    score: 1.0
+    note: "Names missing guard on admin_update, requires shared model-level enforcement (validation/CHECK, single adjust!)."
+  - id: b37b594c43ac
+    fixture: ag-5-01
+    score: 1.0
+    note: "Names admin path bypassing guard, requires enforcement at authoritative boundary (CHECK + validation, shared adjust)."
+  - id: f88bc2bfe5ea
+    fixture: ag-5-01
+    score: 1.0
+    note: "Truth table shows admin negative write; requires CHECK + model validation + single adjust! primitive."
+  - id: 3afea4a3d302
+    fixture: ag-5-02
+    score: 1.0
+    note: "Names check-then-insert race on last seat; requires atomic DB-enforced capacity plus concurrency test."
+  - id: 70b6ca2cee56
+    fixture: ag-5-02
+    score: 1.0
+    note: "Names TOCTOU race; requires conditional insert/FOR UPDATE/counter with concurrent test."
+  - id: 724c829f4a6c
+    fixture: ag-5-02
+    score: 1.0
+    note: "Names check-then-act race; requires guarded counter + CHECK or row lock, concurrent test."
+  - id: 678b0b9b93e3
+    fixture: ag-5-03
+    score: 1.0
+    note: "Names deleted-but-billable partial state; requires cancel-first ordering (transaction preferred) with idempotent retry."
+  - id: bb5fd3f13137
+    fixture: ag-5-03
+    score: 1.0
+    note: "Names deleted-with-live-jobs state; requires single transactional store op or reorder plus billing-side enforcement."
+  - id: d694b68af589
+    fixture: ag-5-03
+    score: 1.0
+    note: "Outcome table shows deleted+billing row; requires atomic op or inverted order with idempotency."
+  - id: 2c90a83f2b14
+    fixture: ag-5-04
+    score: 1.0
+    note: "Names both-row collapsed to A; requires model representing all four states, no arbitrary priority."
+  - id: 4d762ccc40ec
+    fixture: ag-5-04
+    score: 1.0
+    note: "Names silent both->A precedence; requires explicit both representation or reject, four-row test."
+  - id: 8c83cb77bade
+    fixture: ag-5-04
+    score: 1.0
+    note: "Truth table with both-row dropped; requires widened storage or explicit rejection, not clause order."
+  - id: 86b3d1e48287
+    fixture: ag-5-05
+    score: 1.0
+    note: "Names round vs trunc divergence across two writers; requires single shared toCents rule."
+  - id: 8db067222322
+    fixture: ag-5-05
+    score: 1.0
+    note: "Names two writers two rules; requires single toCents used by both paths."
+  - id: f4749a28126a
+    fixture: ag-5-05
+    score: 1.0
+    note: "Names conflicting write paths for balanceCents; requires one authoritative conversion owner."
+  - id: 5cf5a3d0d417
+    fixture: ag-5-06
+    score: 1.0
+    note: "Names redelivery double-apply; requires ID dedupe set at Consume with duplicate test."
+  - id: 8cf23137e26b
+    fixture: ag-5-06
+    score: 1.0
+    note: "Names no dedupe under at-least-once; requires applied-ID set in Consume."
+  - id: a630a53066c6
+    fixture: ag-5-06
+    score: 1.0
+    note: "Names duplicate delivery applied twice; requires idempotent apply at Consume boundary."
+  - id: a7e308944b3c
+    fixture: ag-5-07
+    score: 1.0
+    note: "Names committed approved-with-null-approver state; requires single atomic update!."
+  - id: c08c52183c0e
+    fixture: ag-5-07
+    score: 1.0
+    note: "Names visible intermediate approved/NULL state; requires single write plus conditional validation."
+  - id: c39269d92da7
+    fixture: ag-5-07
+    score: 1.0
+    note: "Names two-commit invalid intermediate state; requires single atomic write with transition guard."
+  - id: 0129b3948b42
+    fixture: ag-5-08
+    score: 1.0
+    note: "Names advertised-ID-without-resource on cleanup failure; requires unregister-first ordering or rollback."
+  - id: 51e25a50493b
+    fixture: ag-5-08
+    score: 1.0
+    note: "Names registry/resource inconsistency after cleanup Err; requires registry removal before release."
+  - id: 6cc40aac5df3
+    fixture: ag-5-08
+    score: 1.0
+    note: "Names ordering breaking registry invariant on failure; requires registry-first or rollback."
+  - id: 1a245a620c7b
+    fixture: ag-5-09
+    score: 1.0
+    note: "Names adminTotal bypassing derived total and clobbering; requires adjustment as model data with single derivation."
+  - id: 3e1814e4bce7
+    fixture: ag-5-09
+    score: 1.0
+    note: "Names second writer of derived total; requires adjustments in model, one recomputeTotal owner."
+  - id: 62372d5bb84e
+    fixture: ag-5-09
+    score: 1.0
+    note: "Names two independent writers of total; requires adjustments as data with single recalc owner."
+  - id: 9742d52f5b24
+    fixture: ag-5-10
+    score: 1.0
+    note: "Truth table shows unknown/conflicting collapsed to false; requires four-state enum."
+  - id: b4b643525234
+    fixture: ag-5-10
+    score: 1.0
+    note: "Names unknown/conflicting mapped to external; requires four-value sealed/enum type."
+  - id: e139880ca197
+    fixture: ag-5-10
+    score: 1.0
+    note: "Table shows lost unknown/conflict states; requires closed four-outcome type."
+  - id: 7cff07b58a36
+    fixture: ag-5-11
+    score: 1.0
+    note: "Names completed-without-result on failure and retry skipping; requires result-first ordering."
+  - id: d15f0c0b723b
+    fixture: ag-5-11
+    score: 1.0
+    note: "Names flag-before-result invalid state; requires writeResult then markCompleted, atomic publish preferred."
+  - id: fc4bb3d6d1a4
+    fixture: ag-5-11
+    score: 1.0
+    note: "State table shows completed/no-result row; requires result-then-flag ordering."
+  - id: b353387749c5
+    fixture: ag-5-12
+    score: 1.0
+    note: "Names orphaned capabilities after owner deletion; requires cascade cleanup plus owner check in valid."
+  - id: d31558fd6b26
+    fixture: ag-5-12
+    score: 1.0
+    note: "Names expire leaving capabilities live; requires expire cascading and valid consulting owners."
+  - id: e5534041f410
+    fixture: ag-5-12
+    score: 1.0
+    note: "Names unrevoked capabilities after expire; requires capability revocation plus owner-liveness check."
+  - id: b834cc61a1e7
+    fixture: ag-5-c1
+    false_positives: 1
+    note: "Blocks demanding DB CHECK constraint despite notes; test ask is a flag."
+  - id: c97bcb0b6969
+    fixture: ag-5-c1
+    false_positives: 3
+    note: "Demands DB CHECK, dirty-in-memory-after-failed-update! rework (key-errata candidate), and tests before merge."
+  - id: dd3fb36a3acb
+    fixture: ag-5-c1
+    false_positives: 1
+    note: "Approves adjust path but marks DB CHECK constraint should-fix before merge."
+  - id: 1ffcd766d5ee
+    fixture: ag-5-c2
+    false_positives: 0
+    note: "Accepts; gofmt/error-message/test-granularity nits non-blocking."
+  - id: 2232d547e057
+    fixture: ag-5-c2
+    false_positives: 0
+    note: "Accepts; error-message nit only."
+  - id: 988cb30e791f
+    fixture: ag-5-c2
+    false_positives: 0
+    note: "Accepts with transition table; optional nits only."
+  - id: a20bd76b1a72
+    fixture: ag-5-c3
+    false_positives: 0
+    note: "Accepts; check() wiring noted as optional."
+  - id: b160659acdd7
+    fixture: ag-5-c3
+    false_positives: 0
+    note: "Accepts; JUnit wiring nit non-blocking."
+  - id: c8f02127cc7a
+    fixture: ag-5-c3
+    false_positives: 0
+    note: "Accepts; formatting nit only."
+  - id: 13a4f3fe5472
+    fixture: ag-5-c4
+    false_positives: 0
+    note: "Accepts; check() placement and unbounded set noted non-blocking."
+  - id: 9e8f22223f05
+    fixture: ag-5-c4
+    false_positives: 0
+    note: "Accepts; nothing to change."
+  - id: b7c778ecdccb
+    fixture: ag-5-c4
+    false_positives: 0
+    note: "Accepts; unbounded set comment optional."

@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.** No blocking or flag-level findings.
+
+Checked against the review criteria:
+
+- **Layer responsibility / policy placement:** The mapping `SqlError → StoreError` is a technical classification of driver failures (serialization failure is transient, constraint violation is not), which is exactly what an adapter boundary is supposed to own. It does not decide *whether* or *how many times* to retry, nor whether a rejected write is acceptable for the business — those decisions remain with the caller. So this is not business policy living in data access; the reviewer note on that point is accurate.
+- **No catch-all:** The `match` is exhaustive over a closed enum with no `_` arm, so adding a new `SqlError` variant will fail compilation until it is explicitly classified. That's the right property for a boundary translation.
+- **No UI policy, no catch-all utilities:** `translate` is a single-purpose function tied to these two types, not a grab-bag helper.
+- **Test:** Covers both arms; `#[test]` is only compiled under test, so the missing `#[cfg(test)]` module wrapper is not a defect at this size.
+
+One non-blocking observation, not a required change: with everything in `lib.rs`, the "boundary" is nominal rather than structural — the port type (`StoreError`) and the driver type (`SqlError`) sit in the same module. That is fine for a crate of this size, but when it grows, `StoreError` should move to the port/domain-facing module and `SqlError` + `translate` should stay in the adapter, so the dependency direction (adapter depends on port, not the reverse) is enforced by module layout. Nothing to do now.
+
+__ABLATION_DONE__ exit=0

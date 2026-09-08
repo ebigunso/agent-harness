@@ -1,0 +1,9 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+The change matches the task: two concrete variants, one exhaustive `match`, no registry/macro/trait indirection, and a test covering both arms. Dependencies are trivially acyclic (nothing depends on anything). `#[test]` functions are already compiled out of non-test builds, so the missing `#[cfg(test)]` module wrapper isn't a defect.
+
+One non-blocking nit you could take or leave:
+
+- **lib.rs, `pub enum Outcome`** — a public, fieldless, two-variant enum would conventionally carry `#[derive(Debug, Clone, Copy, PartialEq, Eq)]`. Without it, callers can't compare or print an `Outcome` directly and `label` consumes its argument by value. This costs nothing and doesn't add abstraction, but it's also not required by the stated task, so I wouldn't hold the change on it.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,52 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819e-a40e-7a43-9905-c36411717acb
+--------
+user
+Reference material loaded for this review:
+
+### 3) Keep Changes Small, Cohesive, and Reversible
+
+- Group related edits into a single coherent unit.
+- Avoid coupling unrelated refactors with functional changes.
+- Make rollback straightforward by limiting blast radius.
+
+Review checks:
+- Is the diff focused on one clear goal?
+- Can this change be safely reverted without collateral edits?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Show empty inbox message.
+
+```diff
+--- a/App.kt
++++ b/App.kt
+@@ -1,4 +1,4 @@
+ class OldRouter { fun route(name: String) = "/$name" }
+ class NewRouter { fun route(name: String) = "/$name" }
+-fun routes() = listOf("inbox", "settings").map { OldRouter().route(it) }
+-fun inbox(count: Int) = if (count == 0) "" else "$count messages"
++fun routes() = listOf("inbox", "settings").map { NewRouter().route(it) }
++fun inbox(count: Int) = if (count == 0) "No messages" else "$count messages"
+```
+Commit message: "show empty inbox message"
+
+Reviewer notes: All routes in this bounded app are shown; new router is behavior-equivalent and separately requested. Inbox text requires no navigation migration.
+
+codex
+- **App.kt — `routes()`**: Switching from `OldRouter` to `NewRouter` is an unrelated navigation change bundled with the empty-inbox fix. Although behavior-equivalent and separately requested, it needlessly couples their rollback. Require the router migration in a separate commit and keep this change focused on the inbox message.
+tokens used
+3,198
+- **App.kt — `routes()`**: Switching from `OldRouter` to `NewRouter` is an unrelated navigation change bundled with the empty-inbox fix. Although behavior-equivalent and separately requested, it needlessly couples their rollback. Require the router migration in a separate commit and keep this change focused on the inbox message.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,17 @@
+**Verdict: not acceptable as-is.** The change emits only half of what "partial import success metrics" requires.
+
+## Findings
+
+### 1. `importer.rb`, `next if row.empty?` — rejections are silent; no rejected count is emitted
+- **What's wrong:** Empty rows are skipped with no signal. The only metric produced is `"accepted"`. A batch of 100 rows where 60 were rejected and a batch of 40 rows where none were rejected both produce `accepted 40` and are indistinguishable to an operator.
+- **Why it matters:** The task and reviewer notes explicitly require operators to inspect the rejected count. Without it, partial success is invisible — a policy rejection looks identical to a clean import, which is exactly the "silent failure" class of problem. `accepted 0` on a non-empty batch is also indistinguishable from an empty batch.
+- **Require:** Track a `rejected` counter in the loop and emit it alongside accepted, e.g. `signal.call("rejected", rejected)` after the loop (always, including when zero, so the signal's presence is a reliable boundary event rather than a conditional one).
+
+### 2. `importer.rb`, loop body — no location information for rejected rows
+- **What's wrong:** The loop uses `rows.each`, so there is no way to report *which* rows were rejected. Operators can see a count (once finding 1 is fixed) but cannot find the offending rows in the source input.
+- **Why it matters:** The reviewer notes call for "safe row locations." A count alone is not actionable — the operator needs positions to go back to the source data and correct it.
+- **Require:** Iterate with `each_with_index` and record the indices of rejected rows. Emit them as positions only (e.g. `signal.call("rejected_indices", rejected_indices)`), **not** row contents — rows may carry sensitive data, and index is sufficient to locate them. Since the batch is bounded and in-memory, a single signal with the index list is preferable to one signal per rejected row, which would generate noise proportional to the failure and bury the summary counts.
+
+Given the reviewer note that storage append cannot fail here, I'm not raising error handling around `accepted << row`.
+
+__ABLATION_DONE__ exit=0

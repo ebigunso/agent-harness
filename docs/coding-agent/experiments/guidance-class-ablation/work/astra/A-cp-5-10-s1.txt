@@ -1,0 +1,37 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08194-19fa-7c52-9b17-f6f10bd8efc1
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Index submitted search keys.
+
+```diff
+--- a/Search.kt
++++ b/Search.kt
+@@ -0,0 +1,5 @@
++class KeyStore {
++    val keys = mutableSetOf<String>()
++    fun addCanonical(key: String) { keys.add(key) }
++}
++fun ingress(raw: String, store: KeyStore) { store.addCanonical(raw) }
+```
+Commit message: "index submitted search keys"
+
+Reviewer notes: Store owns a set of canonical NFC keys; input is valid Unicode but need not be normalized. Case sensitivity is intentional. Distinct normalization forms of the same text must share one key.
+
+codex
+- **Search.kt:3–5:** `ingress` passes raw input to `addCanonical`, which stores it without NFC normalization. Canonically equivalent strings such as `"\u00E9"` and `"e\u0301"` therefore become separate keys, violating the store’s canonical-key invariant. Normalize to NFC before insertion, preferably inside `addCanonical`, while preserving case. Require a test showing that both forms produce exactly one NFC-normalized stored key.
+tokens used
+3,136
+- **Search.kt:3–5:** `ingress` passes raw input to `addCanonical`, which stores it without NFC normalization. Canonically equivalent strings such as `"\u00E9"` and `"e\u0301"` therefore become separate keys, violating the store’s canonical-key invariant. Normalize to NFC before insertion, preferably inside `addCanonical`, while preserving case. Require a test showing that both forms produce exactly one NFC-normalized stored key.
+
+__ABLATION_DONE__ exit=0

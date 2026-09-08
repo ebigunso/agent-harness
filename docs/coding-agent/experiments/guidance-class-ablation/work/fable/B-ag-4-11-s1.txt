@@ -1,0 +1,39 @@
+**Verdict: block.**
+
+## Findings
+
+### 1. `parser.cpp` — `last_output = &output;` stores a pointer into caller-owned storage (dangling pointer / UB)
+
+**What's wrong:** `parse` retains the address of the caller's `output` reference. The stated public contract is that the caller owns `output` and may destroy it immediately after `parse` returns. Nothing in the diff changes that contract, so the very next `preview()` call after a typical `{ std::string out; parse(in, out); }` dereferences a destroyed object. Even without destruction, if the caller later mutates or reassigns `out`, `preview()` silently returns something that was never a parse result.
+
+**Why it matters:** This is undefined behavior on the normal, contract-conforming usage path, not an edge case. It also introduces an implicit borrowing contract that exists only as a call-site assumption — exactly the Gate 4 anti-pattern. A reader of `parse`'s signature (`std::string& output`) has no way to know the function now aliases their buffer beyond its return.
+
+**Required instead:** Cache by value, not by address. `static std::string last_output; ... last_output = output;` (or `std::optional<std::string>` if "never parsed" needs to be distinguishable from "parsed empty string" — see #3). That satisfies the task ("reuse last parsed output") without changing the ownership contract for callers. If the author genuinely wants a borrowing design for performance, that's a breaking contract change and must be declared as such in the header/docs with an explicit lifetime requirement — but the reviewer notes say no such contract was requested or added, so a copy is the correct answer here.
+
+### 2. `parser.cpp` — new mutable global state, not declared in a header, no thread-safety statement
+
+**What's wrong:** `last_output` is a non-`static`, non-namespaced global with external linkage, defined only in the `.cpp`. `preview()` is likewise a new public function with no corresponding header declaration in the diff. Neither the plan/commit message nor the code states the contract-impact scope (this is an additive API change plus a new hidden side effect on `parse`).
+
+**Why it matters:** An external-linkage global named `last_output` is an ODR collision waiting to happen and is reachable/mutable from any TU. The side effect on `parse` (it now writes global state) is invisible from its declaration. If `parse` is called from multiple threads, the pointer write and the `preview()` read race. Gate 4 requires the boundary to be explicit and the change scope stated.
+
+**Required instead:** Make the cache internal linkage (`static` or anonymous namespace), declare `preview()` in the public header alongside `parse`, and document the new behavior of `parse` ("records the result for retrieval via `preview()`; not thread-safe" or add a mutex if the parser is used concurrently). Commit/PR description should state "additive: new `preview()`; `parse` gains a caching side effect."
+
+### 3. `preview()` — ambiguous return on "no parse yet"
+
+**What's wrong:** `preview()` returns `std::string{}` both when nothing has been parsed and when the last parse legitimately produced an empty string.
+
+**Why it matters:** Minor relative to #1, but it's the "ambiguous success/failure signal" anti-pattern. Callers can't distinguish "nothing cached" from "cached empty."
+
+**Required instead:** Return `std::optional<std::string>` (or `const std::string*` into the internally-owned copy, with documented lifetime), or document explicitly that the two cases are intentionally conflated if that's acceptable for the preview use case.
+
+### 4. Missing test for the lifetime scenario
+
+**What's wrong:** No test accompanies the change. The bug in #1 is trivially reproducible (`{ std::string s; parse("x", s); } assert(preview() == "x");`) and would be caught by ASan/UBSan.
+
+**Required instead:** Add a test that parses into a scoped local, lets it go out of scope, then calls `preview()` — and run it under a sanitizer. Also cover the "never parsed" and "parse called twice, second value wins" cases.
+
+---
+
+Fix #1 first; it changes the shape of the solution and #2/#3 follow from it. The task itself is reasonable; the implementation just mistook "reuse" for "alias."
+
+__ABLATION_DONE__ exit=0

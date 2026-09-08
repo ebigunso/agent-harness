@@ -1,0 +1,193 @@
+records:
+  - id: 3b9be3a2213f
+    fixture: ag-7-01
+    score: 1.0
+    note: "Names record toString leaking password/bearerToken at Login.success; requires identifier-only allowlist plus redacting toString."
+  - id: 91b5a15f6e97
+    fixture: ag-7-01
+    score: 1.0
+    note: "Names credential DTO leak at telemetry site; requires explicit allow-listed fields and separating secrets from logging context."
+  - id: 9db89e192741
+    fixture: ag-7-01
+    score: 1.0
+    note: "Blocks on password/bearerToken in long-retained log; requires explicit identifier fields and redacted toString."
+  - id: 16be804c7f90
+    fixture: ag-7-02
+    score: 1.0
+    note: "Names dropped cause, unused requestID, and indistinguishable branches; requires %w wrapping with requestID and operation label."
+  - id: 4367c22807ba
+    fixture: ag-7-02
+    score: 1.0
+    note: "Names discarded error, indistinguishable legs, dropped requestID; requires wrapped error with correlation and operation name."
+  - id: aaac71e8cf63
+    fixture: ag-7-02
+    score: 1.0
+    note: "Names discarded cause and lost requestID correlation at fan-out; requires %w wrap with request id and per-branch label."
+  - id: 6612e70d8a5c
+    fixture: ag-7-03
+    score: 1.0
+    note: "Names 64KiB payload at 10ms evicting fatal records from shared bounded sink; requires summary/sampling/separate sink."
+  - id: 8f227884373d
+    fixture: ag-7-03
+    score: 1.0
+    note: "Names unbounded debug volume burying ERROR retention; requires bounded summary, rate-limit/sampling, or separate sink."
+  - id: 9596d3d3dff8
+    fixture: ag-7-03
+    score: 1.0
+    note: "Names full-payload DEBUG flood rotating out fatal outcomes; requires compact sampled summary or dedicated debug sink."
+  - id: 504e3ce1611e
+    fixture: ag-7-04
+    score: 1.0
+    note: "Names Authorization/Cookie logged to persistent telemetry on success; requires explicit header allowlist with redaction."
+  - id: c205eb6cd39b
+    fixture: ag-7-04
+    score: 1.0
+    note: "Names Authorization/Cookie credential leak in header loop; requires allowlist or explicit redaction of auth/session headers."
+  - id: f697cccc15f3
+    fixture: ag-7-04
+    score: 1.0
+    note: "Names credential headers leaking on every request; requires allowlist (or denylist with redaction marker) instead of enumeration."
+  - id: 428c7beff021
+    fixture: ag-7-05
+    score: 1.0
+    note: "Names dropped JoinHandle making Err/panic invisible after spawned signal; requires completed/failed signal keyed by job id."
+  - id: 6d33fb9ea4a7
+    fixture: ag-7-05
+    score: 1.0
+    note: "Names silently discarded job Result behind launch-only signal; requires completion/failure signal or returned handle with id."
+  - id: a66f6f593067
+    fixture: ag-7-05
+    score: 1.0
+    note: "Names unrecoverable Result from discarded handle; requires returned handle or in-thread finished/failed signal with id."
+  - id: 73fc85740a5d
+    fixture: ag-7-06
+    score: 1.0
+    note: "Names missing rejected count and lost row locations; requires rejected counter and each_with_index positions in signal."
+  - id: c10c0af65cda
+    fixture: ag-7-06
+    score: 1.0
+    note: "Names silent rejection with accepted-only metric; requires rejected count plus index-only locations, no row contents."
+  - id: eb1c3dab55a6
+    fixture: ag-7-06
+    score: 1.0
+    note: "Names rejected rows dropped without signal; requires rejected count and safe positional indices without payloads."
+  - id: 684c04246f0f
+    fixture: ag-7-07
+    score: 1.0
+    note: "Names gateway discarding incomingTrace and severing A->B correlation; requires propagation or logged parent link."
+  - id: 689b86e861c6
+    fixture: ag-7-07
+    score: 1.0
+    note: "Names unlinked replacement trace at gateway hop; requires propagating incoming id or logging parent/span together."
+  - id: d1c9e42f1b84
+    fixture: ag-7-07
+    score: 1.0
+    note: "Names unused incomingTrace breaking browser->gateway->backend correlation; requires propagation or child span with parent link."
+  - id: 5eba7604cf8d
+    fixture: ag-7-08
+    score: 1.0
+    note: "Names silent catch and unlogged throw-last exhaustion; requires final exhaustion line with cause and attempt context."
+  - id: 70535b7930e8
+    fixture: ag-7-08
+    score: 1.0
+    note: "Names unlogged retry exhaustion before throw with caller not logging; requires explicit exhaustion signal with attempt/cause."
+  - id: 9dc97dbd0660
+    fixture: ag-7-08
+    score: 1.0
+    note: "Names silent failures and unlogged final exhaustion; requires giving-up log with attempts and exception before throw."
+  - id: 005f7d6d4cab
+    fixture: ag-7-09
+    score: 1.0
+    note: "Names data-class toString leaking homeAddress/recoveryAnswer to external crash sink; requires id-only payload and redaction."
+  - id: 3a5a18b22e47
+    fixture: ag-7-09
+    score: 1.0
+    note: "Names interpolated Profile exposing address and recovery secret; requires profileId-only signal plus redacting toString."
+  - id: f9d0084c10f1
+    fixture: ag-7-09
+    score: 1.0
+    note: "Names sensitive fields via data-class toString in crash report; requires minimized id-only context and secret wrapping."
+  - id: 0a6037d52e01
+    fixture: ag-7-10
+    score: 1.0
+    note: "Names silent overflow drop in write(); requires dropped counter exposed via drain and warning signal."
+  - id: 23621062debe
+    fixture: ag-7-10
+    score: 1.0
+    note: "Names unobservable overflow loss of critical events; requires dropped counter/accessor or synthetic dropped event."
+  - id: aa3034f788e3
+    fixture: ag-7-10
+    score: 1.0
+    note: "Names invisible overflow discard; requires out-of-band dropped count surfaced with drain and write() accepted/dropped result."
+  - id: 695cc2476ba9
+    fixture: ag-7-11
+    score: 1.0
+    note: "Names per-success INFO stack traces consuming failure sink quota; requires lightweight success event, stacks only on failure."
+  - id: 8e02acc1db39
+    fixture: ag-7-11
+    score: 1.0
+    note: "Names unconditional success stack traces evicting failure records; requires single-line/gated/sampled success signal."
+  - id: acbb6b24cbd3
+    fixture: ag-7-11
+    score: 1.0
+    note: "Names redundant success stack traces displacing failure signal; requires compact success record and failure-only stacks."
+  - id: 377edac14e99
+    fixture: ag-7-12
+    score: 1.0
+    note: "Names raw resetToken in failure log; requires omission or non-reversible hash while keeping sql and SQLState/error code."
+  - id: 579e673e148f
+    fixture: ag-7-12
+    score: 1.0
+    note: "Names secret bearer token logged on SQLException; requires fingerprint/request-id correlation and error category without token."
+  - id: fc968c466663
+    fixture: ag-7-12
+    score: 1.0
+    note: "Names plaintext reset token in log line; requires hash/correlation id instead and adding SQLException context."
+  - id: 4a5840c200c5
+    fixture: ag-7-c1
+    false_positives: 0
+    note: "Accepts as-is; unused Credentials parameter raised only as non-blocking nit."
+  - id: cf0938019db5
+    fixture: ag-7-c1
+    false_positives: 3
+    note: "Blocks on unused Credentials param, requires toString redaction, requires failure-path sink or documentation."
+  - id: f1319ce82670
+    fixture: ag-7-c1
+    false_positives: 2
+    note: "Would not approve; requires dropping unused Credentials param and overriding record toString."
+  - id: 9f8d14dd96df
+    fixture: ag-7-c2
+    false_positives: 4
+    note: "Not mergeable: requires gofmt, tests, defer-observe on panic, os.ErrDeadlineExceeded; package-location minor not counted. Key-errata candidate: panic path skips observe."
+  - id: b90efef44e50
+    fixture: ag-7-c2
+    false_positives: 5
+    note: "Not acceptable: requires canceled category, broader deadline detection, deferred observe on panic, tests, gofmt."
+  - id: d27616c8ddcf
+    fixture: ag-7-c2
+    false_positives: 4
+    note: "Not acceptable: requires deferred observe on panic, canceled category, table tests, gofmt/doc comment."
+  - id: 1e880e55fb13
+    fixture: ag-7-c3
+    false_positives: 2
+    note: "Requires moving check() to a discovered test file and a formatter pass; non-OSError catch raised as non-blocking."
+  - id: 36c7e5849211
+    fixture: ag-7-c3
+    false_positives: 1
+    note: "Requires catching BaseException to signal failure for non-OSError despite stated contract."
+  - id: 3b0e4e88bf9f
+    fixture: ag-7-c3
+    false_positives: 0
+    note: "Accepts as-is; narrow OSError catch explicitly not raised."
+  - id: 87e14ecc2f3a
+    fixture: ag-7-c4
+    false_positives: 0
+    note: "Accepts as-is; nonthrowing-sink assumption noted, not raised."
+  - id: a3bfb9e2e34f
+    fixture: ag-7-c4
+    false_positives: 2
+    note: "Requires moving success outcome outside try and strengthening check() assertions; first-sample-at-100 flagged only."
+  - id: a6ecf08d1cfe
+    fixture: ag-7-c4
+    false_positives: 0
+    note: "Accepts as-is; success-inside-try noted as non-blocking given nonthrowing contract."

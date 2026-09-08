@@ -1,0 +1,33 @@
+## Cause
+
+This is a host-networking issue on the Windows/Docker Desktop side, not a defect in the service, the PHP probe, or the grpc extension.
+
+`localhost` resolves to `::1` before `127.0.0.1`, so the gRPC channel targets `[::1]:50051`. Docker Desktop's IPv6 port proxy accepts the TCP connect but never forwards/completes the HTTP/2 (h2c) exchange, so the client sits at the transport layer until the 2 s deadline and the probe reports its normalized `DEADLINE_EXCEEDED`, exit 2. The evidence lines up exactly with that:
+
+- TCP connect to `[::1]:50051` succeeds, but no HTTP/2 response headers arrive.
+- The service interceptor log has no entry for the failed call — the request never reached the service.
+- The HTTP/1.1 sibling on `localhost:50080` returns 200 in 12 ms, so the proxy path is fine for HTTP/1.1; only HTTP/2 stalls.
+- The address-only comparison `--target 127.0.0.1:50051` (same method, payload, deadline, container, config) succeeds with `pong`, exit 0, and the service logs `invoked=true completed=true`.
+
+The only variable that changed between failure and success is the loopback address family. TLS/certificate-name checks are ruled out by the environment (plaintext h2c).
+
+## Smallest safe remediation
+
+Use the IPv4 loopback in the gRPC target instead of `localhost`:
+
+```powershell
+php probes/unary.php --target 127.0.0.1:50051 --timeout 2
+```
+
+And make that the value in the project's local connection string / config for the gRPC client so the fix persists. Don't edit the hosts file, disable IPv6 system-wide, or touch Docker port publishing — those are broader changes with side effects and aren't needed. The REST port doesn't need changing, though switching it to `127.0.0.1` for consistency is harmless.
+
+## Confirmation
+
+1. Run the unary probe against `127.0.0.1:50051` with the same `--timeout 2`: expect exit 0, stdout `pong`, empty stderr (already demonstrated in the captured comparison).
+2. Check the service interceptor log for that call: expect `probe method="unary Echo" transport=h2c invoked=true completed=true`.
+3. Optionally re-run against `localhost:50051` once to confirm it still fails with `DEADLINE_EXCEEDED` / exit 2 and no service log entry — this proves the fix is the address, not a coincidental service state change.
+4. If the project has other gRPC probes (e.g. streaming), run them against `127.0.0.1:50051` as well to confirm nothing else depended on `localhost`.
+
+If step 1 were to fail even on `127.0.0.1`, that would point to the service, port mapping, or container health instead — but the captured evidence already shows it succeeds, so no further investigation of the service is warranted.
+
+__ABLATION_DONE__ exit=0

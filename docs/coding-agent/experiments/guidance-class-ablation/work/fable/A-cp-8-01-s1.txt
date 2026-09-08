@@ -1,0 +1,17 @@
+**Verdict: block.** The task was "export one numeric CSV row" and the original one-liner already did that. The diff replaces it with a provider framework that adds no behavior and breaks the existing API.
+
+1. **`Export.cs` — `Options` record (`Cache`, `Stream`, `Async`, `Compress`, `Discover`, `Pool`)**
+   None of the six flags is read anywhere; `Export.Row` accepts `options` and ignores it. This is dead, public API surface that promises behavior (streaming, compression, pooling…) the code does not have. Callers will set flags and get nothing, and future readers will assume something consumes them. Require: remove the record entirely. Add an options type only when a second real behavior exists.
+
+2. **`Export.cs` — `Row(decimal value, Options options)` replaces `Row(decimal value)`**
+   The existing signature is removed, so every current caller of `Export.Row(x)` no longer compiles, and the new required parameter has no effect. A breaking change with zero functional payoff. Require: keep `public static string Row(decimal value)` unchanged.
+
+3. **`Export.cs` — `IProvider`, `Csv`, `providers` dictionary, `Activator.CreateInstance`**
+   There is one provider, looked up by a hardcoded `"csv"` key, instantiated via reflection with a `!` cast. This turns a direct call into a runtime-resolved one: slower, not statically checked, and it fails at runtime instead of compile time if the map or type ever drifts. The "extensibility" is not exercised by anything and the fixed key means it cannot be selected anyway. Require: delete the interface, the class, the registry, and the reflection; call `value.ToString(CultureInfo.InvariantCulture)` directly as before. Introduce an abstraction when a second format is actually needed.
+
+4. **Commit message "export one numeric csv row"**
+   Misdescribes the change. The diff does not add row export (it already existed); it adds a plugin scaffold and breaks the signature. Require: if any of this were kept, the message must say what actually changed; as it stands the whole change should be dropped.
+
+Net: the correct version of this change is no change — the pre-existing `Export.Row(decimal)` already satisfies the task.
+
+__ABLATION_DONE__ exit=0

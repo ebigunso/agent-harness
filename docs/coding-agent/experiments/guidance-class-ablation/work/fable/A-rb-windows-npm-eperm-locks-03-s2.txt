@@ -1,0 +1,25 @@
+**Cause:** `npm ci` deletes `node_modules` before reinstalling. The unlink of `swc.win32-x64-msvc.node` fails with EPERM (errno -4048) because that native addon is memory-mapped by a running process: `tasklist /m` shows `node.exe` PID 4103 has it loaded, and process inspection identifies that as this repository's own Next dev server (`next dev` from `C:/work/npm-lock/node_modules/next/dist/bin/next`). Windows refuses to delete a DLL/.node file while it is loaded into a process. This is not a permissions, ACL, lockfile-sync, cache, or registry problem — the probe file test and other observations rule those out.
+
+**Smallest safe remediation:** Stop the dev server that owns the lock, then rerun the install. Since the process belongs to this repo, stopping it is safe (nothing external is affected).
+
+1. Preferably stop it from the terminal where `next dev` is running (Ctrl+C). If that's not available:
+   ```powershell
+   Stop-Process -Id 4103
+   ```
+   (Use `-Force` only if it doesn't exit on its own.)
+2. Confirm the handle is released:
+   ```powershell
+   tasklist /m swc.win32-x64-msvc.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Rerun:
+   ```powershell
+   npm ci
+   ```
+4. Restart the dev server afterward (`npm run dev` or equivalent) so it picks up the fresh `node_modules`.
+
+Don't work around it by deleting `node_modules` manually, running as Administrator, or disabling antivirus — none of those address the loaded-module lock, and the first would fail on the same file anyway.
+
+**Confirmation:** `npm ci` exits 0 with `node_modules` recreated; `Test-Path node_modules\@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` returns `True`; and the restarted `next dev` compiles a page without SWC load errors.
+
+__ABLATION_DONE__ exit=0

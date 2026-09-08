@@ -1,0 +1,52 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d77-f682-7873-a18b-95aa4cb76526
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Preserve typed timeout context when catalog fetch fails.
+
+```diff
+--- a/catalog/fetch.go
++++ b/catalog/fetch.go
+@@ -1,3 +1,19 @@
++type FetchFailure struct {
++    Operation string
++    Timeout bool
++    Cause error
++}
++func (e *FetchFailure) Error() string { return e.Operation + " failed" }
++func (e *FetchFailure) Unwrap() error { return e.Cause }
++
+ func Fetch(ctx context.Context, store Store) ([]Item, error) {
+-    return store.Fetch(ctx)
++    items, err := store.Fetch(ctx)
++    if err != nil {
++        return nil, &FetchFailure{
++            Operation: "fetch catalog",
++            Timeout: errors.Is(err, context.DeadlineExceeded),
++            Cause: err,
++        }
++    }
++    return items, nil
+ }
+```
+Commit message: "wrap catalog failures with operation and cause"
+
+Reviewer notes: Existing imports include context and errors. Public message contains no request, credentials or raw database text. Internal callers can inspect Timeout and errors.Is/As through Unwrap; HTTP maps the typed failure to 503. Store errors are sanitized at their source. Success remains unchanged.
+
+codex
+Acceptable as-is. `FetchFailure` adds operation and timeout context while `Unwrap` preserves the original error for `errors.Is` and `errors.As`. Given the reviewer notes, I would raise no findings.
+tokens used
+3,284
+Acceptable as-is. `FetchFailure` adds operation and timeout context while `Unwrap` preserves the original error for `errors.Is` and `errors.As`. Given the reviewer notes, I would raise no findings.
+
+__ABLATION_DONE__ exit=0

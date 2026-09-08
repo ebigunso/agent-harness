@@ -1,0 +1,50 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b3-1e78-7423-a9dd-733e15d58e2e
+--------
+user
+Reference material loaded for this review:
+
+Align models/contracts/adapters, schema/semantics. Prevent loss/coercion/shape drift; version/migrate explicitly.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Convert server seconds to timer milliseconds.
+
+```diff
+--- a/Timeout.java
++++ b/Timeout.java
+@@ -0,0 +1 @@
++public record Timeout(int timeoutSeconds) {}
+--- a/timeout.ts
++++ b/timeout.ts
+@@ -0,0 +1,8 @@
++type Timeout = {timeoutSeconds: number};
++export function milliseconds(wire: Timeout) { return wire.timeoutSeconds * 1000; }
++export function schedule(wire: Timeout, timer: (ms: number) => void) { timer(milliseconds(wire)); }
++export function check() {
++  let received = -1;
++  schedule({timeoutSeconds: 3}, ms => { received = ms; });
++  if (received !== 3000 || milliseconds({timeoutSeconds: 0}) !== 0) throw new Error("units");
++}
+```
+Commit message: "convert server seconds to timer milliseconds"
+
+Reviewer notes: Java record JSON field is timeoutSeconds. Validated range is 0..3600 inclusive. Small assertion exercises the exact adapter called by schedule; browser timer is injected to avoid waiting.
+
+codex
+Acceptable as-is. The JSON field matches the TypeScript contract, and multiplying the validated 0–3600 seconds by 1000 produces exact, safe timer milliseconds. The assertion exercises the adapter used by `schedule`. No findings.
+tokens used
+3,228
+Acceptable as-is. The JSON field matches the TypeScript contract, and multiplying the validated 0–3600 seconds by 1000 produces exact, safe timer milliseconds. The assertion exercises the adapter used by `schedule`. No findings.
+
+__ABLATION_DONE__ exit=0

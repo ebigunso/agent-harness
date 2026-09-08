@@ -1,0 +1,49 @@
+**Verdict: this is a workspace/environment problem (stdout stream encoding), not a defect in the script's logic or output artifact.**
+
+## Cause
+
+On Windows, when stdout is a pipe rather than a console, CPython 3.12 encodes `sys.stdout` with the ANSI code page unless UTF-8 mode or `PYTHONIOENCODING` overrides it. Here that is `cp932` (`sys.stdout.encoding = cp932`, `utf8_mode = 0`). Line 46 does `print('built ' + title)` where `title == "🚀"` (U+1F680); cp932 has no encoding for that character, so the `print` raises `UnicodeEncodeError` and the process exits 1. Position 6 is exactly the emoji after `"built "`.
+
+## Partial effects (checked before rerun)
+
+The failure happened *after* the real work. `os.replace` had already atomically installed `manifest.json`, and read-only inspection shows complete, valid JSON with the expected bytes/hash. There are no counters, remote writes, or other side effects. The generator is deterministic. So a rerun is safe and idempotent: it will produce byte-identical `manifest.json` and only changes the outcome of the final log line / exit code. Nothing needs cleanup.
+
+## Smallest safe remediation
+
+Override the stdio encoding for this command only (don't change the session/global environment or the code page):
+
+```powershell
+# pwsh 7.4 – scope the variable to a child process so it does not leak
+pwsh -NoProfile -Command { $env:PYTHONIOENCODING = 'utf-8'; python build_manifest.py }
+```
+
+or, if you'd rather stay in the current shell:
+
+```powershell
+$prev = $env:PYTHONIOENCODING
+$env:PYTHONIOENCODING = 'utf-8'
+try { python build_manifest.py } finally { $env:PYTHONIOENCODING = $prev }
+```
+
+I'd choose `PYTHONIOENCODING` over `python -X utf8` because it affects only stdin/stdout/stderr; `-X utf8` also changes the default for `open()` and other things, which is wider than needed.
+
+**Durable fix (recommended follow-up):** since the script owns its stdout, make it independent of the caller's environment by adding near the top of `build_manifest.py`:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+and ensure any text files it opens use `open(..., encoding="utf-8")` explicitly (its `manifest.json` bytes were correct, so it likely already does — verify rather than assume).
+
+## Confirmation
+
+1. Exit code is 0: `$LASTEXITCODE -eq 0`.
+2. Captured stdout, decoded as UTF-8, is `built 🚀` (bytes `62 75 69 6c 74 20 f0 9f 9a 80`).
+3. `manifest.json` hash is unchanged from the pre-rerun inspection (deterministic output; proves the rerun didn't alter the artifact).
+4. Sanity check the override took effect in the same captured setup: `python -c "import sys; print(sys.stdout.encoding)"` prints `utf-8` under the override and `cp932` without it.
+5. After the command, `$env:PYTHONIOENCODING` is back to its previous value (empty), confirming the change was command-scoped.
+
+Record for the incident note: error = `UnicodeEncodeError: 'cp932' codec can't encode character '\U0001f680'`; override command = the `pwsh -Command { $env:PYTHONIOENCODING='utf-8'; python build_manifest.py }` line above; successful output = `built 🚀`, exit 0.
+
+__ABLATION_DONE__ exit=0

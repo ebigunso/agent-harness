@@ -1,0 +1,17 @@
+**Verdict: block.** The change achieves "handle a bad row" (continue is safe here, since each insert is atomic and nothing partial is left behind) but fails the second half of the task — the operator gets an inaccurate outcome. Three findings:
+
+**1. `importer/load.py`, `except Exception: continue` — catches everything, not just bad rows.**
+The task is to tolerate an invalid row. `Exception` also covers lost DB connection, disk full, auth failure, programming errors in `store.insert`, etc. If the store is down, every row "fails", the loop silently spins to the end, and the function reports `{"status": "complete"}` having inserted nothing. That is an unbounded fallback that converts a total failure into a reported success.
+*Require:* catch the specific row-level error the store raises for invalid data (e.g. `ValidationError` / `RowError`). Let anything else propagate. If the store's exception hierarchy doesn't distinguish, add that distinction rather than widening the catch. Optionally abort after N consecutive failures as a circuit breaker.
+
+**2. `importer/load.py`, `return {"status": "complete"}` — outcome is hard-coded and wrong when rows fail.**
+Per the notes this summary is the only thing the operator sees and there is no log. With one invalid row among valid ones, the operator is told the import completed and has no way to know a row is missing from the store. This is the direct opposite of "accurate outcome"; it hides the failure.
+*Require:* the return value must reflect what happened — e.g. `{"status": "partial", "inserted": 9, "failed": [{"row": 4, "error": "..."}]}`, with `"complete"` only when `failed` is empty. A status distinct from `"complete"` is necessary so callers/operators can branch on it without parsing counts.
+
+**3. `importer/load.py`, exception discarded without binding — no context captured.**
+`except Exception:` drops the exception object, and `number` (already computed by `enumerate`) is never used. Even if the summary were fixed, there is currently nothing to put in it: no row number, no reason. The unused `number` variable strongly suggests the author intended to record failures and didn't.
+*Require:* `except RowError as exc:` and append `(number, str(exc))` (or the exception) to a failures list that feeds the summary. If a logger exists in this module, also log at warning level with the row number and message so the failure is visible outside the return value.
+
+What's fine as-is: continuing after a failed insert is correct given the atomic commit-per-row guarantee — there is no cleanup or rollback needed, so the loop structure itself doesn't need to change.
+
+__ABLATION_DONE__ exit=0

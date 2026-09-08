@@ -1,0 +1,24 @@
+**Verdict:** This is a workspace/configuration problem, not a service fault. The service is healthy.
+
+**Cause**
+
+The local configuration profile was just changed from `127.0.0.1:50051` to `localhost:50051`. On this host `localhost` resolves to `::1` first, so grpc-java dialed `[::1]:50051`. Docker Desktop's IPv6 port proxy accepts the TCP connect but never returns HTTP/2 (h2c) response headers, so the channel stalls at the transport layer and the probe's 2s deadline fires → exit 2, `DEADLINE_EXCEEDED`. The evidence lines up:
+
+- Same call to `127.0.0.1:50051` → exit 0, `pong`, interceptor log `invoked=true completed=true`.
+- No interceptor entry for the `localhost` call → the request never reached the server; it isn't a handler/deadline-budget issue.
+- Sibling HTTP/1.1 port `50080` via `localhost` responds in 12 ms → the IPv6 proxy path only breaks HTTP/2, which is why REST "works" and misleads.
+- Server code and image unchanged; only the target string changed immediately before the failure.
+
+**Smallest safe remediation**
+
+Revert the configuration profile's target from `localhost:50051` back to `127.0.0.1:50051`. That's a one-line, local-only change with the narrowest blast radius. Do **not** disable IPv6 on the host, edit the `hosts` file, or change JVM `-Djava.net.preferIPv4Stack` globally — those affect other software and mask the actual mismatch. No changes to the service, image, or port publishing are needed.
+
+**Confirmation**
+
+1. Rerun the exact failing probe using the reverted profile (or explicitly): `java -jar probes/kotlin-probe.jar --target 127.0.0.1:50051 --timeout 2` → expect exit 0, stdout `pong`, empty stderr.
+2. Check the service interceptor log shows a new `probe method="unary Echo" transport=h2c invoked=true completed=true` entry for that call.
+3. Optionally, as a negative control, confirm `--target localhost:50051` still exits 2 with `DEADLINE_EXCEEDED` — this proves the fix is the address, not an intermittent recovery.
+
+If the `127.0.0.1` call also fails after the revert, then (and only then) investigate the service, port publishing, and container health.
+
+__ABLATION_DONE__ exit=0

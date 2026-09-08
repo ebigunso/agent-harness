@@ -1,0 +1,32 @@
+**Cause**
+
+The failure is a working-directory mismatch, not a project or toolchain problem. The persistent shell's cwd was `C:/work/native/build` (from the prior `Set-Location`), so `cmake --build build` resolved the relative path to `C:/work/native/build/build`, which does not exist. The tool UI's remembered root (`C:/work/native`) diverged from the shell's actual cwd. The build tree itself is intact (`CMakeCache.txt`, `build.ninja` present) and the identical command succeeds from the intended base.
+
+**Smallest safe remediation**
+
+Return the shell to the intended base and rerun the same command:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/native'
+cmake --build build
+```
+
+Alternatively, make the command cwd-independent so it no longer depends on shell state:
+
+```powershell
+cmake --build 'C:/work/native/build'
+```
+
+No reconfigure, cache deletion, or file changes are needed. The pre-repair `pwd` already showed the cause; nothing else in the environment differs between attempts.
+
+**Confirmation**
+
+1. `pwd` prints `C:/work/native` (or, if using the absolute form, cwd is irrelevant).
+2. `cmake --build build` exits 0 with stderr empty and stdout showing the Ninja step (`[1/1] Linking CXX executable native.exe`) — which is exactly what the captured comparison run already shows.
+3. Optionally verify the artifact exists: `Test-Path 'C:/work/native/build/native.exe'` → `True`.
+
+**Preventive note**
+
+Because this is a persistent shell, avoid leaving `Set-Location` side effects between commands — prefer absolute paths or `Push-Location`/`Pop-Location` so later commands issued from the UI's assumed root don't silently resolve against a stale cwd.
+
+__ABLATION_DONE__ exit=0

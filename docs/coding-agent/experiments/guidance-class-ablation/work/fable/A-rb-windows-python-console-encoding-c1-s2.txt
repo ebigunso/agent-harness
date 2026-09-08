@@ -1,0 +1,33 @@
+**Cause**
+
+`input.txt` is UTF-16LE with a byte-order mark (first bytes `FF FE`), but `read_input.py` line 9 hard-codes `encoding='utf-8'`. `0xFF` is never a valid UTF-8 start byte, so the decoder fails on the first byte. The stack trace confirms it's the `read_text` call, not output: no write to stdout has happened, so `sys.stdout.encoding`, the pipe capture, and `utf8_mode = 0` are irrelevant here. Nothing was modified.
+
+This is a code/data mismatch in the workspace, not an environment or shell problem.
+
+**Smallest safe remediation**
+
+Change the decode to match the producer's declared format. `utf-16` (no `LE` suffix) honors and strips the BOM, so it's the robust choice:
+
+```python
+text = Path('input.txt').read_text(encoding='utf-16')
+```
+
+Don't convert the input file — the producer declares UTF-16LE with BOM, so future files will arrive the same way; fixing the file would just reintroduce the failure next run. Don't use `errors='ignore'`/`'replace'` — that would silently mangle every other byte of a UTF-16 stream.
+
+**Confirmation**
+
+1. Sanity-check the file's actual encoding before changing anything:
+   ```powershell
+   python -c "print(open('input.txt','rb').read(4))"
+   ```
+   Expect `b'\xff\xfe...'`.
+2. Verify the decode in isolation:
+   ```powershell
+   python -c "from pathlib import Path; t=Path('input.txt').read_text(encoding='utf-16'); print(len(t)); print(repr(t[:80]))"
+   ```
+   Expect a sane length and readable text with no `\ufeff` at the start and no interleaved `\x00` characters (those would indicate the wrong UTF-16 variant or a mis-declared file).
+3. Re-run `python read_input.py`; expect exit code 0 and the intended stdout.
+
+One caveat to watch on the follow-up run: if the script's output contains non-ASCII characters, writing to the captured pipe with `utf8_mode = 0` could raise a separate `UnicodeEncodeError` depending on how stdout is configured. That's a distinct issue from this failure; if it appears, address it separately (e.g., `PYTHONUTF8=1` or explicit `sys.stdout.reconfigure(encoding='utf-8')`) rather than folding it into this fix.
+
+__ABLATION_DONE__ exit=0

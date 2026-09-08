@@ -1,0 +1,48 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08195-2ba9-74a3-a374-858a3243773a
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Map optional discount into client model.
+
+```diff
+--- a/discount.proto
++++ b/discount.proto
+@@ -0,0 +1,2 @@
++syntax = "proto3";
++message Discount { optional int32 cents = 1; }
+--- a/Discount.java
++++ b/Discount.java
+@@ -0,0 +1,3 @@
++public record Discount(boolean hasCents, int cents) {
++    public static Discount unknown() { return new Discount(false, 0); }
++}
+--- a/DiscountAdapter.cs
++++ b/DiscountAdapter.cs
+@@ -0,0 +1,5 @@
++public record DiscountWire(bool HasCents, int Cents);
++public record DiscountView(int Cents);
++public static class DiscountAdapter {
++    public static DiscountView Map(DiscountWire wire) => new(wire.HasCents ? wire.Cents : 0);
++}
+```
+Commit message: "map optional discount into client model"
+
+Reviewer notes: Proto3 optional presence means unknown versus explicit zero. Java/C# records below are the complete transport facsimiles used by the adapter harness, including generated presence accessors. Live protoc output follows this same presence API.
+
+codex
+- **`DiscountAdapter.cs:2–4` — Optional-field presence is lost.** `Map` converts both an absent discount (`HasCents == false`) and an explicitly present zero into `DiscountView(0)`. The client therefore cannot distinguish “unknown” from “zero discount,” contrary to the stated semantics. Require a presence-preserving client model, such as `DiscountView(int? Cents)`, mapping absence to `null` and present values—including zero—to their actual value.
+tokens used
+3,262
+- **`DiscountAdapter.cs:2–4` — Optional-field presence is lost.** `Map` converts both an absent discount (`HasCents == false`) and an explicitly present zero into `DiscountView(0)`. The client therefore cannot distinguish “unknown” from “zero discount,” contrary to the stated semantics. Require a presence-preserving client model, such as `DiscountView(int? Cents)`, mapping absence to `null` and present values—including zero—to their actual value.
+
+__ABLATION_DONE__ exit=0

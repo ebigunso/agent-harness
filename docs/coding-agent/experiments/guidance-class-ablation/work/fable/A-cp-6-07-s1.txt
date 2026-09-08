@@ -1,0 +1,39 @@
+**Verdict: block.** The change silently shifts every published timestamp by the consumer's local offset (−9 h in the stated deployment). Details:
+
+---
+
+**1. `Wire.cs` — `CreatedAt` format drops the UTC designator**
+
+The old `"O"` format on a `Kind.Utc` value emits `2026-09-09T12:34:56.1234567Z`. The new `"yyyy-MM-ddTHH:mm:ss"` emits `2026-09-09T12:34:56` — no `Z`, no offset. Dropping the fractional seconds is fine per the notes; dropping the zone designator is not. The field is documented as a UTC instant, but the wire form is now a naive local-looking timestamp that carries no evidence of that. Any consumer other than one that hard-codes "this is UTC" will misread it, and this one (below) does.
+
+Require: keep the designator. Either `"yyyy-MM-dd'T'HH:mm:ss'Z'"` (explicit, since the input is contractually UTC) or `"yyyy-MM-dd'T'HH:mm:ssK"` (`K` emits `Z` for `Kind.Utc`, an offset for `Kind.Local`). If you use `K`, also guard against `Kind.Unspecified` (which emits nothing) — e.g. `if (utc.Kind != DateTimeKind.Utc) throw` — otherwise the same bug reappears the first time a non-UTC `DateTime` reaches this method.
+
+---
+
+**2. `client.py` — `astimezone()` on a naive datetime reinterprets the value as local time**
+
+`datetime.fromisoformat("2026-09-09T12:34:56")` returns a *naive* datetime. `naive.astimezone(timezone.utc)` assumes the naive value is in the process's local zone (UTC+09:00 here) and converts, producing `03:34:56+00:00`. So a producer value of 12:34:56 UTC is consumed as 03:34:56 UTC — a 9-hour error on every record, with no exception and no warning. Correctness also now depends on the consumer host's `TZ`, so the same code yields different results on different machines.
+
+Require: the consumer must not infer zone from the environment. If `tzinfo is None`, either reject the input (preferred once #1 is fixed — a naive value means the producer is broken) or explicitly apply the contract with `dt.replace(tzinfo=timezone.utc)`, never `astimezone`. Only call `astimezone(timezone.utc)` on an already-aware value. Something like:
+
+```python
+def created_at(text):
+    dt = datetime.fromisoformat(text)
+    if dt.tzinfo is None:
+        raise ValueError(f"createdAt must carry a zone designator: {text!r}")
+    return dt.astimezone(timezone.utc)
+```
+
+---
+
+**3. `client.py` — `fromisoformat` and the `Z` suffix on older Pythons**
+
+Once #1 restores the `Z`, note that `datetime.fromisoformat` only accepts `Z` from Python 3.11 onward; on 3.10 and earlier it raises `ValueError`. Either pin/verify the consumer runtime is ≥3.11, or normalise (`text.replace("Z", "+00:00")`) before parsing. Not a defect in the diff as written, but it will bite immediately after fixing #1, so it should be handled in the same change.
+
+---
+
+**4. No round-trip test**
+
+Neither side has a test asserting `created_at(CreatedAt(x)) == x` (to the second) for a `Kind.Utc` input, run with a non-UTC local zone. Bugs #1/#2 are exactly the class such a test exists to catch. Require one before merge, and run it with `TZ` set to something non-UTC in CI.
+
+__ABLATION_DONE__ exit=0

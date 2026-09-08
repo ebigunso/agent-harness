@@ -1,0 +1,17 @@
+**Verdict: block.**
+
+**1. `permission.php`, `checkPermission()` — a permission check now performs a submission.**
+`$queue` is the process-local outbox, i.e. things placed in it are treated as work to be sent/executed. Pushing `"export"` there means that merely *asking* whether an admin may export is now equivalent to *submitting* an export. Export submission is a separate, explicit user action; this change triggers it implicitly and without the user's intent. Required: remove the enqueue from `checkPermission` entirely. Submission belongs in the handler for the export action, not in the predicate.
+
+**2. Same location — runs on every render, so the outbox is spammed.**
+Because `checkPermission` is called per render, every page/toolbar render by an admin appends another `"export"` entry. That produces unbounded duplicate outbox entries per session and, depending on what drains the outbox, repeated exports. Even if finding #1 were somehow intended, there is no dedup or guard. Required: a query function must have no side effects; if a "has export permission" signal needs to reach the toolbar, it must be computed, not queued.
+
+**3. The change does not accomplish the stated task.**
+"Expose export permission to toolbar" implies the toolbar can learn whether export is permitted. The function's return value and signature are unchanged (`return $admin`), so the toolbar has no new information; the only observable effect is the outbox mutation. Required: give the toolbar an actual permission signal — e.g. a `canExport(bool $admin): bool` (or a permissions array/map returned to the toolbar that includes `'export' => $admin`) — and have the toolbar consume that.
+
+**4. Minor — reliance on `global $queue`.**
+Reaching into a global from a pure-looking helper hides the coupling that caused #1/#2 and makes the behavior invisible at call sites. Once the enqueue is removed this goes away; if any queue interaction is ever legitimately needed, it should be passed in or accessed via the outbox's own API from the submission path, not from `permission.php`.
+
+Net: revert the body to a side-effect-free check and add an explicit export-permission accessor for the toolbar.
+
+__ABLATION_DONE__ exit=0

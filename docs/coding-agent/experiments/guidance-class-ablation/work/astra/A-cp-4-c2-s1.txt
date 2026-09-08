@@ -1,0 +1,44 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08193-3f13-7041-9fba-f53101f79c86
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Format report names consistently.
+
+```diff
+--- a/report.py
++++ b/report.py
+@@ -1,2 +1,11 @@
++def display_name(name):
++    return name.strip().title()
++
+ def report(names):
+-    return ", ".join(names)
++    return ", ".join(display_name(name) for name in names)
++
++def check():
++    names = [" ada ", "LIN"]
++    assert report(names) == "Ada, Lin"
++    assert names == [" ada ", "LIN"]
++    assert report([]) == ""
+```
+Commit message: "format report names consistently"
+
+Reviewer notes: Display-only transformation; empty names intentionally remain empty. Helpers are pure and do not change the input list.
+
+codex
+Acceptable as-is. The change consistently trims and title-cases display names without modifying the input list, and preserves empty names and empty-list behavior. No findings.
+tokens used
+3,083
+Acceptable as-is. The change consistently trims and title-cases display names without modifying the input list, and preserves empty names and empty-list behavior. No findings.
+
+__ABLATION_DONE__ exit=0

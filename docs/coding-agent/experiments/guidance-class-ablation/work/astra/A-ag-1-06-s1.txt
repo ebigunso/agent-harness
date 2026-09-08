@@ -1,0 +1,35 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081bd-d5d5-74b0-9925-14a06d1186be
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Decode fraud score messages.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,3 @@
++pub fn decode(bytes: &[u8]) -> Result<(u8, bool), &'static str> {
++    match bytes { [8, score] if *score <= 100 => Ok((*score, *score >= 80)), _ => Err("invalid score frame") }
++}
+```
+Commit message: "decode fraud score messages"
+
+Reviewer notes: Wire contract is this complete minimal protobuf message: field 1, uint32 score restricted to 0..100. For this range its encoding is exactly tag 8 plus one byte; other frames explicitly rejected. Transport owns framing, domain owns score >= 80 review policy.
+
+codex
+- **`lib.rs:1–2` — Domain policy leaks into decoding.** Returning `score >= 80` as a boolean makes the wire decoder own the review threshold, which the contract assigns to the domain layer. This couples protocol decoding to a policy that may change independently. Require `decode` to return only the validated score (`Result<u8, &'static str>`) and compute the review decision in the domain layer.
+tokens used
+3,166
+- **`lib.rs:1–2` — Domain policy leaks into decoding.** Returning `score >= 80` as a boolean makes the wire decoder own the review threshold, which the contract assigns to the domain layer. This couples protocol decoding to a policy that may change independently. Require `decode` to return only the validated score (`Result<u8, &'static str>`) and compute the review decision in the domain layer.
+
+__ABLATION_DONE__ exit=0

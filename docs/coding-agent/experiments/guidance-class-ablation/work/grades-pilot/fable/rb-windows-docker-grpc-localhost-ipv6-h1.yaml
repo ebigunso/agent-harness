@@ -1,0 +1,193 @@
+records:
+  - id: 5a3c262874c5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names localhost->::1 Docker published-port h2c stall; prescribes 127.0.0.1 target; confirms via rerun and interceptor log."
+  - id: 981a12883809
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names ::1 Docker proxy accepts TCP but no h2 response; IPv4 literal target; log confirmation; rejects timeout/IPv6-disable."
+  - id: ad7c8826049e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names IPv6 proxy h2c stall, not a service fault; 127.0.0.1 target; rerun plus interceptor log confirmation."
+  - id: adc2a2ecfa31
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names [::1] Docker proxy h2 stall; 127.0.0.1 connection string; log confirmation and negative control."
+  - id: bc7483401c1b
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names ::1 published-port proxy dropping h2c; IPv4 loopback target; interceptor-log confirmation; rules out timeout fix."
+  - id: ee9306b917d8
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names v6 loopback black hole in Docker port proxy; 127.0.0.1 pin; log confirmation; extra curl/netstat checks optional."
+  - id: 20ca0ee8d5d5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Names ::1 IPv6 proxy h2c stall; --target 127.0.0.1 in local config; rerun and log confirmation."
+  - id: 21e8eecd555e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Names Docker IPv6 port proxy no h2 headers; 127.0.0.1 target; confirmation via rerun and interceptor log."
+  - id: 29d0c3160eb9
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Names localhost->::1 proxy stall; 127.0.0.1 target; log confirmation; explicitly declines broader dns-order/IPv6 changes."
+  - id: 64f27f776edb
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Names IPv6 published-port proxy h2c stall; 127.0.0.1 local target; rerun with log confirmation."
+  - id: bf13724c6516
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Names ::1 proxy accepts TCP but never forwards h2c; 127.0.0.1 target; log confirmation; IPv4-only publish offered as alternative."
+  - id: c8ea651dcfc5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Names IPv6 loopback publish asymmetry; 127.0.0.1 target (dns-result-order as process-scoped alt); log confirmation."
+  - id: 4d42d5a1f72f
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Names ::1 Docker proxy black hole past TCP; 127.0.0.1 target; log confirmation; explains go run exit 1 wrapping."
+  - id: 820bc2835d80
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Names IPv6 port-forward accepting TCP with no h2c completion; 127.0.0.1 target; rerun and log confirmation."
+  - id: afb4ecd65c8a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Names Docker IPv6 proxy h2 stall; 127.0.0.1 configured target; log confirmation; go run exit note correct."
+  - id: bd9cfeb0f96c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Names ::1 published-port proxy h2c stall; --target 127.0.0.1 in local config; interceptor-log confirmation."
+  - id: c27d531bc8f8
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Names IPv6 port proxy no h2c headers; 127.0.0.1 connection string; rerun plus log confirmation."
+  - id: d51b463b4276
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Names Docker IPv6 proxy h2c failure; 127.0.0.1 local default; rerun, negative control, log confirmation."
+  - id: 25ffa90f7b28
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Names ::1 IPv6 proxy h2 stall; 127.0.0.1 target; log confirmation; declines preferIPv4Stack as too broad."
+  - id: 611f1d9ca833
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Names IPv6 loopback published-port proxy h2c stall; 127.0.0.1 target; rerun with interceptor log."
+  - id: 6e7df03c813e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Names Docker IPv6 proxy no h2 headers; 127.0.0.1 connection string; log confirmation."
+  - id: 8c8a555ffa9b
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Names ::1 listener not forwarding, pick_first no fallback; 127.0.0.1 target (preferIPv4Stack alt); log confirmation."
+  - id: add46e31e8d5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Names ::1 published-port proxy h2c stall; pin 127.0.0.1; rerun and log confirmation."
+  - id: c26481186339
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Names IPv6 loopback proxy black hole with no subchannel fallback; 127.0.0.1 target; log confirmation."
+  - id: 1f9a499876f8
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Names ::1 Docker published mapping not delivering h2c; 127.0.0.1 target; rerun and log confirmation."
+  - id: 3b1d0ff9ac1a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Names IPv6 loopback forwarder half-open, no fallback; 127.0.0.1 pin; log confirmation; IPv4 publish as durable alt."
+  - id: 464e887bebb8
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Names IPv6 published-port proxy h2c stall; 127.0.0.1 local target; rerun with interceptor log."
+  - id: 5701f019c1ec
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Names Docker IPv6 proxy h2c stall; 127.0.0.1 persisted target; log confirmation."
+  - id: 57fadd04ec40
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Names ::1 proxy accepted TCP but no h2 headers; 127.0.0.1 configured target; log confirmation."
+  - id: eae3579daabb
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Names IPv6 loopback proxy h2c stall; 127.0.0.1 local-only target; rerun and log confirmation."
+  - id: 35f13c924797
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Names IPv6 port proxy not passing HTTP/2; 127.0.0.1 in local connection string; log confirmation."
+  - id: 6059c9f6add4
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Names ::1 published-port proxy no h2 headers; pin 127.0.0.1; rerun plus interceptor log."
+  - id: ab72317ad930
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Names Docker IPv6 proxy h2 stall; 127.0.0.1 target and persisted default; log confirmation."
+  - id: abce886b7e87
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Names IPv6 loopback proxy h2c no-response; 127.0.0.1 persisted; rerun and log confirmation."
+  - id: b0c5065cc378
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Names ::1 host proxy accepted but unplumbed h2c; 127.0.0.1 target; log confirmation; IPv4 publish as durable alt."
+  - id: ee4990448d6f
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Names ::1 proxy accept-then-blackhole with no fallback; 127.0.0.1 target; rerun A/B with log confirmation."
+  - id: 017285a82300
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Follows lock-42 stalled-migration evidence; rejects address change; remediation scoped to the DB session."
+  - id: 61c99aa8accb
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Correctly rules out IPv6 playbook; clears stalled migration holding lock-42; no address/port/timeout demands."
+  - id: 9fb32dcdf0a3
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Server-side lock-42 diagnosis; terminate/rollback stalled session; timeout raise only as conditional diagnostic, not demanded."
+  - id: e3d24bf71679
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Lock-42 stalled migration diagnosis; scoped DB-session remediation; no unwarranted changes."
+  - id: ea666ec2165d
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Falsifies IPv6 hypothesis from invoked=true; clears lock-42 holder; no address/timeout changes."
+  - id: f496f4352e6d
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Lock-42 diagnosis with scoped DB remediation; optional health-endpoint hardening offered, not demanded."
+  - id: 4546b288c0eb
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port 50052 diagnosis; fix target to 50051; declines adding a mapping; no IPv6 repair."
+  - id: 6a096e83b6bb
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; refused-vs-deadline distinction rules out IPv6 note; single-port correction only."
+  - id: 7bdb9493d639
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; rerun on 50051; upstream source check is acceptable follow-up, no unwarranted changes."
+  - id: 9442fc099f8a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; explicitly says no need to pin IPv4; port correction only."
+  - id: a0157a4816b7
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; fix at source; declines adding 50052 mapping."
+  - id: c4b8a1ae4619
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; reference correctly deemed inapplicable; port correction only."

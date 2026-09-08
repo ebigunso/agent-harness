@@ -1,0 +1,89 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d86-e698-7691-b9ed-c4060e118200
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; Windows PowerShell 5.1.22621.4391; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `powershell.exe -NoProfile -File probes/parse.ps1`
+
+Source, probes/parse.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[1,'
+Write-Output ('raw=' + $raw)
+$parsed = $raw | ConvertFrom-Json
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[1,
+```
+
+stderr:
+```text
+ConvertFrom-Json : Invalid array passed in, extra trailing ','. (3): [1,
+At C:\work\json-shape\probes\parse.ps1:5 char:18
++ $parsed = $raw | ConvertFrom-Json
++                  ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [ConvertFrom-Json], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.ConvertFromJsonCommand
+```
+
+Diagnostic observations: Payload ends after the comma; no closing bracket or second value. Syntax fails before any array-type assertion. No files are modified.
+
+codex
+Cause: `$raw = '[1,'` is incomplete JSON: the comma requires another value, and the closing `]` is missing. `ConvertFrom-Json` fails before any array assertion. This is a script payload defect, not a workspace or execution-policy problem.
+
+Smallest safe remediation: correct the payload to its intended complete JSON. If one element is intended, use `$raw = '[1]'`; otherwise restore the missing data.
+
+Confirm by rerunning the same command and expecting exit code `0` and stdout `raw=[1]`. For the single-element correction, verify explicitly:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+if (@($parsed).Count -ne 1 -or $parsed -ne 1) {
+    throw 'Expected one element with value 1'
+}
+```
+
+Record raw JSON `[1]`, element count `1`, and the passing parse/assertion. Windows PowerShell 5.1 can unroll the parsed array, so `$parsed -is [array]` would not establish wire framing.
+tokens used
+3,626
+Cause: `$raw = '[1,'` is incomplete JSON: the comma requires another value, and the closing `]` is missing. `ConvertFrom-Json` fails before any array assertion. This is a script payload defect, not a workspace or execution-policy problem.
+
+Smallest safe remediation: correct the payload to its intended complete JSON. If one element is intended, use `$raw = '[1]'`; otherwise restore the missing data.
+
+Confirm by rerunning the same command and expecting exit code `0` and stdout `raw=[1]`. For the single-element correction, verify explicitly:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+if (@($parsed).Count -ne 1 -or $parsed -ne 1) {
+    throw 'Expected one element with value 1'
+}
+```
+
+Record raw JSON `[1]`, element count `1`, and the passing parse/assertion. Windows PowerShell 5.1 can unroll the parsed array, so `$parsed -is [array]` would not establish wire framing.
+
+__ABLATION_DONE__ exit=0

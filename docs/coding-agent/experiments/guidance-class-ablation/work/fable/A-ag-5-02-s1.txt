@@ -1,0 +1,19 @@
+**Findings**
+
+1. **`Booking.java`, `reserve(...)` — check-then-insert race (TOCTOU) overbooks the flight. Blocking.**
+   The capacity check and the `INSERT` are two separate statements, each auto-committed (`autoCommit=true`, per notes). Two concurrent callers can both run the `SELECT`, both see `remaining == 1`, and both insert. Nothing prevents this: there is no transaction spanning the check and the write, no row lock, and the notes confirm there is no database constraint enforcing capacity. The method's whole contract is "reserve only when capacity remains," and under concurrency it violates it, so the change does not actually implement the task.
+
+   Required instead — any one of these, chosen to fit the schema/DB in use:
+   - Make it a single atomic statement, e.g. a conditional insert:
+     `INSERT INTO reservations(id, flight_id) SELECT ?, ? FROM flights f WHERE f.id = ? AND f.capacity > (SELECT COUNT(*) FROM reservations WHERE flight_id = ?)` and return `executeUpdate() == 1`. (Serialization of concurrent inserts still depends on isolation level — verify on the target DB, or combine with the lock below.)
+   - Or wrap check+insert in an explicit transaction (`setAutoCommit(false)` … `commit()`/`rollback()` in `finally`, restoring the previous autocommit setting) and lock the flight row first with `SELECT … FROM flights WHERE id = ? FOR UPDATE` so concurrent reservers for the same flight serialize.
+   - Or add a DB-level invariant (e.g. a `seats_taken` counter on `flights` updated with `UPDATE flights SET seats_taken = seats_taken + 1 WHERE id = ? AND seats_taken < capacity`, returning false on 0 rows affected) so correctness doesn't rest on application-side ordering.
+
+   Whichever approach is taken, add a concurrent test (N threads racing for the last seat) demonstrating exactly one success.
+
+2. **`Booking.java`, `reserve(...)` — "flight missing" is signalled by a raw `SQLException`. Flag, not blocking.**
+   A nonexistent flight is a domain outcome, not a database failure; throwing `SQLException` for it conflates the two and forces callers to parse messages to distinguish "DB down" from "bad flight id." Prefer a dedicated exception type (or a result value) for the missing-flight case. Note also that with the atomic-statement fix in (1), "missing flight" and "full flight" both yield 0 rows affected, so if callers need to tell them apart the implementation must preserve that distinction (e.g., a separate existence check or an enum result).
+
+Everything else (resource handling with try-with-resources, parameter binding, no SQL injection) is fine. The change is not acceptable as-is because of finding 1.
+
+__ABLATION_DONE__ exit=0

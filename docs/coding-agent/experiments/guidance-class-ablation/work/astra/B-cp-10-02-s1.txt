@@ -1,0 +1,53 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819c-838e-7c20-a5ac-e21d548a65cb
+--------
+user
+Reference material loaded for this review:
+
+### 10) Leave the System Easier to Change
+
+- Improve clarity, boundaries, or diagnostics when touching code.
+- Avoid debt amplification in the name of short-term speed.
+- Prefer incremental improvement aligned with existing architecture.
+
+Review checks:
+- Is maintainability improved, neutral, or degraded?
+- Did the change reduce future risk at reasonable cost?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Reject blank configuration values.
+
+```diff
+--- a/Config.java
++++ b/Config.java
+@@ -1,6 +1,6 @@
+ final class Config {
+     static String parse(String field, int line, String value) {
+-        if (value.isBlank()) throw new IllegalArgumentException(field + " at line " + line + ": value required");
++        if (value.isBlank()) throw new IllegalArgumentException("invalid config");
+         return value;
+     }
+ }
+```
+Commit message: "reject blank configuration values"
+
+Reviewer notes: Parser rejects the same invalid values before and after. Operations configure roughly 200 named settings; field and source line are available at this call. The task touches only diagnostic formatting.
+
+codex
+- **Config.java, `parse`, blank-value exception:** Replacing the message with `"invalid config"` removes the field name, source line, and explanation that a value is required, while leaving validation unchanged. With roughly 200 settings, this makes configuration failures harder to locate and fix despite the relevant context being available. Require preserving the existing diagnostic or an equally actionable message identifying the field, line, and blank-value problem.
+tokens used
+3,177
+- **Config.java, `parse`, blank-value exception:** Replacing the message with `"invalid config"` removes the field name, source line, and explanation that a value is required, while leaving validation unchanged. With roughly 200 settings, this makes configuration failures harder to locate and fix despite the relevant context being available. Require preserving the existing diagnostic or an equally actionable message identifying the field, line, and blank-value problem.
+
+__ABLATION_DONE__ exit=0

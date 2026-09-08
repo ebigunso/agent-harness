@@ -1,0 +1,33 @@
+**Verdict: block.** The task was a one-line addition to the existing typed registry; the diff instead replaces the registration mechanism with runtime symbol lookup, which violates the stated requirement and degrades maintainability.
+
+**Findings**
+
+1. **`plugins.cpp`, `resolve()` / `registry` initializer — compile-time checking lost.**
+   The old registry referenced `handle_ready` directly, so a rename or typo failed at compile time. Now the name is built from a string (`"handle_" + label`) and resolved via `dlsym`; renaming `handle_done` to anything else compiles cleanly and only fails when the process starts. The reviewer notes explicitly require "ordinary source renaming should remain compiler-checked." This is the core defect. Require: `std::map<std::string,Handler> registry{{"ready",handle_ready},{"done",handle_done}};` and drop `resolve`, `<dlfcn.h>`, `<stdexcept>`.
+
+2. **`registry` global — the "handled" error is actually a `std::terminate`.**
+   `resolve` throws from within the dynamic initializer of a namespace-scope object. No handler can exist at that point, so a missing symbol terminates the process before `main` with no useful diagnostic, not a caught `runtime_error`. The claim "error from dlsym is handled" is false in practice. Fixing finding 1 removes this path entirely; if runtime lookup were ever genuinely needed, resolution would have to be deferred to a function called from `main`, not done at static-init time.
+
+3. **New hidden build/platform coupling.**
+   Correctness now depends on `-rdynamic` (so the executable exports its own symbols), `-ldl`, and POSIX `dlfcn.h`/`RTLD_DEFAULT` (which on glibc additionally needs `_GNU_SOURCE`). None of this is required for functions defined in the same translation unit. If someone trims link flags or ports the code, it fails at runtime rather than at link time, and the reason is far from the change site. This is debt amplification for zero functional gain. Same fix as 1.
+
+4. **`reinterpret_cast<Handler>(void*)` — conditionally-supported conversion.**
+   Object-pointer → function-pointer casts are only conditionally supported in ISO C++; it works on POSIX but is a wart that would need a comment/justification if the dlsym approach stayed. Moot once 1 is applied.
+
+5. **Line 1: `-#include <map>` / `+ #include <map>` — gratuitous whitespace change.**
+   A leading space was added to an unchanged include. It's harmless to the preprocessor but is diff noise that obscures the real change and will be flagged by formatters. Revert.
+
+**What I would accept instead**
+
+```cpp
+#include <map>
+#include <string>
+extern "C" const char* handle_ready() { return "ready"; }
+extern "C" const char* handle_done() { return "done"; }
+using Handler = const char* (*)();
+std::map<std::string,Handler> registry{{"ready",handle_ready},{"done",handle_done}};
+```
+
+One line added, no new headers, no new link flags, renames stay compiler-checked, no static-init throw path.
+
+__ABLATION_DONE__ exit=0

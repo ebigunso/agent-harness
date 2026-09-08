@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`report.py`, `display_name` — `.title()` is a lossy transform that will corrupt correctly-cased names.**
+   `str.title()` forces every letter after a non-letter to uppercase and everything else to lowercase, so `"McDonald"` → `"Mcdonald"`, `"DeLeon"` → `"Deleon"`, `"van der Berg"` → `"Van Der Berg"`, `"MacArthur"` → `"Macarthur"`. It also does odd things with apostrophes/hyphens (`"o'neil-smith"` → `"O'Neil-Smith"` is fine, but `"d'arcy"` stays lowercase after the apostrophe only in some cases depending on the Python version's word-boundary rules). The change is framed as "consistent formatting", but for names it silently destroys information that was already correct in the input. This is the one thing I'd push back on before merging. Require one of: (a) restrict the helper to whitespace normalization (`strip()`, and probably collapse internal runs) and leave case alone; or (b) if case-folding is a deliberate product decision, say so in the commit/docstring and add tests that pin the known-lossy cases so no one is surprised later.
+
+2. **`report.py`, `check()` — inline assert-based checks in the production module, minor.**
+   `check()` is never called, lives in the shipped module, and uses bare `assert`, which is stripped under `python -O`. The cases themselves are good (including the non-mutation check), but they should live in a test module run by the test runner, not in `report.py`. Require moving them to `test_report.py` (or equivalent) using the project's test framework.
+
+**Not raising:** empty/whitespace-only names producing an empty segment (`", Ada"`) — the reviewer note states this is intentional, and `"".strip().title() == ""` holds, so the behavior matches the stated intent. Purity claim is correct: the generator expression does not mutate `names`, and the test asserts it.
+
+**Verdict:** Not acceptable as-is. Finding 1 needs a decision (drop `.title()` or explicitly own the lossiness with documentation and tests); finding 2 is a small cleanup I'd ask for in the same pass.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.** I would not block or flag anything.
+
+Reasoning, briefly, against the things I checked:
+
+- **`up`**: `ADD COLUMN note TEXT` — nullable, no default, no constraints. Correct for "optional"; existing rows read back as `NULL` (verified by the check's `[(1, None)]` assertion). No table rebuild, no index/FK interaction.
+- **`down`**: `DROP COLUMN` is valid on SQLite ≥ 3.35 (the stated floor), and the column has none of the properties that make DROP COLUMN fail (not PK/UNIQUE/indexed/FK/generated). Dropping the column discards any stored notes, but the notes establish this is pre-release with no independent consumers and that up/down are a single bounded unit, so that loss is the intended semantics of a downgrade, not a defect.
+- **Transactionality**: DDL inside a single transaction is fine on SQLite (transactional DDL is supported), consistent with "offline transactional migration". Python's `sqlite3` has not implicitly committed before DDL since 3.6.
+- **`check()`**: exercises both directions on a fresh in-memory DB and asserts the observable schema/data shape after each. It's proportionate to the size of the change. The `with sqlite3.connect(...)` block commits/rolls back but doesn't close the connection — immaterial for a throwaway in-memory DB in a `__main__` self-check, so I wouldn't raise it.
+- **Commit message** matches the task.
+
+Nothing here rises to a review finding.
+
+__ABLATION_DONE__ exit=0

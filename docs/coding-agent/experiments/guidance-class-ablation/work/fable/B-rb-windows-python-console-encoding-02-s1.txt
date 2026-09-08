@@ -1,0 +1,38 @@
+**Cause**
+
+This is an output-encoding failure, not a data or logic bug. The JSON decoded fine and `json.dumps(..., ensure_ascii=False)` succeeded; the crash is at the `print` boundary because `sys.stdout` is a `TextIOWrapper` with `encoding='cp932'`, and U+1F680 (🚀, a non-BMP emoji) has no representation in CP932.
+
+One nuance relative to the reference note: stdout here is a pipe, not an interactive console, so Python isn't picking up the *console* code page — it falls back to the process ANSI code page (`locale.getpreferredencoding()` → CP932 on a Japanese-locale Windows install) because UTF-8 mode is off (`sys.flags.utf8_mode = 0`). Same effect, slightly different source; it means changing the console code page (`chcp 65001`) would *not* have fixed this, but the Python-side overrides do.
+
+`ensure_ascii=False` is what exposes the problem — with the default `ensure_ascii=True` the emoji would have been emitted as `\ud83d\ude80` and CP932 would have been fine. That's a workaround, not the fix, since it changes the output content.
+
+**Smallest safe remediation**
+
+For this run, override the stream encoding for the single process (no code change):
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python json_report.py
+```
+
+or equivalently `python -X utf8 json_report.py`.
+
+No cleanup needed: the traceback shows the script performs no file writes, and stdout is empty because the encoder raised before any bytes reached the pipe — so there's no partial output for a downstream consumer to have ingested.
+
+For the script itself (you own it), make the output site explicit rather than locale-dependent, near the top of `json_report.py`:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+That's the right fix for a report script whose output is meant to be UTF-8 JSON regardless of the host locale. If the script ever writes files, pass `encoding="utf-8"` there too.
+
+**Confirmation**
+
+1. Rerun with the override; expect exit code 0 and stdout exactly `{"label": "🚀"}` (with the emoji intact, not escaped).
+2. Optionally verify the stream state in the same environment: `python -c "import sys; print(sys.stdout.encoding)"` with `PYTHONIOENCODING=utf-8` should report `utf-8`.
+3. Because stdout is piped, check that whatever reads the pipe decodes it as UTF-8 (e.g., PowerShell's `$OutputEncoding`/`[Console]::OutputEncoding` if you're capturing into a variable or file). Switching the producer to UTF-8 is correct, but if the consumer was silently assuming CP932 you'll see mojibake on the read side rather than a crash — so confirm end-to-end, not just exit code.
+
+Evidence to keep: the original `UnicodeEncodeError: 'cp932' codec can't encode character '\U0001f680'` line, the `sys.stdout.encoding = cp932 / utf8_mode = 0` observation, and the successful rerun command with its output.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,46 @@
+**Verdict: block.** The adapter change collapses the two service-error categories into a success response, and the new client is written against the mapping that was just deleted.
+
+## Findings
+
+### 1. `adapter.py` — `NotFound` and `Unavailable` are now returned as `200, None`
+**What's wrong:** The diff replaces the distinct `404` / `503` mappings with a single `except (NotFound, Unavailable): return 200, None`. Both failure categories are now indistinguishable from each other *and* from a genuine successful lookup whose value is `None`/`null`.
+
+**Why it matters:** This is exactly the loss/coercion the guidance warns about. The RPC contract carries two semantically different failure modes; the HTTP contract had a faithful representation of both; the change drops the information on the floor. Downstream, "missing" and "temporarily unavailable" call for opposite behaviour (give up vs. retry), and a caller can no longer tell "the thing doesn't exist" from "the service was down" from "the lookup succeeded and the stored value is null". A retry loop keyed on 503 will never fire; a cache keyed on 404 will poison itself with `None` on transient outages.
+
+**Require instead:** Restore the original two-arm mapping:
+```python
+except NotFound: return 404, None
+except Unavailable: return 503, None
+```
+If the intent was to change the wire contract (e.g. move error signalling into the body), that is a contract change and must be done explicitly with a version bump and a coordinated client update — not by silently returning 200.
+
+### 2. `client.ts` — `interpret` is written against the mapping the same diff removes
+**What's wrong:** The client branches on `404 → "missing"` and `503 → "retry"`, but after the adapter change the adapter never emits either status. Every service error arrives as `200, None`, so `interpret` returns `null` (the raw `value`), and the `"missing"` / `"retry"` branches are dead code.
+
+**Why it matters:** The two halves of the diff disagree on the contract. Anyone reading `client.ts` will believe errors are being classified; they are not. This is shape drift across the adapter/client boundary introduced within a single commit, and the commit message ("map rpc lookup results to http") describes what the client expects, not what the adapter does.
+
+**Require instead:** Make the two sides agree. With finding 1 fixed, `client.ts` is correct as written. If the author genuinely wants a 200-with-body error scheme, then `interpret` needs to inspect the body (and the body needs a discriminated shape — see 3), not the status.
+
+### 3. `client.ts` — return type is an untagged union of sentinel strings and `unknown`
+**What's wrong:** `interpret` returns `"missing" | "retry" | unknown`, i.e. effectively `unknown`. A lookup whose actual payload is the string `"missing"` or `"retry"` is indistinguishable from the error sentinels, and callers get no type-level help telling success from failure.
+
+**Why it matters:** The sentinel strings live in the same value space as legitimate JSON payloads, so the client-side contract is ambiguous by construction. This is a milder version of the same coercion problem as finding 1 — the shape doesn't preserve the distinction it's meant to encode.
+
+**Require instead:** A discriminated result, e.g.
+```ts
+type Lookup = { kind: "ok"; value: unknown } | { kind: "missing" } | { kind: "retry" };
+```
+so the outcome is carried in a tag rather than overloaded onto the payload channel. I'd flag this rather than hard-block on it, but it should be fixed while the file is new and has no callers.
+
+### 4. Commit message / reviewer notes misdescribe the change
+**What's wrong:** The notes say "Client treats 404 as missing and 503 as retryable" and "only not-found and unavailable are service errors", which describes the *pre-change* adapter. The message "map rpc lookup results to http" implies a faithful mapping; the diff does the opposite.
+
+**Why it matters:** Reviewers and future readers will trust the description. A commit that says it maps errors while actually erasing them is worse than one that's honestly labelled.
+
+**Require instead:** Once the adapter is fixed, the message and notes are accurate. If the contract change was intentional, the message must say so explicitly and state the new versioned contract.
+
+## Not raised
+- The stand-in exception classes and the `try: return 200, call()` success path are fine.
+- The `status !== 200 → throw` guard in `interpret` is reasonable for unexpected statuses.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,50 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a3-bcb9-7343-b93f-38899497249c
+--------
+user
+Reference material loaded for this review:
+
+### 7) Build for Testability and Verifiability
+
+- Structure logic so important decisions are easy to test.
+- Prefer deterministic seams over hidden global state.
+- Match validation depth to risk and change surface.
+
+Review checks:
+- Can critical behavior be validated without fragile setup?
+- Is evidence proportional to risk?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add optional persisted record label.
+
+```diff
+--- a/record.rs
++++ b/record.rs
+@@ -1,3 +1,3 @@
+ use serde::{Deserialize, Serialize};
+ #[derive(Deserialize, Serialize)]
+-pub struct Record { pub id: String }
++pub struct Record { pub id: String, #[serde(default)] pub label: Option<String> }
+```
+Commit message: "add optional persisted record label"
+
+Reviewer notes: Rust serde/serde_json are installed. Old JSON has only id; new label defaults to None, and JSON field names are stable. Evidence submitted is cargo fmt --check only, exit 0; no old-data read or new-data round-trip was run.
+
+codex
+- **`record.rs`, `Record` serialization — missing behavioral validation.** The change appears correct, but `cargo fmt --check` provides no evidence that the persisted-data contract works. Require a small `serde_json` regression test showing that old `{"id":"..."}` data deserializes with `label == None` and that a record with `label: Some(...)` preserves both fields through serialization and deserialization. This is proportionate coverage for a persistence schema change.
+tokens used
+3,402
+- **`record.rs`, `Record` serialization — missing behavioral validation.** The change appears correct, but `cargo fmt --check` provides no evidence that the persisted-data contract works. Require a small `serde_json` regression test showing that old `{"id":"..."}` data deserializes with `label == None` and that a record with `label: Some(...)` preserves both fields through serialization and deserialization. This is proportionate coverage for a persistence schema change.
+
+__ABLATION_DONE__ exit=0

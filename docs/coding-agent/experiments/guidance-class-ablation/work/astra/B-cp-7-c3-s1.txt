@@ -1,0 +1,59 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a4-9902-7ba0-8f65-ee3cc655cf13
+--------
+user
+Reference material loaded for this review:
+
+### 7) Build for Testability and Verifiability
+
+- Structure logic so important decisions are easy to test.
+- Prefer deterministic seams over hidden global state.
+- Match validation depth to risk and change surface.
+
+Review checks:
+- Can critical behavior be validated without fragile setup?
+- Is evidence proportional to risk?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Reject orders above remaining capacity.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,13 @@
++pub fn accepts(capacity: u32, quantity: u32) -> bool { quantity <= capacity }
++pub fn from_text(capacity: u32, quantity: &str) -> Result<bool, std::num::ParseIntError> {
++    Ok(accepts(capacity, quantity.parse()?))
++}
++#[test]
++fn decisions() {
++    assert!(accepts(3,2)); assert!(accepts(3,3)); assert!(!accepts(3,4));
++}
++#[test]
++fn adapter() {
++    assert_eq!(from_text(3,"4").unwrap(), false);
++    assert!(from_text(3,"bad").is_err());
++}
+```
+Commit message: "reject orders above remaining capacity"
+
+Reviewer notes: Pure decision has below/at/above checks. Adapter integration check exercises string parse through the same decision; parser errors remain visible. Capacity and quantity are u32 by contract, zero quantity allowed.
+
+codex
+Acceptable as-is. The decision rejects quantities above remaining capacity and accepts quantities at or below it. Tests cover all three cases, the parsing adapter, and parse errors. Validation is proportional to the change; no findings.
+tokens used
+3,240
+Acceptable as-is. The decision rejects quantities above remaining capacity and accepts quantities at or below it. Tests cover all three cases, the parsing adapter, and parse errors. Validation is proportional to the change; no findings.
+
+__ABLATION_DONE__ exit=0

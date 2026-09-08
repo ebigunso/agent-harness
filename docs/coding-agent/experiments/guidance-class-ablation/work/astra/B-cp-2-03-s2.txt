@@ -1,0 +1,72 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7d-4ecd-7403-9c50-3b33a500acfd
+--------
+user
+Reference material loaded for this review:
+
+### 2) Prefer Root-Cause Fixes Over Symptom Patches
+
+- Address the source of the issue instead of adding repeated local workarounds.
+- Avoid duplicating fragile logic across modules.
+- Strengthen invariants where failures originate.
+
+Review checks:
+- Does the change remove the cause or only suppress outcomes?
+- Is duplicated or compensating logic being introduced?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Ensure rapid selection changes show the latest selected item in Detail and Sidebar.
+
+```diff
+--- a/src/Item.tsx
++++ b/src/Item.tsx
+@@ -1,16 +1,21 @@
+ import { useEffect, useState } from "react";
+ import { api, selection, useSelection } from "./state";
+
+ export async function selectItem(id: string) {
+   selection.setSelectedId(id);
+   const item = await api.fetchItem(id);
+   selection.setItem(item);
+ }
+ export function Detail() {
+   const state = useSelection();
+-  return <article>{state.item?.name}</article>;
++  const [visible, setVisible] = useState(state.item);
++  useEffect(() => {
++    const timer = setTimeout(() => setVisible(state.item), 200);
++    return () => clearTimeout(timer);
++  }, [state.item]);
++  return <article>{visible?.name}</article>;
+ }
+ export function Sidebar() {
+   const state = useSelection();
+   return <aside>{state.item?.name}</aside>;
+ }
+```
+Commit message: "wait for selection requests to settle"
+
+Reviewer notes: fetchItem is a read-only request; existing API boundary reports transport errors. A then B selections can finish B then A. Both views subscribe to selection; no generation check exists in state.setItem. All shared fetcher code is in scope.
+
+codex
+- **`src/Item.tsx`, `selectItem` — stale responses can still overwrite the latest selection.** If A is selected, then B, and requests finish B then A, the unconditional `selection.setItem(item)` leaves both views showing A. Detail’s timer merely delays that incorrect result. Require a request generation/token check at the shared state update boundary so only the current selection request can commit.
+
+- **`src/Item.tsx`, `Detail` — the timer introduces stale display and disagreement between views.** Even when requests finish correctly, Sidebar immediately shows the fetched item while Detail retains its previous value for 200 ms. Further updates restart that delay. Require Detail to render the same race-protected shared item as Sidebar, removing the local delayed copy.
+tokens used
+3,535
+- **`src/Item.tsx`, `selectItem` — stale responses can still overwrite the latest selection.** If A is selected, then B, and requests finish B then A, the unconditional `selection.setItem(item)` leaves both views showing A. Detail’s timer merely delays that incorrect result. Require a request generation/token check at the shared state update boundary so only the current selection request can commit.
+
+- **`src/Item.tsx`, `Detail` — the timer introduces stale display and disagreement between views.** Even when requests finish correctly, Sidebar immediately shows the fetched item while Detail retains its previous value for 200 ms. Further updates restart that delay. Require Detail to render the same race-protected shared item as Sidebar, removing the local delayed copy.
+
+__ABLATION_DONE__ exit=0

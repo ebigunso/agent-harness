@@ -1,0 +1,24 @@
+Review: lib/amounts.rb — "convert cents in visible presenters"
+
+Verdict: not acceptable as-is. Two findings, one blocking.
+
+1. lib/amounts.rb, accounting_amount (line ~30) — BLOCK
+   What is wrong: accounting_amount still returns serialize(invoice)[:dollars], which is the raw integer cents. For cents=1234 it yields 1234, not 12.34.
+   Why it matters: the task is "correct dollar units across web, email, receipts and accounting exports" and the reviewer notes say all four callers must yield 12.34. The change fixes three of four and leaves the accounting export off by a factor of 100 — the one consumer where a wrong number is most likely to reach a ledger unnoticed. The commit message ("visible presenters") shows the scope was narrowed to what a human sees, which is exactly the wrong criterion here.
+   Require: accounting_amount must yield the same BigDecimal dollars value as the other three. Best done via finding 2 rather than a fourth copy of the conversion.
+
+2. lib/amounts.rb, serialize (line ~11) — BLOCK (root cause; fixes 1 as a side effect)
+   What is wrong: serialize returns { dollars: invoice.cents } — a key named dollars holding cents. The contract stated in the notes is that the serializer emits dollars as a decimal. The diff leaves that lie in place and instead patches three of its callers with an identical BigDecimal(...) / 100 expression.
+   Why it matters: the bug is in serialize, not in the callers. Patching callers means (a) any present or future caller of serialize that isn't in this file (JSON APIs, exports, tests that read [:dollars]) is still wrong, (b) the fix is triplicated and already missed one caller in this very file, and (c) the serializer's key now actively misleads anyone reading it.
+   Require: convert once at the source and revert the caller edits:
+
+       def serialize(invoice)
+         { dollars: BigDecimal(invoice.cents) / 100 }
+       end
+
+   All four *_amount helpers then return serialize(invoice)[:dollars] unchanged and yield 12.34 for cents=1234. (Nit, no need to keep if the above lands: BigDecimal(Integer) is accepted directly; the .to_s round-trip is unnecessary.)
+
+3. No test — FLAG
+   What is wrong: the reviewer notes hand us the acceptance case (cents=1234 -> 12.34 for all four callers) and the diff adds no check for it.
+   Why it matters: this exact class of bug (one caller missed) would have been caught by a four-line assertion, and nothing currently prevents a future caller of serialize from regressing to cents.
+   Require: one test asserting web/email/receipt/accounting_amount all equal BigDecimal("12.34") for an invoice with cents=1234, and that serialize(invoice)[:dollars] is a BigDecimal, not an Integer.

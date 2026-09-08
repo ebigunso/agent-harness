@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e2-4cb6-7373-a2e9-a6cbabe6790a
+--------
+user
+Reference material loaded for this review:
+
+Keep layer responsibilities clear; business rules in domain/app. Map affected owners in plan; verify correct placement and explain moves. No UI policy, policy in data access, or catch-all utilities.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Read refund eligibility for purchases.
+
+```diff
+--- a/refund.py
++++ b/refund.py
+@@ -0,0 +1,8 @@
++class RefundPolicy:
++    @staticmethod
++    def eligible(age_days): return age_days <= 30
++class PurchaseRepository:
++    def refundable(self, db, purchase_id, age_days):
++        row = db.execute("SELECT id FROM purchases WHERE id = ?", (purchase_id,)).fetchone()
++        if row is None: raise LookupError("purchase missing")
++        return age_days <= 30
+```
+Commit message: "read refund eligibility for purchases"
+
+Reviewer notes: SQLite connection supplied by caller. Age is nonnegative whole days supplied by application clock. Existing RefundPolicy owns 30-day eligibility; repository should retrieve purchase facts.
+
+codex
+- **`refund.py:5–8` — Refund policy is implemented in the repository.** `PurchaseRepository.refundable()` decides eligibility with `age_days <= 30`, duplicating the rule owned by `RefundPolicy`. This puts business policy in data access and allows the two implementations to diverge. Require the repository to retrieve purchase facts and the application/domain layer to call `RefundPolicy.eligible(age_days)` to determine eligibility.
+tokens used
+3,234
+- **`refund.py:5–8` — Refund policy is implemented in the repository.** `PurchaseRepository.refundable()` decides eligibility with `age_days <= 30`, duplicating the rule owned by `RefundPolicy`. This puts business policy in data access and allows the two implementations to diverge. Require the repository to retrieve purchase facts and the application/domain layer to call `RefundPolicy.eligible(age_days)` to determine eligibility.
+
+__ABLATION_DONE__ exit=0

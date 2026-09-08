@@ -1,0 +1,15 @@
+**Verdict: block.** Two defects, both in `partner.php` `download()`, both directly on the stated constraint (bounded runtime, bounded memory in a critical worker).
+
+1. **`partner.php` lines 6–7 — no timeouts set.**
+   Only `CURLOPT_RETURNTRANSFER` is configured. `CURLOPT_CONNECTTIMEOUT` and `CURLOPT_TIMEOUT` are left at their defaults (0 = unlimited), so a stalled TCP connect, a stalled TLS handshake, or a server that accepts the request and never finishes responding will hang `curl_exec` indefinitely. The worker never returns, the budget is blown, and nothing in this function can interrupt it. The `try/finally` doesn't help — it only runs after `curl_exec` returns.
+   Require: set `CURLOPT_CONNECTTIMEOUT_MS` and `CURLOPT_TIMEOUT_MS` (total wall-clock) to values inside the worker's budget, ideally passed in or derived from a config constant rather than hard-coded. Optionally add `CURLOPT_LOW_SPEED_LIMIT` / `CURLOPT_LOW_SPEED_TIME` to abort a "trickle" stream early rather than waiting for the hard timeout. On timeout, `curl_exec` returns `false` and the existing error branch will throw — that part is fine once the timeouts exist.
+
+2. **`partner.php` line 6–7 — entire body buffered with no size cap.**
+   `CURLOPT_RETURNTRANSFER` accumulates the whole response in memory. The reviewer note says the endpoint can stream arbitrary-length data; a large or unbounded response will exceed `memory_limit`, which is a fatal error, not an exception — it can't be caught by the caller and takes the worker down. Even below the limit, a multi-hundred-MB report in a critical worker is a problem.
+   Require: enforce a maximum byte count. `CURLOPT_MAXFILESIZE` is not sufficient on its own (it only works when the server sends `Content-Length`, and a streaming partner may not). Use a `CURLOPT_WRITEFUNCTION` that appends to a buffer (or a temp file / stream) and returns a value other than the chunk length once a configured cap is exceeded, which makes cURL abort with `CURLE_WRITE_ERROR`; then map that to a clear `RuntimeException("partner report exceeded N bytes")`. If callers can consume a stream, prefer returning a temp-file path or stream resource over a `string` so the cap doesn't have to be "whatever fits in RAM".
+
+Not blocking, but I'd note it: the error branch uses only `curl_error()`; include `curl_errno()` in the message so a timeout (`CURLE_OPERATION_TIMEDOUT`, 28) is distinguishable from a size abort or a TLS failure in logs once the two fixes above are in.
+
+Everything else (init check, `finally` close, strict 200 check, no `FOLLOWLOCATION` so redirects fail loudly) is fine for a trusted endpoint.
+
+__ABLATION_DONE__ exit=0

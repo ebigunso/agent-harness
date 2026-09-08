@@ -1,0 +1,37 @@
+**Verdict: not acceptable as-is.** The application-layer logic is correct, but it does not deliver what the task and commit message claim ("every adjustment").
+
+## Findings
+
+### 1. `inventory.rb` — the invariant is enforced only by a model validation, which is not an invariant (blocking)
+
+`validates :quantity, numericality: { greater_than_or_equal_to: 0 }` runs only on validated saves. `adjust!` is fine in isolation (`with_lock` reloads under `SELECT … FOR UPDATE`, `update!` validates and raises `RecordInvalid`, the transaction rolls back). But the reviewer note "raw SQL mutation is not an application API" dismisses the wrong thing. The paths that skip this validation are first-class ActiveRecord APIs on this very model, not raw SQL:
+
+- `item.increment!(:quantity, -n)` / `decrement!` — no validation, no lock
+- `item.update_column(s)` — no validation
+- `item.save(validate: false)` / `update_attribute`
+- `Inventory.update_counters`, `Inventory.update_all`, `Inventory.upsert(_all)`
+
+Any of these, from any future caller, background job, console session, or a second process, can drive `quantity` negative, and `with_lock` in `adjust!` does nothing to stop a concurrent `decrement!` because that path never takes the row lock. "Both routes go through the command" is a statement about today's two callers, not an enforced property. An invariant that depends on every present and future writer voluntarily using `adjust!` is a convention, not an enforcement.
+
+**Why it matters:** the commit says "enforce inventory invariant for every adjustment." Reviewers and future maintainers will read that as "the DB cannot hold a negative quantity" and build on that assumption (e.g. skipping checks elsewhere). It isn't true.
+
+**Require:** a migration adding a database-level constraint, which Rails 7 supports natively:
+
+```ruby
+add_check_constraint :inventories, "quantity >= 0", name: "inventories_quantity_nonnegative"
+change_column_null :inventories, :quantity, false
+```
+
+Keep the model validation for friendly error messages; the CHECK constraint is what actually makes the invariant hold regardless of write path. With the constraint in place, a bypassing write raises `ActiveRecord::StatementInvalid`, and the `with_lock` + `update!` path still gives the nice `RecordInvalid` for the normal case. The `NOT NULL` also closes the `nil + delta` → `NoMethodError` hole if a row is ever created outside validation.
+
+### 2. No test demonstrates the claim (flag)
+
+For a change whose entire purpose is "the invariant is enforced," I'd want at minimum: (a) `adjust!` with a delta that would go negative raises and leaves the row unchanged; (b) with the DB constraint from #1, a validation-skipping write (`update_columns`) is rejected by the database. Without (b) there's nothing pinning the enforcement to the layer that actually provides it.
+
+## What's fine
+
+- `with_lock` correctly serializes concurrent `adjust!` calls and re-reads `quantity` under the lock, so the read-modify-write is not racy for callers that use it.
+- `update!` (not `update`) is the right choice so failures propagate and roll back.
+- `only_integer: true` rejects fractional deltas via the normal path.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,18 @@
+**Cause:** This is not the Docker Desktop `localhost`/IPv6 hang described in the reference material, and it is not a workspace or transport problem. The evidence rules that out directly: both `127.0.0.1:50051` and `localhost:50051` return the *same* result promptly (no timeout, exit 3 not exit 2, no `DEADLINE_EXCEEDED`), the server access log records the call (`method=Absent transport=h2c status=UNIMPLEMENTED`), and the h2c transport succeeded. The gRPC server received the request and answered with `UNIMPLEMENTED` because the requested method `Absent` does not exist in the deployed service descriptor, which exposes `Ping`. The probe maps `UNIMPLEMENTED` to exit 3 by contract, so the exit code and stderr are exactly what a wrong method name produces. The command failed because of its own argument, not the environment.
+
+**Smallest safe remediation:** Call a method the service actually implements. Change nothing in the connection string, Docker config, or probe code:
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --method Ping
+```
+
+(`localhost:50051` would also work here, since the address comparison showed no asymmetry; switching to `127.0.0.1` is harmless but is not the fix.)
+
+**Confirmation:**
+- The probe exits 0, stderr is empty, and stdout prints the response value (the contract says it only prints after a successful call).
+- The server access log shows `method=Ping transport=h2c status=OK` for the new request.
+- Optionally re-run with `--method Absent` once more to demonstrate the exit-3/`UNIMPLEMENTED` result is deterministic and method-specific, confirming the earlier failure was the argument, not intermittent networking.
+
+If `Ping` itself returned `UNIMPLEMENTED`, that would point to a descriptor/service-name mismatch (wrong package or service prefix in the probe) rather than the method name, and the next step would be to compare the probe's fully qualified method path against the server's reflection/descriptor output. The reference material's IPv6 diagnosis would only become relevant if a call against `localhost` hung with exit 2 while `127.0.0.1` succeeded, which is not what was observed.
+
+__ABLATION_DONE__ exit=0

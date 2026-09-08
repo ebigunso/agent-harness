@@ -1,0 +1,29 @@
+**Verdict: not a workspace problem.** The script did exactly what it was written to do — it detected a contract violation in the data.
+
+**Evidence, in order**
+
+- Raw JSON: `[1,1]` — trimmed, starts with `[` and ends with `]`, so wire framing is a JSON array. 2 elements.
+- Parse: `ConvertFrom-Json -NoEnumerate` on pwsh 7.4.6, assigned directly (not re-piped), so the array survived: `parsed type=System.Object[]`. The `-isnot [array]` guard passed.
+- Element types: both integers; `HashSet[long].Add` accepted the first `1`.
+- Assertion: second `1` → `HashSet.Add` returned `$false` → `throw "Duplicate item 1"` at line 10, col 34. `$ErrorActionPreference = 'Stop'` turns that into exit code 1.
+
+So shape, framing, parsing, and runtime are all correct. The failure is the input: the contract requires unique integer IDs and `[1,1]` repeats `1`. Nothing on disk or in the environment caused this, and no files were modified.
+
+**Smallest safe remediation**
+
+Do **not** touch the probe logic (no `Select-Object -Unique`, no swallowing the throw) — silently deduplicating would hide exactly the defect the probe exists to catch.
+
+- If `[1,1]` is stand-in fixture data that was supposed to be valid, correct the fixture to unique IDs (e.g. `$raw = '[1,2]'`).
+- If `[1,1]` reflects real upstream data, the fix belongs at the producer of that JSON; the probe should keep failing until the source emits unique IDs.
+
+**Confirmation**
+
+Rerun `pwsh -NoProfile -File probes/unique.ps1` with the corrected input and check:
+
+- exit code `0`
+- stdout: `raw=[1,2]` and `parsed type=System.Object[]`
+- stderr: empty (no `Duplicate item` throw)
+
+Optionally, run it once more with the original `[1,1]` to confirm the probe still rejects duplicates with exit code 1 — that proves the guard is intact and the fix was to the data, not the check.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,38 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c2-b24a-7af2-a79c-2616c822e048
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Schedule inventory snapshot at supplied time.
+
+```diff
+--- a/Inventory.java
++++ b/Inventory.java
+@@ -0,0 +1,6 @@
++import java.time.*;
++import java.util.List;
++public final class Inventory {
++ public static void schedule(LocalDateTime input, List<Instant> queue) { queue.add(input.toInstant(ZoneOffset.UTC)); }
++ public static void nightly(List<Instant> queue) { schedule(LocalDateTime.now(ZoneOffset.UTC),queue); }
++}
+```
+Commit message: "schedule inventory snapshot at supplied time"
+
+Reviewer notes: Java 17. One caller passes LocalDateTime.now(UTC), but public adapter accepts timestamps from other zones with no encoded timezone contract. Queue stores UTC instants.
+
+codex
+- **`Inventory.java:4` — Assumes every supplied timestamp is UTC.** `LocalDateTime` contains no zone or offset, so `input.toInstant(ZoneOffset.UTC)` misinterprets local times supplied from other zones, scheduling snapshots at the wrong instant. One caller using UTC does not establish a contract for the public adapter; storing UTC instants does not establish the input zone either. Require an `Instant`, `OffsetDateTime`, or `ZonedDateTime`, or accept an explicit `ZoneId` with defined handling for daylight-saving gaps and overlaps.
+tokens used
+3,202
+- **`Inventory.java:4` — Assumes every supplied timestamp is UTC.** `LocalDateTime` contains no zone or offset, so `input.toInstant(ZoneOffset.UTC)` misinterprets local times supplied from other zones, scheduling snapshots at the wrong instant. One caller using UTC does not establish a contract for the public adapter; storing UTC instants does not establish the input zone either. Require an `Instant`, `OffsetDateTime`, or `ZonedDateTime`, or accept an explicit `ZoneId` with defined handling for daylight-saving gaps and overlaps.
+
+__ABLATION_DONE__ exit=0

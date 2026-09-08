@@ -1,0 +1,27 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/lockfile problem. `npm ci` must delete `node_modules` before reinstalling, and the unlink of `@parcel\watcher\build\Release\watcher.node` fails with EPERM (errno -4048) because a running process has that native addon mapped. `tasklist /m watcher.node` identifies it: `node.exe` PID 4104, a Parcel/Vue watch script launched from `C:/work/npm-lock/scripts/watch.js` — i.e. this repo's own detached watcher. Permissions, ACLs, package/lock sync, cache, and registry were all verified fine, so nothing else needs fixing.
+
+**Smallest safe remediation**
+
+1. Stop the watcher. Since it has detached from its original shell, there's no terminal to Ctrl‑C, so terminate the identified PID (it is confirmed as this repo's own watch task, not an unrelated process):
+   ```
+   taskkill /PID 4104 /F
+   ```
+2. Re-run the install:
+   ```
+   npm ci
+   ```
+
+Do not delete `node_modules` manually, disable antivirus, or change file permissions — none of those address the cause, and the first would fail on the same locked file anyway.
+
+**Confirmation**
+
+- Before retrying, `tasklist /m watcher.node` should return no rows (or "No tasks are running which match the specified criteria"), and `tasklist | findstr node` should show no other node processes from this repo.
+- `npm ci` should exit 0 with no EPERM/EBUSY lines.
+- Optionally verify the rebuilt addon loads: `node -e "require('@parcel/watcher')"` from `C:\work\npm-lock` exits 0.
+- Then restart the watcher (`node scripts/watch.js`) if you still need it.
+
+**Evidence to retain:** the original `npm ci` error (path + errno -4048), the `tasklist /m watcher.node` output naming PID 4104, the `taskkill` result, and the successful retry output.
+
+__ABLATION_DONE__ exit=0

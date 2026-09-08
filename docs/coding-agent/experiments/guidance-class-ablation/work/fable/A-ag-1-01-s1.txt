@@ -1,0 +1,9 @@
+**Findings**
+
+1. **Pricing.java, `Accounts.discount` — SQL re-implements the loyalty policy.** The new `CASE WHEN years >= 2 THEN 10 ELSE 0 END` is a second, independent copy of `Pricing.discount`'s rule (threshold 2, rate 10). The reviewer notes make the ownership explicit: the repository owns SQL facts, `Pricing` owns policy. With two copies, the next change to the tier (e.g. 3 years → 15%) must be made in both Java and SQL, and nothing enforces that; the two will drift silently and callers get different answers depending on which path they hit. `Pricing.discount` is also now bypassed entirely on this path. **Require:** keep the repository returning the fact (`years`) and compute the discount in Java: `Pricing.discount(Accounts.years(db, id))`. If a convenience `Accounts.discount(db, id)` is wanted, it should be a thin wrapper that delegates to `Pricing.discount`, not a SQL restatement of the rule.
+
+2. **Pricing.java — `Accounts.years` was renamed, not added to.** The task was to *add* loyalty pricing, but the diff deletes the `years` accessor. Any existing caller of `Accounts.years` no longer compiles, and the raw tenure fact is no longer retrievable from the repository at all (needed for anything other than this one discount — display, reporting, future tiers). **Require:** restore `years(Connection, long)` unchanged and add the new behaviour alongside it.
+
+The row-handling (single row, explicit not-found via `SQLException("account missing")`, parameterised ID, try-with-resources) is unchanged and fine; no issues there. Not acceptable as-is because of (1) and (2).
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c8-40f7-73d0-8676-9e289aa68fe5
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Track queued task launch.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,5 @@
++use std::thread;
++pub fn start(id: String, job: impl FnOnce() -> Result<(),String> + Send + 'static, signal: impl FnOnce(String)) {
++ signal(format!("spawned:{id}"));
++ let _ = thread::spawn(job);
++}
+```
+Commit message: "track queued task launch"
+
+Reviewer notes: Job returns Result; an Err represents failed queued work and must be inspectable. Caller only sees launch signal; detached thread result is dropped. Job ID is safe to log, no payload needed.
+
+codex
+- **`lib.rs:4` — Job failures are discarded.** Dropping the `JoinHandle` detaches the thread and loses the job’s `Result`, so failed queued work cannot be inspected. Require an observable outcome—for example, return the handle or record completion and errors with the job ID.
+
+- **`lib.rs:3–4` — Launch is reported before spawning succeeds.** `thread::spawn` can panic if thread creation fails, leaving a false `spawned:{id}` signal. Require emitting the launch signal only after successful thread creation; use `thread::Builder::spawn` if launch failures need to be returned or recorded.
+tokens used
+3,294
+- **`lib.rs:4` — Job failures are discarded.** Dropping the `JoinHandle` detaches the thread and loses the job’s `Result`, so failed queued work cannot be inspected. Require an observable outcome—for example, return the handle or record completion and errors with the job ID.
+
+- **`lib.rs:3–4` — Launch is reported before spawning succeeds.** `thread::spawn` can panic if thread creation fails, leaving a false `spawned:{id}` signal. Require emitting the launch signal only after successful thread creation; use `thread::Builder::spawn` if launch failures need to be returned or recorded.
+
+__ABLATION_DONE__ exit=0

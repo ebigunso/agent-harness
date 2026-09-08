@@ -1,0 +1,193 @@
+records:
+  - id: 0494aefab005
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Names localhost->::1 Docker published-port HTTP/2 stall, IPv4 literal fix, confirms via pong + interceptor log."
+  - id: 0b38bebe4187
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "IPv6 proxy h2c stall named, switch to 127.0.0.1, confirm via log entry; rejects hosts/IPv6-disable."
+  - id: 24ceaa0ec826
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "::1 Docker proxy path, 127.0.0.1 target, confirm log invoked=true."
+  - id: 32b3cba9998f
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Published-port IPv6 h2c stall, pin IPv4 in local config, confirm via interceptor log."
+  - id: 3e7f2bd69bef
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Half-open ::1 forward with no fallback, IPv4 literal fix, log confirmation; dual-stack bind noted as separate follow-up."
+  - id: 962452cec24c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-01
+    score: 1.0
+    note: "Black-holed ::1 published port, pin 127.0.0.1, confirm pong + log."
+  - id: 1d5e625dafd2
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "IPv6 published-port proxy h2c stall, target 127.0.0.1, confirm via interceptor log."
+  - id: 2e5f3fbbd9b3
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "::1 Docker proxy stall named, IPv4 literal fix, log-confirmed."
+  - id: 41359b9effa9
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Mechanism and IPv4 fix correct; offers --dns-result-order as process-scoped alternative, still IPv4 direction."
+  - id: a600830f0e2b
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "Mechanism named, 127.0.0.1 target, log confirmation; IPv4-only publish offered as optional durable fix."
+  - id: ba5e30448e96
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "IPv6 loopback proxy h2c stall, IPv4 in local config, confirm pong + log."
+  - id: c1ffadeb7115
+    fixture: rb-windows-docker-grpc-localhost-ipv6-02
+    score: 1.0
+    note: "::1 proxy stall, switch to 127.0.0.1, log-confirmed."
+  - id: 22467027ce6a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Mechanism and IPv4 fix correct; correctly explains go run exit-1 wrapper."
+  - id: 44cdd7391bf5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "IPv6 published-port h2c stall, 127.0.0.1 in dev config, log confirmation; go run exit note fine."
+  - id: 56f17ad32d10
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "Open-but-dead ::1 forward, IPv4 loopback target, confirm via log."
+  - id: 661084b70851
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "::1 proxy stall named, 127.0.0.1 target, log-confirmed."
+  - id: 809f8341401b
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "pick_first to black-holed ::1, IPv4 literal fix, interceptor log decisive; correct."
+  - id: d8168750e640
+    fixture: rb-windows-docker-grpc-localhost-ipv6-03
+    score: 1.0
+    note: "IPv6 proxy h2c stall, IPv4 literal in local config, log confirmation."
+  - id: 36ee40820c25
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "::1 published-port proxy stall, pin 127.0.0.1, confirm pong + log."
+  - id: 428a7782b9c7
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Mechanism named, IPv4 target, log-confirmed; rejects JVM flag/IPv6 disable as broader."
+  - id: 92c0e7b2d626
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "No fallback after successful ::1 connect, 127.0.0.1 fix, log confirmation."
+  - id: cbf96738668a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "IPv6 proxy h2c stall, IPv4 connection string, log-confirmed."
+  - id: f2ab0df5a3dd
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "Unforwarded ::1 listener, IPv4 literal primary fix, log confirmation; JVM flag only as fallback."
+  - id: fde23d279ee8
+    fixture: rb-windows-docker-grpc-localhost-ipv6-04
+    score: 1.0
+    note: "::1 proxy stall, 127.0.0.1 target, confirm via interceptor log."
+  - id: 1e953c0290cd
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "IPv6 proxy h2c stall, IPv4 loopback in config, log-confirmed."
+  - id: 2412722d3832
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Published-port IPv6 proxy stall, set local target 127.0.0.1, confirm log."
+  - id: 47ae66d6b08c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "::1 mapping not delivered to container, IPv4 literal fix, interceptor log confirmation."
+  - id: 772bd9a8df0a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "IPv6 proxy h2c stall, 127.0.0.1 target, log-confirmed."
+  - id: b83477520d71
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "Dead half-open IPv6 forward, pin IPv4, log confirmation; correctly rejects server-hang reading."
+  - id: d1f9d41988e4
+    fixture: rb-windows-docker-grpc-localhost-ipv6-05
+    score: 1.0
+    note: "IPv6 published-port path stalls HTTP/2, IPv4 in local config, log-confirmed."
+  - id: 695bdd90ed6d
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "IPv6 proxy h2c stall, 127.0.0.1 connection string, confirm via log."
+  - id: 71fd571b17ff
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "::1 published-port proxy stall, pin IPv4, log confirmation."
+  - id: c85befe72a72
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "IPv6 proxy does not pass HTTP/2, IPv4 target scoped to local config, log-confirmed."
+  - id: ca8e2641043f
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "::1 proxy h2c stall, 127.0.0.1 persisted locally, confirm log entry."
+  - id: dce71b0ddaaf
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Accept-then-black-hole on ::1 with no fallback, IPv4 literal fix, log-confirmed."
+  - id: ec58f2f5ac0e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-06
+    score: 1.0
+    note: "Dead-end ::1 forward, IPv4 loopback target, log confirmation; IPv4-only publish as optional durable step."
+  - id: 01ce18a52b31
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Follows lock-42 evidence, rejects address change; timeout raise mentioned only as diagnostic workaround."
+  - id: 07deea38af1c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Stalled migration holding lock-42; no address/port/timeout changes demanded."
+  - id: 2e566bd39770
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "DB lock diagnosis, explicitly declines IPv4/timeout/Docker changes."
+  - id: 36ebb687a05f
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Lock-holder fix; optional readiness-check follow-up is a nitpick, not demanded."
+  - id: 6298643fce43
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Clears stalled migration transaction; no client-side rework."
+  - id: f642fc5e09d7
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c1
+    false_positives: 0
+    note: "Release lock-42 on DB side; rejects restart/timeout/address changes."
+  - id: 2cf0dec3a453
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port 50052, fix to 50051 only; no IPv6 or mapping changes."
+  - id: 407565381efe
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; explicitly rules out IPv6 proxy note; fix at source of 50052."
+  - id: 7f81903aad03
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port, refused vs deadline distinction; no unwarranted changes."
+  - id: 93956e67408c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; rejects adding 50052 mapping; port-check confirmation only."
+  - id: ab2e9a38e58d
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; IPv6 guidance correctly deferred; no rework demanded."
+  - id: bde88599bfc2
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+    false_positives: 0
+    note: "Wrong port; explicitly no IPv4 pin needed; no unwarranted changes."

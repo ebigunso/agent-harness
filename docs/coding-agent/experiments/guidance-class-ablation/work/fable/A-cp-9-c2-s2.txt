@@ -1,0 +1,20 @@
+**Verdict:** the fallback logic itself is correct given the stated contract — bounds are right (inclusive 60, negative rejected), the original `SourceUnavailable` is re-raised unchanged on miss/expiry, other exceptions propagate, and the envelope surfaces degradation. I would not block on the logic. I would hold approval on the following:
+
+1. **`catalog/read.py`, success path — cache is never written.**
+   The diff adds a read from `cache` but nothing ever populates it. If no other code path calls `cache.set(...)` (or equivalent) with the same clock, the fallback is dead code and the task isn't actually delivered. The notes assert cache timestamps use the same clock, which implies a writer exists, but it isn't in this change. Require: either add the write on the success path here (`cache.set(items, saved_at=clock())`), or point to the existing writer in the PR description so the reviewer can verify the clock and `saved_at` contract match.
+
+2. **No tests.**
+   This is a behavioral change with boundary conditions that are easy to get wrong and easy to regress: cache miss → raise; age 0 → serve; age 60 → serve; age 61 → raise; negative age → raise; non-`SourceUnavailable` error from source or cache → propagates unchanged; fresh read returns `stale: False`. Require a test covering each, with an injected fake clock and cache.
+
+3. **No operational signal on fallback.**
+   The envelope tells the *caller* the data is stale, but nothing tells *operators* that the source is down and stale reads are being served (or being refused because the cache expired). A 60-second window is short; if the outage outlasts it, callers start failing and the only evidence of the degraded period is in per-request payloads. Require a log line and/or metric increment on (a) stale fallback served, with age, and (b) fallback rejected due to expiry/miss.
+
+4. **Nit — `60` is a magic number.**
+   It's a contractual value. Name it (`MAX_STALE_AGE_SECONDS = 60`) with a one-line comment referencing the contract so the next person doesn't "fix" it.
+
+5. **Nit — `age_seconds` type inconsistency.**
+   Fresh path returns `0` (int); fallback returns `clock() - saved_at`, which is a float for a monotonic clock. Callers that display or serialize this may care. Pick one (e.g. `0.0` on the fresh path, or round/int the fallback) and be consistent.
+
+Items 1 and 2 are what I'd require before merge; 3 I'd push hard for in the same change; 4–5 are take-it-or-leave-it.
+
+__ABLATION_DONE__ exit=0

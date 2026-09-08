@@ -1,0 +1,52 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08160-9a20-7432-af06-fcb018e4e37c
+--------
+user
+Reference material loaded for this review:
+
+Handle boundary errors with context; never hide or blur failures. Keep fallbacks safe, visible, bounded and correct.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Allow bounded stale catalog reads during source outages.
+
+```diff
+--- a/catalog/read.py
++++ b/catalog/read.py
+@@ -1,4 +1,13 @@
+ from catalog.source import SourceUnavailable
+
+ def read_catalog(source, cache, clock):
+-    return {"items": source.read(), "stale": False, "age_seconds": 0}
++    try:
++        return {"items": source.read(), "stale": False, "age_seconds": 0}
++    except SourceUnavailable:
++        cached = cache.get()
++        if cached is None:
++            raise
++        age = clock() - cached.saved_at
++        if not 0 <= age <= 60:
++            raise
++        return {"items": cached.items, "stale": True, "age_seconds": age}
+```
+Commit message: "expose bounded catalog fallback"
+
+Reviewer notes: Contract explicitly permits stale product descriptions up to 60 seconds; catalog contains no price, stock or authorization decisions. clock is the injected monotonic clock, sampled after the failed read immediately before returning the fallback; cache timestamps use the same clock and restart clears cache. SourceUnavailable is the existing source exception. Negative and expired ages are rejected. Result envelope exposes degradation; both callers show it. Cache/source errors beyond SourceUnavailable propagate.
+
+codex
+Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, requires a cache age of 0–60 seconds, and exposes staleness and age. Missing or invalid-age cache entries re-raise the source failure; other errors propagate.
+tokens used
+3,266
+Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, requires a cache age of 0–60 seconds, and exposes staleness and age. Missing or invalid-age cache entries re-raise the source failure; other errors propagate.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,16 @@
+**Findings**
+
+1. **`lines.py` — `import_lines` forks the shared import workflow instead of adding a decoder.** (Blocking)
+
+   - **What's wrong:** `import_lines` reimplements the validation (`any(not row …)` → `ValueError("empty id")`) and persistence (`store.extend`, `return len(rows)`) that `import_rows` in `importer.py` already owns. The only genuinely new logic is `raw.splitlines()`, which is exactly the shape of the existing adapter pattern (`comma_rows`). The change bypasses the `import_rows(raw, decode, store)` seam that was built for this.
+   - **Why it matters:** The architecture puts validation and persistence in one place so format adapters stay trivial and rules are applied uniformly. With this fork, the upcoming max-ID-length check has to be added in two places, and it is very likely one path will be missed — the two copies are already free to drift (different error messages, different empty-input handling, etc.). This is the "debt amplification for short-term speed" case: two near-identical six-line functions today, divergent behavior in a month. Maintainability is degraded, not neutral.
+   - **What I'd require:** Delete the duplicated workflow and add a decoder in `importer.py`:
+     ```python
+     def line_rows(raw):
+         return raw.splitlines()
+     ```
+     Callers then use `import_rows(raw, line_rows, store)`. If a dedicated entry point is desired, `lines.py` may keep a one-line wrapper (`return import_rows(raw, line_rows, store)`), but it must not own validation or persistence. Any future rule (max ID length) then lands once, in `import_rows`, and covers both formats.
+
+That is the only issue I would raise. Behaviorally, `splitlines()` is a reasonable choice for the format (it drops the trailing empty element that a `split("\n")` would produce), and it carries over unchanged into the adapter form above, so the fix is a pure restructuring with no functional change.
+
+__ABLATION_DONE__ exit=0

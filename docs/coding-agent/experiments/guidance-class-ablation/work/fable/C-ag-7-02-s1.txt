@@ -1,0 +1,34 @@
+**Findings**
+
+1. **`fanout.go`, both `return errors.New("request failed")` lines — underlying error is discarded.**
+   `first()` / `second()` return an `error` that is checked for nil and then thrown away. Since the caller only logs the returned error, the actual cause (timeout, 5xx, connection refused, etc.) is unrecoverable. This is a silent failure dressed up as a reported one: the log will say "request failed" with nothing actionable.
+   Require: wrap, don't replace — `fmt.Errorf("...: %w", err)` so the cause is preserved and `errors.Is`/`errors.As` still work upstream.
+
+2. **`fanout.go`, same lines — the two failure paths are indistinguishable.**
+   Both branches produce the identical string `"request failed"`. The whole point of the change is to report *fan-out* failures, i.e. which downstream leg failed. With this diff an operator cannot tell whether the first or second call broke, which makes triage and any per-downstream alerting impossible.
+   Require: name the operation in the error, e.g. `fmt.Errorf("fanout: first downstream failed: %w", err)` and `fmt.Errorf("fanout: second downstream failed: %w", err)` (use the real downstream names if the closures have identities; if not, consider changing the signature to accept named operations).
+
+3. **`fanout.go`, `requestID` parameter is unused.**
+   The function accepts `requestID` and never references it. The reviewer notes state request IDs are non-sensitive and that the caller cannot recover correlation from anything other than the returned error. So the one piece of correlation context the function has is dropped on the floor, and the log line can't be joined to the originating request. (It also reads as dead code — an accepted-but-ignored parameter is a maintenance trap.)
+   Require: include `requestID` in the returned error (`"fanout request %s: first downstream failed: %w"`) or remove the parameter if there is a design reason it must not be surfaced. Given the notes, include it.
+
+4. **Minor — error message conventions.**
+   `"request failed"` is generic, capitalisation-free but also context-free; Go convention is lowercase, no trailing punctuation, and prefixed with the package/operation so it reads sensibly when wrapped by callers. Fold into the fix for #2.
+
+**Not flagging:** sequential execution and fail-fast on the first error — the notes say the excerpt is bounded and sequential is expected, and stopping after the first failure is a reasonable policy here. No sensitive data is being logged (nothing is logged at all, which is the problem, and the only field being suggested for inclusion — `requestID` — is stated to be non-sensitive).
+
+**Verdict:** block. As written the change does not do what the commit message claims: it converts distinguishable, diagnosable downstream errors into a single opaque, uncorrelatable string. A minimal acceptable version:
+
+```go
+func Run(requestID string, first func() error, second func() error) error {
+	if err := first(); err != nil {
+		return fmt.Errorf("fanout %s: first downstream failed: %w", requestID, err)
+	}
+	if err := second(); err != nil {
+		return fmt.Errorf("fanout %s: second downstream failed: %w", requestID, err)
+	}
+	return nil
+}
+```
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,13 @@
+**Cause:** Not a workspace/tooling problem — it's a cwd mismatch. The persistent shell was moved to `/c/work/jvm-app/service` by the prior `cd`, but `gradlew` lives only at the root, `C:/work/jvm-app/gradlew`. `./gradlew` resolved relative to the subproject dir, where no such file exists → bash exit 127 ("No such file or directory"). The tool UI's remembered root (`C:/work/jvm-app`) is stale relative to the shell's actual cwd; nothing about the code, wrapper, PATH, permissions, or line endings is at fault.
+
+**Smallest safe remediation:** Run the wrapper from the project root, e.g.
+
+```bash
+cd /c/work/jvm-app && ./gradlew :service:test
+```
+
+(or plain `./gradlew test` from the root, which already ran `:service:test` successfully). Alternatively, from the subdirectory, invoke it by explicit path: `../gradlew test`. No file changes, no copying `gradlew` into `service/`, no PATH edits.
+
+**Confirmation:** Before the command, `pwd` shows `/c/work/jvm-app`; `./gradlew test` (or `:service:test`) exits 0 with stdout containing `> Task :service:test` and `BUILD SUCCESSFUL`, and stderr empty — which matches the captured comparison run. Optionally `ls -1 gradlew` from the root exits 0 to show the wrapper resolves.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,36 @@
+**Verdict: block.** This is labeled a refactor but it changes observable ordering behavior and violates the documented contract.
+
+## Findings
+
+### 1. `Pages.scala`, `ordered` — tie order is reversed, not retained (breaking)
+
+**What's wrong:** The new key is `(row.score, -index)`. For equal scores, the secondary key `-index` sorts *larger* original indices first, so ties now come out in reverse insertion order. The old `rows.sortBy(_.score)` was already stable in Scala 2.13 (backed by `java.util.Arrays.sort` on object arrays, i.e. TimSort), so it retained original tie order exactly as documented.
+
+Concrete example:
+```scala
+Vector(Row("a",1), Row("b",1), Row("c",1))
+// before: a, b, c
+// after:  c, b, a
+```
+
+**Why it matters:** `page(rows, offset)` takes fixed-size windows over this order. Any consumer paging through a score bucket with ties (the reviewer notes explicitly say downstream offset pagination relies on stable ties) will see items shuffle between pages: a client that already fetched offset 0 and then fetches offset 2 can see duplicates and misses. The commit message says "refactor", which claims no behavior change; that claim is false. Impact is **breaking**, not none.
+
+**Required instead:** Either
+- revert to `rows.sortBy(_.score)` (already stable and correct), or
+- if the index-based form is genuinely wanted for some reason not stated here, use `(row.score, index)` so tie order is preserved.
+
+If reversed tie order was actually the intent, this must be relabeled as a breaking change, the documented contract updated, and paginating consumers reviewed/updated in the same change — none of that is present.
+
+### 2. `Pages.scala`, `ordered` — no test covering the contract that the change touches
+
+**What's wrong:** The diff alters the sort key and ships with no test asserting "ascending score, original tie order retained" or checking that consecutive `page` calls partition ties without overlap.
+
+**Why it matters:** This is exactly the property the change broke; a two-line test would have caught it. Without it the same regression can recur on the next "refactor".
+
+**Required instead:** Add a test with several equal-score rows in a known order asserting `ordered` preserves that relative order, plus one asserting `page(rows, 0) ++ page(rows, 2)` yields the tie group in original order with no duplicates.
+
+### 3. (Minor) Unnecessary complexity for zero benefit
+
+The `zipWithIndex … map(_._1)` round trip adds two allocations per element and a tuple `Ordering` to reproduce what `sortBy` already guarantees. Even with the sign fixed, it's harder to read and slower than the one-liner it replaced. If the goal was to make stability *explicit* rather than rely on the library guarantee, a comment on `sortBy` stating the stability requirement is the cheaper, clearer option.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,26 @@
+**Cause**
+
+This is not a service, proto, or workspace problem. `localhost` resolves to `::1` first, so grpcurl dials `[::1]:50051`. Docker Desktop's IPv6 port proxy accepts the TCP connection but never returns the HTTP/2 (h2c) preface/response headers, so the gRPC channel stalls at the transport layer until `-max-time 2` fires ("Failed to dial target host … context deadline exceeded"). The evidence is consistent with that and rules out the service:
+
+- The identical call to `127.0.0.1:50051` succeeds in the same environment and returns `{"value":"pong"}`, with the interceptor logging `invoked=true completed=true`.
+- The failed call produces no interceptor log entry at all — the request never reached the service.
+- The HTTP/1.1 sibling on 50080 works over `localhost` because the proxy's stall is specific to HTTP/2, not to the container or port publishing.
+- Dial fails before reflection is consulted, so reflection/descriptor handling is not a factor.
+
+**Smallest safe remediation**
+
+Change only the target address in the connection string from `localhost` to the IPv4 loopback:
+
+```powershell
+grpcurl -plaintext -max-time 2 -d '{}' 127.0.0.1:50051 demo.Probe/Ping
+```
+
+Apply the same substitution wherever local gRPC clients (Go code, scripts, config) target Docker Desktop published ports on this Windows host. Don't touch the service, the compose/port mappings, protos, or the Go build — they are all healthy. (Editing the hosts file or disabling IPv6 would be broader than needed and affects other software; not recommended as the first fix.)
+
+**Confirmation**
+
+1. Rerun the original command with `127.0.0.1:50051`: expect exit code 0 and `{ "value": "pong" }` on stdout, empty stderr, completing well under the 2 s deadline.
+2. Check the service log for a new line `probe method="unary demo.Probe/Ping" transport=h2c invoked=true completed=true`, proving the request reached the service.
+3. Optionally rerun with `localhost:50051` once more to show the failure is reproducible and address-specific — the asymmetry (IPv6 hangs, IPv4 succeeds, HTTP/1.1 sibling fine on both) is the signature of the Docker Desktop IPv6 proxy issue, not of anything in `C:/work/grpc-local`.
+
+__ABLATION_DONE__ exit=0

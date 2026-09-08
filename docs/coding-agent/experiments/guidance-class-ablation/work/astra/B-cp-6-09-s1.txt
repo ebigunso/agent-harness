@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a2-cc46-70a0-b71b-6884e4ce0baa
+--------
+user
+Reference material loaded for this review:
+
+### 6) Maintain Contract Fidelity Across Layers
+
+- Keep data models, service contracts, and adapters aligned.
+- Avoid silent field loss, implicit coercions, or shape drift.
+- Version and migrate interfaces deliberately when needed.
+
+Review checks:
+- Do upstream/downstream boundaries agree on schema and semantics?
+- Is contract drift prevented or merely tolerated?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Adapt upstream textual success values.
+
+```diff
+--- a/adapter.php
++++ b/adapter.php
+@@ -0,0 +1,3 @@
++<?php
++function upstream(): array { return ["success" => "false"]; }
++function success(array $response): bool { return (bool)$response["success"]; }
+```
+Commit message: "adapt upstream textual success values"
+
+Reviewer notes: Upstream contract guarantees exactly strings true or false and an object containing success; schema validation occurs before this adapter. PHP nonempty string semantics apply.
+
+codex
+- **`adapter.php:3`** — `(bool)$response["success"]` converts both `"true"` and `"false"` to `true`, because both are nonempty PHP strings. This reports upstream failures as successes. Given the validated contract, require an explicit comparison: `return $response["success"] === "true";`.
+tokens used
+3,120
+- **`adapter.php:3`** — `(bool)$response["success"]` converts both `"true"` and `"false"` to `true`, because both are nonempty PHP strings. This reports upstream failures as successes. Given the validated contract, require an explicit comparison: `return $response["success"] === "true";`.
+
+__ABLATION_DONE__ exit=0

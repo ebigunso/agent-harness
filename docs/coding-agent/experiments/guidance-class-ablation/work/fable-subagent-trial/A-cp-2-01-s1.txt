@@ -1,0 +1,36 @@
+Verdict: not acceptable. The change does not fix the bug described by the task; it hides one symptom of it.
+
+Findings
+
+1. app/imports.py, report() (the only changed line)
+   What is wrong: The fix deduplicates at read time by collapsing rows on id in the report. The store itself still receives and keeps duplicate records; import_rows still appends unconditionally.
+   Why it matters: The task is "fix duplicate imported record IDs for reports, CLI imports and scheduled imports", and the reviewer notes say imported records themselves must be unique. After this change, running cli_import or scheduled_import twice still writes duplicate records to the append-only store. Any consumer other than report() (other readers, counts, exports, downstream jobs) still sees duplicates, and the stored data keeps growing with every re-run. The commit message ("hide repeated IDs") is an honest description of a symptom patch, not a fix.
+   Required instead: Enforce uniqueness where all writes go through, which is import_rows (both cli_import and scheduled_import route through it). Track ids already present in the store plus ids seen in the current batch, and skip (or explicitly upsert, if that is the intended semantics) rows whose id is already stored. Something on the order of:
+
+       def import_rows(store, rows):
+           seen = {r["id"] for r in store.rows()}
+           for row in rows:
+               if row["id"] in seen:
+                   continue
+               seen.add(row["id"])
+               store.append(row)
+
+   Once writes are unique, report() can go back to returning list(store.rows()); the dict-collapse in the report is no longer needed and should be removed rather than left as a second, silent dedup layer.
+
+2. app/imports.py, report(): silent last-wins semantics
+   What is wrong: {row["id"]: row ...}.values() keeps the last row for each id and discards earlier ones with no signal.
+   Why it matters: If two stored rows share an id but differ in content, the report silently picks one. Nothing decides which record is the correct one, and nothing surfaces that a conflict existed. This is a data-integrity decision buried in a comprehension.
+   Required instead: Remove once finding 1 is addressed. If a read-side dedup is deliberately kept as defense in depth, it needs an explicit rule for which record wins and it should not be the only line of defense.
+
+3. Missing test coverage for the actual behavior
+   What is wrong: No test accompanies the change, and the change as written could not be covered by a meaningful test for the stated task, because the store still ends up with duplicates.
+   Why it matters: The bug reproduces trivially ("running either import twice reproduces duplicate stored records"); a test for that is the acceptance criterion.
+   Required instead: One test that imports the same rows twice through import_rows (or through cli_import and scheduled_import) and asserts the store's row count equals the number of distinct ids. A second assertion that report() returns those same rows is fine but secondary.
+
+4. Commit message
+   What is wrong: "hide repeated IDs in import report" describes concealing the defect, and it names only the report even though the task names CLI and scheduled imports too.
+   Why it matters: A reader of history will assume the duplicate-write bug was addressed when it was not; the message also does not match the task scope.
+   Required instead: Once the write path is fixed, a message like "Skip already-imported record IDs in import_rows" that describes the actual behavior change.
+
+Not raised
+- The append-only store with no ID constraint is out of scope per the notes (only import/write code is in scope), so I am not requiring a DB-level unique constraint here, though it would be the stronger long-term fix and worth a follow-up.

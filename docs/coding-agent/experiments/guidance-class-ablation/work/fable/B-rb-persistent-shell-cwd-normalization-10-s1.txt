@@ -1,0 +1,36 @@
+**Verdict: workspace problem — cwd drift in the persistent shell. Resolved.**
+
+**Cause**
+
+The persistent PowerShell session's cwd was `C:/work/notes` (set by the earlier `Set-Location -LiteralPath 'C:/work/notes'`), not the intended base `C:/work/repo`. `C:/work/notes` contains only `today.txt` and has no `.git` in it or any parent, so `git status --porcelain` correctly failed with exit 128, `fatal: not a git repository`. The tool UI's remembered workspace root (`C:/work/repo`) is unrelated to the shell's actual cwd — that mismatch is the trap. Nothing about the repo, git, PATH, or permissions is broken.
+
+**Smallest safe remediation**
+
+One explicit navigation, then rerun the command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/repo'
+git status --porcelain
+```
+
+No changes to config, branch, or files; nothing to revert. Going forward, don't rely on the UI's workspace root for this shell — either issue a single explicit `cd` to the target before git commands, or make the command location-independent with `git -C C:/work/repo status --porcelain`.
+
+**Confirmation**
+
+- `pwd` → `C:/work/repo` (was `C:/work/notes`)
+- `git status --porcelain` → exit 0, empty stdout/stderr (clean tree, no error)
+- Read-only check that `C:/work/repo/.git` exists corroborates this is the repo root
+
+The captured comparison already shows exactly this: identical command, only the cwd differs, exit 128 → 0.
+
+**Evidence summary**
+
+| Item | Value |
+|---|---|
+| Failing command | `git status --porcelain` → 128, `fatal: not a git repository` |
+| Pre-normalization cwd | `C:/work/notes` |
+| Normalized cwd | `C:/work/repo` |
+| Rerun result | exit 0, empty output |
+| Status | resolved |
+
+__ABLATION_DONE__ exit=0

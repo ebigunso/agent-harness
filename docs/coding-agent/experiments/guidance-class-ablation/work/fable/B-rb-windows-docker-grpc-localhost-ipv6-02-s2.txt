@@ -1,0 +1,26 @@
+**Cause**
+
+This is not a workspace/build/dependency problem and not a service fault. `localhost` resolves to `::1` first on this host, so the gRPC channel connects to `[::1]:50051`. Docker Desktop's IPv6 port proxy accepts the TCP connect but never delivers HTTP/2 response headers, so the h2c channel stalls at the transport layer until the 2s deadline fires (`DEADLINE_EXCEEDED`, exit 2, empty stdout). The service never saw the request — the interceptor log has no entry for it. The REST sibling on 50080 works because HTTP/1.1 is not affected by the same stall, which explains the asymmetry.
+
+The controlled comparison confirms it: the identical call with only the target changed to `127.0.0.1:50051` returned `pong`, exit 0, and the service log shows `invoked=true completed=true`.
+
+**Smallest safe remediation**
+
+Change the gRPC target from `localhost:50051` to `127.0.0.1:50051` — in the probe invocation and in any local connection string/config that the gRPC client reads for this Docker Desktop published port:
+
+```
+node probes/unary.mjs --target 127.0.0.1:50051 --timeout 2
+```
+
+No changes to the service, container, port mappings, probe code, or dependencies. Don't touch host name resolution or Docker networking settings — that's broader than needed and riskier. Since there's no TLS name check, switching the literal address has no certificate/SNI side effect.
+
+**Confirmation**
+
+1. Re-run the unary probe against `127.0.0.1:50051`: expect exit 0, `pong` on stdout, empty stderr (already observed).
+2. Check the service interceptor log for a new `probe method="unary application health" transport=h2c invoked=true completed=true` line for that call (already observed).
+3. Optionally re-run against `localhost:50051` once more to confirm it still hangs — demonstrating the fix is the address, not timing/flakiness.
+4. If you want a positive check on the resolution claim: confirm `localhost` still orders `::1` first (e.g. `Resolve-DnsName localhost` or the same trace used above) so the root cause is documented, not just the workaround.
+
+**Escalation only if needed:** if `127.0.0.1:50051` had also failed, then investigate the service, port publishing, and container health per the reference. It didn't, so that's out of scope here.
+
+__ABLATION_DONE__ exit=0

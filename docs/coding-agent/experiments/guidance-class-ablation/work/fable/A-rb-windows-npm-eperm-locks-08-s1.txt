@@ -1,0 +1,33 @@
+**Cause**
+
+`npm install` needs to unlink `node_modules\onnxruntime-node\bin\napi-v3\win32\x64\onnxruntime_binding.node` while reconciling the tree, but on Windows a native addon (`.node` is a DLL) that is mapped into a running process cannot be deleted. `tasklist /m` shows exactly one holder: `node.exe` PID 4108, the model preview server started from this repo's `workers/model-preview.js`. npm reports that as `EBUSY` (errno -4082, `ERROR_SHARING_VIOLATION`), not a permissions problem — the probe file and ACL checks confirm the directory itself is writable.
+
+This is a workspace problem: a process owned by this repository is holding the file npm is trying to replace.
+
+**Smallest safe remediation**
+
+Stop the preview worker, then rerun the install. Do not delete `node_modules` or the cache; nothing else is wrong.
+
+```powershell
+# Confirm it is the expected process before stopping it
+Get-Process -Id 4108 | Select-Object Id, ProcessName, Path, StartTime
+(Get-CimInstance Win32_Process -Filter "ProcessId=4108").CommandLine
+
+# Stop it (use the worker's own stop/shutdown mechanism if it has one; otherwise:)
+Stop-Process -Id 4108
+
+npm install
+```
+
+Restart the preview worker afterwards. Note that if `onnxruntime-node` was actually updated/rebuilt by the install, the worker must be restarted anyway to pick up the new binary — a long-lived process holding a loaded `.node` file will keep the old copy in memory.
+
+**Confirmation**
+
+1. Before rerunning: `tasklist /m onnxruntime_binding.node` should print `INFO: No tasks are running which match the specified criteria.`
+2. `npm install` exits 0 with no `EBUSY` in stderr.
+3. `npm ls onnxruntime-node` shows `onnxruntime-node@1.19.2` with no `invalid`/`missing` markers, and the file at the reported path exists.
+4. Restart the preview worker and check it loads the addon: `node -e "require('onnxruntime-node'); console.log('ok')"` from `C:/work/npm-lock`, then confirm the worker is serving again.
+
+**If you cannot stop the worker right now:** there is no safe way to make `npm install` proceed while the binary is mapped. Avoid workarounds like `--force`, renaming the file underneath the running process, or deleting `node_modules`; they either fail the same way or leave the running server pointing at a file that no longer matches what's on disk.
+
+__ABLATION_DONE__ exit=0

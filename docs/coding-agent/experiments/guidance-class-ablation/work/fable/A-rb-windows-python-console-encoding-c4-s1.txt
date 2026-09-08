@@ -1,0 +1,30 @@
+**Cause**
+
+The traceback is a plain `ZeroDivisionError` at `compute.py` line 8: `denominator` is `0` when `numerator / denominator` runs. That is a program-logic / input-data defect, not a workspace problem. The interpreter, PowerShell, cwd, and pipe are all behaving normally.
+
+The encoding observations (`sys.stdout.encoding = cp932`, `utf8_mode = 0`) are a red herring for this failure. The script raises before any `print` call, no bytes were written to stdout, and nothing was written to disk, so the cp932 stream encoding never came into play. Don't change `PYTHONUTF8`, `PYTHONIOENCODING`, or the console code page in response to this error — that wouldn't touch the cause.
+
+**Smallest safe remediation**
+
+Fix where `denominator` gets its value, not the environment. Two cases:
+
+1. If `denominator = 0` is a hardcoded or mis-entered value in `compute.py` / its input file, correct the value.
+2. If `denominator` is legitimately computed and zero is a possible input, guard the division explicitly rather than letting it crash:
+
+```python
+if denominator == 0:
+    raise ValueError(f"denominator is zero (numerator={numerator}); cannot compute ratio")
+ratio = numerator / denominator
+```
+
+(or `ratio = None` / skip the record, depending on what the report should do for that case). Keep the change to that one spot; don't wrap the whole script in a broad `try/except`.
+
+**Confirmation**
+
+- Re-run `python compute.py` in the same captured-stream setup. Expect exit code `0`, no traceback on stderr, and the intended output on stdout / the expected files written.
+- Check with `$LASTEXITCODE` in PowerShell 7.4 after the run.
+- If you added the guard, run once more with a deliberate zero denominator and confirm you get the explicit `ValueError` message (or the chosen skip behavior) instead of the raw `ZeroDivisionError`.
+
+**Separate note (not this failure):** once the script does print, the cp932 stdout under a pipe could raise `UnicodeEncodeError` if the report contains characters outside cp932. That is a distinct, latent issue; address it only if it actually surfaces, e.g. with `PYTHONUTF8=1` or `sys.stdout.reconfigure(encoding="utf-8")`.
+
+__ABLATION_DONE__ exit=0

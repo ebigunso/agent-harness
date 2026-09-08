@@ -1,0 +1,51 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d77-cf11-7e90-83b0-c46e141f11e6
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Keep export completion trustworthy when the disk fills mid-write.
+
+```diff
+--- a/src/export.php
++++ b/src/export.php
+@@ -1,5 +1,14 @@
+ <?php
+ function exportReport(string $destination, iterable $chunks, Writer $writer): array {
+-    $writer->replaceAtomically($destination, $chunks);
++    $handle = $writer->openForReplace($destination);
++    try {
++        foreach ($chunks as $chunk) {
++            $writer->writeFully($handle, $chunk);
++        }
++    } catch (DiskWriteError $error) {
++        $writer->log($error);
++    } finally {
++        $writer->close($handle);
++    }
+     return ['status' => 'ready', 'path' => $destination];
+ }
+```
+Commit message: "stream directly to the ready artifact"
+
+Reviewer notes: Writer is an existing tested abstraction: openForReplace truncates; writeFully throws DiskWriteError on short/error writes; close is nonthrowing and releases the handle. replaceAtomically writes beside the destination and publishes only after complete success. An earlier valid destination exists; consumers open the returned path when status is ready.
+
+codex
+- **`src/export.php:8–9` — Write failure still reports success.** `DiskWriteError` is logged and swallowed, so execution returns `status => 'ready'` with an incomplete artifact. Consumers will treat partial output as complete. Require propagating the failure or returning an explicit failure status; `ready` must be returned only after successful completion and publication.
+
+- **`src/export.php:3–6` — Direct replacement destroys the previous valid export.** `openForReplace` truncates the existing destination before writing. If the disk fills, the valid export is lost and partial output remains at its path. Fixing the success status alone cannot restore it. Require retaining `replaceAtomically`, or equivalent temporary-file writing followed by atomic publication only after complete success.
+tokens used
+3,405
+- **`src/export.php:8–9` — Write failure still reports success.** `DiskWriteError` is logged and swallowed, so execution returns `status => 'ready'` with an incomplete artifact. Consumers will treat partial output as complete. Require propagating the failure or returning an explicit failure status; `ready` must be returned only after successful completion and publication.
+
+- **`src/export.php:3–6` — Direct replacement destroys the previous valid export.** `openForReplace` truncates the existing destination before writing. If the disk fills, the valid export is lost and partial output remains at its path. Fixing the success status alone cannot restore it. Require retaining `replaceAtomically`, or equivalent temporary-file writing followed by atomic publication only after complete success.
+
+__ABLATION_DONE__ exit=0

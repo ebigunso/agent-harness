@@ -1,0 +1,14 @@
+**Verdict: block.**
+
+1. **`approval.rb`, `approve!` — two separate `update!` calls with no transaction.**
+   Each `update!` commits on its own (no caller transaction, per notes). After the first commit the row is `status: "approved", approver_id: NULL`, which is exactly the state the invariant forbids, and observers can read it. If the second `update!` fails (validation, DB error, process dies), the record is left permanently in that invalid state. Worse: if the "required approver ID" validation is conditional on approved status, the first `update!` raises `RecordInvalid` every time and the method never succeeds at all; if it's unconditional, the sequencing is merely racy rather than broken. Either way the split is wrong.
+   Required: a single atomic write — `update!(status: "approved", approver_id: approver.id)` (or `update!(status: "approved", approver: approver)` via the association). No transaction wrapper needed once it's one statement; if there's a reason to keep two writes, wrap them in `transaction do ... end`, but there isn't one here.
+
+2. **`approval.rb`, `approve!(approver)` — parameter/column mismatch.**
+   The argument is named `approver` (implies a model object) but is assigned to `approver_id`. If callers pass a `User`, AR will cast the object to an integer (Rails 7 raises or coerces to garbage depending on the type); if callers pass an id, the name is misleading. Pick one: `approve!(approver)` → `approver: approver` via `belongs_to :approver`, or rename to `approver_id`.
+
+3. **No test.** The task is precisely "record approvals with approver identity"; a spec asserting that after `approve!` the record has both `status == "approved"` and the correct `approver_id`, and that a failed save leaves the record unapproved, would have caught #1. Require one.
+
+Minor, non-blocking: `require "active_record"` is unnecessary in a Rails 7 app model (autoloaded); drop it unless this file is used standalone.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,139 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7f-7c52-7131-b4f4-fde662f603ea
+--------
+user
+Reference material loaded for this review:
+
+# Persistent Shell CWD Normalization
+
+Use this guide when command failures may be caused by running from the wrong current working directory (cwd), especially in persistent terminal sessions.
+
+## When to read this
+
+Read this reference when any of the following appear:
+- repeated `cd <dir> && ...` command chains fail unexpectedly
+- errors like “path not found”, “no such file or directory”, or missing script/package from a directory where it should exist
+- command behavior changes between retries without code changes
+- you are using a persistent shell where cwd state is carried across commands
+
+## Quick triage checklist
+
+1) Capture current state before changing anything
+- run `pwd`
+- run `ls` (or `dir`) to confirm you are where you think you are
+- record failing command + error output
+
+2) Confirm intended run location
+- identify the intended directory for the command (repo root vs subdirectory)
+- if needed, verify script location from project files
+
+3) Normalize cwd minimally
+- use explicit navigation to intended path (single `cd` to the target)
+- avoid stacking duplicated `cd <same-dir> && ...` patterns in persistent sessions
+- rerun the original command unchanged after cwd normalization
+
+4) Validate and record
+- if fixed, record that cwd drift was root cause
+- capture both pre-normalization cwd and normalized cwd in troubleshooting evidence
+- if not fixed, continue with another runbook to avoid overfitting on cwd
+
+## Safe command pattern examples
+
+- Pattern A (normalize then run):
+  - `pwd`
+  - `cd <intended-path>`
+  - `<original-command>`
+
+- Pattern B (single explicit execution path):
+  - from repo root, use one explicit `cd <target> && <command>`
+  - avoid repeating nested `cd` assumptions across retries
+
+## Evidence expectations
+
+When cwd drift contributed to failure, include:
+- failing command and error text
+- pre-normalization cwd
+- normalized cwd
+- rerun command result
+- final status (`resolved` / `still failing`)
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Git 2.47.0; cwd and intended root both C:/work/repo. Tool UI workspace root is also C:/work/repo.
+
+Prior command: `Set-Location -LiteralPath "C:/work/repo"` — status 0.
+
+Before retry/repair: `pwd` reports C:/work/repo; `Get-Item -Force -LiteralPath '.git','README.md' | Select-Object -ExpandProperty FullName` exits 0, stderr empty, stdout:
+```text
+C:/work/repo/.git
+C:/work/repo/README.md
+```
+
+Failing command: `git rev-parse --verify missing-branch`
+
+Exit code: 128
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+fatal: Needed a single revision
+```
+
+Diagnostic observations: git rev-parse --show-toplevel exits 0 and prints C:/work/repo. git branch --list prints main; git show-ref has no missing-branch ref. No repository/cwd error occurs.
+
+Final `pwd` remains C:/work/repo. No navigation, file or environment change occurred.
+
+2026-09-07T20:11:42.379397Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:11:42.449450Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:11:43.958632Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:11:44.371477Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 2/5
+2026-09-07T20:11:44.943880Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 3/5
+2026-09-07T20:11:45.948101Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 4/5
+2026-09-07T20:11:47.713699Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 5/5
+2026-09-07T20:11:50.890421Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+warning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Unknown error, url: wss://chatgpt.com/backend-api/codex/responses, cf-ray: a3785d6c28639656-KIX
+codex
+**Cause:** This is not a workspace or cwd problem. Git recognizes `C:/work/repo`, but `missing-branch` does not resolve to an existing revision.
+
+**Smallest safe remediation:** Correct the revision name to the intended existing branch. If `main` was intended, run:
+```powershell
+git rev-parse --verify main
+```
+Do not change directories or create a branch merely to suppress the error.
+
+**Confirmation:** The corrected command exits 0 and prints a commit hash. Until the intended revision is supplied and verified, the original command remains failing.
+tokens used
+3,654
+**Cause:** This is not a workspace or cwd problem. Git recognizes `C:/work/repo`, but `missing-branch` does not resolve to an existing revision.
+
+**Smallest safe remediation:** Correct the revision name to the intended existing branch. If `main` was intended, run:
+```powershell
+git rev-parse --verify main
+```
+Do not change directories or create a branch merely to suppress the error.
+
+**Confirmation:** The corrected command exits 0 and prints a commit hash. Until the intended revision is supplied and verified, the original command remains failing.
+
+__ABLATION_DONE__ exit=0

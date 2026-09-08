@@ -1,0 +1,63 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a5-5f6c-7d01-838d-f083fbd397ae
+--------
+user
+Reference material loaded for this review:
+
+### 8) Control Complexity and Duplication
+
+- Remove accidental complexity before introducing abstraction.
+- Abstract only when multiple concrete uses justify it.
+- Keep dependency direction intentional and acyclic where practical.
+
+Review checks:
+- Does abstraction reduce or increase cognitive load?
+- Is new complexity justified by measurable maintenance benefit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Wire one mail adapter.
+
+```diff
+--- a/Root.scala
++++ b/Root.scala
+@@ -1,4 +1,16 @@
++import scala.collection.mutable.Map
+ trait Mail { def send(text: String): String }
+ class LocalMail extends Mail { def send(text: String): String = text }
+ class Service(mail: Mail) { def notify(text: String): String = mail.send(text) }
+-object Root { def service = new Service(new LocalMail) }
++class Container {
++  private val bindings = Map.empty[String, () => Any]
++  def bind(key: String, build: () => Any): Unit = { bindings(key) = build }
++  def resolve(key: String): Any = bindings(key)()
++}
++object Root {
++  def service: Service = {
++    val container = new Container
++    container.bind("mail", () => new LocalMail)
++    new Service(container.resolve("mail").asInstanceOf[Mail])
++  }
++}
+```
+Commit message: "wire one mail adapter"
+
+Reviewer notes: Scala 2.13. Existing Root already supports direct constructor wiring. There is one Mail adapter with no lifecycle variation. Container lookup is fixed trusted local code and succeeds.
+
+codex
+- **`Root.scala` — `Container` and `Root.service`:** The registry adds mutable state, string keys, `Any`, and a cast to wire a single adapter that already fits direct constructor injection. Although this lookup succeeds, the abstraction increases cognitive load and replaces compile-time wiring checks with runtime operations without a concrete reuse or lifecycle benefit. Remove the container and retain `def service: Service = new Service(new LocalMail)`.
+tokens used
+3,330
+- **`Root.scala` — `Container` and `Root.service`:** The registry adds mutable state, string keys, `Any`, and a cast to wire a single adapter that already fits direct constructor injection. Although this lookup succeeds, the abstraction increases cognitive load and replaces compile-time wiring checks with runtime operations without a concrete reuse or lifecycle benefit. Remove the container and retain `def service: Service = new Service(new LocalMail)`.
+
+__ABLATION_DONE__ exit=0

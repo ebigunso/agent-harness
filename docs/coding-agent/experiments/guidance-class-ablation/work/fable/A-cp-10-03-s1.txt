@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`lines.py` — forks the shared import workflow instead of adding a decoder adapter.** *(Blocking)*
+   `import_lines` re-implements the entire body of `import_rows` (decode → empty-ID check → `store.extend` → return count) with only the decode step changed. The established design is that `import_rows` owns validation and persistence and adapters (like `comma_rows`) only decode. This change creates a second copy of the validation/persistence logic that will drift: the imminent max-ID-length rule would now have to be added in two places, and it's very likely one gets missed — newline imports would silently accept IDs that comma imports reject. Even today the duplicated `"empty id"` check is a maintenance liability.
+   **Require:** replace `lines.py`'s function with a pure adapter and route through the shared workflow:
+   ```python
+   def line_rows(raw):
+       return raw.splitlines()
+   ```
+   with callers using `import_rows(raw, line_rows, store)`. Delete `import_lines` (or, if a convenience wrapper is truly needed, make it a one-liner that delegates to `import_rows`). Put the adapter next to `comma_rows` in `importer.py` unless there's a reason for a separate module.
+
+2. **`lines.py` / `importer.py` — decoders disagree on empty input.** *(Minor; fix as part of #1)*
+   `"".splitlines()` → `[]`, so an empty payload returns `0` and stores nothing, whereas `"".split(",")` → `[""]`, which raises `"empty id"`. Similarly a trailing newline is dropped by `splitlines()` while a trailing comma yields an empty ID and raises. Once both go through `import_rows`, decide which semantics you want for empty/trailing input and make the two adapters consistent (or document that newline format tolerates a trailing newline, which is the conventional and probably desired behavior). Worth a test either way.
+
+Everything else in the diff (using `splitlines()` rather than `split("\n")`, validating before persisting) is fine. The change is not acceptable as-is because of #1.
+
+__ABLATION_DONE__ exit=0

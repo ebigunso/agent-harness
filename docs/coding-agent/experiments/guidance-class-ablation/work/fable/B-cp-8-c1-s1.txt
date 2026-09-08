@@ -1,0 +1,16 @@
+**Verdict: acceptable as-is.**
+
+I checked this against the "control complexity and duplication" criteria and against the stated task, and I have nothing I'd block or flag.
+
+Reasoning:
+
+- **Abstraction is justified by concrete uses.** `Amount` is shared by exactly the two exporters that the notes confirm are live (`Csv`, `Text`). It isn't a speculative abstraction; it's the minimum extraction that removes the duplicated formatting decision.
+- **Scope of sharing is correct.** Only the decimal formatting is centralised. The CSV header and the `"Total: "` wording stay in their own exporters, so the helper doesn't grow into a "generic exporter" that would raise cognitive load rather than lower it.
+- **Cognitive load is reduced, not increased.** A reader now finds the number format (`"0.00"`, invariant culture) in one place, and each exporter is a one-liner that composes it. There's no indirection layer, no interface, no config.
+- **Dependency direction is clean.** Both public entry points depend inward on a private static helper; nothing depends on the exporters. Acyclic and intentional.
+- **`CultureInfo.InvariantCulture` is the right choice** for machine-consumed output (CSV) and for a fixed-format text line; it prevents the decimal-separator/locale drift the notes call out.
+- **`private` by default on `Amount`** keeps the surface area minimal — callers outside this class can't start depending on the raw format.
+
+One non-blocking observation, not a required change: `"0.00"` fixes two decimal places and rounds (away-from-zero) anything with more precision. That's the normal expectation for currency amounts and both exporters want the same behaviour, so it's appropriate here — I'd only revisit it if a future exporter needs a different scale, at which point the parameter belongs on `Amount`, not in a second helper.
+
+__ABLATION_DONE__ exit=0

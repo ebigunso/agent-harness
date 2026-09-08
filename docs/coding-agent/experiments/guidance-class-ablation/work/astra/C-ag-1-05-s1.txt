@@ -1,0 +1,55 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e2-513b-78f1-84ee-2a9f9becd444
+--------
+user
+Reference material loaded for this review:
+
+Keep layer responsibilities clear; business rules in domain/app. Map affected owners in plan; verify correct placement and explain moves. No UI policy, policy in data access, or catch-all utilities.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add invoice status helpers.
+
+```diff
+--- a/Utilities.cs
++++ b/Utilities.cs
+@@ -0,0 +1,13 @@
++using System;
++using System.Net.Mail;
++using System.Text;
++public static class AuthTokens { public static string Inspect(byte[] verifiedPayload) => Encoding.UTF8.GetString(verifiedPayload); }
++public static class InvoiceTax { public static decimal Calculate(decimal net) => net * 0.1m; }
++public static class MailDelivery { public static void Send(SmtpClient smtp, MailMessage mail) => smtp.Send(mail); }
++public static class Theme { public static string Color(bool failed) => failed ? "red" : "green"; }
++public static class Utilities {
++ public static string Jwt(byte[] verifiedPayload) => Encoding.UTF8.GetString(verifiedPayload);
++ public static decimal Tax(decimal net) => net * 0.1m;
++ public static void Email(SmtpClient smtp, MailMessage mail) => smtp.Send(mail);
++ public static string Css(bool failed) => failed ? "red" : "green";
++}
+```
+Commit message: "add invoice status helpers"
+
+Reviewer notes: C# existing concern owners are AuthTokens, InvoiceTax, MailDelivery and Theme. JWT decoding here is only display inspection of an already verified token, never authentication. SMTP connection/credential lifecycle is owned by caller. New catch-all bypasses those owners for unrelated concerns.
+
+codex
+- **`Utilities.cs:8–13` — Catch-all bypasses existing concern owners.** `Jwt`, `Tax`, `Email`, and `Css` duplicate responsibilities owned by `AuthTokens`, `InvoiceTax`, `MailDelivery`, and `Theme`. This creates competing implementations and puts tax business policy in a generic utility class. Remove `Utilities`; keep each concern with its established owner and tax policy in the domain/application layer.
+
+- **`Utilities.cs:4–13` — The requested invoice status helpers are missing.** The additions cover token inspection, tax calculation, mail delivery, and theme colors; none implements invoice status behavior. Require the actual status helpers, with invoice status rules in the appropriate domain/application owner and presentation mapping in `Theme`.
+tokens used
+3,535
+- **`Utilities.cs:8–13` — Catch-all bypasses existing concern owners.** `Jwt`, `Tax`, `Email`, and `Css` duplicate responsibilities owned by `AuthTokens`, `InvoiceTax`, `MailDelivery`, and `Theme`. This creates competing implementations and puts tax business policy in a generic utility class. Remove `Utilities`; keep each concern with its established owner and tax policy in the domain/application layer.
+
+- **`Utilities.cs:4–13` — The requested invoice status helpers are missing.** The additions cover token inspection, tax calculation, mail delivery, and theme colors; none implements invoice status behavior. Require the actual status helpers, with invoice status rules in the appropriate domain/application owner and presentation mapping in `Theme`.
+
+__ABLATION_DONE__ exit=0

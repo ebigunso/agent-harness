@@ -1,0 +1,19 @@
+**Verdict: Block.**
+
+### Finding 1 — `telemetry.php`, `Telemetry::write()`, line `if (count($this->queue) >= 2) return;`
+
+**What's wrong:** When the buffer is full, the incoming event is discarded and the method returns `void` with no indication anything happened. There is no dropped counter, no log line, no exception, no return value, no overflow marker placed in the queue — nothing observable. The caller cannot tell whether its event was accepted, and the scheduler draining the queue cannot tell whether the batch it receives is complete.
+
+**Why it matters:** Per the reviewer notes, these records include critical failure events. This turns the telemetry buffer into a silent failure path (Gate 7 anti-pattern #1): the exact events you most need during an incident — when event volume spikes and the buffer is most likely to be full — are the ones that vanish. Worse, the absence of the signal is itself invisible: a dashboard that shows "no failures" is indistinguishable from "failures occurred but were dropped." The reviewer notes confirm this is the production behavior, not an artifact of the small capacity in the excerpt. Backpressure/dropping can be a legitimate design choice, but *unobservable* dropping is not.
+
+**What I'd require:** Any of the following, and at minimum the first:
+- Maintain a `$dropped` counter incremented on overflow, exposed alongside `drain()` (e.g. return `['events' => …, 'dropped' => n]` or a separate `drainedStats()`), and reset per drain so the scheduler can emit a `telemetry.dropped` metric/log entry with the count. The drop signal must go out-of-band of the queue itself so it can't be dropped too.
+- Alternatively, when dropping, replace or append a synthetic `overflow` event (containing only the count and window, not payloads) so the drained batch self-describes its incompleteness.
+- Have `write()` return `bool` (accepted/dropped) so callers writing critical failure events can escalate (e.g. fall back to synchronous logging) instead of assuming delivery.
+- Consider whether a drop-oldest or priority-aware policy is more appropriate than drop-newest for failure events; but that's a design question — the non-negotiable is that loss is counted and surfaced.
+
+### Not raised as separate findings, noted for the author
+- The commit message and task say "asynchronously," but nothing in this class is asynchronous — it's a bounded in-memory queue drained by an external scheduler. That's fine as a building block, but the description should match what's actually here.
+- `drain()` hands raw event arrays to the scheduler; whether those contain sensitive payloads is outside this excerpt. Nothing in this diff introduces new exposure, so no finding, but the consumer side should be checked under the same gate.
+
+__ABLATION_DONE__ exit=0

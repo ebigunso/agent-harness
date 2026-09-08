@@ -1,0 +1,13 @@
+**Verdict: not acceptable as-is — one change required, one to confirm.**
+
+1. **`catalog/fetch.go`, `FetchFailure.Error()` — the string drops the cause and the timeout distinction.**
+   `Error()` returns only `"fetch catalog failed"`. Anything that logs `err.Error()` / `%v` / `%s` (which is most log lines, structured loggers' `err` fields, panics, test failure output) will show an identical message for a deadline, a connection refusal, a permission error, or a malformed row. That is exactly the "blurred failure" the guidance forbids, and it undoes the task's goal in the place operators actually look. The stated reason for the terse message (no raw DB text in the public message) doesn't hold: the notes say Store errors are already sanitized at their source, and the HTTP layer already maps by type, so it can (and should) build the client-facing text itself rather than reusing an internal error's `Error()`.
+   *Require:* follow the standard chain form and surface the flag, e.g. `fetch catalog failed (timeout): <cause>` / `fetch catalog failed: <cause>` via `e.Operation + ": " + e.Cause.Error()`. If the HTTP layer is currently echoing `err.Error()` to clients, fix that there instead of crippling the internal error.
+
+2. **`catalog/fetch.go`, `Timeout: errors.Is(err, context.DeadlineExceeded)` — narrow detection can produce `Timeout=false` on a real timeout.**
+   Only the context sentinel is checked. Timeouts from the underlying store frequently surface as `net.Error` with `Timeout() == true`, `os.ErrDeadlineExceeded`, or driver-specific errors, and a sanitizing layer that formats with `%v` instead of `%w` will strip the context sentinel entirely. In those cases the flag is confidently wrong, which is worse than absent — callers will trust `Timeout` and misclassify. Because the flag is derived and cached at construction, it can also drift from what `errors.Is` on the unwrapped chain says.
+   *Require:* either (a) confirm that every `Store` implementation is contractually required to wrap with `%w` and only ever signals timeouts via `context.DeadlineExceeded` (document that on the `Store` interface), or (b) broaden detection: `errors.Is(err, context.DeadlineExceeded) || errors.Is(err, os.ErrDeadlineExceeded) || (errors.As(err, &ne) && ne.Timeout())`. Consider making `Timeout` a method computed from `Cause` rather than a stored bool so it can't go stale.
+
+Not raising: the wrapping itself, `Unwrap` returning the cause, nil-safety (`Cause` is always non-nil here), and the success path — those are correct. Missing doc comments on the new exported type/fields are a nit, not a block; add them when touching the file for the above.
+
+__ABLATION_DONE__ exit=0

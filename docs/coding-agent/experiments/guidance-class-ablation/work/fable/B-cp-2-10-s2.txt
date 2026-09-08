@@ -1,0 +1,16 @@
+**Verdict: block.** The change does not do what the task asks; it adds a compensating cleanup while leaving the defect that creates duplicates untouched.
+
+**1. `src/Bookings.java`, `BookingService.reserve` — the race is still there**
+`count(slot)` and `insert(slot, customer)` are two separate autocommit statements with no lock, no transaction, and (per the notes) no uniqueness constraint in the database. Two concurrent callers (HTTP + scheduler, or two HTTP requests) both observe `count == 0` and both insert. Nothing in this diff changes that; duplicates are still produced at exactly the same rate as before. The task was "prevent duplicate reservations under concurrent booking," and this diff prevents none.
+
+Require: fix the invariant at the source. Add a unique constraint on `slot` in the reservation table (the authoritative store is the only place the invariant can actually be enforced across processes), have `insert` surface the constraint violation, and have `reserve` translate that into `SlotFull`. If a schema change is genuinely off the table, the alternative is a single atomic statement (`INSERT ... WHERE NOT EXISTS` / `SELECT ... FOR UPDATE` inside one transaction) — but the constraint is the correct fix, because it holds regardless of which code path or future caller does the insert. Add a concurrent test that hammers `reserve` on one slot and asserts exactly one row.
+
+**2. `NightlyMaintenance.run` — `deleteDuplicatesKeepingEarliest` silently revokes confirmed bookings**
+The notes say reservations are relied on immediately after `reserve` returns. Under this change, both racing customers get a successful return, both act on it, and hours later one of them has their row deleted with no notification and no return value to the caller. That is worse than a loud failure: it converts a race into a delayed, silent loss of a booking the customer has already been told they hold. "Keeping earliest" also assumes an ordering that the concurrent autocommit inserts don't reliably provide unless there's a monotonic insert timestamp/sequence — if there isn't, which one survives is arbitrary.
+
+Require: remove this as the mechanism for correctness. If existing data already contains duplicates, run a one-time, reviewed backfill (with explicit handling/notification for the losing side) before adding the unique constraint; do not institutionalize a nightly deleter that papers over a live bug.
+
+**3. Commit message / task mismatch**
+"sweep duplicate bookings nightly" describes a cleanup, not the requested prevention. Once the root cause is fixed, the sweep is unnecessary; if it's kept for some other reason, the message and task should say so and the reserve-path fix should be in the same or a preceding change.
+
+__ABLATION_DONE__ exit=0

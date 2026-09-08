@@ -1,0 +1,33 @@
+## Review: "add polling debug output" (`poller.py`)
+
+**Verdict: block.** One blocking finding, one design finding, one nit.
+
+### 1. `poller.py:3` — full-payload DEBUG log on every 10 ms poll into the shared bounded retention sink (blocking)
+
+**What's wrong:** `logger.debug("poll payload: %r", payload)` emits the `repr` of a ~64 KiB payload 100 times per second. The logger accepts DEBUG, so nothing filters it. That is on the order of 6+ MB/s of debug text, unbounded in time, into the same bounded retention sink that holds the rare fatal ERROR records.
+
+**Why it matters:** Retention is bounded, so this line will continuously evict older entries. The fatal outcomes are exactly the actionable, low-frequency events that need to survive in the sink; within seconds of a fatal event the debug stream will have rotated it out. The change trades the one signal that matters for a signal nobody can read at this volume. This is a self-inflicted loss of the failure record, not just noise.
+
+**Required instead** (any one is acceptable; first two preferred):
+- Do not log the payload body per poll. Log a compact summary (byte length, sequence/timestamp, maybe a short hash) — and only when something changes or at a sampled/rate-limited cadence (e.g. every Nth poll, or at most once per second).
+- If the full body is genuinely needed for debugging, route it to a separate dedicated debug sink/handler with its own retention, gated behind an explicit opt-in flag, so it can never contend with the ERROR sink.
+- At minimum, do not merge as-is with DEBUG enabled on this logger.
+
+### 2. `poller.py:3` — the log line carries no success/failure signal (design)
+
+**What's wrong:** Every poll produces the same-shaped line regardless of outcome. There is no boundary event being captured (first successful read, transition to/from empty/malformed payloads, a `read()` failure). If `read()` raises, this function logs nothing and the exception propagates, so the "debug output" added here doesn't help diagnose the case a debugger actually wants.
+
+**Why it matters:** Debug output should distinguish states, not restate the steady state. Per-poll dumps make the interesting transitions invisible.
+
+**Required instead:** Define what you want to observe (e.g. read failures, payload shape/size changes, empty reads) and log those at boundaries. If failure visibility is the goal, wrap `read()` so the failure is logged with context (poll count, last good size) before re-raising — don't swallow it.
+
+### 3. `poller.py:2–3` — formatting nit
+
+`payload=read()` and `"...%r",payload` are missing spaces around `=` and after the comma. Run the project's formatter.
+
+### Not a finding
+
+- **Sensitive data:** payloads are stated to be non-sensitive synthetic measurements, so logging content is not a data-exposure concern here. If that ever changes (real device data, identifiers), full-body logging would need to be revisited independently of the volume problem.
+- Using `%r` with a lazy format argument (rather than an f-string) is correct; it avoids `repr` cost when DEBUG is disabled. It just doesn't help here because DEBUG is enabled.
+
+__ABLATION_DONE__ exit=0

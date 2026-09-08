@@ -1,0 +1,156 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7f-2531-7e03-aedc-447ff606aedb
+--------
+user
+Reference material loaded for this review:
+
+# Persistent Shell CWD Normalization
+
+Use this guide when command failures may be caused by running from the wrong current working directory (cwd), especially in persistent terminal sessions.
+
+## When to read this
+
+Read this reference when any of the following appear:
+- repeated `cd <dir> && ...` command chains fail unexpectedly
+- errors like “path not found”, “no such file or directory”, or missing script/package from a directory where it should exist
+- command behavior changes between retries without code changes
+- you are using a persistent shell where cwd state is carried across commands
+
+## Quick triage checklist
+
+1) Capture current state before changing anything
+- run `pwd`
+- run `ls` (or `dir`) to confirm you are where you think you are
+- record failing command + error output
+
+2) Confirm intended run location
+- identify the intended directory for the command (repo root vs subdirectory)
+- if needed, verify script location from project files
+
+3) Normalize cwd minimally
+- use explicit navigation to intended path (single `cd` to the target)
+- avoid stacking duplicated `cd <same-dir> && ...` patterns in persistent sessions
+- rerun the original command unchanged after cwd normalization
+
+4) Validate and record
+- if fixed, record that cwd drift was root cause
+- capture both pre-normalization cwd and normalized cwd in troubleshooting evidence
+- if not fixed, continue with another runbook to avoid overfitting on cwd
+
+## Safe command pattern examples
+
+- Pattern A (normalize then run):
+  - `pwd`
+  - `cd <intended-path>`
+  - `<original-command>`
+
+- Pattern B (single explicit execution path):
+  - from repo root, use one explicit `cd <target> && <command>`
+  - avoid repeating nested `cd` assumptions across retries
+
+## Evidence expectations
+
+When cwd drift contributed to failure, include:
+- failing command and error text
+- pre-normalization cwd
+- normalized cwd
+- rerun command result
+- final status (`resolved` / `still failing`)
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; recorded paths and retry results are constructed for this example.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Go 1.23.3. Intended execution base: C:/work/go-service.
+
+Prior command in this same persistent shell: `Set-Location -LiteralPath 'C:/work/assets'` (exit/status 0, stdout/stderr empty).
+
+State captured before any repair:
+
+Command: `pwd`; exit/status 0; stderr empty. Path output: `C:/work/assets`.
+
+Command: `Get-ChildItem -Name`; exit/status 0; stderr empty. stdout:
+```text
+logo.svg
+```
+
+Failing command: `go test ./...`
+
+Exit code / shell status: 1
+
+stdout:
+```text
+FAIL	./... [setup failed]
+FAIL
+```
+
+stderr:
+```text
+pattern ./...: directory prefix . does not contain main module or its selected dependencies
+```
+
+Read-only absolute-path inspection confirms these existing entries under the intended base:
+```text
+C:/work/go-service/go.mod
+C:/work/go-service/service_test.go
+```
+
+Captured comparison:
+
+1. `Set-Location -LiteralPath 'C:/work/go-service'` — exit/status 0; stdout/stderr empty.
+2. `pwd` — normalized cwd C:/work/go-service; exit/status 0.
+3. `go test ./...` — exit/status 0.
+
+stdout:
+```text
+ok  	example.test/go-service	0.015s
+```
+
+stderr:
+```text
+(empty)
+```
+
+Final `pwd`: C:/work/go-service; exit/status 0.
+
+Diagnostic observations: The tool UI still displays C:/work/go-service as its remembered workspace root; the persistent shell has its own cwd, shown above. No code, branch, PATH, dependency, configuration or permission change occurred between attempts. All referenced files are accessible. The original command is repeated unchanged; only the explicit navigation differs.
+
+codex
+**Cause:** Persistent-shell cwd drift. `go test ./...` ran from `C:/work/assets`, which contains only `logo.svg`, rather than the Go module at `C:/work/go-service`. The UI’s remembered workspace root did not reflect the shell’s actual cwd. This is an execution-location problem, not a code or dependency problem.
+
+**Smallest safe remediation:**
+```powershell
+Set-Location -LiteralPath 'C:/work/go-service'
+go test ./...
+```
+
+**Confirmation:** Check `pwd` and rerun the original command unchanged. The recorded comparison already confirms success: cwd became `C:/work/go-service`, tests exited `0` with `ok example.test/go-service 0.015s`, stderr was empty, and final cwd remained correct.
+
+**Status: resolved.**
+tokens used
+17,554
+**Cause:** Persistent-shell cwd drift. `go test ./...` ran from `C:/work/assets`, which contains only `logo.svg`, rather than the Go module at `C:/work/go-service`. The UI’s remembered workspace root did not reflect the shell’s actual cwd. This is an execution-location problem, not a code or dependency problem.
+
+**Smallest safe remediation:**
+```powershell
+Set-Location -LiteralPath 'C:/work/go-service'
+go test ./...
+```
+
+**Confirmation:** Check `pwd` and rerun the original command unchanged. The recorded comparison already confirms success: cwd became `C:/work/go-service`, tests exited `0` with `ok example.test/go-service 0.015s`, stderr was empty, and final cwd remained correct.
+
+**Status: resolved.**
+
+__ABLATION_DONE__ exit=0

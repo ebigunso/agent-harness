@@ -1,0 +1,28 @@
+**Cause**
+
+`npm install` needs to replace `onnxruntime-node`'s native addon, but Windows refuses to unlink `...\onnxruntime_binding.node` (EBUSY, errno -4082) because it is mapped into a running process. `tasklist /m` shows exactly one holder: `node.exe` PID 4108, the model preview server launched from `C:/work/npm-lock/workers/model-preview.js` — a process owned by this repository. This is a workspace problem (a lock held by the repo's own worker), not a permissions, registry, lockfile, or npm-cache issue — the diagnostics rule those out (probe file beside the module can be created/removed, no ACL denial, lockfile in sync, registry reachable).
+
+**Smallest safe remediation**
+
+1. Stop the preview server gracefully, since it belongs to this repo and is the sole lock holder. Use whatever started it (its terminal / task runner / `Ctrl+C`). Only if it won't exit:
+   ```
+   taskkill /PID 4108 /F
+   ```
+   Don't kill other `node.exe` processes — the tasklist output attributes the lock to 4108 only.
+2. Retry:
+   ```
+   npm install
+   ```
+   (or `npm ci`, since the lockfile is in sync.)
+
+No cache clears, `node_modules` deletions, or reinstalls of Node are warranted.
+
+**Confirmation**
+
+- `tasklist /m onnxruntime_binding.node` returns no rows (the module is no longer loaded by any process). Optionally `tasklist | findstr node` to confirm no stray repo node processes.
+- `npm install` exits 0 with no EBUSY/EPERM and `node_modules\onnxruntime-node\bin\napi-v3\win32\x64\onnxruntime_binding.node` is present (fresh timestamp).
+- Restart the preview server (`node workers/model-preview.js`) and verify it loads the addon again — note `onnxruntime-node` is a prebuilt binary, so no rebuild is expected; if the version changed, check the server still runs against 1.19.2 (or whatever the lockfile resolved).
+
+Evidence to keep: the original stderr above, the `tasklist /m` output identifying PID 4108, whether it was stopped gracefully or via `taskkill`, and the retry exit code.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,9 @@
+**Verdict: acceptable as-is.** One non-blocking suggestion.
+
+**Implementation (`payment.go`)** — Correct against the task. Same `key` is passed on both attempts (stable dedupe key), exactly one retry, second result is returned. It retries on every error including permanent ones (e.g. declined), but with the callback owning idempotency that's harmless, and the task didn't ask for error classification — not raising it.
+
+**Test (`payment_test.go`)** — Sound. State is closure-local, deterministic, no globals. The assertions actually pin the contract: `calls==2` proves the retry happened, `charges==1` combined with `seen["order-1"]` proves both calls used the same key (a different key on retry would make `charges==2`). Matches the risk surface for this size of change.
+
+**Flag (minor, would not block):** `payment_test.go` — the only exercised path is "fail once, then succeed." The bound that defines "once" — after two failures, return the error and do **not** call a third time — isn't pinned. A second case with `charge` always returning an error, asserting `err != nil && calls == 2`, would lock that in cheaply. Optionally a first-call-succeeds case asserting `calls == 1`, though that's lower value.
+
+__ABLATION_DONE__ exit=0

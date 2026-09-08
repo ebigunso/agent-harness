@@ -1,0 +1,21 @@
+**Verdict: block.** The change does the opposite of the task: it makes a mid-write disk-full condition *invisible* to callers and destroys the previously valid artifact in the process.
+
+1. **`src/export.php`, `catch (DiskWriteError $error)` block — failure is swallowed and the function still returns `['status' => 'ready']`.**
+   `writeFully` throwing is the exact "disk filled mid-write" signal the task is about. Logging it and falling through to `return ['status' => 'ready', ...]` tells consumers a complete artifact is available when what's on disk is truncated at an arbitrary chunk boundary (or mid-chunk). Consumers open the path on `ready`, so they will read a corrupt report with no indication anything went wrong. The log line is not a substitute for a correct return value.
+   *Require:* do not catch here at all — let `DiskWriteError` propagate (the `finally` still releases the handle) — or, if the function's contract is to return a status array, return a distinct non-ready status carrying the error context (destination, bytes/chunks written, underlying error) and never the `ready`/`path` pair. No path in this function may reach `status => 'ready'` after a write failure.
+
+2. **`src/export.php`, `openForReplace($destination)` — writes and truncates the live destination in place instead of writing beside it and publishing on success.**
+   `replaceAtomically` existed precisely so that a partial write never becomes observable at the published path: it writes a sibling and only swaps it in after complete success, leaving the earlier valid artifact untouched on failure. The new code truncates the good artifact at open time, so a disk-full error partway through leaves *no* valid file at `$destination` — the old one is gone and the new one is incomplete — and any concurrent reader sees a half-written file even in the success case. This is a regression in durability independent of finding 1; fixing the return status alone still leaves a corrupt file where a good one used to be.
+   *Require:* restore `replaceAtomically`, or if streaming is genuinely needed, stream to a temp sibling on the same filesystem and rename over `$destination` only after all chunks are written and the handle is closed successfully. On failure, remove the temp file and leave the prior artifact in place.
+
+3. **`src/export.php` — no cleanup of the partial file on the failure path.**
+   Even with propagation fixed, the current structure leaves a truncated file at (or near) the destination after an exception. Bounded, safe fallback means the failure leaves the filesystem in a known state.
+   *Require:* on any exception during the write, unlink the in-progress temp file (in `catch`/`finally`, after `close`) so nothing partial persists; with the atomic-replace approach this is where the partial sibling gets discarded.
+
+4. **`src/export.php`, `$writer->log($error)` — the error is logged with no export context.**
+   Minor relative to the above, but if a log call survives the fix, it should include what was being exported (destination, chunk index/bytes written) so the failure is diagnosable. As written it's a bare exception log that also obscures that the caller was lied to.
+   *Require:* attach destination and progress to the logged/propagated error; do not log-and-continue.
+
+Also note the commit message ("stream directly to the ready artifact") describes the regression as the feature. The task wants completion to be *trustworthy* under disk-full; that requires all-or-nothing publication plus honest status reporting, which the pre-change `replaceAtomically` call already delivered. Recommend reverting to it unless there's a concrete streaming/memory requirement, in which case implement write-beside-then-rename with error propagation.
+
+__ABLATION_DONE__ exit=0

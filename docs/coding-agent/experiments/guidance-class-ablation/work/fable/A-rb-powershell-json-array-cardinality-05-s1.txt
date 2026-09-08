@@ -1,0 +1,42 @@
+**Cause — a script bug, not a workspace/environment problem.**
+
+Line 5 pipes the parsed result through an extra pipeline stage:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json | Write-Output
+```
+
+In Windows PowerShell 5.1, `ConvertFrom-Json` emits a JSON array as a single `Object[]` item (that's why `'[1,2,3]' | ConvertFrom-Json | Measure-Object` famously reports Count 1 on 5.1). But as soon as that `Object[]` is passed to another cmdlet — here `Write-Output` — the pipeline enumerates it. A one-element array is unrolled to its lone element, so `$parsed` ends up as the `PSCustomObject` `{id=8}`, exactly what stdout shows (`parsed type=System.Management.Automation.PSCustomObject`). The `-isnot [array]` check then correctly reports what it was handed, and `throw` gives exit code 1. The same defect would make the empty-array case fail too: `[]` unrolls to nothing, `$parsed` becomes `$null`, and the probe would print `<null>` and throw.
+
+Nothing about the OS build, PowerShell version, cwd, execution policy or file I/O is involved; the JSON is valid and the run is deterministic.
+
+**Smallest safe remediation**
+
+Remove the trailing `| Write-Output` so the array object is assigned intact:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+```
+
+Do **not** "fix" it with `$parsed = @($raw | ConvertFrom-Json | Write-Output)` — that would also wrap scalar wire values (`8` → `@(8)`), silently violating the contract's requirement to reject scalars. (`-NoEnumerate` isn't available on 5.1's `ConvertFrom-Json`, so it isn't an option here.)
+
+**Confirmation**
+
+1. Re-run the original command:
+   ```
+   powershell.exe -NoProfile -File probes/cardinality.ps1
+   echo $LASTEXITCODE
+   ```
+   Expect exit code 0 and stdout ending in `parsed type=System.Object[]`, with no stderr.
+
+2. Spot-check the contract edges under the same rule with one-liners in 5.1:
+   ```powershell
+   ('[]' | ConvertFrom-Json) -is [array]         # True  (empty array accepted)
+   ('[{"id":8}]' | ConvertFrom-Json) -is [array] # True  (singleton accepted)
+   ('[1,2]' | ConvertFrom-Json) -is [array]      # True  (multi accepted)
+   ('8' | ConvertFrom-Json) -is [array]          # False (scalar rejected)
+   ```
+
+One caveat worth noting for future maintenance: if this probe is ever run on PowerShell 7, `ConvertFrom-Json` enumerates arrays by default, and you'd need `-NoEnumerate` there to keep the same semantics.
+
+__ABLATION_DONE__ exit=0

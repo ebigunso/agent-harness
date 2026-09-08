@@ -1,0 +1,32 @@
+**Verdict: block.** The change does what the commit says literally but violates Gate 6 on nearly every point the reviewer notes call out.
+
+## Findings
+
+### 1. `Fallback.scala:4` — No deadline on any path; hangs are unbounded
+`primary()` and every mirror call are awaited with no per-call or aggregate timeout. Reviewer notes say gateway futures may never complete, and `Future.firstCompletedOf` only completes when *some* input completes — if all three mirrors hang, the returned future hangs forever, and callers block on it indefinitely. This is the "blocking operations in critical paths" anti-pattern.
+**Require:** an explicit deadline (e.g., a scheduled `Promise` that fails with a `TimeoutException`, or the project's timer/`Deadline` utility) raced against each call and against the aggregate fallback. The deadline should be a parameter or config, not implicit.
+
+### 2. `Fallback.scala:4` — Unbounded fan-out into a shared outage domain
+Every request during open-circuit fires all three mirrors simultaneously. All three share the primary's upstream, so when the primary is unhealthy this is a 3× load amplification against the very thing that is already failing — a textbook cascading-failure path with no isolation boundary. Nothing throttles it: no concurrency cap, no per-mirror breaker, no request budget.
+**Require:** bounded degradation — try mirrors sequentially (or hedge with a delay), cap attempts, and give mirrors their own breaker/health state so a mirror that is also down gets skipped rather than hammered. Add a containment note in the plan describing expected load on mirrors during an open-circuit event.
+
+### 3. `Fallback.scala:4` — `firstCompletedOf` propagates the first *failure*, not the first success
+`Future.firstCompletedOf` completes with whichever future finishes first, including failures. A mirror that fails fast (connection refused, 5xx) will fail the whole read even if another mirror would have returned successfully milliseconds later. The fallback is therefore only as reliable as the *fastest-failing* mirror — the opposite of what a fallback is for. Meanwhile the losing futures keep running (no cancellation), so the wasted work from #2 still lands on the mirrors.
+**Require:** first-*successful* semantics (e.g., `fallbackTo` chain, or a recursive try-next-on-failure) that only fails after all bounded attempts fail.
+
+### 4. `Fallback.scala:4` — Empty `mirrors` produces a future that never completes
+In Scala 2.13, `Future.firstCompletedOf(Vector.empty)` returns a promise that is never completed. A misconfiguration (no mirrors) silently turns every open-circuit request into a permanent hang instead of a fast, visible error.
+**Require:** fail fast with a clear exception (or return the degradation value from #5) when `mirrors.isEmpty`, and a unit test for it.
+
+### 5. `Fallback.scala:3-5` — No terminal degradation path when mirrors are also down
+Because the mirrors share the outage domain, the realistic open-circuit scenario is "primary and mirrors all failing." The current design has nothing after the mirrors: no stale-cache read, no default, no explicit "service degraded" error. Failures from the mirrors surface as raw upstream exceptions with no indication the circuit was open or that fallback was attempted, which obscures root cause in logs/alerts.
+**Require:** an explicit final step (cached/stale value or a typed `FallbackExhausted` error wrapping the last cause and noting `circuitOpen = true`), plus logging/metrics at the point fallback is entered and at the point it is exhausted.
+
+### 6. Missing failure-mode enumeration and tests (evidence expectation)
+The diff carries no plan of failure modes for the touched integration (hang, fast-fail mirror, all-mirrors-down, empty mirror list, partial outage) and no tests exercising them.
+**Require:** at minimum, tests for: timeout fires when all mirrors hang; first mirror fails and second succeeds → success; all fail → typed exhausted error; empty mirrors → immediate error.
+
+## Not blocking, but note
+- The `circuitOpen: Boolean` parameter means mirror outcomes never feed back into breaker state; consider passing the breaker itself so fallback failures inform it. Acceptable to defer if out of scope, but record it.
+
+__ABLATION_DONE__ exit=0

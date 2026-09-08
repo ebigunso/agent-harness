@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`templates/page-01.html` … `templates/page-80.html` — unrelated whitespace edits bundled into the cache-key change (block).**
+   All 80 template hunks change `<p>Ready</p>` to `<p> Ready </p>`. This has nothing to do with "include locale in cache key," and the reviewer notes confirm it: no rendering effect, not required by the work. Why it matters: it turns a one-line, trivially reviewable change into an 81-file diff, buries the real change, pollutes `git blame` on every template, and creates merge-conflict surface for anyone else touching templates. It also creates a review-fatigue vector — nobody will actually eyeball hunks 20 through 80, which is exactly where a real behavioral change could hide. Required: drop all template hunks from this commit. If the whitespace preference is genuinely wanted, submit it as a separate, clearly-labeled formatting-only PR (ideally mechanically generated so it can be verified by re-running the tool).
+
+2. **Commit message / PR scope does not describe what the diff does.**
+   "include locale in cache key" describes ~1% of the diff. Even if the templates were kept, the message would need to disclose them. Required: after finding 1 is addressed the message is accurate as-is; if the author insists on keeping the template edits, the message must state that and justify it.
+
+**On the actual change (`cache.php`):** `return "$id:$locale";` is correct and acceptable given the stated invariant that IDs and locales are validated and colon-free — the delimiter is unambiguous, so no collision between `(a:b, c)` and `(a, b:c)` is possible. I would not block on this. One non-blocking note: that invariant lives in the caller's validation, not in `keyFor` itself, so if validation ever loosens, keys can collide silently. If you want the function to be self-defending, either assert `strpos($id, ':') === false` or use a separator that validation guarantees can't appear; but with the stated guarantee this is optional.
+
+**Verdict:** Not acceptable as-is. Strip the 80 template hunks; the remaining one-line `cache.php` change is good to merge.
+
+__ABLATION_DONE__ exit=0

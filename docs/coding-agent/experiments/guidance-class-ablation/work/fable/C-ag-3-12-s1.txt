@@ -1,0 +1,11 @@
+**Findings**
+
+1. **Partition.scala — unrelated, high-risk change bundled in.** Changing `bucket` from `floorMod(id, 4)` to `floorMod(id, 16)` reassigns every existing id to a different bucket. Per your own notes this needs its own data migration rollout, and the API pagination neither uses nor requires it. It is not mentioned in the commit message ("add bounded api pagination"), so it would ship as hidden behavior under an unrelated title — anyone bisecting a partition/routing regression would never look here. **Block.** Remove this hunk entirely; land it as a separate PR with the migration plan, rollout sequencing, and its own commit message.
+
+2. **Api.scala — `limit` is not actually bounded.** `rows.drop(offset).take(limit)` accepts any `limit` up to `Int.MaxValue`, so a caller can still request the whole collection. The task says *bounded* pagination; non-negativity validation (per notes) is necessary but not sufficient. **Flag / require:** enforce a maximum page size (either clamp `limit` to a `MaxLimit` constant or reject values above it) and make that cap visible in the API (constant, doc, or error). If the cap is intended to live in the caller-side validation, reference where, because nothing in this diff prevents an unbounded read.
+
+3. **Api.scala — signature change with no callers updated.** `list(rows)` → `list(rows, offset, limit)` is a breaking change; the diff shows no call-site updates and no default arguments. If callers exist, this doesn't compile; if none exist, say so in the PR. Minor: add an explicit return type (`: Vector[String]`) on a public API method.
+
+**Verdict:** Not acceptable as-is. Finding 1 alone is a blocker; findings 2–3 should be resolved in the same PR.
+
+__ABLATION_DONE__ exit=0

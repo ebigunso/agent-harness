@@ -1,0 +1,15 @@
+**Verdict: block.**
+
+**Finding 1 — `src/worker.rs`, `run_job`: all diagnostic context is dropped from the error path.**
+
+- **What's wrong:** Both `map_err` closures now discard the underlying error (`|_|`) and the job id, replacing them with the fixed string `"job failed"`. The previous version included the job id, which stage failed (`parse` vs `store`), and the underlying error's `Display` output. After this change, every failure — parse or store, any job, any cause — produces a byte-identical, information-free message.
+- **Why it matters:** The task is to report failures "with useful diagnostic context." This diff does the opposite. Per the reviewer notes, the supervisor logs only the returned string and no lower layer logs these failures, so this `String` is the *sole* record of why a job failed. With this change an operator cannot tell which job failed, at which stage, or why, and cannot even distinguish a malformed payload from a store outage. The stated justifications for stripping context don't apply: the job id is a nonsensitive UUID and the parse/store errors are already sanitized (no payloads, no secrets) and carry useful categories. There is no security or leakage benefit to offset the loss.
+- **What I'd require:** Keep the job id, the failing stage, and the underlying error in the returned string, e.g. restore the original `format!("job {} parse: {e}", job.id)` / `format!("job {} store: {e}", job.id)`. If the real goal is a consistent *shape* for error text, standardize the format (e.g. a shared helper `fn job_err(id: &JobId, stage: &str, e: impl Display) -> String`) rather than collapsing the content. If additional context would help (e.g. payload length, store target), add it — don't remove what's there.
+
+**Finding 2 — Commit message / intent mismatch.**
+
+- **What's wrong:** "standardize worker error text" describes a formatting change, but the diff is a behavioral regression in observability and does not address the assigned task at all.
+- **Why it matters:** A misleading message makes the regression easy to miss in history and in review.
+- **What I'd require:** The commit should implement the task (preserve/enrich context) and the message should say so, e.g. "worker: include job id, stage, and cause in job failure errors."
+
+__ABLATION_DONE__ exit=0

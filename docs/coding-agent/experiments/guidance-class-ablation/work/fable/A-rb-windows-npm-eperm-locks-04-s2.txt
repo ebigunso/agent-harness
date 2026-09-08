@@ -1,0 +1,31 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/permissions problem. `npm ci` deletes `node_modules` before reinstalling, and on Windows a loaded native addon (`.node` DLL) cannot be unlinked while a process has it mapped. `tasklist /m watcher.node` shows `node.exe` PID 4104 holding `C:\work\npm-lock\node_modules\@parcel\watcher\build\Release\watcher.node`. That process is this repository's own detached watch script (`scripts/watch.js`), which outlived its shell. Everything else checks out (lockfile in sync, ACLs fine, probe file writable, registry OK), so the EPERM/-4048 is purely the file lock.
+
+**Smallest safe remediation**
+
+Stop the one process holding the lock, then rerun the install. Don't kill all `node.exe`, don't `rm -rf node_modules`, don't run as admin, don't clear the npm cache — none of those address the lock and the broad kill could hit unrelated work.
+
+```powershell
+# Confirm it's the expected process before terminating it
+Get-CimInstance Win32_Process -Filter "ProcessId = 4104" | Select-Object ProcessId, CommandLine
+
+# Stop just that watcher (graceful first; -Force only if it doesn't exit)
+Stop-Process -Id 4104
+Start-Sleep -Seconds 2
+Get-Process -Id 4104 -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# Retry
+npm ci
+```
+
+Optional follow-up to prevent recurrence: have `scripts/watch.js` exit when its parent shell dies (or run it in a terminal you close deliberately), and make a habit of stopping the watcher before `npm ci`/`npm install`.
+
+**Confirmation**
+
+1. `tasklist /m watcher.node` should return `INFO: No tasks are running which match the specified criteria.` — the lock is gone.
+2. `npm ci` exits 0 with no `EPERM`/`unlink` errors.
+3. `Test-Path C:\work\npm-lock\node_modules\@parcel\watcher\build\Release\watcher.node` returns `True` (freshly reinstalled/rebuilt), and `node -e "require('@parcel/watcher')"` loads without error.
+4. Restart the watcher (`node scripts/watch.js`) and confirm it works against the new binary.
+
+__ABLATION_DONE__ exit=0

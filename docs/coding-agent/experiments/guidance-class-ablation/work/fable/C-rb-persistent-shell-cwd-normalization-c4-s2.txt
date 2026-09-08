@@ -1,0 +1,45 @@
+**Verdict: not a workspace/path problem. This is a genuine test failure in the code.**
+
+**Evidence**
+
+- cwd before, during, and after is `C:/work/rust-service`, which matches the intended root and the tool UI root.
+- `Cargo.toml`, `api/Cargo.toml`, and `api/src/lib.rs` all resolve at that root.
+- `cargo metadata` succeeds and lists `api` as a workspace member.
+- Compilation finished, the test binary was built and executed (`Running unittests src/lib.rs (target\debug\deps\api-…exe)`).
+- The failure is an assertion inside the test: `api/src/lib.rs:18:9`, `left: 4, right: 3`.
+
+Exit code 101 from `cargo test` here means "a test failed," not "cargo could not find the package/manifest." A path or cwd fault would have produced an error like `could not find Cargo.toml` or `package ID specification 'api' did not match any packages` *before* anything compiled. None of that happened, so per the reference procedure, cwd normalization is not the remedy — the cause lies elsewhere.
+
+**Cause**
+
+`tests::count` expects `3` but the code under test returns `4`. Either the implementation regressed (returns one more item than intended) or the expectation is stale. Which one is correct cannot be determined from this output alone; the diagnostic note calls it a regression, which points to the implementation.
+
+**Smallest safe remediation**
+
+1. Do **not** re-navigate or touch the environment — nothing is wrong there.
+2. Inspect the assertion and the function it exercises:
+   ```powershell
+   Get-Content -LiteralPath api/src/lib.rs | Select-Object -Skip 10 -First 15
+   git log -n 5 --oneline -- api/src/lib.rs
+   git diff HEAD~1 -- api/src/lib.rs
+   ```
+3. Fix the actual defect in the counted logic in `api/src/lib.rs` (the recent change that made the result 4 instead of 3). Do not simply edit the expected value to `4` unless you confirm the new behavior is intentional — that would silence a regression rather than fix it.
+
+**Confirmation**
+
+Rerun the original command unchanged, from the same cwd:
+
+```powershell
+cargo test -p api
+```
+
+Expected: `test tests::count ... ok`, `test result: ok. 1 passed; 0 failed`, exit code 0. Optionally run `cargo test` at the workspace root to make sure the fix didn't break other members.
+
+**Record**
+
+- cwd before: `C:/work/rust-service` — already correct, no normalization needed.
+- Retry: not yet applicable; the command will only pass after the code fix.
+- Final cwd: `C:/work/rust-service`.
+- Status: still failing, root cause identified as a logic/test regression at `api/src/lib.rs:18`, not a path issue.
+
+__ABLATION_DONE__ exit=0

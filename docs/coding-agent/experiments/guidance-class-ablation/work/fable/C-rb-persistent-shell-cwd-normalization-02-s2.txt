@@ -1,0 +1,23 @@
+**Cause:** Working-directory drift in the persistent shell, not a code or environment fault. The earlier `Set-Location -LiteralPath 'C:/work/reports/tools'` left the shell's cwd at `C:/work/reports/tools` while the tool UI still reported the workspace root as `C:/work/reports`. The relative path `scripts/check.py` therefore resolved to `C:\work\reports\tools\scripts\check.py`, which does not exist (that directory holds only `inspect.py`). Python's `[Errno 2] No such file or directory` on the script path and exit code 2 are consistent with the interpreter failing to open the target file, not a runtime error inside the script. The file does exist at `C:/work/reports/scripts/check.py`, so nothing is missing.
+
+**Smallest safe remediation:** A single explicit navigation to the intended base, then rerun the command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/reports'
+python scripts/check.py
+```
+
+Do not chain `cd ..` or other relative hops, do not edit the script path, and do not touch dependencies, PATH, or configuration—none of those changed between attempts.
+
+**Confirmation (already captured):**
+
+- Before: `pwd` → `C:/work/reports/tools`; `python scripts/check.py` → exit 2, "can't open file".
+- Normalized: `Set-Location -LiteralPath 'C:/work/reports'` → status 0; `pwd` → `C:/work/reports`.
+- Retry of the identical command → exit 0, stdout `checks passed`, stderr empty.
+- Final `pwd` → `C:/work/reports`.
+
+Status: **resolved**. Same command, same files, only the cwd differed—confirming the shell's cwd was the sole cause.
+
+**Follow-up note:** For future invocations in this persistent shell, either run from the base explicitly (`Set-Location -LiteralPath 'C:/work/reports'` before the command) or call the script by absolute path (`python C:/work/reports/scripts/check.py`) so later `Set-Location` calls to subdirectories can't silently break it again. Had the retry after normalization still failed, the next step would be to look elsewhere (interpreter, permissions, script contents) rather than continuing to adjust cwd.
+
+__ABLATION_DONE__ exit=0

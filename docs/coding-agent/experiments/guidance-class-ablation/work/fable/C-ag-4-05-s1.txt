@@ -1,0 +1,28 @@
+**Verdict: block.** The change ships an untyped, over-broad boundary that fuses UI and database internals into what is supposed to be a single account lookup, and it has no modeled failure path.
+
+## Findings
+
+### 1. `query.ts:3` — `query(options: any)` is an untyped grab-bag, not a query boundary
+**What:** The only exported API takes `any` and reaches into `options.view`, `options.connection`, `options.id`. Return type is inferred `any` (whatever `render` gives back).
+**Why:** The task is to expose *one account lookup query*. The boundary should be explicit and minimal: an account id in, an account (or typed absence) out. Instead the caller must supply a live `Connection` and a `BrowserView` — database and UI internals leak through the public surface, and nothing is checked at compile time. Any shape change in `Connection.lookup` or `BrowserView.render` silently breaks every caller with no type error.
+**Require:** A typed signature with no `any`, e.g. `export function lookupAccount(id: AccountId): Account | undefined` (or a `Result`), with `Account` exported so consumers can depend on it. No `view` or `connection` parameters on the query.
+
+### 2. `query.ts:3` — query performs rendering; UI is coupled into the data path
+**What:** `query` calls `options.view.render(...)`. A "lookup query" that returns a rendered string is not a query.
+**Why:** Every consumer that wants the account data (not markup) cannot use this API, and the query module now depends on `BrowserView`. This also makes the output contract ambiguous — the function's result is "whatever the injected view produces", which the caller defined.
+**Require:** Split responsibilities. `query`/`lookupAccount` returns data; `screen()` (or whichever presentation caller) does `view.render(lookupAccount("a"))`. The composition belongs at the edge, not inside the query.
+
+### 3. `query.ts:1` — `Connection.lookup` fabricates a row; no not-found / failure contract
+**What:** `lookup(id)` returns `{id}` unconditionally. It never consults the existing account source and can never fail or return "no such account".
+**Why:** Per the reviewer notes there is an existing account source that this query should sit in front of. As written the "lookup" is a stub that always succeeds, so success and failure are indistinguishable — a caller cannot tell a real account from a nonexistent one. Shipping this as the exposed query means downstream code will be written against a contract that is not true.
+**Require:** Route the query to the actual account source. Model the outcome explicitly: `Account | undefined`, a discriminated `{ ok: true, account } | { ok: false, reason: "not-found" | ... }`, or a documented thrown error type. Whichever is chosen must be stated in the signature, not implied.
+
+### 4. `query.ts:4` — `screen()` hardcodes `"a"` and constructs its own `Connection`/`BrowserView`
+**What:** The only consumer hardcodes the account id and instantiates infrastructure inline.
+**Why:** This is demo scaffolding, not a caller. It masks the fact that the real inputs (which account? which connection?) have no defined origin, and it means the exported query has no genuine consumer validating its shape.
+**Require:** Either drop `screen()` from this change (task scope is the query) or make it take the id as a parameter and obtain the connection from wherever the existing source lives.
+
+## Change impact
+Additive at the module level (new file, new exports, no existing consumers modified), but the exported contract as written is unstable and should not be published in this form. Fix the signature first so the additive surface is one we are willing to keep.
+
+__ABLATION_DONE__ exit=0

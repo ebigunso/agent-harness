@@ -1,0 +1,38 @@
+## Diagnosis
+
+**Cause:** `md_report.py` finished its real work (rendering produced `# Weather ☃`) and then crashed at `print(markdown)` because `sys.stdout` is encoding as **cp1252**, which has no mapping for U+2603 (☃). This is a workspace/environment problem, not a Python bug: the script prints non-ASCII text without declaring an output encoding, and the process default on this machine is a legacy code page.
+
+One correction to the reference note's "likely cause" as it applies here: stdout is a **pipe, not an interactive console**, so Python is not inheriting the console code page (`chcp`). For a non-console stream on Windows, Python 3.12 without UTF-8 mode uses the ANSI code page (`locale.getpreferredencoding()` → cp1252 on this en-locale box, CP932 on the Japanese one in the note). That's why `sys.flags.utf8_mode = 0` and `sys.stdout.encoding = cp1252` show up together, and why `chcp 65001` would *not* fix this. The env-var / `reconfigure` remedies still apply unchanged.
+
+The exit-code-1 timing is consistent with the note's "failure after the work succeeded" pattern, and the observation says **no file writes**, so there is nothing to clean up from the failed attempt.
+
+## Smallest safe remediation
+
+Rerun with the I/O encoding override (PowerShell 7 syntax, since that's the shell here):
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python md_report.py
+```
+
+(`$env:PYTHONUTF8 = '1'` is an equivalent, slightly broader switch — it also flips default file encodings — but `PYTHONIOENCODING` is the narrower change and is sufficient for this failure.)
+
+For a durable fix owned by the script, add near the top of `md_report.py`:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+This removes the dependence on whoever launches the script remembering the env var.
+
+One caveat because stdout is piped: whatever consumes the pipe must decode as UTF-8. If the consumer is PowerShell itself, check `[Console]::OutputEncoding` is UTF-8; otherwise the command will now exit 0 but the captured text may show `â˜ƒ` instead of `☃`. That's a consumer-side setting, not a reason to avoid the fix.
+
+## Confirmation
+
+1. Rerun the command with the override; expect exit code 0, empty stderr, and stdout containing `# Weather ☃`.
+2. In the same captured-stream environment, verify the stream encoding actually changed:
+   `python -c "import sys; print(sys.stdout.encoding)"` → `utf-8`.
+3. If the output is captured to a file or variable, confirm the bytes for ☃ are `E2 98 83` (e.g. `Format-Hex` on the captured file), which proves both the Python side and the consumer side agree on UTF-8.
+4. Re-confirm no artifacts from the failed run need attention (`git status` / directory listing) — expected none, per the "no file writes" observation.
+
+__ABLATION_DONE__ exit=0

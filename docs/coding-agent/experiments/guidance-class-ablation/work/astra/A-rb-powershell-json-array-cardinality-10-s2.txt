@@ -1,0 +1,80 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0815b-3756-75b2-b9da-0b7730e9a3cb
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"state":"ok"}]'
+$wireCount = '1'
+$raw = (Invoke-WebRequest http://127.0.0.1:5080/items).Content; $parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"state":"ok"}]
+wire elements=1
+parsed type=System.Management.Automation.PSCustomObject
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. Node 20.18.0 tiny HTTP producer returns HTTP 200 and Content-Type application/json with exact body [{"state":"ok"}]; independently captured raw response matches. No transport/authentication error. Scenario port is 5080.
+
+codex
+**Cause:** `ConvertFrom-Json` enumerates the top-level array by default. PowerShell assignment unwraps its single output element, so `$parsed` becomes a `PSCustomObject`. This is a script deserialization issue, not a server, transport, or workspace configuration problem.
+
+**Smallest safe remediation:** Preserve the JSON array:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+Keep the existing array assertion. Avoid `@(...)`, which would also wrap scalar JSON values and incorrectly accept them.
+
+**Confirmation:** Rerun the command against port 5080; expect `parsed type=System.Object[]` and exit code `0`. Also verify that `[]`, singleton arrays, and multiple-element arrays pass, while top-level objects, strings, numbers, booleans, and `null` fail the assertion.
+tokens used
+3,532
+**Cause:** `ConvertFrom-Json` enumerates the top-level array by default. PowerShell assignment unwraps its single output element, so `$parsed` becomes a `PSCustomObject`. This is a script deserialization issue, not a server, transport, or workspace configuration problem.
+
+**Smallest safe remediation:** Preserve the JSON array:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+Keep the existing array assertion. Avoid `@(...)`, which would also wrap scalar JSON values and incorrectly accept them.
+
+**Confirmation:** Rerun the command against port 5080; expect `parsed type=System.Object[]` and exit code `0`. Also verify that `[]`, singleton arrays, and multiple-element arrays pass, while top-level objects, strings, numbers, booleans, and `null` fail the assertion.
+
+__ABLATION_DONE__ exit=0

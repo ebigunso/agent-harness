@@ -1,0 +1,27 @@
+**Verdict: block.** The change moves execution off the caller goroutine but breaks the second half of the task — completion status is now wrong by construction.
+
+**1. `worker/start.go`, `StartJob` — `Succeeded` is reported before (and regardless of) the job's outcome.**
+`supervisor.Succeeded(job.ID())` runs immediately after the `go` statement, while `job.Run` is still executing or hasn't started. Per the reviewer notes, `Succeeded` marks *durable completion*, not launch acceptance. So every job is recorded as succeeded, including ones that later fail or are cancelled via `ctx`. This is a correctness regression in exactly the property the task said to preserve.
+Require: report completion from the goroutine, after `Run` returns, on both branches — e.g.
+
+```go
+go func() {
+    if err := job.Run(ctx); err != nil {
+        supervisor.Failed(job.ID(), err)
+        return
+    }
+    supervisor.Succeeded(job.ID())
+}()
+return nil
+```
+(If `Supervisor` has no `Failed`/error-reporting method, that is a gap to address, not a reason to drop the error.)
+
+**2. `worker/start.go` — the `Run` error is silently discarded; `result` is written and never read.**
+The buffered channel prevents the goroutine from blocking, but nothing receives from it, so the error is lost. The function's `error` return is now always `nil`, which changes its contract for existing callers (previously `err != nil` meant the job failed; now it means nothing). Dead channel plumbing also signals the author intended a receiver and forgot it.
+Require: either remove the channel and handle the result inside the goroutine (as above), or add an actual consumer. Document that `StartJob`'s return now means "launched," and audit callers that were relying on it for failure. 
+
+**3. `worker/start.go` — `ctx` lifetime is now decoupled from the caller.**
+Before, `ctx` was live for the whole of `Run` because the caller was blocked. Now `StartJob` returns immediately; if the caller's `ctx` is request- or call-scoped and gets cancelled on return, `Run` (which honors cancellation) will abort, and with the current diff that abort is still recorded as `Succeeded`. Not necessarily a code change in this file, but it must be confirmed.
+Require: state which context the job is expected to run under (caller's `ctx` vs. a supervisor/worker-pool context), and ensure cancellation is reported as failure, not success, once finding 1 is fixed.
+
+__ABLATION_DONE__ exit=0

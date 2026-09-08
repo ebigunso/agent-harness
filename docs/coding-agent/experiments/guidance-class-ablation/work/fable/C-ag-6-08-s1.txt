@@ -1,0 +1,43 @@
+**Verdict: block.**
+
+### 1. `lib.rs`, `request` — nested retry amplification (blocking)
+
+**What's wrong:** `request` wraps `remote` in five nested `retry` layers, each of which makes up to 3 attempts. On persistent failure this yields 3⁵ = 243 calls to `remote` per `request`, versus the stated budget of 3. The nesting also multiplies latency (243 × per-attempt time) even with prompt failures.
+
+**Why it matters:** This is the textbook retry storm. A degraded remote service gets 81× the intended load from every caller, precisely when it can least afford it, turning a local blip into a cascading outage. The attempt budget is a system-wide contract with the remote; this change silently violates it.
+
+**Required instead:** Retry at exactly one layer, with the budget owned there:
+
+```rust
+pub fn request(remote: impl FnMut() -> Result<(), String>) -> Result<(), String> {
+    retry(remote)
+}
+```
+
+If the layering is meant to model real service boundaries, then retries must be at the *outermost* layer only, and inner layers must propagate failure without retrying (or carry a shared attempt counter/budget through them). Add a test asserting `remote` is invoked at most 3 times on persistent failure — that would have caught this.
+
+### 2. `lib.rs`, `retry` — no failure classification (flag)
+
+**What's wrong:** Every `Err` is retried. There is no distinction between transient errors (timeout, 503, connection reset) and permanent ones (4xx, validation, not-found).
+
+**Why it matters:** Retrying permanent failures wastes the attempt budget, adds latency to the definitive error, and if `remote` is a non-idempotent operation, can cause duplicate side effects. Task framing says "lookup," so idempotency is probably fine, but the retry helper is generic and will be reused.
+
+**Required instead:** Accept a `should_retry(&E) -> bool` predicate (or use a structured error type with a `is_transient()` method) and return immediately on non-retryable errors.
+
+### 3. `lib.rs`, `retry` — no backoff between attempts (flag)
+
+**What's wrong:** Attempts are issued back-to-back with no delay or jitter.
+
+**Why it matters:** Three immediate retries against a struggling dependency are near-useless (the failure condition hasn't changed in microseconds) and, in aggregate across callers, synchronize into thundering-herd bursts. Reviewer notes say timeouts aren't the issue here, so this is a flag rather than a block, but it should not ship as the shared retry primitive.
+
+**Required instead:** Exponential backoff with jitter between attempts (configurable base/cap), or at minimum a documented decision that this helper is for tight in-process retries only.
+
+### 4. `lib.rs`, `retry` — earlier errors discarded (minor)
+
+**What's wrong:** Only the last error is returned; the first two are dropped. Combined with #1, the caller sees one string from 243 failures.
+
+**Why it matters:** Loses diagnostic signal — e.g. attempt 1 was a connection reset, attempt 3 a timeout. Debugging retry behavior in production becomes guesswork.
+
+**Required instead:** Either log each failed attempt with its index, or return an error that aggregates the attempts (e.g. `Err(format!("failed after {n} attempts; last: {last}"))` at minimum). Also replace `String` errors with a typed error so #2 is possible.
+
+__ABLATION_DONE__ exit=0

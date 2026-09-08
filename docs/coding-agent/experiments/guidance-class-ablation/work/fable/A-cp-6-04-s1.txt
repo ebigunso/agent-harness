@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`DiscountAdapter.cs` — `DiscountAdapter.Map` / `DiscountView` collapse presence into a value.**
+   `Map` turns `HasCents == false` into `Cents == 0`, and `DiscountView(int Cents)` has no way to carry presence. The whole point of `optional int32 cents` in proto3 (and of the `HasCents` accessor on the wire record, per the reviewer notes) is to distinguish "server didn't say" from "server said the discount is zero". After this mapping, the client cannot tell an unknown discount from a genuine 0-cent discount, so any UI or business logic downstream (e.g. "show 'no discount' vs. hide the line vs. show '$0.00 off'", or "don't apply pricing until we know") will be wrong for one of the two cases. This is the exact semantic the task asked to map, and the adapter silently drops it.
+   Require: make presence representable in the client model and propagate it, e.g.
+   ```csharp
+   public record DiscountView(int? Cents);
+   public static DiscountView Map(DiscountWire wire) => new(wire.HasCents ? wire.Cents : null);
+   ```
+   or keep a `bool HasCents` on `DiscountView` (mirroring the Java `Discount`/`Discount.unknown()` shape). Add a unit test asserting that `Map(new(false, 0))` and `Map(new(true, 0))` produce distinguishable views.
+
+No other issues: the proto definition and the Java record correctly preserve presence; the defect is confined to the C# adapter and its view type.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,14 @@
+**Verdict: the core normalization is correct; I would not block on behavior, but I'd require one fix before merge and flag two minor items.**
+
+**1. `time_input.py`, `ingest` — all failure modes collapse into one wrong message (should fix).**
+The inner `raise ValueError("timestamp shape")` / `"unknown offset"` are caught by the enclosing `except (ValueError, OverflowError)` and rewrapped as `"timestamp: explicit known ISO offset required"`. The same message is emitted for `"2026-02-30T00:00:00Z"`, `"2026-01-01T23:59:60Z"`, `"0001-01-01T00:00:00+01:00"` (OverflowError from `astimezone`), and `None` — none of which have anything to do with the offset. The reviewer notes promise a field-specific *and actionable* error; the field prefix is there but the text is actively misleading for shape/range failures, which is what a caller will act on. Require: keep the `timestamp:` prefix but preserve the specific cause — e.g. `f"timestamp: {exc}"` for the wrapped `fromisoformat`/`astimezone` errors, and let the two explicit raises carry their own messages ("timestamp: expected YYYY-MM-DDTHH:MM:SS[.ffffff](Z|±HH:MM)", "timestamp: -00:00 (unknown offset) not accepted") without being rewrapped. The `check()` assertion `"timestamp" in str(exc)` still passes.
+
+**2. `time_input.py`, regex — `\d` is Unicode-aware, so the "shape" check is not the boundary it claims to be (minor).**
+With a `str` pattern, `\d` matches any Unicode `Nd` digit (e.g. Arabic-Indic), so `"٢٠٢٦-01-01T00:00:00Z"` passes the regex. It is still rejected because `fromisoformat` only accepts ASCII, so this fails safe — but the regex is documented as the shape gate and currently relies on the parser to backstop it. Require `re.ASCII` on the `fullmatch` (and, optionally, hoist the pattern to a module-level `re.compile`) so the stated invariant is enforced where it's declared.
+
+**3. `time_input.py`, `check()` — production module carries an uncalled, assert-based test (minor).**
+`check()` is never invoked, isn't discoverable by a test runner, and its `assert`s vanish under `python -O`. It also doesn't exercise the interesting cases (fractional seconds, `+00:00`, out-of-range date/time, year-boundary overflow) — which is why finding #1 went unnoticed. Move it to a `test_time_input.py` with `pytest.raises(ValueError, match=...)` and add those cases.
+
+Everything else checks out: `fullmatch` avoids the `$`-newline trap; offset range `±[00–23]:[00–59]` and 1–6 fractional digits match the wire spec and are all accepted by 3.12's `fromisoformat` (including `Z`); `-00:00` is rejected ahead of parsing; `OverflowError` from `astimezone` at the year-1/9999 edges is caught; and the return is a genuinely aware `timezone.utc` datetime regardless of input offset, so `+01:00` and `Z` inputs compare equal as the check demonstrates.
+
+__ABLATION_DONE__ exit=0

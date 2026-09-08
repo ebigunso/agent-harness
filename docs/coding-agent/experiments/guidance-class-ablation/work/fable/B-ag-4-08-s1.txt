@@ -1,0 +1,25 @@
+**Verdict: block.** The change adds `region` to the `Account` struct but does not deliver what the task asks for — the API response still omits `region`, and the newly added schema forbids it.
+
+## Findings
+
+### 1. `account.rb` — `response` still returns only `id`
+**What's wrong:** `Account` gains a `:region` member, but `response(account)` is unchanged and returns `{ id: account.id }`. The task ("include required region in account API response") is not actually done; only the internal data model was touched.
+**Why it matters:** This is the core deliverable. Consumers relying on the new requirement will receive responses without `region`, and the commit message claims a behavior that doesn't exist.
+**Require:** `def response(account) { id: account.id, region: account.region } end`. Since region is described as required and validated upstream, also decide the failure semantics for a `nil` region (raise / reject at construction) rather than silently emitting `region: nil` — don't return an ambiguous "success" payload that violates the contract.
+
+### 2. `schema.json` — schema contradicts the stated contract and would reject the intended response
+**What's wrong:** The new schema declares `properties: {id}`, `required: ["id"]`, and `additionalProperties: false`. It does not list `region`, so once `region` is emitted (per #1) the response will fail validation; as written it codifies the *old* shape as the contract.
+**Why it matters:** This is a producer/consumer contract file. Shipping a schema that locks out the field the task is adding means the contract is desynchronized with intent, and any client validating against it will break the moment the serializer is fixed.
+**Require:** `{"type":"object","properties":{"id":{"type":"string"},"region":{"type":"string"}},"required":["id","region"],"additionalProperties":false}`. Keep `additionalProperties: false` only if that strictness is deliberate; it makes every future field a breaking change for validating clients.
+
+### 3. Plan / commit — contract impact classified as "none" for a breaking change
+**What's wrong:** Adding a new *required* response field, with a strict schema, is a breaking contract change for any client that validates responses or models only `id`. The plan says impact `none`, and there are no migration or compatibility notes.
+**Why it matters:** Per the interface-contract gate, breaking changes need an explicit classification and a migration path so consumers aren't surprised. Misclassifying it hides that the current client (which models only `id`) needs to be updated in lockstep.
+**Require:** Reclassify as **breaking** (or **additive** if the schema drops `additionalProperties: false` / makes `region` optional for a transition period). Include a note on client migration: update the client model to include `region`, and sequence the rollout so the client can accept the field before the server requires it.
+
+### 4. No test covering the response shape
+**What's wrong:** Nothing in the diff verifies that `response(account)` produces a payload that validates against `schema.json`.
+**Why it matters:** The mismatch in #1/#2 is exactly the kind of drift a single round-trip test would catch; without it, producer and schema can silently diverge again.
+**Require:** A test that builds an `Account` with `id` and `region`, calls `response`, and asserts the result validates against `schema.json` and includes `region`. Optionally a negative case asserting behavior when `region` is missing.
+
+__ABLATION_DONE__ exit=0

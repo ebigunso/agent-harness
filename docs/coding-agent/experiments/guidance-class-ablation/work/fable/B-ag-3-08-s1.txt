@@ -1,0 +1,18 @@
+**Findings**
+
+1. **`scope.rb`, `listed` — operation order was inverted; this is a behavior change, not an extraction.**
+   - Before: `rows.select { active }.first(2)` → filter the full result, then take the first two *active* rows.
+   - After: `active(rows.first(2))` → take the first two rows of the input, then filter. If either of the first two rows is inactive, the result has fewer than two elements (or none), and later active rows are never returned.
+   - Concrete counterexample against the stated contract ("first two active rows in input order, even when inactive rows precede them"):
+     `[{active: false}, {active: true}, {active: true}]` → old: 2 rows; new: 1 row.
+     `[{active: false}, {active: false}, {active: true}]` → old: 1 row; new: 0 rows.
+   - Why it matters: the commit message and task framing promise "without behavior change," so a reviewer skimming this as a mechanical refactor would approve a silent contract regression. This is exactly the Gate 3 anti-pattern of a hidden behavior change inside a nominally mechanical diff.
+   - Required instead: preserve the composition order — `active(rows).first(2)`. The extracted helper itself is fine.
+
+2. **No regression coverage for the extraction.**
+   - A "no behavior change" refactor should be accompanied by (or land on top of) a test that pins the contract, specifically the case where inactive rows precede active ones. That case is what distinguishes the two orderings and is the one the reviewer notes call out explicitly; its absence is why finding 1 wasn't caught by the author.
+   - Required instead: add a test with leading inactive rows asserting the first two active rows are returned, and confirm it passes before and after the change.
+
+**Verdict:** Block. The change is not acceptable as-is — it alters behavior while claiming not to. Fix the composition order to `active(rows).first(2)` and add the pinning test; with that, the extraction is cohesive and matches the stated intent.
+
+__ABLATION_DONE__ exit=0

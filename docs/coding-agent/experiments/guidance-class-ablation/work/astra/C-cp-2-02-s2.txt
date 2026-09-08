@@ -1,0 +1,64 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d83-5802-72b0-a946-92671620b7c7
+--------
+user
+Reference material loaded for this review:
+
+Fix causes at their origin; strengthen invariants. Does this suppress symptoms or add duplicated/compensating logic?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Prevent partial transfers when credit fails in HTTP and scheduled transfer jobs.
+
+```diff
+--- a/src/Transfers.java
++++ b/src/Transfers.java
+@@ -1,19 +1,24 @@
+ final class LedgerService {
+     private final LedgerStore store;
+     LedgerService(LedgerStore store) { this.store = store; }
+     void transfer(Transfer t) {
+         store.debitAndCommit(t.from(), t.amount());
+         store.inTransaction(tx -> tx.credit(t.to(), t.amount()));
+     }
+ }
+ final class TransferRoutes {
+     private final LedgerService ledger;
+     private final LedgerStore store;
+     TransferRoutes(LedgerService ledger, LedgerStore store) {
+         this.ledger = ledger;
+         this.store = store;
+     }
+     void post(Transfer t) {
+-        ledger.transfer(t);
++        try {
++            ledger.transfer(t);
++        } catch (CreditFailed e) {
++            store.refundAndCommit(t.from(), t.amount());
++            throw e;
++        }
+     }
+ }
+```
+Commit message: "refund failed HTTP transfers"
+
+Reviewer notes: Debit and credit are in the same database; LedgerStore can transact both. CreditFailed means credit rolled back after debit committed. ScheduledTransferJob calls LedgerService.transfer directly. Inputs and balances are validated by the existing store; only the transaction boundary is at issue.
+
+2026-09-07T20:15:55.356355Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+codex
+- **`src/Transfers.java` — `TransferRoutes.post` catch block / `LedgerService.transfer`:** The refund compensates for a committed debit without fixing the transaction boundary. Scheduled jobs call `LedgerService.transfer` directly, so credit failures still leave them partially applied. HTTP transfers also remain vulnerable: a crash before the refund or a refund failure leaves the debit committed. Require debit and credit to execute in **one database transaction inside `LedgerService.transfer`**, rolling both back on credit failure, and remove the route-level refund. Verify rollback through both HTTP and scheduled-job paths.
+tokens used
+3,370
+- **`src/Transfers.java` — `TransferRoutes.post` catch block / `LedgerService.transfer`:** The refund compensates for a committed debit without fixing the transaction boundary. Scheduled jobs call `LedgerService.transfer` directly, so credit failures still leave them partially applied. HTTP transfers also remain vulnerable: a crash before the refund or a refund failure leaves the debit committed. Require debit and credit to execute in **one database transaction inside `LedgerService.transfer`**, rolling both back on credit failure, and remove the route-level refund. Verify rollback through both HTTP and scheduled-job paths.
+
+__ABLATION_DONE__ exit=0

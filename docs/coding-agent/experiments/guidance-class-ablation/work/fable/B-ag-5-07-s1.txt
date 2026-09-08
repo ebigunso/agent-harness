@@ -1,0 +1,21 @@
+**Findings**
+
+1. **`approval.rb`, `approve!` — two separate `update!` calls with no transaction (blocking).**
+   Each `update!` commits independently (Rails 7, no caller transaction per the notes). After the first commit the row is `status = "approved", approver_id = NULL`, which violates the stated invariant "approved requires non-null approver," and per the notes observers *can* read that committed intermediate state. Worse than the transient window: if the second `update!` raises (validation failure, DB error, process killed between the two statements), the first commit stands and the record is left permanently approved with no approver — exactly the state the task was meant to prevent.
+   Required: make it a single write so the invalid state never exists, even momentarily:
+   ```ruby
+   def approve!(approver)
+     update!(status: "approved", approver_id: approver)
+   end
+   ```
+   A `transaction do ... end` wrapper would also close the window, but two statements for one logical transition is still needless; one `update!` is the correct shape.
+
+2. **Invariant is enforced only by caller discipline, not at the model/DB boundary (flag).**
+   Nothing in this diff prevents `update!(status: "approved")` from any other path from producing an approver-less approval; `approve!` is just an optional convenience. The reviewer note says approver ID presence is validated, but the coupling *"status == approved ⇒ approver_id present"* is the actual invariant and it isn't expressed anywhere authoritative.
+   Required (or a follow-up ticket, at minimum): a model validation such as `validates :approver_id, presence: true, if: -> { status == "approved" }`, and preferably a DB `CHECK (status <> 'approved' OR approver_id IS NOT NULL)` constraint so the guarantee holds regardless of write path.
+
+Minor: the parameter is named `approver` but assigned to `approver_id`; pick one (`approver_id`) so callers don't pass a model object and get a silent `to_i`/type-cast surprise.
+
+Not acceptable as-is; fix (1) before merge.
+
+__ABLATION_DONE__ exit=0

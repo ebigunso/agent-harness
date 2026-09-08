@@ -1,0 +1,29 @@
+**Verdict:** Not a workspace or data problem. `data.json` is exactly what the contract allows (a one-element array `[true]`, surrounded by whitespace). The failure is a bug in the probe's assertion.
+
+**Cause:** Line 5 runs the parse through the pipeline (`$raw | ConvertFrom-Json | Write-Output`). Windows PowerShell 5.1's `ConvertFrom-Json` enumerates array results into the pipeline, and a one-element array is unrolled to its bare element, so `$parsed` is `System.Boolean` (as stdout shows), not `Object[]`. The `-isnot [array]` check on line 10 is therefore testing pipeline unrolling, not wire framing, and throws. The same script would pass on `[true,false]` and fail on `[true]` — the nondeterministic-by-cardinality pattern. `ConvertFrom-Json -NoEnumerate` is not an option here: it doesn't exist in 5.1 and would produce a parameter-binding error.
+
+**Smallest safe remediation:** Assert array framing on the raw serialized text instead of on the parsed object. Keep the parse (it still validates that the JSON is well-formed), replace only the assertion:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = Get-Content -Raw data.json
+$parsed = $raw | ConvertFrom-Json          # still validates JSON syntax
+Write-Output ('raw=<' + $raw + '>')
+$trim = $raw.Trim()
+if (-not ($trim.StartsWith('[') -and $trim.EndsWith(']'))) { throw 'Expected JSON array' }
+Write-Output ('wire framing=array; parsed type=' + $(if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }))
+```
+
+(The dead assignments `$raw = '  [true]  '` and `$wireCount = '1'` on lines 3–4 are overwritten/unused and can be dropped, but that's cosmetic.)
+
+**Confirmation:**
+1. Rerun `powershell.exe -NoProfile -File probes/cardinality.ps1; $LASTEXITCODE` — expect exit code 0, no stderr, and `raw=<  [true]  >` still printed (proves the data was untouched).
+2. Cardinality sweep against the contract, swapping `data.json` contents each time:
+   - `[]` → pass
+   - `[true]` → pass (the previously failing case)
+   - `[true,false]` → pass
+   - `true` → must throw `Expected JSON array` with exit code 1 (proves scalar wire values are still rejected)
+3. Optionally note in the output that `parsed type` is still `System.Boolean` for the singleton case — that's expected and is now informational, not a gate.
+
+__ABLATION_DONE__ exit=0

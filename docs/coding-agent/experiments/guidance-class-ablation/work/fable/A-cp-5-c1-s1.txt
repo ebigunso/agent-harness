@@ -1,0 +1,14 @@
+**Validation logic itself: correct.** `typeof === "number"` rejects strings/null/undefined/booleans/objects; `Number.isSafeInteger` rejects NaN, ±Infinity, non-integers, and out-of-range integers; `q > 0` rejects 0, -0, and negatives. The append is gated behind the guard, and the `q is number` predicate narrows `body.quantity` so the push type-checks. No holes in the boundary check.
+
+Findings I'd raise:
+
+1. **`inventory.ts`, `check()` — test code shipped in the production module, and it mutates shared state.**
+   `check()` is exported from the same module as `post` and, on every invocation, appends a real `1` to the module-level `inventory`. Anyone (or any harness) that calls it in a running process corrupts live inventory; called twice it appends twice. It also throws on first failure rather than reporting which case failed.
+   Require: move the cases into a proper test file (e.g. `inventory.test.ts`) under the project's test runner, and either construct a fresh store per test or expose a reset/injectable store so the valid-case assertion doesn't leak state. If a runtime self-check is genuinely wanted, it must not touch the real array.
+
+2. **`inventory.ts`, `formValid` — misleading name for the server-side boundary rule.** (minor)
+   The reviewer notes say the *form* repeats this rule for user feedback; the function here is the authoritative server check. Naming it `formValid` invites a future reader to assume it's client-side/advisory and that "real" validation lives elsewhere, or to think the server is delegating to the form. Require: rename to something like `isValidQuantity` and, if the form copy exists in this repo, have it import this one rather than duplicating the predicate.
+
+Nothing else. Not adding `undefined` to the test list, an upper bound, or extra-field handling — the code already handles those correctly and the domain is stated as positive safe integers.
+
+__ABLATION_DONE__ exit=0

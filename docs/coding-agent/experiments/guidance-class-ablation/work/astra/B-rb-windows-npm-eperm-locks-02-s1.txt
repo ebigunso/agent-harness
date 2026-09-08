@@ -1,0 +1,149 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d81-80ca-7801-909c-9932189f98ea
+--------
+user
+Reference material loaded for this review:
+
+# Windows npm EPERM/EBUSY native module lock (npm ci / npm install)
+
+## Symptoms
+- npm ci / npm install fails with EPERM or EBUSY
+- error mentions unlinking/removing a file under node_modules
+- error often references a native module binary like <module>.node
+
+## Likely cause
+A running process (node/dev server/test runner/editor extension) is holding a lock on a native module binary inside node_modules.
+
+## Safe, ordered steps
+
+1) Stop obvious lock holders
+- stop dev servers, test runners, watchers
+- close terminals running node processes for this repo
+- stop editor-integrated test runners
+
+2) Identify locking process by module (best-effort)
+If the error shows a specific <module>.node:
+
+Preferred (PowerShell 7):
+- "C:\Program Files\PowerShell\7\pwsh.exe" -Command "tasklist /m <module>.node"
+
+Fallback:
+- powershell.exe -Command "tasklist /m <module>.node"
+
+3) Kill the locking PID(s) (last resort)
+- taskkill /PID <pid> /F
+
+4) Retry install
+- npm ci
+
+If it still fails:
+- repeat using the new module filename in the error
+- confirm no other node processes:
+  - tasklist | findstr node
+
+## Evidence to capture
+- original npm command + full error output
+- module filename
+- tasklist output
+- killed PIDs
+- retry result
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; process/lock observations are constructed, not live machine evidence.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Node 20.18.0; npm 10.8.2; cwd C:/work/npm-lock. npm color is disabled. sharp 0.32.6
+
+Command: `npm install`
+
+Exit code: 1
+
+stdout:
+```text
+(empty)
+```
+
+stderr (error-level output):
+```text
+npm error code EBUSY
+npm error syscall unlink
+npm error path C:\work\npm-lock\node_modules\sharp\build\Release\sharp-win32-x64.node
+npm error errno -4082
+npm error EBUSY: resource busy or locked, unlink 'C:\work\npm-lock\node_modules\sharp\build\Release\sharp-win32-x64.node'
+```
+
+Diagnostic observations:
+
+- package.json and package-lock.json are synchronized; project and cache are writable. Registry requests succeed. The process can create/remove an ordinary probe file beside the affected module, and no ACL denial is observed.
+- Installed layout: sharp 0.32.6; the named binary exists. Where marked source build, the addon was built for its host runtime and loaded successfully before this install.
+- The worker remains alive after its launch terminal disconnected.
+
+Command: `tasklist /m sharp-win32-x64.node`
+
+Exit code: 0; stderr: (empty). stdout:
+```text
+Image Name                     PID Modules
+========================= ======== ===========================================
+node.exe                      4102 sharp-win32-x64.node
+```
+
+Repository ownership inspection:
+
+- PID 4102: image worker; process inspection shows loaded module `C:\work\npm-lock\node_modules\sharp\build\Release\sharp-win32-x64.node`. Launch command references `C:/work/npm-lock/workers/images.js`; the task is owned by this repository.
+
+2026-09-07T20:13:54.645808Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:13:54.904987Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:13:56.501995Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:13:57.190325Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 2/5
+2026-09-07T20:13:57.801881Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 3/5
+2026-09-07T20:13:58.909418Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 4/5
+codex
+**Cause:** Repository-owned image worker PID **4102** has loaded the exact Sharp binary npm is trying to unlink. The worker survived its terminal disconnect, leaving a Windows file lock. This is a workspace process issue, not a package-lock, permissions, cache, or registry problem.
+
+**Smallest safe remediation:** Stop that worker gracefully. If it cannot shut down, terminate only the confirmed PID:
+
+```powershell
+taskkill /PID 4102 /F
+```
+
+Then retry the original command:
+
+```powershell
+npm install
+```
+
+**Confirm:** Run `tasklist /m sharp-win32-x64.node` again to check that no process holds the module, then verify `npm install` exits with code 0 and no `EBUSY` error. No dependency or cache deletion is needed.
+tokens used
+3,796
+**Cause:** Repository-owned image worker PID **4102** has loaded the exact Sharp binary npm is trying to unlink. The worker survived its terminal disconnect, leaving a Windows file lock. This is a workspace process issue, not a package-lock, permissions, cache, or registry problem.
+
+**Smallest safe remediation:** Stop that worker gracefully. If it cannot shut down, terminate only the confirmed PID:
+
+```powershell
+taskkill /PID 4102 /F
+```
+
+Then retry the original command:
+
+```powershell
+npm install
+```
+
+**Confirm:** Run `tasklist /m sharp-win32-x64.node` again to check that no process holds the module, then verify `npm install` exits with code 0 and no `EBUSY` error. No dependency or cache deletion is needed.
+
+__ABLATION_DONE__ exit=0

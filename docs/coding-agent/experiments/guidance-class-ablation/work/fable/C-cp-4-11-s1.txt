@@ -1,0 +1,12 @@
+**Findings**
+
+1. **`preview.cpp`, `format_preview` — rendering now mutates allocator state.**
+   The new body does `next_id++`, so every call to `format_preview` consumes an ID. The reviewer notes say previews are expected to be observational, and this breaks that: calling `format_preview` twice for the same name yields different strings, and the number of previews rendered silently shifts what `allocate_id()` returns next. That's a hidden side effect coupling the display path to the allocation path — a UI refresh or a log statement that renders a preview now changes IDs. It also means the "hint" is wrong in the very case it exists for: after previewing, the ID shown is already spent, so the actual allocation will get a different number.
+   Required: make the function read-only. Either `return name + ":" + std::to_string(next_id);` (shows what *would* be allocated next without consuming it), or better, remove the global dependency entirely and take the value as a parameter (`format_preview(const std::string& name, unsigned hint)`) so the caller decides what to display and the function's inputs are visible in its signature.
+
+2. **Same location — duplicated allocation logic instead of using `allocate_id()`.**
+   Even setting aside whether it should consume an ID, writing `next_id++` inline reimplements `allocate_id()`. That's a signal the author is actually allocating, not previewing. If consumption were genuinely intended (it isn't here), it should go through `allocate_id()` so there's one place that owns the counter's semantics. With fix (1) this concern disappears; I'm listing it because it's the tell that the change conflates the two roles.
+
+The "single-threaded, far below `UINT_MAX`" notes rule out overflow/race concerns; those are not findings. The blocker is finding 1.
+
+__ABLATION_DONE__ exit=0

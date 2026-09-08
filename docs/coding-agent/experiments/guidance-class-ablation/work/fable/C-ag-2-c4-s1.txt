@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.**
+
+I walked the dependency graph and the code itself; nothing here I would block or flag.
+
+- **Dependency direction** — `outer` imports `crate::domain::{self, Quotes}`; `domain` contains no reference to `outer` or to any concrete type. The trait `Quotes` is the inner seam, `Fixed` is the outer implementation, and `outer::price` injects it inward via `domain::price(&Fixed)`. This is exactly the inversion the task asked for. No cycle, no interface bypass (outer goes through the trait, not around it).
+- **Domain purity** — `domain` has no framework/vendor calls, no I/O, no external crates. `price` is a pure function over the trait.
+- **Overflow** — the reviewer notes state the `Quotes` contract guarantees `cents <= 1_000_000`, so `q.cents() + 10` cannot overflow `u32`. No checked arithmetic needed under that contract.
+- **Compilation / visibility** — `outer` is `pub mod`, `outer::price` is `pub`, and `Fixed` being private is correct (it never escapes the module). The two `price` functions don't collide because the outer one calls `domain::price` by path. The `#[test]` at crate root sees both modules and is compiled out of non-test builds; `assert_eq!(outer::price(), 110)` matches `100 + 10`.
+- **Scope** — one module per responsibility, no new crates, consistent with the reviewer notes; the commit message matches the change.
+
+The only thing I'd mention, not as a required change, is that a one-line doc comment on `domain::Quotes` stating the `cents <= 1_000_000` invariant would make the overflow reasoning self-evident in the source rather than living only in review notes. Optional; not a block.
+
+__ABLATION_DONE__ exit=0

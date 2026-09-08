@@ -1,0 +1,45 @@
+**Verdict:** This is a workspace problem, not an npm/registry/permissions problem.
+
+## Cause
+
+`npm ci` deletes `node_modules` before reinstalling. The unlink of `node_modules\@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` fails with `EPERM` (errno -4048) because the file is a loaded native addon: Windows will not delete a DLL/`.node` that is mapped into a running process. The holder is confirmed:
+
+- `tasklist /m swc.win32-x64-msvc.node` → `node.exe` PID 4103
+- PID 4103 is `next dev` launched from `C:/work/npm-lock/node_modules/next/dist/bin/next` — i.e. this repository's own dev server, which loads `@swc/core` for compilation.
+
+Everything else is ruled out by the observations: lockfile and `package.json` are in sync, the project/cache are writable, a probe file beside the module can be created and removed, no ACL denial, registry reachable. The antivirus/editor hint in npm's message is not the cause here.
+
+## Smallest safe remediation
+
+1. Stop the dev server gracefully — `Ctrl+C` in the terminal running `next dev` (or, if it's detached, `Stop-Process -Id 4103` from PowerShell). Do not touch any other `node.exe`.
+2. Verify the handle is released:
+   ```powershell
+   tasklist /m swc.win32-x64-msvc.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Retry the original command:
+   ```powershell
+   npm ci
+   ```
+4. Only if step 1 fails to end the process (it hangs or ignores the signal): `taskkill /PID 4103 /F` — acceptable because the PID is confirmed repo-owned, but it's the last resort, not the first move.
+
+Do **not** delete `node_modules` by hand, run as Administrator, or add `--force`; none of those address a mapped-module lock and the first can leave a half-removed tree.
+
+## Confirmation
+
+- `npm ci` exits 0 with no `EPERM`/`unlink` lines.
+- `node_modules\@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` exists and `node_modules\@swc\core-win32-x64-msvc\package.json` reports `1.7.26` (matching the lockfile).
+- `node -e "require('@swc/core')"` loads without error, and restarting `next dev` compiles a page successfully.
+- If the retry fails again, re-run `tasklist /m <new-module>.node` for whatever module is now named and `tasklist | findstr node` to find any other holder — a second process (e.g. a test watcher or editor language server) would show up there.
+
+## Record for the log
+
+- Original command: `npm ci` → exit 1, `EPERM unlink ...\@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node`
+- Module: `swc.win32-x64-msvc.node` (`@swc/core-win32-x64-msvc 1.7.26`)
+- Holder: `node.exe` PID 4103 (`next dev`, repo-owned)
+- Action: graceful stop (fallback `taskkill /PID 4103 /F` if needed); PIDs killed: 4103
+- Retry: `npm ci` → record exit code and post-install verification above
+
+(Noting that this scenario is synthetic — the PID and tasklist output are constructed — so on a live machine, re-run `tasklist /m` yourself before acting rather than trusting the quoted PID.)
+
+__ABLATION_DONE__ exit=0

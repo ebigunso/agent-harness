@@ -1,0 +1,44 @@
+## Findings
+
+### 1. `package.py` — `cli()` and `service()` not updated; both silently break
+
+**What's wrong:** `result()` now returns a `dict`, but both callers still do `ident, total = result()`. Unpacking a two-key dict iterates its *keys*, so this doesn't raise — it silently binds `ident = "id"` and `total = "total"`.
+
+- `cli()` now returns the literal string `"id:total"` instead of `"a:100"`.
+- `service()` now returns `{"id": "id", "total": "total"}` — the `total` field, which contract says is integer cents, is now the string `"total"`.
+
+**Why it matters:** This is the worst failure mode: no exception, no test crash if tests only assert "runs", and wrong data flowing to downstream consumers of the service payload (a string where cents are expected). The task explicitly named both callers as in scope; the diff changes the producer and neither consumer.
+
+**Required:** Update both callers to the new shape in the same change, e.g.
+
+```python
+def cli():
+    r = result()
+    return f"{r['id']}:{r['total']}"
+
+def service():
+    r = result()
+    return {"id": r["id"], "total": r["total"]}
+```
+
+Alternatively, if the goal is "name the fields" with minimal blast radius, return a `NamedTuple`/`dataclass` — that names the fields *and* keeps positional unpacking working, making this genuinely non-breaking for any out-of-tree callers. Either way, add a test that asserts actual values (`cli() == "a:100"`, `service()["total"] == 100`) so this class of silent breakage is caught.
+
+### 2. Change report / commit message — misdeclares impact as "no migration"
+
+**What's wrong:** Changing a public function's return type from `tuple[str, int]` to `dict` is a **breaking** contract change for every caller that unpacks or indexes positionally. The report says no migration is required; that is false, as (1) demonstrates.
+
+**Why it matters:** Reviewers and downstream owners rely on the declared impact to decide whether to look for other consumers. An incorrect "none" classification hides a producer/consumer sync problem and, given the failure is silent, would likely ship.
+
+**Required:** Declare the impact honestly — **breaking** if switching to a `dict` (with the caller updates in (1) and a grep for any other `result()` consumers), or **additive** if switching to a `NamedTuple` that preserves tuple compatibility. The commit message should reflect which.
+
+### 3. `package.py` — new contract has no stated shape/types
+
+**What's wrong (minor, would flag not block):** The dict return has no annotation or docstring recording that `id` is `str` and `total` is `int` cents; this information currently lives only in the reviewer notes.
+
+**Required:** Add a return annotation (`-> dict[str, str | int]` is weak; a `TypedDict` or `NamedTuple` with `id: str`, `total: int` is better) so the field names *and* types are part of the code contract rather than tribal knowledge.
+
+---
+
+**Verdict:** Not acceptable as-is. Block on (1) and (2); (3) is a strong recommendation.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.** No blocking or flag-worthy findings.
+
+Checked against the containment concerns:
+
+- **Scoped suppression** — only `Poison` (the handler's documented failure) is caught; any other exception from `handler.apply` propagates unchanged, so unexpected faults are not swallowed.
+- **Bounded, non-blocking** — `ArrayBlockingQueue(100)` with `offer` gives a hard cap and no wait; `poll` on drain never blocks. No unbounded growth, no retry loop introduced here.
+- **Explicit degradation** — when the queue is full, the outcome is signalled (`dead_letter_full:<id>`) and then surfaced as `IllegalStateException` with the `Poison` as cause. That fails exactly one message and does not affect the queue or other invocations; per the notes the caller supervises each message independently, so this does not cascade.
+- **Propagation** — the `signal` calls are `Consumer<String>` (cannot throw the checked `Poison`, and the logger is stated nonthrowing), so having `signal.accept("processed:...")` inside the `try` cannot misroute a logging failure into the dead-letter path.
+- **Concurrency** — `ArrayBlockingQueue` is thread-safe, so concurrent `run`/`nextDeadLetter` callers are fine.
+
+Non-blocking observation only (no change required): `nextDeadLetter()` returns `null` when empty, which is standard `poll` semantics; callers just need to handle it.
+
+__ABLATION_DONE__ exit=0

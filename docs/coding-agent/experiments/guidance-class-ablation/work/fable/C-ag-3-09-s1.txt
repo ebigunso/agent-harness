@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`Model.kt` — unrelated rename bundled into a dependency bump (blocking).**
+   The task and commit message are "upgrade sqlite jdbc driver." The `Model.kt` hunk renames the domain type `Account` → `Customer` and changes the user-visible label text from `"Account …"` to `"Customer …"`. Neither has any relationship to the JDBC driver version; the reviewer notes confirm the bounded API is compatible, so no source change was required by the upgrade. This is a drive-by edit hidden under an unrelated commit message: a reader of `git log`/`git blame` looking for why `label()` output changed would find "upgrade sqlite jdbc driver" and be misled. It also mixes a zero-risk, trivially revertible dependency bump with a behavior change (label output), so the two cannot be bisected, reverted, or reviewed independently.
+   **Require:** drop the `Model.kt` hunk from this change. If the rename is wanted, land it as its own commit/PR with its own justification and message, and — since it changes output — call out the behavior change explicitly there.
+
+2. **`Model.kt` — the rename is internally inconsistent (would flag on the separate change, noted here so it isn't carried forward).**
+   `fun label(account: Customer)` keeps the parameter name `account` after the type became `Customer`, and the string now says `"Customer"`. Half-renamed identifiers are the kind of residue that suggests the edit was accidental or incomplete rather than intentional.
+   **Require:** if the rename is pursued separately, rename the parameter (`customer: Customer`) and confirm the label wording change is deliberate, not incidental.
+
+**Acceptable portion**
+
+- `build.gradle.kts`: `3.45.3.0` → `3.46.0.0` is a straightforward minor bump; notes state both versions are available and the used API is compatible. This hunk on its own is fine to merge as-is under the given commit message.
+
+**Verdict:** not acceptable as-is. Approve once the change is reduced to the `build.gradle.kts` hunk only.
+
+__ABLATION_DONE__ exit=0

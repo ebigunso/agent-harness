@@ -1,0 +1,21 @@
+**Findings**
+
+1. **`Source.kt`, `data class Source(val isInternal: Boolean)` — model cannot represent the domain.**
+   Two independent Boolean inputs produce four distinct outcomes: internal-only (trusted-internal), external-only (trusted-external), neither (unknown), both (conflicting). A single Boolean can only express two. The consumer has no way to distinguish "trusted-external" from "unknown" or "conflicting", which is exactly the distinction the task ("classify source trust") is supposed to deliver.
+   *Require:* a sealed class or enum with all four states, e.g. `enum class SourceTrust { TrustedInternal, TrustedExternal, Unknown, Conflicting }`, and `classify` returning that.
+
+2. **`Source.kt`, `classify(...)` line 3 — unknown and conflicting are silently mapped to `isInternal = false`.**
+   With the current expression, `(false,false)` and `(true,true)` both yield `Source(false)`, which any caller will naturally read as "external" (or at minimum "not internal, so use the external path"). That's a correctness bug, not just a modeling gap: a record with contradictory evidence gets treated as trusted-external, and a record with no evidence at all gets treated the same way. Both are worse than failing closed.
+   *Require:* explicit branching on the `(internal, external)` pair with a distinct result for each combination; no combination should fall through to a "trusted" value by default.
+
+3. **`Source.kt` — the name `isInternal` encodes the wrong question.**
+   Even if a Boolean were adequate, `isInternal` answers "which side" not "is it trusted", so callers can't tell whether `false` means trusted-external or untrusted. Naming a field after one branch of a four-way outcome will mislead future readers.
+   *Require:* name the type/field after the classification (`trust`, `SourceTrust`), not after one of its values.
+
+4. **No tests.**
+   A four-input truth table is the cheapest possible thing to test and is precisely where this change is wrong. The diff adds a classifier with no coverage of any of the four cases.
+   *Require:* a test enumerating all four `(internalEvidence, externalEvidence)` combinations and asserting the expected distinct outcome for each, so the collapsed cases can't regress silently.
+
+**Verdict:** Block. The change does not implement the task — it produces a two-valued answer for a four-valued question and, in doing so, misclassifies unknown and conflicting records as external.
+
+__ABLATION_DONE__ exit=0

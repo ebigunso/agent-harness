@@ -1,0 +1,48 @@
+## Cause
+
+This is a **script (probe) defect, not a workspace problem**. The raw JSON is valid and no files are involved.
+
+The bug is on line 5:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+```
+
+`ConvertFrom-Json` correctly produces a **one-element array `@($null)`** from `[null]`, but the result is emitted through the **pipeline into a variable assignment**. PowerShell's pipeline **unrolls** collections, so the single-element array is enumerated down to its only member — the scalar `$null`. `$parsed` therefore ends up as `$null`, not an array.
+
+That is exactly what the stdout shows: `parsed type=<null>`. Consequently `$parsed -isnot [array]` is true and the `throw` fires. The contract logic is fine; the framing was destroyed by pipeline unrolling before the assertion ever ran.
+
+## Smallest safe remediation
+
+You are on PowerShell 7.4.6, so use `-NoEnumerate` and **do not re-pipe** the result (piping would re-enumerate it):
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+This preserves the array wrapper, so:
+- `[null]` → `Object[]` of length 1 → passes (correct)
+- `[]` → empty `Object[]` → passes (correct)
+- `null` / `1` (scalar wire) → `$null`/`Int64`, `-isnot [array]` → still rejected (correct)
+
+One line changed, contract behavior unchanged for every accepted/rejected case.
+
+(If this probe ever had to run on Windows PowerShell 5.1, `-NoEnumerate` does not exist; there you must fall back to **raw framing** — check the trimmed `$raw` starts with `[` and ends with `]` in addition to the valid-JSON parse — rather than a post-pipeline `-is [array]` test, which cannot prove wire framing. Note `@(...)` is *not* a safe substitute here: it would wrap scalar `null` into a one-element array and wrongly accept it.)
+
+## Confirmation
+
+1. Re-run the exact command:
+   ```
+   pwsh -NoProfile -File probes/cardinality.ps1
+   ```
+   Expect **exit code 0**, empty stderr, and stdout ending with `parsed type=System.Object[]`.
+
+2. Prove the contract still discriminates, by temporarily setting `$raw` (or parameterizing) to each case and checking exit codes:
+   - `[]` → exit 0 (empty array accepted), type `Object[]`
+   - `[1,2]` → exit 0, type `Object[]`
+   - `null` → exit 1 with `Expected JSON array` (scalar rejected)
+   - `1` / `"x"` → exit 1 (scalar rejected)
+
+3. Also record, per the reference guidance, the raw JSON string, the element count (`$parsed.Count`), and the exact parsed type, so the assertion is auditable rather than inferred.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,11 @@
+**Findings**
+
+1. **`ApprovalDao.scala`, `update` — audit event emitted before the transaction commits (blocking).**
+   `audit(s"Approved:$id")` fires inside the DAO immediately after `executeUpdate()`, but the caller owns the transaction (`autoCommit=false`) and may roll back afterwards. The audit sink is independent of the DB, so a rollback leaves an `Approved:<id>` event recorded for an order that was never approved — precisely the wrong thing for an audit trail whose contract is "Approved means committed business approval." Conversely, if `audit` throws, it aborts the caller's DB work, coupling the business write to the availability of the event sink.
+   Required: do not emit from inside the DAO. Either (a) have `update` return a value (e.g. `Boolean`/an `ApprovalEvent` option) and have the transaction owner call `audit` only after a successful `commit()`, or (b) provide a post-commit hook mechanism the DAO registers into. The DAO should not take an `audit` callback at all in its current shape.
+
+2. **`ApprovalDao.scala`, `update` — unconditional status write yields duplicate/incorrect `Approved` events (flag).**
+   `UPDATE orders SET status=? WHERE id=?` succeeds (`changed == 1`) even when the row is already `approved`, so every repeated call emits another `Approved:<id>` event; it also "approves" from any prior state (e.g. `cancelled`). If the audit log is meant to record actual transitions, this over-reports.
+   Required: constrain the update to a valid transition (e.g. `WHERE id=? AND status<>'approved'` or an explicit expected-from-status parameter) so `changed == 1` genuinely means "this call performed the approval," and only then produce the event (per finding 1, after commit).
+
+__ABLATION_DONE__ exit=0

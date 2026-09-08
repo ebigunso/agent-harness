@@ -1,0 +1,34 @@
+**Verdict:** This is a workspace/environment problem (host name resolution × Docker Desktop port publishing), not a probe bug, not a service bug, and not a "timeout too short" problem.
+
+**Cause**
+
+`localhost` resolves to `::1` first on this host, and the gRPC channel takes that single address. Docker Desktop's host-side proxy accepts the TCP connection on `[::1]:50051`, so the client never gets a connect failure and never falls back to `127.0.0.1`. But nothing arrives over that forwarded path — no HTTP/2 preface/SETTINGS from the server, no interceptor log entry — so the call sits on an open-but-silent socket until the 2 s deadline and the probe normalizes it to exit 2 / `DEADLINE_EXCEEDED`.
+
+The controlled comparison proves it's the address, not the service or the deadline: identical call to `127.0.0.1:50051` completes in the same 2 s budget with `pong`, exit 0, and `invoked=true completed=true` in the service log. A longer timeout would not help — the server never saw the request.
+
+The passing curl on 50080 doesn't clear the `::1` path for 50051: curl does its own IPv4/IPv6 fallback (happy eyeballs), and the two ports may be bound differently inside the container. Treat it as evidence the container is up, nothing more.
+
+Ruled out: TLS/cert name (plaintext h2c), missing deps/build artifacts (validated and cached), server down (sibling and IPv4 calls succeed), probe logic (same code path passes on IPv4).
+
+**Smallest safe remediation**
+
+Address the probe at the IPv4 loopback instead of the ambiguous name:
+
+```powershell
+python probes/unary.py --target 127.0.0.1:50051 --timeout 2
+```
+
+(or `ipv4:127.0.0.1:50051` if you want the gRPC resolver pinned explicitly). That's an invocation/config change only — no code edit, no Docker or Windows IPv6/prefix-policy changes, nothing that affects other tooling. If this target is baked into a script or env var, change it there and nowhere else.
+
+Do **not** widen `--timeout`, disable IPv6 on the host, or edit `hosts`; those are either ineffective or broader than the problem.
+
+**Confirmation**
+
+1. Rerun the exact failed command with the new target and check all three signals, not just exit code: exit 0, stdout `pong`, empty stderr, and a new `invoked=true completed=true` line in the service interceptor log.
+2. Note wall time is on the order of milliseconds, not near 2 s — confirms it's the path, not the budget.
+3. Rerun the original `--target localhost:50051` once more and confirm it still fails identically (exit 2, no interceptor entry). Same input → same failure, changed address → success, isolates the variable.
+4. Optional: `Test-NetConnection ::1 -Port 50051` will report `TcpTestSucceeded: True` — that's the misleading half-open behavior, and it's expected.
+
+**Follow-up (separate from the fix):** if you want `localhost` to work for gRPC clients, the real change is on the container side — have the service bind dual-stack (`[::]:50051`) or stop publishing 50051 on the IPv6 host loopback — but that's a service/compose change and shouldn't be bundled with unblocking this probe.
+
+__ABLATION_DONE__ exit=0

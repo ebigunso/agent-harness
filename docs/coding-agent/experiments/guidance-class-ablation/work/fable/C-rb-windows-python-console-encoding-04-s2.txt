@@ -1,0 +1,39 @@
+**Verdict:** This is a Python stdout-encoding mismatch, not a problem with the workspace or the file. The audit's actual work completed (line 40 is the display step, and reading `C:/reports/🧪.txt` succeeded); only printing the path failed.
+
+**Cause**
+
+- stdout is a pipe, not a console, and `sys.flags.utf8_mode = 0`, so CPython 3.12 falls back to the ANSI code page for `sys.stdout` → `cp932` (Japanese).
+- The path contains U+1F9EA (🧪), which has no cp932 representation, so `print(path)` raises `UnicodeEncodeError` at position 11.
+- Filesystem access works because Windows path APIs are UTF‑16/UTF‑8 based; only the text stream is the problem.
+
+**Partial-effects check before rerun**
+
+`audit.py` is read-only, so a rerun has no side effects to reconcile. Nothing to clean up.
+
+**Smallest safe remediation**
+
+Override only the stdio encoding for this one run (this does not touch filesystem encoding or `open()` defaults, unlike `-X utf8`):
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python audit.py; Remove-Item Env:PYTHONIOENCODING
+```
+
+(Or, if you prefer a fully isolated scope: `pwsh -NoProfile -Command "$env:PYTHONIOENCODING='utf-8'; python audit.py"`.)
+
+If `audit.py` owns its output, the durable fix is one line near the top:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+and, for any files it writes in future, `open(..., encoding="utf-8")`.
+
+**Confirmation**
+
+1. Sanity-check the override in the same piped context:
+   `$env:PYTHONIOENCODING='utf-8'; python -c "import sys; print(sys.stdout.encoding)" | Out-String` → should print `utf-8`.
+2. Rerun `python audit.py` as above: exit code `0`, no traceback on stderr, and stdout contains `C:/reports/🧪.txt` (bytes `F0 9F A7 AA` for the emoji). Make sure whatever consumes the pipe decodes it as UTF‑8, or the emoji will show as mojibake even though the command now succeeds.
+3. Record for the ticket: original error (`cp932` / `'\U0001f9ea'` at position 11) and the successful override command plus its output.
+
+__ABLATION_DONE__ exit=0

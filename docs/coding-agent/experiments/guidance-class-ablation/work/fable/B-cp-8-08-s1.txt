@@ -1,0 +1,15 @@
+**Verdict: block.** The change replaces a correct one-line implementation with four classes that add nothing. The task ("format the fixed welcome message") was already satisfied by the pre-change code.
+
+**Findings**
+
+1. **`welcome.rb` — `FormatAdapter`, `TextAdapter`, `WelcomeAdapter`: pure pass-through layers with a single consumer.**
+   Each class has one method that instantiates the next class and forwards `name` unchanged. There is no branching, no state, no second caller, and no interface being adapted — the "Adapter" name is misleading because nothing is converted between two interfaces. This is a textbook case of abstraction without concrete uses to justify it: a reader now has to walk four files' worth of indirection to discover the string `"Hello, {name}!"`. Cognitive load goes up, maintainability goes down, and behaviour is identical to the original.
+   **Require:** delete all three classes. `welcome` should call the formatter directly.
+
+2. **`welcome.rb` — `Tokens#render` is a fake generic template engine.**
+   The regex `/\{(name)\}/` hard-codes the single token `name`, so this is not a reusable token renderer — it can only ever substitute `{name}`. It carries the cost of a general mechanism (regex capture, hash lookup, `fetch` semantics) while providing none of the generality, and it reimplements what `Kernel#format` was already doing correctly. If real templating is ever needed, this class would have to be rewritten anyway.
+   **Require:** remove `Tokens`. Keep `format("Hello, %s!", name)` (or `"Hello, #{name}!"`). If the message text is expected to be edited, a constant like `WELCOME_TEMPLATE = "Hello, %s!"` is the most abstraction this warrants.
+
+**What I'd accept:** reverting the diff to the original `def welcome(name); format("Hello, %s!", name); end`, optionally with the template lifted to a named constant. Nothing in the task or reviewer notes suggests more than that.
+
+__ABLATION_DONE__ exit=0

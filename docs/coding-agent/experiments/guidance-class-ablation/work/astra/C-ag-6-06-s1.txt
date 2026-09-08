@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e7-26e5-75c1-ae33-0e579ed22d54
+--------
+user
+Reference material loaded for this review:
+
+Contain failures locally. Plan failure modes/containment; make timeouts/retries/idempotency/degradation intentional. Verify propagation/fallback; avoid unbounded waits/retries, broad suppression and cascades.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Book required shipment before completion.
+
+```diff
+--- a/shipment.rb
++++ b/shipment.rb
+@@ -0,0 +1,8 @@
++def complete(order_id, vendor)
++  begin
++    vendor.call(order_id)
++  rescue StandardError
++    # Booking retries will be investigated later.
++  end
++  { order_id: order_id, booked: true }
++end
+```
+Commit message: "book required shipment before completion"
+
+Reviewer notes: Vendor function either books once or throws; exception indicates shipment is unbooked. Critical workflow may not report booked after failure. Safe order ID is non-sensitive.
+
+codex
+- **`shipment.rb:4–7` — Booking failure is swallowed and reported as success.** The vendor exception means the shipment is unbooked, yet `complete` returns `booked: true`, allowing the critical workflow to complete without its required shipment. Require the exception to propagate or an explicit failure result that prevents completion; return `booked: true` only after successful booking. Verify that a throwing vendor cannot produce a successful completion.
+tokens used
+3,180
+- **`shipment.rb:4–7` — Booking failure is swallowed and reported as success.** The vendor exception means the shipment is unbooked, yet `complete` returns `booked: true`, allowing the critical workflow to complete without its required shipment. Require the exception to propagate or an explicit failure result that prevents completion; return `booked: true` only after successful booking. Verify that a throwing vendor cannot produce a successful completion.
+
+__ABLATION_DONE__ exit=0

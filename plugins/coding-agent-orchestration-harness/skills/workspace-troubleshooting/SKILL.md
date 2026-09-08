@@ -44,26 +44,11 @@ Record:
 
 ## Progressive disclosure (read only what you need)
 
-If npm install/ci fails on Windows with EPERM/EBUSY and locked native modules:
-- Read references/windows-npm-eperm-locks.md
-
 If you see “external changes” (formatter/user/tool edits) and need to decide whether to pause:
 - Read references/external-changes-triage.md
 
 If the user reports missing changes or your view doesn’t match theirs:
 - Read references/stale-view-or-branch-mismatch.md
-
-If failures might be caused by persistent shell cwd drift:
-- Read references/persistent-shell-cwd-normalization.md
-
-If a gRPC client hangs against a Docker Desktop published port on Windows while REST on a sibling port responds fast:
-- Read references/windows-docker-grpc-localhost-ipv6.md
-
-If PowerShell JSON array checks behave inconsistently for one-element arrays (cardinality validation after ConvertFrom-Json):
-- Read references/powershell-json-array-cardinality.md
-
-If a Python command fails with UnicodeEncodeError while printing on a Windows console:
-- Read references/windows-python-console-encoding.md
 
 If gh CLI auth fails mid-task or a session assigned real-GitHub validation reports an invalid stored token:
 - Read references/github-cli-auth-failures.md

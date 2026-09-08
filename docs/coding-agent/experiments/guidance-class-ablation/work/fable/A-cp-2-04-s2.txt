@@ -1,0 +1,19 @@
+**Verdict: block.** The change does not do what the task asks; it papers over the symptom and makes the underlying bug harder to notice.
+
+**1. `app/export.py`, `destination()` — the actual defect is untouched.**
+`destination` still returns `Path(config.export_subdir) / name`, i.e. the relative path `daily/<name>`. With cwd `/srv/app`, every export resolves to `/srv/app/daily/<name>`, not the configured `/srv/exports/daily/<name>`. The reviewer notes say plainly that a refactor dropped `export_root` here; this diff doesn't restore it. Both `cli_export` and `batch_export` go through this function, so neither is fixed.
+Require: `return Path(config.export_root) / config.export_subdir / name`, and confirm `export_root` is treated as absolute (or resolved) so cwd never influences the result.
+
+**2. `app/export.py`, `write_export()` — the `FileNotFoundError` → `mkdir(parents=True)` fallback masks the misdirection.**
+Before this change, writes to the wrong location failed loudly because `/srv/app/daily` doesn't exist. After it, the code silently creates `/srv/app/daily` and "succeeds", so exports land in the app directory and nobody sees an error. That's strictly worse than the pre-change state: a hard failure becomes silent data-in-the-wrong-place. The correct target `/srv/exports/daily` already exists and is writable, so once #1 is fixed there is nothing for this fallback to do.
+Require: drop the try/except/mkdir. If auto-creating output directories is genuinely wanted as a separate feature, it should be a deliberate, explicit change on the correct absolute path (and a plain `mkdir(..., exist_ok=True)` before the write, not a catch-and-retry), not bundled as the "fix" for a path bug.
+
+**3. Commit message / scope mismatch.**
+"create missing export folders" describes a behaviour change that wasn't requested and doesn't mention the path restoration that was. Anyone reading history will believe the export-root regression was addressed by this commit when it wasn't.
+Require: commit message that reflects the actual fix ("restore export_root in destination()").
+
+**4. No test pinning the absolute destination.**
+The regression happened once already via a refactor and this diff shows it's easy to "fix" the wrong thing. Nothing here would catch it.
+Require: a unit test asserting `destination(config, "x")` equals `Path("/srv/exports/daily/x")` (and ideally one for `batch_export` with multiple jobs), independent of cwd.
+
+__ABLATION_DONE__ exit=0

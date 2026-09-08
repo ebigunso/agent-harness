@@ -1,0 +1,29 @@
+**Verdict: not a workspace/build problem.** The probe, its dependencies, and the service are fine. This is a local host-networking asymmetry in Docker Desktop's published-port proxy.
+
+## Cause
+
+- `localhost` resolves to `::1` before `127.0.0.1`. gRPC C++ (pick_first, no happy-eyeballs fallback once TCP succeeds) connects to `[::1]:50051`.
+- Docker Desktop's IPv6 loopback proxy for the published port accepts the TCP connection but never forwards/answers the HTTP/2 preface, so no SETTINGS/response headers arrive. The client sits on an open-but-dead connection until the 2 s deadline → exit 2, `DEADLINE_EXCEEDED`.
+- Evidence it's the address, not the server or the RPC: the interceptor log has **no** entry for the failed call, while the identical call to `127.0.0.1:50051` returns `pong` in-deadline with `invoked=true completed=true`.
+- The REST sibling on 50080 is a false negative for "networking is fine": it's HTTP/1.1, and curl races/falls back across addresses, so it succeeds in 12 ms without exercising the h2c path.
+
+## Smallest safe remediation
+
+Use IPv4 explicitly for the local target — no hosts-file edits, no Docker or firewall changes:
+
+```
+probes/grpc_probe.exe --target 127.0.0.1:50051 --timeout 2
+```
+
+and set the same in the local config/env that feeds `--target` (e.g. `GRPC_TARGET=127.0.0.1:50051`, or the gRPC `ipv4:127.0.0.1:50051` URI if the config takes a scheme). Scope it to local/dev config only; do not change the service, its port mapping, or shared config.
+
+## Confirmation
+
+1. Re-run the IPv4 command: expect exit 0, stdout `pong`, empty stderr, and a new `invoked=true completed=true` line in the service interceptor log.
+2. Re-run with `localhost:50051` once more: still exit 2 / `DEADLINE_EXCEEDED` with no log entry — proves the address, not a transient, was the variable.
+3. Optionally run the IPv4 call a few times (or with `--timeout 1`) to show it's consistently well under the deadline.
+4. Record: targets/port (`[::1]:50051` fail, `127.0.0.1:50051` ok), deadline output (exit 2, "deadline expired after 2s"), REST timing (`200`, 0.012 s), and the IPv4 retry result.
+
+If the IPv4 retry had *also* failed, the next step would be `docker ps`/`docker port <svc>` and container health — but here it passed, so no further container inspection is needed.
+
+__ABLATION_DONE__ exit=0

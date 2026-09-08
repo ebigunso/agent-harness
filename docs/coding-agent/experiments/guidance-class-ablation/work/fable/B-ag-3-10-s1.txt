@@ -1,0 +1,11 @@
+**Findings**
+
+1. **`templates/page-01.html` … `templates/page-80.html` — unrelated bundled edits (blocking).**
+   Eighty files change `<p>Ready</p>` → `<p> Ready </p>`. This has nothing to do with the stated task ("include locale in cache key"), the commit message doesn't mention it, and there's no rationale in the change. This is exactly the Gate 3 anti-pattern: incidental cleanup / drive-by edits across many files with zero coupling to the objective. It matters because (a) it buries a one-line behavioral change under 80 noise hunks, making the actual change harder to review and bisect; (b) it churns file history for every template, so future `git blame`/`log` on those files points at a cache-key commit; (c) a whitespace preference should be a deliberate, separately reviewed decision (ideally enforced by a formatter), not smuggled in. **Require:** drop all 80 template hunks from this change. If the whitespace style is actually wanted, land it as a separate mechanical commit with its own rationale (and preferably a lint/format rule so it doesn't drift again).
+
+2. **`cache.php` — behavioral change is fine, but note the key-format migration (non-blocking, flag only).**
+   `return "$id:$locale"` is correct and the reviewer notes confirm inputs are validated colon-free, so no ambiguity in the composite key. However, every existing cache entry keyed by bare `$id` becomes unreachable (never a hit again) and will sit until eviction. That's acceptable for a cold-cache miss, but the change/commit message should state it explicitly so operators expect the miss spike and, if the store has no TTL, someone schedules a purge of legacy keys. **Require:** a sentence in the commit message about the key-format change and its invalidation effect; no code change needed.
+
+**Verdict:** Not acceptable as-is. The `cache.php` change alone would be approvable with the commit-message note; the 80 template whitespace edits must be removed from this change set.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,29 @@
+**Verdict: not a workspace/project defect.** The probe, its dependencies, and the service are all fine. This is a host-networking address-family mismatch between the gRPC client's `localhost` resolution and Docker Desktop's published port.
+
+**Cause**
+
+- `localhost` resolves to `::1` first, then `127.0.0.1`. grpc-ruby takes the first address and dials `[::1]:50051`; unlike `curl.exe`, it doesn't fall back to the next address on a stalled connection.
+- On the WSL2 backend, Docker's host-side proxy accepts the TCP handshake on the IPv6 loopback (so connect "succeeds"), but nothing is forwarded to the container — no HTTP/2 SETTINGS/headers ever come back, and the service interceptor log shows no invocation. The client sits on a half-open connection until the 2 s deadline fires → probe-normalized `DEADLINE_EXCEEDED`, exit 2.
+- The address-only comparison proves it: same method, payload, deadline, server, container, and config, but `--target 127.0.0.1:50051` returns `pong 1 / pong 2`, exit 0, and the log shows `invoked=true completed=true`.
+- The curl sibling on 50080 passing via `localhost` is not a counter-signal: curl does happy-eyeballs-style fallback to `127.0.0.1` (and 12 ms total is consistent with an IPv4 hit), so it masks the same asymmetry.
+
+Not a deadline that's too short, not TLS (there is none), not auth/UNIMPLEMENTED (those map to 3), not a bug in `stream.rb`.
+
+**Smallest safe remediation**
+
+Point the probe at the IPv4 loopback explicitly; change nothing else:
+
+```powershell
+ruby probes/stream.rb --target 127.0.0.1:50051 --timeout 2
+```
+
+(If a caller must keep the hostname form, the gRPC resolver-prefixed target `ipv4:127.0.0.1:50051` pins the family too.) Do **not** raise the timeout, edit the probe, or reconfigure Docker — those are larger changes than needed. If you later want `localhost` to work unconditionally, the next-smallest step is publishing the port IPv4-only (`-p 127.0.0.1:50051:50051`) so `::1` refuses instead of hanging, but that's a service-config change and not required to unblock this call.
+
+**Confirmation**
+
+1. Run the command above: expect exit 0, stdout `pong 1` / `pong 2`, empty stderr.
+2. Check the service interceptor log for a new line: `probe method="server-streaming Echo" transport=h2c invoked=true completed=true`.
+3. Negative control: re-run with `--target localhost:50051` and confirm it still fails with exit 2 / `DEADLINE_EXCEEDED` — this pins the difference to the address family alone.
+4. Optional: `netstat -ano | findstr :50051` on the host to see the listener bound on `[::]`/`0.0.0.0`, confirming why the IPv6 connect succeeds despite not forwarding.
+
+__ABLATION_DONE__ exit=0

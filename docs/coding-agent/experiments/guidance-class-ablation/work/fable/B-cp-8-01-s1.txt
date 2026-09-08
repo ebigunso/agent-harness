@@ -1,0 +1,30 @@
+**Verdict: block.** The original one-liner already satisfies the task ("export one numeric CSV row"). The diff adds zero behavior and ~10 lines of speculative infrastructure. I'd require reverting to the original file (or, if you must touch it, leaving the single-method signature intact).
+
+Findings:
+
+1. **`Export.cs` — `Options` record (six boolean knobs).**
+   None of `Cache`, `Stream`, `Async`, `Compress`, `Discover`, `Pool` is read anywhere; `Row` accepts `options` and ignores it. This is a dead configuration surface that promises behavior it doesn't have, and every future reader will have to trace each flag to discover it does nothing. Require: delete the record. Add flags when there's a caller and an implementation behind each one.
+
+2. **`Export.cs` — `Row(decimal value, Options options)` signature change.**
+   Public API break with no benefit: every existing caller of `Export.Row(x)` now fails to compile and must construct an `Options` whose only purpose is to be discarded. Require: keep `Row(decimal value)` as the only overload.
+
+3. **`Export.cs` — `IProvider` / `Csv` abstraction.**
+   One interface, one implementation, one call site, and the task scope is explicitly "one CSV row." This is an abstraction with a single concrete use; it increases cognitive load (three types to read instead of one method) with no maintenance payoff. Require: remove the interface and class; inline the formatting back into `Export.Row`.
+
+4. **`Export.cs` — `providers` dictionary + `Activator.CreateInstance`.**
+   A string-keyed registry with exactly one hard-coded entry, resolved by a hard-coded `"csv"` literal, then instantiated via reflection and a null-forgiving cast. This trades a direct, compile-time-checked call for a runtime lookup, a reflection allocation per call, and a possible `KeyNotFoundException`/`InvalidCastException` path that can never legitimately fire. Not a security issue here (no external input reaches the key), but it's pure accidental complexity and a slower, less type-safe version of `new Csv()` — which itself is a less direct version of the original `value.ToString(...)`. Require: remove entirely.
+
+5. **`Export.cs` — public top-level type names `Options`, `IProvider`, `Csv`.**
+   Generic, un-namespaced public names now leak from what was a single static helper; they'll collide with and confuse anything else in the assembly. Moot once items 1–4 are addressed, but if any of them survived they'd need to be `internal`/nested and specifically named.
+
+6. **Commit message.**
+   "export one numeric csv row" describes functionality that already existed before this change; the diff adds no such capability. A message should describe what actually changed (or, better, the change shouldn't exist).
+
+Required outcome: revert to
+
+```csharp
+using System.Globalization;
+public static class Export { public static string Row(decimal value) => value.ToString(CultureInfo.InvariantCulture); }
+```
+
+__ABLATION_DONE__ exit=0

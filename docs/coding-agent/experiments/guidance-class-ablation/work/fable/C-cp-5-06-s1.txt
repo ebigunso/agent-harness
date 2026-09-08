@@ -1,0 +1,25 @@
+**Verdict: not acceptable as-is. One blocking defect, two smaller ones.**
+
+### 1. `Money.cs` — public constructor bypasses the nonnegativity invariant (blocking)
+
+`Money.Create` rejects negative amounts, but `new Money(amount)` is `public` and does no validation. Per the notes, the constructor is reachable from import and API adapters, so any caller can construct `new Money(-50m)`. `Ledger.Debit(balance, new Money(-50m))` then *increases* the balance — a debit silently becomes a credit. The stated invariant ("Money represents a nonnegative debit magnitude") is therefore not an invariant; it's a suggestion that only holds on one of two entry paths, and the unguarded one is the one external code will hit.
+
+Require: enforce the check at every construction entry. Either make the constructor `private` (so `Create` is the only way in), or move the validation into the constructor and have `Create` delegate to it. Either is fine; the point is that a `Money` instance must be unable to exist with a negative `Amount`.
+
+### 2. `Ledger.Debit` — null `money` fails with `NullReferenceException` (flag)
+
+`money.Amount` on a null argument throws an NRE from inside the method rather than an `ArgumentNullException` naming the parameter. That's a non-actionable failure at a public API boundary.
+
+Require: `ArgumentNullException.ThrowIfNull(money);` at method entry.
+
+### 3. `Money.Create` — exception carries no actual value or message (minor)
+
+`new ArgumentOutOfRangeException(nameof(amount))` tells the caller *which* parameter, but not what was passed or what the constraint is. When this surfaces from an import job it will be hard to trace.
+
+Require: `throw new ArgumentOutOfRangeException(nameof(amount), amount, "Money amount must be nonnegative.");` (and the same wherever the check ends up after fixing #1).
+
+---
+
+Not raised: overdraft/negative resulting balance in `Debit` — notes say balance bounds are enforced elsewhere by policy, so that's out of scope here.
+
+__ABLATION_DONE__ exit=0

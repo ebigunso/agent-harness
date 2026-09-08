@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.**
+
+The change does what the task asks and is verifiable without fragile setup:
+
+- `expired(deadline, now)` returns `now >= deadline`, so a token is expired *exactly* at the deadline instant and not one microsecond before. That matches "expire exactly at deadline."
+- `now` is injected rather than read from a system clock, so the boundary behavior is testable deterministically — no sleeping, no monkeypatching `datetime.now`, no timezone environment tweaks.
+- The three assertions in `check()` cover the only cases that matter for this decision: the last instant before the deadline (not expired), the deadline itself (expired), and the first instant after (expired). Using `timedelta(microseconds=1)` probes the finest resolution `datetime` supports, so the boundary is genuinely tested, not approximated.
+- All values are timezone-aware UTC, so the comparison is unambiguous. If a caller ever passes a naive datetime, Python raises `TypeError` on the comparison rather than silently producing a wrong answer, which is the right failure mode for this function.
+
+Evidence is proportional to risk: a one-line comparison with a tight boundary check.
+
+**Non-blocking nit (would not hold the merge):** `check()` is a hand-run self-check using bare `assert`, so it is skipped under `python -O` and won't be picked up by a test runner unless someone calls it. If this module is going to live in a codebase with CI, I'd move the three assertions into a `test_expiry.py` so they run automatically. That's about where the evidence lives, not whether it's sufficient.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,19 @@
+**Verdict: not acceptable as-is.** The parser change itself is correct; the commit is blocked because it bundles two unrelated changes under a commit message that describes only one of them.
+
+**Findings**
+
+1. **compress.cpp — unrelated SIMD rewrite bundled into a parser change.**
+   The task is "recognize explicit parser strict option." Replacing the byte loop in `transform` with SSE2 intrinsics has nothing to do with that. It is a performance refactor with its own risk profile: new header dependency (`<emmintrin.h>`), `reinterpret_cast` through `__m128i*`, and a hard platform dependency on x86-64/SSE2 with no `#ifdef`/fallback. If this optimization ever needs to be reverted (miscompile, non-x86 build target added, alignment/aliasing complaint under sanitizers), the revert also removes `--strict` support — and vice versa. Bisecting a compressor regression will land on a commit titled "recognize parser strict option."
+   *Require:* drop this hunk from the commit and submit it separately with its own message, its own review (including whether a scalar fallback or `__SSE2__` guard is warranted), and ideally a test that pins the XOR-with-0x55 output for a 16-byte block.
+
+2. **bench.cpp — unrelated deletion of `sample_clock()`.**
+   Deleting a function is an API removal, not a no-op. Nothing in the diff shows that callers were checked, and the file is left as a stub containing only a comment rather than being removed from the build. Same rollback problem as above: the parser fix cannot be reverted without resurrecting the benchmark, and the benchmark cannot be restored without losing `--strict`.
+   *Require:* move to a separate commit ("retire benchmark"), confirm there are no remaining references to `sample_clock`, and either delete the file entirely (and from the build list) or leave the function in place — a comment-only translation unit is dead weight.
+
+3. **Commit message misdescribes scope.**
+   "recognize explicit parser strict option" covers one of three hunks. Anyone reading history, bisecting, or cherry-picking this commit will be misled about what it touches.
+   *Require:* once split, each commit's message should describe only what that commit does.
+
+**Acceptable part:** `parser.cpp` — `arg == "-s" || arg == "--strict"` is the correct, minimal change for the stated task. It should land alone. (A test for `--strict` would be welcome but I wouldn't block on it given the size of the change.)
+
+__ABLATION_DONE__ exit=0

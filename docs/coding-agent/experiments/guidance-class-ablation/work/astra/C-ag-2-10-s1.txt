@@ -1,0 +1,43 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e3-a982-7580-a16a-d7fa20949cfd
+--------
+user
+Reference material loaded for this review:
+
+Direct outer dependencies toward stable inner seams; keep core free of volatile details. Document edges; check imports and external seams. No framework/vendor calls in domain, cycles or interface bypasses.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Look up account status for rule.
+
+```diff
+--- a/Rule.php
++++ b/Rule.php
+@@ -1,3 +1,4 @@
+ <?php
++use Illuminate\Support\Facades\DB;
+ interface Accounts { public function active(int $id): bool; }
+-function eligible(int $id, Accounts $accounts): bool { return $accounts->active($id); }
++function eligible(int $id): bool { return (bool) DB::table("accounts")->where("id", $id)->value("active"); }
+```
+Commit message: "look up account status for rule"
+
+Reviewer notes: Laravel Illuminate DB facade installed in outer app; domain should use existing Accounts port. Stored active is integer 0/1; missing accounts deliberately return false.
+
+codex
+- **`Rule.php`, `eligible()` signature and body:** The rule bypasses the existing `Accounts` port and directly uses Laravel’s `DB` facade. This couples domain logic to the framework and database schema, violating the intended dependency boundary; removing the injected port also prevents callers from supplying an account implementation. Require retaining `eligible(int $id, Accounts $accounts)` and delegating to `$accounts->active($id)`. Put the database lookup in an outer adapter implementing `Accounts`, preserving the specified 0/1 conversion and missing-account behavior.
+tokens used
+3,172
+- **`Rule.php`, `eligible()` signature and body:** The rule bypasses the existing `Accounts` port and directly uses Laravel’s `DB` facade. This couples domain logic to the framework and database schema, violating the intended dependency boundary; removing the injected port also prevents callers from supplying an account implementation. Require retaining `eligible(int $id, Accounts $accounts)` and delegating to `$accounts->active($id)`. Put the database lookup in an outer adapter implementing `Accounts`, preserving the specified 0/1 conversion and missing-account behavior.
+
+__ABLATION_DONE__ exit=0

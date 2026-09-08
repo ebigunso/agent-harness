@@ -1,0 +1,24 @@
+## Findings
+
+**1. `Inventory.java`, `schedule(LocalDateTime input, List<Instant> queue)` — public API takes a zone-less type and silently assumes UTC. (Blocking)**
+
+- **What's wrong:** `LocalDateTime` carries no offset. The method hard-codes `toInstant(ZoneOffset.UTC)`, so the "this value is UTC" requirement exists only as a call-site assumption in `nightly`. Nothing in the signature, name, or documentation encodes it. A caller passing `LocalDateTime.now()` (system default zone), a value parsed from a local-time log, or a warehouse-local business time gets a snapshot scheduled at the wrong absolute instant — off by the caller's offset — with no error, no warning, and no way to detect it after the fact because the queue already holds a plausible-looking `Instant`.
+- **Why it matters:** This is exactly the Gate 4 anti-pattern "implicit contracts communicated only by call-site assumptions." The one existing caller happens to be correct, which is what makes the bug latent rather than absent. Once a second caller in another zone appears, fixing the signature becomes a breaking change instead of an additive one. Silent time-shifting of an inventory snapshot is a data-correctness bug, not a cosmetic one.
+- **Require instead:** Make the zone part of the contract at the boundary. Preferred: `public static void schedule(Instant at, List<Instant> queue)` — the caller resolves the zone where it is known, and the type makes the contract unambiguous. If a local-time entry point is genuinely needed, require the zone explicitly: `schedule(LocalDateTime local, ZoneId zone, List<Instant> queue)`, or accept `ZonedDateTime`/`OffsetDateTime`. Do not ship a `LocalDateTime`-only overload with an implicit UTC assumption. `nightly` then becomes `schedule(Instant.now(), queue)`.
+
+**2. `Inventory.java`, both methods — failure semantics are unspecified. (Flag, non-blocking)**
+
+- **What's wrong:** `null` for `input` or `queue` throws a bare `NullPointerException` from deep inside `toInstant`/`add`; passing an immutable list (e.g. `List.of()`) throws `UnsupportedOperationException` from `queue.add`. Neither is documented or guarded, so the "returns normally = scheduled" signal is only true for a subset of legal-looking inputs.
+- **Why it matters:** Gate 4 asks that failure modes be explicit. Right now callers can't tell from the interface which inputs are rejected or how.
+- **Require instead:** `Objects.requireNonNull` on both parameters with messages, and a Javadoc line stating the queue must be mutable (or change the parameter to a type that expresses the intent, e.g. a `Consumer<Instant>`/`Queue<Instant>`). Keep it fail-fast; just make it intentional and named.
+
+**3. Commit / plan — no contract-impact statement. (Flag, process)**
+
+- **What's wrong:** The commit message restates the task but does not declare contract-impact scope. Since this is a new public class, the scope is *additive* — but the shape of the additive API is what locks in finding #1, and that trade-off should have been surfaced in the plan rather than discovered in review.
+- **Require instead:** Commit or PR description should state "contract impact: additive — new public `Inventory.schedule`/`nightly`; timestamps are `Instant` (UTC)" once #1 is addressed.
+
+## Verdict
+
+Not acceptable as-is. Finding #1 is a blocking interface-contract defect; #2 and #3 are minor and should be addressed in the same change.
+
+__ABLATION_DONE__ exit=0

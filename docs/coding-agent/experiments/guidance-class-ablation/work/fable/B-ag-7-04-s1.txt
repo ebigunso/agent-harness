@@ -1,0 +1,41 @@
+**Verdict: Block.** The change writes live credentials to persistent, broader-access telemetry on every request. Findings:
+
+---
+
+**1. `Middleware.cs`, line 6 — Logs all request headers verbatim, including `Authorization` and `Cookie`**
+
+*What's wrong:* The loop iterates `context.Request.Headers` with no allowlist or redaction, and logs each value at `Information`. Per reviewer notes, `Authorization` and `Cookie` carry live credentials, and this path runs on successful requests, so every authenticated call leaks a valid bearer token / session cookie into telemetry.
+
+*Why it matters:* Telemetry is persistent and broader-access than the request pipeline. Anyone with log-read access can replay sessions. This is Gate 7's explicit anti-pattern ("logging sensitive payloads as a convenience"), and in most orgs it's a security incident on the first deploy, plus a retention/rotation problem afterward (the tokens outlive the log line's usefulness). The task framing "record request headers" does not license recording secrets; if the author believes it does, that needs to be escalated, not silently implemented.
+
+*Require instead:* An explicit **allowlist** of headers considered safe to log (e.g. `User-Agent`, `Content-Type`, `Accept`, `X-Request-Id`, `Content-Length`). Do not use a denylist — new sensitive headers (`X-Api-Key`, `Proxy-Authorization`, `X-Forwarded-*` with internal topology, custom auth headers) will appear later and a denylist silently misses them. Anything outside the allowlist should be omitted or logged as `<redacted>`/presence-only. If the purpose genuinely needs to know that auth was present, log a boolean or a scheme name (`Bearer`), never the value.
+
+**2. `Middleware.cs`, line 6 — One log line per header per request is noise, not signal**
+
+*What's wrong:* Emits N `Information`-level records for every request, all successful ones included, with no correlation to the request itself (no path, method, trace id, or status).
+
+*Why it matters:* Gate 7 anti-pattern — "overly noisy instrumentation that hides actionable indicators." At production volume this drowns actual failure signals and inflates telemetry cost; and because each line stands alone, you can't reconstruct which request the headers belong to without relying on ambient scope that this code doesn't establish.
+
+*Require instead:* A single structured event per request containing the allowlisted headers as a dictionary, tagged with method/path and the trace/request id, and at `Debug` (or gated behind a config flag / sampling) unless there's a stated diagnostic need for it always-on. If the intent is diagnosing failures, log after `next(context)` and condition on status code rather than logging unconditionally before the call.
+
+**3. `Middleware.cs` — Not actually wired as middleware; `ILogger` is untyped**
+
+*What's wrong:* `Middleware.Invoke(HttpContext, RequestDelegate, ILogger)` is a static method with a non-standard signature. ASP.NET Core middleware is either a class with a constructor `(RequestDelegate next)` and `Task InvokeAsync(HttpContext)`, or an `IMiddleware`, registered via `app.UseMiddleware<T>()`. Nothing in the diff registers this, and the signature won't be discovered by convention. `ILogger` (non-generic) also means no category, so it can't be filtered independently in logging config — which matters directly for finding 2.
+
+*Why it matters:* As written this is dead code, so the review can't confirm the behavior is inspectable at all (Gate 7 evidence expectation). It also implies the change wasn't run.
+
+*Require instead:* Conventional middleware shape with `ILogger<HeaderLoggingMiddleware>` injected, registration in the pipeline, and a test (or at minimum a manual run) showing the emitted event for a request with `Authorization` set — demonstrating that the credential does *not* appear.
+
+**4. Commit message / task framing mismatch — "successful" is not implemented and the sensitivity risk is unassessed**
+
+*What's wrong:* The commit says "successful request headers," but logging happens before `await next(context)`, so it can't know the outcome. More importantly, there is no note anywhere — commit, PR, or code comment — acknowledging that headers contain credentials or how that was handled.
+
+*Why it matters:* Gate 7 requires that "sensitive data exposure risk in logs/telemetry is assessed." Silence here suggests it wasn't. Reviewers and future readers need the reasoning recorded so the allowlist isn't casually widened later.
+
+*Require instead:* Either drop "successful" from the description or move the log after `next` and gate on `context.Response.StatusCode`; and add a short comment above the allowlist stating why it's an allowlist and that auth/cookie/API-key headers must never be added.
+
+---
+
+Findings 1 and 3 are each independently blocking; 2 and 4 I'd require fixed in the same change since they're cheap and the file is being rewritten anyway.
+
+__ABLATION_DONE__ exit=0

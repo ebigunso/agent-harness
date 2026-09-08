@@ -1,0 +1,16 @@
+**Cause:** Not a workspace problem. The transport, port, address resolution, and build are all fine — both `127.0.0.1:50051` and `localhost:50051` connect promptly over h2c, the HTTP sibling on 50080 answers 200 in ~12 ms, and the server logs the request. The probe exits 3 because the server returned gRPC status `UNIMPLEMENTED`: the command asked for `--method Absent`, and the deployed service descriptor exposes `Ping`, not `Absent`. Exit 3 is the probe's documented mapping for UNIMPLEMENTED/PERMISSION_DENIED. Nothing about Docker Desktop, WSL2, the deadline (2 s default was never reached), or localhost/IPv4 asymmetry is implicated — the two address variants behave identically.
+
+**Smallest safe remediation:** Change the method argument to one the service actually implements; don't touch the environment, Docker, or the probe code.
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --method Ping
+```
+
+If `Absent` was intended to exist, the fix is on the server side (deploy the descriptor/implementation that includes it), not in the client workspace.
+
+**Confirmation:**
+- The command above exits 0, stderr is empty, and stdout contains the Ping response value (the probe only prints to stdout after a successful call).
+- Server access log shows `method=Ping transport=h2c status=OK` for that request.
+- Optionally re-run with `--target localhost:50051 --method Ping` to confirm parity still holds, and re-run `--method Absent` once to confirm it still deterministically yields exit 3 / `UNIMPLEMENTED` (i.e., the earlier failure was the method name, not a transient condition).
+
+__ABLATION_DONE__ exit=0

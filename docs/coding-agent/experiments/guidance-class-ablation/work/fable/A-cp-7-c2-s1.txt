@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is for the stated scope.** The core behavior matches the task and the reviewer notes: `Pay` calls the authoritative `charge` with the caller-supplied key, retries exactly once on error using the identical key (so the callback's persistent idempotency can dedupe), and returns the retry's result. The test correctly models a lost response after a successful charge and asserts the properties that matter (two calls, one charge, same key). Nothing here would make me block.
+
+Non-blocking nits I'd mention but not hold the merge on:
+
+1. **`payment.go` / `payment_test.go` — not gofmt'd.** `err:=charge(key)`, `if err!=nil { return charge(key) }` on one line, `import ("testing"; "errors")`, and semicolon-joined statements will all be rewritten by `gofmt`. Most Go CI pipelines fail on this. Run `gofmt -w` before merging.
+
+2. **`payment.go:2` — exported `Pay` has no doc comment.** Worth one line stating the contract explicitly ("retries once on any error with the same key; caller's `charge` must be idempotent on `key`"), since that idempotency assumption is what makes the blind retry safe and is currently only recorded in review notes.
+
+3. **`payment_test.go` — only the happy retry path is covered.** Two trivial additional cases would pin the contract: (a) first call succeeds → exactly one call, no retry; (b) both calls fail → second error is returned and there is no third call. Cheap to add, and they guard the "once" in "retry once" against future edits.
+
+I'd approve with those left to author discretion.
+
+__ABLATION_DONE__ exit=0

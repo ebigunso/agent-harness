@@ -1,0 +1,27 @@
+**Verdict: not a workspace problem.** The JSON is valid and the runtime is behaving as designed; the probe's assertion is wrong.
+
+**Cause**
+
+`$parsed = $raw | ConvertFrom-Json` sends the parsed empty array through the pipeline. PowerShell unrolls collections on output, and an empty collection unrolls to *nothing*, so `$parsed` is `$null` (the stdout line `parsed type=<null>` confirms it). `$null -isnot [array]` is true, so the script throws. This is the same pipeline-unrolling effect described for one-element arrays (`[x]` → bare `x`), just at the zero-element end: the `-is [array]` check reflects enumeration, not the `[`/`]` framing on the wire. Any probe built on a post-pipeline `-is [array]` test will misreport for 0- and 1-element arrays while passing for 2+.
+
+**Smallest safe remediation**
+
+Assert framing on the raw serialized value instead of on the parsed object (this matches the contract, which is about wire shape, and is runtime-independent):
+
+```powershell
+$trimmed = $raw.Trim()
+if (-not ($trimmed.StartsWith('[') -and $trimmed.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+Keep `ConvertFrom-Json` if you still need `$parsed` for other checks, but don't use it for the cardinality assertion.
+
+Alternative on this host (pwsh 7.4.6): `$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate` and don't re-pipe `$parsed`; then `$parsed -is [array]` is true for `[]`, `[1]`, and `[1,2]`. Prefer the framing check if the probe might ever run under Windows PowerShell 5.1, where `-NoEnumerate` doesn't exist.
+
+**Confirmation**
+
+1. Rerun `pwsh -NoProfile -File probes/cardinality.ps1` — expect exit code 0 and no stderr with `$raw = '[]'`.
+2. Cardinality sweep: set `$raw` to `'[1]'` and `'[1,2]'` — both must pass.
+3. Negative control: set `$raw` to `'42'` and `'"x"'` — both must throw `Expected JSON array` with exit 1, proving the check still rejects scalar wire values.
+4. Capture per run: the raw string, `$wireCount`, and the exact assertion expression, so the evidence shows the result no longer depends on element count.
+
+__ABLATION_DONE__ exit=0

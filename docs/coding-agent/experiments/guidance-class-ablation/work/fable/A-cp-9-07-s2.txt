@@ -1,0 +1,32 @@
+**Verdict: block.** The change moves execution off the caller goroutine but does not preserve completion status; it makes completion status wrong in every case.
+
+**Findings**
+
+1. **`worker/start.go`, `supervisor.Succeeded(job.ID())` after the `go` statement** — Succeeded is now called immediately after launch, before `Run` has executed and regardless of whether it will fail. The reviewer notes say Succeeded means durable completion, not launch acceptance, so every job is recorded as succeeded the instant it is scheduled, including ones that fail or are cancelled a millisecond later. This is the core of the task ("preserving accurate completion status") and the diff inverts it. Require: Succeeded must be called from inside the goroutine, only after `job.Run(ctx)` returns nil.
+
+2. **`worker/start.go`, `result` channel** — It is created, written to once, and never read by anyone (not by this function, not returned, not passed anywhere). The buffer prevents a goroutine leak, but the error is discarded on the floor. A `Run` error is therefore not observable by anything, contradicting the stated requirement. This is dead code that gives the appearance of error handling. Require: remove the channel and handle the error at the point it's produced — inside the goroutine, e.g. `supervisor.Failed(job.ID(), err)` (or whatever the Supervisor's failure hook is; if none exists, the interface needs one — a supervisor that can only be told "succeeded" cannot represent accurate status).
+
+3. **`worker/start.go`, `return nil`** — The function still has an `error` return but can now only return nil. The return value's meaning has silently changed from "the job's outcome" to "nothing," while the signature suggests otherwise. Every existing caller that did `if err := StartJob(...); err != nil` now has dead error handling, and callers that assumed the job's side effects were complete when `StartJob` returned are now racing the goroutine. Require: either decide what a non-nil return means (launch rejection only) and document it, and audit call sites for the sync→async semantic change.
+
+4. **`worker/start.go`, `ctx` captured by the detached goroutine** — `Run` honors cancellation, and `ctx` is the caller's. If the caller's context is scoped to its own lifetime (a request, a CLI command, a parent task that returns after calling `StartJob`), the job will be cancelled shortly after `StartJob` returns — typically before it does any work — and, combined with finding 1, will still be recorded as succeeded. Require: define context ownership explicitly. Either the caller is documented as passing a long-lived context, or `StartJob` derives the job's context from a worker-owned root (with cancellation values copied from the caller if needed) so the job's lifetime is decoupled from the caller's return.
+
+5. **`worker/start.go`, unrecovered goroutine (lower severity)** — Previously a panic in `Run` propagated to the caller's goroutine, where it may have been recovered (e.g. `net/http` handlers). In a bare `go func()` a panic terminates the process. Require: recover in the goroutine and route to the failure path, or explicitly decide that crashing is the desired behavior.
+
+**Minimal acceptable shape** (assuming a `Failed` hook exists or is added, and context ownership is resolved per finding 4):
+
+```go
+func StartJob(ctx context.Context, job Job, supervisor Supervisor) error {
+    go func() {
+        if err := job.Run(ctx); err != nil {
+            supervisor.Failed(job.ID(), err)
+            return
+        }
+        supervisor.Succeeded(job.ID())
+    }()
+    return nil
+}
+```
+
+The commit message ("run jobs asynchronously") should also mention the change in what `StartJob`'s return value means, since that is the part callers will trip over.
+
+__ABLATION_DONE__ exit=0

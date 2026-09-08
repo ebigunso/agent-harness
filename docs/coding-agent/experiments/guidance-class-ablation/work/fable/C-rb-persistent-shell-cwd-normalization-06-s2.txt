@@ -1,0 +1,20 @@
+**Cause:** Working-directory drift in the persistent shell, not a workspace/toolchain problem. The earlier `cd '/c/work/jvm-app/service'` left the shell's cwd at the subproject directory. `./gradlew` is a relative path resolved against that cwd, and the wrapper script lives only at the project root (`C:/work/jvm-app/gradlew`); the `service/` subdirectory has just `build.gradle.kts` and `src`. Hence bash's "No such file or directory" with exit 127. The tool UI's remembered root (`C:/work/jvm-app`) and the shell's actual cwd (`/c/work/jvm-app/service`) had diverged. Java, Gradle, the wrapper JAR, permissions, line endings, and PATH are all fine — proven by the fact that the identical command succeeds once the cwd is corrected.
+
+**Smallest safe remediation:** Navigate once, explicitly and absolutely, to the intended base and rerun the original command unchanged:
+
+```bash
+cd '/c/work/jvm-app'
+./gradlew test
+```
+
+Do not chain relative `cd ..` guesses, don't copy `gradlew` into `service/`, and don't reinstall anything. If the goal is specifically the subproject, the root-relative task path (`./gradlew :service:test` from the root) is the correct Gradle way; note that the root run already executed `:service:test`.
+
+**Confirmation:**
+- Before: `pwd` → `/c/work/jvm-app/service`; `./gradlew test` → exit 127, `bash: ./gradlew: No such file or directory`.
+- Normalized: `cd '/c/work/jvm-app'` (exit 0); `pwd` → `C:/work/jvm-app`.
+- Retry (same command): `./gradlew test` → exit 0, `> Task :service:test`, `BUILD SUCCESSFUL in 1s`, empty stderr.
+- Final `pwd`: `C:/work/jvm-app`. Status: **resolved**.
+
+**Going forward:** For subsequent commands in this persistent shell, either stay at the root or prefix with an absolute path (`/c/work/jvm-app/gradlew test`) so the result doesn't depend on whatever cwd a previous step left behind. If a later run from the verified root still fails, the cwd is ruled out and the investigation should move to a different cause (wrapper JAR, JAVA_HOME, network for dependency resolution, etc.).
+
+__ABLATION_DONE__ exit=0

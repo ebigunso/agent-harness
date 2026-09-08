@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081da-c00a-7261-9acd-df77cb61fb1d
+--------
+user
+Reference material loaded for this review:
+
+### Gate 6: Operational and Failure Containment
+
+**Expectation**
+- Failures are contained to the smallest practical scope.
+- Timeouts, retries, idempotency, and degradation paths are intentional when integrating external dependencies.
+
+**Evidence expectations**
+- Plan lists likely failure modes for touched integrations.
+- Review verifies error propagation and fallback behavior are deliberate.
+- Risky operations include containment strategy notes.
+
+**Anti-patterns**
+- Unbounded retries or blocking operations in critical paths.
+- Broad exception/error suppression that obscures root causes.
+- Cascading failure paths without isolation boundaries.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Share pool for enrichment and payments.
+
+```diff
+--- a/pool.go
++++ b/pool.go
+@@ -0,0 +1,6 @@
++package pool
++type Pool chan struct{}
++func New() Pool { return make(Pool,4) }
++func (p Pool) Run(job func()) { p<-struct{}{}; defer func(){<-p}(); job() }
++func Enrich(p Pool, job func()) { p.Run(job) }
++func Payment(p Pool, job func()) { p.Run(job) }
+```
+Commit message: "share pool for enrichment and payments"
+
+Reviewer notes: Callbacks represent external work and may stall. Optional enrichment and payment correctness are independent. Pool has four slots, shared by both; four stalled enrichments prevent any payment starting.
+
+codex
+- **`pool.go:3–6` — Stalled enrichment can indefinitely block payments.** Both operations consume the same four slots, and `Run` holds a slot until the external callback returns. Four stalled enrichments exhaust the pool; every payment then blocks at the uncancellable channel send. This allows optional enrichment failures to disable an independent, correctness-critical operation. Require payment capacity isolation within the shared pool (such as reserved capacity and an enrichment concurrency cap), plus cancellable, bounded slot acquisition and deadlines propagated to external work. Timeout or admission failures must reach callers explicitly so payments are not silently dropped.
+tokens used
+3,358
+- **`pool.go:3–6` — Stalled enrichment can indefinitely block payments.** Both operations consume the same four slots, and `Run` holds a slot until the external callback returns. Four stalled enrichments exhaust the pool; every payment then blocks at the uncancellable channel send. This allows optional enrichment failures to disable an independent, correctness-critical operation. Require payment capacity isolation within the shared pool (such as reserved capacity and an enrichment concurrency cap), plus cancellable, bounded slot acquisition and deadlines propagated to external work. Timeout or admission failures must reach callers explicitly so payments are not silently dropped.
+
+__ABLATION_DONE__ exit=0

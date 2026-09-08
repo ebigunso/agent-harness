@@ -1,0 +1,30 @@
+**Cause**
+
+This is a file-lock problem, not a package/manifest/ACL problem. `npm ci` deletes `node_modules` before reinstalling, and the `unlink` of `node_modules\better-sqlite3\build\Release\better_sqlite3.node` fails with EPERM (errno -4048) because the DLL is mapped into a running process. `tasklist /m better_sqlite3.node` names it: **Code.exe PID 4110**, the editor's integrated test host, which has that exact absolute path loaded (corroborated by the test-host log). Lockfile sync, registry, cache, and write permissions are all fine — the probe file beside the module succeeds — so npm's "editor/antivirus/permissions" hint resolves to the "editor" branch.
+
+**Smallest safe remediation (in order)**
+
+1. Stop the lock holder gracefully rather than killing it: stop the editor-integrated test runner / disable its watch mode, then reload the editor window (or close VS Code for this workspace). That unloads the addon from PID 4110 without forcing an extension-host crash.
+2. Confirm the lock is gone before retrying:
+   ```
+   pwsh -Command "tasklist /m better_sqlite3.node"
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Only if the module is still listed: `taskkill /PID 4110 /F` (last resort — this kills the extension host and will make the editor reload; make sure the PID is still 4110 at that moment, since extension-host PIDs change on reload).
+4. Retry: `npm ci`.
+
+**How to confirm it worked**
+
+- `npm ci` exits 0 with no EPERM/EBUSY in stderr.
+- `tasklist /m better_sqlite3.node` shows no holders (or, after the editor reopens, only a freshly loaded copy from the *new* install).
+- `node -e "require('better-sqlite3'); console.log('ok')"` prints `ok` under Node 20.18.0.
+
+**One follow-on to flag**
+
+The existing binary is an *editor-runtime* (Electron) source build. `npm ci` will rebuild it for Node 20.18.0, so the editor test integration will likely fail to load the addon afterward (`NODE_MODULE_VERSION` mismatch) until it's rebuilt for the editor's runtime again (e.g. `electron-rebuild`, or whatever the extension's rebuild step is). That's expected, not a regression from this fix — but it's the reason this lock will recur every time the test host is left running across an install.
+
+**Evidence to record**
+
+Original command + stderr above; module `better_sqlite3.node`; `tasklist` output naming Code.exe 4110; whether step 3 was needed (PID killed, if any); retry exit code.
+
+__ABLATION_DONE__ exit=0

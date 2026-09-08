@@ -1,0 +1,14 @@
+**Verdict: acceptable code-wise; one flag on intent/scope, not a block.**
+
+**Findings**
+
+1. **`lib.rs` / commit message — the change doesn't match its stated purpose.**
+   - *What's wrong:* The task and commit message say "display all job states," but all three variants (`Ready`, `Running`, `Done`) were already covered by the exhaustive `match` before this diff. What the diff actually does is rename the user-visible label for `State::Running` from `"Busy"` to `"Running"`. Nothing about displaying "all" states changed.
+   - *Why it matters:* A reader of history will be misled — the commit claims to fix a coverage gap that didn't exist and hides a user-facing string change. Per the readability guideline, a reviewer shouldn't have to reconstruct intent from the diff; the description should state it. The string change also has an (albeit small) blast radius — anything matching on or displaying `"Busy"` (UI copy, snapshot tests, docs) would need to change with it.
+   - *What I'd require:* Rewrite the commit message to describe the actual change, e.g. "Rename Running state label from 'Busy' to 'Running' to match the variant name," and confirm no tests/docs/UI reference `"Busy"`. If the original ticket genuinely believed a state was missing, note in the message that coverage was already complete.
+
+**Not raising**
+
+- The code itself is fine: the match remains exhaustive, so any future variant will fail to compile until labeled — that is the correct mechanism for "display all states." Aligning the label text with the variant name is a readability improvement (no hidden mapping to remember). The reviewer notes (closed enum, no external serialization, no global state) mean the rename carries no compatibility risk.
+
+__ABLATION_DONE__ exit=0

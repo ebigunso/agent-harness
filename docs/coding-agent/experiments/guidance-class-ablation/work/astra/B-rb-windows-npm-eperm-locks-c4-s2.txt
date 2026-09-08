@@ -1,0 +1,112 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d82-465f-7fd2-908e-591ab639005c
+--------
+user
+Reference material loaded for this review:
+
+# Windows npm EPERM/EBUSY native module lock (npm ci / npm install)
+
+## Symptoms
+- npm ci / npm install fails with EPERM or EBUSY
+- error mentions unlinking/removing a file under node_modules
+- error often references a native module binary like <module>.node
+
+## Likely cause
+A running process (node/dev server/test runner/editor extension) is holding a lock on a native module binary inside node_modules.
+
+## Safe, ordered steps
+
+1) Stop obvious lock holders
+- stop dev servers, test runners, watchers
+- close terminals running node processes for this repo
+- stop editor-integrated test runners
+
+2) Identify locking process by module (best-effort)
+If the error shows a specific <module>.node:
+
+Preferred (PowerShell 7):
+- "C:\Program Files\PowerShell\7\pwsh.exe" -Command "tasklist /m <module>.node"
+
+Fallback:
+- powershell.exe -Command "tasklist /m <module>.node"
+
+3) Kill the locking PID(s) (last resort)
+- taskkill /PID <pid> /F
+
+4) Retry install
+- npm ci
+
+If it still fails:
+- repeat using the new module filename in the error
+- confirm no other node processes:
+  - tasklist | findstr node
+
+## Evidence to capture
+- original npm command + full error output
+- module filename
+- tasklist output
+- killed PIDs
+- retry result
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; process/lock observations are constructed, not live machine evidence.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Node 20.18.0; npm 10.8.2; cwd C:/work/npm-lock. npm color is disabled.
+
+Command: `npm test -- --runInBand`
+
+Exit code: 1
+
+stdout:
+```text
+> npm-lock@1.0.0 test
+> jest --runInBand
+```
+
+stderr (error-level output):
+```text
+FAIL test/count.test.js
+  ● counts visible items
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 3
+    Received: 4
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+```
+
+Diagnostic observations:
+
+- npm ci already exited 0 for this unchanged lockfile and installed tree.
+- Jest 29.7.0 returned exit 1, and the runner process ended; no watcher is configured.
+- The failure is the deterministic application assertion in test/count.test.js. No EPERM, EBUSY or native module unlink error occurred.
+
+codex
+**Cause:** This is a workspace code/test failure: `test/count.test.js` expected 3 visible items but received 4. npm installed successfully; there is no evidence of a native module lock.
+
+**Smallest safe remediation:** Inspect the test fixture and counting logic against the intended behavior. Fix the logic if only 3 items should be visible, or correct the fixture/expectation if 4 is intended. Do not kill processes or reinstall dependencies.
+
+**Confirmation:** Run `npm test -- --runInBand` again and confirm the assertion passes and the command exits 0.
+tokens used
+3,530
+**Cause:** This is a workspace code/test failure: `test/count.test.js` expected 3 visible items but received 4. npm installed successfully; there is no evidence of a native module lock.
+
+**Smallest safe remediation:** Inspect the test fixture and counting logic against the intended behavior. Fix the logic if only 3 items should be visible, or correct the fixture/expectation if 4 is intended. Do not kill processes or reinstall dependencies.
+
+**Confirmation:** Run `npm test -- --runInBand` again and confirm the assertion passes and the command exits 0.
+
+__ABLATION_DONE__ exit=0

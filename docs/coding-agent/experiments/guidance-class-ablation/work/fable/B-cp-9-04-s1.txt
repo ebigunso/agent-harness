@@ -1,0 +1,35 @@
+**Verdict: block.** The change turns a failing call into a call that may never return. Findings:
+
+1. **`src/inventory.mjs` – unbounded retry loop.** The catch recurses with no attempt cap, no overall deadline, and no backoff. Under a sustained outage (or a fast-failing error like connection-refused, where the per-attempt timeout never even engages) this spins indefinitely, hammering the inventory service and holding every caller open forever. Since there is no external retry scheduler, nothing else bounds this. Require: an iterative loop with a small fixed attempt limit (e.g., 3) and/or an overall time budget, exponential backoff with jitter between attempts, and rejection with the last error once exhausted.
+
+2. **`src/inventory.mjs` – retries permanent failures.** `ValidationError` (invalid SKU) is caught and retried exactly like `TransportError`. An invalid SKU will therefore never surface to the caller; the promise simply never settles. That converts a clear, deterministic failure into a hang. Require: retry only on `TransportError` (or an explicit `isTransient(error)` predicate); rethrow everything else immediately and unchanged.
+
+3. **`src/inventory.mjs` – error is swallowed with no observability.** `error` is discarded; nothing is logged, counted, or attached to the eventual outcome. When exhaustion is added (per #1), the caller and operators still need to know it was a retry failure. Require: on final failure, rethrow the last error (optionally wrapped with attempt count / SKU context, preserving `cause`); emit a log/metric per retry so retry storms are diagnosable.
+
+4. **No tests.** The commit adds retry semantics with none of the failure-path coverage this behavior demands. Require tests for: `ValidationError` is thrown on first call without retry; `TransportError` is retried up to the cap then thrown; success on a later attempt returns the value; backoff is applied (fake timers).
+
+Minor / non-blocking:
+- Returning `fetchInventory(...)` without `await` inside the `catch` is functionally fine here, but once this becomes a loop it disappears anyway. Not a defect on its own.
+- Commit message "retry inventory failures" should state the policy (which errors, how many attempts, backoff).
+
+Recommended shape:
+
+```js
+export async function fetchInventory(api, sku, { attempts = 3, baseDelayMs = 100 } = {}) {
+  let lastError;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await api.inventory(sku);
+    } catch (error) {
+      if (!(error instanceof TransportError)) throw error;
+      lastError = error;
+      if (i < attempts - 1) await sleep(baseDelayMs * 2 ** i * (0.5 + Math.random()));
+    }
+  }
+  throw new Error(`inventory fetch failed for ${sku} after ${attempts} attempts`, { cause: lastError });
+}
+```
+
+Retrying is appropriate in principle — the call is read-only and therefore idempotent — but the policy must be bounded, selective, and visible.
+
+__ABLATION_DONE__ exit=0

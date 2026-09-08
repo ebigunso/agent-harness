@@ -1,0 +1,30 @@
+**Cause**
+
+The command didn't fail because of the workspace or Docker networking. Exit 3 with `UNIMPLEMENTED: unknown method Absent` is the probe's mapped result for a gRPC `UNIMPLEMENTED` status returned *by the server*: the request reached the service over h2c (server access log: `method=Absent transport=h2c status=UNIMPLEMENTED`), and the deployed descriptor exposes `Ping`, not `Absent`. The client simply asked for an RPC method that doesn't exist on that service.
+
+The loaded ::1/IPv6 reference note is not relevant here and should not drive remediation:
+
+- No hang, no `DEADLINE_EXCEEDED` (exit 2) — the call returned promptly.
+- `127.0.0.1:50051` and `localhost:50051` behave identically (same status, same message, same exit code), so there is no address asymmetry.
+- The HTTP/1.1 sibling on 50080 answers `200 OK` in ~12 ms, and the server logged the gRPC request, so transport and container health are fine.
+
+**Smallest safe remediation**
+
+Call a method the service actually implements — the one in the deployed descriptor — and leave addresses, ports, and config untouched:
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target localhost:50051 --method Ping
+```
+
+Do not switch to `127.0.0.1`, change deadlines, or touch Docker port publishing; none of those address the cause.
+
+If the intent was genuinely to call a method named `Absent`, then the problem is a server-side contract/deployment mismatch (wrong service version or proto deployed), which is not a local workspace problem and needs the service owner to deploy the version that defines that method.
+
+**Confirmation**
+
+- The `--method Ping` run exits `0` and prints a response value on stdout (the probe only writes stdout after a successful call); stderr is empty.
+- Server access log shows `method=Ping transport=h2c status=OK`.
+- Optionally re-run with `--target 127.0.0.1:50051 --method Ping` to show both addresses succeed, confirming nothing about resolution was in play.
+- Record for the ticket: target `localhost:50051` (and `127.0.0.1:50051`), no deadline output (call returned immediately), REST timing `0.012 s`, IPv4 retry identical — i.e., a method-name error, not a connectivity issue.
+
+__ABLATION_DONE__ exit=0

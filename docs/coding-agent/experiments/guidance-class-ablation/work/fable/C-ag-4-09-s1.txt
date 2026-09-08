@@ -1,0 +1,18 @@
+**Verdict: block.** The diff does the opposite of the stated task.
+
+1. **`Lookup.kt`, `lookup` — translation removed, `VendorFailure` now leaks across the stable boundary.**
+   The task is "translate failed network lookup", but the change deletes the only translation (`catch (e: VendorFailure) { throw Unavailable() }`) and makes `lookup` a pass-through. Per the notes, `VendorFailure` is the complete SDK failure type and the stable contract exposes `Unavailable`. After this change the SDK's failure type escapes `lookup` directly.
+   Impact is **breaking**, not additive: `caller` catches only `Unavailable`, so on a vendor failure it no longer returns `"retry"` — it throws `VendorFailure` to its own callers, who have no reason to expect an SDK-internal type. The `"retry"` branch becomes dead code and the failure contract becomes implicit (whatever the SDK happens to throw).
+   Require: restore the translation. Preferably also preserve the cause so the vendor detail isn't lost:
+   ```kotlin
+   class Unavailable(cause: Throwable? = null) : Exception(cause)
+   fun lookup(call: () -> String): String =
+       try { call() } catch (e: VendorFailure) { throw Unavailable(e) }
+   ```
+   If the intent really was to stop translating, that is a contract change and `caller` (and every other consumer of `lookup`/`Unavailable`) must be updated in the same change — but that contradicts the task, so I'd reject that reading.
+
+2. **Commit message misrepresents the change.** "translate failed network lookup" describes the removed behavior, not the new one. Fix the code (per #1) so message and diff agree; do not merge a diff whose description is the inverse of its effect.
+
+3. **No test pins the contract.** A one-line test asserting `lookup { throw VendorFailure() }` throws `Unavailable` (and that `caller` returns `"retry"`) would have caught this regression. Require it alongside the fix so the boundary stays explicit.
+
+__ABLATION_DONE__ exit=0

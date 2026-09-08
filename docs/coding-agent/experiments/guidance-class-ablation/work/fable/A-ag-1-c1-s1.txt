@@ -1,0 +1,21 @@
+**Verdict: mergeable with one change requested; the rest are minor.**
+
+The change matches the stated framing: `AccountFacts`/`Pricing`/`Application` have no SQL types in their signatures, `Accounts.read` only reads, the SQL is a plain projection with no policy in it, the query is parameterized, both `PreparedStatement` and `ResultSet` are closed via try-with-resources, and the missing row is handled explicitly rather than falling through to a default. Good.
+
+Findings:
+
+1. **`Pricing.java`, `Accounts.read` — "account missing" is thrown as a generic `SQLException`.**
+   This conflates a domain outcome (no such account) with an infrastructure failure (driver/connection/syntax error). Anyone above `Controller.quote` sees one `SQLException` type and cannot distinguish "return 404 / not found" from "return 500 / retry". The reviewer notes say the controller *owns* JDBC errors, but as written it just propagates the same undifferentiated exception outward, so the distinction is lost at exactly the layer that is supposed to make it.
+   Require: throw a distinct exception for the not-found case (e.g. a small `AccountNotFoundException extends RuntimeException`, or at minimum `NoSuchElementException`), keep `SQLException` for real JDBC failures, and have `Controller.quote` either handle or translate them so the SQL type does not leak past the boundary the notes describe.
+
+2. **`Accounts.read` — `r.getInt(1)` on a possibly nullable column.**
+   If `accounts.years` can be NULL, `getInt` silently returns `0`, which `Pricing.discount` reads as "less than 2 years → no discount". That is a silent policy outcome from a data-quality gap, the same class of problem the explicit missing-row check was added to avoid.
+   Require: either confirm the column is `NOT NULL` in the schema (then this is a non-issue and I'd drop it), or add `if (r.wasNull()) throw ...` alongside the missing-row check.
+
+3. **No tests accompany the change.** (minor)
+   `Pricing.discount` has a boundary at `years == 2`, and `Accounts.read` has a new explicit failure path. Both are cheap to cover and are the parts most likely to regress.
+   Require: a unit test for `discount` at 1/2/3 years, and a test (in-memory JDBC or a stubbed `Connection`) asserting the missing-row path throws.
+
+Not raising: the four package-private classes sharing `Pricing.java` compile fine under Java 17 and are consistent with a fixture; the passthrough `Application.quote` is acceptable as the seam the notes ask for; formatting is cramped but that's style, not a defect.
+
+__ABLATION_DONE__ exit=0

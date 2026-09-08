@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081af-0ad2-7a92-b823-4c43a5a4818d
+--------
+user
+Reference material loaded for this review:
+
+Clear names/boundaries/flow; one abstraction level. Avoid hidden coupling/effects. Are intent and roles locally clear?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Expose export permission to toolbar.
+
+```diff
+--- a/permission.php
++++ b/permission.php
+@@ -1,3 +1,7 @@
+ <?php
+ $queue = [];
+-function checkPermission(bool $admin): bool { return $admin; }
++function checkPermission(bool $admin): bool {
++    global $queue;
++    if ($admin) $queue[] = "export";
++    return $admin;
++}
+```
+Commit message: "expose export permission to toolbar"
+
+Reviewer notes: queue is the existing process-local outbox; export submission is a separate user action. checkPermission can run on every render.
+
+codex
+- **`permission.php`, `checkPermission()` — permission checks now enqueue export work.** `$queue` is the existing outbox, so checking an admin’s permission submits an export implicitly. Because this function can run on every render, it can enqueue repeated exports without the separate user action. This also hides a state-changing effect inside a permission query. Keep `checkPermission()` side-effect free, expose its boolean result to the toolbar, and enqueue exports only when the user explicitly submits an export after permission validation.
+tokens used
+3,173
+- **`permission.php`, `checkPermission()` — permission checks now enqueue export work.** `$queue` is the existing outbox, so checking an admin’s permission submits an export implicitly. Because this function can run on every render, it can enqueue repeated exports without the separate user action. This also hides a state-changing effect inside a permission query. Keep `checkPermission()` side-effect free, expose its boolean result to the toolbar, and enqueue exports only when the user explicitly submits an export after permission validation.
+
+__ABLATION_DONE__ exit=0

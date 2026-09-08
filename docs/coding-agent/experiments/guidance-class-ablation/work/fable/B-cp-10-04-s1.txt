@@ -1,0 +1,28 @@
+**Verdict: block.** The change passes runtime tests only because the runtime happens to disagree with the declared types; it achieves that by turning off the type checker rather than fixing the actual defect. Maintainability is degraded, not improved.
+
+## Findings
+
+**1. `payment.ts` — `// @ts-nocheck` disables type checking for the entire module**
+- What's wrong: The directive is being used to suppress one known mismatch (`vendor.d.ts` says `cents: string`, `total()` returns `number`), but it silences *every* current and future type error in this file — including errors unrelated to the vendor import.
+- Why it matters: This is the definition of debt amplification. Anyone editing `payment.ts` later gets no type feedback at all. A financial calculation module is the last place to remove that guardrail. The declared signature `total(): number` is now unverified — it is a promise to callers that the compiler no longer checks.
+- Require: Remove `@ts-nocheck`. No file-level suppression in this module.
+
+**2. `payment.ts` — bypasses the existing adapter boundary**
+- What's wrong: The previous code went through `adapter.receiptCents()`, which exists precisely to isolate the vendor's untrustworthy contract and expose a correct numeric one. The new code imports `vendor` directly, and the adapter becomes dead code that still ships.
+- Why it matters: Two access paths to the vendor now exist with different coercion behavior. The next place that needs vendor data will copy whichever pattern it sees first, and the `@ts-nocheck` workaround will spread. The adapter was the architecture's answer to this problem; discarding it to save one function call is not incremental improvement.
+- Require: Restore `import {receiptCents} from "./adapter"; export function total(): number { return receiptCents(); }`. That is the original code — the "task" was already satisfied before this diff.
+
+**3. `vendor.d.ts` — the root cause is left in place (or, if new in this diff, knowingly introduced)**
+- What's wrong: `receipt(): {cents: string}` is simply incorrect; the runtime returns a number, and the notes confirm cents is a validated bounded integer. The diff works around this in two places (`Number()` in the adapter, `@ts-nocheck` in payment) instead of correcting the declaration.
+- Why it matters: A wrong `.d.ts` is a landmine for every consumer. Every workaround built on top of it has to be found and unwound later, and each one hides the real type of the data.
+- Require: Change the declaration to `cents: number`. If the file is genuinely vendored and can't be edited, add a local module augmentation / override `.d.ts` in the project and reference it, with a comment pointing at the runtime behavior. Once that's done, `Number(...)` in the adapter becomes a no-op and should be removed (or replaced with an explicit `Number.isInteger` guard if the adapter is meant to be defensive against vendor drift — pick one intent and state it).
+
+**4. Commit message / scope**
+- What's wrong: "use vendor receipt in payment summary" describes a state that already existed. The actual content of the commit is "remove adapter, disable type checking." The message hides the risky part of the change from anyone skimming history.
+- Require: If any part of this is kept, the message must say what was actually changed and why.
+
+## What I'd accept instead
+
+Smallest acceptable diff: fix `vendor.d.ts` to `cents: number`, drop `Number()` from the adapter, leave `payment.ts` untouched. Three lines, type-checked end to end, adapter boundary preserved, future risk reduced rather than increased.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,193 @@
+records:
+  - id: 5ed18a75a36b
+    fixture: ag-3-01
+    score: 1.0
+    note: "Names auth.py legacy->modern migration as unrelated; requires split from billing commit."
+  - id: 7c2c731e6e6c
+    fixture: ag-3-01
+    score: 1.0
+    note: "Names auth migration bundled into billing fix; requires separate commits (test ask is non-blocking)."
+  - id: b44eb26b2490
+    fixture: ag-3-01
+    score: 1.0
+    note: "Names auth.py hunk as independent migration; requires dropping it and landing separately."
+  - id: 31be2ff9480c
+    fixture: ag-3-02
+    score: 1.0
+    note: "Names PASSWORD_DAYS 90->30 as out-of-scope policy edit; requires removal/separate change under policy owner."
+  - id: 618265319af8
+    fixture: ag-3-02
+    score: 1.0
+    note: "Names password-expiry change as unlinked to metrics rename; requires revert to 90 and separate PR."
+  - id: cf6941bd3063
+    fixture: ag-3-02
+    score: 1.0
+    note: "Names PASSWORD_DAYS edit as hidden policy change; requires stripping it from the rename commit."
+  - id: 34e3701b3338
+    fixture: ag-3-03
+    score: 1.0
+    note: "Names enabled:false->true flip hidden in import sort; requires revert or separate justified commit."
+  - id: 3c7f9deaa19c
+    fixture: ag-3-03
+    score: 1.0
+    note: "Names enabled flag flip as functional change in mechanical diff; requires dropping it or own commit."
+  - id: b81dde88c60a
+    fixture: ag-3-03
+    score: 1.0
+    note: "Names hidden feature-default flip; requires revert or separate PR with rationale and tests."
+  - id: 3a112ab76d4e
+    fixture: ag-3-04
+    score: 1.0
+    note: "Names --strict/-s and dropped total column as unrelated drive-bys; requires revert/split. Also flags backend() not a real selector (key-errata candidate)."
+  - id: 98958cdc6827
+    fixture: ag-3-04
+    score: 1.0
+    note: "Names strict() and report_columns() edits as unrelated breaking drive-bys; requires removal. Also flags no-selector (key-errata candidate)."
+  - id: ae8c38dd41c2
+    fixture: ag-3-04
+    score: 1.0
+    note: "Names CLI flag rename and report column removal as unrelated; requires revert/split. Also flags no-selector (key-errata candidate)."
+  - id: 9f39020be961
+    fixture: ag-3-05
+    score: 1.0
+    note: "Names DisplayCache lifetime change as unrelated to timeout; requires splitting into own commit."
+  - id: c880cdc1af39
+    fixture: ag-3-05
+    score: 1.0
+    note: "Names DisplayCache shared-to-fresh lifetime change as undeclared; requires removal and separate review."
+  - id: d3622cc8a143
+    fixture: ag-3-05
+    score: 1.0
+    note: "Names cache lifetime change bundled with timeout; requires revert/split with own rationale."
+  - id: 0c5411acab6c
+    fixture: ag-3-06
+    score: 1.0
+    note: "Names migration.sql index as untraceable to logging rename; requires dropping it or separate PR."
+  - id: 8eb511e42577
+    fixture: ag-3-06
+    score: 1.0
+    note: "Names unrelated CREATE INDEX migration; requires removal and separate justified change."
+  - id: a5d5df10546f
+    fixture: ag-3-06
+    score: 1.0
+    note: "Names index migration as unrelated local-env artifact; requires removal from the rename commit."
+  - id: 091da9945793
+    fixture: ag-3-07
+    score: 1.0
+    note: "Names theme.css and docs-generator dependency as unrelated; requires separate PRs for each."
+  - id: 1c798d56aa9f
+    fixture: ag-3-07
+    score: 1.0
+    note: "Names UI theme and docs dependency as unrelated bundles; requires splitting out of the auth fix."
+  - id: fe5ea64f8170
+    fixture: ag-3-07
+    score: 1.0
+    note: "Names theme and docs tooling as separate purposes; requires isolating them from the auth change."
+  - id: 6697b896dc4d
+    fixture: ag-3-08
+    score: 1.0
+    note: "Names select/first(2) reorder as behavior change with counterexample; requires active(rows).first(2)."
+  - id: 8cfbbad792e8
+    fixture: ag-3-08
+    score: 1.0
+    note: "Names inverted filter/limit order with counterexamples; requires restoring composition order."
+  - id: fbef550b4eff
+    fixture: ag-3-08
+    score: 1.0
+    note: "Names filter-then-truncate reorder as hidden regression; requires active(rows).first(2) plus test."
+  - id: 33a40156ea87
+    fixture: ag-3-09
+    score: 1.0
+    note: "Names Account-to-Customer rename and label change as unrelated to driver bump; requires dropping Model.kt hunk."
+  - id: 4446451b809d
+    fixture: ag-3-09
+    score: 1.0
+    note: "Names domain rename/label wording as unrelated to JDBC upgrade; requires separate change."
+  - id: 77513202d937
+    fixture: ag-3-09
+    score: 1.0
+    note: "Names Model.kt rename as unrelated; requires reducing change to build.gradle.kts hunk."
+  - id: 473ede255070
+    fixture: ag-3-10
+    score: 1.0
+    note: "Names 80 template whitespace edits as unrelated to cache key; requires dropping them."
+  - id: 993077882534
+    fixture: ag-3-10
+    score: 1.0
+    note: "Names template churn as unrelated drive-by; requires removal and separate mechanical commit."
+  - id: d80aace8737d
+    fixture: ag-3-10
+    score: 1.0
+    note: "Names 80-file whitespace churn as unrelated; requires splitting from the cache.php change."
+  - id: 3bb6b67fb32c
+    fixture: ag-3-11
+    score: 1.0
+    note: "Names fesetround(FE_DOWNWARD) as hidden rounding change affecting nearbyint; requires removal/separate change."
+  - id: a850f1e9b7d7
+    fixture: ag-3-11
+    score: 1.0
+    note: "Names global rounding-mode change hidden in warning fix; requires dropping the call."
+  - id: b84ac357fd45
+    fixture: ag-3-11
+    score: 1.0
+    note: "Names undisclosed rounding-mode change altering rounded(); requires revert to attribute-only diff."
+  - id: 12470015c58d
+    fixture: ag-3-12
+    score: 1.0
+    note: "Names Partition bucket 4-to-16 as unlinked migration-requiring change; requires split with own rollout plan."
+  - id: 2b8032b94322
+    fixture: ag-3-12
+    score: 1.0
+    note: "Names partition redesign as out-of-scope; requires dropping hunk and separate migration plan."
+  - id: a25d79076561
+    fixture: ag-3-12
+    score: 1.0
+    note: "Names partition change as unrelated high-risk bundle; requires separate PR with migration plan."
+  - id: 14c35e6ddb08
+    fixture: ag-3-c1
+    false_positives: 0
+    note: "Acceptable as-is; check() location noted as non-blocking."
+  - id: 2e41e6363918
+    fixture: ag-3-c1
+    false_positives: 1
+    note: "Requires moving check() out of billing.py before merge; rework demand not in key."
+  - id: a9af1fcdde7d
+    fixture: ag-3-c1
+    false_positives: 0
+    note: "Acceptable as-is; check() naming left as non-blocking comment."
+  - id: 0bac4f7442c7
+    fixture: ag-3-c2
+    false_positives: 0
+    note: "Acceptable, no findings."
+  - id: 8f38bf585b84
+    fixture: ag-3-c2
+    false_positives: 0
+    note: "Acceptable, no findings; considered-and-dismissed list only."
+  - id: f7fd37709ed5
+    fixture: ag-3-c2
+    false_positives: 0
+    note: "Acceptable; test/magic-number notes explicitly non-blocking."
+  - id: 60736a9b53a6
+    fixture: ag-3-c3
+    false_positives: 0
+    note: "Acceptable, no findings."
+  - id: 6f053554103d
+    fixture: ag-3-c3
+    false_positives: 0
+    note: "Acceptable; naming observation non-blocking (matches known nitpick)."
+  - id: 9b3768b511df
+    fixture: ag-3-c3
+    false_positives: 0
+    note: "Acceptable, no findings."
+  - id: 164c08071a1f
+    fixture: ag-3-c4
+    false_positives: 3
+    note: "Requires deleting check(), rewording commit/confirming policy, and doc comment; allow-vs-restrict framing mismatch is a key-errata candidate."
+  - id: a4c5ca815e72
+    fixture: ag-3-c4
+    false_positives: 3
+    note: "Blocks on allow-vs-restrict framing and in-module check(); also demands corrected reviewer notes; framing mismatch is a key-errata candidate."
+  - id: e428efe2bd2a
+    fixture: ag-3-c4
+    false_positives: 2
+    note: "Blocks on allow-vs-restrict framing; requests deleting check(); framing mismatch is a key-errata candidate."

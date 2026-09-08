@@ -1,0 +1,11 @@
+**Verdict: block.** The Rust side is fine; the TypeScript side silently turns the new status into `Approved`, which is exactly the outcome the task forbids.
+
+1. **`schema.ts`, `Status` type** — `"PendingReview"` is missing. The Rust enum and `wire()` now emit `"PendingReview"`, but the frontend type still only admits `"Approved" | "Rejected"`. This is contract drift between the two layers; the type no longer describes what the API actually returns. Require: add `"PendingReview"` to the union (and, since the note says this file is generated from the enum, regenerate it from the updated enum rather than hand-patching, and make sure the generator is part of the change/CI so the next enum edit can't drift again).
+
+2. **`schema.ts`, `mapStatus`** — `raw === "Rejected" ? "Rejected" : "Approved"` coerces every unrecognized string, including the new `"PendingReview"`, to `"Approved"`. That is a silent, unsafe default: a pending item would render as approved, violating the stated requirement ("must display as pending, never approved") and doing so without any error or log. Require: an exhaustive mapping over the known wire values (`"Approved"`, `"Rejected"`, `"PendingReview"`) and an explicit failure path for anything else — throw, or map to a distinct `"Unknown"`/error state that the UI treats as non-approved. Under no circumstances should the fallback branch be `"Approved"`. Add a test asserting `mapStatus("PendingReview") === "PendingReview"` and that an unknown string does not yield `"Approved"`.
+
+3. **Diff/notes mismatch (minor, process)** — the hunk header for `schema.ts` (`@@ -0,0 +1,4 @@`) presents it as a newly added file, while the reviewer notes describe it as existing generated code. Either the diff was assembled against the wrong base or the file is being re-committed by hand. Worth confirming which, since it affects whether the generator was run at all.
+
+No issues with `status.rs`: the enum addition and `wire()` match arm are correct and exhaustive.
+
+__ABLATION_DONE__ exit=0

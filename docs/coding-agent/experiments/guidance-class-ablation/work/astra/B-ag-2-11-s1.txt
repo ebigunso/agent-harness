@@ -1,0 +1,60 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d7-3007-7ff2-a921-40cae0d36364
+--------
+user
+Reference material loaded for this review:
+
+### Gate 2: Correct Dependency Direction
+
+**Expectation**
+- Dependencies point from outer layers toward stable inner abstractions.
+- Core behavior does not depend directly on volatile delivery or storage details.
+
+**Evidence expectations**
+- Plan documents dependency direction for touched components.
+- Review verifies new imports/calls do not invert boundaries.
+- Abstraction seams are explicit where external systems are involved.
+
+**Anti-patterns**
+- Domain logic directly calling framework, transport, or vendor clients.
+- Circular dependencies between modules.
+- Feature code bypassing interfaces to reach lower-level internals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Scale geometry with current zoom.
+
+```diff
+--- a/ui/widget.hpp
++++ b/ui/widget.hpp
+@@ -0,0 +1,2 @@
++#pragma once
++namespace ui { struct Widget { double zoom; double currentZoom() const { return zoom; } }; }
+--- a/geometry.cpp
++++ b/geometry.cpp
+@@ -1 +1,2 @@
+-double scaled(double length, double zoom) { return length * zoom; }
++#include "ui/widget.hpp"
++double scaled(double length, const ui::Widget& widget) { return length * widget.currentZoom(); }
+```
+Commit message: "scale geometry with current zoom"
+
+Reviewer notes: C++17. ui/widget.hpp is the complete facade for volatile GUI widget; geometry is an inner reusable library with no UI linkage by design. Zoom validated finite positive.
+
+codex
+- **`geometry.cpp:1–2` — Inner geometry library now depends on a volatile UI type.** Including `ui/widget.hpp` and accepting `ui::Widget` reverses the intended dependency direction and ties reusable geometry to the GUI. Require the UI caller to read `widget.currentZoom()` and pass that value to the existing `scaled(double length, double zoom)` function. This uses current zoom while preserving the library boundary.
+tokens used
+3,242
+- **`geometry.cpp:1–2` — Inner geometry library now depends on a volatile UI type.** Including `ui/widget.hpp` and accepting `ui::Widget` reverses the intended dependency direction and ties reusable geometry to the GUI. Require the UI caller to read `widget.currentZoom()` and pass that value to the existing `scaled(double length, double zoom)` function. This uses current zoom while preserving the library boundary.
+
+__ABLATION_DONE__ exit=0

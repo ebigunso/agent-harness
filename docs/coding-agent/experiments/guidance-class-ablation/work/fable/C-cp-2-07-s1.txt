@@ -1,0 +1,15 @@
+**Verdict: not acceptable.** The change does not fix the collisions; it hides them at one of two call sites.
+
+**1. `Records.cs`, `RecordIds.Next()` — root cause untouched**
+`new Random(42).Next()` constructs a freshly seeded generator on every call, so every call returns the *same* integer. That is why every insert after the first collides, for both the API and the queue. The diff leaves this line as-is, so the defect the task describes still exists. Require: delete `RecordIds` and allocate IDs from the database sequence the notes say is available (e.g. `store.Insert(store.NextId(), payload)` / `NEXTVAL`). Do not "fix" this by dropping the seed — even a properly seeded `Random` gives 31-bit values shared across several independent producers, which still collide (birthday bound) and has no uniqueness guarantee. The sequence is the correct invariant; uniqueness should be enforced at the origin, not detected downstream.
+
+**2. `RecordsController.Create` — `catch (DuplicateKeyException) → 409` is symptom suppression**
+With the generator still broken, this turns every Create after the first into a `409 Conflict`. That converts a server bug into a client-facing error that blames the caller, and it makes the failure quieter (no 500, no log noise) so the real defect is harder to notice. The client did nothing wrong and cannot resolve the "conflict" by retrying. Require: remove the try/catch once IDs come from the sequence; there is no legitimate duplicate-key path left for a server-generated key. If a genuine duplicate is ever possible for a *client-supplied* key, handle that specifically, but that is not this code.
+
+**3. `QueueConsumer.Handle` — not addressed at all**
+The task explicitly covers records created by the queue. The consumer still calls `RecordIds.Next()` and still throws on every message. Fixing the origin (item 1) resolves both producers at once; adding a parallel catch here would just be the same compensating logic duplicated. Require: switch it to the sequence with the controller; no per-consumer error handling.
+
+**4. Commit message**
+"return conflict instead of internal error" describes a behavior change that should not ship and does not describe the assigned fix. Rewrite to reflect the actual change (e.g. "Allocate record IDs from DB sequence; remove seeded Random that produced identical keys").
+
+__ABLATION_DONE__ exit=0

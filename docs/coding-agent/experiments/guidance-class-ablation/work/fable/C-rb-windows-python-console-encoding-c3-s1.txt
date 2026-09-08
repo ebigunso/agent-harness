@@ -1,0 +1,32 @@
+**Cause**
+
+This is not a workspace or encoding problem, and the loaded reference material (Windows `UnicodeEncodeError` / `PYTHONIOENCODING`) does not apply. The traceback is a `TypeError` raised inside `json.encoder.default` while building the string — before `print` ever touches `sys.stdout`. The diagnostics confirm the stream side is fine (`sys.stdout.encoding = utf-8`), and `ensure_ascii=False` is irrelevant to this error. The bug is in the script: `data` contains a `decimal.Decimal`, and the stdlib `json` encoder has no built-in representation for it and no `default=` hook is supplied. Setting `PYTHONIOENCODING` or calling `sys.stdout.reconfigure` would change nothing.
+
+**Partial effects**
+
+None to clean up. `json.dumps` raised before returning, so `print` wrote zero bytes (stdout is empty) and no file was written.
+
+**Smallest safe remediation**
+
+Give the encoder a `default` hook that emits the exact decimal string, which matches the stated wire contract, and still rejects anything else so no new silent behavior is introduced. In `json_report.py` at line 22:
+
+```python
+from decimal import Decimal
+
+def _json_default(o):
+    if isinstance(o, Decimal):
+        return str(o)          # exact decimal string, e.g. "1.25"
+    raise TypeError(f"Object of type {o.__class__.__name__} is not JSON serializable")
+
+print(json.dumps(data, ensure_ascii=False, default=_json_default))
+```
+
+Do not use `float(o)` — that loses exactness, which the intended representation explicitly requires. Do not monkeypatch `json` globally or add a dependency (e.g. `simplejson`) for one call site.
+
+**Confirmation**
+
+1. Rerun `python json_report.py` in the same piped configuration; expect exit code 0, empty stderr, and a single JSON line on stdout.
+2. Verify the value is the exact string, not a float: the output should contain `"1.25"` (quoted). A quick check: `python json_report.py | python -c "import json,sys; d=json.load(sys.stdin); print(type(d[...]).__name__, d[...])"` (substitute the actual key path) should print `str 1.25`.
+3. Optionally confirm the guard still works by temporarily inserting an unsupported object (e.g. `datetime.now()`) into `data` and observing the same `TypeError` — then remove it.
+
+__ABLATION_DONE__ exit=0

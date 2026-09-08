@@ -1,0 +1,31 @@
+**Verdict:** This is not a defect in the project, the build, or the service. It's a host-networking quirk of Docker Desktop for Windows, and the fix lives in the client's target address.
+
+**Cause**
+
+`localhost` resolves to `::1` before `127.0.0.1`, so the failed channel dialed `[::1]:50051`. Docker Desktop's IPv6 port proxy accepts the TCP connect but never completes the HTTP/2 (h2c) exchange, so the gRPC call sits at the transport layer until the 2 s deadline → `DEADLINE_EXCEEDED`, exit 2. That's why:
+
+- the service interceptor log shows no invocation for the failing call (the request never reached it);
+- the HTTP/1.1 sibling on `localhost:50080` answers in 12 ms (the IPv6 proxy path handles HTTP/1.1 fine);
+- the identical call to `127.0.0.1:50051` returns `pong`, exit 0, and the service logs `invoked=true completed=true`.
+
+The only variable between success and failure is the loopback address, which isolates it to IPv6 resolution, not the probe, the deadline value, or container health.
+
+**Smallest safe remediation**
+
+Use the IPv4 loopback in the gRPC target:
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --timeout 2
+```
+
+Then persist `127.0.0.1:50051` (instead of `localhost:50051`) in whatever local connection string/config the gRPC client reads. Do *not* disable IPv6 on the host, edit the hosts file, or change Docker Desktop network settings — those are broader changes than the problem warrants and affect other software.
+
+**Confirmation**
+
+1. Re-run the probe against `127.0.0.1:50051`: expect exit code 0, `pong` on stdout, empty stderr.
+2. Check the service log for that call: expect `probe method="unary Echo" transport=h2c invoked=true completed=true`.
+3. Optionally re-run against `localhost:50051` once more to reconfirm the asymmetry (still exit 2 / `DEADLINE_EXCEEDED`) — this shows the fix addressed the actual cause rather than a transient.
+
+**If the IPv4 call had also failed**, that would rule out this explanation and the next step would be the usual service checks (port publishing, container health, h2c configuration). Here it succeeded, so no service-side investigation is needed.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,146 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0815a-ba3b-7700-95aa-c48ff5aba6a2
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; Windows PowerShell 5.1.22621.4391; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `powershell.exe -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"id":8}]'
+$wireCount = '1'
+$parsed = $raw | ConvertFrom-Json | Write-Output
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"id":8}]
+wire elements=1
+parsed type=System.Management.Automation.PSCustomObject
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
+    + FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+codex
+I’ll check whether removing `Write-Output` preserves arrays in PowerShell 5.1 while still rejecting scalar JSON values.
+
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -NoProfile -Command '$PSVersionTable.PSVersion.ToString()
+foreach ($raw in @('"'[]', '[{\"id\":8}]', '[{\"id\":8},{\"id\":9}]', '{\"id\":8}', '8', '\"x\"', 'null')) {
+    "'$parsed = $raw | ConvertFrom-Json
+    $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }
+    '"'raw={0}; type={1}; isArray={2}; count={3}' -f "'$raw, $kind, ($parsed -is [array]), @($parsed).Count
+}' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 6249ms:
+7.4.19
+raw=[]; type=<null>; isArray=False; count=0
+raw=[{"id":8}]; type=System.Management.Automation.PSCustomObject; isArray=False; count=1
+raw=[{"id":8},{"id":9}]; type=System.Object[]; isArray=True; count=2
+raw={"id":8}; type=System.Management.Automation.PSCustomObject; isArray=False; count=1
+raw=8; type=System.Int64; isArray=False; count=1
+raw="x"; type=System.String; isArray=False; count=1
+raw=null; type=<null>; isArray=False; count=1
+
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -NoProfile -Command '$probe = @'"'
+"'$PSVersionTable.PSVersion.ToString()
+foreach ($raw in @('"'[]', '[{\"id\":8}]', '[{\"id\":8},{\"id\":9}]', '{\"id\":8}', '8', '\"x\"', 'true', 'null')) {
+    "'$parsed = $raw | ConvertFrom-Json
+    $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }
+    '"'raw={0}; type={1}; isArray={2}; count={3}' -f "'$raw, $kind, ($parsed -is [array]), @($parsed).Count
+}
+'"'@
+& \""'$env:SystemRoot'"\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -EncodedCommand ([Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes("'$probe)))' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ exited 1 in 6036ms:
+InvalidOperation: 
+Line |
+  10 |  & "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -N �c
+     |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Cannot invoke method. Method invocation is supported only on core types in this language mode.
+
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -NoProfile -Command '$probe = @'"'
+"'$PSVersionTable.PSVersion.ToString()
+foreach ($raw in @('"'[]', '[{\"id\":8}]', '[{\"id\":8},{\"id\":9}]', '{\"id\":8}', '8', '\"x\"', 'true', 'null')) {
+    "'$parsed = $raw | ConvertFrom-Json
+    $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }
+    '"'raw={0}; type={1}; isArray={2}; count={3}' -f "'$raw, $kind, ($parsed -is [array]), @($parsed).Count
+}
+'"'@
+& \""'$env:SystemRoot'"\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -Command "'$probe' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 18687ms:
+5.1.26100.9168
+raw=[]; type=System.Object[]; isArray=True; count=0
+raw=[{"id":8}]; type=System.Object[]; isArray=True; count=1
+raw=[{"id":8},{"id":9}]; type=System.Object[]; isArray=True; count=2
+raw={"id":8}; type=System.Management.Automation.PSCustomObject; isArray=False; count=1
+raw=8; type=System.Int32; isArray=False; count=1
+raw="x"; type=System.String; isArray=False; count=1
+raw=true; type=System.Boolean; isArray=False; count=1
+raw=null; type=<null>; isArray=False; count=1
+
+codex
+The cause is pipeline enumeration, not a workspace or permissions problem. In Windows PowerShell 5.1, `ConvertFrom-Json` preserves the JSON array, but `Write-Output` enumerates it. Assignment then stores the single element as a `PSCustomObject`.
+
+The smallest safe fix is to remove `Write-Output`:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+```
+
+Keep the existing array assertion. Wrapping the result in `@(...)` would also wrap scalar values, incorrectly allowing them.
+
+Confirm by rerunning with `[]`, `[{"id":8}]`, and `[{"id":8},{"id":9}]`: expect array types, counts 0/1/2, and exit code 0. Object, number, string, Boolean, and null inputs should fail the assertion.
+
+I verified these type outcomes on installed Windows PowerShell 5.1; its patch version differs from the supplied environment.
+tokens used
+18,075
+The cause is pipeline enumeration, not a workspace or permissions problem. In Windows PowerShell 5.1, `ConvertFrom-Json` preserves the JSON array, but `Write-Output` enumerates it. Assignment then stores the single element as a `PSCustomObject`.
+
+The smallest safe fix is to remove `Write-Output`:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+```
+
+Keep the existing array assertion. Wrapping the result in `@(...)` would also wrap scalar values, incorrectly allowing them.
+
+Confirm by rerunning with `[]`, `[{"id":8}]`, and `[{"id":8},{"id":9}]`: expect array types, counts 0/1/2, and exit code 0. Object, number, string, Boolean, and null inputs should fail the assertion.
+
+I verified these type outcomes on installed Windows PowerShell 5.1; its patch version differs from the supplied environment.
+
+__ABLATION_DONE__ exit=0

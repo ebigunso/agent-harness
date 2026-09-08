@@ -1,0 +1,32 @@
+**Cause**
+
+This is a workspace/state problem, not an environment or permissions problem. `npm ci` requires `package.json` and `package-lock.json` to agree exactly; it never rewrites the lockfile. The developer bumped `is-number` to `7.0.0` in `package.json`, but `package-lock.json` still pins `6.0.0`, so npm refuses with `EUSAGE`. The other observations (writable paths, reachable registry, no process holding `better_sqlite3.node`) rule out lock contention, file-lock, or network causes — they're irrelevant here.
+
+**Smallest safe remediation**
+
+Regenerate the lockfile so it reflects the intended change, then commit it:
+
+```powershell
+Set-Location C:/work/npm-lock
+npm install --package-lock-only
+```
+
+`--package-lock-only` updates only `package-lock.json` (no `node_modules` writes, no lifecycle scripts), which is the minimal change. Review the diff to confirm it only touches `is-number` (and any of its transitive entries), then commit `package-lock.json` alongside the `package.json` change.
+
+If you'd rather not touch the lockfile yet (e.g. the bump was a mistake), the alternative is reverting `package.json` to `6.0.0` — but the observation says the bump was intentional, so updating the lock is the correct fix.
+
+**Confirmation**
+
+```powershell
+npm ci
+```
+
+Expected: exit code 0, no `EUSAGE`. Then:
+
+```powershell
+npm ls is-number
+```
+
+should show `is-number@7.0.0`, and `git diff package-lock.json` should show only the `is-number` entry (and its resolved/integrity fields) changed.
+
+__ABLATION_DONE__ exit=0

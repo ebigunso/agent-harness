@@ -1,0 +1,28 @@
+**Cause:** Script bug, not a workspace/runtime problem. Line 5 correctly parses with `ConvertFrom-Json -NoEnumerate` (so the one-element array is emitted as a single `Object[]`), but then immediately re-pipes that result through `| Write-Output`. That second pipeline stage unrolls the array, so `$parsed` receives the bare element `"north"` (`System.String`), and the `-isnot [array]` check on line 10 throws. This is exactly the "avoid re-piping the result" caveat: `-NoEnumerate` only protects the output of the cmdlet that has the switch, not anything downstream. The raw JSON (`["north"]`) is well-formed and correctly framed; the check is reporting pipeline behavior, not the wire shape.
+
+**Smallest safe remediation:** Remove the redundant re-pipe on line 5 so the `-NoEnumerate` result is assigned directly:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+(`| Write-Output` does nothing useful here; deleting it changes no other behavior.) If you also want the assertion to be independent of any future pipeline handling, an equally small and arguably more robust option is to assert on the raw framing instead of the parsed object:
+
+```powershell
+$t = $raw.Trim()
+if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+Either one alone satisfies the stated contract (accept `[]`, `["x"]`, `["x","y"]`; reject scalars); the first is the minimal edit to the existing script.
+
+**Confirmation:**
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`. Expect exit code 0, stderr empty, and stdout showing `parsed type=System.Object[]` (not `System.String`).
+2. Spot-check the cardinality contract by temporarily substituting `$raw` values:
+   - `'[]'` → `System.Object[]`, exit 0
+   - `'["north","south"]'` → `System.Object[]`, exit 0
+   - `'"north"'` (scalar) → still throws `Expected JSON array`, exit 1
+3. Optionally confirm the diagnosis directly at a prompt: `('["north"]' | ConvertFrom-Json -NoEnumerate) -is [array]` returns `True`, while `(('["north"]' | ConvertFrom-Json -NoEnumerate) | Write-Output) -is [array]` returns `False`.
+
+Note: this fix relies on `-NoEnumerate`, which is fine on the stated PowerShell 7.4.6; if the probe ever has to run under Windows PowerShell 5.1, switch to the raw `[`/`]` framing check instead.
+
+__ABLATION_DONE__ exit=0

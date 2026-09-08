@@ -1,0 +1,54 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e3-0a94-7301-a0cf-4fd36fcb6134
+--------
+user
+Reference material loaded for this review:
+
+Direct outer dependencies toward stable inner seams; keep core free of volatile details. Document edges; check imports and external seams. No framework/vendor calls in domain, cycles or interface bypasses.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Fetch a quote for domain pricing.
+
+```diff
+--- a/go.mod
++++ b/go.mod
+@@ -0,0 +1,2 @@
++module example.test/app
++go 1.22
+--- a/vendorcloud/client.go
++++ b/vendorcloud/client.go
+@@ -0,0 +1,3 @@
++package vendorcloud
++type Client struct{}
++func (Client) Quote() int { return 100 }
+--- a/domain/price.go
++++ b/domain/price.go
+@@ -1,3 +1,4 @@
+ package domain
++import "example.test/app/vendorcloud"
+ type Quote interface { Quote() int }
+-func Price(q Quote) int { return q.Quote()+10 }
++func Price() int { return (vendorcloud.Client{}).Quote()+10 }
+```
+Commit message: "fetch a quote for domain pricing"
+
+Reviewer notes: Go module example.test/app. Vendor client is the complete local SDK facade; it models a volatile external quote API. Existing Quote port is the stable seam. All packages shown.
+
+codex
+- **`domain/price.go` — `vendorcloud` import and `Price()` implementation:** The domain now constructs the volatile vendor client directly, bypassing its existing stable `Quote` port. This couples pricing policy to an external API implementation and prevents callers and tests from supplying alternative quote providers. Require retaining `Price(q Quote)` and injecting `vendorcloud.Client` from an outer composition layer; the client already satisfies the interface.
+tokens used
+3,218
+- **`domain/price.go` — `vendorcloud` import and `Price()` implementation:** The domain now constructs the volatile vendor client directly, bypassing its existing stable `Quote` port. This couples pricing policy to an external API implementation and prevents callers and tests from supplying alternative quote providers. Require retaining `Price(q Quote)` and injecting `vendorcloud.Client` from an outer composition layer; the client already satisfies the interface.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,44 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/permissions defect. `npm ci` deletes `node_modules` before reinstalling, and on Windows a loaded native addon (`.node` DLL) cannot be unlinked while a process has it mapped — Windows returns `EPERM` (errno -4048) for the unlink. `tasklist /m better_sqlite3.node` shows exactly one holder: `node.exe` PID 4101, which is this repository's own Express/TypeScript dev server (`src/server.ts`), still running in its original terminal and holding `node_modules\better-sqlite3\build\Release\better_sqlite3.node`.
+
+The other observations rule out alternatives: lockfile is in sync, project and cache are writable, registry works, an ordinary file beside the module can be created/removed, and there's no ACL denial. Antivirus is not implicated — the holder is identified.
+
+**Smallest safe remediation**
+
+1. Stop the dev server gracefully in its own terminal (Ctrl+C on the terminal running `src/server.ts`). It belongs to this repo, so this is the intended, lowest-risk action — do not force-kill first.
+2. Confirm the handle is released:
+   ```powershell
+   tasklist /m better_sqlite3.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Rerun the original command:
+   ```powershell
+   npm ci
+   ```
+4. Only if the process does not exit after graceful shutdown (and PID 4101 is re-confirmed as the holder), last resort:
+   ```powershell
+   taskkill /PID 4101 /F
+   ```
+   then repeat steps 2–3.
+
+Do not use `--force`, delete `node_modules` manually with elevated rights, or disable antivirus — none of those address the actual holder, and the first two risk leaving a half-installed tree.
+
+**Confirmation**
+
+- `npm ci` exits 0 with no `EPERM`/`unlink` errors.
+- `node_modules\better-sqlite3\build\Release\better_sqlite3.node` exists and is freshly written (`Get-Item ... | Select LastWriteTime`).
+- `node -e "require('better-sqlite3')(':memory:').prepare('select 1 as ok').get()"` returns `{ ok: 1 }`, proving the addon loads on Node 20.18.0.
+- Restart the dev server and verify it comes up normally.
+
+**Record for the ticket/notes**
+
+- Original command: `npm ci` → exit 1, `EPERM unlink ...\better-sqlite3\build\Release\better_sqlite3.node` (errno -4048).
+- Module: `better_sqlite3.node` (better-sqlite3 9.6.0).
+- `tasklist /m better_sqlite3.node`: `node.exe` PID 4101 (repo dev server, `src/server.ts`).
+- Action: graceful stop of PID 4101; `taskkill /PID 4101 /F` only if graceful stop failed (note which one was used).
+- Retry: `npm ci` result and the require-check output.
+
+If the failure recurs after the dev server is confirmed stopped, re-run `tasklist /m better_sqlite3.node` and `tasklist | findstr node` to identify a new holder (e.g., a test watcher or editor language server) before doing anything else.
+
+__ABLATION_DONE__ exit=0

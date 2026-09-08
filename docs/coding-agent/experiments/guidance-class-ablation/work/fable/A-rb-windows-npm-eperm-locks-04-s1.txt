@@ -1,0 +1,31 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/lockfile issue. `npm ci` deletes `node_modules` before reinstalling, and it hit `EPERM` (errno -4048) on `unlink` of `@parcel\watcher\build\Release\watcher.node`. On Windows, a native addon (`.node` DLL) that is loaded into a running process cannot be deleted. `tasklist /m watcher.node` shows exactly one holder: `node.exe` PID 4104, a detached Parcel/Vue watch process launched from this repo's own `scripts/watch.js`. Permissions, ACLs, cache, and lockfile sync are all fine — the file is simply mapped by a live process this repository owns.
+
+**Smallest safe remediation**
+
+Stop the repo's own watcher, then rerun the install. Do not use `--force`, delete `node_modules` by other means, or touch antivirus/ACLs — none of that addresses the loaded-module lock.
+
+```powershell
+# confirm it's the expected process before killing it
+Get-CimInstance Win32_Process -Filter "ProcessId = 4104" | Select-Object ProcessId, CommandLine
+
+# stop it (graceful first; it's detached, so Stop-Process is the practical route)
+Stop-Process -Id 4104
+
+# reinstall
+npm ci
+```
+
+If you'd rather not rely on the PID, target by command line: `Get-CimInstance Win32_Process -Filter "Name = 'node.exe'" | Where-Object CommandLine -like '*scripts/watch.js*' | ForEach-Object { Stop-Process -Id $_.ProcessId }`.
+
+**Confirmation**
+
+1. `tasklist /m watcher.node` → should report no tasks running with that module (or the PID is gone from `Get-Process -Id 4104 -ErrorAction SilentlyContinue`).
+2. `npm ci` exits 0 with no `EPERM`/`unlink` errors.
+3. `Test-Path node_modules\@parcel\watcher\build\Release\watcher.node` → `True` (fresh copy present), and `node -e "require('@parcel/watcher')"` loads without error.
+4. Restart the watch script (`node scripts/watch.js`) afterward, since it was killed as part of the fix.
+
+**Follow-up (optional, prevents recurrence):** run `npm ci` only after stopping dev watchers, or have `scripts/watch.js` not detach from its shell so it dies with the terminal.
+
+__ABLATION_DONE__ exit=0

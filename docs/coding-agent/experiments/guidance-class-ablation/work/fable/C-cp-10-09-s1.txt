@@ -1,0 +1,20 @@
+**Verdict: block.** The change removes the only behavioral coverage of the public API and replaces it with assertions on private call sequencing. Findings:
+
+1. **test_calc.py — output assertions deleted.**
+   `assert calculate(100) == 110` and `assert calculate(0) == 0` are gone and nothing replaced them. The new test passes as long as `_base` and `_tax` are each called once with `100`; `calculate` could return `None`, `0`, or `cents - _tax(cents)` and the test would still be green. A test named `test_total` that never inspects the total is not testing the total. **Require:** restore the value assertions (including the `0` edge case, which was silently dropped) as the primary assertion.
+
+2. **test_calc.py — asserts private implementation details from outside the module.**
+   The test patches `calc._base` / `calc._tax` — underscore-private names — and asserts strict ordering `[call.base(100), call.tax(100)]`. `calculate` is a pure function; the helpers are independent. Inlining them, reordering to `_tax(c) + _base(c)`, or memoizing would all be behavior-preserving refactors that this test would fail. That is exactly the "fast debt" the task says to avoid: the test now pins the structure rather than the contract, and the boundary between public API and private helpers is violated by the test itself. **Require:** drop the `patch.object`/`Mock`/`attach_mock` scaffolding entirely. Test `calculate` through its public surface only. If the helpers merit their own tests, test their outputs (`_tax(100) == 10`), not that they were invoked.
+
+3. **test_calc.py — diagnostics regressed.**
+   On failure, the old test reported `assert 100 == 110`. The new test reports a diff of `mock_calls` lists, which tells the reader nothing about which number was wrong. The three-line mock setup is also more machinery than the six-line module under test. **Require:** plain equality assertions; no mocks on pure code.
+
+4. **calc.py — `_base` is an identity function.**
+   `def _base(cents): return cents` extracts nothing; it adds a name and a call to no effect and makes the "helper extraction" look like it did more than it did. **Require:** remove `_base` and write `calculate` as `return cents + _tax(cents)`, or give `_base` a real responsibility if one is coming (in which case say so in the commit). Minor: no blank lines between defs; run the formatter.
+
+5. **Commit message understates the change.**
+   "update calculation tests" describes a coverage *removal* plus a shift to interaction-testing. **Require:** a message that says what the test now verifies and why, or (preferably) a commit whose tests still verify outputs so the message is accurate.
+
+The reviewer notes are correct on all points; nothing in the diff is acceptable as-is except the `_tax` helper, and that only once it is covered by an output assertion.
+
+__ABLATION_DONE__ exit=0

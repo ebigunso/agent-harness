@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`lib.rs`, `migrate` — wrong source label; migration does not match the task.**
+   The task is to rename the persisted **owner** label to `client`. The migration only accepts `key == "customer"` and returns `Err("unexpected old field")` for anything else. Nothing in the original code or the reviewer notes mentions a `"customer"` key. Against a store whose records carry the `"owner"` label, this migration fails on the first record, the whole `collect()` short-circuits to `Err`, and startup cannot activate the new reader — a total outage of the migration path, not a partial one. The unit test doesn't catch this because it fabricates its own input with `"customer"`, so it is only testing that the function agrees with itself, not that it agrees with the persisted contract.
+   **Require:** match on the actual persisted label (`"owner"` per the task), and make the test's fixture reflect the real old on-disk shape rather than an invented one. If `"customer"` really is the on-disk label, the task description and commit message are wrong and must be corrected so the schema contract is documented accurately.
+
+2. **`lib.rs`, `migrate` — not idempotent; re-run after a successful migration hard-fails.** (lower severity)
+   Any record already carrying `"client"` is treated as an "unexpected old field" and aborts the run. If the migrated store is persisted and the process restarts (crash after write, redeploy, or an operator re-running startup), the migration errors on every record and the reader never comes up. The reviewer notes describe a single offline run, so this may be acceptable if the caller guarantees exactly-once execution — but nothing in this change enforces or records that.
+   **Require:** either pass already-migrated records through unchanged (`"client"` → `Ok` as-is) so the migration can be safely re-applied, or document explicitly that the caller must gate on a schema version marker before invoking `migrate`.
+
+Everything else (removal of `owner()` with no other consumers, all-or-nothing `Result` collection, original left untouched) is consistent with the stated deployment constraints and is fine as-is. Finding 1 is blocking.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,32 @@
+## Verdict
+
+The core logic is correct: child deadline is created and released, errors degrade to `""` with a signal, and the parent context is untouched. Nothing here is wrong in a way that would break checkout. I have a few things I'd require before merge and one I'd note as non-blocking.
+
+## Findings
+
+**1. `optional.go` — not gofmt-formatted (blocking if CI runs gofmt/vet, which it should)**
+- What: `import ("context"; "time")` and semicolon-joined statements (`ctx,cancel:=...; defer cancel()`, `if err!=nil { ... }; return value`) are not gofmt output.
+- Why: Any `gofmt -l` / `golangci-lint` gate fails; the next person to touch the file gets a noisy reformat diff.
+- Require: Run `gofmt -w optional.go` and commit the canonical layout.
+
+**2. `optional.go` — no tests for the behavior the change exists to provide (blocking)**
+- What: The diff adds only the implementation. The commit's claim ("bound optional recommendation failures") is unverified.
+- Why: The two properties that matter — (a) an erroring `call` yields `""` and exactly one `signal("recommendation_unavailable")`, (b) a `call` that honors `ctx` and would otherwise take longer than 100ms returns in ~100ms — are cheap to test and are exactly what a regression would break.
+- Require: A table/unit test covering: success passthrough, error → `""` + signal, and a ctx-honoring slow `call` returning promptly with `context.DeadlineExceeded` observed by the callee.
+
+**3. `Recommendation` — the safety contract lives only in the reviewer notes (require a doc comment)**
+- What: The bound is cooperative: if `call` ignores `ctx`, this function blocks for as long as `call` does. The reviewer notes acknowledge this ("downstream implementation must honor context cancellation"), and I accept that as the design given no shared pool, but nothing in the code says so.
+- Why: The next implementer of `call` won't read this PR. An exported function with no doc comment also trips `golint`/`revive`.
+- Require: A doc comment on `Recommendation` stating that `call` must return promptly once `ctx` is done, and that the 100ms budget is a child of `parent` and never affects the caller's context.
+
+**4. Error path — signal doesn't distinguish timeout from failure from parent cancellation (non-blocking)**
+- What: `signal("recommendation_unavailable")` fires identically for `context.DeadlineExceeded` (our 100ms budget), a genuine backend error, and `parent.Err() != nil` (checkout itself was abandoned).
+- Why: The third case is not a recommendation failure at all and will inflate the unavailability metric during normal client disconnects; the first two are the difference between "tune the budget" and "backend is down."
+- Suggest: Skip the signal when `parent.Err() != nil`, and either emit a distinct label for `errors.Is(err, context.DeadlineExceeded)` or widen `signal` to carry the error. Not required for this PR if the metric is only meant as a coarse degradation counter.
+
+## Not raised
+
+- Panic containment in `call`: request-scoped panic recovery is the server framework's job; I wouldn't add a `recover` here.
+- Hardcoded 100ms: fine for a first cut; parameterize when a second caller needs a different budget.
+
+__ABLATION_DONE__ exit=0

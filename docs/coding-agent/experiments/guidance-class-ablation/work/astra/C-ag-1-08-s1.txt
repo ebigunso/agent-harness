@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e2-9a87-7422-8afb-d69283175311
+--------
+user
+Reference material loaded for this review:
+
+Keep layer responsibilities clear; business rules in domain/app. Map affected owners in plan; verify correct placement and explain moves. No UI policy, policy in data access, or catch-all utilities.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Cache shipping quotes.
+
+```diff
+--- a/shipping.php
++++ b/shipping.php
+@@ -0,0 +1,11 @@
++<?php
++final class Shipping {
++    public static function quote(string $segment, int $cents): int { return $cents >= ($segment === "member" ? 2000 : 5000) ? 0 : 500; }
++}
++final class QuoteCache {
++    private array $values = [];
++    public function get(string $segment, int $cents): int {
++        $key = "$segment:$cents";
++        return $this->values[$key] ??= ($cents >= ($segment === "member" ? 2000 : 5000) ? 0 : 500);
++    }
++}
+```
+Commit message: "cache shipping quotes"
+
+Reviewer notes: Inputs are validated integer cents and known segment. Cache is a local request-scoped array. Shipping owns segment thresholds; adapter should cache its result, not decide policy.
+
+codex
+- **`shipping.php:9` — `QuoteCache::get()` duplicates shipping policy.** The cache independently decides segment thresholds and shipping charges instead of calling `Shipping::quote()`. This violates Shipping’s ownership of those rules and risks cached and direct quotes diverging when policy changes. Require the cache to store Shipping’s result: `return $this->values[$key] ??= Shipping::quote($segment, $cents);`.
+tokens used
+3,266
+- **`shipping.php:9` — `QuoteCache::get()` duplicates shipping policy.** The cache independently decides segment thresholds and shipping charges instead of calling `Shipping::quote()`. This violates Shipping’s ownership of those rules and risks cached and direct quotes diverging when policy changes. Require the cache to store Shipping’s result: `return $this->values[$key] ??= Shipping::quote($segment, $cents);`.
+
+__ABLATION_DONE__ exit=0

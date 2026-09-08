@@ -1,0 +1,48 @@
+## Cause
+
+This is a workspace problem, and it's a file lock, not a permissions or npm problem.
+
+`npm ci` removes `node_modules` before reinstalling. The unlink of `canvas\build\Release\canvas.node` fails with `EPERM` (errno -4048) because a native addon that is mapped into a running process cannot be deleted on Windows. The holder is repo-owned: `node.exe` PID 4107, an orphaned chart-preview worker (`workers/chart-preview.js`) that outlived its parent script and still has `canvas.node` loaded. The evidence rules out the alternatives:
+
+- Lockfile is in sync, cache/project writable, registry reachable → not an npm/config issue.
+- A probe file beside the module can be created/removed, no ACL denial → not permissions.
+- `tasklist /m canvas.node` shows exactly one holder, and it's our process → not an editor or antivirus, despite npm's boilerplate hint.
+
+## Smallest safe remediation
+
+1. Re-check the holder immediately before acting (PIDs can be reused):
+   ```powershell
+   tasklist /m canvas.node
+   Get-Process -Id 4107 | Select-Object Id, ProcessName, Path, StartTime
+   ```
+   Confirm it's still the chart-preview worker loading `C:\work\npm-lock\node_modules\canvas\build\Release\canvas.node`.
+
+2. Stop it gracefully. It's an orphan whose parent already finished, and the binary it loaded is about to be replaced anyway, so it has no future.
+   ```powershell
+   Stop-Process -Id 4107
+   ```
+   Only if it doesn't exit within a few seconds:
+   ```powershell
+   taskkill /PID 4107 /F
+   ```
+
+3. Re-run the original command:
+   ```powershell
+   npm ci
+   ```
+
+Do not `rm -rf node_modules`, run as Administrator, disable antivirus, or change `--force`/lockfile settings. None of those addresses the cause, and elevation would just fail the same way.
+
+## Confirmation
+
+- Before retry: `tasklist /m canvas.node` returns `INFO: No tasks are running which match the specified criteria.`
+- `npm ci` exits 0 with no EPERM/EBUSY in stderr.
+- `Test-Path node_modules\canvas\build\Release\canvas.node` is `True` and the file is freshly written (new timestamp).
+- The addon loads for this runtime: `node -e "require('canvas'); console.log('ok')"` prints `ok`.
+- Optionally, `tasklist | findstr node` shows no stray workers before relaunching anything.
+
+Record for the log: original command (`npm ci`) and error (`EPERM unlink canvas.node`), module (`canvas 2.11.2`, `canvas.node`), `tasklist /m` output (node.exe 4107), PID stopped (4107, graceful or forced), and the retry result.
+
+Follow-up worth noting: the chart-preview worker should be terminated by its parent on exit (or run in `detached: false` / killed on `process.exit`), otherwise this will recur on every reinstall.
+
+__ABLATION_DONE__ exit=0

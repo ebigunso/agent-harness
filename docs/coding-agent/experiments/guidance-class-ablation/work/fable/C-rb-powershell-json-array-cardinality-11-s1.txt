@@ -1,0 +1,36 @@
+**Verdict: not a workspace problem.** The runtime, cwd, execution policy and JSON are all fine. The probe's own instrumentation makes the assertion tautologically true.
+
+**Cause**
+
+`$parsed = @($raw | ConvertFrom-Json)` wraps whatever comes out of the pipeline in an array. `ConvertFrom-Json '7'` yields the scalar `7`; `@(7)` is `System.Object[]`. So `$parsed -is [array]` is `$true` regardless of the wire shape, and the `throw` fires for the scalar `7`. The stdout line `parsed type=System.Object[]` confirms this — that type came from `@()`, not from the JSON.
+
+Even without the `@()`, the check would be unreliable in the other direction: piping `'[7]'` through `ConvertFrom-Json` unrolls the array and hands you the scalar `7`, so a post-pipeline `-is [array]` cannot prove wire framing either way. The cardinality decision has to be made on the raw text.
+
+**Smallest safe remediation**
+
+Replace the type-based assertion with a framing check on the trimmed raw JSON (this is a framing check, not a syntax validator — the JSON was already parsed for validity):
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '7'
+$trim = $raw.Trim()
+$isWireArray = $trim.StartsWith('[') -and $trim.EndsWith(']')
+$wireCount = if ($isWireArray) { @(ConvertFrom-Json -InputObject $raw -NoEnumerate).Count } else { 'not an array' }
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate   # pwsh 7+; not re-piped
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($isWireArray) { throw 'Scalar wire JSON accepted as array' }
+```
+
+The essential change is the last line: assert on `$isWireArray`, not on `$parsed -is [array]`. The `-NoEnumerate` / `-InputObject` form is safe on 7.4.6 and keeps `$parsed` honest for the type log; if this probe ever has to run on Windows PowerShell 5.1, keep the raw framing check and drop `-NoEnumerate` (the framing check is what carries the assertion, so nothing else needs to change).
+
+**Confirmation**
+
+1. `pwsh -NoProfile -File probes/cardinality.ps1; $LASTEXITCODE` → expect exit `0`, stdout `raw=7`, `wire elements=not an array`, `parsed type=System.Int64` (or `Int32`), no stderr.
+2. Inverse sanity: set `$raw = '[7]'` and rerun → expect the throw (framing detected an array, exit 1, `wire elements=1`). Also spot-check `'[]'` (throws, count 0) and `' 7 '` (passes — trimming handles whitespace). Revert to `'7'` afterward.
+3. Record for the review: raw JSON `7`, element count `not an array`, parse `ConvertFrom-Json -InputObject -NoEnumerate`, assertion `trimmed raw starts '[' and ends ']'`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,52 @@
+**Verdict: not acceptable as-is. One blocking defect, one minor.**
+
+### 1. `archive.py`, `extract()` — no containment check on the untrusted member name (blocking)
+
+**What's wrong.** `Path(root) / member` is used verbatim. Two escape routes exist without any symlinks:
+
+- `member = "../../home/x/.ssh/authorized_keys"` — `..` components walk out of `root`.
+- `member = "/etc/cron.d/job"` (or `C:\...` / `\\host\share\...` on Windows) — `Path.__truediv__` with an absolute right-hand operand **discards `root` entirely**, so the result is exactly the attacker's path.
+
+In both cases `mkdir(parents=True)` will also happily create directory trees outside `root` before the write, so the side effects begin before any failure could occur.
+
+**Why it matters.** The stated invariant is "writes must stay below root" and member names are untrusted. This is a classic zip-slip: arbitrary file write anywhere the process can write, with attacker-controlled content. The "fresh private destination directory" note only protects against collisions *inside* root; it does nothing for paths that leave it.
+
+**What I'd require.** Validate and normalize *before* any filesystem call, and fail with an explicit, specific error:
+
+```python
+import os
+from pathlib import Path, PurePosixPath
+
+class UnsafeMemberName(ValueError):
+    pass
+
+def _safe_target(root: Path, member: str) -> Path:
+    if not member or member.endswith("/"):
+        raise UnsafeMemberName(f"empty or directory-only member name: {member!r}")
+    p = PurePosixPath(member)          # archive names are POSIX; do not let the host OS reinterpret them
+    if p.is_absolute() or os.path.splitdrive(member)[0] or member.startswith(("\\", "//")):
+        raise UnsafeMemberName(f"absolute member name not allowed: {member!r}")
+    if any(part in ("..", "") for part in p.parts):
+        raise UnsafeMemberName(f"path traversal in member name: {member!r}")
+    target = root / Path(*p.parts)
+    # belt-and-braces: lexical normalization must still land under root
+    if os.path.commonpath([os.path.normpath(target), os.path.normpath(root)]) != os.path.normpath(root):
+        raise UnsafeMemberName(f"member escapes root: {member!r}")
+    return target
+
+def extract(root, member, data):
+    root = Path(root)
+    target = _safe_target(root, member)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(data)
+```
+
+Key points: reject rather than "fix" (stripping `..` silently is how mismatched-normalization bugs are born); parse the name as POSIX so backslashes on Windows aren't turned into separators; do the check purely lexically since the no-symlink guarantee means `resolve()` buys nothing and would only add a TOCTOU-shaped dependency on filesystem state; and raise a named exception so callers can distinguish "hostile archive" from an I/O failure. Add tests for `..`, leading `/`, `a/../../b`, `\\` on Windows, and drive-letter names.
+
+### 2. `archive.py`, `extract()` — degenerate names produce confusing, late failures (minor, folded into the fix above)
+
+`member=""` yields `target == root`, so `write_bytes` raises `IsADirectoryError` (or on some platforms `PermissionError`) with no indication the *name* was the problem. `member="dir/"` is silently truncated to `dir` and written as a regular file, after which a later `dir/file` member fails with `NotADirectoryError` from `mkdir`. Both should be rejected up front with a message naming the offending member, which the `_safe_target` above does. If directory entries are expected to reach this function, that needs a separate code path (`mkdir`, no `write_bytes`), not implicit handling.
+
+No other findings. The `mkdir(parents=True, exist_ok=True)` + `write_bytes` sequence is fine given the stated no-concurrent-writers and size-limit guarantees; I would not ask for atomic-rename or size checks here.
+
+__ABLATION_DONE__ exit=0

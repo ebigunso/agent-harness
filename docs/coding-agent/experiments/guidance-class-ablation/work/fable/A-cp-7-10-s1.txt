@@ -1,0 +1,22 @@
+**Verdict: the logic change is correct; I would not merge without test evidence for the behavior the task actually asked for.**
+
+**1. `reset.php` — `testValid()`: no test exercises the new rejection paths (block)**
+
+The task is "reject expired or replayed reset tokens." The only submitted test checks a valid, unused token is accepted and marked used — which is the pre-existing behavior. Neither new branch is covered:
+- Replay: `consume()` twice on the same token; second call must return `false` and the token must stay `used === true`.
+- Expired: `$now > expires` must return `false` **and** must not set `used` (the early return handles this, but it's the property worth pinning — a later refactor that moves the `used = true` above the guard would still pass `testValid`).
+- Boundary: `$now === expires` currently rejects (`>=`). That's a defensible convention, but it's undocumented and untested; a `>` vs `>=` flip would silently pass CI.
+
+Require: add `testReplayRejected()`, `testExpiredRejected()` (asserting `used` remains `false`), and `testExpiresAtBoundaryRejected()`, and state the boundary convention in a comment on the guard.
+
+**2. `reset.php` — `testValid()` is defined but never invoked**
+
+Nothing calls it and there's no runner hookup in the diff, so the "test evidence" is a function definition, not an executed result. Require: wire it (and the tests from #1) into whatever runs the suite, or show output from a run.
+
+**3. `reset.php` — `consume()`: guard fails open if `"used"` key is absent (flag, not block)**
+
+`$token["used"]` on a missing key yields `null` (with a warning), which is falsy, so a malformed token array skips the replay check. Missing `"expires"` happens to fail closed (`int >= null` is `true`), but the asymmetry is accidental. Given the caller does the DB lookup this is unlikely in practice, but this is the replay gate for password reset. Require either `array_key_exists` checks that return `false` on missing keys, or a typed value object instead of a loose array so the shape is enforced at the boundary.
+
+Out of scope per the reviewer notes (caller-side locking, persistence of `used`, crypto validation) — not raising those.
+
+__ABLATION_DONE__ exit=0

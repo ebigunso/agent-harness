@@ -1,0 +1,193 @@
+records:
+  - id: a84302177b7f
+    fixture: ag-4-01
+    score: 1.0
+    note: "Names user_id/account_id mismatch in client.ts, requires consumer update in same change plus runtime guard."
+  - id: ad59e8ba0845
+    fixture: ag-4-01
+    score: 1.0
+    note: "Names field mismatch, requires consumer sync and breaking-impact note."
+  - id: b4803cf261c0
+    fixture: ag-4-01
+    score: 1.0
+    note: "Names field mismatch, requires client.ts update and round-trip test."
+  - id: 96d418996e3d
+    fixture: ag-4-02
+    score: 1.0
+    note: "Fetch nil conflates error and empty; requires ([]string,error) propagation."
+  - id: ec067a0806d1
+    fixture: ag-4-02
+    score: 1.0
+    note: "Nil for both outcomes; requires error propagation distinct from empty success."
+  - id: f399b649882a
+    fixture: ag-4-02
+    score: 1.0
+    note: "Swallowed error conflated with empty; requires error return / sentinel."
+  - id: 1046cfb74469
+    fixture: ag-4-03
+    score: 1.0
+    note: "LocalDateTime silently assumed UTC; requires Instant/ZonedDateTime/explicit zone in signature."
+  - id: 3ff5270de524
+    fixture: ag-4-03
+    score: 1.0
+    note: "Implicit UTC call-site contract; requires zone encoded in type or parameter."
+  - id: 5ea0398736ce
+    fixture: ag-4-03
+    score: 1.0
+    note: "Zone-less input silently treated as UTC; requires explicit Instant/zone contract."
+  - id: b93afdb9eec5
+    fixture: ag-4-04
+    score: 1.0
+    note: "Tuple-to-dict return breaks unpacking callers silently; requires caller migration and corrected impact claim."
+  - id: e6b3ec220371
+    fixture: ag-4-04
+    score: 1.0
+    note: "Dict unpack binds keys; requires caller updates and honest breaking declaration (or NamedTuple)."
+  - id: ee8de5bb8855
+    fixture: ag-4-04
+    score: 1.0
+    note: "Callers not migrated, impact misdeclared; requires both fixed."
+  - id: 4604b2729207
+    fixture: ag-4-05
+    score: 1.0
+    note: "any bag leaks Connection/BrowserView across boundary; requires typed minimal id-in/account-out API."
+  - id: 82c0121d1c33
+    fixture: ag-4-05
+    score: 1.0
+    note: "Names UI/DB internals crossing via any; requires explicit minimal query signature and render moved out."
+  - id: 9d3de5e40987
+    fixture: ag-4-05
+    score: 1.0
+    note: "Untyped bag spanning UI and DB internals; requires named input type and minimal boundary."
+  - id: 7cf5e243b424
+    fixture: ag-4-06
+    score: 1.0
+    note: "Enqueue result discarded, 204 unconditional; requires retryable status on false."
+  - id: 8460d93c26f1
+    fixture: ag-4-06
+    score: 1.0
+    note: "False acknowledgement on rejected enqueue; requires branch to 503/429."
+  - id: a29d960a2463
+    fixture: ag-4-06
+    score: 1.0
+    note: "Discarded bool yields false 204; requires retryable error on rejection."
+  - id: 4753f4f07697
+    fixture: ag-4-07
+    score: 1.0
+    note: "prefix.len() bytes passed as scalar index; requires chars().count() or strip_prefix plus non-ASCII tests."
+  - id: 4ce6757d00fe
+    fixture: ag-4-07
+    score: 1.0
+    note: "Byte length vs scalar index mismatch; requires unit conversion and multi-byte tests."
+  - id: ecd6be7936dc
+    fixture: ag-4-07
+    score: 1.0
+    note: "Byte/scalar unit mismatch at at_scalar boundary; requires scalar count or strip_prefix and tests."
+  - id: 063544a59aaa
+    fixture: ag-4-08
+    score: 1.0
+    note: "Impact none is wrong, serializer and schema omit region; requires reclassify and update both."
+  - id: 9aaaa63289c5
+    fixture: ag-4-08
+    score: 1.0
+    note: "Misclassified impact, response/schema not migrated; requires producer+schema+client sync."
+  - id: a5d125022e21
+    fixture: ag-4-08
+    score: 1.0
+    note: "Region never emitted, schema contradicts, impact misdeclared; requires coordinated fix."
+  - id: 1b55d6e28d93
+    fixture: ag-4-09
+    score: 1.0
+    note: "VendorFailure leaks past Unavailable contract; requires restoring translation."
+  - id: 4063f46d5795
+    fixture: ag-4-09
+    score: 1.0
+    note: "Translation removed, caller retry path dead; requires mapping restored."
+  - id: a41ff7a0770e
+    fixture: ag-4-09
+    score: 1.0
+    note: "Vendor exception crosses stable boundary; requires translation or synchronized contract change."
+  - id: 20253e46569a
+    fixture: ag-4-10
+    score: 1.0
+    note: "False conflates missing/rejected so retry impossible; requires three-state enum result."
+  - id: 23ab24c34ce2
+    fixture: ag-4-10
+    score: 1.0
+    note: "Bool collapses absence and rejection; requires explicit UpdateResult enum with exhaustive match."
+  - id: b198b87dbcb1
+    fixture: ag-4-10
+    score: 1.0
+    note: "Bool cannot distinguish missing vs rejected; requires three-state result mapped to done/create/retry."
+  - id: 07cdf37177b7
+    fixture: ag-4-11
+    score: 1.0
+    note: "Pointer into caller-owned output dangles; requires cache by value or explicit declared lifetime contract."
+  - id: 77ee4caf921a
+    fixture: ag-4-11
+    score: 1.0
+    note: "Borrowed retention violates ownership contract; requires copy into static/optional."
+  - id: dc0f73cfa5b8
+    fixture: ag-4-11
+    score: 1.0
+    note: "Dangling pointer to caller storage; requires cache by value or explicit borrowing contract."
+  - id: 2f38842b7654
+    fixture: ag-4-12
+    score: 1.0
+    note: "-index reverses tie order breaking pagination; requires ascending index or original stable sortBy."
+  - id: b8d2c5b14e8d
+    fixture: ag-4-12
+    score: 1.0
+    note: "Tie order reversed under refactor label; requires revert or (score,index) plus consumer sync if intended."
+  - id: eb46cfa6f378
+    fixture: ag-4-12
+    score: 1.0
+    note: "Documented tie stability inverted; requires restore or deliberate breaking migration."
+  - id: 00721dbd0aa8
+    fixture: ag-4-c1
+    false_positives: 1
+    note: "Blocks on check() being a tautology; rollout-window item explicitly flag-not-block (legacy alias nitpick)."
+  - id: 24a86242ea2b
+    fixture: ag-4-c1
+    false_positives: 3
+    note: "Not acceptable: requires deleting check(), compat window/atomic-deploy confirmation, and repo-wide search evidence."
+  - id: 5ce0890ae063
+    fixture: ag-4-c1
+    false_positives: 3
+    note: "Blocked on check() removal and runtime parse/deploy order; also requires new tests."
+  - id: 4e22faff8585
+    fixture: ag-4-c2
+    false_positives: 0
+    note: "Acceptable; missing work-branch test and gofmt raised as non-blocking."
+  - id: 85bed32bebd9
+    fixture: ag-4-c2
+    false_positives: 0
+    note: "Approve; nits only."
+  - id: ce05152ce7fd
+    fixture: ag-4-c2
+    false_positives: 0
+    note: "Acceptable; one non-blocking test-coverage flag."
+  - id: 2880fe406a28
+    fixture: ag-4-c3
+    false_positives: 3
+    note: "Blocks on record canonical-constructor change breaking Java callers (key-errata candidate), requires nullability modeling and impact restatement."
+  - id: 3d63898f37d4
+    fixture: ag-4-c3
+    false_positives: 3
+    note: "Blocks on constructor signature (key-errata candidate), requires Nullable/JsonInclude and tests."
+  - id: 9a8cf2aecf73
+    fixture: ag-4-c3
+    false_positives: 4
+    note: "Blocks on constructor (key-errata candidate), requires optionality modeling, serialization NON_NULL, and tests."
+  - id: ae5e74210849
+    fixture: ag-4-c4
+    false_positives: 5
+    note: "Request changes: unit docs, None doc, collapse/non_exhaustive structs, escaped literal, impact statement all required."
+  - id: f1414e4d6534
+    fixture: ag-4-c4
+    false_positives: 0
+    note: "Acceptable; doc-comment and literal-escape items explicitly non-blocking."
+  - id: f414c8b812a4
+    fixture: ag-4-c4
+    false_positives: 2
+    note: "Requests escaped literal and grapheme test before merge; doc comment marked minor."

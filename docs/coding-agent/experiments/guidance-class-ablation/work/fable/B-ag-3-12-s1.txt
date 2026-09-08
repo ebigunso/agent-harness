@@ -1,0 +1,33 @@
+**Verdict: Block.** The change set is not cohesive, and the pagination change itself doesn't match what the notes claim.
+
+## Findings
+
+### 1. `Partition.scala` — unrelated behavior change bundled into a pagination commit (blocking)
+
+**What's wrong:** `bucket` goes from `floorMod(id, 4)` to `floorMod(id, 16)`. Nothing in `Api.list` calls or depends on `Partition.bucket`, the task framing is "add bounded API pagination," the commit message says only that, and the reviewer notes explicitly state the API work "does not use or require it" and that the partition change "requires its own data migration rollout."
+
+**Why it matters:** This is a hidden, cross-cutting behavior change inside a commit labeled as an endpoint feature. Every existing id currently routed to buckets 0–3 will be re-routed across 0–15 the moment this deploys — a data-layout change with migration consequences, riding along under a commit message that gives no signal of it. Anyone bisecting, reverting, or auditing the pagination change gets a partition migration they didn't ask for, and a revert of "pagination" would silently roll back a data migration. This is exactly the Gate 3 anti-pattern: a drive-by edit with no coupling to the stated objective and a real blast radius.
+
+**Require:** Drop `Partition.scala` from this change. Land the bucket-count change as its own PR with its own commit message, migration plan, and rollout sequencing.
+
+### 2. `Api.scala` — notes claim validation that the diff doesn't contain (blocking)
+
+**What's wrong:** Reviewer notes say "validated nonnegative offset/limit." The diff is `rows.drop(offset).take(limit)` with no check. In Scala 2.13, `drop(-n)` returns the whole vector and `take(-n)` returns empty, so it won't throw — but it silently accepts and reinterprets garbage input rather than rejecting it, and the review notes describe code that isn't here.
+
+**Why it matters:** The review record and the code disagree. Either the validation was written and lost, or the notes are inaccurate; either way the artifact being reviewed is not the artifact described, and downstream callers will assume input validation that doesn't exist.
+
+**Require:** Add the validation the notes describe (`require(offset >= 0 && limit >= 0, ...)` or an explicit error path), or correct the notes.
+
+### 3. `Api.scala` — "bounded" pagination has no upper bound on `limit` (flag)
+
+**What's wrong:** The task is *bounded* pagination, but `limit` is caller-controlled with no ceiling. `list(rows, 0, Int.MaxValue)` returns the entire collection, which is the exact unbounded behavior the change is meant to eliminate.
+
+**Why it matters:** The stated objective is not actually achieved; the API is paginated only when the client chooses to be polite.
+
+**Require:** Clamp `limit` to a defined maximum page size (or reject values above it), and state the max in the notes.
+
+## Summary
+
+Finding 1 alone is enough to block on Gate 3: the diff bundles an unrelated, migration-requiring layout change under a commit message that hides it. Findings 2 and 3 are on the in-scope change and should be fixed before it lands on its own.
+
+__ABLATION_DONE__ exit=0

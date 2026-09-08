@@ -1,0 +1,29 @@
+**Cause**
+
+This isn't a workspace or environment fault; the script's assertion is wrong for the runtime it runs on. `$raw` is a correctly framed one-element JSON array, and `ConvertFrom-Json` parses it fine — but the value passes through the pipeline (`ConvertFrom-Json | Write-Output`), and PowerShell unrolls collections in the pipeline. A one-element array arrives at `$parsed` as the bare element, so `$parsed.GetType()` reports `PSCustomObject` and `-isnot [array]` is true. The `Expected JSON array` throw is the script's own output at line 10; nothing about the JSON, the cwd, or the runtime is broken.
+
+Two things reinforce that the check can never satisfy the stated contract on this runtime:
+- The same unrolling happens with `$raw | ConvertFrom-Json` alone (the `| Write-Output` just makes it more obvious).
+- This is Windows PowerShell 5.1.22621, so `ConvertFrom-Json -NoEnumerate` is not available. Also, an empty array `[]` parses to nothing/`$null` in 5.1, so `-is [array]` would wrongly reject the empty case the contract says to accept.
+
+**Smallest safe remediation**
+
+Assert framing on the raw serialized value instead of on the post-pipeline parsed object. Replace line 10:
+
+```powershell
+$t = $raw.Trim()
+if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+Keep the `ConvertFrom-Json` call if you still want to prove the payload is valid JSON; just don't use its result's type as evidence of array framing. (If this ever runs under pwsh 7+, `ConvertFrom-Json -NoEnumerate` with no re-piping is an alternative, but it can't be used here.)
+
+**Confirmation**
+
+1. Re-run `powershell.exe -NoProfile -File probes/cardinality.ps1` — expect exit code 0 and the same three `raw=`/`wire elements=`/`parsed type=` lines with no `Expected JSON array` on stderr.
+2. Exercise the contract by temporarily varying `$raw`:
+   - `'[]'` → passes (empty array accepted; note `$parsed` will be `<null>`)
+   - `'[{"id":8},{"id":9}]'` → passes
+   - `'{"id":8}'` → throws `Expected JSON array`, exit 1
+3. Capture for the record: the raw string's first/last characters, the element count (1), and the exact assertion expression — this documents why the check is on the wire form rather than on `-is [array]`.
+
+__ABLATION_DONE__ exit=0

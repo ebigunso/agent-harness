@@ -1,0 +1,30 @@
+**Cause**
+
+This is a workspace (script) problem, but not the one the reference's first step targets. The traceback shows the failing call is `open('report.txt','w').write(text)` — the **file handle**, not `sys.stdout`. `open()` without an `encoding=` argument uses the locale default, which is cp932 here; cp932 cannot encode the em dash (`\u2014`) at position 7, so the write raises. stdout's encoding (also cp932) is irrelevant because nothing was printed.
+
+Two consequences worth stating explicitly:
+
+- `PYTHONIOENCODING=utf-8` (reference step 1) **would not fix this** — it only affects stdin/stdout/stderr, not `open()` on files. Rerunning with it would fail identically.
+- There **is** a partial side effect (reference step 2): `open(..., 'w')` truncates before the write is attempted, so `report.txt` is now 0 bytes and the previous valid report is gone. It has to be regenerated, which the diagnostics say is possible from unchanged input.
+
+**Smallest safe remediation**
+
+Fix the output site in `export_report.py` (reference step 3, file-output case):
+
+```python
+with open('report.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+The context manager also guarantees the handle is flushed/closed. If you need a one-off rerun without editing, `PYTHONUTF8=1` (`$env:PYTHONUTF8 = '1'; python export_report.py`) switches the locale default encoding to UTF-8 and would work — but the explicit `encoding='utf-8'` is the durable fix and doesn't depend on every caller setting an env var. Don't wrap the write in a fallback that swaps cp932 for `errors='replace'`; that silently corrupts the report.
+
+Optionally, `sys.stdout.reconfigure(encoding="utf-8")` at startup as well, since the script evidently handles prose and will hit the same class of error the moment it prints any of it — but that's a second change, not required for this failure.
+
+**Confirmation**
+
+1. `python export_report.py` exits 0 with no traceback.
+2. `report.txt` is non-zero in size (the truncated-to-0 state is gone) and contains the regenerated report.
+3. `python -c "print(open('report.txt', encoding='utf-8').read()[:40])"` (with `PYTHONIOENCODING=utf-8` for the print) decodes cleanly and shows the em dash at position 7 — proving the file was written as UTF-8, not cp932 or a lossy substitute.
+4. If you want to prove the mechanism rather than the outcome: the handle now reports `f.encoding == 'utf-8'` where the diagnostics previously showed cp932.
+
+__ABLATION_DONE__ exit=0

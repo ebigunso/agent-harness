@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.**
+
+Checked against the root-cause criterion:
+
+- **Is the cause addressed or only the symptom?** The actual defect (V-184) lives in a binary-only third-party SDK the repository cannot modify. The nearest controllable origin is the single ingress point where SDK strings enter our code, and that is exactly where the change sits. This is a boundary normalization, not a scattered symptom patch.
+- **Is compensating logic being duplicated?** No. `read_vendor_flag` is stated to be the only SDK boolean entry point, so there is one place to delete when 2.2 is qualified.
+- **Are invariants weakened?** No. The match is limited to the two exact literals the SDK emits; all other input still flows through `vendor::parse_bool` unchanged, so error semantics and the "no case folding of arbitrary data" property hold. Tests cover the four literal cases plus invalid input and error propagation.
+- **Is it bounded?** Yes — owner, removal trigger (vendor 2.2 / V-184), and a re-evaluation date are recorded.
+
+One non-blocking suggestion, not a defect: put the tracking identifier and removal condition in the source comment itself (e.g. `// Workaround for vendor issue V-184; remove once 2.2 is qualified (re-evaluate by 2026-10-01)`). The PR notes carry that context today, but the comment in the file is what the next engineer will actually see. I would not hold the merge for it.
+
+__ABLATION_DONE__ exit=0

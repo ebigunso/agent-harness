@@ -1,0 +1,22 @@
+**Findings**
+
+1. **Invoice.java, line 2 — the existing one-arg constructor is removed.**
+   Adding a record component changes the canonical constructor from `Invoice(String)` to `Invoice(String, String)`. Java does not keep the old signature, so every existing `new Invoice(id)` call site stops compiling (and any compiled callers break at link time). The diff touches no callers, and the commit message says "optional," but at the Java level the label is now *mandatory* at construction. Require a compatibility constructor:
+   ```java
+   record Invoice(String id, String label) {
+       Invoice(String id) { this(id, null); }
+   }
+   ```
+   or update every call site in the same change. The reviewer note "required id preserved" is about the field, not the constructor — that is the gap.
+
+2. **Invoice.java — "optional" is not expressed anywhere in the type.**
+   `label` is a bare `String` with no `@Nullable`, no compact-constructor guard, and no Javadoc saying null is permitted. Callers can't tell whether `null` is a legal value or a bug. On the serialization side, Jackson will now emit `"label": null` for every existing invoice unless `@JsonInclude(JsonInclude.Include.NON_NULL)` is applied, which is a visible wire change for downstream consumers that were not expecting a new nullable key. Require either a nullability annotation + doc comment, or `@JsonInclude(NON_NULL)` on the component/record, and state the intended contract.
+
+3. **No test covering the "optional" path (deserialize/construct without a label).**
+   Jackson's default settings tolerate a missing creator property and pass `null`, so `{"id":"x"}` will round-trip today — but only as long as the shared `ObjectMapper` doesn't enable `FAIL_ON_MISSING_CREATOR_PROPERTIES` / `FAIL_ON_NULL_CREATOR_PROPERTIES`. That's the exact behaviour this change claims to add, and it's unverified. Require a test that reads an `Invoice` from JSON with no `label` and asserts `label() == null` (or whatever the contract from #2 is), plus one with `label` present.
+
+**Not flagged:** the `Reader` record and its `@JsonIgnoreProperties(ignoreUnknown=true)` are untouched and correct; an `Invoice` payload with `label` deserializes into `Reader` fine.
+
+**Verdict:** Not acceptable as-is. #1 is a blocker (source-incompatible change to a record with no caller updates shown); #2 and #3 I'd require before merge since the whole point of the change is optionality and nothing currently defines or verifies it.
+
+__ABLATION_DONE__ exit=0

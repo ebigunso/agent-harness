@@ -1,0 +1,55 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a5-a8a1-7d23-a4e9-ff019440ff68
+--------
+user
+Reference material loaded for this review:
+
+### 8) Control Complexity and Duplication
+
+- Remove accidental complexity before introducing abstraction.
+- Abstract only when multiple concrete uses justify it.
+- Keep dependency direction intentional and acyclic where practical.
+
+Review checks:
+- Does abstraction reduce or increase cognitive load?
+- Is new complexity justified by measurable maintenance benefit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Name both dispatch outcomes locally.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,9 @@
++pub enum Outcome { Retry, Stop }
++pub fn label(outcome: Outcome) -> &'static str {
++    match outcome { Outcome::Retry => "Retry", Outcome::Stop => "Stop" }
++}
++#[test]
++fn labels() {
++    assert_eq!(label(Outcome::Retry), "Retry");
++    assert_eq!(label(Outcome::Stop), "Stop");
++}
+```
+Commit message: "name both dispatch outcomes locally"
+
+Reviewer notes: Two real variants; no global registry or macros. Pure exhaustive match keeps the internal dispatch explicit.
+
+codex
+Acceptable as-is. Both outcomes are named explicitly in an exhaustive match and covered by tests. No unnecessary abstraction, duplication, or complexity to flag.
+tokens used
+3,140
+Acceptable as-is. Both outcomes are named explicitly in an exhaustive match and covered by tests. No unnecessary abstraction, duplication, or complexity to flag.
+
+__ABLATION_DONE__ exit=0

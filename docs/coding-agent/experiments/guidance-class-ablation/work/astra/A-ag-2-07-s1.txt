@@ -1,0 +1,38 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081bf-94d8-78a1-9a18-5cac9cb2c226
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Use minimum-age setting in eligibility.
+
+```diff
+--- a/Eligibility.kt
++++ b/Eligibility.kt
+@@ -1 +1,5 @@
+-fun eligible(age: Int, minimumAge: Int) = age >= minimumAge
++import android.content.Context
++fun eligible(age: Int, context: Context): Boolean {
++ val minimumAge = context.getSharedPreferences("policy", Context.MODE_PRIVATE).getInt("minimum_age", 18)
++ return age >= minimumAge
++}
+```
+Commit message: "use minimum-age setting in eligibility"
+
+Reviewer notes: Android SDK supplied by outer app. Domain is reused by CLI and should accept validated settings values; missing preference intentionally defaults to 18.
+
+codex
+- **`Eligibility.kt:1–4` — Android preferences are now read inside the shared domain function.** Replacing `minimumAge: Int` with `Context` couples eligibility to Android and prevents the CLI from supplying validated settings values directly. The outer app supplying the Android SDK does not address this domain boundary violation. Keep `eligible(age, minimumAge)` platform-independent; read the preference in the Android caller or settings adapter, preserve the intentional default of `18`, and validate the value before passing it into eligibility.
+tokens used
+3,193
+- **`Eligibility.kt:1–4` — Android preferences are now read inside the shared domain function.** Replacing `minimumAge: Int` with `Context` couples eligibility to Android and prevents the CLI from supplying validated settings values directly. The outer app supplying the Android SDK does not address this domain boundary violation. Keep `eligible(age, minimumAge)` platform-independent; read the preference in the Android caller or settings adapter, preserve the intentional default of `18`, and validate the value before passing it into eligibility.
+
+__ABLATION_DONE__ exit=0

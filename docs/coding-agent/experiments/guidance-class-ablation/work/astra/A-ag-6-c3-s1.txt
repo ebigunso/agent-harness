@@ -1,0 +1,50 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c7-97d8-7f12-96f9-92d8be9acad4
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Isolate poison messages with bounded dead letter handling.
+
+```diff
+--- a/Worker.java
++++ b/Worker.java
+@@ -0,0 +1,18 @@
++import java.util.concurrent.ArrayBlockingQueue;
++import java.util.function.Consumer;
++final class Poison extends Exception {}
++interface Handler { void apply(String id) throws Poison; }
++final class Worker {
++ private final ArrayBlockingQueue<String> deadLetters = new ArrayBlockingQueue<>(100);
++ void run(String id, Handler handler, Consumer<String> signal) {
++  try { handler.apply(id); signal.accept("processed:"+id); }
++  catch(Poison error) {
++   if(!deadLetters.offer(id)) {
++    signal.accept("dead_letter_full:"+id);
++    throw new IllegalStateException("dead-letter capacity exhausted",error);
++   }
++   signal.accept("dead_letter:"+id);
++  }
++ }
++ String nextDeadLetter() { return deadLetters.poll(); }
++}
+```
+Commit message: "isolate poison messages with bounded dead letter handling"
+
+Reviewer notes: Java 17. Each invocation owns one message; handler exposes documented Poison failure. Queue is bounded to 100 and offer never blocks. Full dead-letter queue emits a signal and fails only the current message explicitly. Logger is nonthrowing; caller supervises message outcomes independently.
+
+codex
+Acceptable as-is. No findings: poison messages are isolated in a bounded, nonblocking queue, and overflow explicitly fails only the current message under the documented caller supervision.
+tokens used
+3,266
+Acceptable as-is. No findings: poison messages are isolated in a bounded, nonblocking queue, and overflow explicitly fails only the current message under the documented caller supervision.
+
+__ABLATION_DONE__ exit=0

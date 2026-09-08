@@ -1,0 +1,57 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e7-88bf-7dd0-8264-42df74418f0f
+--------
+user
+Reference material loaded for this review:
+
+Contain failures locally. Plan failure modes/containment; make timeouts/retries/idempotency/degradation intentional. Verify propagation/fallback; avoid unbounded waits/retries, broad suppression and cascades.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Use mirror fallback when circuit is open.
+
+```diff
+--- a/Fallback.scala
++++ b/Fallback.scala
+@@ -0,0 +1,7 @@
++import scala.concurrent.{ExecutionContext,Future}
++object Fallback {
++ def read(circuitOpen: Boolean, primary: () => Future[String], mirrors: Vector[() => Future[String]])(implicit ec: ExecutionContext): Future[String] = {
++  if(circuitOpen) Future.firstCompletedOf(mirrors.map(call => call()))
++  else primary()
++ }
++}
+```
+Commit message: "use mirror fallback when circuit is open"
+
+Reviewer notes: Scala 2.13. Three mirrors share the same upstream outage domain. Gateway futures may never complete; no per-call or aggregate deadline. Every request during open circuit fans out; fallback should be bounded degradation.
+
+codex
+- **`Fallback.scala:4` — Unbounded fallback fan-out bypasses outage containment.** Every request during an open circuit invokes every mirror, and the three mirrors share the same upstream outage domain. This can amplify load on the failing dependency. Require a bounded fallback policy with concurrency/admission limits and an explicit degraded response when its budget is exhausted; correlated mirrors must respect shared outage protection.
+
+- **`Fallback.scala:4` — The fallback can remain pending forever.** There are no call or aggregate deadlines, and `firstCompletedOf` also never completes for an empty mirror vector in Scala 2.13. Require explicit empty-vector handling and a finite overall deadline, with intentional per-call timeouts and terminal failure/degradation behavior. Timing out the returned future alone does not cancel underlying work; resource limits must account for that.
+
+- **`Fallback.scala:4` — The fastest failure defeats viable mirrors.** `Future.firstCompletedOf` selects the first completion, including failure. A mirror that fails quickly therefore fails the request even if another mirror subsequently succeeds. Require first-success selection within the fallback budget, failing or degrading only when all candidates fail or the deadline expires.
+
+- **`Fallback.scala:4` — A synchronous mirror exception escapes the asynchronous failure path.** `call()` executes eagerly inside `map`. If it throws before returning a future, `read` throws synchronously, later mirrors are skipped, and already-started calls continue without an aggregate result. Require conversion of nonfatal invocation exceptions into failed futures so they participate in the same bounded fallback policy.
+tokens used
+3,647
+- **`Fallback.scala:4` — Unbounded fallback fan-out bypasses outage containment.** Every request during an open circuit invokes every mirror, and the three mirrors share the same upstream outage domain. This can amplify load on the failing dependency. Require a bounded fallback policy with concurrency/admission limits and an explicit degraded response when its budget is exhausted; correlated mirrors must respect shared outage protection.
+
+- **`Fallback.scala:4` — The fallback can remain pending forever.** There are no call or aggregate deadlines, and `firstCompletedOf` also never completes for an empty mirror vector in Scala 2.13. Require explicit empty-vector handling and a finite overall deadline, with intentional per-call timeouts and terminal failure/degradation behavior. Timing out the returned future alone does not cancel underlying work; resource limits must account for that.
+
+- **`Fallback.scala:4` — The fastest failure defeats viable mirrors.** `Future.firstCompletedOf` selects the first completion, including failure. A mirror that fails quickly therefore fails the request even if another mirror subsequently succeeds. Require first-success selection within the fallback budget, failing or degrading only when all candidates fail or the deadline expires.
+
+- **`Fallback.scala:4` — A synchronous mirror exception escapes the asynchronous failure path.** `call()` executes eagerly inside `map`. If it throws before returning a future, `read` throws synchronously, later mirrors are skipped, and already-started calls continue without an aggregate result. Require conversion of nonfatal invocation exceptions into failed futures so they participate in the same bounded fallback policy.
+
+__ABLATION_DONE__ exit=0

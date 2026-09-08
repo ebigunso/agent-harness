@@ -1,0 +1,19 @@
+**Findings**
+
+1. **`Recommendations.java`, `checkout()` — no timeouts on an optional dependency in the checkout path.** `HttpClient.newHttpClient()` has no connect timeout, and the request has no `.timeout(...)`. If the recommendation service accepts the connection but stalls on headers/body, the calling checkout thread blocks indefinitely. Under load this exhausts the thread pool and takes down checkout — a hard failure caused by an optional feature. This is the Gate 6 anti-pattern "blocking operations in critical paths." Require: `HttpClient.newBuilder().connectTimeout(Duration.ofMillis(...))` and `HttpRequest.newBuilder(endpoint).timeout(Duration.ofMillis(...))`, with short budgets appropriate to a non-essential call in a latency-sensitive flow.
+
+2. **`Recommendations.java`, `checkout()` — failure not contained; "optional" is not implemented as optional.** The method throws `IllegalStateException` on non-200 and propagates `IOException`/`InterruptedException` (declared as `throws Exception`) on any network fault. Nothing in this class degrades; every failure becomes the caller's problem, and the diff contains no caller that catches it. As written, a recommendation outage can fail checkout. Require a deliberate degradation path: return `Optional<String>` (or empty/null) on non-2xx, timeout, or `IOException`; log at an appropriate level with the cause; and document that callers must treat absence as normal. If the intent is for the caller to catch, that caller must be in this change so the review can verify it — don't ship the throwing half on its own.
+
+3. **`Recommendations.java`, `checkout()` — new `HttpClient` per call.** `HttpClient.newHttpClient()` allocates a client (executor, connection pool, SSL context) on every checkout. That's wasteful, defeats connection reuse, and makes it impossible to apply a shared timeout/connection policy. Require a single configured client held in a static final field or injected.
+
+4. **`Recommendations.java`, `checkout()` — `InterruptedException` swallowed into `throws Exception`.** Declaring `throws Exception` hides that `send` can be interrupted; if a caller later wraps this in a broad catch (likely, given item 2), the interrupt flag is lost. Require catching `InterruptedException` explicitly, calling `Thread.currentThread().interrupt()`, and returning the degraded result.
+
+Lower priority / would flag, not block:
+
+5. **No bounding on response body.** `BodyHandlers.ofString()` reads the entire body into memory with no size limit. For a trusted endpoint this is acceptable risk, but note it, or cap via a streaming handler if the payload is unbounded.
+
+6. **Naming: `checkout(URI)` in `Recommendations`** reads as "perform a checkout," which it doesn't. Suggest `fetchForCheckout` or similar — minor, but it obscures the failure boundary when reading call sites.
+
+**Verdict:** Not acceptable as-is. Items 1 and 2 are blocking: the change introduces an unbounded blocking call with no fallback into the checkout critical path, which is exactly what Gate 6 exists to prevent.
+
+__ABLATION_DONE__ exit=0

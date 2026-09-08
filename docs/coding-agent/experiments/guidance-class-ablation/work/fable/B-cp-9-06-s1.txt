@@ -1,0 +1,15 @@
+**Verdict: block.** The fallback is not safe under the stated access contract.
+
+**1. `Authorization.cs`, `catch (PolicyUnavailable)` — fail-open on stale cache entries violates the access contract.**
+The fallback returns `cache.Get(user, resource)?.Allowed`, and per the notes the cache entries never expire and `FetchedAt` is never consulted. The contract says revocations take effect immediately and offline grants are not authorized. This code does the opposite: a user revoked yesterday whose last cached decision was `Allowed = true` regains access for the entire duration of the outage, indefinitely, with no upper bound on staleness. That is a privilege-escalation path opened by the outage, which is exactly the scenario "safe fallback" was meant to close. The commit message ("use cached access policy during outages") describes the mechanism but not the consequence; a reviewer skimming it would not realize this grants access from data the contract says cannot be used to grant.
+
+Required instead: since the contract explicitly disallows offline grants, the fallback must fail closed — on `PolicyUnavailable`, return `false` (or surface the outage to the caller as a distinct result; see #2). Do not read `Allowed` from the cache to authorize. If product later decides some bounded degradation is acceptable, that would need a contract change plus a strict TTL enforced on `FetchedAt`, with revocation events invalidating entries — none of which exists today, so it cannot be assumed here.
+
+**2. Same catch block — the degraded path is not distinguishable or observable to callers.**
+The exception is converted into a plain `bool`; the caller cannot tell a live "allowed" from a cache-derived "allowed" (or, after fix #1, a live deny from an outage deny). The only signal is a `Warning` log that does not include the user/resource or how old the cached entry was, and there is no metric/counter, so an extended outage that silently denies (or, as written, silently grants) everything is hard to detect and diagnose. The fallback is also unbounded — it will run on every call for as long as the policy service is down, with nothing escalating.
+
+Required instead: log at `Error` (or at least include user, resource, and correlation context) and emit a metric so an outage is alertable; consider returning a result type or throwing a typed exception at this boundary so callers/middleware can render "service unavailable" rather than a misleading "forbidden". Add a test covering `PolicyUnavailable` → deny, and one asserting a stale `Allowed` cache entry does not grant.
+
+Not flagged: catching only `PolicyUnavailable` (other exceptions still propagate) and treating cache misses as deny are both fine; the problem is what happens on a cache hit.
+
+__ABLATION_DONE__ exit=0

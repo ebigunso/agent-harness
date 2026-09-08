@@ -1,0 +1,26 @@
+**Cause**
+
+This is not a workspace or runtime problem. PowerShell 7.4.6 ran the script to completion of its own logic: `ConvertFrom-Json` parsed `{"id":7}` successfully (it's valid JSON), `Write-Output` printed it, and then the script's own guard on line 7–8 fired because the trimmed string starts with `{`, not `[`. The `throw` produces exactly the stderr shown and, under `-File`, yields exit code 1. Execution policy, profile, cwd, and the parser are all fine — the script did what it was written to do with the literal it was given.
+
+The real issue is a mismatch inside the script: the hard-coded input `$raw = '{"id":7}'` is a single object, but the assertion demands a JSON array.
+
+**Smallest safe remediation**
+
+Decide which side is wrong; change only that one line:
+
+- If the probe is supposed to *pass* on this data (input is meant to be an array), fix the literal on line 3:
+  ```powershell
+  $raw = '[{"id":7}]'
+  ```
+- If the probe is intentionally asserting that a bare object must be rejected, then exit 1 with "Expected array framing" *is* the correct result and nothing should be changed; the caller should treat non-zero as the expected negative outcome.
+
+Don't loosen the `StartsWith('[')`/`EndsWith(']')` check or drop `$ErrorActionPreference = 'Stop'` — that would silence the very condition the probe exists to detect.
+
+**Confirmation**
+
+```powershell
+pwsh -NoProfile -File probes/require-array.ps1; $LASTEXITCODE
+```
+Expected after fixing the literal: stdout `raw=[{"id":7}]`, empty stderr, `$LASTEXITCODE` = 0. As a negative control, temporarily revert to `'{"id":7}'` and confirm it again exits 1 with the same "Expected array framing" message, proving the guard still works. No files besides `probes/require-array.ps1` need to change.
+
+__ABLATION_DONE__ exit=0

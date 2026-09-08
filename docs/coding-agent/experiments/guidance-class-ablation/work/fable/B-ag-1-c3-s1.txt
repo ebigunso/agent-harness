@@ -1,0 +1,19 @@
+## Review: "parse order requests at http boundary"
+
+**Gate 1 verdict: acceptable as-is.** The boundary split is correct and I would not block this change.
+
+What I checked against the gate:
+
+- **Business invariant lives in the application layer.** `place()` owns "quantity is a positive integer" (including the `bool` exclusion, which is correct since `isinstance(True, int)` is true) and owns the append. The handler does not re-implement positivity; `"0"` is rejected because `place` raises, not because `post` checks it.
+- **Handler does only transport work.** `post()` extracts the field, validates wire *format* (ASCII decimal string), converts to `int`, and maps the domain rejection to an explicit `400`. Rejecting signed/whitespace/non-ASCII digits via `isascii()`/`isdecimal()` is a wire-format decision, not a domain policy — the domain still guards independently, so a direct caller of `place(-3, orders)` gets the same rejection. No duplicated invariant, no policy pushed down into the handler.
+- **No cross-layer movement.** Nothing in `place` knows about `body`, strings, or status codes.
+
+Non-blocking notes (would leave as comments, not require changes):
+
+1. **`order.py` `post()` — `except ValueError` is a broad contract for "domain rejected the value."** Today it works because `isdecimal()` guarantees `int(raw)` won't raise for parse reasons, so the only `ValueError` reaching the handler is `place`'s. But the coupling is implicit: any future `ValueError` from a different cause inside `place` (or from `int()` — e.g. the 4300-digit `int` string limit) silently becomes a 400. A dedicated exception type (e.g. `InvalidQuantity(ValueError)`) would make the layer contract explicit. Suggestion only.
+
+2. **`order.py` `check()` — tests exercise only the HTTP path.** `place()` has no direct test of its guard (`0`, negative, `True`, non-int). Since the reviewer notes explicitly claim "direct application callers get the same guard," a test at that layer would evidence the claim. Also a style nit: one-line `try:`/`except:` bodies and no blank lines between defs — not a boundary issue.
+
+No defects that require changes before merge.
+
+__ABLATION_DONE__ exit=0

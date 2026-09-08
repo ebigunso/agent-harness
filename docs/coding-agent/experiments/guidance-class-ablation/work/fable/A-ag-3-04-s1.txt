@@ -1,0 +1,15 @@
+Findings (I would block this change):
+
+1. **lib.rs, `backend()` — does not deliver the stated task.** The task is to add a storage backend *selector*; the diff merely swaps the hardcoded literal `"memory"` for `"sqlite"`. There is still no way to select a backend (no parameter, env var, config, or enum). Worse, it silently changes the default for every existing caller from in-memory to SQLite, which is a behavioral change with real consequences (file I/O, persistence, dependencies) that the task did not ask for. Require: an actual selection mechanism (e.g. `pub fn backend(choice: BackendKind) -> ...` or reading a config/env value) that supports both `memory` and `sqlite`, with `memory` remaining the default unless a default change is explicitly agreed and documented.
+
+2. **lib.rs, `strict()` — unrelated breaking change to CLI syntax.** `--strict` is replaced by `-s`. The reviewer notes state this CLI accepts *exactly* the shown aliases, so every existing invocation using `--strict` now silently evaluates to non-strict mode — a silent loosening of behavior, not even an error. This has nothing to do with storage backends. Require: revert. If a short alias is desired, that's a separate change and should be additive (`arg == "--strict" || arg == "-s"`), not a replacement.
+
+3. **lib.rs, `report_columns()` — unrelated breaking change to report output.** Dropping `"total"` changes the report schema for independent consumers (anything parsing or displaying the report by column). No justification, no relation to the backend work. Require: revert.
+
+4. **Commit scope / message.** The commit message claims one thing ("add a storage backend selector") while the diff makes three unrelated behavioral changes and doesn't actually implement the claimed one. Require: one commit per concern, with the message accurately describing what changed and why; unrelated changes (2, 3) removed from this PR entirely.
+
+5. **No tests.** All three functions had their observable behavior changed and no tests were added or updated. For the backend selector specifically, require tests covering each selectable backend and the default.
+
+Verdict: not acceptable as-is. Revert the `strict` and `report_columns` changes, and replace the `backend` change with a real selection mechanism that preserves the existing default.
+
+__ABLATION_DONE__ exit=0

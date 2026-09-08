@@ -1,0 +1,15 @@
+**Verdict: block.**
+
+**1. `Authorization.cs`, `CanAccess` catch block — fallback grants access from stale cache, violating the access contract.**
+
+- **What's wrong:** On `PolicyUnavailable`, the method returns `cache.Get(user, resource)?.Allowed`. Cache entries never expire and `FetchedAt` is ignored, so an `Allowed = true` entry written last week is honored even if the grant was revoked since. Under the stated contract, revocations take effect immediately and offline grants are not authorized. This fallback therefore hands out exactly the thing the contract forbids, and it does so precisely during the window when the source of truth can't be consulted.
+- **Why it matters:** This is a fail-open in the authorization path. A revoked user (terminated employee, compromised account, rotated permissions) regains access for the duration of any policy-service outage — and an attacker who can induce or wait for such an outage gets a reliable bypass. "Safe fallback" in this task has to mean fail-closed for grants; the diff does the opposite while the log message and commit message make it look benign.
+- **What I'd require:** Deny on outage. Either `return false` in the catch (with a log at Error/Alert level and a metric so the outage is visible), or let `PolicyUnavailable` propagate / map to a distinct "unavailable" result so callers can return 503 rather than 403. Do not consult `cache` for a positive decision. Even adding a `FetchedAt` TTL check wouldn't satisfy the contract, since any cached grant may have been revoked since it was fetched; a TTL would only be acceptable if the contract were explicitly changed to allow a bounded staleness window, and that's a product/security decision, not something to slip in under "use cached access policy during outages."
+
+**2. (Minor, same block) — an availability failure is collapsed into an ordinary `false`.**
+
+- **What's wrong:** After the fix above, `return false` on `PolicyUnavailable` is indistinguishable to callers from a genuine deny.
+- **Why it matters:** Operators and callers can't tell "user isn't permitted" from "we couldn't check," which hurts incident response and can produce misleading audit records.
+- **What I'd require:** Prefer rethrowing (or a typed result) so the caller can surface a service-unavailable response; if `bool` must be preserved, at minimum log at Error with a dedicated event/metric rather than `Warning`.
+
+__ABLATION_DONE__ exit=0

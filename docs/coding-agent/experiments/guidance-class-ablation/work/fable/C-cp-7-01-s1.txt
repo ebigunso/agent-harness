@@ -1,0 +1,42 @@
+**Verdict: block.** The implementation has no testable seam, and the test is not a test.
+
+## Findings
+
+**1. `expiry.py:3-4` — `expired()` reads the wall clock and process timezone as hidden globals.**
+`datetime.now()` couples the decision to (a) real time and (b) whatever `TZ`/system zone the process happens to have. That makes the boundary impossible to exercise deterministically, and it means "local" is defined by deployment environment rather than by the code. Require an explicit seam: `def expired(expires_on: date, *, now: datetime) -> bool` (or an injected clock/`tzinfo`), with the caller supplying `datetime.now(tz)` and `tz` being an explicit `ZoneInfo`, not the process default. Then the decision is `now.astimezone(tz).date() >= expires_on` and can be tested at any instant.
+
+**2. `expiry.py:5-10` — `test_midnight` busy-waits until real local midnight.**
+The loop runs for up to ~24 hours, sleeping in 100 ms slices. In CI this either times out or blocks a runner for the day; locally it is unrunnable. It is also inherently flaky: the first assertion races the clock if the test starts within microseconds of midnight, and DST/leap-second/NTP adjustments during the wait produce spurious outcomes. Delete it. Replace with fixed-instant cases fed through the seam from (1):
+- `now = 23:59:59.999999` on D‑1 → not expired
+- `now = 00:00:00` on D → expired
+- `now = D‑1 12:00`, `now = D+1` — sanity on both sides
+- one case in a zone with a nonzero UTC offset where UTC date ≠ local date, proving the local-vs-UTC distinction actually holds.
+
+**3. `expiry.py` — test code and its imports live in the production module.**
+`test_midnight` and `import time` ship in `expiry.py`. Move the test to `tests/test_expiry.py`; `time` should not be imported by the module at all once (2) is fixed.
+
+**4. `expiry.py:4` — semantics of `expires_on` vs. "expire at local midnight" are unverified.**
+`>=` means the pass is considered expired for the entire calendar day named by `expires_on` (from 00:00 onward). If a "daily pass for 2026‑09‑09" is stored with `expires_on = 2026‑09‑09`, it is dead the whole day it's valid for. If the field instead means "last valid day", the operator should be `>`. The diff and commit message don't say which; the test encodes `>=` without justifying it. Require a docstring stating the contract ("`expires_on` is the first local date on which the pass is no longer valid") and confirmation against the writer of that field.
+
+**5. `expiry.py:4` — "local" is the service's zone, not the pass holder's.**
+Reviewer notes say the zone comes from process environment. If passes are sold to users in different zones (or the service is redeployed to a different region), midnight moves for everyone. Even if single-zone is acceptable today, the zone must be an explicit parameter/config value rather than ambient `TZ`, both so it can be tested (see 1) and so a redeploy can't silently shift expiry. Note also that `time.tzset()` doesn't exist on Windows, so any future attempt to test this by mutating `TZ` in-process will not work there — another reason the seam must be an argument, not the environment.
+
+**6. Minor — no type guard on `expires_on`.**
+`date >= datetime` raises `TypeError`, and a `str` (common if this comes from JSON/DB) raises too. Either annotate and trust the caller, or normalize at the boundary. Not blocking on its own; flagging because the current test would not catch it.
+
+## What an acceptable version looks like
+
+```python
+# expiry.py
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
+
+def expired(expires_on: date, *, now: datetime, tz: ZoneInfo) -> bool:
+    """True once the local calendar date in `tz` reaches `expires_on`.
+    `expires_on` is the first local date the pass is no longer valid."""
+    return now.astimezone(tz).date() >= expires_on
+```
+
+with `tests/test_expiry.py` covering the instants listed in (2). The production call site passes `datetime.now(timezone.utc)` and the configured zone.
+
+__ABLATION_DONE__ exit=0

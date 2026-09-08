@@ -1,0 +1,21 @@
+**Verdict: block.** The change treats the symptom (duplicate rows visible in the report) rather than the defect (duplicate records being written), and it does not address two of the three areas the task names.
+
+**Findings**
+
+1. **`app/imports.py` — `import_rows` (and therefore `cli_import` / `scheduled_import`) is untouched.**
+   The task is to fix duplicate imported record IDs for CLI and scheduled imports, and the reviewer notes state that running either import twice still reproduces duplicate stored records. Nothing in the diff prevents that. Because the store is append-only with no ID constraint, the only place uniqueness can be enforced is here. Both entry points funnel through `import_rows`, so one fix covers both.
+   *Require:* make `import_rows` idempotent with respect to ID — e.g. build a set of IDs from `store.rows()` (or maintain one alongside the store), skip or update rows whose ID is already present, and only `append` new IDs. Decide explicitly whether a re-imported row with the same ID should be skipped or replace the existing one; don't leave it implicit.
+
+2. **`app/imports.py` — `report` dedup by dict comprehension masks the bug and silently selects "last row wins".**
+   Collapsing on `row["id"]` at read time hides the corruption from one consumer only; every other reader of the store still sees duplicates, and the store keeps growing on each re-run. The choice of which duplicate survives (last in iteration order) is arbitrary and undocumented — if two duplicates differ, the report silently discards data with no signal. The commit message ("hide repeated IDs") confirms this is intentional concealment rather than a fix.
+   *Require:* remove this as the fix. Once (1) is in place, `report` can return `list(store.rows())` unchanged. If you want a defensive check here, make it fail loudly (assert/log on duplicate IDs) rather than quietly dropping rows.
+
+3. **No test demonstrating the fix.**
+   The reproduction is trivial (import the same rows twice, assert the store has each ID once). Without it, the report-level dedup would appear to "pass" a naive check while the underlying defect remains.
+   *Require:* a test that runs `cli_import` and `scheduled_import` twice on the same input and asserts the stored records — not just the report output — contain each ID exactly once.
+
+4. **Commit message does not match the task.**
+   "hide repeated IDs in import report" describes masking, not fixing, and it should not merge under a task titled "Fix duplicate imported record IDs".
+   *Require:* rewrite once the write-path fix is in, e.g. "make imports idempotent on record ID".
+
+__ABLATION_DONE__ exit=0

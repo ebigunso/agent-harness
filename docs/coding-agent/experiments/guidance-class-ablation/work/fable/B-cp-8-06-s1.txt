@@ -1,0 +1,33 @@
+## Findings
+
+### 1. Blocking — `src/lib.rs`, `build.rs`, `label_macro/*`: three layers of code generation to produce a two-arm `match` that already existed
+
+**What's wrong:** The original `label` was a one-line, fully static function. The change replaces it with: a `build.rs` that writes a fixed string to `OUT_DIR` → an `include!` of that file → a call into a new proc-macro crate → which string-formats and re-parses the same two-arm `match`. Nothing in this chain consumes any input. `build.rs` doesn't read a schema, an env var, or a file; the proc macro ignores everything about `input` except splicing it back into a hardcoded match. The output is byte-for-byte the function that was deleted.
+
+**Why it matters:**
+- Cognitive load goes up, not down: a reader of `lib.rs` now has to follow `include!` → `OUT_DIR` → `build.rs` → a string literal → `label_macro::label!` → another string literal to learn that `Ready` maps to `"Ready"`. Previously it was on the screen.
+- Tooling regresses: go-to-definition, grep, rustfmt, clippy and rust-analyzer all degrade on `include!`-ed generated code and string-built macro output. Compile time gains a second crate and a build script.
+- The abstraction has exactly one use, and the task ("two variants") explicitly doesn't call for more. Per the reference guidance, abstraction should follow multiple concrete uses; here there's one, and it was already solved.
+- Adding a variant is now *harder*: you edit the enum in `lib.rs`, then the format string in `label_macro/src/lib.rs`, and the compiler error will point into a generated file / macro expansion rather than at the match.
+
+**Required instead:** Revert to the original `pub fn label(state: State) -> &'static str { match state { ... } }`. Drop `build.rs`, the `include!`, and the `label_macro` crate entirely. If the real goal is to derive a display string from variant names for many enums, that's a `#[derive]` proc macro (or `strum`) justified by several consumers — not a build script and a function-like macro for one two-variant enum.
+
+### 2. `label_macro/src/lib.rs`: the macro body is incorrect-by-accident even taken on its own terms
+
+Only relevant if finding 1 were somehow overruled:
+
+- `.replace("\\\"", "\"")` is a no-op. The format string in Rust source `\"Ready\"` produces the characters `"Ready"` at runtime; there is no backslash-quote sequence to replace. It reads as if the author was fighting an escaping bug that didn't exist, and it will confuse the next person into thinking one does.
+- The generated match refers to `State` as a bare path with no hygiene or `$crate`-style anchoring. It only compiles because it happens to expand in the one module where `State` is in scope. Any other caller gets "cannot find type `State`".
+- `input` is stringified via `Display` and re-parsed, discarding spans; errors in the passed expression will be reported at the macro call rather than at the offending token. Proc macros should build output with `quote`/`syn` (or at minimum `TokenStream` construction), not `format!().parse()`.
+
+None of these need fixing if finding 1 is applied, because the crate goes away.
+
+### 3. `build.rs`: `rerun-if-changed=build.rs` masks that the output is static
+
+Minor, and moot under finding 1: the only rerun trigger is the build script itself. That's correct for a script that reads no inputs — but that fact is precisely the tell that there's nothing to generate. A build script whose only input is itself should not exist.
+
+---
+
+**Verdict:** Not acceptable. Revert to the original one-line function; remove `build.rs`, the `include!`, and the `label_macro` crate. The commit adds a build script, a proc-macro crate, and generated-source indirection to reproduce existing behavior with zero new inputs, which is exactly the accidental complexity the review guideline says to remove before considering abstraction.
+
+__ABLATION_DONE__ exit=0

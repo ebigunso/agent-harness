@@ -1,0 +1,128 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d81-bb1a-7240-8003-d496727346bf
+--------
+user
+Reference material loaded for this review:
+
+# Windows npm EPERM/EBUSY native module lock (npm ci / npm install)
+
+## Symptoms
+- npm ci / npm install fails with EPERM or EBUSY
+- error mentions unlinking/removing a file under node_modules
+- error often references a native module binary like <module>.node
+
+## Likely cause
+A running process (node/dev server/test runner/editor extension) is holding a lock on a native module binary inside node_modules.
+
+## Safe, ordered steps
+
+1) Stop obvious lock holders
+- stop dev servers, test runners, watchers
+- close terminals running node processes for this repo
+- stop editor-integrated test runners
+
+2) Identify locking process by module (best-effort)
+If the error shows a specific <module>.node:
+
+Preferred (PowerShell 7):
+- "C:\Program Files\PowerShell\7\pwsh.exe" -Command "tasklist /m <module>.node"
+
+Fallback:
+- powershell.exe -Command "tasklist /m <module>.node"
+
+3) Kill the locking PID(s) (last resort)
+- taskkill /PID <pid> /F
+
+4) Retry install
+- npm ci
+
+If it still fails:
+- repeat using the new module filename in the error
+- confirm no other node processes:
+  - tasklist | findstr node
+
+## Evidence to capture
+- original npm command + full error output
+- module filename
+- tasklist output
+- killed PIDs
+- retry result
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; process/lock observations are constructed, not live machine evidence.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Node 20.18.0; npm 10.8.2; cwd C:/work/npm-lock. npm color is disabled. bcrypt 5.1.1
+
+Command: `npm install`
+
+Exit code: 1
+
+stdout:
+```text
+(empty)
+```
+
+stderr (error-level output):
+```text
+npm error code EBUSY
+npm error syscall unlink
+npm error path C:\work\npm-lock\node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node
+npm error errno -4082
+npm error EBUSY: resource busy or locked, unlink 'C:\work\npm-lock\node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node'
+```
+
+Diagnostic observations:
+
+- package.json and package-lock.json are synchronized; project and cache are writable. Registry requests succeed. The process can create/remove an ordinary probe file beside the affected module, and no ACL denial is observed.
+- Installed layout: bcrypt 5.1.1; the named binary exists. Where marked source build, the addon was built for its host runtime and loaded successfully before this install.
+- The test process is in watch mode after the last test completed.
+
+Command: `tasklist /m bcrypt_lib.node`
+
+Exit code: 0; stderr: (empty). stdout:
+```text
+Image Name                     PID Modules
+========================= ======== ===========================================
+node.exe                      4105 bcrypt_lib.node
+```
+
+Repository ownership inspection:
+
+- PID 4105: Nest/Jest integration-test worker; process inspection shows loaded module `C:\work\npm-lock\node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node`. Launch command references `C:/work/npm-lock/node_modules/jest/bin/jest.js --watch`; the task is owned by this repository.
+
+codex
+**Cause:** The repository’s Jest watch worker, PID **4105**, has `bcrypt_lib.node` loaded, preventing Windows from unlinking it during `npm install`. This is a running-process lock, not a dependency, permissions, cache, or registry problem.
+
+**Smallest safe remediation:** Stop this repository’s Jest watcher with Ctrl+C in its owning terminal or the editor’s stop control. If it cannot exit gracefully, terminate only the confirmed locking process:
+
+```powershell
+taskkill /PID 4105 /F
+```
+
+**Confirm:** Run `tasklist /m bcrypt_lib.node` again to verify the lock holder has exited, then rerun `npm install` in `C:\work\npm-lock`. Success means exit code 0 with no `EBUSY` error. No lockfile changes or cache cleanup are needed.
+tokens used
+3,746
+**Cause:** The repository’s Jest watch worker, PID **4105**, has `bcrypt_lib.node` loaded, preventing Windows from unlinking it during `npm install`. This is a running-process lock, not a dependency, permissions, cache, or registry problem.
+
+**Smallest safe remediation:** Stop this repository’s Jest watcher with Ctrl+C in its owning terminal or the editor’s stop control. If it cannot exit gracefully, terminate only the confirmed locking process:
+
+```powershell
+taskkill /PID 4105 /F
+```
+
+**Confirm:** Run `tasklist /m bcrypt_lib.node` again to verify the lock holder has exited, then rerun `npm install` in `C:\work\npm-lock`. Success means exit code 0 with no `EBUSY` error. No lockfile changes or cache cleanup are needed.
+
+__ABLATION_DONE__ exit=0

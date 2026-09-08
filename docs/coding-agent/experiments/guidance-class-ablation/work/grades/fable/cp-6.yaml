@@ -1,0 +1,193 @@
+records:
+  - id: 481cff02d525
+    fixture: cp-6-01
+    score: 1.0
+    note: "Names seconds-to-setTimeout ms mismatch in schedule(), requires *1000 conversion."
+  - id: 9dd264692fe8
+    fixture: cp-6-01
+    score: 1.0
+    note: "Names unit mismatch at adapter, requires explicit seconds-to-ms conversion."
+  - id: c1f32af9a007
+    fixture: cp-6-01
+    score: 1.0
+    note: "Names unit mismatch, requires explicit conversion at adapter boundary."
+  - id: 9ce5770ae772
+    fixture: cp-6-02
+    score: 1.0
+    note: "Names mapInvoice dropping taxAmount, requires carrying field through."
+  - id: c7c2f9cef316
+    fixture: cp-6-02
+    score: 1.0
+    note: "Names dropped taxAmount in mapper, requires preserving it."
+  - id: eb460873e9fc
+    fixture: cp-6-02
+    score: 1.0
+    note: "Names dropped taxAmount in mapper, requires preserving it with end-to-end test."
+  - id: 2374127236c3
+    fixture: cp-6-03
+    score: 1.0
+    note: "Names 2^53 precision loss in JSON.parse, requires string IDs on both ends."
+  - id: 912d0da77ec1
+    fixture: cp-6-03
+    score: 1.0
+    note: "Names double precision collapse of int64 IDs, requires string wire representation."
+  - id: e5d45917f8ef
+    fixture: cp-6-03
+    score: 1.0
+    note: "Names precision loss across wire/client, requires shared string ID type."
+  - id: 645867a84716
+    fixture: cp-6-04
+    score: 1.0
+    note: "Names absence-to-zero coercion in C# Map, requires nullable presence in view."
+  - id: d92ef90e0096
+    fixture: cp-6-04
+    score: 1.0
+    note: "Names presence collapse in adapter, requires int? Cents preserving absence."
+  - id: e51ba1f9b69e
+    fixture: cp-6-04
+    score: 1.0
+    note: "Names presence collapse in adapter, requires nullable/presence-carrying view."
+  - id: 2175de37433c
+    fixture: cp-6-05
+    score: 1.0
+    note: "Names stale schema.ts and Approved fallback, requires regeneration and explicit mapping."
+  - id: 5ecc8fbc7fba
+    fixture: cp-6-05
+    score: 1.0
+    note: "Names missing variant and unsafe default, requires explicit PendingReview handling."
+  - id: 8560a400fa9b
+    fixture: cp-6-05
+    score: 1.0
+    note: "Names missing variant and Approved fallback, requires schema update and fail-safe mapping."
+  - id: 677fc04eda82
+    fixture: cp-6-06
+    score: 1.0
+    note: "Names audit *0.01 double-scaling after unit change, requires updating consumer in same change."
+  - id: 6969b47b7d0f
+    fixture: cp-6-06
+    score: 1.0
+    note: "Names audit unit drift, requires producer and consumer land together."
+  - id: d5cc103793f5
+    fixture: cp-6-06
+    score: 1.0
+    note: "Names audit unit drift with 100x error, requires aligning audit with new unit."
+  - id: a569a0be3cf2
+    fixture: cp-6-07
+    score: 1.0
+    note: "Names dropped Z designator and naive astimezone local reinterpretation, requires explicit UTC serialization and aware parsing."
+  - id: af431b89f400
+    fixture: cp-6-07
+    score: 1.0
+    note: "Names missing offset and naive-as-local parsing, requires Z suffix and fail-closed consumer."
+  - id: c261445cc392
+    fixture: cp-6-07
+    score: 1.0
+    note: "Names dropped UTC designator and naive reinterpretation, requires offset-preserving format and aligned parse."
+  - id: 1f926b7e810b
+    fixture: cp-6-08
+    score: 1.0
+    note: "Names cardinality-dependent items shape breaking List<Item> decoder, requires keeping array."
+  - id: c96e8673d95a
+    fixture: cp-6-08
+    score: 1.0
+    note: "Names polymorphic items shape vs Kotlin List decoder, requires reverting to array."
+  - id: e71690b86283
+    fixture: cp-6-08
+    score: 1.0
+    note: "Names shape-varying items field and decoder mismatch, requires unconditional array or versioned change."
+  - id: 7313ad866319
+    fixture: cp-6-09
+    score: 1.0
+    note: "Names (bool) cast making the string false truthy, requires strict comparison against the literal true."
+  - id: b291066e18c8
+    fixture: cp-6-09
+    score: 1.0
+    note: "Names textual boolean truthiness coercion, requires explicit literal comparison."
+  - id: b7dcc195e82c
+    fixture: cp-6-09
+    score: 1.0
+    note: "Names truthiness coercion of textual false, requires parsing declared string values."
+  - id: 3321ccd6f0e3
+    fixture: cp-6-10
+    score: 1.0
+    note: "Names reader/writer key drift and missing migration, requires reader update plus dual-read or backfill."
+  - id: 788aa05a7f92
+    fixture: cp-6-10
+    score: 1.0
+    note: "Names reader still on customer with no legacy path, requires dual-read/migration and rollout ordering."
+  - id: e8ac9068fe5e
+    fixture: cp-6-10
+    score: 1.0
+    note: "Names persisted reader/writer drift, requires aligned reader with fallback or migration."
+  - id: 183d864224c2
+    fixture: cp-6-11
+    score: 1.0
+    note: "Names 404/503 collapsed to 200 null, requires restoring distinct status mapping."
+  - id: 687937759a08
+    fixture: cp-6-11
+    score: 1.0
+    note: "Names error categories erased into 200, requires restoring NotFound->404 and Unavailable->503."
+  - id: 924dd0c1516a
+    fixture: cp-6-11
+    score: 1.0
+    note: "Names failure categories collapsed into success, requires restoring two-arm mapping."
+  - id: 036701443bf1
+    fixture: cp-6-12
+    score: 1.0
+    note: "Names parseInt+1 on opaque cursor, requires passing token verbatim."
+  - id: 574217a987af
+    fixture: cp-6-12
+    score: 1.0
+    note: "Names numeric reinterpretation of opaque cursor, requires pass-through unchanged."
+  - id: 95f8e16c2f7a
+    fixture: cp-6-12
+    score: 1.0
+    note: "Names opaque-cursor violation in onClick, requires load(nextCursor) verbatim."
+  - id: 20f17c944c09
+    fixture: cp-6-c1
+    false_positives: 0
+    note: "Acceptable as-is, no blocking findings."
+  - id: 2e3c675461e6
+    fixture: cp-6-c1
+    false_positives: 0
+    note: "Acceptable as-is; export/test-location remarks explicitly non-blocking."
+  - id: 8464cc0c1859
+    fixture: cp-6-c1
+    false_positives: 0
+    note: "Acceptable as-is; export type noted as style only."
+  - id: 0f49de56abfd
+    fixture: cp-6-c2
+    false_positives: 0
+    note: "Acceptable as-is, considered-and-declined items not raised."
+  - id: 4f39c001c8d7
+    fixture: cp-6-c2
+    false_positives: 3
+    note: "Blocks on check() not being a test and positional construction, also demands boundary validation; int64 question and nit not counted."
+  - id: 98c2bf967718
+    fixture: cp-6-c2
+    false_positives: 3
+    note: "Blocks on missing type validation and check() dead code, plus Require on dataclass rename/upstream mapping; int64 question not counted."
+  - id: 321f161f3d36
+    fixture: cp-6-c3
+    false_positives: 1
+    note: "Blocks demanding Memo be added to Client; key lists using the field as optional nitpick only, so blocking on it is a false positive."
+  - id: 7536ac049d1d
+    fixture: cp-6-c3
+    false_positives: 0
+    note: "Acceptable as-is, tolerant consumer recognized as documented policy."
+  - id: 9d0589d1b260
+    fixture: cp-6-c3
+    false_positives: 0
+    note: "Acceptable as-is, test suggestion explicitly non-blocking."
+  - id: 2ab488b54306
+    fixture: cp-6-c4
+    false_positives: 1
+    note: "Blocks on migrate matching customer while task says owner; idempotency item lower severity. Key-errata candidate: fixture task wording vs stored key is inconsistent."
+  - id: df3befe4a905
+    fixture: cp-6-c4
+    false_positives: 1
+    note: "Blocks on customer vs owner key mismatch; failure-path test item flag only. Key-errata candidate: same task/key wording inconsistency."
+  - id: ebcacae33800
+    fixture: cp-6-c4
+    false_positives: 1
+    note: "Blocks on customer vs owner key mismatch; idempotency flag non-blocking. Key-errata candidate: same task/key wording inconsistency."

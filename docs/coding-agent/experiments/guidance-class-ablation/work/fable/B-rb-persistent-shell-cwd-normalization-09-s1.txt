@@ -1,0 +1,37 @@
+**Cause: cwd drift in the persistent shell — a workspace (working-directory) problem, not a code/build problem.**
+
+A prior command in the same persistent session (`cd '/c/work/c-lib/tests'`) moved the shell's cwd to the `tests/` subdirectory, and that state persisted. `make -f Makefile test` resolves `Makefile` relative to cwd, and `C:/work/c-lib/tests/` contains only `test_math.c`, so `make` correctly reports `Makefile: No such file or directory` (exit 2). The Makefile exists one level up at `C:/work/c-lib/Makefile`. The tool UI's remembered root (`C:/work/c-lib`) diverged from the shell's actual cwd (`/c/work/c-lib/tests`), which is why the command "should have worked" from the UI's perspective.
+
+Evidence supporting this and ruling out other causes:
+- `pwd` before repair: `/c/work/c-lib/tests`; `ls -1` shows no Makefile there.
+- Absolute-path inspection confirms `C:/work/c-lib/Makefile` exists and is readable.
+- No code, branch, PATH, dependency, config, or permission changes between attempts.
+- The identical command succeeded (exit 0, `1 test passed`) once cwd was `/c/work/c-lib`.
+
+**Smallest safe remediation**
+
+Navigate once to the intended base directory and rerun the original command unchanged:
+
+```bash
+pwd                      # observe drift: /c/work/c-lib/tests
+cd '/c/work/c-lib'
+make -f Makefile test
+```
+
+Do not edit the Makefile, add `-C`/`--directory` flags, copy the Makefile into `tests/`, or change the build; those are unnecessary and would mask the real issue. For future retries in this persistent shell, avoid stacking `cd tests && ...` chains that assume a fresh cwd — either `cd` to the base explicitly first, or use a single explicit `cd /c/work/c-lib && make -f Makefile test` per invocation.
+
+**Confirmation**
+
+Already captured in the comparison run, and reproducible:
+1. `pwd` → `/c/work/c-lib` (normalized cwd).
+2. `make -f Makefile test` → exit 0, stdout `./build/test_math.exe` / `1 test passed`, stderr empty.
+3. Final `pwd` → `/c/work/c-lib` (no further drift).
+
+**Evidence record**
+- Failing command: `make -f Makefile test` → exit 2, `make: Makefile: No such file or directory` / `No rule to make target 'Makefile'`.
+- Pre-normalization cwd: `/c/work/c-lib/tests`
+- Normalized cwd: `/c/work/c-lib`
+- Rerun result: exit 0, 1 test passed
+- Final status: **resolved** (root cause: persistent-shell cwd drift)
+
+__ABLATION_DONE__ exit=0

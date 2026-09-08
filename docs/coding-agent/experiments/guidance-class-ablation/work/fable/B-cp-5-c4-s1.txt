@@ -1,0 +1,20 @@
+**Verdict:** Not acceptable as-is. Nothing here is dangerous, but the invariant is stated in three places by hand and the boundary that matters most is untested. Fix the first two items; the rest are flags.
+
+1. **`buffer.go`, `New` — limit is a magic number duplicated in code, error string, and test.**
+   `8*1024*1024` in the check, `8388608` in the message, `8388609` in the test are three independent restatements of the same invariant. Change one and the others silently drift (the error message would lie). Require a named exported constant (e.g. `MaxSize = 8 << 20`, and `MinSize = 1`), use it in the check, build the message from it, and have the test reference it.
+
+2. **`buffer.go`, `New` — error is not actionable.**
+   "buffer size must be 1..8388608" tells the operator the rule but not what they set. At startup this is the whole point of the check. Require the rejected value in the message: `fmt.Errorf("buffer size %d out of range [%d, %d]", size, MinSize, MaxSize)`.
+
+3. **`buffer_test.go` — upper valid boundary is not tested.**
+   You test 0, -1, 1, and 8388609, but never 8388608. An off-by-one (`>=` instead of `>`) passes this suite. Require `New(MaxSize)` to be asserted valid with `len(Allocate()) == MaxSize`. (Nit: the second assertion collapses "constructor failed" and "wrong length" into one `t.Fatal("valid")`; split them so a failure is diagnosable.)
+
+4. **Task framing vs. diff — no startup call site.**
+   The task is "validate at startup," but the diff only adds a constructor that validates when called. If the only caller is on the upload path, a bad config surfaces on the first upload, not at boot. I can't see the wiring from this diff; require either the call site in the same change or a pointer to where `New` is invoked during initialization, so the claimed guarantee is actually true.
+
+5. **`buffer.go`, zero-value `Buffer` — invariant is not protected outside `New`, and nothing says so.**
+   `buffer.Buffer{}` is constructible from any package (unexported fields don't prevent the zero literal), and `Allocate()` on it returns an empty slice rather than failing. For an upload buffer an empty slice is a silent failure mode (reads return 0 bytes; naive loops spin). The reviewer notes say this is intentional, and I'll accept that, but "intentional" must be visible: there are no doc comments on `Buffer`, `New`, or `Allocate`. Require a doc comment on `Buffer` stating that only instances from `New` are valid and the zero value is unusable. If you'd rather protect the invariant than document it, a one-line `if b.size == 0 { panic("buffer: use New") }` in `Allocate` is the fail-early option.
+
+6. **Nit: not `gofmt`'d.** Single-line struct/func bodies will be rewritten by `gofmt`; run it before merge so the next diff isn't noise.
+
+__ABLATION_DONE__ exit=0

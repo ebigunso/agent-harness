@@ -1,0 +1,15 @@
+**Cause:** This is not a workspace or runtime problem. The script did exactly what it was written to do: `[1,1]` parsed as an `Object[]` of two integers, the array-shape check passed, and the `HashSet[long].Add` returned `$false` on the second `1`, so the script threw `Duplicate item 1`. Exit code 1 is the correct outcome for input that violates the uniqueness contract. PowerShell 7.4.6, `-NoEnumerate`, and the `-isnot [array]` check are all behaving correctly.
+
+**Smallest safe remediation:** Fix the data, not the probe. The input must contain unique integer IDs, so the second `1` needs to be removed or changed (e.g. `[1,2]`, or drop the duplicate entry) at whatever source produces `$raw`. Do not loosen the uniqueness check, swallow the throw, or dedupe silently in the probe — that would hide the exact contract violation the probe exists to catch.
+
+If the test harness needs a cleaner signal than an unhandled `throw` (which prints a stack-ish message and returns exit code 1 anyway), the only optional tweak would be to `Write-Error` and `exit 1` explicitly, but that changes nothing about the outcome.
+
+**Confirmation:** After correcting the input, rerun:
+
+```powershell
+pwsh -NoProfile -File probes/unique.ps1; $LASTEXITCODE
+```
+
+Expect stdout `raw=[1,2]` (or whatever the corrected payload is), `parsed type=System.Object[]`, no stderr, and `$LASTEXITCODE` of `0`. As a negative control, leave `[1,1]` in place and confirm the probe still fails with `Duplicate item 1` and exit code 1, proving the check remains intact.
+
+__ABLATION_DONE__ exit=0

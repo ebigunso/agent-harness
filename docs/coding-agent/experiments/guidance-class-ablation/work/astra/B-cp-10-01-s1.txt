@@ -1,0 +1,51 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819c-800e-76d0-b4f8-2081417eb3d1
+--------
+user
+Reference material loaded for this review:
+
+### 10) Leave the System Easier to Change
+
+- Improve clarity, boundaries, or diagnostics when touching code.
+- Avoid debt amplification in the name of short-term speed.
+- Prefer incremental improvement aligned with existing architecture.
+
+Review checks:
+- Is maintainability improved, neutral, or degraded?
+- Did the change reduce future risk at reasonable cost?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Show eligibility in four entry points.
+
+```diff
+--- a/Eligibility.kt
++++ b/Eligibility.kt
+@@ -1 +1,5 @@
+ fun eligible(age: Int) = age >= 18
++fun homeBadge(age: Int) = age >= 18
++fun settingsBadge(age: Int) = age >= 18
++fun exportBadge(age: Int) = age >= 18
++fun profileBadge(age: Int) = age >= 18
+```
+Commit message: "show eligibility in four entry points"
+
+Reviewer notes: Age is a validated nonnegative integer. Existing eligible is authoritative; policy ticket schedules threshold change 18→21 next month. Author note: quick copy for this release.
+
+codex
+- **`Eligibility.kt:2–5` — The four badge functions duplicate the authoritative eligibility rule.** The scheduled threshold change from 18 to 21 could leave badges showing inconsistent eligibility if only `eligible` is updated. Require each badge function to delegate to `eligible(age)` so all four entry points follow future policy changes automatically.
+tokens used
+3,159
+- **`Eligibility.kt:2–5` — The four badge functions duplicate the authoritative eligibility rule.** The scheduled threshold change from 18 to 21 could leave badges showing inconsistent eligibility if only `eligible` is updated. Require each badge function to delegate to `eligible(age)` so all four entry points follow future policy changes automatically.
+
+__ABLATION_DONE__ exit=0

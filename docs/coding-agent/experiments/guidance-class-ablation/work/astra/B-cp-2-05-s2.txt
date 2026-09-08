@@ -1,0 +1,69 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d7d-6db1-7182-a09d-1b519124567b
+--------
+user
+Reference material loaded for this review:
+
+### 2) Prefer Root-Cause Fixes Over Symptom Patches
+
+- Address the source of the issue instead of adding repeated local workarounds.
+- Avoid duplicating fragile logic across modules.
+- Strengthen invariants where failures originate.
+
+Review checks:
+- Does the change remove the cause or only suppress outcomes?
+- Is duplicated or compensating logic being introduced?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Remove duplicate invoice-ID allocation failures across HTTP and batch workers.
+
+```diff
+--- a/invoices/allocate.go
++++ b/invoices/allocate.go
+@@ -1,18 +1,22 @@
+ package invoices
+
+-import "database/sql"
++import ("database/sql"; "sync")
++
++var httpMu sync.Mutex
+
+ func allocate(db *sql.DB) (int64, error) {
+     var id int64
+     if err := db.QueryRow("SELECT COALESCE(MAX(id), 0) + 1 FROM invoices").Scan(&id); err != nil {
+         return 0, err
+     }
+     _, err := db.Exec("INSERT INTO invoices(id) VALUES (?)", id)
+     return id, err
+ }
+ func HTTPCreate(db *sql.DB) (int64, error) {
++    httpMu.Lock()
++    defer httpMu.Unlock()
+     return allocate(db)
+ }
+ func BatchCreate(db *sql.DB) (int64, error) {
+     return allocate(db)
+ }
+```
+Commit message: "serialize HTTP invoice creation"
+
+Reviewer notes: SQLite is shared by separate service and batch OS processes. invoices.id is a primary key; collisions surface as failed creations. Existing database supports authoritative auto-generated integer IDs. There are no other writers; inputs are validated before these functions.
+
+codex
+- **`invoices/allocate.go` — `HTTPCreate` / `allocate`:** The mutex serializes only HTTP calls within one process. Batch calls bypass it, and separate OS processes cannot share it, so concurrent writers can still read the same `MAX(id) + 1` and collide on insertion. This leaves the reported creation failures unresolved. Require database-authoritative ID allocation: omit `id` from the insert, let SQLite generate it, and retrieve that insert’s ID through `LastInsertId` or `RETURNING id`. Apply this in the shared `allocate` function and remove the HTTP-only mutex.
+tokens used
+3,436
+- **`invoices/allocate.go` — `HTTPCreate` / `allocate`:** The mutex serializes only HTTP calls within one process. Batch calls bypass it, and separate OS processes cannot share it, so concurrent writers can still read the same `MAX(id) + 1` and collide on insertion. This leaves the reported creation failures unresolved. Require database-authoritative ID allocation: omit `id` from the insert, let SQLite generate it, and retrieve that insert’s ID through `LastInsertId` or `RETURNING id`. Apply this in the shared `allocate` function and remove the HTTP-only mutex.
+
+__ABLATION_DONE__ exit=0

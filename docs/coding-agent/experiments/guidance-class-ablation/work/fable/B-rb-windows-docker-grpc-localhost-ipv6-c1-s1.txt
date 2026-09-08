@@ -1,0 +1,27 @@
+**Cause**
+
+This is not the loopback/IPv6 asymmetry from the reference note, and it is not a workspace or client problem. The evidence rules that out:
+
+- `127.0.0.1:50051` and `localhost:50051` fail identically (`DEADLINE_EXCEEDED`, exit 2). The reference scenario requires IPv4 to work while `localhost` hangs; here there is no asymmetry, and the IPv4 retry — the note's own step 1 — already happened and failed.
+- The service *did* receive the calls: the interceptor logged an invocation for each, and the handler trace shows `method=Echo invoked=true phase=db-query waiting_on=lock-42`. The reference note's precondition ("service logs show no incoming request") is false.
+- Port 50080 (HTTP/1.1 health) answering in 12 ms only confirms the container and port publishing are fine; it says nothing about the handler's DB dependency.
+
+The gRPC unary call reaches the server, enters the handler, and blocks on database lock `lock-42`, which is held by a stalled migration transaction. The client's 2 s deadline expires while the handler is still waiting. The probe's exit 2 / stderr message is just its normalized reporting of that deadline.
+
+**Smallest safe remediation**
+
+Fix the server-side blocker, not the client:
+
+1. Identify the session holding `lock-42` (the stalled migration transaction) in the database.
+2. Let it complete if it is actually progressing; otherwise terminate/roll back that transaction so the lock is released.
+3. Do not change the connection string to `127.0.0.1` (already tried, no effect), do not raise the probe timeout, and do not touch port mappings or Docker settings — none of those are implicated.
+
+Terminating a migration transaction is the only step with side effects; confirm it is genuinely stalled (no progress, idle in transaction) before killing it, and check the migration's state afterward so a half-applied migration is not left behind.
+
+**Confirmation**
+
+- Re-run `python probes/unary.py --target 127.0.0.1:50051 --timeout 2` (and optionally `localhost:50051`): expect exit 0 and the response value on stdout, empty stderr.
+- Check the handler trace for a new Echo invocation: expect it to pass `phase=db-query` with no `waiting_on=lock-42`.
+- Verify no session still holds `lock-42` and the migration is in a consistent state (applied or cleanly rolled back).
+
+__ABLATION_DONE__ exit=0

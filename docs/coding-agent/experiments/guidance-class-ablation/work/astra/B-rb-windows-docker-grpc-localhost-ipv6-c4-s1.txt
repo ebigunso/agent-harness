@@ -1,0 +1,132 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d81-6527-7323-9fe8-56713aa2d661
+--------
+user
+Reference material loaded for this review:
+
+# gRPC hangs against Docker Desktop published ports on Windows (REST sibling port fine)
+
+## Symptoms
+- a gRPC client targeting `localhost:<port>` on Docker Desktop for Windows hangs until client timeout
+- a REST/HTTP endpoint on a sibling published port of the same service responds fast
+- the service's own logs show no incoming request for the hanging gRPC calls
+
+## Likely cause
+`localhost` can resolve to IPv6 `::1` first. Docker Desktop's IPv6 port proxy accepts the TCP connect but stalls HTTP/2, so the gRPC channel hangs at the transport layer while plain HTTP/1.1 (REST) still works. The service itself is healthy.
+
+## Safe, ordered steps
+
+1) Test IPv4 vs IPv6 connect paths before suspecting the service
+- retry the gRPC call with `127.0.0.1:<port>` instead of `localhost:<port>`
+- if IPv4 works and `localhost` hangs, the asymmetry is the loopback resolution, not the service
+
+2) Fix the connection string
+- prefer `127.0.0.1` over `localhost` in local connection strings for gRPC clients targeting Docker Desktop published ports on Windows
+
+3) Only if IPv4 also fails
+- then investigate the service, port publishing, and container health as usual
+
+## Evidence to capture
+- exact target address used (`localhost` vs `127.0.0.1`) and port
+- gRPC timeout/error output vs REST response timing on the sibling port
+- result of the IPv4 retry
+
+## Scope
+Windows + Docker Desktop published ports; gRPC (HTTP/2) clients connecting to local containers.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic diagnostic scenario; Docker address asymmetry and timing are constructed observations, not a claim of live reproduction.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; Docker Desktop 4.35.1, WSL2 backend; .NET SDK 8.0.404; Grpc.Net.Client 2.67.0; cwd C:/work/grpc-local. Service port 50051 is plaintext h2c gRPC, sibling port 50080 is HTTP/1.1 health. There is no TLS/certificate-name check. Project probe files and dependencies exist, are validated, and built/cached.
+
+Probe contract: The project probe accepts --target, --timeout (seconds; Go accepts a duration), and where shown --method. It prints response values to stdout only after a successful call. It explicitly maps deadline status to process exit 2 and stderr "DEADLINE_EXCEEDED: deadline expired after 2s"; UNAVAILABLE maps to 2, PERMISSION_DENIED and UNIMPLEMENTED to 3. These are probe-defined normalized messages, not claims about each library's default CLI formatting. It does not override localhost resolution or retry with a different address.
+
+Command: `dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --method Absent`
+
+Exit code: 3
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+UNIMPLEMENTED: unknown method Absent
+```
+
+Address-only comparison:
+
+Command: `dotnet run --project probes/GrpcProbe -- --target localhost:50051 --method Absent`
+
+Exit code: 3
+
+stdout:
+```text
+(empty)
+```
+
+stderr:
+```text
+UNIMPLEMENTED: unknown method Absent
+```
+
+HTTP sibling comparison:
+
+Command:
+```powershell
+curl.exe --silent --show-error --max-time 2 --write-out '\nhttp_code=%{http_code} total_seconds=%{time_total}\n' http://localhost:50080/health
+```
+Exit code: 0.
+
+stdout:
+```text
+200 OK
+http_code=200 total_seconds=0.012000
+```
+
+stderr: (empty).
+
+Diagnostic observations: Both addresses return the same response promptly. Server access logs record the absent method; the deployed descriptor exposes Ping, not Absent. Probe has a default two-second deadline when --timeout is omitted. Transport succeeds.
+
+Service/port evidence:
+```text
+method=Absent transport=h2c status=UNIMPLEMENTED
+```
+
+codex
+The cause is an unsupported RPC method: the command requests `Absent`, but the deployed service exposes `Ping`. Both addresses promptly return `UNIMPLEMENTED`, and server logs record the request, confirming transport succeeds. This is not a workspace problem or the referenced IPv6/localhost hang.
+
+The smallest safe remediation is to use the supported method:
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --method Ping
+```
+
+Confirm the probe returns a successful response on stdout, exits with code `0`, and the server logs show a successful `Ping` call. No networking or timeout changes are needed.
+tokens used
+3,862
+The cause is an unsupported RPC method: the command requests `Absent`, but the deployed service exposes `Ping`. Both addresses promptly return `UNIMPLEMENTED`, and server logs record the request, confirming transport succeeds. This is not a workspace problem or the referenced IPv6/localhost hang.
+
+The smallest safe remediation is to use the supported method:
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --method Ping
+```
+
+Confirm the probe returns a successful response on stdout, exits with code `0`, and the server logs show a successful `Ping` call. No networking or timeout changes are needed.
+
+__ABLATION_DONE__ exit=0

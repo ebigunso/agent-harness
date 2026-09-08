@@ -1,0 +1,43 @@
+## Findings
+
+### 1. `Counter.cs`, `Consume` — no deduplication by event ID (blocking)
+
+**What's wrong:** `Consume` unconditionally does `Value += message.Delta`. The `Event.Id` field is carried but never read.
+
+**Why it matters:** The reviewer notes state the transport is at-least-once and the same event ID can repeat. Under that contract, every redelivery double-applies the delta, so `Value` drifts from the true count. The task is "apply delivered counter events," and the stated requirement is "each event delta must apply once" with the ID as authoritative identity — this implementation violates that requirement on the first redelivery. It's not an edge case; at-least-once transports redeliver routinely (timeouts, consumer restarts, ack loss).
+
+**What I'd require:** Track applied event IDs and skip any event whose ID has already been consumed, e.g.:
+
+```csharp
+public sealed class Counter {
+    private readonly HashSet<string> _applied = new();
+    public int Value { get; private set; }
+
+    public bool Consume(Event message) {
+        if (!_applied.Add(message.Id)) return false; // duplicate delivery, already applied
+        Value += message.Delta;
+        return true;
+    }
+}
+```
+
+Returning whether the event was applied is optional but useful for callers/metrics; the dedup itself is the requirement. Since the note says the consumer is serial, an unsynchronized `HashSet` is fine for now.
+
+Two things the author should address alongside the fix:
+- **Bounded memory:** an ever-growing set of IDs will leak in a long-lived consumer. Either document that the ID set is expected to be small/finite for this consumer's lifetime, or bound it (e.g., only IDs from the current window if the transport gives ordering guarantees, or persist the applied set with the counter if the counter is durable).
+- **Test coverage:** add a test that delivers the same `Event` twice and asserts `Value` changed only once. The diff ships no tests, and this is exactly the behavior that distinguishes correct from incorrect here.
+
+### 2. `Counter.cs`, `Consume` — `message` is not null-checked (minor, non-blocking)
+
+`Consume(null)` throws `NullReferenceException` at `message.Delta`. Not a correctness bug under normal use, but an `ArgumentNullException.ThrowIfNull(message)` gives a clearer failure. I'd mention it but wouldn't block on it.
+
+## Not flagging
+
+- **Integer overflow:** notes say counts fit `int`; no `checked` arithmetic required.
+- **Thread safety:** notes say the consumer is serial; no locking required. If that changes, the dedup set and `Value` update will need to be atomic together.
+
+## Verdict
+
+**Not acceptable as-is.** Finding 1 means the code does not meet its stated requirement — it will overcount on any redelivery. Add ID-based deduplication and a duplicate-delivery test before merging.
+
+__ABLATION_DONE__ exit=0

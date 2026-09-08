@@ -1,0 +1,39 @@
+**Verdict:** This is not the scenario the loaded reference material describes. There is no `.node` unlink, no EBUSY, and no process holding a file — `tasklist /m` and `taskkill` are irrelevant and should not be used here. Killing processes would do nothing except risk collateral damage.
+
+**Cause**
+
+`npm ci` fails before touching the workspace. npm's cache directory is configured as `C:\locked-cache` (`npm config get cache`), and the effective ACL on that path explicitly denies this user create/write access. npm needs to `mkdir` and write into the cache to fetch and extract tarballs, so the first cache write raises `EPERM` (errno -4048) and the install aborts. The lockfile and `package.json` are in sync and the repo path is writable, so the project itself is fine — this is a local npm configuration/permissions problem, not a workspace problem.
+
+**Smallest safe remediation**
+
+Point npm at a writable cache instead of fighting the ACL on `C:\locked-cache` (changing ACLs on an explicitly-denied directory is the larger, riskier change and probably intentional on that machine).
+
+First, find where the setting comes from so you fix the right layer rather than masking it:
+
+```powershell
+npm config list -l | Select-String cache
+Get-ChildItem Env:npm_config_cache -ErrorAction SilentlyContinue
+```
+
+Then either:
+
+- One-off, zero persistent change (preferred for the immediate retry):
+  ```powershell
+  npm ci --cache "$env:LOCALAPPDATA\npm-cache"
+  ```
+- Or, if the bad value lives in your user `.npmrc` / an env var, correct it at that source:
+  ```powershell
+  npm config set cache "$env:LOCALAPPDATA\npm-cache" --location=user
+  ```
+  (If it is set in the repo's `.npmrc`, don't silently edit that — check with the team why it's pinned to `C:\locked-cache`; it may be a CI leftover.)
+
+**Confirmation**
+
+1. `npm config get cache` returns the new writable path.
+2. `npm ci` exits 0, with no `EPERM`/`mkdir` errors in stderr and a normal `added N packages` summary.
+3. `node_modules` exists in `C:/work/npm-lock` and `npm ls --depth=0` reports no missing/invalid packages.
+4. Optionally `npm cache verify` succeeds against the new cache location, proving npm can read and write there.
+
+**Record for the log:** original command (`npm ci`), error (`EPERM mkdir C:\locked-cache`, errno -4048), cache path source, remediation applied (cache redirected to `%LOCALAPPDATA%\npm-cache`), no PIDs killed, retry result.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,23 @@
+**Findings**
+
+1. **auth.ts — `exportStatus`: no evidence for the denied path, which is the entire point of the change.**
+   The task is *restrict* export to admin. The only risk this change carries is that a non-admin role still receives 200. The submitted evidence (screenshot of the admin Export button, a successful admin route response) exercises only the allow branch — the branch that was already true before the change. Nothing submitted distinguishes the new code from the old code. A change whose validation cannot fail against the pre-change behavior has not been validated.
+   **Required:** show the deny branch. `exportStatus("viewer")` must return 403, and ideally the route-level check with a viewer session returns 403 as well. This is the block-level item.
+
+2. **auth.ts — evidence is a UI screenshot rather than a test against the seam the diff actually created.**
+   `exportStatus(role: Role)` is a pure function over a closed two-member union. It is the ideal deterministic seam: two inputs, two expected outputs, no setup. A browser screenshot is fragile, non-reproducible, and doesn't run in CI. Given the surface (authorization gate) and the cost (a two-line test), the evidence-to-risk ratio is wrong.
+   **Required:** add a unit test covering both members of `Role`:
+   ```ts
+   expect(exportStatus("admin")).toBe(200);
+   expect(exportStatus("viewer")).toBe(403);
+   ```
+   Keeping this exhaustive over the union also means a future role addition that isn't handled will be visible in review rather than silently falling into the 403 (or, if someone later flips the conditional, silently falling into 200).
+
+**Not flagged**
+
+- The code change itself is correct: `Role` is a closed union, the reviewer note confirms middleware supplies it without an untrusted cast, and the ternary yields 403 for the only non-admin member. No defect in the logic.
+- Commit message matches the change.
+
+**Verdict:** Not acceptable as-is. The diff is fine; the submission is blocked on evidence — add the deny-path test (item 1/2) and it can merge.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`report.py` — `check()` is a test harness living in the production module.**
+   It is never called, relies on bare `assert` (silently removed under `python -O`), and its name says nothing about its role — a reader of `report.py` has to work out that this is a self-test rather than part of the report API. It also bloats the module's public surface: anyone doing `from report import *` or introspecting the module gets `check`. Require: move these cases to a test file (`test_report.py`) using the project's test runner, and drop `check()` from `report.py`. If the project genuinely has no test infrastructure, at minimum guard it under `if __name__ == "__main__":` and name it for what it is (`_self_test`), but a real test file is the right answer.
+
+2. **`display_name` — `.title()` is a lossy transformation that mis-formats legitimate names.**
+   `"McDonald"` → `"Mcdonald"`, `"O'NEIL"` → `"O'Neil"` (fine) but `"van der Berg"` → `"Van Der Berg"`, `"DeSouza"` → `"Desouza"`, `"iPhone Team"` → `"Iphone Team"`. The task was "format consistently"; title-casing is consistent but also destructive, and nothing in the diff, commit message, or notes acknowledges that trade-off. Even as display-only, this will produce visibly wrong output for real inputs. Require either: (a) an explicit statement from the author that inputs are known to be simple single-token first names and this is acceptable, recorded in a docstring on `display_name`; or (b) narrow the normalization to what is unambiguously safe — `strip()` plus collapsing internal whitespace — and leave casing alone (or only capitalize the first letter). The helper also currently bundles two different concerns (whitespace normalization and case policy) under one name; if both are kept, the docstring should say so.
+
+3. **Minor — stated empty-name behavior isn't exercised.**
+   The notes say "empty names intentionally remain empty," but the checks never include `""` or `"   "`. The actual result is a stray separator: `report(["", "ada"]) == ", Ada"`. If that is genuinely intended, add a test that pins it so the next person doesn't "fix" it; if it isn't, filter empties before joining. Either way the intent should be encoded, not just asserted in review notes.
+
+Nothing else to raise: `display_name` and `report` are pure, correctly named, at a single abstraction level, and the non-mutation of the input list is real (generator over the list, no in-place ops).
+
+__ABLATION_DONE__ exit=0

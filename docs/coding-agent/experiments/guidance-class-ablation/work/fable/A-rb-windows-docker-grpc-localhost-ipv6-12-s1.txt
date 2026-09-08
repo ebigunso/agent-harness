@@ -1,0 +1,29 @@
+## Cause
+
+The probe is fine and the server is fine; the failure is the address the channel picked. `localhost` now resolves to `::1` before `127.0.0.1`, and grpc-java's pick-first uses the first address. Docker Desktop's port proxy accepts the TCP connect on `[::1]:50051` (so there's no connect failure to trigger a fallback to the next address), but nothing behind that IPv6 loopback listener forwards to the container's h2c server — no HTTP/2 SETTINGS/response headers come back, the server interceptor never logs the call, and the 2s deadline expires. That yields exactly `DEADLINE_EXCEEDED`, exit 2.
+
+The HTTP sibling looks healthy only because `curl` does Happy-Eyeballs-style dual-stack attempts and quickly lands on `127.0.0.1:50080`; it isn't evidence that the `::1` path works.
+
+The address-only comparison confirms it: identical everything except `--target 127.0.0.1:50051` → exit 0, `pong`, `invoked=true completed=true`. The trigger is the local profile change from `127.0.0.1:50051` to `localhost:50051` made immediately before the failure. This is a workspace/configuration problem, not a code or infrastructure regression.
+
+## Smallest safe remediation
+
+Revert the local configuration profile target to `127.0.0.1:50051`.
+
+That undoes the one change that introduced the failure and touches nothing else. I would *not* reach for `-Djava.net.preferIPv4Stack=true`, host DNS/hosts-file edits, or Docker daemon changes — those are broader than the problem. (If you later want `localhost` to work, the proper fix is on the publish side, e.g. `-p 127.0.0.1:50051:50051` so IPv6 loopback stops offering a dead listener, or make the container service dual-stack — but that's a separate, deliberate change.)
+
+## Confirmation
+
+1. Re-run the same probe through the reverted profile (effective target `127.0.0.1:50051`):
+   ```powershell
+   java -jar probes/kotlin-probe.jar --target 127.0.0.1:50051 --timeout 2; $LASTEXITCODE
+   ```
+   Expect exit `0`, stdout `pong`, empty stderr.
+2. Check the service interceptor log shows a new `probe method="unary Echo" transport=h2c invoked=true completed=true` entry for that call — this proves the request actually reached the server rather than merely not timing out.
+3. Optionally pin the diagnosis so nobody re-flips the target:
+   ```powershell
+   curl.exe -6 --silent --show-error --max-time 2 http://localhost:50080/health
+   ```
+   Expect a timeout/empty response (exit 28), versus success with `-4`. That's the IPv6-loopback asymmetry the gRPC channel was hitting, made visible on the HTTP port.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,16 @@
+**Cause:** This is a script bug in the workspace, not an environment/runtime problem. `$parsed = @($raw | ConvertFrom-Json)` wraps whatever comes back in an array literal. For the scalar wire value `7`, `ConvertFrom-Json` yields the `Int64`/`Int32` `7`, and `@(...)` turns it into `System.Object[]` (as the stdout `parsed type=System.Object[]` shows). The subsequent `$parsed -is [array]` is therefore always true regardless of the wire shape, so the inverse test throws on a value it should have rejected quietly. The `-is [array]` check reflects the `@()` wrapper (and, in the other direction, pipeline unrolling), never the JSON framing — exactly the anti-pattern the reference notes warn about in step 1.
+
+**Smallest safe remediation:** Assert framing on the raw serialized string instead of on the parsed object's type. Replace the last line (and stop relying on the `@()` wrapper for the assertion):
+
+```powershell
+$isWireArray = $raw.Trim().StartsWith('[') -and $raw.Trim().EndsWith(']')
+if ($isWireArray) { throw 'Scalar wire JSON accepted as array' }
+```
+
+(Keep `ConvertFrom-Json` in place so invalid JSON still errors under `$ErrorActionPreference = 'Stop'`.) An equivalent alternative on pwsh 7.4 is `$parsed = $raw | ConvertFrom-Json -NoEnumerate` without `@()` and then testing `-is [array]`, but the raw-framing check is the smaller change, is cardinality-stable for `[]`, `[x]`, `[x,y]`, and also works if the probe is ever run under Windows PowerShell 5.1.
+
+**Confirmation:**
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1` — expect exit code 0, stdout still showing `raw=7` / `wire elements=not an array`, and no throw on stderr.
+2. Sanity-check the contract's other cases by temporarily setting `$raw` to `'[]'`, `'[7]'`, and `'[1,2]'` — each should set `$isWireArray` to `$true` (i.e. the positive checker accepts them and this inverse probe would fire), while `'7'` and `'"7"'` should not. The `'[7]'` case specifically verifies the one-element array is still recognised as an array, which the old type-based check could not guarantee after pipeline unrolling.
+
+__ABLATION_DONE__ exit=0

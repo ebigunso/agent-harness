@@ -1,0 +1,43 @@
+**Cause**
+
+This is not a workspace configuration problem. The lockfile is in sync, the directory and cache are writable, ACLs are fine (a probe file beside the module can be created/removed), and the registry is reachable. The failure is a Windows file lock: `npm ci` must delete `node_modules` before reinstalling, and it hit `EBUSY` on `better_sqlite3.node` because two running processes have that native addon mapped. Windows will not let a loaded DLL/`.node` be unlinked.
+
+`tasklist /m better_sqlite3.node` identifies the holders: `node.exe` PIDs **4111** and **4112**. Both are repository-owned test workers (`C:/work/npm-lock/workers/test-worker.js`) with `C:\work\npm-lock\node_modules\better-sqlite3\build\Release\better_sqlite3.node` loaded, and neither has exited. Nothing about the addon itself is wrong — it built and loaded fine before this install.
+
+**Smallest safe remediation**
+
+1. Stop the two test workers gracefully — via whatever launched them (the test runner / watch session / terminal: Ctrl+C or the runner's stop command). Do not delete `node_modules` by hand, do not elevate, do not reinstall the package individually; none of that addresses the lock.
+2. Verify the lock is gone:
+   ```powershell
+   tasklist /m better_sqlite3.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Only if the workers refuse to exit, terminate exactly the confirmed PIDs:
+   ```powershell
+   taskkill /PID 4111 /F
+   taskkill /PID 4112 /F
+   ```
+   Re-run the `tasklist /m` check before proceeding.
+4. Retry the original command unchanged:
+   ```powershell
+   npm ci
+   ```
+
+**Confirmation**
+
+- `tasklist /m better_sqlite3.node` reports no matching tasks before the retry.
+- `npm ci` exits 0 with no `EBUSY`/`unlink` errors, and `node_modules\better-sqlite3\build\Release\better_sqlite3.node` is present (rebuilt/reinstalled for Node 20.18.0).
+- Optional sanity check: `node -e "require('better-sqlite3')"` exits 0, and `npm ls better-sqlite3` shows 9.6.0 without errors.
+- If the retry fails again, it's a different holder: look at the module named in the new error and run `tasklist | findstr node` to find any other node processes that started in the meantime (e.g., a test runner that respawned its workers).
+
+**Record for the log**
+
+- Original command: `npm ci` → exit 1, `EBUSY: resource busy or locked, unlink '...\better_sqlite3.node'` (errno -4082).
+- Locked module: `C:\work\npm-lock\node_modules\better-sqlite3\build\Release\better_sqlite3.node` (better-sqlite3 9.6.0).
+- `tasklist /m better_sqlite3.node`: node.exe 4111, node.exe 4112 — both `workers/test-worker.js`, repo-owned.
+- PIDs stopped: 4111, 4112 (note whether gracefully or via `taskkill /F`).
+- Retry: `npm ci` result and the post-stop `tasklist /m` output.
+
+One follow-up worth considering: if these workers are a persistent test/watch mode, add a pre-install step (or a note in the contributing docs) to stop them before running `npm ci`, since this will recur every time the native addon needs to be replaced.
+
+__ABLATION_DONE__ exit=0

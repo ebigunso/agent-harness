@@ -1,0 +1,34 @@
+**Verdict: not acceptable as-is.** The change patches one caller instead of the shared validator that regressed, so two of the three surfaces named in the task are still broken.
+
+## Findings
+
+### 1. `src/dates.php` — `validDate()` is still shape-only; `apiAccepts()` and `importAccepts()` remain regressed
+The regression was the removal of `checkdate` from the shared `validDate()`. The diff leaves `validDate()` untouched and only adds calendar checking inside `formAccepts()`. Consequently `apiAccepts('2023-02-30')`, `importAccepts('2023-02-29')`, `apiAccepts('2024-04-31')`, and `importAccepts('0000-01-01')` all still return `true`. The task explicitly requires restoring calendar-valid dates for form, API and imports; this delivers one of three.
+
+**Require:** fix at the origin — restore `checkdate` inside `validDate()` so every caller inherits the correct invariant:
+
+```php
+function validDate(string $value): bool {
+    if (preg_match('/^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/D', $value, $p) !== 1) {
+        return false;
+    }
+    return checkdate((int)$p[2], (int)$p[3], (int)$p[1]);
+}
+```
+
+`checkdate` rejects year 0, so this also enforces the 0001–9999 contract that the bare regex currently violates.
+
+### 2. `src/dates.php` — `formAccepts()` duplicates the regex and validation logic
+The new `formAccepts()` body is a copy of the pattern in `validDate()` plus the `checkdate` step. This is compensating logic layered on top of a broken shared function: the two copies will drift (a future change to the shared pattern or year range won't propagate), and it signals to the next reader that form has "special" date rules when it doesn't.
+
+**Require:** revert `formAccepts()` to `return validDate($value);` once fix #1 is in place. All three accessors should be one-line delegations to the single validator.
+
+### 3. Commit message scope
+"validate form calendar dates" describes the symptom patch, not the regression being fixed. Minor, but once the fix is moved to `validDate()` it should read as restoring shared calendar validation (e.g., "restore checkdate in shared date validator") so the history reflects that API and import were affected.
+
+## Recommended shape of the change
+- One-line functional change in `validDate()` (regex → capture groups → `checkdate`).
+- `formAccepts`, `apiAccepts`, `importAccepts` unchanged from pre-diff (all delegate).
+- Add tests asserting `2023-02-29`, `2024-02-30`, `2023-04-31`, `0000-01-01` are rejected and `2024-02-29`, `0001-01-01`, `9999-12-31` are accepted — through all three entry points, so the regression can't silently return to one of them.
+
+__ABLATION_DONE__ exit=0

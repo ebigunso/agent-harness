@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.**
+
+I checked the diff against the stated task (keep `domain` independent of `outer`) and for compile/behavioral correctness:
+
+- **Dependency direction is correct.** `domain` contains only `Quotes` and `price`, and references nothing from `outer` or any other module. `outer` imports `crate::domain::{self, Quotes}` and implements the trait on its own private `Fixed` type. The arrow points one way, which is exactly what the task asked for.
+- **Compiles cleanly.** `Fixed` is private but only used inside `outer`; `use crate::domain::{self, Quotes}` brings both the module path and the trait into scope for the `impl`; `domain::price(&Fixed)` satisfies `&impl Quotes`. A bare `#[test] fn` at the crate root is fine without a `#[cfg(test)]` wrapper.
+- **No overflow risk.** `q.cents() + 10` on `u32` cannot overflow under the stated contract (`cents <= 1_000_000`), so no `checked_add`/`saturating_add` is warranted.
+- **Test is correct and actually exercises the wiring.** `100 + 10 == 110`, and it goes through `outer::price` → `domain::price` → `Fixed::cents`, so a regression that inverted or broke the boundary would be caught.
+
+One non-blocking thing I'd confirm before merging, not a defect in the code itself: the diff adds the file at `lib.rs` (repo root), not `src/lib.rs`. Cargo only picks that up if `Cargo.toml` has `[lib] path = "lib.rs"`. If the existing crate is already configured that way, nothing to do; if not, the file won't be compiled and the test won't run.
+
+__ABLATION_DONE__ exit=0

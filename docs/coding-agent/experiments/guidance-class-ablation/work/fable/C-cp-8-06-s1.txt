@@ -1,0 +1,17 @@
+**Verdict: block.** The change replaces a correct, one-line, two-arm `match` with a build script, an `include!` of a generated file, and a separate proc-macro crate that emits the exact same two-arm `match`. Nothing is generated from anything — every layer is a hardcoded constant. With two variants, no schema, no external consumers, and no plan for more variants (per the reviewer notes), this is pure accidental complexity. Revert to the original `label` function.
+
+Specific findings:
+
+1. **Whole change (`build.rs`, `src/lib.rs`, `label_macro/`)** — Three levels of indirection with zero inputs. `build.rs` writes a fixed string; the string calls a macro that returns a fixed string. There is no data source (no schema, no table, no attribute list) that these layers read from, so "generation" here generates nothing. Each layer costs a build step, a crate, an `OUT_DIR` path, and worse compile errors, and buys back nothing. Required: restore `pub fn label(state: State) -> &'static str { match state { ... } }` and delete `build.rs`, `label_macro/`, and the `[dependencies]` entry.
+
+2. **`label_macro/src/lib.rs`** — The macro hardcodes `State::Ready` / `State::Done`. It is not an abstraction over enums; it is the original function body moved into another crate, with the variant list now split from the enum definition. Adding a variant to `State` still fails exhaustiveness, but the error now points into macro-expanded code in an `OUT_DIR` file. Also, the proc-macro crate depends conceptually on a type (`State`) defined in the crate that depends on it — the Cargo graph is acyclic but the knowledge dependency is circular. Required: drop the crate; a proc macro is only justified once it is parameterised over something and has more than one real call site.
+
+3. **`label_macro/src/lib.rs`, `.replace("\\\"", "\"")`** — This is a no-op: `format!` emits `\"Ready\"` as plain `"Ready"` in the output string; there is no `\"` sequence to replace. It reads as trial-and-error left in the code and would confuse the next maintainer. Combined with `.parse().unwrap()`, any malformed input produces a panic inside the proc macro rather than a diagnostic. Required (if the macro survived, which it should not): remove the `replace`, and use `syn`/`quote` or at least return a `compile_error!` on parse failure.
+
+4. **`build.rs`, `cargo:rerun-if-changed=build.rs`** — Correct in isolation, but it highlights the problem: the only input to this build script is itself. A build script whose output is a constant should not exist. Required: remove with the rest.
+
+5. **`Cargo.toml` / `label_macro/Cargo.toml`** — A nested package under the root without a `[workspace]` declaration. Cargo tolerates this, but it means the two crates have separate lockfiles and target dirs and `cargo test` at the root does not cover the macro crate. Moot if the crate is removed; if it were kept, it would need a workspace.
+
+Nothing in the diff is wrong functionally — `label(State::Ready)` still returns `"Ready"` — but the original code already did that in one line, and the task ("generate status labels for two variants") does not require machinery to satisfy. Acceptable resolution is the pre-change `src/lib.rs` unchanged.
+
+__ABLATION_DONE__ exit=0

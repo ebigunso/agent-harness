@@ -1,0 +1,16 @@
+**Verdict: acceptable as-is.** I would approve this change. No blocking findings.
+
+The diff does what the task asks and the notes close every concern I'd normally raise about a stale-read fallback:
+
+- **Bounded:** age is checked against a closed `[0, 60]` window that matches the stated contract; `age == 60` is accepted, which is consistent with "up to 60 seconds."
+- **Safe:** negative ages (clock skew/mismatch) are rejected rather than treated as fresh; the notes confirm monotonic clock, same clock for cache stamps, and cache cleared on restart, so the only way to get a negative age is a genuine bug, and it fails safe.
+- **Visible:** the envelope carries `stale: True` and the actual `age_seconds`, and callers surface it. Degradation is not silent.
+- **Correct on failure:** the bare `raise` inside the `except` re-raises the original `SourceUnavailable` in both the no-cache and out-of-window cases, so the source failure is not blurred into a different error. Any exception from `cache.get()` or `clock()` propagates with `__context__` set to the source error, as it should. The scope is narrow (`SourceUnavailable` only), so unexpected source errors aren't swallowed into a fallback.
+- **Correct data class:** fallback is limited to product descriptions; no price/stock/authz data is served stale.
+
+Two non-blocking nits I'd mention in the review, not require:
+
+1. **`catalog/read.py`, the `60` literal** — pull it into a named module constant (e.g. `MAX_STALE_SECONDS = 60`) with a one-line comment referencing the contract, so the next person changing it knows it is a contractual bound rather than a tuning knob.
+2. **Rejected-fallback path has no signal** — when the cache is missing or out of window, the caller gets the same `SourceUnavailable` as if no fallback existed. That's the right exception to raise, but a log line at the point of rejection (reason: no cache / age N out of window) would make outage triage easier. Optional; not a correctness issue.
+
+__ABLATION_DONE__ exit=0

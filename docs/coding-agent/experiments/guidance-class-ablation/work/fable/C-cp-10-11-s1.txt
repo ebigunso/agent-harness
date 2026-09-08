@@ -1,0 +1,9 @@
+**Findings**
+
+1. **Request.kt, `step1`–`step7` signatures (and `step8`)** — The change threads a new `compact: Boolean` positional parameter through all eight functions, but every one of them already receives `RequestContext`, and per the notes, request options are owned by the same context owner and more are expected. Threading a scalar through seven pass-through signatures is exactly the "fast debt" the task says to avoid: each future option (per the notes, there will be more) will force another eight-signature edit, the intermediate steps now carry a parameter they never read, and the call surface grows a bare positional `Boolean` that reads as `step1(ctx, true)` at the adapter. Required instead: put the option on the context — `data class RequestContext(val tenant: String, val compact: Boolean = false)` — leave `step1`–`step7` untouched, and have `step8` read `ctx.compact`. The adapter sets it when building the validated context, which is also where the reviewer notes say options are decided. This is the same behaviour with a one-line diff to the data class and one line in `step8`, and the next option is a field addition rather than a signature sweep.
+
+2. **Request.kt, `step8`** — `compact` is implemented as `ctx.tenant.trim()`. If that is genuinely the intended meaning, the name should say so (`trimTenant` / `normalizeWhitespace`) or the field should be documented; "compact presentation" implies a rendering mode, and a reader will not guess it means whitespace trimming. Minor, and moot if the option moves onto the context with a short doc comment, but I would not merge the boolean under this name without stating what it does.
+
+No other defects. The diff is behaviour-correct for the single caller described; the block is on the mechanism (parameter threading vs. context field), not on the outcome.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,193 @@
+records:
+  - id: 67393ed58229
+    fixture: ag-1-01
+    score: 1.0
+    note: "Names CASE-in-SQL pricing leakage in Accounts; requires repository return years and Pricing.discount compose."
+  - id: cef36bd911d4
+    fixture: ag-1-01
+    score: 1.0
+    note: "Names SQL deciding tier in repository; requires fact retrieval plus Pricing.discount at application layer."
+  - id: f7dfce526783
+    fixture: ag-1-01
+    score: 1.0
+    note: "Names SQL re-implementing Pricing policy; requires years fact returned and discount computed via Pricing."
+  - id: 47186481d16f
+    fixture: ag-1-02
+    score: 1.0
+    note: "Names inline loyalty rule in Checkout component; requires consuming applicationPrice result."
+  - id: 954c5aec68a0
+    fixture: ag-1-02
+    score: 1.0
+    note: "Names UI duplication of shared policy; requires component render applicationPrice result, prefer price prop."
+  - id: d4be27edb17d
+    fixture: ag-1-02
+    score: 1.0
+    note: "Names presentation-layer copy of discount rule; requires applicationPrice or restored price prop."
+  - id: 02738a42cba2
+    fixture: ag-1-03
+    score: 1.0
+    note: "Names transition table living in Handle with scheduler bypass; requires domain Transition method used by both callers."
+  - id: 523a171cd107
+    fixture: ag-1-03
+    score: 1.0
+    note: "Names handler-owned invariant and Scheduled bypass; requires Service.Transition owning table, Handle as thin adapter."
+  - id: e56bc5fab282
+    fixture: ag-1-03
+    score: 0.5
+    note: "Flags Scheduled bypass and untyped Save but fix routes scheduler through Handle; does not require moving policy to application/domain."
+  - id: 3eb061ab1b78
+    fixture: ag-1-04
+    score: 1.0
+    note: "Names 30-day rule hardcoded in repository; requires facts-only repository with RefundPolicy composed by caller."
+  - id: 5a8f75b1409b
+    fixture: ag-1-04
+    score: 1.0
+    note: "Names data-access deciding refund policy; requires repository expose facts and application use RefundPolicy."
+  - id: 7a69ebcfa5d2
+    fixture: ag-1-04
+    score: 1.0
+    note: "Names eligibility in repository; requires get() fact method and RefundPolicy.eligible in application layer."
+  - id: 0ca583cded01
+    fixture: ag-1-05
+    score: 1.0
+    note: "Names Utilities catch-all duplicating four owners; requires deleting it and using owning types."
+  - id: 604864a8319d
+    fixture: ag-1-05
+    score: 1.0
+    note: "Names unrelated-concern aggregation in Utilities; requires removal and direct owner usage."
+  - id: 7dd07267d5dd
+    fixture: ag-1-05
+    score: 1.0
+    note: "Names catch-all re-implementing owners; requires deleting Utilities and keeping concerns with owners."
+  - id: 421887d8a3af
+    fixture: ag-1-06
+    score: 0.0
+    note: "Accepts as-is; explicitly endorses score>=80 bool in decoder as consistent with domain ownership."
+  - id: 62c192f855ed
+    fixture: ag-1-06
+    score: 1.0
+    note: "Names review threshold embedded in decoder; requires decode return score only and domain needs_review function."
+  - id: 828de314329a
+    fixture: ag-1-06
+    score: 1.0
+    note: "Names >=80 policy in framing layer; requires decoder return raw score and domain requires_review."
+  - id: 9611d25df111
+    fixture: ag-1-07
+    score: 1.0
+    note: "Names summary initiating fulfillment; requires pure projection and explicit command-path fulfillment."
+  - id: d027c3c09ef5
+    fixture: ag-1-07
+    score: 1.0
+    note: "Names write command inside serializer; requires removal and explicit application use-case trigger."
+  - id: f2840600e3fe
+    fixture: ag-1-07
+    score: 1.0
+    note: "Names read path triggering fulfill!; requires pure summary and explicit application-level command."
+  - id: 3650ff54e9e5
+    fixture: ag-1-08
+    score: 1.0
+    note: "Names threshold policy duplicated in QuoteCache; requires ??= Shipping::quote delegation."
+  - id: ad2384432197
+    fixture: ag-1-08
+    score: 1.0
+    note: "Names cache adapter deciding pricing policy; requires delegation to Shipping::quote."
+  - id: e732e6b2eefb
+    fixture: ag-1-08
+    score: 1.0
+    note: "Names cache re-implementing Shipping rule; requires Shipping::quote call inside cache."
+  - id: 33b2861823d3
+    fixture: ag-1-09
+    score: 1.0
+    note: "Names eligibility rule only in Compose enabled predicate; requires domain isEligible and guarded close used by nightly."
+  - id: 35d518d6e7d8
+    fixture: ag-1-09
+    score: 1.0
+    note: "Names UI-owned closure invariant and unguarded nightly; requires Closure.close enforce eligibility."
+  - id: 90241171654b
+    fixture: ag-1-09
+    score: 1.0
+    note: "Names rule enforced only in UI; requires service-level enforcement and shared domain predicate."
+  - id: 2d13223e1546
+    fixture: ag-1-10
+    score: 1.0
+    note: "Names due-date rule moved into JSON mapper; requires Billing.due change so both consumers follow."
+  - id: 7e6ef6cd6bf5
+    fixture: ag-1-10
+    score: 1.0
+    note: "Names policy split between mapper and Billing; requires Billing.due=45 and jsonDue revert."
+  - id: f99720e181b0
+    fixture: ag-1-10
+    score: 1.0
+    note: "Names unexplained relocation into presentation; requires domain change with both mappers delegating."
+  - id: 0296565a728a
+    fixture: ag-1-11
+    score: 1.0
+    note: "Names pre-commit audit emission and policy in DAO; requires transaction-owning service emit after commit."
+  - id: 2e8e7e8e255f
+    fixture: ag-1-11
+    score: 1.0
+    note: "Names phantom audit on rollback and DAO deciding policy; requires emission at transaction owner post-commit."
+  - id: 82334ea4f410
+    fixture: ag-1-11
+    score: 1.0
+    note: "Names audit fired before commit inside DAO; requires transaction owner audit after commit, DAO drops callback."
+  - id: 4062ada1ac29
+    fixture: ag-1-12
+    score: 1.0
+    note: "Names suspension rule in row converter; requires pure copy and explicit domain action."
+  - id: 5198faa74dc3
+    fixture: ag-1-12
+    score: 1.0
+    note: "Names policy in representation mapping; requires pure decode and domain-owned suspension."
+  - id: ac53f222e9a7
+    fixture: ag-1-12
+    score: 1.0
+    note: "Names debt-threshold suspension in decoder; requires field-for-field mapping and explicit domain operation."
+  - id: 05b206488172
+    fixture: ag-1-c1
+    false_positives: 0
+    note: "Acceptable as-is; exception-type and file-split notes explicitly non-blocking."
+  - id: 301964a9081e
+    fixture: ag-1-c1
+    false_positives: 0
+    note: "Acceptable as-is; single-file observation non-blocking."
+  - id: a058cc5477bf
+    fixture: ag-1-c1
+    false_positives: 2
+    note: "Requires distinct not-found exception (change requested) and requires tests; nullable-column item conditional, not counted."
+  - id: 06756a2f4277
+    fixture: ag-1-c2
+    false_positives: 0
+    note: "Acceptable as-is; shared-predicate note deferred."
+  - id: 8ddc257a7fb5
+    fixture: ag-1-c2
+    false_positives: 0
+    note: "Acceptable as-is; no change required."
+  - id: dc8ac36fd405
+    fixture: ag-1-c2
+    false_positives: 0
+    note: "Acceptable as-is; currency formatting and NaN-quote flags explicitly non-blocking."
+  - id: 2a6ff5d2a8da
+    fixture: ag-1-c3
+    false_positives: 0
+    note: "Acceptable as-is; exception-type and test-coverage notes non-blocking."
+  - id: 73f855ac9ac4
+    fixture: ag-1-c3
+    false_positives: 1
+    note: "Blocks on check() living in production module (key-errata candidate, not a layering defect); other items labeled flag."
+  - id: 8d79fec29553
+    fixture: ag-1-c3
+    false_positives: 1
+    note: "Verdict acceptable but requires wiring check() into a runner and adding cases (rework demand); contract question non-blocking."
+  - id: 2cf485aedac6
+    fixture: ag-1-c4
+    false_positives: 0
+    note: "Acceptable as-is; module-layout observation non-blocking."
+  - id: 372f2d35d9a3
+    fixture: ag-1-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 533e383bc251
+    fixture: ag-1-c4
+    false_positives: 0
+    note: "Acceptable as-is; local SqlError declaration noted as fixture-appropriate."

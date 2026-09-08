@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`cli.py` — `main()` never prints anything.**
+   The task (and the commit message) is "print the status command," but `main()` still just `return`s the string from `handle()`; there is no `print(...)` anywhere in the diff, and nothing else in the visible file emits output. Running the CLI produces no visible status. The change does not accomplish the stated task. Require: `main()` (or the entry point) must actually print the result, e.g. `print(discover()["status"]())` / `print(handle())`, with the return value kept or dropped deliberately.
+
+2. **`cli.py` — replacing a direct import with an `importlib`-based provider registry is unjustified scope creep.**
+   The reviewer notes say this is the only command, there are no extension consumers, and the provider table is fixed repository code. A `PROVIDERS` dict + `discover()` + `getattr(importlib.import_module(...))` therefore buys nothing over `from status import handle`, while costing: static resolvability (type checkers, linters, IDE go-to-definition, dead-code detection all lose the reference), earlier failure (a bad module/symbol now surfaces as a runtime `ModuleNotFoundError`/`AttributeError` inside `main()` instead of at import), and a re-import/dict rebuild on every `main()` call. It also has no relation to the task ("print the status"). Require: revert `cli.py` to the direct import and confine the change to what the task asks. If a plugin registry is genuinely wanted later, it should come as its own change with a stated need.
+
+Not blocking on security: with a hard-coded `PROVIDERS` there is no untrusted input reaching `import_module`, so the notes' concern is addressed — but that doesn't make the indirection worth having.
+
+**Verdict:** Not acceptable as-is. Blocking on #1 (task not implemented); #2 should be reverted before merge.
+
+__ABLATION_DONE__ exit=0

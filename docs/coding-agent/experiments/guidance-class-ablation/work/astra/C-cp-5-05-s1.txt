@@ -1,0 +1,43 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b0-0f3f-7b43-a190-ba0f81f23ee0
+--------
+user
+Reference material loaded for this review:
+
+State invariants/assumptions. Validate/normalize at entry. Fail actionably; make checks/failure modes explicit.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Write uploaded archive members.
+
+```diff
+--- a/archive.py
++++ b/archive.py
+@@ -0,0 +1,5 @@
++from pathlib import Path
++def extract(root, member, data):
++    target = Path(root) / member
++    target.parent.mkdir(parents=True, exist_ok=True)
++    target.write_bytes(data)
+```
+Commit message: "write uploaded archive members"
+
+Reviewer notes: Fresh private destination directory, no symlinks or concurrent filesystem writers. Member names are untrusted; directories are permitted but writes must stay below root. Individual byte payload limits are already enforced.
+
+codex
+- **`archive.py:3–5` — Untrusted member names can escape the destination.** `../outside/file` traverses above `root`, and an absolute member path can override it. Both `mkdir()` and `write_bytes()` may then modify paths outside the extraction directory, including overwriting existing files. Resolve the root and candidate path and require the candidate to be strictly below the root **before either filesystem operation**; reject invalid members with an actionable error. Use path-component containment checks, not string-prefix checks, while preserving valid nested paths.
+tokens used
+3,348
+- **`archive.py:3–5` — Untrusted member names can escape the destination.** `../outside/file` traverses above `root`, and an absolute member path can override it. Both `mkdir()` and `write_bytes()` may then modify paths outside the extraction directory, including overwriting existing files. Resolve the root and candidate path and require the candidate to be strictly below the root **before either filesystem operation**; reject invalid members with an actionable error. Use path-component containment checks, not string-prefix checks, while preserving valid nested paths.
+
+__ABLATION_DONE__ exit=0

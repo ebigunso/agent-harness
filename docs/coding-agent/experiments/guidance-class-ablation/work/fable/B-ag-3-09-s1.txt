@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`Model.kt` (entire hunk) — unrelated domain rename bundled into a dependency upgrade.**
+   - *What's wrong:* The task is "Upgrade SQLite JDBC driver." The diff also renames the domain type `Account` → `Customer` and changes the user-facing label string from `"Account …"` to `"Customer …"`. Neither the reviewer notes nor the commit message tie this to the driver version bump; the reviewer notes explicitly confirm it has no relationship to the upgrade.
+   - *Why it matters:* This is exactly the Gate 3 anti-pattern — mixing a mechanical dependency bump with a behavior-affecting change. The commit message ("upgrade sqlite jdbc driver") does not disclose the rename, so anyone bisecting a behavior change (the `label()` output changed) or auditing the driver upgrade would be misled. It also entangles rollback: reverting the driver bump would silently revert a domain/semantic change, and vice versa. The `label()` output change is a genuine behavior change hidden inside a diff that claims to be purely a version bump.
+   - *Require:* Drop the `Model.kt` hunk from this change. If the `Account` → `Customer` rename is wanted, submit it separately with its own rationale and commit message, and call out that `label()` output changes (which may affect UI/tests/logs).
+
+2. **`Model.kt` — inconsistent naming left behind by the partial rename.**
+   - *What's wrong:* The type is renamed to `Customer` but the parameter in `label(account: Customer)` is still called `account`, so the code now reads "the account is a Customer."
+   - *Why it matters:* Minor, but it signals the rename was not carried through deliberately; it's the kind of residue that accumulates when refactors ride along with unrelated commits.
+   - *Require:* If/when the rename is done in its own change, rename the parameter (`customer: Customer`) and update the string consistently.
+
+**`build.gradle.kts` (3.45.3.0 → 3.46.0.0)** — acceptable on its own. Per the notes, both versions resolve and the used API surface is compatible. No findings on this hunk; this is the only part of the diff that matches the stated task and commit message.
+
+**Verdict:** Block as submitted. The driver upgrade itself is fine; the change is not cohesive because it smuggles an unrelated, behavior-changing domain rename under a commit message that describes only the dependency bump. Split it.
+
+__ABLATION_DONE__ exit=0

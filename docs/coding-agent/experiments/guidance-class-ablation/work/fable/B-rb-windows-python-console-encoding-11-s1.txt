@@ -1,0 +1,35 @@
+## Cause
+
+This is a workspace (script) problem, but it is **not** the console-encoding case in the reference note. The traceback points at line 25, `open('report.txt','w').write(text)` — the failing handle is the **file**, not stdout. `open()` with no `encoding=` argument uses the locale default (cp932 here), which cannot encode U+2014 (em-dash). `sys.stdout.encoding` being cp932 is coincidental and irrelevant; the note's step 1 (`PYTHONIOENCODING=utf-8`) would **not** fix this, because that variable only affects the standard streams, not `open()`.
+
+There is also a real side effect: `open(..., 'w')` truncates the file before `.write()` runs, so the failure left `report.txt` at 0 bytes, destroying the previous valid report. The input data is intact, so it can be regenerated.
+
+## Smallest safe remediation
+
+Fix the output site in the owned script (reference note step 3, file-output branch), and close the handle properly:
+
+```python
+with open('report.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+Then rerun `python export_report.py` to regenerate the report.
+
+Alternatives considered and rejected as "smallest safe":
+- `PYTHONIOENCODING=utf-8` — does nothing for this failure (wrong handle).
+- `$env:PYTHONUTF8 = 1` — would work by flipping the locale default, but it's an environment band-aid that leaves the script broken for the next person; acceptable only as a one-off if you cannot edit the script.
+
+## Confirmation
+
+1. Exit code is 0 and no traceback on stderr.
+2. `report.txt` is non-zero size (recovering from the truncation) — e.g. `(Get-Item report.txt).Length -gt 0`.
+3. The file round-trips as UTF-8 and contains the offending character:
+   ```powershell
+   python -c "print('\u2014' in open('report.txt', encoding='utf-8').read())"
+   ```
+   should print `True`.
+4. Optionally diff against the regenerated content expectations / previous report if a copy exists in VCS.
+
+Evidence to keep: the original `UnicodeEncodeError` (character `\u2014`, codec cp932, line 25 file write), the 0-byte truncation observation, and the successful rerun.
+
+__ABLATION_DONE__ exit=0

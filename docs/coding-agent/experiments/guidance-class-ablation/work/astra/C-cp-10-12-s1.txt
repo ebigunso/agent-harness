@@ -1,0 +1,67 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081ab-3c66-7b13-a5fa-c378d1fbf932
+--------
+user
+Reference material loaded for this review:
+
+Improve clarity/boundaries/diagnostics in existing design; avoid fast debt. Assess maintainability and risk/cost.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Register an additional plugin handler.
+
+```diff
+--- a/plugins.cpp
++++ b/plugins.cpp
+@@ -1,6 +1,13 @@
+-#include <map>
++ #include <map>
+ #include <string>
++#include <stdexcept>
++#include <dlfcn.h>
+ extern "C" const char* handle_ready() { return "ready"; }
+ extern "C" const char* handle_done() { return "done"; }
+ using Handler = const char* (*)();
+-std::map<std::string,Handler> registry{{"ready",handle_ready}};
++Handler resolve(const std::string& label) {
++    auto symbol = dlsym(RTLD_DEFAULT, ("handle_" + label).c_str());
++    if (!symbol) throw std::runtime_error("missing plugin: " + label);
++    return reinterpret_cast<Handler>(symbol);
++}
++std::map<std::string,Handler> registry{{"ready",resolve("ready")},{"done",resolve("done")}};
+```
+Commit message: "register an additional plugin handler"
+
+Reviewer notes: C++17 on POSIX with -ldl and -rdynamic. Handler symbols are exported from this executable. Existing typed registry is available. Error from dlsym is handled; current names resolve. Requirement adds ready and done labels; ordinary source renaming should remain compiler-checked.
+
+codex
+- **`plugins.cpp`: `resolve()` and registry initialization.** Replacing typed handler references with `dlsym` removes compiler checking of handler names and signatures. A source rename can still compile but fail during global initialization, where the uncaught exception terminates the process; an incompatible signature can be cast to `Handler` and cause undefined behavior when called. Current symbols resolving does not preserve the required rename safety. Keep the existing typed registry and add the new entry directly:
+  ```cpp
+  std::map<std::string, Handler> registry{
+      {"ready", handle_ready},
+      {"done", handle_done}
+  };
+  ```
+  Remove the unnecessary resolver and its added headers.
+tokens used
+3,373
+- **`plugins.cpp`: `resolve()` and registry initialization.** Replacing typed handler references with `dlsym` removes compiler checking of handler names and signatures. A source rename can still compile but fail during global initialization, where the uncaught exception terminates the process; an incompatible signature can be cast to `Handler` and cause undefined behavior when called. Current symbols resolving does not preserve the required rename safety. Keep the existing typed registry and add the new entry directly:
+  ```cpp
+  std::map<std::string, Handler> registry{
+      {"ready", handle_ready},
+      {"done", handle_done}
+  };
+  ```
+  Remove the unnecessary resolver and its added headers.
+
+__ABLATION_DONE__ exit=0

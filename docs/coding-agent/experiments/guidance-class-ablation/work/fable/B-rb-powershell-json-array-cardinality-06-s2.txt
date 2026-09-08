@@ -1,0 +1,34 @@
+**Verdict:** This is a script bug in the workspace, not a runtime or environment fault. The JSON is valid and PowerShell 7.4.6 behaves as documented.
+
+## Cause
+
+`-NoEnumerate` is applied correctly at the `ConvertFrom-Json` call, so `$items` inside `Parse` really is a one-element `Object[]`. But the function then emits `$items` to its output stream (`...; $items }`), and function output is a pipeline: PowerShell unrolls the collection on the way out. The caller receives the single element, `7` (`System.Int64`), and `-isnot [array]` correctly reports that it's not an array. This is exactly the "avoid re-piping the result" caveat in the reference — the function boundary is a re-pipe.
+
+Note the same wrapper also breaks the empty-array case the contract requires: emitting an empty array through function output yields nothing, so `$parsed` would be `$null` and the check would throw for `[]` as well.
+
+## Smallest safe remediation
+
+Preserve the array across the function boundary by emitting it without enumeration (one-token change on line 5):
+
+```powershell
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; Write-Output -NoEnumerate $items }; $parsed = Parse
+```
+
+(Equivalently, drop the wrapper: `$parsed = $raw | ConvertFrom-Json -NoEnumerate`. Either is fine; the `Write-Output -NoEnumerate` form keeps the existing structure.)
+
+Don't "fix" it by changing the assertion to accept scalars — the contract must reject scalar wire values like `7`. If a 5.1-compatible path were ever needed, the fallback is asserting `[`/`]` framing on `$raw`, but that's not required here (pwsh 7.4).
+
+## Confirmation
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`. Expect exit code 0 and stdout ending in `parsed type=System.Object[]`, no stderr.
+2. Cover the contract's edge cases by temporarily varying `$raw`:
+   - `'[]'` → `System.Object[]`, exit 0 (empty array accepted)
+   - `'[7,8]'` → `System.Object[]`, exit 0
+   - `'7'` → `System.Int64`, throws `Expected JSON array`, exit 1 (scalar rejected)
+3. Optional one-liner sanity check of the fix mechanism:
+   ```powershell
+   pwsh -NoProfile -c "function P { `$i = '[7]' | ConvertFrom-Json -NoEnumerate; Write-Output -NoEnumerate `$i }; (P).GetType().FullName"
+   ```
+   Should print `System.Object[]`; the original form (`; $i }`) prints `System.Int64`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.** I would approve this.
+
+Reasoning against the things I'd normally check for a workaround like this:
+
+- **Scope is exactly the task.** Only the two literal strings the SDK emits are remapped; everything else falls through to `vendor::parse_bool` unchanged, so error behavior, lowercase behavior, and any future vendor semantics are preserved. No general case-folding, so no risk of silently accepting `"True"`, `"tRuE"`, or arbitrary data.
+- **Right location.** It's at the single adapter entry point rather than sprinkled at call sites, and the repo can't patch the binary SDK, so a boundary shim is the correct shape.
+- **Delegating to `parse_bool("true")` rather than returning `Ok(true)` directly** is the better choice: it keeps the vendor parser as the sole source of truth for what a boolean means and keeps the workaround from becoming a second parser.
+- **Lifecycle is defined.** Owner, removal trigger (2.2 with V-184 qualified), and a re-evaluate-by date exist, and tests cover the four cases plus error propagation.
+
+One non-blocking suggestion, not a defect:
+
+- `src/vendor_adapter.rs`, comment: it names the vendor version but not the vendor issue (V-184) or the removal condition. Those live in the review notes today; putting `V-184` and "remove when 2.2 is qualified" in the comment makes the workaround self-describing for whoever touches this file after the notes are forgotten. Take it or leave it — I wouldn't hold the merge on it.
+
+__ABLATION_DONE__ exit=0

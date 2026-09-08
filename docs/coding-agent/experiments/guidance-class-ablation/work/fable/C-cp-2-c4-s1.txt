@@ -1,0 +1,15 @@
+**Verdict: acceptable as-is.** I would approve this change.
+
+Reasoning against the "fix at origin / no symptom suppression" criterion:
+
+- The origin of the defect is the vendor SDK (parser rejects the literals its own device emits). The repository cannot patch a binary-only SDK, so the nearest controllable point is the boundary, and that is exactly where the change lives. This is boundary adaptation, not a symptom patch scattered through callers.
+- No duplication: `read_vendor_flag` is stated to be the sole SDK boolean entry point, so the translation exists in one place.
+- The compensating logic is minimal and tightly scoped: it maps exactly the two known literals and forwards everything else untouched, so `VendorError` semantics for invalid input are preserved and no general case folding is introduced that could mask other bad data.
+- Tests cover both mapped literals, the native lowercase path, invalid input, and error propagation — the invariant ("only these two extra strings are accepted") is enforced, not just hoped for.
+- The workaround has an explicit sunset condition (vendor 2.2 with V-184, or re-evaluation by 2026-10-01) and an owner.
+
+One non-blocking nit (would not hold up merge):
+
+- `src/vendor_adapter.rs`, comment above the `match`: the in-code comment says only "Vendor 2.1 emits uppercase booleans…". The removal trigger (V-184 / vendor 2.2 / 2026-10-01) lives only in the review notes. I'd ask for the issue ID and removal condition to be in the comment itself so the workaround can't be orphaned once the review thread is gone.
+
+__ABLATION_DONE__ exit=0

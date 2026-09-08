@@ -1,0 +1,43 @@
+**Cause — probe defect, not a workspace/producer problem.**
+
+The producer returned exactly what the contract wants: a valid one-element JSON array `[{"state":"ok"}]`, HTTP 200, `application/json`, matching the independent capture. The failure is in line 5 and line 10 of the probe:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json
+...
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+`ConvertFrom-Json` (without `-NoEnumerate`) enumerates the top-level array onto the pipeline. A one-element array is unrolled into a single `PSCustomObject`, which is exactly what stdout shows (`parsed type=System.Management.Automation.PSCustomObject`). The `-isnot [array]` assertion is therefore testing a property that the pipeline has already destroyed; it cannot prove wire framing. Note the same check would also reject a legitimate empty array (`'[]' | ConvertFrom-Json` yields `$null`, and `$null -isnot [array]` is true), so the probe is wrong for two of the three shapes the contract accepts.
+
+**Smallest safe remediation — assert framing on the raw text, not on the parsed object:**
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = (Invoke-WebRequest http://127.0.0.1:5080/items).Content
+$trim = $raw.Trim()
+if (-not ($trim.StartsWith('[') -and $trim.EndsWith(']'))) { throw 'Expected JSON array' }
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate   # pwsh 7+: keeps the array intact
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $parsed.Count)
+Write-Output ('parsed type=' + $parsed.GetType().FullName)
+```
+
+Two notes on this:
+- The framing check is a shape check, not a syntax validator; `ConvertFrom-Json` still does the syntax validation on the next line and will throw under `Stop` if the body is malformed.
+- `-NoEnumerate` is fine here because the environment is PowerShell 7.4.6 and the result is not re-piped. If this probe must also run under Windows PowerShell 5.1, drop `-NoEnumerate` and rely solely on the raw framing check; do not reintroduce `-is [array]`.
+
+Also drop the dead hardcoded `$raw = '[{"state":"ok"}]'` and `$wireCount = '1'` lines — the element count should be derived from the response, not asserted as a literal, or the probe will report `wire elements=1` regardless of what arrived.
+
+**Confirmation:**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1` against the live producer on 5080. Expect exit code 0, `raw=[{"state":"ok"}]`, `wire elements=1`, `parsed type=System.Object[]`, no stderr.
+2. Exercise the contract boundaries by pointing the producer (or a stub) at each body and checking behaviour:
+   - `[]` → passes, `wire elements=0`
+   - `[{"state":"ok"},{"state":"ok"}]` → passes, `wire elements=2`
+   - `{"state":"ok"}` (scalar object) → throws `Expected JSON array`, exit 1
+   - `[{"state":` (truncated) → framing check fails, or `ConvertFrom-Json` throws; either way exit 1
+3. Record, for the passing run, the raw body, the element count, and the exact assertion used (`Trim().StartsWith('[') && EndsWith(']')` + `ConvertFrom-Json -NoEnumerate`), so the evidence shows the check was made on wire framing rather than on post-pipeline type.
+
+__ABLATION_DONE__ exit=0

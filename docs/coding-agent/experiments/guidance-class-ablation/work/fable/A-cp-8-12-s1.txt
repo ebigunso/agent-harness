@@ -1,0 +1,17 @@
+**Verdict: block.** The task was to wire one mail adapter, and the pre-change code already did exactly that. The diff replaces working, type-safe wiring with an untyped service locator for no gain.
+
+1. **`Root.scala`, `class Container` + `object Root.service` — unnecessary indirection replacing correct direct wiring.**
+   Before: `new Service(new LocalMail)`. After: a hand-rolled registry keyed by strings, populated and read back within the same method, to produce the same object. There is one adapter, no lifecycle variation, no runtime selection, no test-seam requirement stated. This is added surface area (a new class, mutable state, a lookup protocol) that nobody needs and everyone now has to understand and maintain. The commit message ("wire one mail adapter") does not describe what the diff actually does (introduce a DI container).
+   **Require:** revert to `object Root { def service: Service = new Service(new LocalMail) }`. If a container is genuinely needed later for multiple adapters or lifecycles, propose it as its own change with that justification.
+
+2. **`Root.scala`, `Container.resolve` returning `Any` and `container.resolve("mail").asInstanceOf[Mail]` — loss of compile-time safety.**
+   The previous wiring was checked by the compiler: `Service` takes a `Mail`, `LocalMail` is a `Mail`. The new version turns that into a string key plus a runtime cast. A typo in the key (`"mial"`) or a binding of the wrong type now surfaces as `NoSuchElementException` / `ClassCastException` at first call rather than a compile error. The reviewer notes say the lookup "succeeds" today, but the code no longer *guarantees* it; it merely happens to. That's a regression in correctness guarantees, not just style.
+   **Require:** no `Any`/`asInstanceOf` in wiring code. Direct construction (finding 1) resolves this. If a registry is ever reintroduced, it should be typed (e.g. `ClassTag`/type-keyed) so misregistration fails at compile time.
+
+3. **`Root.scala` line 1, `import scala.collection.mutable.Map` at file scope — shadows `Predef.Map` for the whole file.**
+   Every subsequent unqualified `Map` in this file is now mutable, which is a classic source of surprise for the next person adding code here. The idiomatic form is `import scala.collection.mutable` and `mutable.Map`.
+   **Require:** drop the import along with `Container` (finding 1); if retained for any reason, use `mutable.Map` rather than shadowing the immutable default.
+
+No other findings. Behavior of `Root.service` (new `Service` per call) is unchanged from before, so that isn't a regression introduced here.
+
+__ABLATION_DONE__ exit=0

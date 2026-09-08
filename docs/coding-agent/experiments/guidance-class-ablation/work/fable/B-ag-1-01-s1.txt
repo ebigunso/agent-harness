@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`Pricing.java`, `Accounts.discount` — the SQL now encodes the loyalty policy (`CASE WHEN years >= 2 THEN 10 ELSE 0 END`).**
+   The persistence layer is deciding domain policy. The reviewer notes are explicit that `Pricing` is the established policy owner and the repository owns SQL facts only. The tier threshold (2 years) and the discount value (10) now exist in two places: `Pricing.discount(int)` and the query string. They will drift — a change to the loyalty rule in `Pricing` will not be reflected in what `Accounts.discount` returns, and nothing (no shared constant, no test) ties them together. This is exactly the "data access layer deciding domain policy" anti-pattern in Gate 1, and the new SQL is also untestable without a live database, whereas `Pricing.discount` is a pure function.
+   *Require:* keep the repository returning the fact (`years`) and compose in the caller: `Pricing.discount(Accounts.years(db, id))`. If a convenience method on `Accounts` is really wanted, it should delegate — `return Pricing.discount(years(db, id));` — so the rule lives in one place.
+
+2. **`Pricing.java`, `Accounts` — `years(...)` was removed/renamed rather than added to.**
+   This is an unexplained cross-layer move: the task was "add" loyalty pricing, but the diff deletes the fact-returning accessor and replaces it with a policy-returning one. Any existing caller of `Accounts.years` breaks, and there is no longer any way to read the raw fact from this repository without another query. Even if the policy placement were acceptable, removing the fact accessor is out of scope for the stated task.
+   *Require:* retain `Accounts.years(Connection, long)` unchanged; add pricing on top of it (see finding 1).
+
+The change is **not acceptable as-is**. The fix is small: leave the SQL as `SELECT years ...`, keep `Accounts.years`, and have the new loyalty pricing entry point call `Pricing.discount(Accounts.years(db, id))`.
+
+__ABLATION_DONE__ exit=0

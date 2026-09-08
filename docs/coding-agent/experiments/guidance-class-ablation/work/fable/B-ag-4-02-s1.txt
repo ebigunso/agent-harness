@@ -1,0 +1,58 @@
+**Verdict: Block.** The change collapses exactly the distinction the task asked it to represent.
+
+## Findings
+
+### 1. `rpc.go` — `Fetch` swallows the error and returns `nil` for both "service unavailable" and "no work"
+**What's wrong:** `if err != nil { return nil }` and `if len(rows) == 0 { return nil }` produce an identical output. The caller cannot tell whether the RPC succeeded with zero jobs or failed entirely. The reviewer notes state the consumer *must* distinguish these and surface unavailability for retry; this adapter makes that impossible.
+
+**Why it matters:** This is the Gate 4 anti-pattern "returning ambiguous success/failure signals" and "failure modes silently swallowed." A worker calling `Fetch` during an outage will conclude "no work" and go idle / not retry. The error is also discarded entirely — no wrapping, no logging, no return — so the failure is unobservable downstream.
+
+**Require instead:** Propagate the error. A signature like:
+
+```go
+func Fetch(call func() ([]string, error)) ([]string, error) {
+	rows, err := call()
+	if err != nil {
+		return nil, fmt.Errorf("rpc fetch: %w", err) // or a sentinel like ErrUnavailable
+	}
+	return rows, nil
+}
+```
+
+Empty success is then `([]string{} or nil, nil)`; unavailability is `(nil, err)`. If the domain needs a stronger signal for retry than "any error," define a sentinel (`ErrUnavailable`) or a typed error the consumer can `errors.Is`/`errors.As` against, and document that contract.
+
+### 2. `rpc.go` — `HasWork` inherits the ambiguity and turns an outage into `false`
+**What's wrong:** `HasWork` returns `false` when the service is down, when the call returns an empty list, and (via `Fetch`) with no way to distinguish. A boolean cannot carry three states.
+
+**Why it matters:** This is the API a scheduler is most likely to poll. "No work" and "can't reach the work queue" require opposite responses (idle vs. retry/backoff/alert). Encoding both as `false` guarantees the wrong behavior in the failure case.
+
+**Require instead:** `HasWork` should return `(bool, error)` and propagate the error from `Fetch`. If a bare boolean is really required somewhere, that decision belongs at the consumer with an explicit error branch, not baked into the adapter.
+
+### 3. `rpc.go` — Empty-success representation is normalized to `nil` without a stated contract
+**What's wrong:** `if len(rows) == 0 { return nil }` converts an empty non-nil slice into `nil`. That's a defensible choice, but it's an undocumented contract decision, and combined with finding 1 it's what makes the collision total.
+
+**Why it matters:** Gate 4 asks that inputs/outputs be intentionally modeled and stated. Right now the only "contract" is what a reader infers from the call site. Once the error is propagated, whether empty is `nil` or `[]string{}` becomes much less dangerous, but it should still be stated (e.g., a doc comment: "Returns a nil slice and nil error when the service reports no work").
+
+**Require instead:** Either drop the normalization (just return what the RPC gave you) or keep it and document it. Don't leave it implicit.
+
+### 4. Missing doc comments / contract statement on exported functions
+**What's wrong:** Both exported functions lack doc comments describing success vs. failure semantics. The commit message says "represent empty work" but nothing in the code says how it's represented or how it differs from failure.
+
+**Why it matters:** This is the exact gap Gate 4 is designed to catch — the contract lives only in the author's head and in call-site assumptions.
+
+**Require instead:** Doc comments on `Fetch` and `HasWork` that spell out: what a successful empty result looks like, what errors are returned, and which errors indicate the caller should retry.
+
+### 5. No tests covering the three cases
+**What's wrong:** No tests in the diff. The whole point of the change is a three-way distinction (non-empty success / empty success / unavailable), and none of it is exercised.
+
+**Why it matters:** Without tests, the collapse in finding 1 shipped without anything catching it. A three-case table test would have failed immediately.
+
+**Require instead:** Table-driven tests for `Fetch` and `HasWork` asserting: (a) rows returned → rows, nil; (b) empty, nil → empty, nil; (c) any, err → nil, non-nil err (and `errors.Is` against the sentinel if one is introduced).
+
+### Minor (would note, not block)
+- **Formatting:** the code isn't `gofmt`-ed (semicolon-joined statements on one line, no spaces around `:=`/`,`). Run `gofmt` before resubmitting; CI should enforce this.
+
+## Summary
+The diff does the opposite of the task: it takes an RPC that already distinguishes empty-success from failure and erases that distinction. Fix is small — return `([]string, error)` from `Fetch` and `(bool, error)` from `HasWork`, wrap/propagate the error, document the empty-success representation, and add the three-case tests.
+
+__ABLATION_DONE__ exit=0

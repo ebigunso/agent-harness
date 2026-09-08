@@ -1,0 +1,60 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819f-bfd7-7853-8892-1b6cc14a4c8d
+--------
+user
+Reference material loaded for this review:
+
+### 4) Optimize for Readability and Local Reasoning
+
+- Favor clear names, explicit boundaries, and straightforward control flow.
+- Keep functions/components at a single level of abstraction.
+- Reduce hidden coupling and surprising side effects.
+
+Review checks:
+- Can a reader understand intent without reconstructing hidden context?
+- Are responsibilities and boundaries obvious?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record order processing phases.
+
+```diff
+--- a/Orders.cs
++++ b/Orders.cs
+@@ -1,9 +1,12 @@
+ using System;
+ using System.Collections.Generic;
+ static class Orders {
+     static void Log(string message, Action callback) { callback(); }
+     public static void ProcessOrder(List<string> events) {
+-        events.Add("reserve");
+-        events.Add("charge");
++        int phase = 0;
++        Log("start", () => phase++);
++        if (phase == 1) events.Add("reserve");
++        Log("reserved", () => phase++);
++        if (phase == 2) events.Add("charge");
+     }
+ }
+```
+Commit message: "record order processing phases"
+
+Reviewer notes: Synchronous local workflow; each order calls ProcessOrder once. Actions append events only. Expected order remains reserve, charge. Logging is normally observational.
+
+codex
+- **`Orders.cs`, `ProcessOrder` — logging controls order processing.** The `Log` callbacks mutate `phase`, which determines whether reservation and charging occur. The current synchronous implementation produces the expected sequence, but understanding it requires inspecting `Log` for hidden state changes; making logging observational would silently skip both actions. Require explicit, unconditional `reserve` and `charge` appends in order, with phase recording separate from the control flow.
+tokens used
+3,426
+- **`Orders.cs`, `ProcessOrder` — logging controls order processing.** The `Log` callbacks mutate `phase`, which determines whether reservation and charging occur. The current synchronous implementation produces the expected sequence, but understanding it requires inspecting `Log` for hidden state changes; making logging observational would silently skip both actions. Require explicit, unconditional `reserve` and `charge` appends in order, with phase recording separate from the control flow.
+
+__ABLATION_DONE__ exit=0

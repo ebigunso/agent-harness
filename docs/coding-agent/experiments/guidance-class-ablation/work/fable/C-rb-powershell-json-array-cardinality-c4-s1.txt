@@ -1,0 +1,17 @@
+**Verdict: not a workspace problem.** The script ran to completion of its checks and reported exactly what it was built to report — the payload violates the "unique integer IDs" contract.
+
+**Evidence, in order:**
+- Raw JSON: `[1,1]` — trimmed text starts with `[` and ends with `]`, so wire framing is a JSON array (a framing check, not a syntax validation).
+- Parse: `ConvertFrom-Json -NoEnumerate` on pwsh 7.4.6 preserved the array; `$parsed.GetType().FullName` = `System.Object[]`, element count 2, both elements integers. The `-isnot [array]` gate passed (it's meaningful here only because the result was assigned directly and never re-piped).
+- Assertion: `HashSet[long].Add(1)` returned `$true` for the first element, `$false` for the second, so line 10 threw `Duplicate item 1`. With `$ErrorActionPreference = 'Stop'` and an uncaught `throw`, `pwsh -File` exits 1. That is the intended failure path.
+
+So the runtime, the cmdlet, `-NoEnumerate`, execution policy, cwd, and the script logic are all behaving correctly. The defect is in the data: ID `1` appears twice.
+
+**Smallest safe remediation:** change nothing in the workspace or script. Fix the input at its source so the IDs are unique (in this synthetic file that's the hardcoded literal on line 3; in a real run it's whatever produced the payload). Do not "fix" by deduplicating in the probe — that would silence a genuine contract violation. If a duplicate input was the *intended* test case, then exit 1 with this message is the expected result and there is nothing to remediate.
+
+**Confirmation:**
+1. Re-run `pwsh -NoProfile -File probes/unique.ps1` with the corrected payload (e.g. `[1,2]`): expect stdout `raw=[1,2]` / `parsed type=System.Object[]`, empty stderr, `$LASTEXITCODE` = 0.
+2. Re-run with `[1,1]` to confirm the probe still rejects duplicates (exit 1, `Duplicate item 1`) — proves the check wasn't weakened.
+3. Optionally assert `$parsed.Count -eq 2` before the loop so the record shows element count explicitly rather than inferring it.
+
+__ABLATION_DONE__ exit=0

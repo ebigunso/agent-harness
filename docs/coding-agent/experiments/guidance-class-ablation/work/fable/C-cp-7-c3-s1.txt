@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+Checked against the task and the reviewer notes:
+
+- **Decision logic (`accepts`)** — `quantity <= capacity` is the correct predicate for "reject above capacity" (at-capacity accepted, zero accepted). Inputs are `u32` so negative/overflow cases are excluded by type, consistent with the stated contract.
+- **Tests for the decision** — below (2/3), at (3/3), above (4/3) cover the boundary on both sides. That's the full risk surface for a single `<=`.
+- **Adapter (`from_text`)** — parses through `?` and delegates to the same `accepts`, so there's one decision seam and no duplicated logic. `ParseIntError` is propagated rather than swallowed or coerced to `false`, which is the right call: "bad" must not silently become a rejection or an acceptance. The test confirms both a parsed value reaching the decision and the error remaining visible.
+- **Test design** — pure function, no globals, no fixtures, no mocks. Matches the guidance about deterministic seams.
+
+One non-blocking nit I'd mention in passing, not require: `adapter` only exercises the reject path through parsing. `assert!(from_text(3, "3").unwrap())` would cheaply pin the accept path through the adapter too, but since `from_text` is a one-line delegation and `decisions` already covers the boundary, its absence isn't a real gap.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,21 @@
+**Cause:** Not a permissions or lockfile problem. `npm ci` deletes `node_modules` before reinstalling, and on Windows a loaded native addon (`.node` DLL) cannot be unlinked while a process has it mapped. `tasklist /m lmdb.node` shows PID 4106 (`node.exe`, the repo's own Gatsby cache/build watcher launched from `scripts/gatsby-watch.js`) holding `node_modules\lmdb\build\Release\lmdb.node`. Hence `EPERM unlink` (errno -4048). The probe-file success and clean ACLs confirm the directory itself is writable — only that mapped file is blocked.
+
+**Smallest safe remediation:** Stop the watcher (it belongs to this repository, so this is in-scope and non-destructive), then rerun the install:
+
+```powershell
+Stop-Process -Id 4106
+tasklist /m lmdb.node        # should report "No tasks are running which match the specified criteria."
+npm ci
+```
+
+Prefer a graceful stop (Ctrl+C in the terminal running `gatsby-watch.js`, or `Stop-Process -Id 4106` without `-Force`) so Gatsby can flush its cache; use `-Force` only if it doesn't exit. Do not delete `node_modules` by hand, change ACLs, disable antivirus, or run as admin — none of those address a mapped DLL.
+
+**Confirmation:**
+1. `tasklist /m lmdb.node` lists no processes.
+2. `npm ci` exits 0 with no EPERM lines.
+3. `node -e "require('lmdb')"` loads the rebuilt addon without error.
+4. Restart the watcher (`node scripts/gatsby-watch.js`) afterward; optionally verify with `tasklist /m lmdb.node` that it re-maps the new binary.
+
+To avoid recurrence, stop the Gatsby watcher before running `npm ci` (or add a pre-install step in the repo scripts that does so).
+
+__ABLATION_DONE__ exit=0

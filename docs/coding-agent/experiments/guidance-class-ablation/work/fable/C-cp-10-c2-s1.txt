@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.**
+
+The change does exactly what the task asks and nothing more:
+
+- `importer.py:5` — the new message identifies row and field, states the expectation ("expected integer"), and includes the offending value via `{raw!r}`. Using `!r` is the right call: it makes empty strings, whitespace, and quoting visible (`got ''`, `got ' 42 '`), which is precisely what a debugger of a bad CSV needs.
+- `from exc` is retained, so the original `ValueError` from `int()` stays in the chain and the diagnostic improvement doesn't cost any debugging information.
+- Exception type is unchanged (`ValueError`), so no caller that catches it is broken.
+- The unrelated `display_name` code is untouched, matching the task boundary.
+
+Nothing here I would block or flag. One non-blocking observation, not a required change: the function doesn't define whether `row` is 0-based or 1-based (file line vs. data index). That's a pre-existing contract owned by the caller, not introduced by this diff, so I'd leave it — but if a follow-up finds people misreading "row 3", that's where to look.
+
+__ABLATION_DONE__ exit=0

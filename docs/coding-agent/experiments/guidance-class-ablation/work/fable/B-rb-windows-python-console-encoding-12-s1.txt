@@ -1,0 +1,40 @@
+## Diagnosis
+
+**Cause.** The script finished its real work — `os.replace` had already atomically installed `manifest.json` with `{"title":"🚀","version":1}` — and then died on line 46 while *printing* the title. `sys.stdout.encoding` is `cp932` and UTF-8 mode is off, so Python is encoding stdout with the Windows ANSI code page. CP932 has no mapping for U+1F680 (🚀, a supplementary-plane emoji), so `print()` raised `UnicodeEncodeError` and the process exited 1.
+
+One nuance versus the reference material: stdout here is a **pipe**, not a console, so this isn't the console code page being inherited — it's Python falling back to the locale (ANSI) code page for non-console streams on Windows. Same failure mode, same fix.
+
+**Is it a workspace problem?** No. The workspace state is correct: the artifact is complete, valid, and hash-matches the expected bytes; there are no counters, remote writes, or partial side effects to clean up. The only thing wrong is the exit status/log line, which is an environment (stdout-encoding) issue. That still matters if anything downstream gates on exit code 0.
+
+## Smallest safe remediation
+
+Rerun with the encoding override, no code changes:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python build_manifest.py
+```
+
+(Equivalently `$env:PYTHONUTF8 = '1'`, which also fixes file-handle defaults, but `PYTHONIOENCODING` is the narrower change.)
+
+Rerunning is safe: generation is deterministic and the write is an atomic `os.replace`, so the rerun rewrites identical bytes and cannot leave a torn file.
+
+## Confirmation
+
+1. Exit code is `0` and stdout shows `built 🚀`.
+2. `manifest.json` hash is unchanged from the post-failure inspection (proves the rerun was a no-op on disk).
+3. Optionally, `python -c "import sys; print(sys.stdout.encoding)"` under the same env var reports `utf-8`.
+
+Caveat for the pipe consumer: PowerShell decodes native-command output using `[Console]::OutputEncoding`, which on a CP932 system is usually not UTF-8. If the captured string shows mojibake rather than 🚀, set `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` in the session — that's a display/decoding issue on the receiving side, not a Python failure.
+
+## Durable fix (for the script, since you own it)
+
+Stop depending on the environment: at the top of `build_manifest.py`,
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+and make sure the JSON write passes `encoding="utf-8"` explicitly (it evidently already produced correct bytes, but pin it). If you'd rather never fail on a log line, `errors="replace"` on the reconfigure is an acceptable fallback for status output — but not for the artifact itself.
+
+__ABLATION_DONE__ exit=0

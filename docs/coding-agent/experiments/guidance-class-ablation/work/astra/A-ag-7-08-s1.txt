@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c8-db9f-7471-9060-c53fb56254b3
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Log connection attempts during send retries.
+
+```diff
+--- a/Sender.java
++++ b/Sender.java
+@@ -0,0 +1,13 @@
++import java.io.IOException;
++import java.util.function.Consumer;
++interface Transport { void connect() throws IOException; void send() throws IOException; }
++final class Sender {
++ static void send(Transport transport,Consumer<String> log) throws IOException {
++  IOException last=null;
++  for(int i=0;i<3;i++) {
++   try { transport.connect(); log.accept("connected"); transport.send(); return; }
++   catch(IOException error) { last=error; }
++  }
++  throw last;
++ }
++}
+```
+Commit message: "log connection attempts during send retries"
+
+Reviewer notes: Java 17. connect succeeds, send can fail; both throw only IOException. Caller maps final exception to 502 without logging it. Observability must include final exhaustion, not just successful connection events. Attempts are bounded at three.
+
+codex
+- **`Sender.java:9–11` — Retry exhaustion is never logged.** If `connect()` succeeds but `send()` fails on all three attempts, the logs contain only three `"connected"` messages. The final exception becomes a 502 without being logged, so there is no record of the terminal failure. Require an exhaustion log after the third failed attempt, including the attempt count and final exception details, before rethrowing the exception.
+tokens used
+3,331
+- **`Sender.java:9–11` — Retry exhaustion is never logged.** If `connect()` succeeds but `send()` fails on all three attempts, the logs contain only three `"connected"` messages. The final exception becomes a 502 without being logged, so there is no record of the terminal failure. Require an exhaustion log after the third failed attempt, including the attempt count and final exception details, before rethrowing the exception.
+
+__ABLATION_DONE__ exit=0

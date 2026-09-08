@@ -1,0 +1,29 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/lockfile issue. `npm ci` must delete `node_modules` before reinstalling, and the `unlink` of `node_modules\canvas\build\Release\canvas.node` is refused with EPERM (errno -4048) because the DLL is mapped into a running process. Windows won't let you unlink a loaded native module. The evidence is direct: `tasklist /m canvas.node` shows `node.exe` PID 4107 holding it, and process inspection ties that PID to `workers/chart-preview.js` in this repo — an orphaned chart-preview child that outlived its parent script. Permissions, ACLs, cache, lockfile sync, and registry access are all confirmed fine, so nothing else needs touching.
+
+**Smallest safe remediation**
+
+Stop only the identified lock holder, then retry:
+
+```powershell
+# confirm before killing (optional but cheap)
+tasklist /m canvas.node
+
+taskkill /PID 4107 /F
+npm ci
+```
+
+No cache clean, no `rm -rf node_modules` as a first move, no reinstall of canvas, no elevation — none of those address the cause and some (blind deletion) would fail on the same file anyway. Killing the process is acceptable here because it's an orphaned worker owned by this repository and it was going to be invalidated by the reinstall regardless. Don't use a broad `taskkill /IM node.exe` — that could take down unrelated node processes.
+
+**Confirmation**
+
+1. `tasklist /m canvas.node` should return "INFO: No tasks are running which match the specified criteria." — the lock is gone.
+2. `npm ci` exits 0 with no EPERM/EBUSY in stderr.
+3. `node -e "require('canvas')"` (or whatever the chart preview does on startup) loads the freshly installed `canvas.node` without error, confirming the binary was actually replaced rather than skipped.
+
+**If it recurs**
+
+If the retry fails on a different `.node` file, repeat step 2 of the runbook with that filename. If it fails on the same file with a new PID, something is respawning the chart-preview worker (a watcher, a task in the editor, a script hook) — that spawner is the real thing to stop. Longer term, the parent script should terminate or await its chart-preview child on exit so this orphan doesn't keep reappearing.
+
+__ABLATION_DONE__ exit=0

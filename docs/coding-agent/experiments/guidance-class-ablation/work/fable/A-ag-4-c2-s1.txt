@@ -1,0 +1,26 @@
+## Review: "keep rpc success and failure distinct"
+
+**Verdict: acceptable as-is on the core requirement; two minor items I'd flag but not block on.**
+
+The change does what the task asks. `Next` checks `err` before it ever looks at `rows`, so the three outcomes are properly separated:
+
+- `nil, nil` → `"idle", nil` (successful empty result — nil slice is a valid empty collection in Go)
+- `[...], nil` → `"work", nil` (successful populated result)
+- `_, err` → `"", err` (failure; caller must handle `err` and must not read the state)
+
+An empty result is never conflated with a failure, and a failure is never silently coerced into `"idle"`. That matches the reviewer notes' contract exactly. The error is returned unwrapped, so `errors.Is(err, cause)` in the test is a legitimate assertion, not an accident.
+
+### Findings
+
+1. **`rpc_test.go` — the `"work"` branch is untested.**
+   `TestOutcomes` covers `nil,nil → "idle"` and the error path, but never exercises a populated result. That's one of the three outcomes the task is explicitly about, and it's the branch most likely to regress if someone later reorders the checks (e.g. tests `len(rows)` before `err`). Add a case: `Next(func()([]string,error){return []string{"x"},nil})` → `"work", nil`.
+
+2. **`rpc.go`, `rpc_test.go` — not gofmt-formatted.**
+   Multiple statements per line joined with `;`, no spacing around `:=`/`!=`, grouped imports on one line. Any CI `gofmt -l` / `go vet` gate will reject this, and it makes the control flow in `Next` harder to read than it needs to be. Run `gofmt` before merging.
+
+### Not raising
+
+- `Fetch` is a pure pass-through with no added behavior. It's harmless indirection and presumably a seam for later work, so I wouldn't push back on it in this change.
+- Returning `""` as the state on the error path is fine — the non-nil `err` is the signal, and a zero-value state on failure is idiomatic. I wouldn't ask for a sentinel state string.
+
+__ABLATION_DONE__ exit=0

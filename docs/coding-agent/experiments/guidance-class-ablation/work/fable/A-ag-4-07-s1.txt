@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`lib.rs`, `after_prefix` — unit mismatch: byte length passed as scalar index.**
+   `prefix.len()` is a byte count, but `at_scalar` (and the stated downstream contract) indexes by Unicode scalar value via `chars().nth`. For any prefix containing a non-ASCII character, the two diverge. Example: `after_prefix("éa", "é")` → `prefix.len() == 2`, `"éa".chars().nth(2) == None`, but the correct answer is `Some('a')`. With longer text it silently returns the *wrong* character rather than `None` (`after_prefix("éab", "é")` → `Some('b')`). ASCII tests pass only because bytes and scalars coincide there, which is exactly why the reviewer notes flag non-ASCII as the boundary that matters.
+
+   Required: convert the prefix to the same unit as the index, e.g. `at_scalar(text, prefix.chars().count())`. Alternatively—and cheaper—since `prefix` is a validated string prefix of `text`, byte-slice directly and take the first char: `text.get(prefix.len()..).and_then(|rest| rest.chars().next())` (or `text[prefix.len()..].chars().next()` if the prefix invariant is guaranteed and a panic on violation is acceptable). Either approach keeps the boundary in scalar semantics; the current code does not.
+
+2. **No tests covering the non-ASCII boundary.**
+   The commit adds behavior whose only interesting failure mode is multi-byte prefixes, and the reviewer notes say ASCII was the only thing exercised. Required: at least one test with a multi-byte prefix (e.g. `"é"`, `"日本"`, an emoji) asserting the returned char, plus a case where the prefix equals the whole text (expect `None`).
+
+No other issues; `at_scalar` itself is fine as written given the scalar-index contract. Blocking on finding 1.
+
+__ABLATION_DONE__ exit=0

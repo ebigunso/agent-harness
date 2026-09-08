@@ -1,0 +1,35 @@
+**Verdict:** This is a workspace/environment problem (a stdout-encoding mismatch), not a bug in the CSV logic. The data was read fine; the crash is at write-to-stdout time.
+
+## Cause
+
+`sys.stdout` is a pipe, so CPython 3.12 does not use the console code page at all — it falls back to the process ANSI code page, which here is **cp1252** (confirmed: `sys.stdout.encoding = cp1252`, `utf8_mode = 0`). cp1252 has no mapping for `日` (U+65E5), so `codecs.charmap_encode` raises `UnicodeEncodeError` on the second field of `["date", "日"]` (position 5 = after `date,`). This matches the reference note's failure class, with one nuance: because stdout is captured rather than interactive, the relevant code page is the ANSI one (cp1252), not CP932/OEM — but the remediation is the same.
+
+No partial side effects to check: the script is preview-only and never writes to the source CSV. The empty stdout is expected — the first row failed before anything was flushed.
+
+## Smallest safe remediation
+
+Rerun with the I/O encoding override, no code change:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python csv_preview.py
+```
+
+(`$env:PYTHONUTF8 = '1'` is the broader equivalent — it also flips locale defaults for file handles — but `PYTHONIOENCODING` is the narrower fix for this failure.)
+
+If you own `csv_preview.py`, make the output site explicit so it doesn't depend on the caller's environment:
+
+```python
+sys.stdout.reconfigure(encoding="utf-8", newline="")
+```
+
+`newline=""` is a related but separate point: your dialect emits CRLF, and Windows text-mode stdout would otherwise translate `\n` → `\r\n`, giving `\r\r\n` in the output. It's not the cause of this crash, but it's worth fixing in the same line since you're already reconfiguring stdout.
+
+## Confirmation
+
+1. In the same captured-stream setup, verify the encoding actually changed:
+   `$env:PYTHONIOENCODING='utf-8'; python -c "import sys; print(sys.stdout.encoding)"` → `utf-8`.
+2. Rerun `python csv_preview.py` with the override: exit code 0, no traceback, first line `date,日`.
+3. Make sure the consumer of the pipe decodes as UTF-8, otherwise you'll just move the mojibake downstream — e.g. redirect to a file and check bytes (`日` should be `E6 97 A5`), or set `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` in the PowerShell session before piping.
+4. Evidence to keep: the original traceback (`'charmap' codec ... '\u65e5'`, cp1252), and the successful rerun command.
+
+__ABLATION_DONE__ exit=0

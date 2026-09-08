@@ -1,0 +1,22 @@
+**Cause**
+
+The failure is a local address-selection problem, not a probe or service bug. `localhost` resolves to `::1` first, so the channel connects to `[::1]:50051`. Docker Desktop's published-port proxy on the IPv6 loopback accepts the TCP connection but never returns HTTP/2 response headers, so the h2c stream stalls until the 2 s deadline, the probe maps it to exit 2 with `DEADLINE_EXCEEDED`, and — consistent with this — the service interceptor log shows no invocation. The controlled comparison (identical method, payload, deadline, server, container, config; only the target changed to `127.0.0.1:50051`) succeeds with `pong`, exit 0, and `invoked=true completed=true`, which isolates the target address as the sole variable.
+
+The REST check on `:50080` returning `200` in 0.012 s doesn't contradict this: HTTP/1.1 passes through the same proxy path fine (and curl may well have fallen back to IPv4 on its own), so it only proves the container and port publishing are healthy — it's the HTTP/2 path via `::1` that stalls.
+
+**Smallest safe remediation**
+
+Pin the local gRPC target to IPv4: use `127.0.0.1:50051` instead of `localhost:50051` in the local probe/client configuration (config file, env var, or script that supplies `--target`). Do not touch the server, the container's published ports, the Windows hosts file, or system IPv6 settings — those are broader changes than the problem warrants and the IPv4 path is already proven working.
+
+**Confirmation**
+
+1. Re-run the original command with the changed target:
+   `cargo run --manifest-path probes/Cargo.toml -- --target 127.0.0.1:50051 --timeout 2`
+   Expect exit 0, `pong` on stdout, no `DEADLINE_EXCEEDED` on stderr.
+2. Check the service interceptor log for `probe method="unary Echo" transport=h2c invoked=true completed=true` for that call.
+3. Optionally re-run once with `localhost:50051` to confirm it still times out — this demonstrates the fix is the address, not a transient.
+4. Record: targets tried (`localhost:50051` → `[::1]:50051`, `127.0.0.1:50051`), port 50051, the deadline output (`DEADLINE_EXCEEDED: deadline expired after 2s`, exit 2), the REST timing (`200`, 0.012 s), and the IPv4 retry result (exit 0, `pong`).
+
+If the IPv4 retry had also failed, the next step would be inspecting the service, its published mappings, and container health — but here it succeeded, so that path isn't needed.
+
+__ABLATION_DONE__ exit=0

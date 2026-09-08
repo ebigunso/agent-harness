@@ -1,0 +1,11 @@
+**Verdict: acceptable as-is.**
+
+The diff is a single-line, single-purpose change that does exactly what the task asks: `"yes".equalsIgnoreCase(text)` accepts `"YES"` while preserving the existing behavior for `"yes"` (true), `"no"` (false), and `null` (false — `equalsIgnoreCase` on a literal receiver is null-safe, so no NPE regression). It uses `equalsIgnoreCase` rather than `text.toUpperCase().equals(...)`, which avoids both the null-dereference and locale pitfalls (e.g. Turkish dotless-i) that the naive approach would introduce.
+
+On the cohesion/reversibility checks:
+- The change is focused on one goal; no unrelated refactoring is bundled.
+- Reverting is a one-line change back to `equals`, with no collateral edits. The prior extraction of `parse` (commit 1) is correctly kept separate and independently revertible.
+
+One non-blocking observation, for the author's awareness rather than a required change: `equalsIgnoreCase` accepts *all* case variants (`"Yes"`, `"yEs"`), not just fully upper-case `"YES"`. That is almost certainly the intended behavior and is the idiomatic way to satisfy the task, but if the requirement is literally "upper-case only", it would need `"yes".equals(text) || "YES".equals(text)` instead. I would not block on this.
+
+__ABLATION_DONE__ exit=0

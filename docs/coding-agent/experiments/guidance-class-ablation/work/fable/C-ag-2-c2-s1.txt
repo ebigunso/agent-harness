@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.**
+
+Checked against the dependency-direction criteria:
+
+- **Direction of dependencies:** `Controller` (outer) → `Rule`/`Outcome` (inner). `Rule` and `Outcome` reference nothing but each other and `boolean`. `HttpResponse` is referenced only by `Controller`. No inner type knows about HTTP, status codes, or the DTO.
+- **Volatile details in core:** none. The 200/403 mapping lives entirely in `Controller`, which is where the task said it should go ("translate domain rejection at controller"). `Rule` returns a domain `Outcome`, not a status.
+- **Framework/vendor calls in domain:** none — pure Java, no imports.
+- **Cycles / interface bypasses:** none. Nothing on the inner side reaches back outward; the controller goes through `Rule.apply` rather than re-deriving the rule from `active` itself.
+- **Commit message vs. change:** matches.
+
+One non-blocking observation, not a required change: all four types are top-level declarations in `Controller.java` in the same package, so the domain/transport seam is a convention rather than something the compiler or package visibility enforces. In a real codebase I'd expect `Outcome`/`Rule` in a domain package and `HttpResponse`/`Controller` in a transport package. For a fixture of this size that's a placement preference, not a defect in the dependency direction, so I would not block on it.
+
+__ABLATION_DONE__ exit=0

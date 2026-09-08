@@ -1,0 +1,47 @@
+**Cause**
+
+`export_report.py` line 25 opens the output file with `open('report.txt','w')` and no `encoding=`. On this machine the locale default is cp932, and `sys.flags.utf8_mode = 0`, so the file handle is cp932. The report text contains an em dash (U+2014, position 7), which cp932 cannot represent → `UnicodeEncodeError`. This is a program/workspace defect (the script relies on the platform default encoding for a file it owns), not a transient or environment fault.
+
+Two things to note from the observations:
+
+- **stdout is not the failing handle.** `sys.stdout.encoding` is also cp932, but the traceback is on the file write. So the reference material's default move — `PYTHONIOENCODING=utf-8` — would *not* fix this; that variable only affects stdin/stdout/stderr, not `open()`.
+- **Partial effect already happened.** Opening with `'w'` truncated `report.txt` to 0 bytes *before* the encode failed, so the previously valid report is gone. Inputs are unchanged and sufficient to regenerate, so this is recoverable by a successful rerun; there is nothing to restore first.
+
+**Smallest safe remediation**
+
+Fix the owned file handle at the source. Change line 25 to:
+
+```python
+with open('report.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+(`with` also closes the handle deterministically; the original never did.) Then rerun:
+
+```powershell
+python export_report.py
+```
+
+If you need a zero-code-change rerun first (e.g. to confirm the diagnosis), the correct command-scoped override is UTF-8 mode, which changes `open()`'s default as well:
+
+```powershell
+$env:PYTHONUTF8=1; python export_report.py
+```
+
+I would still land the explicit `encoding="utf-8"` in the script — an env var only fixes the one shell that sets it.
+
+**Confirmation**
+
+1. Exit code is 0 and stderr is empty.
+2. `report.txt` is non-zero size again (it was 0 bytes after the failure).
+3. The em dash round-trips as UTF-8:
+
+```powershell
+python -c "t=open('report.txt',encoding='utf-8').read(); print(len(t), '\u2014' in t)"
+```
+
+Expect a non-zero length and `True`. Optionally verify the on-disk bytes at position 7 are `E2 80 94` (UTF-8 for U+2014) rather than a `?` or cp932 substitute.
+
+Record for the log: error = `UnicodeEncodeError: 'cp932' codec can't encode character '\u2014'`; failing handle = `report.txt` (not stdout); fix = `encoding="utf-8"` on the `open()` call; confirming run = `python export_report.py` → exit 0, report regenerated.
+
+__ABLATION_DONE__ exit=0

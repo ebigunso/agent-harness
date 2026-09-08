@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081ae-1246-7fd1-bdbe-0876ce3d641e
+--------
+user
+Reference material loaded for this review:
+
+Clear names/boundaries/flow; one abstraction level. Avoid hidden coupling/effects. Are intent and roles locally clear?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Exclude negative adjustments from displayed total.
+
+```diff
+--- a/totals.py
++++ b/totals.py
+@@ -1,2 +1,3 @@
+ def calculate_total(items):
++    items[:] = [x for x in items if x >= 0]
+     return sum(items)
+```
+Commit message: "exclude negative adjustments from displayed total"
+
+Reviewer notes: Caller owns the list and reuses it for the adjustment table. Inputs are integers. Requirement only changes the displayed sum.
+
+codex
+- **`totals.py:2` — Mutates the caller-owned list.** Slice assignment removes negative adjustments from the original list, so the caller’s adjustment table will lose those entries too. The requirement changes only the displayed sum. Require filtering without mutation: `return sum(x for x in items if x >= 0)`.
+tokens used
+3,064
+- **`totals.py:2` — Mutates the caller-owned list.** Slice assignment removes negative adjustments from the original list, so the caller’s adjustment table will lose those entries too. The requirement changes only the displayed sum. Require filtering without mutation: `return sum(x for x in items if x >= 0)`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,28 @@
+**Cause**
+
+This is not a permissions, cache, or lockfile problem. `npm ci` deletes `node_modules` before reinstalling, and the unlink of `better_sqlite3.node` fails with `EPERM` (errno -4048) because the DLL is mapped into a running process. `tasklist /m` and the test-host log both identify that process: `Code.exe` PID 4110, the editor's extension/test host, which loaded the addon from exactly that path. Windows refuses to delete a file that is currently loaded as a module, regardless of ACLs — which matches the observation that an ordinary probe file beside it can be created and removed fine.
+
+**Smallest safe remediation**
+
+Release the file handle by stopping the process that owns it, then rerun the install:
+
+1. In the editor, stop the running test session / restart the extension host (`Developer: Restart Extension Host`), which ends PID 4110 or unloads the addon. Do not kill the whole editor or delete `node_modules` by force; the loaded module is the only obstacle.
+2. Confirm nothing has the module loaded:
+   ```powershell
+   tasklist /m better_sqlite3.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Rerun:
+   ```powershell
+   npm ci
+   ```
+
+If the editor cannot release it cleanly, `Stop-Process -Id 4110` is the narrower fallback (only that PID, verified as the sole holder). Avoid `--force`, cache clears, or running as administrator — none of them address a locked module.
+
+**Confirmation**
+
+- `npm ci` exits 0 and stderr no longer shows `EPERM ... unlink`.
+- `node -e "require('better-sqlite3')"` from `C:\work\npm-lock` succeeds, confirming the rebuilt addon loads under Node 20.18.0.
+- If the editor test integration needs the addon, restart that session afterwards so it loads the freshly installed binary; note the reinstall produces a Node-ABI build, so if the editor host requires an Electron-ABI (source) build, run the project's electron-rebuild step before restarting tests.
+
+__ABLATION_DONE__ exit=0

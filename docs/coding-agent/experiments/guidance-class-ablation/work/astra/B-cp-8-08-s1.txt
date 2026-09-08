@@ -1,0 +1,70 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a5-3716-7241-9568-5b3202c9a4d6
+--------
+user
+Reference material loaded for this review:
+
+### 8) Control Complexity and Duplication
+
+- Remove accidental complexity before introducing abstraction.
+- Abstract only when multiple concrete uses justify it.
+- Keep dependency direction intentional and acyclic where practical.
+
+Review checks:
+- Does abstraction reduce or increase cognitive load?
+- Is new complexity justified by measurable maintenance benefit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Format the fixed welcome message.
+
+```diff
+--- a/welcome.rb
++++ b/welcome.rb
+@@ -1,3 +1,23 @@
++class Tokens
++  def render(template, values)
++    template.gsub(/\{(name)\}/) { values.fetch(Regexp.last_match(1)) }
++  end
++end
++class FormatAdapter
++  def call(name)
++    Tokens.new.render("Hello, {name}!", {"name" => name})
++  end
++end
++class TextAdapter
++  def call(name)
++    FormatAdapter.new.call(name)
++  end
++end
++class WelcomeAdapter
++  def call(name)
++    TextAdapter.new.call(name)
++  end
++end
+ def welcome(name)
+-  format("Hello, %s!", name)
++  WelcomeAdapter.new.call(name)
+ end
+```
+Commit message: "format the fixed welcome message"
+
+Reviewer notes: Input is a display name; template is fixed. Ruby Kernel.format is already used in the old code. All three new adapters only serve this one call.
+
+codex
+- **`welcome.rb`, new `Tokens` and adapter classes and `welcome(name)`:** A single fixed message now passes through four classes, including two adapters that only forward calls. With one caller and no template variability, this adds indirection, object allocations, and maintenance surface without a concrete benefit. Require retaining `format("Hello, %s!", name)` directly in `welcome`; introduce abstractions only when actual additional uses justify them.
+tokens used
+3,330
+- **`welcome.rb`, new `Tokens` and adapter classes and `welcome(name)`:** A single fixed message now passes through four classes, including two adapters that only forward calls. With one caller and no template variability, this adds indirection, object allocations, and maintenance surface without a concrete benefit. Require retaining `format("Hello, %s!", name)` directly in `welcome`; introduce abstractions only when actual additional uses justify them.
+
+__ABLATION_DONE__ exit=0

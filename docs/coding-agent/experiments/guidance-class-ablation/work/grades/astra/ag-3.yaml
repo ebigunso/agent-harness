@@ -1,0 +1,193 @@
+records:
+  - id: 6379b04e8d72
+    fixture: ag-3-01
+    score: 1.0
+    note: "Names auth.py legacy->modern migration as unrelated to billing; requires separate change."
+  - id: 74db806a4392
+    fixture: ag-3-01
+    score: 1.0
+    note: "Names auth migration as out-of-scope; requires separate commit."
+  - id: f3f1a3c88906
+    fixture: ag-3-01
+    score: 1.0
+    note: "Names bundled auth migration; requires separate commit."
+  - id: 165e2495804f
+    fixture: ag-3-02
+    score: 1.0
+    note: "Names PASSWORD_DAYS policy edit as unlinked to metrics; restore 90 and separate."
+  - id: c6104c093f5a
+    fixture: ag-3-02
+    score: 1.0
+    note: "Names password policy change outside telemetry plan; restore and separate."
+  - id: fc551979c6ce
+    fixture: ag-3-02
+    score: 1.0
+    note: "Names password policy change out of scope; restore and handle separately."
+  - id: 16d19f348ac1
+    fixture: ag-3-03
+    score: 1.0
+    note: "Names hidden enabled false->true default change; restore, separate scope."
+  - id: 579524febe78
+    fixture: ag-3-03
+    score: 1.0
+    note: "Names hidden default flip; also flags values.ts addition and key-order (extra, non-key)."
+  - id: 689e60d444f0
+    fixture: ag-3-03
+    score: 1.0
+    note: "Names enabled default flip; restore false, keep import sort."
+  - id: 0ba801cb63c8
+    fixture: ag-3-04
+    score: 1.0
+    note: "Names unrelated CLI -s and report column removal; revert. Also flags no selector implemented (key-errata candidate)."
+  - id: 40fd57fd8fa7
+    fixture: ag-3-04
+    score: 1.0
+    note: "Names unrelated strict alias and report schema edits; revert/separate. Also no-selector finding (key-errata candidate)."
+  - id: c8bf5104ac58
+    fixture: ag-3-04
+    score: 1.0
+    note: "Names unrelated CLI/report edits; revert. Also no-selector finding (key-errata candidate)."
+  - id: 81c48fb93457
+    fixture: ag-3-05
+    score: 1.0
+    note: "Names DisplayCache lifetime change as unrelated to timeout; restore and review separately."
+  - id: 99b07c6ef36d
+    fixture: ag-3-05
+    score: 1.0
+    note: "Names cache lifetime change unlinked to timeout; revert or separate justified change."
+  - id: f27f2693b415
+    fixture: ag-3-05
+    score: 1.0
+    note: "Names cache lifetime change; revert and submit separately."
+  - id: 14d31f77f230
+    fixture: ag-3-06
+    score: 1.0
+    note: "Names index migration as untraceable to log rename; remove and submit separately."
+  - id: 8e5e93ea617c
+    fixture: ag-3-06
+    score: 1.0
+    note: "Names unrelated index migration; remove and separate with rationale."
+  - id: e89e11918778
+    fixture: ag-3-06
+    score: 1.0
+    note: "Names index migration with no dependency on logging; remove and separate."
+  - id: c9aa5b3a87f5
+    fixture: ag-3-07
+    score: 1.0
+    note: "Names theming and docs-generator dependency as unrelated; isolate from auth fix."
+  - id: e7d5fb80642c
+    fixture: ag-3-07
+    score: 1.0
+    note: "Names theme and docs dependency as separate concerns; revert/submit separately."
+  - id: ebcd5a59245f
+    fixture: ag-3-07
+    score: 1.0
+    note: "Names theme and docs dependency changes; move to separate changes."
+  - id: 1fb2d507bf53
+    fixture: ag-3-08
+    score: 1.0
+    note: "Names limit-before-filter order change with example; requires active(rows).first(2)."
+  - id: b2ec92e0844b
+    fixture: ag-3-08
+    score: 1.0
+    note: "Names query-order behavior change; requires active(rows).first(2)."
+  - id: cc86f2f602fa
+    fixture: ag-3-08
+    score: 1.0
+    note: "Names limit/filter reorder changing contract; restore semantics plus regression test."
+  - id: 52327172f6b9
+    fixture: ag-3-09
+    score: 1.0
+    note: "Names Account->Customer rename and label change as unrelated to driver upgrade; revert/separate."
+  - id: 629c732ecfe9
+    fixture: ag-3-09
+    score: 1.0
+    note: "Names unrelated domain rename and display text; revert and propose separately."
+  - id: edb718b02330
+    fixture: ag-3-09
+    score: 1.0
+    note: "Names domain/wording edits unrelated to driver upgrade; separate."
+  - id: 8942e41a864a
+    fixture: ag-3-10
+    score: 1.0
+    note: "Names 80-template whitespace churn unrelated to cache key; revert/separate cleanup."
+  - id: 9590f1217241
+    fixture: ag-3-10
+    score: 1.0
+    note: "Names template whitespace edits unrelated; revert, keep cache.php."
+  - id: aaea6e047f20
+    fixture: ag-3-10
+    score: 1.0
+    note: "Names template churn unrelated to cache key; revert and pursue separately."
+  - id: 5bc165fd38be
+    fixture: ag-3-11
+    score: 1.0
+    note: "Names fesetround rounding-mode behavior change hidden in warning cleanup; remove, separate justified change."
+  - id: 867dddd5e4c7
+    fixture: ag-3-11
+    score: 1.0
+    note: "Names rounding-mode change violating numeric preservation; remove fesetround."
+  - id: e49d82b804dd
+    fixture: ag-3-11
+    score: 1.0
+    note: "Names rounding-mode change; keep only [[maybe_unused]], separate any intended change."
+  - id: 1da9cc63e950
+    fixture: ag-3-12
+    score: 1.0
+    note: "Names partition modulus change unrelated to pagination lacking migration; revert and ship separately."
+  - id: 2bec8d3b0227
+    fixture: ag-3-12
+    score: 1.0
+    note: "Names partition remap unrelated to pagination; remove, separate with migration plan."
+  - id: 7875852f705c
+    fixture: ag-3-12
+    score: 1.0
+    note: "Names partition mapping change neither required nor justified by pagination; separate with migration."
+  - id: 527bff6087a4
+    fixture: ag-3-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 9d2ef1017105
+    fixture: ag-3-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: d8eeeab1904d
+    fixture: ag-3-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 502c5bc5d5de
+    fixture: ag-3-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 5b409cb4933d
+    fixture: ag-3-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: e16ac2e46a50
+    fixture: ag-3-c2
+    false_positives: 0
+    note: "Acceptable as-is; notes separate cleanup commit is out of scope."
+  - id: 53ad93b6f771
+    fixture: ag-3-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: c67b7237b9d8
+    fixture: ag-3-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: e774d519f5fd
+    fixture: ag-3-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 4f4095037480
+    fixture: ag-3-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 7ca4d868e54f
+    fixture: ag-3-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: b6b06792a7b1
+    fixture: ag-3-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."

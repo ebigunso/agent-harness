@@ -1,0 +1,35 @@
+**Verdict: not acceptable as-is.** Two blocking issues, two flags.
+
+---
+
+**1. `invoice.py` — `to_proto()` performs no shape or type validation at the boundary (block)**
+
+`InvoiceProto` is a plain dataclass; annotations aren't enforced. `to_proto({"id": 7, "amount": "100", "taxAmount": True})` succeeds and produces `InvoiceProto(id=7, amount='100', tax_amount=True)`. Feed that back through `to_view` and the round-trip equality still passes, so the existing check cannot detect the drift. `bool` is a subclass of `int`, so even an `isinstance(x, int)` check would need to exclude it. Extra keys in `view` are silently discarded; missing keys surface as a bare `KeyError` with no indication of which contract field is absent.
+
+Why it matters: the task is "lossless" mapping. An adapter that lets a string, float, or bool masquerade as an integer amount has already lost the contract — the corruption just shows up downstream (arithmetic, serialization, DB writes) instead of at the boundary.
+
+Require: validate in `to_proto` — exact-type checks (`type(v) is int`, `type(v) is str`), a clear error naming the field on absence or wrong type, and either an explicit rejection of unknown keys or a documented statement that the view→proto direction tolerates them.
+
+**2. `invoice.py` — `check()` is dead code, not a test (block)**
+
+Nothing calls `check()`. It isn't discoverable by pytest/unittest (no `test_` prefix, no test module), so the "round-trip check exercises every required field" claim in the reviewer notes is unverified in CI. It also only exercises proto→view→proto; the view→proto→view direction — where key naming (`taxAmount` vs `tax_amount`) and input validation actually live — is never tested. Under `python -O` the `assert` is stripped entirely.
+
+Require: move it to a real test module, cover both directions, and add negative cases (missing key, wrong type, bool-as-int) once finding 1 is addressed.
+
+**3. `invoice.py` — the adapter never touches the upstream protobuf message; "lossless against upstream schema" is asserted only in prose (flag)**
+
+`InvoiceProto` is a hand-written dataclass, not the generated message class. Both ends of the round-trip are defined in this file, so the check is tautological — it proves the file agrees with itself, not that field names, presence semantics, or scalar widths match the real schema. Nothing in the diff pins `id`/`amount`/`tax_amount` to the generated type, so if upstream renames a field or changes `amount` from `int32` to `int64`, this compiles and passes unchanged. The name `InvoiceProto` also misleads readers into thinking it *is* the proto.
+
+Require: either map directly from the generated message (or add a `from_message`/`to_message` pair with a test constructing the real message), or rename the dataclass to something honest (`InvoiceView`, `InvoiceRecord`) and note explicitly that upstream conformance is not covered here.
+
+**4. `invoice.py` — `to_view` emits raw `int` for monetary fields; if the view is JSON to a JS client, `int64` values lose precision (flag / question)**
+
+CamelCase keys and "client view" strongly suggest JSON serialization. Protobuf's canonical JSON mapping encodes 64-bit integers as strings precisely because JSON consumers coerce past 2^53. If `amount`/`tax_amount` are `int64` upstream, this adapter reintroduces that loss. If they're `int32`, ignore this.
+
+Require: confirm the upstream scalar width; if 64-bit and the view is JSON-bound, emit as string (and parse back in `to_proto`), consistent with the protobuf JSON spec.
+
+---
+
+Not raising: versioning of the view dict. Reasonable to add later, but it's outside the stated task and I wouldn't block on it.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,20 @@
+**Verdict: Block. Revert to the original one-liner.**
+
+**Finding 1 — `label.ts`, entire diff: unjustified interpreter for a two-branch conditional**
+
+- **What's wrong:** The change replaces `ready ? "Ready" : "Waiting"` with a serialized expression AST (`Expr`), an operator dispatch table with one entry, a `JSON.stringify` at module load, and a `JSON.parse` + unchecked `as Expr` cast on every call. Behaviour is identical to the original; nothing new is delivered.
+- **Why it matters:**
+  - Cognitive load goes from "read one ternary" to "trace a type, a table, a serialized literal, a parse, and a dynamic dispatch" to arrive at the same two strings. Every future reader pays this cost.
+  - The abstraction has exactly one concrete use and one operator. Per the guideline, abstract only when multiple concrete uses justify it — here there are none, and the reviewer notes confirm no configurable UI rules are required.
+  - The `as Expr` cast on `JSON.parse` output discards the compile-time guarantee the original code had for free. If someone later edits the serialized string (e.g. typo in `"op"`), TypeScript won't catch it; it fails at runtime with `operators[undefined] is not a function`. The original could not fail this way.
+  - Round-tripping a literal through `JSON.stringify`/`JSON.parse` on each call is pure waste; it exists only to make the "expression" look data-driven when it is a hard-coded constant in the same file.
+  - The commit message ("display ready or waiting label") describes the *original* behaviour, not this change — a signal that the added machinery has no stated motivation.
+- **What I'd require:** Restore the original implementation:
+  ```ts
+  export function label(ready: boolean) { return ready ? "Ready" : "Waiting"; }
+  ```
+  If a rule-driven labelling system is ever genuinely needed, introduce it then, with real consumers and a validated (not cast) parse path — not speculatively in a function with two fixed outputs.
+
+No other findings; there is nothing else in the diff.
+
+__ABLATION_DONE__ exit=0

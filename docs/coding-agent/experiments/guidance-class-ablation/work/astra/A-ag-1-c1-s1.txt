@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081be-e03e-7203-801a-40a1e4827237
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Supply stored facts to pricing policy.
+
+```diff
+--- a/Pricing.java
++++ b/Pricing.java
+@@ -0,0 +1,14 @@
++import java.sql.*;
++record AccountFacts(int years) {}
++final class Pricing { static int discount(AccountFacts facts) { return facts.years() >= 2 ? 10 : 0; } }
++final class Accounts {
++ static AccountFacts read(Connection db, long id) throws SQLException {
++  try(var q=db.prepareStatement("SELECT years FROM accounts WHERE id=?")) {
++   q.setLong(1,id); try(var r=q.executeQuery()) { if(!r.next()) throw new SQLException("account missing"); return new AccountFacts(r.getInt(1)); }
++  }
++ }
++}
++final class Application { static int quote(AccountFacts facts) { return Pricing.discount(facts); } }
++final class Controller {
++ static int quote(Connection db,long id) throws SQLException { return Application.quote(Accounts.read(db,id)); }
++}
+```
+Commit message: "supply stored facts to pricing policy"
+
+Reviewer notes: Java 17. Repository only reads facts; application calls policy on facts. Outer controller owns JDBC wiring/errors; domain/application import no SQL types in their signatures. Required row is explicit; SQL contains no pricing policy.
+
+codex
+Acceptable as-is. The change reads stored account facts, passes them through the application to the pricing policy, and keeps JDBC wiring and error handling at the outer boundary. I have no findings to raise.
+tokens used
+3,223
+Acceptable as-is. The change reads stored account facts, passes them through the application to the pricing policy, and keeps JDBC wiring and error handling at the outer boundary. I have no findings to raise.
+
+__ABLATION_DONE__ exit=0

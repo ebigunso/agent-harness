@@ -1,0 +1,30 @@
+**Verdict: not a workspace/cwd problem.** Do not apply the path-normalization playbook here — its own last rule applies ("if normalization fails, investigate another cause"), and in this case there is nothing to normalize.
+
+**Evidence that the workspace is fine**
+- `pwd` before and after is `C:/work/shop/web`, matching the intended root and the tool UI root.
+- `package.json`, `package-lock.json`, `tsconfig.json`, and `src/index.ts` all resolve at that root.
+- `npm run build` launched the `build` script and `tsc` ran, found its config, and parsed the source. A missing directory or wrong cwd would produce `ENOENT`, "Missing script", or "Cannot find tsconfig" — not a `TS2322`.
+
+**Cause**
+A TypeScript type error in the source: `src/index.ts` line 3, column 7 assigns a `string` to a variable declared as `number`. `tsc` exits 1 on any diagnostic, and npm propagates that. The diagnostic appearing on stdout rather than stderr is normal `tsc` behavior, not a sign of a tooling fault.
+
+**Smallest safe remediation**
+Fix the source, not the environment. Open `src/index.ts:3` and make the value and the declared type agree — either the initializer should be a number, or the annotation should be `string`. Which one is correct depends on the intent of the code, so this is a code-review decision, not a mechanical one. Do not "fix" it with `// @ts-ignore`, `as any`, loosening `strict` in `tsconfig.json`, or changing the build script to swallow errors.
+
+Before editing, I'd confirm the scope with:
+```powershell
+npx tsc --noEmit --pretty false
+```
+to see whether line 3 is the only diagnostic (the output shows one, but this rules out truncation).
+
+**Confirmation**
+1. `npx tsc --noEmit` exits 0 with no diagnostics.
+2. `npm run build` exits 0 and produces the expected output (check `outDir` from `tsconfig.json`).
+3. `pwd` still reports `C:/work/shop/web` — unchanged, as expected, since no navigation was needed.
+
+**Record**
+- Before cwd: `C:/work/shop/web`; normalized cwd: unchanged (no normalization performed — not applicable).
+- Retry: not rerun unchanged, because the failure is deterministic and code-caused; rerunning would reproduce the same TS2322.
+- Status: workspace resolved/never broken; build failure attributable to source type error pending code fix.
+
+__ABLATION_DONE__ exit=0

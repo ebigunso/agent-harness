@@ -1,0 +1,24 @@
+**Cause:** Stale working directory in the persistent shell, not a workspace problem. The earlier `Set-Location -LiteralPath 'C:/work/shop/web'` left the shell in `C:/work/shop/web`, but the failing command assumed the tool's remembered root (`C:/work/shop`) and ran a relative `cd web`. That resolved to `C:\work\shop\web\web`, which doesn't exist, so `Set-Location` failed with status 1 and `&&` short-circuited — `npm run build` never ran. The project itself is intact (`package.json` and `src/index.ts` present at the intended path), and nothing in code, PATH, dependencies, or permissions changed.
+
+**Smallest safe remediation:** Normalize the shell's cwd once with an explicit absolute path, then rerun the original command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/shop'
+cd web && npm run build
+```
+
+Do not stack additional relative `cd ..`/`cd web` hops; that's what caused the drift.
+
+**Confirmation:** The captured comparison already shows this worked:
+
+| Step | Before | After normalization |
+|---|---|---|
+| `pwd` | `C:/work/shop/web` | `C:/work/shop` |
+| `cd web && npm run build` | status 1, `Set-Location: Cannot find path ...\web\web` | status 0, `> web@1.0.0 build` / `> tsc`, stderr empty |
+| Final `pwd` | (unchanged, `C:/work/shop/web`) | `C:/work/shop/web` |
+
+Status: **resolved**. The build ran successfully with no other changes, confirming cwd drift as the sole cause.
+
+**Going forward:** In a persistent shell, don't assume the tool UI's displayed root matches the shell's cwd. Either check `pwd` before relative navigation, or make the build command path-independent (e.g., `npm --prefix C:/work/shop/web run build` or `Set-Location -LiteralPath 'C:/work/shop/web'; npm run build`).
+
+__ABLATION_DONE__ exit=0

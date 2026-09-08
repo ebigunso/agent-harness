@@ -1,0 +1,52 @@
+**Verdict: Block.** The change inverts the dependency direction that the existing `QuoteProvider` seam was there to preserve. One core finding, with two consequences worth stating separately.
+
+---
+
+### 1. `pricing.py` — domain function now depends directly on transport/vendor client
+
+**What's wrong:** `price()` was a pure domain calculation parameterized on the `QuoteProvider` protocol. The diff removes that parameter and has the domain module import `requests`, hardcode a vendor URL, issue an HTTP call, and parse the vendor's JSON shape (`["cents"]`) inline. `QuoteProvider` is left defined but no longer used by anything in this file.
+
+**Why it matters (Gate 2):** This is the textbook anti-pattern the gate calls out — "domain logic directly calling framework, transport, or vendor clients." Dependencies now point from the stable inner rule (`quote + 10`) outward to volatile details: the vendor's hostname, HTTP semantics, timeout policy, response schema, and a third-party library. The reviewer note even acknowledges it: *"Domain now owns volatile URL and requests behavior."* That is the defect, not a feature. Concretely:
+
+- Any change in vendor endpoint, auth, or payload shape now forces a change to the pricing module.
+- `price()` can no longer be unit-tested without a network or monkeypatching `requests`; the protocol seam that made a fake trivially injectable is gone.
+- Error handling (`raise_for_status`, timeout) leaks `requests.HTTPError` / `requests.Timeout` out of a domain function — callers of a pricing rule must now know about HTTP exception types.
+
+**What I'd require:** Keep `price(provider: QuoteProvider)` unchanged. Implement the vendor call as a concrete adapter that satisfies the protocol, in an infrastructure/adapter module (e.g. `vendor_quotes.py`), and let composition happen at the edge:
+
+```python
+# vendor_quotes.py  (outer layer)
+import requests
+
+class HttpQuoteProvider:
+    def __init__(self, url: str, timeout: float = 2.0):
+        self._url, self._timeout = url, timeout
+    def quote(self) -> int:
+        r = requests.get(self._url, timeout=self._timeout)
+        r.raise_for_status()
+        return r.json()["cents"]
+
+# pricing.py  (domain) — unchanged
+def price(provider: QuoteProvider) -> int:
+    return provider.quote() + 10
+```
+
+If the adapter should translate `requests` exceptions into a domain-level error (e.g. `QuoteUnavailable`), that mapping belongs in the adapter too, not in `pricing.py`.
+
+### 2. `pricing.py` — breaking signature change with no migration
+
+**What's wrong:** `price(provider)` → `price()` silently changes the public signature. Any existing caller or test that passes a provider will now fail with `TypeError`. The diff touches no callers or tests.
+
+**What I'd require:** Retain the signature (falls out of fix #1). If a zero-arg convenience wrapper is genuinely wanted, add it at the application layer and have it construct the adapter and call `price(...)`.
+
+### 3. `pricing.py` — dead `QuoteProvider` definition and hardcoded URL
+
+**What's wrong:** After the change, `QuoteProvider` is orphaned in the module, which signals the seam was bypassed rather than deliberately removed. Separately, `"https://quotes.example.test/current"` and `timeout=2` are hardcoded constants in domain code, so no environment (test/staging/prod) can vary them without editing the module.
+
+**What I'd require:** Both resolved by fix #1 — the protocol stays in use, and URL/timeout become adapter constructor arguments supplied from configuration.
+
+---
+
+**Note on the reviewer notes:** "requests is installed," "response is validated numeric JSON," and "timeout/status errors are handled" are all true but address correctness of the HTTP call, not where it lives. None of them offset the boundary inversion, which is the blocking issue.
+
+__ABLATION_DONE__ exit=0

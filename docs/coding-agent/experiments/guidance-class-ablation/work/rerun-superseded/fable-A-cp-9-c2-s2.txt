@@ -1,0 +1,20 @@
+**Verdict: not acceptable as-is — one blocking defect, plus a few smaller items.**
+
+1. **`catalog/read.py`, `except SourceUnavailable:` — name is never imported (blocking).**
+   The hunk header `@@ -1,2 +1,11 @@` shows the entire file; there is no `import`/`from ... import SourceUnavailable`. Python resolves the name in the `except` clause only when an exception propagates, so the happy path passes and any smoke test passes, but the moment the source actually fails, `source.read()`'s `SourceUnavailable` is replaced by a `NameError` raised while evaluating the except clause. That is strictly worse than the pre-change behaviour: the fallback never runs, and callers that catch `SourceUnavailable` now miss it entirely. Require the import from wherever the source exception is defined, and a test that actually drives the exception path (which would have caught this).
+
+2. **No tests accompany the change (would flag, likely block).**
+   The diff introduces five distinct outcomes (fresh, stale-in-bound, no cache, negative age, expired age) and none are exercised. At minimum I'd require: fallback at age 0, age exactly 60 (inclusive boundary per contract), age 61 → re-raises `SourceUnavailable`, negative age → re-raises, `cache.get()` returning `None` → re-raises, and a check that the re-raised exception is the original `SourceUnavailable` instance, not a new one.
+
+3. **`age_seconds` type is inconsistent between branches (minor).**
+   Fresh path returns the int literal `0`; fallback path returns whatever `clock() - saved_at` yields — a float for a monotonic clock. Both callers "show" this value, so one of them will render `0` and the other `12.837291`. Normalise (e.g. `int(age)` or `round(age, 1)`) so the envelope has one shape.
+
+4. **Hard-coded `60` (nit).**
+   The bound is the whole point of "bounded" and is a contractual number. Lift it to a named module constant (`MAX_STALE_SECONDS = 60`) so the test, the code and the contract reference the same thing and a future contract change is a one-line edit.
+
+5. **Question, not a defect: who populates the cache?**
+   `read_catalog` never writes on a successful read. If the cache is filled by a separate writer that's fine, but if this was expected to be the population point, the fallback is dead code. Please confirm in the PR description.
+
+Everything else in the reviewer notes checks out against the code: original exception is re-raised (bare `raise`) rather than wrapped, cache/other errors propagate with the source failure chained as `__context__`, clock is sampled after the failed read so a slow timeout doesn't understate age, and out-of-range ages in both directions are rejected.
+
+__ABLATION_DONE__ exit=0

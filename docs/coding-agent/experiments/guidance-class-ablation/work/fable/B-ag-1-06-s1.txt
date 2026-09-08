@@ -1,0 +1,28 @@
+## Findings
+
+### 1. `lib.rs` — `decode` embeds the domain review policy (`score >= 80`) in the transport/framing layer — **Block**
+
+**What's wrong:** The reviewer notes explicitly split ownership: "Transport owns framing, domain owns score >= 80 review policy." Yet `decode`, which is the framing/wire-decoding function, computes and returns `*score >= 80` as part of its result. The threshold is a business rule (what counts as "needs review"), not a property of the protobuf frame.
+
+**Why it matters:** This is the textbook Gate 1 anti-pattern — a transport handler embedding a business invariant. Consequences:
+- The review threshold now lives in the wire decoder, so a policy change (e.g. 80 → 75, or per-tenant thresholds) requires touching and re-testing the byte parser.
+- Callers that only need the raw score (logging, metrics, forwarding) still pay for and receive a policy decision they didn't ask for, coupling them to the threshold.
+- The return type `(u8, bool)` conflates two concerns in one anonymous tuple; there's no name saying what the `bool` means, so the policy is both misplaced *and* implicit.
+- The task framing is "decode fraud score messages" — the commit does more than that without saying so, which is exactly the "unexplained cross-layer logic movement" the gate calls out.
+
+**What I'd require:**
+- `decode` returns only what the frame carries: `Result<u8, &'static str>` (or a small `FraudScore` newtype with the 0..=100 invariant enforced at construction).
+- The `>= 80` rule moves to domain/application code, e.g. `fn requires_review(score: u8) -> bool` (or a method on the newtype), with its own test.
+- If a combined convenience is genuinely needed at the call site, compose them there — don't bake the composition into the parser.
+
+The range check itself (`score <= 100`) is fine to keep in the decoder: rejecting out-of-contract frames is framing/validation, and the notes define the wire contract as 0..100.
+
+### 2. `lib.rs` — proto3 zero-value omission vs. "exactly tag 8 plus one byte" — **Question, non-blocking**
+
+The notes assert the encoding is always `[8, score]`. Standard proto3 encoders omit fields at their default value, so a `score = 0` message would typically serialize as an empty frame (`[]`), which this decoder rejects. If the producer is proto2, uses `optional`, or is otherwise guaranteed to always emit the field, this is fine as written — but that guarantee should be stated in a comment or test, since the decoder silently turns a legitimate score of 0 into an error otherwise.
+
+---
+
+**Verdict:** Not acceptable as-is. Finding 1 is a direct violation of the stated responsibility boundary and must be fixed before merge; the byte-level parsing is otherwise correct for the described contract.
+
+__ABLATION_DONE__ exit=0

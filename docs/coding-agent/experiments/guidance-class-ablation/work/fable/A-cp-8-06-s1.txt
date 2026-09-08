@@ -1,0 +1,22 @@
+**Verdict: block.** The change replaces a correct one-line implementation with a build script plus a proc-macro crate that expands to the identical two-arm match. Nothing is actually generated from a source of truth; the variant names are still typed by hand, just three layers deeper.
+
+**Findings**
+
+1. **`src/lib.rs`, `build.rs`, `label_macro/*` — gratuitous indirection with zero functional gain.**
+   The removed line `match state { State::Ready => "Ready", State::Done => "Done" }` is exactly what the proc macro emits. The build script writes a constant string; the macro emits a constant string. Net effect: +4 files, a second crate, a build script, and two new compile stages to obtain the same function. The reviewer note confirms there are no external consumers, no schema, and no further variants. This is not "generation," it's the hand-written code with extra steps. It also makes future errors worse: adding a variant to `State` will fail with a non-exhaustive-match error whose span points into macro-expanded code inside an `include!`d `OUT_DIR` file, and the fix requires editing a string literal in a different crate.
+   *Require:* revert to the original `label` fn. If genuine generation is wanted later (e.g. deriving labels from the enum definition or an external spec), it should read the variants from that source; a macro that hardcodes the arms is not that.
+
+2. **`label_macro/src/lib.rs` — `.replace("\\\"", "\"")` is a no-op.**
+   The format string contains plain `"` characters (the `\"` in source is a Rust escape, not a backslash followed by a quote), so the pattern `\"` never occurs in the formatted output. This is dead code that suggests the author was debugging string escaping and left a guess in place.
+   *Require:* remove it (moot if finding 1 is addressed by reverting).
+
+3. **`label_macro/src/lib.rs` — macro is not self-contained.**
+   The expansion refers to bare `State`, so `label!` only compiles when invoked in a scope where `State` is in scope and has exactly those two variants. It cannot be reused anywhere else, which undercuts the only conceivable justification for making it a proc macro. The `input` token stream is also spliced textually with no validation beyond `.parse().unwrap()`.
+   *Require:* if a macro is kept at all, either take the enum path as input or generate from the enum definition (a `#[proc_macro_derive]`), and use a proper `quote!`/`syn` pipeline rather than string formatting.
+
+4. **`Cargo.toml` (root) — nested package without a workspace (minor).**
+   `label_macro` lives inside the root package directory but there is no `[workspace]`, so the two packages get separate lockfiles/target dirs and `cargo build -p label_macro` from the root won't work. Not a correctness bug for `cargo build` at the root, but if the second crate stays, declare a workspace.
+
+Nothing else (build script `rerun-if-changed`, `include!` usage, proc-macro manifest) is wrong in isolation; it is just unnecessary.
+
+__ABLATION_DONE__ exit=0

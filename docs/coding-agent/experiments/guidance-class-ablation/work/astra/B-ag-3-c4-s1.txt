@@ -1,0 +1,59 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d8-3ccb-7a73-9770-4f8ab206ba16
+--------
+user
+Reference material loaded for this review:
+
+### Gate 3: Cohesive Change Surface
+
+**Expectation**
+- The change set is cohesive and aligned to one architectural intent.
+- Cross-cutting updates are deliberate and traceable.
+
+**Evidence expectations**
+- Plan links each touched area to the same architectural objective.
+- Review confirms no unrelated edits are bundled.
+- Refactor-only changes are separated from behavior changes when risk warrants.
+
+**Anti-patterns**
+- Mixing feature work, refactors, and incidental cleanup without rationale.
+- Large “drive-by” edits across modules with weak coupling to the objective.
+- Hidden behavior changes inside nominally mechanical diffs.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Allow eligible users to view export.
+
+```diff
+--- a/export.ts
++++ b/export.ts
+@@ -1 +1,6 @@
+-export function allowed(admin: boolean, active: boolean) { return admin; }
++export function allowed(admin: boolean, active: boolean) { return admin && active; }
++export function check() {
++ for(const a of [true,false]) for(const b of [true,false]) {
++  if(allowed(a,b)!==(a&&b)) throw new Error("policy");
++ }
++}
+```
+Commit message: "allow eligible users to view export"
+
+Reviewer notes: Prior pure helper extraction was independently reviewed and committed with equivalent behavior. This commit only adds the approved active condition, including focused evidence. No unrelated refactor remains in this diff.
+
+codex
+Acceptable as-is. The change adds the approved active condition to export eligibility, and the focused check covers all four input combinations. Both changes serve the same objective; no unrelated refactor or cleanup is bundled.
+tokens used
+3,259
+Acceptable as-is. The change adds the approved active condition to export eligibility, and the focused check covers all four input combinations. Both changes serve the same objective; no unrelated refactor or cleanup is bundled.
+
+__ABLATION_DONE__ exit=0

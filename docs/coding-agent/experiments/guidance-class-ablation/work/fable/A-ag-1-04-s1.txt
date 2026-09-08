@@ -1,0 +1,15 @@
+**Findings**
+
+1. **`refund.py`, `PurchaseRepository.refundable` — hard-codes `age_days <= 30` instead of using `RefundPolicy.eligible`.** (Blocking.) The 30-day rule now lives in two places. When the policy changes, `RefundPolicy` will be updated and the repository will silently keep the old threshold — the exact bug the note "Existing RefundPolicy owns 30-day eligibility" is warning against. Require `return RefundPolicy.eligible(age_days)` at minimum (see #2 for the better shape).
+
+2. **`refund.py`, `PurchaseRepository.refundable` — repository performs policy evaluation rather than retrieving purchase facts.** (Blocking, same fix as #1.) The DB query fetches only `id`, so the method's data-access contribution is an existence check; the actual decision comes from a caller-supplied number and a policy rule the repository shouldn't own. Layering is inverted: the repository decides, the policy is unused. Require the repository to expose the fact (e.g. `get(db, purchase_id)` / `exists(...)` raising `LookupError` when missing) and have the caller/service compose `RefundPolicy.eligible(age_days)` with it. If a convenience `refundable` must remain, it should be a thin wrapper that calls the getter and then `RefundPolicy.eligible`, not reimplement the rule.
+
+3. **`refund.py` — `RefundPolicy` is redefined in a new file.** (Flag.) The notes describe `RefundPolicy` as already existing. If it does, this diff creates a second definition and every importer will get whichever one they happen to import; the repository should `from <existing module> import RefundPolicy` rather than ship a copy. If it doesn't exist and this is intentionally the first definition, fine — but the commit message ("read refund eligibility") doesn't say so.
+
+4. **`refund.py` — layout.** (Nit, non-blocking.) `def eligible(...): return ...` and `if row is None: raise ...` on one line, and no blank lines between the two classes, violate PEP 8 and will fail any standard linter/formatter in CI. Split the compound statements and add the two blank lines.
+
+Not raised: no validation of `age_days` (notes guarantee nonnegative whole days from the caller) and passing `db` per call rather than at construction (notes say the connection is caller-supplied; acceptable as a design choice).
+
+The change is **not acceptable as-is** because of #1/#2.
+
+__ABLATION_DONE__ exit=0

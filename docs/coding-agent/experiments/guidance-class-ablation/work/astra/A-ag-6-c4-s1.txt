@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c8-0c4e-79e3-912b-56f14d48ea9a
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Use recent cached display count during outage.
+
+```diff
+--- a/display.py
++++ b/display.py
+@@ -0,0 +1,17 @@
++def read(fetch, cache, clock, signal):
++    try: return fetch()
++    except OSError:
++        now=clock()
++        if cache is not None and 0 <= now-cache[0] <= 30:
++            signal("display_cache_fallback")
++            return cache[1]
++        raise
++def check():
++    signals=[]
++    def fail(): raise OSError("offline")
++    assert read(fail,(10,7),lambda:40,signals.append)==7
++    assert signals==["display_cache_fallback"]
++    for cache in [None,(9,7),(41,7)]:
++        try: read(fail,cache,lambda:40,signals.append)
++        except OSError: pass
++        else: raise AssertionError("invalid fallback")
+```
+Commit message: "use recent cached display count during outage"
+
+Reviewer notes: Noncritical display count permits stale data <= 30 monotonic seconds old. Cache is immutable (timestamp,value), clock finite and sampled after failed fetch. Only OSError qualifies; fallback emits safe signal. Expired/future/missing cache rethrows original failure.
+
+codex
+Acceptable as-is. The change falls back only on `OSError`, accepts cache ages from 0 through 30 seconds inclusive, emits the fallback signal, and rethrows the original failure for missing, expired, or future-dated cache entries. No findings.
+tokens used
+3,258
+Acceptable as-is. The change falls back only on `OSError`, accepts cache ages from 0 through 30 seconds inclusive, emits the fallback signal, and rethrows the original failure for missing, expired, or future-dated cache entries. No findings.
+
+__ABLATION_DONE__ exit=0

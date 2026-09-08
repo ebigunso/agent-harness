@@ -1,0 +1,193 @@
+records:
+  - id: 8ef844f560f0
+    fixture: cp-9-07
+    score: 1.0
+    note: "Names unread result channel and premature Succeeded; requires completion handler observing Run result and propagating failure."
+  - id: a3fa792ebcb3
+    fixture: cp-9-07
+    score: 1.0
+    note: "Names discarded Run errors on unread channel and premature Succeeded; requires consuming result and propagating failures."
+  - id: b9015c9f4818
+    fixture: cp-9-07
+    score: 1.0
+    note: "Names unreceived result channel and Succeeded-before-completion; requires async completion/error mechanism wired to supervisor."
+  - id: c0126ad9e0c3
+    fixture: cp-9-07
+    score: 1.0
+    note: "Names discarded errors and premature durable success; requires async result mechanism/supervisor failure reporting."
+  - id: cc8831029f11
+    fixture: cp-9-07
+    score: 1.0
+    note: "Names unobserved Run errors and premature Succeeded; requires supervisor failure reporting or consumed result channel."
+  - id: dfb84954d604
+    fixture: cp-9-07
+    score: 1.0
+    note: "Names stranded error in channel and premature Succeeded; requires Succeeded only after nil and observable async error path."
+  - id: 0d07e555f712
+    fixture: cp-9-08
+    score: 1.0
+    note: "Names nil-for-outage contract violation and create-on-outage; requires distinct outage outcome, create only after confirmed not-found."
+  - id: 6c4edebe400e
+    fixture: cp-9-08
+    score: 1.0
+    note: "Names outage masquerading as absence driving create; requires explicit unavailable error, create only on confirmed not-found."
+  - id: 74dfc0864b91
+    fixture: cp-9-08
+    score: 1.0
+    note: "Names nil-for-outage and create during lookup outage; requires explicit lookup-unavailable error propagated past get_or_create."
+  - id: 8d106bdf546a
+    fixture: cp-9-08
+    score: 1.0
+    note: "Names hidden outage triggering create; requires distinguishable outage outcome, nil reserved for confirmed absence."
+  - id: a039b27d5adf
+    fixture: cp-9-08
+    score: 1.0
+    note: "Names nil-for-outage causing duplicate create; requires propagated/wrapped failure and create only after confirmed absence."
+  - id: f81413e3f28f
+    fixture: cp-9-08
+    score: 1.0
+    note: "Names nil-for-outage and creation without knowing existence; requires explicit unavailable error propagated through get_or_create."
+  - id: 2341c79462f5
+    fixture: cp-9-09
+    score: 1.0
+    note: "Names swallowed DiskWriteError returning ready with truncated file and destroyed prior artifact; requires atomic publish/explicit failure."
+  - id: 2c32935c6757
+    fixture: cp-9-09
+    score: 1.0
+    note: "Names partial file reported ready and truncation of prior valid export; requires atomic replacement and failure signaling."
+  - id: 7f959ea4fb09
+    fixture: cp-9-09
+    score: 1.0
+    note: "Names ready-after-swallowed-write-failure and lost prior artifact; requires staging and publish only on success."
+  - id: c54d6eb6f338
+    fixture: cp-9-09
+    score: 1.0
+    note: "Names partial artifact reported ready and destroyed prior export; requires replaceAtomically or equivalent plus failure propagation."
+  - id: c9aef29c016b
+    fixture: cp-9-09
+    score: 1.0
+    note: "Names write failure reported as success and prior artifact loss; requires atomic staging, never ready after failed write."
+  - id: f617d24c299f
+    fixture: cp-9-09
+    score: 1.0
+    note: "Names suppressed write failure returning ready and truncation of prior report; requires atomic publication and explicit failure."
+  - id: 60f3b2f6aa1f
+    fixture: cp-9-10
+    score: 1.0
+    note: "Names timeout returned as success=true/null indistinguishable from empty; requires failed envelope with timeout context."
+  - id: 9786bb2596cf
+    fixture: cp-9-10
+    score: 1.0
+    note: "Names false success on timeout bypassing transport error mapping; requires failed envelope with operation ID."
+  - id: d793f5c07f0c
+    fixture: cp-9-10
+    score: 1.0
+    note: "Names timeout misrepresented as empty success; requires failed envelope mapped to HTTP error with diagnostic context."
+  - id: ea5afd9aa96f
+    fixture: cp-9-10
+    score: 1.0
+    note: "Names timeout misreported as empty result bypassing error mapping; requires failed envelope with timeout info."
+  - id: f82a3cecba1e
+    fixture: cp-9-10
+    score: 1.0
+    note: "Names ambiguous success=true/null on timeout; requires failed envelope so transport emits HTTP error."
+  - id: f9ca8344ba1c
+    fixture: cp-9-10
+    score: 1.0
+    note: "Names timeout misrepresented as empty success; requires failed envelope preserving timeout classification and operation ID."
+  - id: 327403fe7195
+    fixture: cp-9-11
+    score: 1.0
+    note: "Names unbounded bad_alloc retry wedging sole dispatch thread; requires bounded explicit failure with context."
+  - id: 5dc57606888a
+    fixture: cp-9-11
+    score: 1.0
+    note: "Names unbounded retry of never-succeeding allocation blocking dispatch; requires bounded failure path returning control."
+  - id: 69adce2cf1b1
+    fixture: cp-9-11
+    score: 1.0
+    note: "Names endless retry of nonrecovering allocation; requires terminating failure Result/propagation with context, bounded retries."
+  - id: 8d7d253ebdaa
+    fixture: cp-9-11
+    score: 1.0
+    note: "Names unbounded retry wedging dispatch thread; requires terminal failure path keeping dispatch operational."
+  - id: ad7df6644bc0
+    fixture: cp-9-11
+    score: 1.0
+    note: "Names infinite identical retry hiding failure; requires terminal explicit allocation-failure result, bounded retries."
+  - id: eaab4179a7ce
+    fixture: cp-9-11
+    score: 1.0
+    note: "Names loop-forever on oversized input wedging dispatch; requires contextual terminating failure, bounded retry policy."
+  - id: 365d706ecde7
+    fixture: cp-9-12
+    score: 1.0
+    note: "Names removed recovery turning optional enrichment failure into failure of durable paid order; requires degraded=true result."
+  - id: 4188fba20359
+    fixture: cp-9-12
+    score: 1.0
+    note: "Names optional enrichment failure failing durable paid order; requires targeted recovery returning degraded result with log."
+  - id: 5447a2c7da53
+    fixture: cp-9-12
+    score: 1.0
+    note: "Names propagated EnrichmentUnavailable failing paid order against degraded contract; requires recovery to None/degraded=true."
+  - id: c0b58655f4d3
+    fixture: cp-9-12
+    score: 1.0
+    note: "Names optional enrichment failure failing already-paid order; requires restoring recovery to degraded result with log."
+  - id: d4c08c40e371
+    fixture: cp-9-12
+    score: 1.0
+    note: "Names enrichment outage becoming order failure post-payment; requires supported degraded OrderResult with diagnostic log."
+  - id: f7e949ac314d
+    fixture: cp-9-12
+    score: 1.0
+    note: "Names optional enrichment outage failing durable order; requires restoring recovery to explicit degraded outcome."
+  - id: 246f666fede9
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 311bb102b7d0
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 3bd185d71d94
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 69274fbba0b7
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 799df7617a7e
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: b7a93e63d3c0
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 0b98f3a889ec
+    fixture: cp-9-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 0dae285d4dc3
+    fixture: cp-9-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 9993edda76c2
+    fixture: cp-9-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: af61a50c9779
+    fixture: cp-9-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: b7d8a6489f1a
+    fixture: cp-9-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: d3d97deb6fc7
+    fixture: cp-9-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."

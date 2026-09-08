@@ -1,0 +1,24 @@
+**Cause**
+
+`npm ci` deletes `node_modules` before reinstalling. On Windows, a loaded DLL/`.node` addon is mapped into the process and cannot be unlinked, so `unlink` on `better_sqlite3.node` fails with `EBUSY` (errno -4082). `tasklist /m` shows two `node.exe` processes (PIDs 4111 and 4112) with that exact module loaded, both launched from this repo's `workers/test-worker.js`. This is a workspace problem: leftover repository-owned test workers are holding the binary open. It is not a permissions, lockfile, registry, or cache issue (the probe file beside the module can be created/removed; lockfile and package.json are in sync).
+
+**Smallest safe remediation**
+
+Stop the two repository-owned workers (they're the only holders, and they belong to this project), then rerun the install:
+
+```powershell
+Stop-Process -Id 4111,4112
+npm ci
+```
+
+Prefer a graceful stop if the worker supports one (e.g. a task runner's stop command), but `Stop-Process` is acceptable for the project's own test workers. Don't use `-Force` on unrelated PIDs, don't delete `node_modules` by hand with a rebooted machine, and don't downgrade/change the dependency — the module itself is fine (it built and loaded correctly before this install).
+
+**Confirmation**
+
+1. `tasklist /m better_sqlite3.node` should report no processes (or "INFO: No tasks are running which match the specified criteria").
+2. `npm ci` exits 0 with no `EBUSY` in stderr.
+3. `node -e "require('better-sqlite3')"` from `C:/work/npm-lock` loads the freshly installed addon without error.
+
+If the workers respawn (e.g. a watcher or scheduled task relaunches `test-worker.js`), stop that supervisor first, otherwise the lock will reappear on the next `npm ci`.
+
+__ABLATION_DONE__ exit=0

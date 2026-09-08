@@ -1,0 +1,36 @@
+**Verdict: block.** The change accepts the status but does not protect the one invariant the system depends on.
+
+**1. `status.php` — `update()` / `Task::__construct`: no domain validation at the trust boundary**
+
+The route's JSON check only proves `status` is a string. Nothing in this diff checks that it is one of the two allowed values (`open`, `closed`). Any string — `"archived"`, `"Closed"`, `" closed"`, `"done"`, `""` — is stored as-is and passed into code that, per the notes, assumes `closed` is the only non-`open` value. That assumption is now false and nothing fails; the bad value just flows downstream.
+
+Require: validate in `update()` (the boundary) and reject anything outside the domain with an actionable error (400 / `InvalidArgumentException` naming the offending value and the allowed set). Preferably encode the domain in the type so it can't be bypassed:
+
+```php
+enum Status: string { case Open = 'open'; case Closed = 'closed'; }
+
+final class Task {
+    public function __construct(public readonly Status $status) {}
+    public function terminal(): bool { return $this->status === Status::Closed; }
+}
+
+function update(string $status): Task {
+    $s = Status::tryFrom($status)
+        ?? throw new InvalidArgumentException("Invalid status '$status'; expected open|closed");
+    return new Task($s);
+}
+```
+
+Also decide explicitly whether case/whitespace normalization is intended; if so, normalize once here before validation, not implicitly elsewhere.
+
+**2. `Task::terminal()` — `!== "open"` fails open**
+
+Even taken on its own, the predicate maps every invalid or unknown status to "terminal". That is the worst direction to fail: a typo or an unanticipated new status silently marks tasks closed. Require a positive check against `closed` (or the enum case) so unknown values are either impossible (with #1) or at least not treated as closed. This also keeps the method honest if a third status is ever added.
+
+**3. `Task` — `public string $status` is mutable, so the invariant isn't protected after construction**
+
+Whatever validation lands in `update()`, a caller can do `$task->status = 'whatever'` afterward and re-break it. Require `readonly` (or private with an accessor) so the only way to obtain a `Task` is through the validating path.
+
+Nothing else in the diff to flag.
+
+__ABLATION_DONE__ exit=0

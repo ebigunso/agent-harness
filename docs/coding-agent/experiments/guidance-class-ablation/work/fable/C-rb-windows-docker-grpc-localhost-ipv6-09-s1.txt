@@ -1,0 +1,30 @@
+**Cause**
+
+This is a workspace/host-networking problem, not a server or code defect. `localhost` resolves to `::1` first, so the Ruby gRPC channel connects to `[::1]:50051`. Docker Desktop's IPv6 published-port proxy accepts the TCP connection but never forwards the HTTP/2 (h2c) traffic, so no initial headers or stream items arrive and the probe's 2s deadline fires (`DEADLINE_EXCEEDED`, exit 2). The evidence is consistent:
+
+- No invocation for the failed call in the service interceptor log → the request never reached the server.
+- REST on `localhost:50080` works in 12 ms because HTTP/1.1 through the proxy is fine; only the h2c stream stalls.
+- The identical call to `127.0.0.1:50051` succeeds (`pong 1`, `pong 2`, exit 0) and the service logs `invoked=true completed=true`.
+
+The probe does not override resolution or retry another address, so it faithfully reports the IPv6 stall.
+
+**Smallest safe remediation**
+
+Use the IPv4 loopback for the local target instead of `localhost`:
+
+```powershell
+ruby probes/stream.rb --target 127.0.0.1:50051 --timeout 2
+```
+
+and persist that in the local config/docs/scripts (e.g. `GRPC_TARGET=127.0.0.1:50051`). Do not change the server, the container image, or the published-port mappings — they are correct. Avoid heavier options (disabling IPv6 on the host, editing the hosts file, changing Docker daemon settings) since a config-level target change fixes it without side effects.
+
+**Confirmation**
+
+1. Re-run the original command with the IPv4 target and check: exit code 0, stdout `pong 1` / `pong 2`, empty stderr.
+2. Check the service log shows the new call: `probe method="server-streaming Echo" transport=h2c invoked=true completed=true`.
+3. Optionally run the unary method with `--method` to confirm all RPC types work over 127.0.0.1.
+4. Record for the ticket: target/port (`localhost:50051` → `[::1]:50051` failed vs `127.0.0.1:50051` ok), the deadline output (`DEADLINE_EXCEEDED: deadline expired after 2s`, exit 2), REST timing (`200`, 0.012 s), and the IPv4 retry result.
+
+If the IPv4 retry had also failed, the next step would have been to inspect the service, published ports, and container health — but here it succeeded, so the diagnosis stops at the `::1` proxy behavior.
+
+__ABLATION_DONE__ exit=0

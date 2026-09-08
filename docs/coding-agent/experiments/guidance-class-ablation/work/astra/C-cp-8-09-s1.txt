@@ -1,0 +1,102 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b5-d0c5-7d71-a69a-d14a140667a9
+--------
+user
+Reference material loaded for this review:
+
+Cut accidental complexity. Abstract for multiple real uses. Keep deps directed/acyclic; weigh clarity/maintenance gains.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add account views to six handlers.
+
+```diff
+--- a/handlers.php
++++ b/handlers.php
+@@ -1,10 +1,64 @@
+ <?php
+ function mapAccount(array $row): array {
+     return [
+         "id" => $row["id"],
+         "name" => trim($row["name"]),
+         "active" => $row["active"],
+         "tier" => $row["tier"],
+         "locale" => $row["locale"],
+     ];
+ }
++function handler1(array $row): array {
++    return [
++        "id" => $row["id"],
++        "name" => trim($row["name"]),
++        "active" => $row["active"],
++        "tier" => $row["tier"],
++        "locale" => $row["locale"],
++    ];
++}
++function handler2(array $row): array {
++    return [
++        "id" => $row["id"],
++        "name" => trim($row["name"]),
++        "active" => $row["active"],
++        "tier" => $row["tier"],
++        "locale" => $row["locale"],
++    ];
++}
++function handler3(array $row): array {
++    return [
++        "id" => $row["id"],
++        "name" => trim($row["name"]),
++        "active" => $row["active"],
++        "tier" => $row["tier"],
++        "locale" => $row["locale"],
++    ];
++}
++function handler4(array $row): array {
++    return [
++        "id" => $row["id"],
++        "name" => trim($row["name"]),
++        "active" => $row["active"],
++        "tier" => $row["tier"],
++        "locale" => $row["locale"],
++    ];
++}
++function handler5(array $row): array {
++    return [
++        "id" => $row["id"],
++        "name" => trim($row["name"]),
++        "active" => $row["active"],
++        "tier" => $row["tier"],
++        "locale" => $row["locale"],
++    ];
++}
++function handler6(array $row): array {
++    return [
++        "id" => $row["id"],
++        "name" => trim($row["name"]),
++        "active" => $row["active"],
++        "tier" => $row["tier"],
++        "locale" => $row["locale"],
++    ];
++}
+```
+Commit message: "add account views to six handlers"
+
+Reviewer notes: Every boundary uses the same validated row schema and identical mapping semantics. mapAccount already exists and is available to these functions in the same module.
+
+codex
+- **`handlers.php`, `handler1`–`handler6`:** All six handlers duplicate the existing `mapAccount()` implementation despite sharing the same validated schema and mapping semantics. This creates seven copies to maintain and risks inconsistent account views when fields or normalization rules change. Require each handler to use `return mapAccount($row);`.
+tokens used
+3,559
+- **`handlers.php`, `handler1`–`handler6`:** All six handlers duplicate the existing `mapAccount()` implementation despite sharing the same validated schema and mapping semantics. This creates seven copies to maintain and risks inconsistent account views when fields or normalization rules change. Require each handler to use `return mapAccount($row);`.
+
+__ABLATION_DONE__ exit=0

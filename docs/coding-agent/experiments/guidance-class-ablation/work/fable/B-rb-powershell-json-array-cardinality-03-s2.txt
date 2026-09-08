@@ -1,0 +1,24 @@
+**Verdict:** not a workspace/environment problem. The runtime, cwd, execution policy, and input JSON are all fine; the script's assertion is wrong for how PowerShell's pipeline works.
+
+**Cause**
+`$parsed = $raw | ConvertFrom-Json` parses `["north"]` into a one-element array, but the pipeline then unrolls that array and emits its single element. `$parsed` therefore holds the bare string `"north"` (stdout confirms: `parsed type=System.String`), so `$parsed -isnot [array]` is true and the script throws. The wire format was correctly framed as an array; the check is measuring pipeline enumeration, not JSON shape. Note the same bug would also mis-handle the empty case the contract requires: `'[]' | ConvertFrom-Json` emits nothing, leaving `$parsed` as `$null`.
+
+**Smallest safe remediation**
+You're on pwsh 7.4.6, so `-NoEnumerate` is available. Change line 5 only:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+(or `ConvertFrom-Json -InputObject $raw -NoEnumerate`). Don't pipe `$parsed` anywhere afterwards before the check, or it will unroll again. Everything else, including the `-isnot [array]` assertion, can stay as-is.
+
+If this script ever has to run under Windows PowerShell 5.1, replace the type check with a raw-framing check instead (`$t = $raw.Trim(); if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw ... }`), since `-NoEnumerate` doesn't exist there. Not needed for the stated environment.
+
+**Confirmation**
+1. Rerun `pwsh -NoProfile -File probes/cardinality.ps1`; expect exit code 0 and `parsed type=System.Object[]` with no stderr.
+2. Cover the contract's edge cases by temporarily substituting `$raw`:
+   - `'[]'` → `System.Object[]`, exit 0 (previously would have been `<null>` and thrown)
+   - `'["north","south"]'` → `System.Object[]`, exit 0
+   - `'"north"'` (scalar wire value) → `System.String`, throws `Expected JSON array`, exit 1 — confirming the check still rejects scalars rather than being loosened.
+
+__ABLATION_DONE__ exit=0

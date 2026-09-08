@@ -1,0 +1,30 @@
+## Cause
+
+This is a script problem, not a workspace/transport problem. The HTTP producer, body, and raw capture are all correct (`raw=[{"state":"ok"}]` is a valid single‑element array).
+
+The failure is PowerShell's pipeline **unwrapping**. When a one‑element array flows through the pipeline into `ConvertFrom-Json`, the result is enumerated and the lone element is assigned to `$parsed`. So `$parsed` becomes the inner `PSCustomObject`, not an array — exactly what stdout reports (`parsed type=System.Management.Automation.PSCustomObject`). The `-isnot [array]` test then correctly throws given what it was handed.
+
+Note this is a false negative: the wire value *is* an array; only the deserialized variable lost its array‑ness.
+
+## Smallest safe remediation
+
+Preserve the array type at deserialization with `-NoEnumerate`. Change line 5:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Why this and not `@($parsed)`: wrapping in `@()` would also coerce a genuine scalar wire value into a one‑element array, silently defeating the contract's requirement to *reject scalars*. `-NoEnumerate` keeps the real shape — arrays stay arrays, scalars stay scalars — so the existing assertion continues to guard correctly. (`-NoEnumerate` is available in PowerShell 7.4, so no version issue.)
+
+## Confirmation
+
+1. Re‑run exactly: `pwsh -NoProfile -File probes/cardinality.ps1`
+   - Expect exit code `0` and `parsed type=System.Object[]` (was `PSCustomObject`).
+2. Spot‑check the contract boundaries with the same runtime:
+   - Empty array `[]` → stays array, passes.
+   - Multi‑element `[{"a":1},{"a":2}]` → array, passes.
+   - Scalar `42` or `"ok"` → still *not* an array, so it still throws `Expected JSON array` (confirms `-NoEnumerate` didn't over‑correct).
+
+If all four cases behave as above, the fix is verified and the assertion reflects true wire cardinality.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,1 @@
+Define meaningful success/failure signals; inspect key boundary events. Assess sensitive-data exposure and minimize logged fields. Avoid silent failures and excessive noise hiding actionable indicators.

@@ -1,0 +1,33 @@
+**Verdict: block.** The change does not compile and does not accomplish the stated task.
+
+**1. `reader/read.go`, `writer/write.go`, `facade/facade.go` — import cycle (build failure)**
+`reader` imports `facade`, `facade` imports `writer`, `writer` imports `reader`. Go rejects this outright (`import cycle not allowed`). Nothing in this diff can be built or tested as submitted. Required: make the dependency direction acyclic and intentional — `reader` and `writer` both point inward to `model`; `writer` must not import `reader` (a writer depending on a reader is backwards regardless of the cycle).
+
+**2. `reader/read.go` — `type ID string` duplicates `model.ID`; `model/id.go` is dead code**
+The task is to *share* account identity. Instead the diff introduces a second, unrelated `ID` type in `reader` and makes `writer` depend on it, while the `model.ID` it adds in the same diff is never imported. `reader.ID` and `model.ID` are distinct named types, so values can't flow between packages without explicit conversion. Required: delete `reader.ID`; have `writer.Latest()` return `model.ID` and `reader.Read()` return `model.ID`.
+
+**3. `facade/facade.go` — unjustified layer that erases the type it exists to share**
+`facade.Latest()` is a one-line pass-through with a single caller, and it converts `reader.ID → string`, which `reader` immediately converts back. The abstraction adds a package, an import edge (the one that closes the cycle), and a lossy round-trip through `string`, while removing nothing. Required: drop the `facade` package; `reader` should call `writer.Latest()` directly (or whatever the real source is) and receive `model.ID` untouched. If a facade is genuinely needed later, it must have more than one concrete consumer and must not import the package that imports it.
+
+**4. Reviewer note — build tags to "select one direction": reject**
+Build tags would not remove the cycle; they would produce two different dependency graphs depending on which tag is set, meaning one of the two packages is silently absent (or stubbed) in every build. That hides a design error behind build configuration and makes the module's structure depend on invisible flags. The correct fix is structural (items 1–3), not conditional compilation.
+
+**Minimal acceptable shape:**
+```go
+// model/id.go
+package model
+type ID string
+
+// writer/write.go
+package writer
+import "example.test/app/model"
+func Latest() model.ID { return model.ID("a") }
+
+// reader/read.go
+package reader
+import ("example.test/app/model"; "example.test/app/writer")
+func Read() model.ID { return writer.Latest() }
+```
+Dependency graph: `reader → writer → model`, `reader → model`. No cycle, one shared type, no pass-through package.
+
+__ABLATION_DONE__ exit=0

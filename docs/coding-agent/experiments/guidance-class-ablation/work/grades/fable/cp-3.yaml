@@ -1,0 +1,193 @@
+records:
+  - id: 60b94c9eacdf
+    fixture: cp-3-01
+    score: 1.0
+    note: "Names metrics.go metricsold->metricsnew swap as unrelated, requires dropping it and landing under metrics ticket for independent revert."
+  - id: 82b22dfdcd3a
+    fixture: cp-3-01
+    score: 1.0
+    note: "Names unrelated metrics-sink migration, requires split so auth rollback is independent."
+  - id: be1aff55dd38
+    fixture: cp-3-01
+    score: 1.0
+    note: "Names metrics migration bundled in auth commit, requires separate landing under metrics ticket."
+  - id: 413a77379c17
+    fixture: cp-3-02
+    score: 1.0
+    note: "Names scheduler INTERVAL_SECONDS 60->5 as unrelated, requires dropping it to a separate ticket."
+  - id: 89449ba21306
+    fixture: cp-3-02
+    score: 1.0
+    note: "Names unrelated scheduler cadence change, requires removal/separate submission."
+  - id: e336f566f5cc
+    fixture: cp-3-02
+    score: 1.0
+    note: "Names scheduler interval change as unrelated, requires split into own PR."
+  - id: 81ed7fa9a2b3
+    fixture: cp-3-03
+    score: 1.0
+    note: "Names Entities.java whitespace reformat as unrelated, requires dropping it so urgent status fix reverts alone."
+  - id: d4dcc67fb366
+    fixture: cp-3-03
+    score: 1.0
+    note: "Names entity reformat coupled with functional fix, requires separate formatting-only commit."
+  - id: e31eb1f16189
+    fixture: cp-3-03
+    score: 1.0
+    note: "Names Entities.java reformat bundled with urgent fix, requires stripping it; extra test request non-blocking."
+  - id: 005a1852fae7
+    fixture: cp-3-04
+    score: 1.0
+    note: "Names presentation->display rename coupled with parser fix and consumer breakage on revert, requires two commits."
+  - id: 4cd97d197e20
+    fixture: cp-3-04
+    score: 1.0
+    note: "Names module rename making parser fix non-revertible in isolation, requires split with rename landed first."
+  - id: 5ba88a84cab6
+    fixture: cp-3-04
+    score: 1.0
+    note: "Names rename/parser coupling and consumer import breakage, requires split into two commits."
+  - id: 2f1958595bcd
+    fixture: cp-3-05
+    score: 1.0
+    note: "Names defaultConsent flip as unrelated behavioral change, requires removal and own PR referencing product proposal."
+  - id: ad627918ffb8
+    fixture: cp-3-05
+    score: 1.0
+    note: "Names consent default change bundled into cosmetic commit, requires separate PR with product rationale."
+  - id: beca5162a9ec
+    fixture: cp-3-05
+    score: 1.0
+    note: "Names undisclosed consent default flip, requires reverting hunk and separate PR tied to proposal."
+  - id: 31047ce18048
+    fixture: cp-3-06
+    score: 1.0
+    note: "Names log->slog replacement as unrelated to TTL fix, requires own commit so TTL reverts alone."
+  - id: 334121b4e43d
+    fixture: cp-3-06
+    score: 1.0
+    note: "Names logging migration coupling with rollback impact, requires split into two commits."
+  - id: 873dce25acc3
+    fixture: cp-3-06
+    score: 1.0
+    note: "Names logging.go hunk as separate unit breaking rollback, requires dropping it from TTL commit."
+  - id: 0c020ffb2c1e
+    fixture: cp-3-07
+    score: 1.0
+    note: "Names MemoryAuth->CachedAuth swap as unrelated to invoice field removal, requires separate landing."
+  - id: 240e5439fa85
+    fixture: cp-3-07
+    score: 1.0
+    note: "Names auth store switch bundled into cleanup commit, requires extraction into own change."
+  - id: 528fc9b1ec00
+    fixture: cp-3-07
+    score: 1.0
+    note: "Names auth composition swap with collateral rollback, requires split into own commit."
+  - id: 48dead4f9855
+    fixture: cp-3-08
+    score: 1.0
+    note: "Names irreversible remove_column drops bundled with reversible backfill, requires deleting them and a separate migration after retirement decision."
+  - id: 8a31bc4cc7b0
+    fixture: cp-3-08
+    score: 1.0
+    note: "Names destructive column drops as out-of-scope and irreversible, requires removal; adds extra name-nullability/batching asks."
+  - id: abcf4c67b5ce
+    fixture: cp-3-08
+    score: 1.0
+    note: "Names legacy column drops as unrelated destructive DDL breaking rollback, requires their own migration."
+  - id: 3a837ab3e252
+    fixture: cp-3-09
+    score: 1.0
+    note: "Names admin-ui/admin-theme major bumps as unrelated to paginator fix, requires separate PR via admin release process."
+  - id: 464c8c092442
+    fixture: cp-3-09
+    score: 1.0
+    note: "Names unrelated major-version bump with divergent rollback, requires dropping package.json hunk."
+  - id: 9d151c4069f9
+    fixture: cp-3-09
+    score: 1.0
+    note: "Names admin package upgrade coupled with bugfix, requires split into own PR."
+  - id: 0f8660ce0090
+    fixture: cp-3-10
+    score: 1.0
+    note: "Names OldRouter->NewRouter migration as unrelated to inbox text, requires own commit (split is the primary ask)."
+  - id: 8142542842b0
+    fixture: cp-3-10
+    score: 1.0
+    note: "Names router migration sharing revert unit with inbox fix, requires dropping routes() hunk."
+  - id: b44c258beae0
+    fixture: cp-3-10
+    score: 1.0
+    note: "Names router swap coupled with empty-state fix, requires standalone migration commit."
+  - id: 41c89c0d9c79
+    fixture: cp-3-11
+    score: 1.0
+    note: "Names SSE2 compressor rewrite and benchmark deletion as independent objectives, requires each split into own commit."
+  - id: 567e2634272f
+    fixture: cp-3-11
+    score: 1.0
+    note: "Names compressor SIMD and bench removal as unrelated, requires parser.cpp alone with others in own commits."
+  - id: 61331869f45a
+    fixture: cp-3-11
+    score: 1.0
+    note: "Names SIMD rewrite and sample_clock deletion as unrelated, requires separate commits."
+  - id: 02f52012f530
+    fixture: cp-3-12
+    score: 1.0
+    note: "Names currency model/migration/locale hunks as unrelated feature, requires reducing to importer.py; key-errata candidate: hardcoded USD heading noted for currency PR."
+  - id: 9417170113fd
+    fixture: cp-3-12
+    score: 1.0
+    note: "Requires split of currency schema/UI from import fix; leads with hardcoded USD heading block (key-errata candidate)."
+  - id: e33e3342303c
+    fixture: cp-3-12
+    score: 1.0
+    note: "Names currency hunks destroying rollback isolation, requires stripping to importer.py; key-errata candidate: USD heading."
+  - id: 9d150dd18a45
+    fixture: cp-3-c1
+    false_positives: 1
+    note: "Requires caller/loader change populating Verified or pointer to merged commit before approval, disregarding notes that callers migrate together; positional-literal nit neutral."
+  - id: b475caa96234
+    fixture: cp-3-c1
+    false_positives: 0
+    note: "Accepts as-is; positional literal and test-name nits explicitly non-blocking."
+  - id: fdb44ab8ae69
+    fixture: cp-3-c1
+    false_positives: 0
+    note: "Accepts as-is; one non-blocking positional-literal nit."
+  - id: 1334134ab44d
+    fixture: cp-3-c2
+    false_positives: 0
+    note: "Accepts as-is; PEP8/connection-close observations explicitly non-blocking."
+  - id: 8c3ebd47a163
+    fixture: cp-3-c2
+    false_positives: 0
+    note: "Accepts as-is with no findings."
+  - id: fd7d4bd378c6
+    fixture: cp-3-c2
+    false_positives: 0
+    note: "Accepts as-is with no findings."
+  - id: 1d55341d5bc6
+    fixture: cp-3-c3
+    false_positives: 0
+    note: "Accepts as-is; mixed-case observation explicitly non-blocking."
+  - id: 361615cd8dd2
+    fixture: cp-3-c3
+    false_positives: 0
+    note: "Accepts as-is; mixed-case and missing-test comments non-blocking."
+  - id: 7203e2f96119
+    fixture: cp-3-c3
+    false_positives: 0
+    note: "Accepts as-is; mixed-case note non-blocking."
+  - id: 269208b9c5e7
+    fixture: cp-3-c4
+    false_positives: 0
+    note: "Accepts as-is; commit-message casing nit non-blocking."
+  - id: 9415f04e7808
+    fixture: cp-3-c4
+    false_positives: 0
+    note: "Accepts as-is; commit-message casing nit non-blocking."
+  - id: dba80bd86e7b
+    fixture: cp-3-c4
+    false_positives: 0
+    note: "Accepts as-is; commit-message casing nit non-blocking."

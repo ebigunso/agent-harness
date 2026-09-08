@@ -1,0 +1,33 @@
+**Overall:** The change does what the task asks (typed failure, `Unwrap` chain intact, `Timeout` flag) and I would not block it. Two things I'd flag before merging:
+
+---
+
+**1. `catalog/fetch.go` — `FetchFailure.Error()` discards both the cause and the timeout classification.**
+
+`Error()` returns only `"fetch catalog failed"`. Anything that logs `err.Error()` (which is most logging middleware, `log.Printf("%v")`, error-reporting SDKs, test failure output) sees an identical string for a timeout, a canceled context, a connection refusal, and a malformed row. The information the task exists to preserve is present on the struct but invisible in the one channel most operators actually read.
+
+The reviewer note justifies the terse message on sanitization grounds, but the same notes state that store errors are already sanitized at their source. If that's true, appending the cause costs nothing safety-wise; if it's not true, the `Unwrap` chain is already leaking it to `%+v` / `errors.As` consumers, so the terse `Error()` isn't protecting anything.
+
+*Require:* Include the cause and, at minimum, the timeout marker in the string, e.g.
+`e.Operation + " failed (timeout): " + e.Cause.Error()` (guarding `Cause == nil`). If there is a real reason the cause must never appear in `Error()`, document it on the type and still surface `Timeout` in the message.
+
+---
+
+**2. `catalog/fetch.go` — `Timeout` is derived solely from the store's returned error, not from `ctx`.**
+
+`Timeout: errors.Is(err, context.DeadlineExceeded)` only works if every `Store` implementation faithfully wraps the context error. A store that sanitizes by *replacing* the error (which is what "sanitized at their source" often means in practice), or a driver that surfaces a socket deadline as `os.ErrDeadlineExceeded` / a `net.Error` with `Timeout() == true`, will produce `Timeout: false` on a genuine deadline expiry. The caller then gets a typed failure that claims "not a timeout" — an ambiguous state that's worse than no flag.
+
+*Require:* Also consult the context you own:
+
+```go
+timeout := errors.Is(err, context.DeadlineExceeded) ||
+           errors.Is(ctx.Err(), context.DeadlineExceeded)
+```
+
+Optionally add a `net.Error`/`os.ErrDeadlineExceeded` check if any current `Store` is network-backed. Add a test with a fake store that returns an opaque error while `ctx` has expired, asserting `Timeout == true`.
+
+---
+
+Nothing else: the `Unwrap` implementation is correct, the non-nil pointer return is safe, success path is untouched, and the 503 mapping via `errors.As` is fine.
+
+__ABLATION_DONE__ exit=0

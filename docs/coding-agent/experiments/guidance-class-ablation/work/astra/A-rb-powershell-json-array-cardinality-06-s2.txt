@@ -1,0 +1,110 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0815a-bf76-7b31-aa7d-a88c1cf22229
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[7]'
+$wireCount = '1'
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; $items }; $parsed = Parse
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[7]
+wire elements=1
+parsed type=System.Int64
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+codex
+The cause is **PowerShell’s function-output enumeration**, a script bug rather than a workspace or permissions problem. `ConvertFrom-Json -NoEnumerate` preserves `[7]` as an array in `$items`, but the bare `$items` expression emits its elements. With one element, `$parsed` becomes `System.Int64`.
+
+The smallest safe fix is to preserve the array at the function boundary using a unary comma:
+
+```powershell
+function Parse {
+    $items = $raw | ConvertFrom-Json -NoEnumerate
+    ,$items
+}
+$parsed = Parse
+```
+
+The comma adds an outer array for PowerShell to enumerate, leaving the original value intact. Scalar JSON still produces a scalar and fails the existing assertion. Wrapping the caller in `@(Parse)` would incorrectly make scalars pass.
+
+Confirm by rerunning with these `$raw` values:
+
+| Raw JSON | Expected result |
+|---|---|
+| `[]` | Array, count 0; exit 0 |
+| `[7]` | Array, count 1; exit 0 |
+| `[7,8]` | Array, count 2; exit 0 |
+| `7` | Scalar; `Expected JSON array`, exit 1 |
+
+Check `$parsed.Count` for accepted inputs; `$wireCount` is hard-coded and does not verify cardinality.
+tokens used
+14,897
+The cause is **PowerShell’s function-output enumeration**, a script bug rather than a workspace or permissions problem. `ConvertFrom-Json -NoEnumerate` preserves `[7]` as an array in `$items`, but the bare `$items` expression emits its elements. With one element, `$parsed` becomes `System.Int64`.
+
+The smallest safe fix is to preserve the array at the function boundary using a unary comma:
+
+```powershell
+function Parse {
+    $items = $raw | ConvertFrom-Json -NoEnumerate
+    ,$items
+}
+$parsed = Parse
+```
+
+The comma adds an outer array for PowerShell to enumerate, leaving the original value intact. Scalar JSON still produces a scalar and fails the existing assertion. Wrapping the caller in `@(Parse)` would incorrectly make scalars pass.
+
+Confirm by rerunning with these `$raw` values:
+
+| Raw JSON | Expected result |
+|---|---|
+| `[]` | Array, count 0; exit 0 |
+| `[7]` | Array, count 1; exit 0 |
+| `[7,8]` | Array, count 2; exit 0 |
+| `7` | Scalar; `Expected JSON array`, exit 1 |
+
+Check `$parsed.Count` for accepted inputs; `$wireCount` is hard-coded and does not verify cardinality.
+
+__ABLATION_DONE__ exit=0

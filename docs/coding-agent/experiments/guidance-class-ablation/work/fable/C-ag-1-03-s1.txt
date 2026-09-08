@@ -1,0 +1,19 @@
+**Findings**
+
+1. **`subscription.go`, `Handle` / `Scheduled` — transition rule lives in the entry point, not the domain; the scheduler path bypasses it.**
+   The `allowed` table is the core business rule (a closed state machine: `trial→active|cancelled`, `active→cancelled`, `cancelled` terminal). It is only enforced in `Handle`. `Scheduled` calls `Save` directly, so the scheduler can do `cancelled→active` or `active→trial` with no check. Since the reviewer notes confirm the scheduler is a real caller, this is a live hole, not hypothetical. This is exactly "policy in the wrong layer": each new entry point has to remember to re-implement the rule.
+   Require: move the transition check into the domain type — e.g. `func (s *Service) Transition(next Status) error` that owns the `allowed` table and is the only way to change `State`. `Handle` and `Scheduled` both call `Transition`; `Save` (if it stays) becomes an unexported persistence step invoked only from `Transition`. There should be no public path that sets `State` without going through the rule.
+
+2. **`subscription.go`, `Service.State` / `Save(next string)` — status is an untyped `string`; the "closed set" is not actually closed.**
+   The reviewer notes claim "Save accepts any status in that set," but the code enforces no set: `Save("foo")` succeeds. Even in `Handle`, an unknown current state maps to `nil` → every transition rejected, and an unknown `next` is silently rejected with the same generic error, so data corruption and typo bugs are indistinguishable from legitimate rule violations.
+   Require: a `type Status string` with `StatusTrial/StatusActive/StatusCancelled` constants, and the transition table keyed on that type. Unknown values should be rejected explicitly (or made unrepresentable), not fall through map-of-map zero values.
+
+3. **`subscription.go`, `Scheduled` — no error return.**
+   Once `Scheduled` goes through validation (finding 1), it can fail, and a scheduler that silently drops a rejected transition is worse than one that never validated — the job appears to succeed while the subscription doesn't move. Even today, the signature encodes the assumption that scheduled writes can't be wrong, which is the bug.
+   Require: `func Scheduled(s *Service, next Status) error`, propagating the transition error so the scheduler can log/retry/alert.
+
+Minor, non-blocking: `fmt.Errorf("invalid transition")` should include `from`/`to` (`"invalid transition %s -> %s"`) — with the rule moving into the domain, this is the one error message callers will see, and it's currently undiagnosable.
+
+**Verdict:** not acceptable as-is. Findings 1–3 are blocking; they are one fix (domain-owned `Transition` on a typed `Status`, both callers routed through it, errors propagated).
+
+__ABLATION_DONE__ exit=0

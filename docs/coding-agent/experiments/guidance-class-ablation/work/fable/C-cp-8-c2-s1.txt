@@ -1,0 +1,10 @@
+**Findings**
+
+1. **`cli.py` — new `check()` function**
+   - **What's wrong:** The diff adds an `assert`-based test into the production module. Nothing calls it, so it's dead code as shipped; `assert` is stripped under `python -O`, so even if it were wired up it wouldn't reliably guard anything; and it's outside the stated task ("replace sole command registry with direct call").
+   - **Why it matters:** This is exactly the accidental complexity the task is meant to cut — the diff removes one unnecessary indirection and adds another unused symbol to the module's surface. The reviewer note claims "equivalent output is asserted by executable check," but the check only asserts the new behaviour, not old-vs-new equivalence, and it isn't executed by anything, so it doesn't actually back the claim.
+   - **Require instead:** Drop `check()` from `cli.py`. If a regression guard is wanted, put a `test_main_returns_ready()` in the test suite (e.g. `test_cli.py`) where the runner will pick it up. Verify equivalence in the PR description by stating you grepped for `REGISTRY` and found no other references.
+
+**The rest of the change is acceptable.** Removing `REGISTRY` and calling `status()` directly is the right move: a single-entry registry with one internal caller is an abstraction with no second use, and the direct call keeps dependencies simple and acyclic. With `check()` removed (or relocated to tests), I'd approve.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,31 @@
+**Cause**
+
+`export_report.py` line 25 tried to open `C:\work\py-report\report.txt` for writing (`'w'`), and Windows refused with `PermissionError: [Errno 13]`. The diagnostics say the ACL on `report.txt` explicitly denies this user write access. Because `'w'` must truncate/replace the file, the OS denies the open itself — that's why it failed before any write and stdout is empty.
+
+This is not an encoding or stream problem: the open explicitly passed `encoding='utf-8'`, `sys.stdout.encoding` is already `utf-8`, and `utf8_mode=0` is irrelevant since the code doesn't rely on the default encoding. It's also not a process lock (none reported). It is a workspace permission problem on one file.
+
+**Smallest safe remediation**
+
+Grant this user write access on that one file, rather than touching the parent directory or running elevated:
+
+```powershell
+icacls "C:\work\py-report\report.txt" /grant "$env:USERDOMAIN\$env:USERNAME:(M)"
+```
+
+If the deny is an explicit Deny ACE (Deny wins over Allow), remove it instead:
+
+```powershell
+icacls "C:\work\py-report\report.txt" /remove:d "$env:USERDOMAIN\$env:USERNAME"
+```
+
+Check first with `icacls "C:\work\py-report\report.txt"` to see whether it's a Deny entry or just a missing Allow, and use only the one command that applies. If the file isn't something you own/are allowed to alter, the alternative that doesn't change ACLs is to write to a different output path (e.g., pass a filename in a writable location) — but that's a code/argument change, so the ACL fix on the single file is the smaller one if permitted.
+
+Don't: run PowerShell as Administrator to bypass it, `icacls /reset` the whole directory, or `takeown` recursively — all broader than needed.
+
+**Confirmation**
+
+1. `icacls "C:\work\py-report\report.txt"` shows the user with `(M)` (or `(W)`) and no `(DENY)` entry.
+2. Re-run `python export_report.py`; expect exit code 0 and no traceback.
+3. `Get-Item C:\work\py-report\report.txt | Select-Object Length, LastWriteTime` shows a fresh timestamp and nonzero size, and `Get-Content -Encoding utf8` shows the expected report content.
+
+__ABLATION_DONE__ exit=0

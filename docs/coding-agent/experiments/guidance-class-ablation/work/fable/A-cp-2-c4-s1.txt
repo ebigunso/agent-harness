@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+The change does exactly what the task asks and nothing more:
+
+- Scope is correct: only the two exact literals `"TRUE"` and `"FALSE"` are remapped. Mixed case (`"True"`), whitespace variants, and arbitrary strings still go straight to `vendor::parse_bool` and error as before. No case folding is applied to arbitrary data.
+- Error semantics are preserved: the remapped values are still routed through `vendor::parse_bool` rather than short-circuited to `Ok(true)`/`Ok(false)`, so the vendor parser remains the single source of truth for boolean interpretation and any `VendorError` behavior is unchanged.
+- It lives at the right layer: this is the only SDK boolean entry point, so the workaround is contained and won't leak into call sites.
+- The workaround has an owner, a removal trigger (vendor 2.2 with V-184 fixed), a re-evaluation date (2026-10-01), and test coverage for the accepted literals, the lowercase path, invalid input, and error propagation.
+
+**One non-blocking nit** (would not hold the merge for it):
+
+- `src/vendor_adapter.rs`, the comment above the `match`: it explains *why* but not *when to remove*. The removal condition currently lives only in the PR notes. I'd ask that the comment carry the tracking reference so the workaround is self-documenting for whoever touches this file later, e.g. `// Workaround for vendor 2.1 (V-184). Remove once vendor 2.2 is qualified; re-evaluate by 2026-10-01.` This is a one-line addition and can be done in this PR or as a follow-up.
+
+__ABLATION_DONE__ exit=0

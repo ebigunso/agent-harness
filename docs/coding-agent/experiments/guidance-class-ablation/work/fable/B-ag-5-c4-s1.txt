@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+Checking against Gate 5:
+
+- **Invariant ("each `ident` applied at most once") is enforced at the authoritative boundary.** `apply` is the only write path to `_value`, and the check-and-mutate (`ident not in self._seen` → `+= delta` → `add`) is entirely inside the single lock. There is no caller-side dedupe the correctness depends on.
+- **No invalid intermediate state.** Both mutations happen under the lock; if `self._value += delta` raised (e.g. bad `delta` type), it raises before assignment, so neither `_value` nor `_seen` is modified — state stays consistent rather than marking the event seen without applying it.
+- **No conflicting write paths / ownership ambiguity.** One store, one lock, one mutator. `value()` reads under the same lock.
+- **Concurrent/repeated execution is exercised.** 32 concurrent deliveries of the same ID across 8 workers, asserting both every return value and final state. That is the right shape of test for this invariant.
+- **Divergent-delta case** (same `ident`, different `delta`) is ruled out by the stated contract (immutable delta per event ID), so a mismatch check is not required here.
+- **Persistence/restart** is explicitly out of the bounded contract, so loss of `_seen` on restart is not a defect of this change.
+
+One non-blocking observation, not a required change: `_seen` grows unboundedly for the lifetime of the process. That is inherent to exact in-memory dedupe and is fine under the stated bounded-store contract, but if this store is ever long-lived with high event volume, a retention/eviction policy would need to be added — and would need to be designed together with whatever upstream guarantees bound the redelivery window, since evicting an ID reopens the duplicate-application hole. Worth a comment in the code so the constraint is visible to the next person.
+
+__ABLATION_DONE__ exit=0

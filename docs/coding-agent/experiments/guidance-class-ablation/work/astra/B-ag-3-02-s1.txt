@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d7-887d-73a2-9ff6-157339e13b45
+--------
+user
+Reference material loaded for this review:
+
+### Gate 3: Cohesive Change Surface
+
+**Expectation**
+- The change set is cohesive and aligned to one architectural intent.
+- Cross-cutting updates are deliberate and traceable.
+
+**Evidence expectations**
+- Plan links each touched area to the same architectural objective.
+- Review confirms no unrelated edits are bundled.
+- Refactor-only changes are separated from behavior changes when risk warrants.
+
+**Anti-patterns**
+- Mixing feature work, refactors, and incidental cleanup without rationale.
+- Large “drive-by” edits across modules with weak coupling to the objective.
+- Hidden behavior changes inside nominally mechanical diffs.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Rename request metric keys.
+
+```diff
+--- a/Config.java
++++ b/Config.java
+@@ -1,4 +1,4 @@
+ final class Config {
+- static final String METRIC="req_count";
+- static final int PASSWORD_DAYS=90;
++ static final String METRIC="request_count";
++ static final int PASSWORD_DAYS=30;
+ }
+```
+Commit message: "rename request metric keys"
+
+Reviewer notes: Plan only describes telemetry vocabulary; password age policy has a separate product owner and release. Both intervals are valid policies but only metrics work is in scope.
+
+codex
+- **`Config.java`, `PASSWORD_DAYS`:** Changing the password age policy from 90 to 30 days is an unrelated behavior change bundled into a metric rename. It falls outside the telemetry plan and affects a policy with a separate product owner and release. Restore `90` in this change and submit the policy change separately through its own review and release process.
+tokens used
+3,193
+- **`Config.java`, `PASSWORD_DAYS`:** Changing the password age policy from 90 to 30 days is an unrelated behavior change bundled into a metric rename. It falls outside the telemetry plan and affects a policy with a separate product owner and release. Restore `90` in this change and submit the policy change separately through its own review and release process.
+
+__ABLATION_DONE__ exit=0

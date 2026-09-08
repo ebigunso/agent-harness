@@ -1,0 +1,26 @@
+**Verdict: block.** The change emits the success signal but the failure half of "partial import success" is silent, which is exactly what the task and Gate 7 require to be inspectable.
+
+## Findings
+
+### 1. `importer.rb` — rejected rows are dropped with no signal
+
+**What's wrong:** `next if row.empty?` discards the row and nothing records that it happened. The only signal emitted is `signal.call("accepted", count)`. An operator seeing `accepted: 8` cannot tell whether the batch had 8 rows or 80.
+
+**Why it matters:** The reviewer notes state the policy explicitly: partial acceptance is intended, and operators *must* inspect the rejected count. This is the Gate 7 anti-pattern verbatim — a silent failure path with no diagnosable signal. The task framing is "partial import success metrics"; a metric that only reports the accepted side does not describe partial success at all, it just reports a number.
+
+**Require:** Track rejections in the loop and emit them alongside the accepted count, e.g. `signal.call("rejected", rejected_count)`. A total/processed count is also reasonable so the two figures can be reconciled without the caller re-deriving `rows.size`.
+
+### 2. `importer.rb` — no location information for rejected rows
+
+**What's wrong:** Even with a rejected count added, the operator has no way to find *which* rows were rejected. The notes call out "safe row locations" as a requirement; the diff provides neither locations nor any correlation key.
+
+**Why it matters:** A count tells you the failure happened; a location tells you where to look. Without indices, diagnosing a partial import means re-running or manually diffing input against output. The word "safe" in the notes is also doing work here: the signal should carry row *positions* (e.g. `each_with_index` indices), not row contents, so the diagnostic path never becomes a channel for whatever data the rows contain. That's the second half of Gate 7 — supports diagnosis without exposing sensitive internals.
+
+**Require:** Iterate with `each_with_index`, collect the indices of rejected rows, and include them in the rejected signal (e.g. `signal.call("rejected", rejected_count, indices: rejected_indices)` or whatever shape `signal` supports). Do not include row payloads. The batch is bounded and in-memory per the notes, so a full index list is acceptable here; if that assumption changes, cap or sample the list rather than emitting contents.
+
+## Not flagged
+
+- Storage append failure handling — the notes state append cannot fail in this bounded in-memory batch, so no signal is needed for it.
+- The unconditional `signal.call("accepted", count)` for an empty batch — emitting `accepted: 0` is correct and useful, not noise.
+
+__ABLATION_DONE__ exit=0

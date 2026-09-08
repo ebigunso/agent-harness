@@ -1,0 +1,23 @@
+**Cause:** cwd drift in the persistent shell. A prior `cd '/c/work/jvm-app/service'` left the shell in the `service` subproject, but `gradlew` lives only at the repo root (`C:/work/jvm-app/gradlew`). `./gradlew` is a relative path, so bash resolved it to `/c/work/jvm-app/service/gradlew`, which doesn't exist → exit 127 "No such file or directory". The tool UI's remembered root (`C:/work/jvm-app`) does not reflect the shell's actual cwd. This is a workspace/cwd problem, not a code, Gradle, Java, PATH, permissions, or line-ending problem — the evidence rules those out (no changes between attempts, gradlew is executable with Unix line endings, wrapper JAR present).
+
+**Smallest safe remediation:** navigate explicitly to the repo root and rerun the command unchanged:
+
+```bash
+pwd                      # expect /c/work/jvm-app/service (pre-normalization)
+cd '/c/work/jvm-app'
+pwd                      # expect /c/work/jvm-app
+./gradlew test
+```
+
+If only the `service` subproject is wanted, run `./gradlew :service:test` from the root — still from the root, since that's where the wrapper is. Avoid stacking `cd service && ...` retries in the persistent session.
+
+**Confirmation:** `pwd` reports `/c/work/jvm-app`; `./gradlew test` exits 0 with `> Task :service:test` and `BUILD SUCCESSFUL` (already observed in the captured comparison). Final `pwd` still `/c/work/jvm-app`.
+
+**Evidence record:**
+- Failing command: `./gradlew test` → exit 127, `bash: ./gradlew: No such file or directory`
+- Pre-normalization cwd: `/c/work/jvm-app/service`
+- Normalized cwd: `/c/work/jvm-app`
+- Rerun: `./gradlew test` → exit 0, BUILD SUCCESSFUL
+- Status: **resolved** (root cause: cwd drift in persistent shell)
+
+__ABLATION_DONE__ exit=0

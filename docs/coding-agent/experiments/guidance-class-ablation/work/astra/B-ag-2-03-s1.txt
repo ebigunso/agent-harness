@@ -1,0 +1,62 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d6-c746-7470-a061-cf404120e803
+--------
+user
+Reference material loaded for this review:
+
+### Gate 2: Correct Dependency Direction
+
+**Expectation**
+- Dependencies point from outer layers toward stable inner abstractions.
+- Core behavior does not depend directly on volatile delivery or storage details.
+
+**Evidence expectations**
+- Plan documents dependency direction for touched components.
+- Review verifies new imports/calls do not invert boundaries.
+- Abstraction seams are explicit where external systems are involved.
+
+**Anti-patterns**
+- Domain logic directly calling framework, transport, or vendor clients.
+- Circular dependencies between modules.
+- Feature code bypassing interfaces to reach lower-level internals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Calculate domain price from vendor quote.
+
+```diff
+--- a/pricing.py
++++ b/pricing.py
+@@ -1,5 +1,8 @@
+ from typing import Protocol
++import requests
+ class QuoteProvider(Protocol):
+     def quote(self) -> int: ...
+-def price(provider: QuoteProvider):
+-    return provider.quote() + 10
++def price():
++    response = requests.get("https://quotes.example.test/current", timeout=2)
++    response.raise_for_status()
++    return response.json()["cents"] + 10
+```
+Commit message: "calculate domain price from vendor quote"
+
+Reviewer notes: requests is installed. QuoteProvider is existing domain seam. Vendor response is a validated numeric JSON quote; HTTP timeout and status errors are handled. Domain now owns volatile URL and requests behavior.
+
+codex
+- **`pricing.py: price()` and `import requests`** — The domain function bypasses the existing `QuoteProvider` seam and directly owns the vendor URL, HTTP request, and response parsing. This reverses the intended dependency direction, coupling stable pricing logic to volatile transport and vendor details. Require `price(provider: QuoteProvider)` to retain the domain calculation, with HTTP access and JSON extraction implemented in an outer adapter supplied by the caller.
+tokens used
+3,278
+- **`pricing.py: price()` and `import requests`** — The domain function bypasses the existing `QuoteProvider` seam and directly owns the vendor URL, HTTP request, and response parsing. This reverses the intended dependency direction, coupling stable pricing logic to volatile transport and vendor details. Require `price(provider: QuoteProvider)` to retain the domain calculation, with HTTP access and JSON extraction implemented in an outer adapter supplied by the caller.
+
+__ABLATION_DONE__ exit=0

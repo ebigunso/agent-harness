@@ -1,0 +1,9 @@
+**Verdict: acceptable as-is.**
+
+The defect was in the loop bounds themselves (`attempt := 1; attempt < maxAttempts`), which ran `maxAttempts-1` invocations and — worse — ran zero times and returned `nil` (a phantom success) for `maxAttempts == 1`. The diff corrects the bound at its origin (`0 ≤ attempt < maxAttempts`) rather than compensating elsewhere (e.g. `Run(4, …)` at call sites or a `maxAttempts+1` adjustment). No duplicated or symptom-masking logic is introduced, and the stated verifications (max=1 → one call, max=3 → three calls, early return on success) match what the code now does. The commit message accurately describes the change.
+
+No blocking findings.
+
+One non-blocking observation, not a required change: `Run` still returns `nil` without invoking `operation` if it were ever called with `maxAttempts <= 0`. Given that the only callers pass a literal `3` and the reviewer notes state the `>= 1` invariant is enforced at configuration load, I would not require a guard here — adding one would duplicate validation that already exists at the boundary. I'd only revisit this if `Run` is later exposed to arbitrary caller-supplied budgets, at which point the guard belongs in `Run` (fail loudly, not silently succeed).
+
+__ABLATION_DONE__ exit=0

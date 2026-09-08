@@ -1,0 +1,34 @@
+Verdict: block. The change is not acceptable as-is.
+
+Findings
+
+1. lib/amounts.rb, accounting_amount (unchanged line 31)
+   What is wrong: accounting_amount still returns serialize(invoice)[:dollars], which is the raw integer cents. For cents=1234 it yields 1234, not 12.34.
+   Why it matters: the task explicitly names accounting exports as one of the four surfaces to correct, and the reviewer notes state all four callers must yield 12.34. Accounting exports are the one surface where a 100x unit error is most damaging (ledgers, tax, reconciliation) and least likely to be caught by a human glance. The commit message ("visible presenters") quietly narrows scope to exclude it; that is a scope cut, not a justification.
+   Require instead: fix accounting_amount too, or better, fix the root cause (finding 2), which makes this fall out for free.
+
+2. lib/amounts.rb, serialize (unchanged lines 11-13)
+   What is wrong: serialize returns { dollars: invoice.cents } — a key named dollars holding an integer cents value. This is the actual bug. The diff leaves the broken contract in place and patches three of its four callers instead.
+   Why it matters: the reviewer notes state the serializer contract is dollars as a decimal value. Every present and future caller of serialize (including any not in this file) still gets a mislabelled integer. Patching callers is the symptom fix; the next caller added will reproduce the bug.
+   Require instead: convert once in serialize:
+       def serialize(invoice)
+         { dollars: BigDecimal(invoice.cents) / 100 }
+       end
+   and revert the four presenters to plain serialize(invoice)[:dollars]. Net diff is smaller than the proposed one and covers accounting_amount and every other consumer.
+
+3. lib/amounts.rb, the three changed presenters (lines 17, 22, 27)
+   What is wrong: identical conversion expression copy-pasted three times (BigDecimal(...to_s) / 100). The .to_s round-trip is also unnecessary; BigDecimal accepts an Integer directly.
+   Why it matters: three copies of the same money conversion is three places for the next unit bug to hide, and it is exactly how accounting_amount got missed. Minor on its own; it disappears entirely under finding 2.
+   Require instead: single conversion in serialize (see 2). If for some reason the serializer must stay as cents, at minimum extract one cents_to_dollars helper and call it from all four.
+
+4. No test for the unit conversion
+   What is wrong: the diff includes no test asserting cents=1234 yields 12.34 across the four surfaces.
+   Why it matters: this is a money path and the stated acceptance criterion is concrete and trivially checkable. A one-assertion-per-surface test would have caught the missing accounting_amount fix before review.
+   Require instead: one small test that builds an invoice with cents 1234 and asserts web_amount, email_amount, receipt_amount and accounting_amount all == BigDecimal("12.34").
+
+5. Commit message
+   What is wrong: "convert cents in visible presenters" describes a narrower change than the task asked for and does not mention that accounting was intentionally left out.
+   Why it matters: a reader of history will assume the units task is done. If accounting was deliberately deferred it must say so and why; if it was an oversight, the message is masking it.
+   Require instead: after fixing per finding 2, something like "Return dollars from invoice serializer instead of raw cents".
+
+Summary of required change: move the cents-to-dollars conversion into serialize, drop the per-presenter conversions, add one test covering all four surfaces with cents=1234 -> 12.34.

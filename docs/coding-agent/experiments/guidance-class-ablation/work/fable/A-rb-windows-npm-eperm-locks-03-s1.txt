@@ -1,0 +1,22 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/permissions problem. `npm ci` starts by deleting `node_modules`, and Windows refuses to unlink a `.node` addon that is currently mapped into a running process (EPERM / errno -4048 on `unlink`). `tasklist /m` shows the file is loaded by `node.exe` PID 4103, which is the Next dev server (`next dev`) launched from this same repository. ACLs, lockfile sync, cache, and registry are all confirmed fine, so the only blocker is that open file handle.
+
+**Smallest safe remediation**
+
+Stop the dev server that holds the binary, then rerun the install. Since PID 4103 is owned by this repo and the observation is that it's the only holder, stop just that process (prefer a graceful stop in its terminal; otherwise):
+
+```powershell
+Stop-Process -Id 4103   # the Next dev server for C:/work/npm-lock
+npm ci
+```
+
+Don't delete `node_modules` by hand, change ACLs, run as admin, or disable antivirus — none of those address the cause, and the last two widen risk unnecessarily.
+
+**Confirmation**
+
+1. `tasklist /m swc.win32-x64-msvc.node` returns no rows (nothing has the addon mapped).
+2. `npm ci` exits 0 with no EPERM output, and `node_modules\@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` exists at the expected version (`npm ls @swc/core-win32-x64-msvc` shows 1.7.26).
+3. Restart `next dev`; it should start and compile normally, proving the addon was reinstalled and loads correctly.
+
+__ABLATION_DONE__ exit=0

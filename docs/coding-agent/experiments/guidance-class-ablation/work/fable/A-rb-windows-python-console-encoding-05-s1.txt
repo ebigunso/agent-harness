@@ -1,0 +1,37 @@
+**Cause**
+
+This is a workspace/environment problem, not a bug in the CSV logic. Because stdout is a pipe rather than a Windows console, CPython 3.12 (with `utf8_mode = 0`) initializes `sys.stdout` with the ANSI code page, `cp1252`. `csv.writer` hands the row to that text stream, and U+65E5 (`日`) has no mapping in cp1252, so the encoder raises `UnicodeEncodeError` before anything is written — hence empty stdout and exit 1. The data and the script are fine; the process's I/O encoding is wrong for the content.
+
+**Smallest safe remediation**
+
+Enable UTF‑8 mode for just this invocation — no code change, no persistent environment change, no effect on the source CSV (which the script never writes to anyway):
+
+```powershell
+python -X utf8 csv_preview.py
+```
+
+Equivalent per-session form if you'd rather not touch the command line: `$env:PYTHONUTF8 = 1` before running it. (`PYTHONIOENCODING=utf-8` would also work but only fixes the std streams; `-X utf8` is the documented, narrower switch for exactly this case.)
+
+I would *not* recommend changing the system locale to UTF‑8 or editing `csv_preview.py` to `sys.stdout.reconfigure(...)` as the first step — both are broader changes than the failure warrants.
+
+**Confirmation**
+
+1. Rerun in the same captured-stream context and check exit code:
+   ```powershell
+   python -X utf8 csv_preview.py; $LASTEXITCODE   # expect 0, no traceback
+   ```
+2. Verify the stream encoding is what you think it is, under the same piping:
+   ```powershell
+   python -X utf8 -c "import sys; print(sys.stdout.encoding)" | Out-String   # expect utf-8
+   ```
+3. Verify the bytes are correct, bypassing PowerShell's own re-decoding:
+   ```powershell
+   cmd /c "python -X utf8 csv_preview.py > out.csv"
+   python -c "print(open('out.csv','rb').read())"   # expect b'date,\xe6\x97\xa5\r\n'
+   ```
+
+One caveat on the consumer side: if the pipe's reader is PowerShell itself (e.g. `$x = python ...`), PowerShell 7 decodes native output with `[Console]::OutputEncoding`, which defaults to the OEM code page on Windows. If `日` still looks garbled *after* Python exits cleanly, set `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` in that session — that's a separate, downstream issue, not the cause of this traceback.
+
+Unrelated observation, not the cause: `csv.writer(sys.stdout)` on Windows will emit `\r\r\n` line endings because `sys.stdout` wasn't opened with `newline=''`. Harmless for a preview, but worth knowing if the output is ever parsed.
+
+__ABLATION_DONE__ exit=0

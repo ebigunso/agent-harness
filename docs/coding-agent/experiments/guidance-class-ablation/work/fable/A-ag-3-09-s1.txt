@@ -1,0 +1,10 @@
+**Findings**
+
+1. **`Model.kt` — unrelated domain rename bundled into a dependency bump (block).**
+   The task is "upgrade SQLite JDBC driver," but this hunk renames `Account` → `Customer` and changes the user-visible output of `label()` from `"Account …"` to `"Customer …"`. That is a semantic/behavioral change to the domain model with no relationship to the driver, and the commit message ("upgrade sqlite jdbc driver") does not mention it — anyone bisecting a label regression or auditing the driver upgrade will be misled. Even though all consumers are shown and it compiles, the change is unjustified by the stated task and untraceable from the commit history. Required: drop the `Model.kt` hunk from this change; if the rename is actually wanted, submit it as a separate commit/PR with its own rationale (and, at minimum, name the parameter `customer` rather than leaving `account: Customer`).
+
+2. **`build.gradle.kts` — version bump `3.45.3.0` → `3.46.0.0`: acceptable.** Given the reviewer notes (both versions resolvable, bounded API compatible, Kotlin/JVM applied at root), the dependency change itself is fine as-is. No further findings on it.
+
+**Verdict:** Not acceptable as-is — approve once the change is reduced to the `build.gradle.kts` hunk only.
+
+__ABLATION_DONE__ exit=0

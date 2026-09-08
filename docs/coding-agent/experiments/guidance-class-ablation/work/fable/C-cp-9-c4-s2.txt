@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is. No blocking or flag-worthy defects.**
+
+What I checked against the task and the reference material:
+
+- **Bound is correct and total.** `attempt` runs 1, 2, 3; on the third `ClientFailure` the `attempt == 3` branch throws. Exactly three attempts, no fourth, no path that loops forever. The `for (;;)` with only `return`/`throw` exits compiles without a trailing return.
+- **Permanent failures are not retried.** `!failure.retryable()` is tested first, so a validation/auth error thrown on attempt 1 propagates immediately from attempt 1.
+- **Final failure is preserved, not blurred.** `throw failure;` rethrows the caught instance itself — same type, same message, same cause, same stack trace. Nothing is wrapped, swallowed, or replaced with a default/empty `Response`. Callers see the real terminal error.
+- **No over-catching.** Only `ClientFailure` is caught; any other exception from `client.read()` (runtime errors, interrupts wrapped as unchecked, etc.) escapes on the first occurrence rather than being retried or hidden.
+- **Fallback is safe.** There is no fallback value at all — the only outcomes are a successful `Response` or the genuine exception, which is the correct shape for "preserve failures."
+- **Immediate retry with no backoff** is called out in the notes as explicitly accepted for a local, read-only IPC call with a 100 ms enforced timeout, so the worst case is bounded at ~300 ms and there's no thundering-herd or remote-service concern to raise.
+
+I considered flagging that intermediate transient failures (attempts 1–2 when attempt 3 also fails) are discarded rather than attached via `addSuppressed` for diagnostics. Given that they're by definition the same retryable class, the final exception is rethrown intact, and the notes state no framework/extra machinery is wanted, I wouldn't hold the change on it.
+
+__ABLATION_DONE__ exit=0

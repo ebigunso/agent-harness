@@ -1,0 +1,54 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081ae-a5cd-7c40-80d0-db18086413ca
+--------
+user
+Reference material loaded for this review:
+
+Clear names/boundaries/flow; one abstraction level. Avoid hidden coupling/effects. Are intent and roles locally clear?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Validate signup requests.
+
+```diff
+--- a/Signup.java
++++ b/Signup.java
+@@ -1,8 +1,15 @@
+ import java.sql.Connection;
+ import java.sql.SQLException;
+ import java.util.List;
+ final class Signup {
+     static boolean validate(String raw, Connection db, List<String> mail) throws SQLException {
+-        return raw != null && !raw.trim().isEmpty();
++        if (raw == null || raw.trim().isEmpty()) return false;
++        String email = raw.trim();
++        try (var stmt = db.prepareStatement("INSERT INTO signup(email) VALUES (?)")) {
++            stmt.setString(1, email);
++            int rows = stmt.executeUpdate();
++            if (rows == 1) mail.add("Welcome " + email);
++            return rows == 1;
++        }
+     }
+ }
+```
+Commit message: "validate signup requests"
+
+Reviewer notes: Java 17. Dedicated connection is auto-commit; SQLExceptions propagate. Email outbox is a local deterministic list and cannot fail. Request contract permits one nonempty email token. Calling code sees a boolean validation API; workflow effects are new.
+
+codex
+- **`Signup.java`, `validate()` — validation now performs hidden workflow effects.** A call that appears to check an input now commits a signup row and appends a welcome message. Callers still see a boolean validation API, so repeated validation can create duplicate signups or trigger database errors; the return value now describes insertion success rather than input validity. Require `validate()` to remain a side-effect-free check of the permitted nonempty token, and move persistence and welcome-message handling into an explicitly named signup operation with callers updated accordingly.
+tokens used
+3,281
+- **`Signup.java`, `validate()` — validation now performs hidden workflow effects.** A call that appears to check an input now commits a signup row and appends a welcome message. Callers still see a boolean validation API, so repeated validation can create duplicate signups or trigger database errors; the return value now describes insertion success rather than input validity. Require `validate()` to remain a side-effect-free check of the permitted nonempty token, and move persistence and welcome-message handling into an explicitly named signup operation with callers updated accordingly.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,40 @@
+**Verdict: this is not a workspace / cwd problem.** The CWD runbook does not apply here, and I would not run its normalization steps.
+
+**Why cwd is ruled out**
+
+- `pwd` is `C:/work/rust-service` before and after; it matches the intended root and the tool workspace root.
+- `Get-Item` confirms `Cargo.toml`, `api/Cargo.toml`, and `api/src/lib.rs` all exist at that root.
+- `cargo metadata` resolves `api` as a workspace member from this root.
+- Cargo compiled successfully (`Finished test profile ...`) and actually executed the test binary. A cwd/path problem would surface as "could not find Cargo.toml", "package `api` not found", or a compile error — none of which occurred.
+
+**Actual cause**
+
+A genuine test failure in the `api` crate: the assertion at `api/src/lib.rs:18:9` expected `3` and got `4`. Exit code 101 is Rust's panic exit code, surfaced by `cargo test` because a test panicked. This is a code/regression problem, not an environment one.
+
+**Smallest safe remediation**
+
+1. Open `api/src/lib.rs` and read the `tests::count` test at line 18 plus the function it exercises.
+2. Determine which side is wrong:
+   - If the function's behavior changed intentionally (e.g., a recent commit now counts one more item), update the expected value in the test to `4`.
+   - If the function regressed, fix the counting logic so it returns `3` again.
+   Check `git log -p -- api/src/lib.rs` (or `git diff`) to see what changed recently; that usually tells you which side drifted. Do not blindly edit the assertion to make it pass.
+3. No `cd`, no environment changes, no dependency changes are needed.
+
+**Confirmation**
+
+From `C:/work/rust-service` (already there), rerun the exact command cargo suggested:
+
+```powershell
+cargo test -p api --lib
+```
+
+Expected: `test tests::count ... ok` and `test result: ok. 1 passed; 0 failed`, exit code 0. Then run `cargo test -p api` (the original command) to confirm the full crate passes, and optionally `cargo test` at the workspace level to confirm nothing else depends on the changed behavior.
+
+**Evidence summary**
+
+- Failing command: `cargo test -p api`, exit 101, assertion `left == right` failed (left: 4, right: 3) at `api/src/lib.rs:18:9`
+- Pre-check cwd: `C:/work/rust-service` (correct); no normalization performed or needed
+- Root cause: logic/test regression in `api`, not workspace drift
+- Status: still failing until the code or test at line 18 is corrected
+
+__ABLATION_DONE__ exit=0

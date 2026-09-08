@@ -1,0 +1,21 @@
+**Verdict: acceptable as-is.** The fix is at the origin (the shared `parse`), not in the callers, so both `cli` and `scheduled` inherit it with no duplicated or compensating logic. I checked the implementation against every stated contract point:
+
+- **LF and CRLF identical:** `"a\r\nb"` and `"a\nb"` both → `["a", "b"]`.
+- **Trailing empty records preserved:** `split` keeps them; `"a\r\n"` → `["a", ""]`, `""` → `[""]`.
+- **Standalone CR preserved:** `replace("\r\n", "\n")` only touches the two-byte sequence. `"a\rb\n"` → `["a\rb", ""]`; `"a\r\r\nb"` → `["a\r", "b"]` (the lone CR stays on the record, the CRLF terminator is consumed). Correct.
+- **No trimming, no other conventions:** nothing strips whitespace; bare `\r`, `\x0b`, `\x1c`, `\u2028` etc. are not treated as separators. Good that the author avoided `str.splitlines()`, which would have violated both of these and dropped the trailing empty record.
+- Mixed input in one string (`"a\n\r\nb"` → `["a", "", "b"]`) also behaves correctly.
+
+One non-blocking item I would raise:
+
+**`app/lines.py`, `test_newlines` — test does not exercise the standalone-CR clause of the contract.** The reviewer notes call out preserving lone `\r` as a requirement, and it's exactly the case where a plausible alternative implementation (`splitlines`, or `replace("\r", "")`) would silently regress. The current assertions would pass under some of those wrong implementations too. I'd ask for assertions along the lines of:
+
+```python
+assert caller("a\rb\n") == ["a\rb", ""]
+assert caller("a\r\r\nb") == ["a\r", "b"]
+assert caller("a\n\r\nb") == ["a", "", "b"]
+```
+
+This is a coverage gap, not a defect in the change; I would not block on it.
+
+__ABLATION_DONE__ exit=0

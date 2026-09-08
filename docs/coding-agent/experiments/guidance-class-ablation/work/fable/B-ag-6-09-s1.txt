@@ -1,0 +1,30 @@
+**Findings**
+
+1. **Sync.kt, `syncUsers` (line 4–5) — one failing user cancels the whole batch. Blocking.**
+   `coroutineScope` enforces structured concurrency: when any `async` child throws, the failure is propagated to the scope, which cancels every sibling `async` and rethrows from `syncUsers`. Additionally, `awaitAll()` rethrows the first failure as soon as it occurs, so even the already-completed results are discarded. This directly violates the stated contract ("one failing user must not cancel siblings") and is a textbook cascading failure with no isolation boundary — a single bad user record takes down the tenant's entire sync, and the caller cannot tell which users succeeded.
+
+   Required instead:
+   - Use `supervisorScope` so a child failure does not cancel the parent or siblings.
+   - Catch per user inside the child (e.g. `runCatching { sync(user) }` or an explicit `try/catch`), because `supervisorScope` alone does not make `awaitAll()` tolerant — an uncaught child exception would still surface through `await`. Rethrow `CancellationException` so external cancellation of the batch still works.
+   - Return the per-user outcome (e.g. `List<Result<Unit>>` or `Map<String, Throwable>` of failures) rather than `Unit`, so callers can log/retry the specific failures. Do not log-and-drop; the failures must be observable.
+
+   Sketch:
+   ```kotlin
+   suspend fun syncUsers(users: List<String>, sync: suspend (String) -> Unit): Map<String, Result<Unit>> =
+       supervisorScope {
+           users.map { user ->
+               async {
+                   user to try { sync(user); Result.success(Unit) }
+                   catch (e: CancellationException) { throw e }
+                   catch (e: Exception) { Result.failure(e) }
+               }
+           }.awaitAll().toMap()
+       }
+   ```
+
+2. **Sync.kt, line 5 — unbounded fan-out with no concurrency limit or per-user timeout. Flag (not block on its own).**
+   `users.map { async { ... } }` launches every sync concurrently. For a large tenant this hammers whatever `sync` talks to and, if a single `sync` hangs, the batch hangs with it. Gate 6 expects timeouts and concurrency to be deliberate for external integrations. Either bound concurrency (a `Semaphore`, or chunking) and wrap each `sync` in `withTimeout`, or add a note in the PR explaining why the caller already guarantees bounded batch size and `sync` enforces its own timeout.
+
+The change is not acceptable as-is because of finding 1.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,23 @@
+**Verdict: block.** The change does not accomplish the task; it narrows the problem and leaves the actual race in place.
+
+**Findings**
+
+1. **`invoices/allocate.go` — `httpMu` is a process-local lock and cannot fix the reported failures.**
+   The duplicate-ID failures come from the read-then-write in `allocate` (`SELECT MAX(id)+1` followed by a separate `INSERT`) being interleaved by concurrent writers. Per the notes, the writers are the HTTP service and batch workers running as *separate OS processes* against a shared SQLite file. A `sync.Mutex` only serializes goroutines inside one process. It does nothing for HTTP-vs-batch, batch-vs-batch, or HTTP-vs-HTTP if the service ever runs more than one instance. The collisions the task asks to remove will keep happening.
+   *Require:* a fix that is atomic at the database level, not the process level (see #3).
+
+2. **`invoices/allocate.go` — `BatchCreate` is untouched.**
+   Even taken on its own terms, the change only guards one of the two entry points. Batch creation still runs the unguarded `allocate`, so the batch path races with itself and with the HTTP path. The task explicitly names both workers.
+   *Require:* both paths must go through the same safe allocation.
+
+3. **`invoices/allocate.go` — `allocate` should not compute IDs client-side at all.**
+   The notes say the schema already supports authoritative auto-generated integer IDs. The `SELECT MAX(id)+1` pattern is the defect; wrapping it in locks just treats a symptom. Replace with a single `INSERT` that lets the database assign the ID and return it (`res.LastInsertId()` for SQLite's `INTEGER PRIMARY KEY`, or `RETURNING id`). That is atomic across processes because SQLite serializes writers itself. If for some reason the generated column can't be used, the fallback is a `BEGIN IMMEDIATE` transaction around the select+insert so the write lock is held for the whole read-modify-write — but the generated ID is the correct answer here.
+   Once that's done, `httpMu` should be deleted, not kept: it adds serialization on the HTTP path with no correctness benefit.
+
+4. **Commit message / scope mismatch.**
+   "serialize HTTP invoice creation" describes what the diff does, not what the task asked for, and would leave a reader believing the duplicate-ID problem was addressed. If this landed, the bug would be closed as fixed while still reproducing in production.
+   *Require:* the commit should describe the actual fix (DB-assigned IDs across both HTTP and batch paths).
+
+5. **Nit — `import ("database/sql"; "sync")` is not gofmt-formatted.** Would fail any formatting check; run `gofmt`. (Moot once `sync` is removed per #3.)
+
+__ABLATION_DONE__ exit=0

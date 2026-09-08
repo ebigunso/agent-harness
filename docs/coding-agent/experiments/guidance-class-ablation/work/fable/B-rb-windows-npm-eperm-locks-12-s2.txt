@@ -1,0 +1,27 @@
+**Cause (workspace problem — a file lock, not permissions or config)**
+
+`npm ci` deletes `node_modules` before installing, and the unlink of `node_modules\sharp\build\Release\sharp-win32-x64.node` was refused with `EPERM` (errno -4048). The observations rule out the usual suspects: lockfile is in sync, registry works, the directory is writable, a probe file beside the binary can be created/removed, no ACL denial. What remains is exactly what `tasklist /m` shows: `node.exe` PID 4114 — the thumbnail watcher launched from `C:/work/npm-lock/workers/thumbnails.js`, owned by this repo — has the sharp native addon mapped into its process. Windows won't let a loaded DLL/.node be unlinked, so npm fails. The earlier `better_sqlite3.node` / PID 4113 failure was the same pattern with a different worker; that one is already stopped, and PID 4114 is the current, fresh holder.
+
+**Smallest safe remediation**
+
+1. Stop the thumbnail watcher (PID 4114) — preferably via however it's normally run (its terminal, task runner, or editor extension), since it belongs to this repo and is safe to stop. Only if it doesn't exit cleanly:
+   ```
+   taskkill /PID 4114 /F
+   ```
+2. Re-run:
+   ```
+   npm ci
+   ```
+
+Do not chmod/takeown anything, don't delete `node_modules` by hand, and don't kill node processes that aren't identified as repo workers.
+
+**Confirmation**
+
+- Before retrying: `tasklist /m sharp-win32-x64.node` returns "No tasks are running which match the specified criteria", and `tasklist | findstr node` shows no remaining node processes for this repo.
+- `npm ci` exits 0 with the tree installed (`node -e "require('sharp')"` loads without error).
+- If it fails again naming a different `<module>.node`, another repo worker is holding that one — repeat the `tasklist /m <module>.node` → stop → retry loop rather than force-deleting.
+- Afterwards, restart the thumbnail watcher (it will load the freshly installed sharp binary).
+
+Evidence to keep: the original `npm ci` stderr, the `tasklist /m sharp-win32-x64.node` output (PID 4114), the PID stopped, and the successful retry output.
+
+__ABLATION_DONE__ exit=0

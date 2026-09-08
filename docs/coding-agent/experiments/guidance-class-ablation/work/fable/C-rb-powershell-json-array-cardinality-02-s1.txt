@@ -1,0 +1,40 @@
+## Cause
+
+This is a **workspace (script-logic) problem**, not an environment fault. PowerShell 7.4.6, the JSON, and the runtime all behave correctly.
+
+The failure comes from pipeline unrolling:
+
+- `'[]'` parses to a valid **empty array**.
+- `$raw | ConvertFrom-Json` sends that array *through the pipeline*, which enumerates it. An empty array enumerates to **nothing**, so `$parsed` is assigned `$null` — confirmed by the stdout line `parsed type=<null>`.
+- `$null -isnot [array]` is `$true`, so the assertion throws — even though the wire value is a legitimate empty array the contract is supposed to accept.
+
+In short: the post-pipeline `-is [array]` check cannot see the original wire framing, exactly the trap noted in the reference. The empty-array case is where it bites first.
+
+## Smallest safe remediation
+
+On pwsh 7+, stop the cmdlet from enumerating its output so the array survives assignment. Change line 5:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+- `-NoEnumerate` emits the parsed array as a single object, so `$parsed` stays an array (`Count` = 0 here) and the assertion passes.
+- Do **not** re-pipe `$parsed` afterward, or it will unroll again.
+- A scalar wire value (e.g. `5`) still deserializes to a non-array, so `-isnot [array]` still rejects it — the contract (accept empty/singleton/multi arrays, reject scalars) is preserved.
+
+Note: `$wireCount = '0'` is a hardcoded display string, not derived from the parse; if you want it to reflect reality, set it from `$parsed.Count` after the fix.
+
+If you want a more robust fix aligned to the reference (and portable to Windows PowerShell 5.1, which lacks `-NoEnumerate`), assert on raw framing instead of runtime type — trim `$raw` and require it starts with `[` and ends with `]` — since the contract is really about wire framing, not the .NET type. But the one-line `-NoEnumerate` change is the minimal safe fix on 7.4.6.
+
+## Confirmation
+
+1. Re-run: `pwsh -NoProfile -File probes/cardinality.ps1` → expect **exit code 0** and stdout `parsed type=System.Object[]` (no stderr).
+2. Regression-check the contract boundaries with the same script (or inline), recording raw JSON, element count (`$parsed.Count`), and the parse/assertion result:
+   - `'[]'` → passes, count 0
+   - `'["x"]'` → passes, count 1
+   - `'[1,2]'` → passes, count 2
+   - `'5'` (scalar) → still throws `Expected JSON array` (correctly rejected)
+
+If all four match, the fix works and the framing contract holds.
+
+__ABLATION_DONE__ exit=0

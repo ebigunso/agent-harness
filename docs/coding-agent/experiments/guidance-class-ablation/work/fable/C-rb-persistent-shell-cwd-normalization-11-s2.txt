@@ -1,0 +1,19 @@
+**Cause:** Workspace/cwd mismatch, not a code or environment fault. The persistent shell's cwd was `C:/work/unrelated` (left there by the prior `Set-Location`), which contains only `notes.txt`. `bundle exec` searches the cwd and its ancestors for `Gemfile` or `.bundle/`, finds neither (and `BUNDLE_GEMFILE` is unset), and exits 10 with `Could not locate Gemfile or .bundle/ directory`. The tool UI's remembered root `C:/work/ruby-app` diverged from the shell's actual cwd; the project files exist and are intact at the intended base.
+
+**Smallest safe remediation:** One explicit absolute navigation to the intended base, then rerun the original command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/ruby-app'
+bundle exec rake spec
+```
+
+No relative `cd ..` chains, no changes to code, PATH, Bundler config, or `BUNDLE_GEMFILE`.
+
+**Confirmation (already captured):**
+- Before: `pwd` → `C:/work/unrelated`; `bundle exec rake spec` → exit 10, Gemfile error.
+- Normalized: `pwd` → `C:/work/ruby-app`; `bundle exec rake spec` → exit 0, `1 example, 0 failures`, stderr empty.
+- Final `pwd` → `C:/work/ruby-app`.
+
+Status: **resolved** — identical command succeeds solely by correcting the cwd. Going forward, for this persistent shell, either keep the cwd at `C:/work/ruby-app` or prefix commands with the explicit `Set-Location` (or use `Push-Location`/`Pop-Location` around unrelated work) so UI root and shell cwd stay aligned. Had the failure persisted after normalization, the next suspects would be `BUNDLE_GEMFILE`/bundler config or gem resolution, not cwd — but that's not the case here.
+
+__ABLATION_DONE__ exit=0

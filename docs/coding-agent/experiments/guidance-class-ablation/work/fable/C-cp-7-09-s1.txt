@@ -1,0 +1,29 @@
+## Review: `Cancellation.kt`
+
+Not acceptable as-is. Findings, in order of severity:
+
+### 1. `Thread.sleep(10)` + `cancel(true)` is a race — this is the intermittent failure
+**Location:** `Cancellation.kt`, lines 8–9
+
+`Thread.sleep(10)` is a timing guess, not a synchronization point. The reviewer notes say the fixture can respond immediately or slowly; whenever it responds (or the connection completes) inside that 10 ms window, the future is already done, `cancel(true)` returns `false`, and `check` throws. Under CI load the opposite can happen too: 10 ms may not even be enough for the request to leave the client, so "cancellation while in flight" was never actually exercised even on green runs. The test therefore neither reliably passes nor reliably tests the stated requirement.
+
+**Require:** a deterministic seam that guarantees the request is in flight at the moment of cancellation. Concretely: start an in-process `com.sun.net.httpserver.HttpServer` on port 0 in the test, whose handler (a) counts down a `requestReceived` latch and then (b) blocks on a `release` latch the test controls. The test awaits `requestReceived` (with a bounded timeout), *then* cancels, *then* releases the handler in a `finally`. No sleep, no dependency on how fast the shared fixture happens to answer, no hardcoded `127.0.0.1:5080`.
+
+### 2. The assertions don't prove the HTTP exchange was cancelled — only that a `CompletableFuture` flipped a flag
+**Location:** `Cancellation.kt`, lines 9–10
+
+`check(future.isCancelled)` immediately after a successful `cancel(true)` is tautological: `CompletableFuture.cancel` sets that state unconditionally. This would pass even if `HttpClient` kept the socket open and read the whole response. The task is to validate cancellation *of the request*, and nothing here observes the request.
+
+**Require:** evidence on the side that matters. With the in-process server from #1, after cancel + release: assert the handler's write to the response body fails / the exchange is closed (client disconnected), or at minimum that the server's "response fully written" counter stays 0. On the client side, assert `future.join()` throws `CancellationException` and that no response ever materializes after the server is released. That is the observable that matches the requirement.
+
+### 3. This is not a test as far as the runner is concerned
+**Location:** `Cancellation.kt`, line 5
+
+`fun testCancellation()` is a plain top-level function using `check`. There is no `@Test` annotation, no test framework assertion, no timeout. JUnit/Kotest won't discover it, so CI "passing" means nothing was run — and when it *is* run manually, a failed `check` produces `IllegalStateException` with no message about which condition failed.
+
+**Require:** wrap in a test class, annotate `@Test`, use the project's assertion library with messages, and put a `@Timeout` (or `assertTimeoutPreemptively`) on it — a cancellation test that hangs forever when cancellation is broken is the worst failure mode.
+
+### Minor (fold into #1)
+Hardcoding `127.0.0.1:5080/slow` couples the test to a specific fixture deployment and port; with an ephemeral in-process server this goes away, so I wouldn't raise it separately.
+
+__ABLATION_DONE__ exit=0

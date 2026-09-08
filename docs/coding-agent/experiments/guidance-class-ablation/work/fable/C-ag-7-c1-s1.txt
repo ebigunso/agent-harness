@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is. No blocking findings.**
+
+What I checked:
+
+- **What reaches the sink** (`Login.java`, `success`): only `event`, a `LoginEvent(eventId, requestId, accountId)`. That matches the task ("identifiers only") and the stated allowlist. No credential field is read, formatted, or forwarded.
+- **Sensitive data**: `Credentials(password, bearerToken)` is never dereferenced and never passed to `sink`. Its default record `toString()` would expose both fields, but nothing in this diff stringifies or logs it, so there is no exposure introduced here.
+- **Field minimization**: the three identifiers are the minimum needed to correlate a login (event → request → account); nothing extra is logged. Given the reviewer note that `accountId` is a server-generated opaque ID rather than an email/username, I don't treat it as PII.
+- **Silent failure / noise**: emitting one structured event per success is neither silent nor noisy. Success and failure signals — a `failure` counterpart isn't part of this task's scope, so I'm not requiring it.
+
+One non-blocking nit, not a required change: the `Credentials credentials` parameter on `success` is unused. It's harmless today, but it puts a secret-bearing object in scope of a logging method for no reason, which is the kind of thing a later "helpful" edit turns into a leak. If the signature isn't constrained by a caller/interface, I'd drop the parameter; if it is, leave it.
+
+__ABLATION_DONE__ exit=0

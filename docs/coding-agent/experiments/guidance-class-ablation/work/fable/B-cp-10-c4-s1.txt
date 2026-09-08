@@ -1,0 +1,16 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+Reasoning against the maintainability checklist:
+
+- **Maintainability: improved/neutral.** The previous `Normalize` was a no-op stub; the new one does exactly one thing at the single feed boundary. The comment names an owner, a ticket, and a concrete removal trigger (vendor v4 emits LF), so this is bounded, discoverable debt rather than amplification. Nothing leaks to consumers.
+- **Future risk reduced at reasonable cost.** `strings.ReplaceAll` is the right primitive: a single non-overlapping pass, no regex, no allocation surprise. The only way it can produce a new `\r\n` is from `\r\r\n`, which the notes rule out (feed is LF/CRLF only).
+- **Tests pin the contract**, including the non-obvious decision to preserve lone `\r` and the empty-string case. If someone later "fixes" lone-CR handling, the test forces them to make that an explicit decision. That is exactly what you want for a temporary adapter.
+
+Non-blocking nits (would mention, would not hold the merge on an urgent rollout):
+
+1. **`feed.go` / `feed_test.go` — not `gofmt`'d.** Spacing in `strings.ReplaceAll(text,"\r\n","\n")`, `input,want:=range`, and the missing blank line between `import` and `func` will fail any gofmt CI gate. Trivial to fix before or immediately after merge.
+2. **`feed.go` doc comment.** The `// Owner: …` line sits in the doc-comment position for `Normalize`, so `go doc` shows the ownership note instead of a description. Prefer `// Normalize converts CRLF to LF for the legacy vendor feed (temporary; see FEED-41).` followed by the ownership line. Cosmetic, but it keeps the removal note visible to whoever calls it.
+
+Neither changes behavior or the risk profile; ship it.
+
+__ABLATION_DONE__ exit=0

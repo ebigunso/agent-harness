@@ -1,0 +1,193 @@
+records:
+  - id: 45fb882199d1
+    fixture: cp-9-01
+    score: 1.0
+    note: "Names timeout->[]Account{},nil as success conversion (HTTP 200 misleading); requires returning wrapped error preserving DeadlineExceeded."
+  - id: 5a1aa77e9db6
+    fixture: cp-9-01
+    score: 1.0
+    note: "Names timeout hidden as successful empty result; requires contextual error preserving cause, empty success invalid without contract."
+  - id: 6ddd005b0dd0
+    fixture: cp-9-01
+    score: 1.0
+    note: "Names timeout converted to no-records success; requires contextual error via %w; notes fallback needs explicit contract."
+  - id: c32f33bc1edd
+    fixture: cp-9-01
+    score: 1.0
+    note: "Names timeout->successful empty response indistinguishable from empty account; requires returning contextual error."
+  - id: ca7bf0e7b4ab
+    fixture: cp-9-01
+    score: 1.0
+    note: "Names timeout->success conversion; requires error with operation context preserving cause; empty result not valid fallback."
+  - id: d67d4898682a
+    fixture: cp-9-01
+    score: 1.0
+    note: "Names timeout->no-records 200; requires preserving error through existing fmt.Errorf path."
+  - id: 071b0ac9fadf
+    fixture: cp-9-02
+    score: 1.0
+    note: "Names failed rows vanishing while complete returned; requires partial-success summary with counts and failed row/reason; also narrows broad except."
+  - id: 2975c9b8830c
+    fixture: cp-9-02
+    score: 1.0
+    note: "Names always-complete summary hiding discarded rows; requires partial-success summary with counts and row number/reason; also narrows except."
+  - id: 5bdc6cbd3dbc
+    fixture: cp-9-02
+    score: 1.0
+    note: "Names silent row loss with complete status; requires counts and rejected row numbers/reasons; unexpected failures should stop import."
+  - id: 89cccdc1c9e9
+    fixture: cp-9-02
+    score: 1.0
+    note: "Names failed rows with no operator-visible record and complete summary; requires accurate outcome with counts and row diagnostics."
+  - id: a76ff101f5e4
+    fixture: cp-9-02
+    score: 1.0
+    note: "Names silently discarded rows and complete summary; requires counts and failed row numbers/reasons; propagate unexpected errors."
+  - id: c5ec7face31f
+    fixture: cp-9-02
+    score: 1.0
+    note: "Names silent row discard vs complete result; requires summary distinguishing rejections with counts and row/reason."
+  - id: 0eea2c40d07a
+    fixture: cp-9-03
+    score: 1.0
+    note: "Names timeout treated as confirmed payment (markPaid/PAID with unknown capture); requires pending state and reconciliation via stable payment key."
+  - id: 5359fcf16e96
+    fixture: cp-9-03
+    score: 1.0
+    note: "Names markPaid/PAID on unconfirmed capture; requires pending/unknown state and reconciliation before marking paid."
+  - id: 6c5c45b06602
+    fixture: cp-9-03
+    score: 1.0
+    note: "Names false paid state on timeout; requires pending/unknown outcome and reconciliation; mark paid only after confirmed capture."
+  - id: 705a1fcc4552
+    fixture: cp-9-03
+    score: 1.0
+    note: "Names unconfirmed payment reported as paid; requires pending state, reconciliation, retry via stable payment key."
+  - id: ac57c481abbc
+    fixture: cp-9-03
+    score: 1.0
+    note: "Names uncertain gateway outcome treated as confirmed capture; requires pending state and reconciliation with stable key."
+  - id: e625e00d394c
+    fixture: cp-9-03
+    score: 1.0
+    note: "Names markPaid on unknown capture status; requires pending state and reconciliation path; PAID only after confirmation."
+  - id: 0a05337d895b
+    fixture: cp-9-04
+    score: 1.0
+    note: "Names retry of permanent ValidationError and unbounded recursive retry with no budget; requires classifying errors, finite count/deadline, backoff, propagate failure."
+  - id: 17faa51875b5
+    fixture: cp-9-04
+    score: 1.0
+    note: "Names permanent errors retried and unbounded retry pending indefinitely; requires TransportError-only retry, attempt limit/deadline, backoff, terminal error."
+  - id: 311f21d7ab5e
+    fixture: cp-9-04
+    score: 1.0
+    note: "Names retry of ValidationError and no attempt limit/deadline/backoff; requires bounded policy with backoff and propagated failure."
+  - id: 6e6653055457
+    fixture: cp-9-04
+    score: 1.0
+    note: "Names permanent-failure retry and unbounded retries; requires TransportError-only retry, finite limit/deadline, reject when exhausted."
+  - id: 7b745b41805a
+    fixture: cp-9-04
+    score: 1.0
+    note: "Names ValidationError retried forever and no delay/budget; requires classification, bounded attempts/deadline, backoff, final rejection."
+  - id: ad97ae5e481f
+    fixture: cp-9-04
+    score: 1.0
+    note: "Names permanent-error retry and no limit/delay; requires bounded policy with budget, backoff, final rejection preserving cause."
+  - id: 4376930e59a3
+    fixture: cp-9-05
+    score: 1.0
+    note: "Names job-failed string discarding job UUID, stage, and cause with supervisor as only logger; requires retaining all three in String."
+  - id: 4a1334d4c706
+    fixture: cp-9-05
+    score: 1.0
+    note: "Names erased job ID/operation/error category; requires preserving them as before."
+  - id: 7c0c64acaeb0
+    fixture: cp-9-05
+    score: 1.0
+    note: "Names job-failed string removing UUID, stage, cause; requires preserving them, standardized format allowed."
+  - id: c99e5816e04e
+    fixture: cp-9-05
+    score: 1.0
+    note: "Names discarded UUID/stage/error category; requires retaining all three; notes redaction not justified."
+  - id: daa9540deda8
+    fixture: cp-9-05
+    score: 1.0
+    note: "Names discarded UUID/operation/category; requires preserving context in returned String."
+  - id: f983c65a7bab
+    fixture: cp-9-05
+    score: 1.0
+    note: "Names discarded UUID/stage/category; requires retaining job ID, stage, sanitized error."
+  - id: 1e34f1ac71f3
+    fixture: cp-9-06
+    score: 1.0
+    note: "Names never-expiring cached Allowed granting revoked access; requires deny on unavailable (fail closed); notes TTL insufficient."
+  - id: 1e6464fc9143
+    fixture: cp-9-06
+    score: 1.0
+    note: "Names stale cached grant after revocation violating contract; requires denying access on PolicyUnavailable."
+  - id: 51a9f7175e45
+    fixture: cp-9-06
+    score: 1.0
+    note: "Names indefinitely stale cached permission granting access after revocation; requires deny on PolicyUnavailable."
+  - id: 521bff36b4ff
+    fixture: cp-9-06
+    score: 1.0
+    note: "Names non-expiring cache bypassing revocation; requires fail closed (return false) plus regression test."
+  - id: a08c2b2024c0
+    fixture: cp-9-06
+    score: 1.0
+    note: "Names stale cached grants failing open after revocation; requires deny on PolicyUnavailable; notes FetchedAt expiry insufficient."
+  - id: fe1fe5835646
+    fixture: cp-9-06
+    score: 1.0
+    note: "Names revoked indefinitely-retained Allowed entry granting access; requires fail closed returning false."
+  - id: 00e3013148f4
+    fixture: cp-9-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 4b5fa68a7ff9
+    fixture: cp-9-c1
+    false_positives: 1
+    note: "FP: demands Error() include operation and sanitized cause; notes say public message is intentionally generic and Unwrap/errors.As serve inspection, so this is rework demanded on a deliberate design (adjacent to the more-verbose-logging nitpick but phrased as required)."
+  - id: 7321f42f0806
+    fixture: cp-9-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: cb8bc171185b
+    fixture: cp-9-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: ea5aef9120e2
+    fixture: cp-9-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: f787505ba672
+    fixture: cp-9-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 5aad732f0fe8
+    fixture: cp-9-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 62b02f7332d8
+    fixture: cp-9-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 8d876d5d5839
+    fixture: cp-9-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 8fc3b0c862fe
+    fixture: cp-9-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: bb1933f625b4
+    fixture: cp-9-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: eb4c0dc6958d
+    fixture: cp-9-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."

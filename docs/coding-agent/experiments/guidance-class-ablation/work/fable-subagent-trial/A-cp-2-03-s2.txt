@@ -1,0 +1,30 @@
+Verdict: block. The change does not address the task; it adds a delay that masks the bug in one view and leaves it untouched in the other.
+
+1. src/Item.tsx, selectItem (lines 12-16) — root cause left in place
+   What: selectItem awaits fetchItem and unconditionally calls selection.setItem(item). With A then B selected quickly, B can resolve before A, and A's late setItem overwrites B. Nothing in the diff changes this; state.item can still end up as the wrong item.
+   Why: This is the actual cause of "rapid selection shows the wrong item". Both Detail and Sidebar read state.item, so any fix elsewhere is downstream of a wrong value.
+   Require: guard the write against the current selection so stale responses are dropped, e.g.
+     export async function selectItem(id: string) {
+       selection.setSelectedId(id);
+       const item = await api.fetchItem(id);
+       if (selection.getSelectedId() !== id) return; // or a generation counter captured before the await
+       selection.setItem(item);
+     }
+   (If state does not expose the current selectedId, add that or a per-call generation counter to state.setItem. The reviewer notes say the shared fetcher code is in scope.) With this in place, Detail and Sidebar need no changes.
+
+2. src/Item.tsx, Detail (lines 20-25) — 200 ms debounce does not fix the race and regresses latency
+   What: Detail now shows state.item only after it has been stable for 200 ms. If the stale A response lands after B, state.item settles on A and Detail shows A after 200 ms — still wrong. If responses arrive in order, the code was already correct and now every selection renders 200 ms late. A stale response arriving more than 200 ms after the good one is also not covered.
+   Why: The delay hides the symptom only when the reordered responses happen to land within 200 ms of each other; it does not reason about which item was requested last. It also adds a mount-time stale state (useState(state.item) then no update until the timer fires) and duplicates store state in local component state.
+   Require: remove the useState/useEffect/timer and restore `return <article>{state.item?.name}</article>;`. Correctness should come from the store holding the right item (finding 1), not from waiting.
+
+3. src/Item.tsx, Sidebar (lines 27-30) — task scope not met
+   What: The task names Detail and Sidebar. Sidebar is unchanged and still renders whatever stale value the race leaves in state.item.
+   Why: Even accepting the author's approach, half the stated requirement is unaddressed, and the two views can now disagree for 200 ms (Sidebar updates immediately, Detail lags).
+   Require: fix at the source (finding 1) so both views are correct with no per-view code.
+
+4. Commit message "wait for selection requests to settle"
+   What: Nothing waits for requests; the change delays rendering of whatever value is already in the store.
+   Why: Misleading history makes the next person assume ordering is handled.
+   Require: reword to describe the actual change once finding 1 is applied, e.g. "drop stale fetchItem responses after a newer selection".
+
+Not raised: error handling for fetchItem (the API boundary already reports transport errors per the notes), and the interaction between selectedId being set before the fetch and item being set after — that ordering is fine once stale writes are dropped.

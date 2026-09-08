@@ -1,0 +1,33 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/permissions fault. `npm ci` removes `node_modules` before reinstalling, and Windows refuses to unlink a native addon that is mapped into a running process (`EPERM`, errno -4048). `tasklist /m sharp-win32-x64.node` shows the holder: **PID 4114, `node.exe`**, running `C:/work/npm-lock/workers/thumbnails.js` — the repo's own thumbnail watcher, which has `node_modules\sharp\build\Release\sharp-win32-x64.node` loaded.
+
+Everything else checks out: lockfile in sync, cache/project writable, no ACL denial (probe file beside the module works), registry reachable. The earlier `better_sqlite3.node` / PID 4113 finding is history — that worker is already gone; the current blocker is only PID 4114.
+
+**Smallest safe remediation**
+
+1. Stop the thumbnail watcher gracefully — Ctrl+C in the terminal/dev task that launched `workers/thumbnails.js` (or stop the dev/watch script that spawns it). Since this is the second repo worker in a row holding a `.node` file, it's worth stopping the whole dev/watch task rather than one worker at a time so you don't get a third round.
+2. Confirm the file is released:
+   ```powershell
+   tasklist /m sharp-win32-x64.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Only if it won't exit gracefully, and only because PID 4114 is confirmed to be this repo's `thumbnails.js`:
+   ```powershell
+   taskkill /PID 4114 /F
+   ```
+4. Retry the original command, with nothing from the repo restarted in between:
+   ```powershell
+   npm ci
+   ```
+
+**Confirmation**
+
+- `npm ci` exits 0 with no `EPERM`/`unlink` in stderr, and `node_modules\sharp\build\Release\sharp-win32-x64.node` is present (freshly installed).
+- `tasklist /m sharp-win32-x64.node` returns no holder before the retry.
+- If it fails again on a *different* `.node` path, repeat the lookup for that module (`tasklist /m <module>.node`) and `tasklist | findstr node` to find the remaining repo processes.
+- Then restart the thumbnail watcher and check it loads sharp normally.
+
+**Record for the log**: original command `npm ci` and its `EPERM unlink ...sharp-win32-x64.node` error; module `sharp-win32-x64.node`; the `tasklist /m` output showing node.exe PID 4114; whether PID 4114 was stopped gracefully or via `taskkill`; and the result of the `npm ci` retry (plus the prior better_sqlite3/PID 4113 entry as history).
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,30 @@
+**Cause**
+
+This is a workspace problem, not a permissions or npm/registry fault. `npm ci` must delete `node_modules` first, and Windows refuses `unlink` on a DLL that is mapped into a running process. `tasklist /m canvas.node` shows exactly one holder: `node.exe` PID 4107, the chart-preview worker launched from `C:/work/npm-lock/workers/chart-preview.js`. The parent script exited but left this child running with `canvas.node` loaded. The probe-file test, writable cache, and clean ACLs rule out the "you lack permissions" branch of npm's message; it's the "file already in use" branch.
+
+**Smallest safe remediation**
+
+1. Stop the worker gracefully — it's repo-owned and orphaned, so it's safe to end. Prefer whatever shutdown the worker supports (close its window/pipe, or `Stop-Process -Id 4107` for a normal terminate). Only if it doesn't exit within a few seconds:
+   ```powershell
+   taskkill /PID 4107 /F
+   ```
+   (PID confirmed against the `tasklist /m` output and the module path, not guessed.)
+2. Re-run the original command unchanged:
+   ```powershell
+   npm ci
+   ```
+
+Don't delete `node_modules` by hand, don't reboot, and don't disable antivirus — none of those address the actual holder.
+
+**Confirmation**
+
+- Before retrying: `tasklist /m canvas.node` returns no rows (or "INFO: No tasks are running which match the specified criteria").
+- `npm ci` exits 0 and `C:\work\npm-lock\node_modules\canvas\build\Release\canvas.node` is present again (fresh timestamp).
+- `node -e "require('canvas')"` from the repo root loads without error.
+- If the retry fails again, capture the new failing module path and `tasklist | findstr node` before doing anything else — a second holder would need the same treatment.
+
+**Record**: command `npm ci`, error `EPERM unlink …\canvas\build\Release\canvas.node (errno -4048)`, module `canvas.node`, `tasklist /m` output (PID 4107 node.exe), PID terminated (4107, method used), retry exit code and load check result.
+
+Follow-up worth noting: the parent script should terminate or await its chart-preview child on exit so this doesn't recur on the next install.
+
+__ABLATION_DONE__ exit=0

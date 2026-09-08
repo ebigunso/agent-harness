@@ -1,0 +1,30 @@
+**Cause**
+
+This is not a file-lock/EPERM problem, and the loaded runbook does not apply. `npm ci` exited 1 with `EUSAGE` because `package.json` and `package-lock.json` disagree: the developer bumped `is-number` to `7.0.0` in `package.json`, but the lockfile still pins `6.0.0`. `npm ci` refuses by design to resolve dependencies — it only installs exactly what the lockfile says, and only if the lockfile satisfies `package.json`. The `tasklist /m better_sqlite3.node` check (no matching tasks) just confirms no native-module lock is involved; nothing needs to be killed, and no process should be.
+
+It *is* a workspace problem (stale lockfile in the repo), not an environment/machine problem.
+
+**Smallest safe remediation**
+
+Regenerate the lockfile from `package.json`, then rerun the strict install:
+
+```powershell
+cd C:\work\npm-lock
+npm install        # resolves is-number@7.0.0 and rewrites package-lock.json
+npm ci             # should now succeed
+```
+
+If you want to limit the lockfile churn to just this change, `npm install is-number@7.0.0` is equivalent here since that's the only drift reported. Do **not** delete `package-lock.json` or `node_modules` — unnecessary, and it loses the pins for everything else.
+
+**Confirmation**
+
+1. `npm ci` exits 0 with no `EUSAGE` line in stderr.
+2. The lockfile now records the new version:
+   ```powershell
+   Select-String -Path package-lock.json -Pattern '"node_modules/is-number"' -Context 0,2
+   ```
+   should show `"version": "7.0.0"`.
+3. `npm ls is-number` reports `is-number@7.0.0` with no "invalid" / "extraneous" markers.
+4. `git diff package-lock.json` shows only the `is-number` (and any of its transitive) entries changed — commit that alongside the `package.json` change so CI's `npm ci` doesn't hit the same error.
+
+__ABLATION_DONE__ exit=0

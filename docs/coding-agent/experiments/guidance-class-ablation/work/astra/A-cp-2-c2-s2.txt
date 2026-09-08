@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d77-6c3c-7d81-9246-cac534ef3c7d
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Fix the shared retry policy so maxAttempts includes the first attempt.
+
+```diff
+--- a/retry/retry.go
++++ b/retry/retry.go
+@@ -1,12 +1,12 @@
+ package retry
+
+ func Run(maxAttempts int, operation func() error) error {
+     var last error
+-    for attempt := 1; attempt < maxAttempts; attempt++ {
++    for attempt := 0; attempt < maxAttempts; attempt++ {
+         last = operation()
+         if last == nil { return nil }
+     }
+     return last
+ }
+ func CLI(operation func() error) error { return Run(3, operation) }
+ func Service(operation func() error) error { return Run(3, operation) }
+```
+Commit message: "honor the configured attempt count"
+
+Reviewer notes: Internal API requires maxAttempts >= 1, validated in both configuration loaders. operation is an idempotent local read and returns only retryable errors; this short bounded policy deliberately needs no delay. Verified: max=1 invokes once and returns its error; max=3 failing operation invokes three times; early success stops immediately. No caller supplies zero or negative budgets.
+
+codex
+Acceptable as-is. Starting at `0` makes `maxAttempts` include the first attempt, preserves immediate return on success, and returns the last error when all attempts fail. The verified cases cover the relevant behavior under the stated API contract. No findings.
+tokens used
+3,207
+Acceptable as-is. Starting at `0` makes `maxAttempts` include the first attempt, preserves immediate return on success, and returns the last error when all attempts fail. The verified cases cover the relevant behavior under the stated API contract. No findings.
+
+__ABLATION_DONE__ exit=0

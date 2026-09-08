@@ -1,0 +1,25 @@
+**Cause:** This is a file‑lock problem, not a permissions, registry, or lockfile problem (ACLs, probe file, cache, and registry all check out; `package.json`/lock are in sync). `npm install` needs to replace `onnxruntime-node`'s native addon, so it tries to `unlink` `…\onnxruntime_binding.node`. Windows will not allow deletion of a DLL image that is currently mapped into a process, and `tasklist /m` shows that `node.exe` PID 4108 — the repo's own model preview server (`workers/model-preview.js`) — has that exact module loaded. Hence `EBUSY` (errno -4082).
+
+**Smallest safe remediation:**
+
+1. Stop the preview server gracefully — it is owned by this repository, so use its normal stop path (Ctrl+C in its terminal, or the repo's stop/dev script). Avoid a forced kill unless the graceful stop doesn't release the file.
+2. Only as a last resort, and only after re‑confirming the PID is still that preview server:
+   ```powershell
+   taskkill /PID 4108 /F
+   ```
+3. Re‑run the original command:
+   ```powershell
+   npm install
+   ```
+
+Do not delete `node_modules`, change ACLs, or run as admin — none of those address the cause and they widen the blast radius.
+
+**Confirmation:**
+
+- Before the retry: `tasklist /m onnxruntime_binding.node` returns no rows (no process holds the module).
+- The retry: `npm install` exits 0 with no `EBUSY`/`unlink` errors, and `node_modules\onnxruntime-node\bin\napi-v3\win32\x64\onnxruntime_binding.node` is present (`Test-Path` true).
+- Restart the preview server and verify it loads: `tasklist /m onnxruntime_binding.node` should now list the new `node.exe` PID, confirming the freshly installed addon is the one in use.
+
+If the retry still fails, look at the module named in the new error (it may be a different addon) and check `tasklist | findstr node` for other holders. Record: original command and error, the locked module path, the `tasklist /m` output, any PID terminated (4108, if forced), and the retry result.
+
+__ABLATION_DONE__ exit=0

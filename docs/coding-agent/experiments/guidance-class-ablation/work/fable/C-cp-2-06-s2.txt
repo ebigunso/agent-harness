@@ -1,0 +1,15 @@
+**Verdict: block.** The change does not do what the task asks; it hides the symptom in one caller and leaves the other broken.
+
+1. **`src/documents.rs`, `load()` — root cause untouched.**
+   The failure is that `load` returns the raw gzip bytes because a prior change dropped the `GzDecoder` step. Nothing in this diff restores decompression, so every caller still receives compressed data. Require: put decompression back in the shared loader (e.g. `flate2::read::GzDecoder::new(fs::File::open(path)?)` + `read_to_end`), so the invariant "`load` yields uncompressed document bytes" holds for all consumers. `flate2` is already a dependency, so this is the minimal correct fix.
+
+2. **`src/documents.rs`, `preview()` — `from_utf8_lossy` suppresses the symptom and produces wrong output.**
+   Feeding gzip bytes through `from_utf8_lossy` doesn't "render the document"; it renders the compressed stream as a wall of `U+FFFD` and stray ASCII. Worse, it weakens the existing invariant: a genuinely corrupt or mis-encoded input that previously surfaced as `InvalidData` now silently succeeds with mangled text, so the underlying bug (and any future one like it) becomes invisible. Require: revert this line to the strict `String::from_utf8(...).map_err(InvalidData)` and rely on fix #1. The commit message ("render documents even with decoding errors") describes symptom-masking, not a fix, and should be rewritten to reflect restoring gzip decoding.
+
+3. **`src/documents.rs`, `index()` — still broken after this diff.**
+   `index` returns `load(path)` unchanged, so the index API still receives compressed bytes and its strict UTF-8 validation still rejects them. The change only ever addressed preview, and only cosmetically. Fixing `load` (#1) resolves this; do not add a second, duplicated decompression/lossy path in `index`.
+
+4. **Missing regression coverage.**
+   Require a test using a small `.txt.gz` fixture asserting that both `preview` and `index` return the exact decompressed UTF-8 content. That test would have failed both against the prior regression and against this diff, which is the point.
+
+__ABLATION_DONE__ exit=0

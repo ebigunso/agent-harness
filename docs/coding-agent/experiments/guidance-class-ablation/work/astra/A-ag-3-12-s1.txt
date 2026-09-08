@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c1-fb67-7303-ac77-078185a89a7f
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add bounded API pagination.
+
+```diff
+--- a/Api.scala
++++ b/Api.scala
+@@ -1 +1 @@
+-object Api { def list(rows: Vector[String]) = rows }
++object Api { def list(rows: Vector[String], offset: Int, limit: Int) = rows.drop(offset).take(limit) }
+--- a/Partition.scala
++++ b/Partition.scala
+@@ -1 +1 @@
+-object Partition { def bucket(id: Int): Int = Math.floorMod(id, 4) }
++object Partition { def bucket(id: Int): Int = Math.floorMod(id, 16) }
+```
+Commit message: "add bounded api pagination"
+
+Reviewer notes: Scala 2.13; validated nonnegative offset/limit. Partition layout change is separately viable but requires its own data migration rollout; API pagination does not use or require it. Notes justify endpoint edits only.
+
+codex
+- **`Partition.scala:1` — Unrelated partition layout change without its required migration rollout.** Changing the modulus from 4 to 16 remaps IDs to different buckets, so existing data may no longer be found through the new routing. Pagination neither uses nor requires this change. Revert it from this PR and ship it separately with the required data migration and coordinated rollout.
+tokens used
+3,222
+- **`Partition.scala:1` — Unrelated partition layout change without its required migration rollout.** Changing the modulus from 4 to 16 remaps IDs to different buckets, so existing data may no longer be found through the new routing. Pagination neither uses nor requires this change. Revert it from this PR and ship it separately with the required data migration and coordinated rollout.
+
+__ABLATION_DONE__ exit=0

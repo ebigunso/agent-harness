@@ -1,0 +1,20 @@
+**Verdict: block.** The change makes the screen *look* correct while leaving the actual closure path unguarded.
+
+1. **`Closure.kt` — `Closure.close(events)`: the eligibility rule is enforced only in the UI, not in the service.**
+   The domain rule (age ≥ 30 days, balance == 0) lives solely in the `enabled = …` argument of the `Button`. `Closure.close` itself still accepts any closure and has no access to `ageDays`/`balance` at all. Any caller other than this composable — the nightly worker, a future screen, a test harness, a recomposition race where `enabled` flips after the click is dispatched — can close an ineligible account. Disabling a button is a UX affordance, not a business invariant.
+   *Require:* the service must be the point of enforcement. Something like `fun close(ageDays: Int, balance: Long, events: …): CloseResult` (or take an `Account`) that checks `isEligible` and refuses/returns a rejection otherwise. The screen then calls that and uses the same predicate for `enabled`.
+
+2. **`Closure.kt` — `nightly(service, events)` calls `service.close(events)` unconditionally.**
+   The reviewer notes explicitly say the nightly worker calls this service. After this diff, the worker still closes with no eligibility inputs and no check, so the task ("enable *eligible* account closure") is only half-done — the batch path will close ineligible accounts every night. Given the task was to gate closure on eligibility, this path is in scope, not incidental.
+   *Require:* `nightly` must pass the account's age/balance (or the account) through the same guarded service entry point from finding 1. There should be no way to reach a closure without the check.
+
+3. **`Closure.kt` — rule inlined as `ageDays >= 30 && balance == 0L` inside the composable.**
+   Magic numbers embedded in view code, with no single source of truth. Once the service also enforces the rule (finding 1), this will be duplicated and the two copies will drift.
+   *Require:* one named predicate in the domain layer (e.g. `fun isEligibleForClosure(ageDays: Int, balance: Long): Boolean` with a named constant for 30), used by both the service and the screen.
+
+4. **Minor — `events: MutableList<String>` threaded through the public API.**
+   A mutable string list as the service's side-channel is a test seam leaking into the production signature and gives callers no structured outcome (accepted vs. rejected). Not blocking on its own, but once you add rejection in finding 1 you'll want a real return type rather than appending `"closed"` to a list.
+
+Nothing else in the diff (imports, Material3 usage, composable shape) warrants comment.
+
+__ABLATION_DONE__ exit=0

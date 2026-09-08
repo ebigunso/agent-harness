@@ -1,0 +1,34 @@
+**Cause**
+
+`npm ci` fails before touching `node_modules`. npm's cache directory is configured as `C:\locked-cache` (`npm config get cache` confirms), and the effective ACL on that path explicitly denies this user create/write. `npm ci` must write to the cache (it stages every tarball there, even if the registry fetch is fresh), so the first `mkdir` on the cache path returns EPERM (errno -4048) and npm aborts. The repository, lockfile, and `node_modules` are not the problem: package/lockfile are in sync, nothing is holding module files, and the repo path is writable. This is an npm configuration/permission problem, not a workspace or dependency-state problem.
+
+**Smallest safe remediation**
+
+Don't loosen the ACL on `C:\locked-cache` — an explicit deny is usually intentional (policy or a deliberate lock) and changing it needs admin rights and a reason. Instead, redirect npm's cache to a path this user can write, without persisting a config change:
+
+```powershell
+npm ci --cache "$env:LOCALAPPDATA\npm-cache"
+```
+
+(or equivalently `$env:npm_config_cache = "$env:LOCALAPPDATA\npm-cache"; npm ci`).
+
+If the `C:\locked-cache` value turns out to be a stray setting rather than intended, find where it lives and remove it at that level only:
+
+```powershell
+npm config list -l | Select-String cache   # shows the effective value
+npm config get cache --location=user      # then project / global
+npm config delete cache --location=<the level that set it>
+```
+
+That restores npm's default (`%LOCALAPPDATA%\npm-cache`), which is the least surprising permanent fix. Prefer the flag/env first; delete the config only after confirming who set it.
+
+**Confirmation**
+
+1. `npm config get cache --cache "$env:LOCALAPPDATA\npm-cache"` prints the new path (or, after `config delete`, prints `C:\Users\<you>\AppData\Local\npm-cache`).
+2. `npm ci` (with the override) exits 0, no EPERM in stderr.
+3. `Test-Path .\node_modules` is `True`, and `npm ls --depth=0` reports no missing/invalid packages.
+4. `Get-ChildItem "$env:LOCALAPPDATA\npm-cache\_cacache"` exists and is populated, showing npm actually used the redirected cache.
+
+If a later run still reports `C:\locked-cache`, the value is being reinjected by a higher-precedence source (project `.npmrc`, `NPM_CONFIG_CACHE` env var, or a global `npmrc`); `npm config list -l` will show which.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,62 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a2-d3e5-7422-8718-3ed403185b76
+--------
+user
+Reference material loaded for this review:
+
+### 6) Maintain Contract Fidelity Across Layers
+
+- Keep data models, service contracts, and adapters aligned.
+- Avoid silent field loss, implicit coercions, or shape drift.
+- Version and migrate interfaces deliberately when needed.
+
+Review checks:
+- Do upstream/downstream boundaries agree on schema and semantics?
+- Is contract drift prevented or merely tolerated?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Map RPC lookup results to HTTP.
+
+```diff
+--- a/adapter.py
++++ b/adapter.py
+@@ -1,6 +1,5 @@
+ class NotFound(Exception): pass
+ class Unavailable(Exception): pass
+ def lookup(call):
+     try: return 200, call()
+-    except NotFound: return 404, None
+-    except Unavailable: return 503, None
++    except (NotFound, Unavailable): return 200, None
+--- a/client.ts
++++ b/client.ts
+@@ -0,0 +1,6 @@
++export function interpret(status: number, value: unknown) {
++  if (status === 404) return "missing";
++  if (status === 503) return "retry";
++  if (status !== 200) throw new Error(`status ${status}`);
++  return value;
++}
+```
+Commit message: "map rpc lookup results to http"
+
+Reviewer notes: These stand-in RPC types expose the exact two service failure categories and keep fixture independent of generated stubs. Adapter returns (status, JSON value); only not-found and unavailable are service errors. Client treats 404 as missing and 503 as retryable.
+
+codex
+- **`adapter.py`, `lookup()` combined exception handler:** Mapping both `NotFound` and `Unavailable` to `(200, None)` breaks the HTTP contract expected by `client.ts`. The client interprets these failures as successful null results, losing both “missing” handling and retry behavior. Require distinct mappings: `NotFound → (404, None)` and `Unavailable → (503, None)`, with regression coverage verifying that the client interprets them as `"missing"` and `"retry"`.
+tokens used
+3,363
+- **`adapter.py`, `lookup()` combined exception handler:** Mapping both `NotFound` and `Unavailable` to `(200, None)` breaks the HTTP contract expected by `client.ts`. The client interprets these failures as successful null results, losing both “missing” handling and retry behavior. Require distinct mappings: `NotFound → (404, None)` and `Unavailable → (503, None)`, with regression coverage verifying that the client interprets them as `"missing"` and `"retry"`.
+
+__ABLATION_DONE__ exit=0

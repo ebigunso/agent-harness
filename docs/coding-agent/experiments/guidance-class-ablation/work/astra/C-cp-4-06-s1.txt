@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081ae-a77b-7d81-9d8d-3af30bb98796
+--------
+user
+Reference material loaded for this review:
+
+Clear names/boundaries/flow; one abstraction level. Avoid hidden coupling/effects. Are intent and roles locally clear?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Route rejected uploads for inspection.
+
+```diff
+--- a/policy.rs
++++ b/policy.rs
+@@ -0,0 +1,2 @@
++// Tuple order: retry, reject, quarantine.
++pub fn flags(code: u8) -> (bool, bool, bool) { (code == 1, code == 2, code == 3) }
+--- a/lib.rs
++++ b/lib.rs
+@@ -1,4 +1,5 @@
+ mod policy;
+ pub fn route(code: u8) -> &'static str {
+-    if code == 1 { "retry" } else { "accept" }
++    let (retry, quarantine, reject) = policy::flags(code);
++    if retry { "retry" } else if reject { "reject" } else if quarantine { "quarantine" } else { "accept" }
+ }
+```
+Commit message: "route rejected uploads for inspection"
+
+Reviewer notes: Status 1 means retry, 2 means reject, 3 means quarantine, 0 means accept. Internal parser already validates this range. Tuple positions are documented only in the policy module.
+
+codex
+- **`lib.rs`, tuple destructuring in `route`:** `flags` returns `(retry, reject, quarantine)`, but the caller binds `(retry, quarantine, reject)`. Consequently, status 3 (quarantine) routes to `"reject"`, bypassing inspection; status 2 reaches `"quarantine"` only through the accidental swap. Require bindings consistent with the policy contract and explicit routing of rejected uploads to quarantine for inspection. Verify the routing for all four valid statuses.
+tokens used
+3,392
+- **`lib.rs`, tuple destructuring in `route`:** `flags` returns `(retry, reject, quarantine)`, but the caller binds `(retry, quarantine, reject)`. Consequently, status 3 (quarantine) routes to `"reject"`, bypassing inspection; status 2 reaches `"quarantine"` only through the accidental swap. Require bindings consistent with the policy contract and explicit routing of rejected uploads to quarantine for inspection. Verify the routing for all four valid statuses.
+
+__ABLATION_DONE__ exit=0

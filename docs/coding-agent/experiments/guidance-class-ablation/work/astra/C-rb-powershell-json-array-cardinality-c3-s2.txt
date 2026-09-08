@@ -1,0 +1,101 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d86-ee95-7540-adb3-00b7265fe2b1
+--------
+user
+Reference material loaded for this review:
+
+PowerShell pipelines unroll JSON arrays; post-pipeline -is [array] cannot prove wire framing. Check trimmed raw JSON starts [ and ends ] (not a syntax validator). On pwsh 7+, ConvertFrom-Json -NoEnumerate preserves arrays unless re-piped; Windows PowerShell 5.1 lacks it, so use raw framing. Record raw JSON, element count and exact parse/assertion.
+
+---
+
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; Windows PowerShell 5.1.22621.4391; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `powershell.exe -NoProfile -File probes/parse.ps1`
+
+Source, probes/parse.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[1,'
+Write-Output ('raw=' + $raw)
+$parsed = $raw | ConvertFrom-Json
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[1,
+```
+
+stderr:
+```text
+ConvertFrom-Json : Invalid array passed in, extra trailing ','. (3): [1,
+At C:\work\json-shape\probes\parse.ps1:5 char:18
++ $parsed = $raw | ConvertFrom-Json
++                  ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [ConvertFrom-Json], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.ConvertFromJsonCommand
+```
+
+Diagnostic observations: Payload ends after the comma; no closing bracket or second value. Syntax fails before any array-type assertion. No files are modified.
+
+codex
+Cause: `$raw = '[1,'` is incomplete JSON: it ends after a comma without another value or closing bracket. `ConvertFrom-Json` fails during parsing, before any array assertion. This is a script payload problem, not a workspace, permissions, or runtime problem.
+
+Smallest safe remediation: correct the payload to its intended complete JSON. If it should contain only `1`, use `$raw = '[1]'`. If more values were intended, restore them rather than silently discarding them.
+
+To confirm the singleton correction, rerun the same command with these checks after assigning `$raw`:
+
+```powershell
+Write-Output ('raw=' + $raw)
+$parsed = $raw | ConvertFrom-Json
+$items = @($parsed)
+Write-Output ('count=' + $items.Count)
+
+$trimmed = $raw.Trim()
+if (-not ($trimmed.StartsWith('[') -and $trimmed.EndsWith(']')) -or
+    $items.Count -ne 1 -or $items[0] -ne 1) {
+    throw 'Unexpected JSON framing, count, or value'
+}
+```
+
+Expected: `raw=[1]`, `count=1`, no stderr, exit code `0`. Parsing validates syntax; the raw bracket check establishes array framing. A post-pipeline `-is [array]` check would be unreliable because PowerShell unrolls arrays.
+tokens used
+3,739
+Cause: `$raw = '[1,'` is incomplete JSON: it ends after a comma without another value or closing bracket. `ConvertFrom-Json` fails during parsing, before any array assertion. This is a script payload problem, not a workspace, permissions, or runtime problem.
+
+Smallest safe remediation: correct the payload to its intended complete JSON. If it should contain only `1`, use `$raw = '[1]'`. If more values were intended, restore them rather than silently discarding them.
+
+To confirm the singleton correction, rerun the same command with these checks after assigning `$raw`:
+
+```powershell
+Write-Output ('raw=' + $raw)
+$parsed = $raw | ConvertFrom-Json
+$items = @($parsed)
+Write-Output ('count=' + $items.Count)
+
+$trimmed = $raw.Trim()
+if (-not ($trimmed.StartsWith('[') -and $trimmed.EndsWith(']')) -or
+    $items.Count -ne 1 -or $items[0] -ne 1) {
+    throw 'Unexpected JSON framing, count, or value'
+}
+```
+
+Expected: `raw=[1]`, `count=1`, no stderr, exit code `0`. Parsing validates syntax; the raw bracket check establishes array framing. A post-pipeline `-is [array]` check would be unreliable because PowerShell unrolls arrays.
+
+__ABLATION_DONE__ exit=0

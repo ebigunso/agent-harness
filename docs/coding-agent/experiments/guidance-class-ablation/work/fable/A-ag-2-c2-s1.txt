@@ -1,0 +1,21 @@
+**Findings**
+
+1. **`Controller.java`, `Controller.handle` — non-exhaustive enum → status mapping.**
+   `Rule.apply(active) == Outcome.ALLOWED ? 200 : 403` treats *everything that isn't ALLOWED* as 403. Today `Outcome` has two constants so this is behaviorally correct, but the moment the domain adds a third (e.g. `PENDING`, `EXPIRED`) the controller silently emits 403 with no compile-time signal, which is exactly the kind of drift a "translate domain rejection at controller" seam is supposed to catch. Java 17 gives you the fix for free: a switch expression over the enum with no `default` is compiler-checked for exhaustiveness.
+   Require:
+   ```java
+   int status = switch (Rule.apply(active)) {
+       case ALLOWED  -> 200;
+       case REJECTED -> 403;
+   };
+   ```
+   (Not a runtime bug today; I'd request the change before merge since it's a one-line swap and the whole point of the diff is the mapping.)
+
+2. **No tests for the mapping.**
+   The change introduces the one place HTTP semantics are decided and ships without asserting either branch. Require a minimal unit test: `handle(true).status() == 200`, `handle(false).status() == 403`. This also locks in the exhaustiveness guarantee from (1) if someone later adds a `default`.
+
+**Not flagging (checked and OK):** multiple non-public top-level types in one file compile fine; `record` is valid on 17; `==` binds tighter than `?:` so the ternary parses as intended; `Outcome`/`Rule` have no reference to `HttpResponse`, so the dependency direction matches the stated design; 403 for a domain "rejected" outcome is a defensible product choice and the notes say the controller owns that decision.
+
+**Verdict:** Acceptable in behavior; request the switch-expression change and a two-case test before merge.
+
+__ABLATION_DONE__ exit=0

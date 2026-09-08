@@ -1,0 +1,21 @@
+**Cause:** Wrong working directory in the persistent shell, not a code, config, or tooling problem. A prior `cd '/c/work/c-lib/tests'` left the shell in `tests/`, which contains only `test_math.c`. `make -f Makefile test` resolves `Makefile` relative to cwd, and no Makefile exists at `/c/work/c-lib/tests/Makefile` — the only one is at `C:/work/c-lib/Makefile`. The tool UI's remembered root (`C:/work/c-lib`) diverged from the shell's actual cwd, which is what made the failure look surprising.
+
+**Smallest safe remediation:** Navigate once, explicitly and absolutely, to the intended base, then rerun the original command unchanged:
+
+```bash
+cd '/c/work/c-lib'
+make -f Makefile test
+```
+
+Do not stack relative `cd ..` chains, and do not copy/move the Makefile or add `-C`/`-f ../Makefile` workarounds — those would paper over the cwd drift and change how paths inside the Makefile resolve (e.g. `./build/`).
+
+**Confirmation (already captured in the comparison run):**
+
+- Before: `pwd` → `/c/work/c-lib/tests`; `make -f Makefile test` → exit 2, `make: Makefile: No such file or directory`.
+- Normalized: `cd '/c/work/c-lib'` (exit 0); `pwd` → `C:/work/c-lib`.
+- Retry, same command: exit 0; stdout `./build/test_math.exe` / `1 test passed`; stderr empty.
+- Final `pwd`: `C:/work/c-lib`.
+
+Status: **resolved** by cwd normalization alone. Since nothing else changed between attempts and the identical command succeeded from the intended base, there's no need to investigate other causes. For future runs in this shell, verify `pwd` before invoking `make`, or invoke from the base explicitly (e.g. `cd '/c/work/c-lib' && make test`) so a lingering `cd` from an earlier step can't recur.
+
+__ABLATION_DONE__ exit=0

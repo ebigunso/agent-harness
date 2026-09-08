@@ -1,0 +1,19 @@
+**Cause:** This is not a workspace problem. `npm test -- --runInBand` ran Jest successfully; Jest exited 1 because the single test in `test/count.test.js` (`counts visible items`) failed a deterministic assertion — expected `3`, received `4`. The install is healthy (`npm ci` exited 0 on an unchanged lockfile), no watcher or lingering process is involved, and there was no EPERM/EBUSY/native `.node` unlink error, so the loaded Windows npm-lock remediation (tasklist / taskkill / retry install) does not apply and should not be run.
+
+**Smallest safe remediation:** Fix the application logic or the test, not the environment. Concretely:
+
+1. Open `test/count.test.js` and the function it calls (the "count visible items" implementation).
+2. Decide which side is wrong: either the fixture has one extra item that should be filtered as not-visible, or the visibility predicate has an off-by-one / missing filter condition and returns 4 where 3 is correct.
+3. Make that single code (or fixture) change. Do not touch `package.json`, `package-lock.json`, `node_modules`, or any processes.
+
+**Confirmation:**
+
+```powershell
+npx jest test/count.test.js --runInBand
+```
+
+Expect `Tests: 1 passed, 1 total` and exit code 0 (`$LASTEXITCODE` → `0`). Then run the original command `npm test -- --runInBand` to confirm the full suite is green.
+
+If, after inspection, the received value of 4 is actually correct behavior, the remediation is instead to update the expected value in the test — but that decision needs to be made from the source, not assumed.
+
+__ABLATION_DONE__ exit=0

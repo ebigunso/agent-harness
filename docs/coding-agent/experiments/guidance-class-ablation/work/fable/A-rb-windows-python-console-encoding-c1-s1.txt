@@ -1,0 +1,27 @@
+**Cause**
+
+This is a decode mismatch inside the script, not a workspace/environment problem. `input.txt` starts with the bytes `FF FE` — the UTF-16LE byte-order mark, exactly as its producer declares — and line 9 of `read_input.py` forces `encoding='utf-8'`. `0xFF` can never begin a UTF-8 sequence, so the decoder fails on byte 0. The captured-pipe stdout, `sys.stdout.encoding=utf-8`, and `utf8_mode=0` are irrelevant here: no output was attempted, and none of those settings affect `Path.read_text(encoding=...)` when an encoding is passed explicitly. Setting `PYTHONUTF8`/`PYTHONIOENCODING` or changing console code pages would not change the outcome.
+
+**Smallest safe remediation**
+
+Change the one argument on line 9 to match the file's actual format:
+
+```python
+text = Path('input.txt').read_text(encoding='utf-16')
+```
+
+Use `'utf-16'` (not `'utf-16-le'`): the BOM-aware codec consumes the `FF FE` marker and strips it, so `text` won't start with a stray `U+FEFF`. Using `'utf-16-le'` would decode correctly but leave the BOM in the string as the first character.
+
+Do not re-encode or rewrite `input.txt` — it is correct per its producer's contract, and modifying an input file is a larger and less reversible change than a one-token edit to the reader. If the script must accept both UTF-8 and UTF-16 inputs, that's a design change beyond this fix; for the file as described, `'utf-16'` is sufficient.
+
+**Confirmation**
+
+1. Verify the premise (optional, read-only): `Format-Hex .\input.txt -Count 4` should show `FF FE ...`.
+2. Re-run `python read_input.py` under the same piped capture; expect exit code 0 and no traceback.
+3. Spot-check that the BOM was stripped and the decode is sane:
+   ```powershell
+   python -c "from pathlib import Path; t=Path('input.txt').read_text(encoding='utf-16'); print(repr(t[:40]))"
+   ```
+   The repr should begin with real content, not `'\ufeff'`, and contain no `\x00` bytes interleaved between characters (which would indicate the wrong UTF-16 endianness or a one-byte-per-character codec).
+
+__ABLATION_DONE__ exit=0

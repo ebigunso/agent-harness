@@ -1,0 +1,49 @@
+## Review: `Checkout.cs` — "calculate destination tax during checkout"
+
+Not acceptable as-is. Findings, most severe first.
+
+### 1. `Checkout.CalculateTax` opens a billed vendor session and never uses it
+**Location:** `Checkout.CalculateTax`, lines 18–19.
+**Problem:** Every checkout tax calculation calls `VendorSession.Open()` — which, per the notes, creates a billed session on the vendor side — and then computes `subtotal * 0.10m` locally without touching `session`. The session is dead scaffolding that costs money, adds a network round-trip to the hot path, and turns a pure arithmetic function into something that fails whenever the sidecar is down.
+**Why it matters:** This is direct, per-call spend for zero value, plus an availability dependency the tax rule does not need. It also contradicts the task: "destination tax" implies the vendor computes the rate from the destination, but no tax endpoint is ever called; a `bool domestic` with a hardcoded 10% is not destination-based tax.
+**Require:** Decide which of these the change is:
+- If the vendor is the source of truth, call its tax endpoint through the session and return that result; the local `0.10m` branch goes away.
+- If the flat rule is intentional for now, remove the session from `CalculateTax` entirely. Do not ship a billed call that has no consumer.
+
+### 2. No seam — the tax decision cannot be tested without a live listener on `127.0.0.1:5080`
+**Location:** `VendorSession.Open()` (static, `new HttpClient`, hardcoded URI); `Checkout.CalculateTax` calls it directly.
+**Problem:** The one piece of business logic in this diff (domestic → 10%, else 0) is unreachable in a test without a real socket on a fixed port. There is no injectable `HttpMessageHandler`, no `IVendorSession`/factory parameter, and no way to substitute the client. The only way to test the branch is to stand up a fake HTTP server on 5080 — a global, port-contending, environment-dependent setup that will be flaky in CI and does not exercise the decision any more precisely than a plain unit test would.
+**Require:** Separate the pure rule from I/O and give the I/O a deterministic seam:
+- Put the rate logic in a method/type with no dependencies (e.g. `static decimal ComputeTax(decimal subtotal, bool domestic)`) and unit-test it directly.
+- If the session is retained (see #1), have `Checkout` take a factory/interface (`Func<VendorSession>` or `IVendorSessionFactory`) and have `VendorSession` accept an `HttpClient`/`HttpMessageHandler` so the wire behaviour (`EnsureSuccessStatusCode`, dispose-on-failure) can be tested with a stub handler, not a listener.
+
+### 3. `Dispose` does not end the billed vendor session
+**Location:** `VendorSession.Dispose`, line 15.
+**Problem:** `Dispose` only disposes the `HttpClient`. Nothing tells the vendor the session is finished. If the vendor bills for session duration or caps concurrent sessions, every checkout leaks one until the vendor times it out.
+**Require:** Either confirm (and note in code) that the vendor auto-expires sessions immediately on client disconnect, or issue the close/logout call in `Dispose` (with the failure swallowed/logged so dispose cannot throw).
+
+### 4. New `HttpClient` per call
+**Location:** `VendorSession.Open`, line 7.
+**Problem:** `HttpClient` is created and disposed on every `CalculateTax` invocation. Under load this is the classic socket-exhaustion pattern (`TIME_WAIT` pile-up), and it defeats connection reuse to the sidecar.
+**Require:** Share a long-lived `HttpClient` (or `IHttpClientFactory`) and pass it into `VendorSession`. This also resolves half of #2.
+
+### 5. Sync-over-async in a checkout path
+**Location:** `VendorSession.Open`, line 9 — `PostAsync(...).GetAwaiter().GetResult()`.
+**Problem:** Blocking on an async HTTP call from what is almost certainly a request-handling path risks deadlock under a synchronization context and burns a thread-pool thread for the duration of the round-trip.
+**Require:** Make `Open` and `CalculateTax` `async` (`OpenAsync`, `CalculateTaxAsync`) and await through. If a synchronous surface is genuinely required by callers, justify it in the commit message and keep the blocking at the outermost boundary, not inside the session type.
+
+### 6. Vendor endpoint is hardcoded despite being described as "configured"
+**Location:** `VendorSession.Open`, line 7 — `"http://127.0.0.1:5080/"`.
+**Problem:** The notes say the sidecar is configured; the code bakes the address in. Any environment where the sidecar is on a different port/host, or where the port is unavailable, breaks silently at runtime.
+**Require:** Read the base address from configuration/options and inject it. Falls out naturally if #2/#4 are done.
+
+### 7. No tests accompany the change
+**Location:** diff as a whole.
+**Problem:** New business logic (tax rule) and new I/O lifecycle code (dispose-on-failure, `EnsureSuccessStatusCode`) land with zero test evidence.
+**Require:** Once the seams from #2 exist: (a) unit tests for the rate rule — domestic positive, non-domestic, zero subtotal; (b) if `VendorSession` is retained, a stubbed-handler test that a non-2xx `/session` response throws and disposes the client, and that a 2xx response yields a usable session. No test should bind a real port.
+
+---
+
+**Minor / non-blocking:** `0.10m` is a magic constant with no name or provenance; `bool domestic` is a thin model for "destination" and will not extend to per-region rates. Neither blocks on its own but both point at #1 — the design should be settled before this merges.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,56 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a0-caa7-7632-800d-dbb0aae7a592
+--------
+user
+Reference material loaded for this review:
+
+### 5) Define and Protect Invariants
+
+- Make assumptions explicit at module boundaries.
+- Validate inputs at trust boundaries and normalize internal state early.
+- Fail early with actionable errors when invariants are violated.
+
+Review checks:
+- Which invariants are introduced or relied upon?
+- Are boundary checks and failure modes explicit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Allow configurable upload buffer size.
+
+```diff
+--- a/upload.go
++++ b/upload.go
+@@ -0,0 +1,10 @@
++package upload
++import ("net/http"; "strconv")
++func allocate(n int) []byte { return make([]byte,n) }
++func Handler(w http.ResponseWriter, r *http.Request) {
++ n, err := strconv.Atoi(r.URL.Query().Get("maxBytes"))
++ if err != nil { http.Error(w,"maxBytes must be an integer",400); return }
++ buffer := allocate(n)
++ w.WriteHeader(http.StatusOK)
++ _, _ = w.Write(buffer[:0])
++}
+```
+Commit message: "allow configurable upload buffer size"
+
+Reviewer notes: Authenticated HTTP endpoint remains exposed to untrusted query values. Internal allocator requires 1..8 MiB. Only allocation is modeled; upload I/O is outside this patch.
+
+codex
+- **`upload.go:5–7` — Missing buffer-size range validation.** `strconv.Atoi` validates integer syntax but permits values outside the allocator’s required range of **1 byte through 8 MiB**. Untrusted callers can pass negative values that panic, zero that violates the allocator contract, or large positive values that exhaust memory and potentially terminate the service. Require `1 <= n && n <= 8*1024*1024` before calling `allocate`, returning HTTP 400 with an actionable range error for invalid values.
+tokens used
+3,298
+- **`upload.go:5–7` — Missing buffer-size range validation.** `strconv.Atoi` validates integer syntax but permits values outside the allocator’s required range of **1 byte through 8 MiB**. Untrusted callers can pass negative values that panic, zero that violates the allocator contract, or large positive values that exhaust memory and potentially terminate the service. Require `1 <= n && n <= 8*1024*1024` before calling `allocate`, returning HTTP 400 with an actionable range error for invalid values.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,193 @@
+records:
+  - id: 5bb3d59e4650
+    fixture: cp-7-01
+    score: 1.0
+    note: "Names real-clock dependence in the midnight test and requires an injected/controlled clock with before/at/after assertions, no sleeping."
+  - id: ee6b7c8927c3
+    fixture: cp-7-01
+    score: 1.0
+    note: "Names real-clock dependence; requires injectable clock and boundary tests without sleeping."
+  - id: fcb7c8f2e06a
+    fixture: cp-7-01
+    score: 1.0
+    note: "Names real-clock wait; requires deterministic clock/date seam in expired, keeps process timezone, no sleeping."
+  - id: 2ceb8d68cac4
+    fixture: cp-7-02
+    score: 1.0
+    note: "Names hard-coded time.Sleep in Retry; requires injectable sleeper per sibling pattern and asserts attempt/sleep counts."
+  - id: 402578a7211e
+    fixture: cp-7-02
+    score: 1.0
+    note: "Names hardwired time.Sleep; requires injected sleeper following sibling, recording sleeper verifying attempts and sleeps."
+  - id: ac5223ac9764
+    fixture: cp-7-02
+    score: 1.0
+    note: "Names hard-coded time.Sleep; requires injectable sleeper with production default and fake verifying attempt limit."
+  - id: 0052f58bb49d
+    fixture: cp-7-03
+    score: 1.0
+    note: "Names shared mutable Rates.current and order dependence; prefers passing a rate snapshot/injected source per test."
+  - id: 4ca5bea6be6c
+    fixture: cp-7-03
+    score: 1.0
+    note: "Names shared global rate state; requires deterministic rate seam with fixed snapshot per calculation and per-test explicit rate."
+  - id: 829d0bc671cd
+    fixture: cp-7-03
+    score: 0.5
+    note: "Names shared rate state and order dependence but remedy is set/restore fixture around the global, not a controlled rate snapshot seam."
+  - id: 76e028dc6184
+    fixture: cp-7-04
+    score: 1.0
+    note: "Names missing denied-role evidence; requires deterministic viewer 403 / admin 200 check, small unit test."
+  - id: 7d9fb5904a18
+    fixture: cp-7-04
+    score: 1.0
+    note: "Names missing denied-role evidence; requires viewer 403 check alongside admin success."
+  - id: ce4732898f46
+    fixture: cp-7-04
+    score: 1.0
+    note: "Names missing denied-role verification; requires viewer 403 and admin 200 assertions, no more screenshots."
+  - id: 599935112c11
+    fixture: cp-7-05
+    score: 1.0
+    note: "Names random-average test masking formula/threshold; requires injected selection seam and exact fee cases at 99/100 for both outcomes."
+  - id: 84ee17e867d1
+    fixture: cp-7-05
+    score: 1.0
+    note: "Names nondeterministic average test; requires controlled selection (injection or patching) and exact fees around threshold."
+  - id: 9c12e8c86423
+    fixture: cp-7-05
+    score: 1.0
+    note: "Names average-only test gap; requires controlling random.choice and exact fee assertions below/at/above threshold for both outcomes."
+  - id: 2886a4ab018a
+    fixture: cp-7-06
+    score: 1.0
+    note: "Names fmt-only evidence gap for persisted data; requires serde_json old-data read and new-data round-trip test."
+  - id: 835d110668c4
+    fixture: cp-7-06
+    score: 0.0
+    note: "Accepts as-is; acknowledges fmt check does not verify behavior but does not require compatibility/round-trip evidence."
+  - id: d709a9aba65a
+    fixture: cp-7-06
+    score: 1.0
+    note: "Names missing persistence regression evidence; requires focused serde_json old-data and round-trip tests."
+  - id: 169b219bb27f
+    fixture: cp-7-07
+    score: 1.0
+    note: "Names billed vendor session opened inside pure tax decision; requires removing session from CalculateTax so tax computes directly."
+  - id: 7efae2372617
+    fixture: cp-7-07
+    score: 1.0
+    note: "Names unused billed session in pure calculation; requires removing it, testing branches deterministically, injectable boundary for vendor work."
+  - id: d0d7daff0616
+    fixture: cp-7-07
+    score: 1.0
+    note: "Names session coupling with no replacement hook; requires separating pure calculation and testing both branches deterministically."
+  - id: 6a9233ffa49c
+    fixture: cp-7-08
+    score: 1.0
+    note: "Names leaked process-wide ENV LIMIT under parallel execution; requires injected configuration or serialized scope/restore."
+  - id: 9f22932ddfab
+    fixture: cp-7-08
+    score: 1.0
+    note: "Names shared mutated ENV in parallel tests; requires deterministic seam for limit with isolated tests, notes restore alone insufficient."
+  - id: a6e2aa0d6eda
+    fixture: cp-7-08
+    score: 1.0
+    note: "Names leaked ENV under parallel run; requires explicit set/restore plus serialization or injection/separate processes."
+  - id: 0c7517fa9108
+    fixture: cp-7-09
+    score: 1.0
+    note: "Names sleep not establishing in-flight state; requires fixture handshake holding response open with bounded wait before cancel."
+  - id: 7d28039348d5
+    fixture: cp-7-09
+    score: 1.0
+    note: "Names arbitrary sleep race in both directions; requires deterministic fixture handshake and held response before cancellation."
+  - id: b39728e06578
+    fixture: cp-7-09
+    score: 1.0
+    note: "Names sleep race; requires coordinated fixture confirming receipt and holding response, then cancel."
+  - id: 43be0360c1bc
+    fixture: cp-7-10
+    score: 1.0
+    note: "Names valid-only evidence gap; requires used-token, expired, and at-expiry rejection tests with state unchanged."
+  - id: 5076811e2a5a
+    fixture: cp-7-10
+    score: 1.0
+    note: "Names missing rejection coverage; requires expired (at/after) and replay (second consume) rejection tests."
+  - id: 51a503e2489a
+    fixture: cp-7-10
+    score: 1.0
+    note: "Names missing rejection tests; requires deterministic expired and replay rejection via the existing now parameter."
+  - id: 381a1e7b2d9b
+    fixture: cp-7-11
+    score: 1.0
+    note: "Names real-time dependence and CI pause flakiness; requires passing now into comparison with before/at/after fixed checks."
+  - id: d3ce64e416c6
+    fixture: cp-7-11
+    score: 1.0
+    note: "Names process-timing dependence; requires controllable clock or explicit now parameter with deterministic boundary checks."
+  - id: dbb406b84f82
+    fixture: cp-7-11
+    score: 1.0
+    note: "Names wall-time dependence; requires due(deadline, now) seam with fixed time points, production supplies the steady clock."
+  - id: 13728905fa66
+    fixture: cp-7-12
+    score: 1.0
+    note: "Names socket/stdout-only validation with no seam; requires extracting pure transition(state, event) and direct exact-result tests."
+  - id: ce566ebe2aa8
+    fixture: cp-7-12
+    score: 1.0
+    note: "Names stdout-grep validation weakness and missing seam; requires deterministic transition tests via callable reduce(state, event)."
+  - id: fc91ac840c57
+    fixture: cp-7-12
+    score: 1.0
+    note: "Names missing callable state/event seam and log-search validation; requires pure transition function with exact-result tests."
+  - id: 09506745bcc7
+    fixture: cp-7-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 9c7a51f8429a
+    fixture: cp-7-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: f0e568777f65
+    fixture: cp-7-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 011005b0138c
+    fixture: cp-7-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 7eda3c6e8e9b
+    fixture: cp-7-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: f29f6e385490
+    fixture: cp-7-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 7bd32c4d6f3e
+    fixture: cp-7-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 9020317d2582
+    fixture: cp-7-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: e125c04f3e2e
+    fixture: cp-7-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 0f252fa8b99e
+    fixture: cp-7-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 3bfa6fbaa5e2
+    fixture: cp-7-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: f368a30885e8
+    fixture: cp-7-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."

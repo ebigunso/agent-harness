@@ -1,0 +1,14 @@
+**Verdict: block.** The change fixes one of the three callers named in the task and leaves the shared validator — the thing that actually regressed — untouched.
+
+**1. `src/dates.php`, `validDate()` — regression not fixed; `apiAccepts` and `importAccepts` still shape-only.**
+`validDate` still returns true for `2026-02-30`, `2025-02-29`, `2026-04-31`, and `0000-01-01`. Both `apiAccepts` and `importAccepts` delegate to it unchanged, so the API and import paths continue to accept calendar-invalid dates. The task was explicitly "form, API and imports"; this delivers form only. Required: restore `checkdate` inside `validDate` (regex to extract parts, then `checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1])`). That single change repairs all three callers, and correctly rejects year `0000` (checkdate requires year ≥ 1), matching the stated 0001–9999 contract.
+
+**2. `src/dates.php`, `formAccepts()` — duplicated regex instead of fixing the shared function.**
+Copying the pattern into `formAccepts` creates a second source of truth for the accepted date shape; the two will drift on the next edit, and it's precisely why this diff missed the other two callers. Required: `formAccepts` should go back to `return validDate($value);` once `validDate` is corrected. There is no caller outside these three, so there's no reason the shared function can't carry the fix.
+
+**3. Commit message ("validate form calendar dates") understates the task and documents the incomplete scope.**
+Minor on its own, but it signals the author consciously narrowed the fix. Once items 1–2 are addressed, message should reflect restoring calendar validation in the shared validator.
+
+Also worth adding (not blocking, but I'd ask for it): regression tests for `2026-02-30`, `2024-02-29` (accept), `2023-02-29` (reject), and `0000-01-01` (reject) run through all three entry points, so the shared path can't silently regress again.
+
+__ABLATION_DONE__ exit=0

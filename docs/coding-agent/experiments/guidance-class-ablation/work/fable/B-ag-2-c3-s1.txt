@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is under Gate 2. No findings I would block or flag.**
+
+What I verified:
+
+- **`app.ts`** — has zero imports. It defines the `Accounts` port and the `eligible` use case against that abstraction only. Core behavior has no knowledge of `Store` or any persistence detail.
+- **`store.ts`** — imports only `type {Accounts}` from `./app` and implements it. The adapter depends inward on the abstraction; nothing flows the other way. The `import type` also means no runtime coupling.
+- **`root.ts`** — is the only module that knows about both `app` and `store`, and it's the composition root, so that's exactly where the concrete `Store` should be instantiated and injected into `eligible`.
+- **Cycles** — none: `root → app`, `root → store`, `store → app`. `app` is a leaf.
+- **Seam** — the external-system boundary (storage) is expressed explicitly as the `Accounts` interface, and the reviewer notes match the diff (all modules shown, in-memory adapter is the current store, app imports no concrete type).
+
+The direction of every new import/call is outer-to-inner, the seam is explicit, and there's no bypass of the interface. The change does what the task asked.
+
+__ABLATION_DONE__ exit=0

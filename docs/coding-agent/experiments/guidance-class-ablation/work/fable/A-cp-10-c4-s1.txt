@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is for the stated purpose.** The change does exactly what the task asks, is scoped to the single feed boundary, carries an owner/ticket/removal trigger in the code, and the test pins the behaviour the reviewer notes require (CRLF→LF, LF untouched, lone CR preserved, empty input). I would approve it.
+
+Non-blocking nits I'd mention but not hold the rollout for:
+
+1. **`feed.go` / `feed_test.go` — not gofmt'd.** The `import` is jammed against the package line, `ReplaceAll(text,"\r\n","\n")` and `range map[string]string{...}` lack the spacing gofmt emits, and the test body uses single-space indentation. If CI runs `gofmt -l` / `go vet` this will fail the pipeline, which would be an annoying way to lose time on an urgent rollout. Run `gofmt -w` before merging.
+
+2. **`feed_test.go` — `t.Fatalf` inside a map-range table.** Map iteration order is random and `Fatalf` stops at the first mismatch, so a regression in two cases reports a different single case on each run. Use `t.Errorf` (or subtests) so all failing inputs are reported together. Purely a debuggability point.
+
+3. **`feed.go` — comment is not a doc comment.** `// Owner: Data Platform; FEED-41 ...` is good removal metadata, but `go doc`/linters expect the comment to begin with `Normalize`. One-line fix: `// Normalize converts CRLF to LF for the legacy vendor feed. Owner: Data Platform; FEED-41. Remove on vendor v4 LF rollout.`
+
+One observation for the record, not a defect given the stated invariant: `ReplaceAll("\r\n")` is not idempotent on `\r\r\n` (→ `\r\n` → `\n` on a second pass). That input can't occur if the feed truly only carries LF/CRLF, and the reviewer notes affirm that, so no action needed — but it's the reason the adapter should stay at exactly one boundary and not be applied twice.
+
+__ABLATION_DONE__ exit=0

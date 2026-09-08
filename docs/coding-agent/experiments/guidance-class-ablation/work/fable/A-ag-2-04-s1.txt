@@ -1,0 +1,27 @@
+**Verdict: not acceptable as-is.** Two blocking issues, a few flags.
+
+---
+
+**1. `domain.ts` — `total()` signature broken for existing callers (block)**
+`total(cents: number)` became `total(invoice: Invoice)`. It's exported, and the diff touches no call sites, so every existing caller now fails to compile (or worse, passes a number that gets `.cents` → `undefined + 10 = NaN` if untyped). The task was to *add* the ability to compute from stored invoices, not to change the existing contract.
+Require: keep `total(cents: number)` as-is and have the new path call it, or include the updated call sites in the diff.
+
+**2. `schema.prisma` — file is created from nothing with only a `model` block (block)**
+Hunk `@@ -0,0 +1,4 @@` means this is the whole file. Without `datasource` and `generator` blocks, `prisma generate` and `prisma migrate` both fail, so the `@prisma/client` import in `domain.ts` can't be satisfied from this diff. Also no migration is included for the new table.
+Require: full schema (datasource + generator) and the corresponding migration, or clarify that the diff is a partial excerpt of an existing schema.
+
+**3. `domain.ts` — domain now coupled to the generated Prisma type and to `PrismaClient` (flag, would push back)**
+`total` doesn't need an `Invoice`; it needs a number. Taking the generated `Invoice` type means every schema change (added column, renamed field) changes the domain's input type, and `loadTotal(db: PrismaClient, …)` means the "pure" domain module can't be exercised without a Prisma client. This is the reason the previous `total` was trivial to test and this one isn't.
+Require: `total` stays on `number` (or at most a structural `{ cents: number }`); `loadTotal` moves to a repository/service module or accepts a loader (`(id) => Promise<{cents: number} | null>`) instead of the concrete client. If it must stay here, `PrismaClient` should be `import type` — it's only used as a type, and the value import drags the runtime client into the domain bundle under `verbatimModuleSyntax`.
+
+**4. No tests (flag)**
+New behavior (`loadTotal`, null path, changed `total` input) with no tests. Given #3, the current shape makes them harder than they should be — another reason to fix #3 first.
+
+**5. `schema.prisma` — `cents Int` (question)**
+Prisma `Int` is 32-bit; that caps an invoice at ~$21.4M. If that's out of range for the product, fine; if not, use `BigInt` or `Decimal` now rather than migrating later.
+
+---
+
+Not raising: the `+ 10` constant (pre-existing), and the `null` return from `loadTotal` (notes confirm the consumer handles it explicitly).
+
+__ABLATION_DONE__ exit=0

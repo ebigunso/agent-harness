@@ -1,0 +1,31 @@
+**Cause**
+
+This is not a workspace or service problem. The failure is the Windows loopback-name resolution path combined with Docker Desktop's IPv6 port proxy:
+
+- `localhost` resolves to `::1` first, so the grpc-js channel connects to `[::1]:50051`.
+- Docker Desktop's IPv6 proxy accepts the TCP connect (so there's no fast connection-refused) but never delivers HTTP/2 frames, so the channel stalls at the transport layer until the 2 s deadline → probe-normalized `DEADLINE_EXCEEDED`, exit 2.
+- The service never saw the call (no entry in the interceptor log), which rules out the handler, the deadline value, and the h2c/port configuration.
+- The REST sibling on 50080 succeeds because HTTP/1.1 through the same proxy is unaffected.
+- The controlled comparison — identical command with only the target changed to `127.0.0.1:50051` — returned `pong`, exit 0, and the service logged `invoked=true completed=true`. That isolates the variable to the address family, exactly the asymmetry the reference note describes.
+
+The probe itself is behaving per its contract (no localhost override, no address retry), and the project files/dependencies are validated, so nothing in `C:/work/grpc-local` needs fixing.
+
+**Smallest safe remediation**
+
+Change the target from `localhost:50051` to `127.0.0.1:50051` for this gRPC client on Docker Desktop for Windows:
+
+```powershell
+node probes/unary.mjs --target 127.0.0.1:50051 --timeout 2
+```
+
+If the address lives in a config/connection string used by other local gRPC clients, update it there the same way. Don't touch the service, the port publishing, the deadline, or Docker Desktop settings — none of them are implicated.
+
+(Broader alternatives such as `node --dns-result-order=ipv4first` or disabling IPv6 on the host would also work but change behavior for everything else in the process/machine; not warranted here.)
+
+**Confirmation**
+
+1. Re-run the unary probe against `127.0.0.1:50051` with the same `--timeout 2`: expect exit 0, `pong` on stdout, empty stderr, and completion well under the deadline.
+2. Check the service interceptor log for a new `probe method="unary application health" transport=h2c invoked=true completed=true` entry corresponding to that call.
+3. Optionally re-run once more against `localhost:50051` to confirm it still hangs — this demonstrates the fix is the address, not a transient recovery. If `127.0.0.1` ever fails too, that would be the signal to investigate the service/container per step 3 of the reference note.
+
+__ABLATION_DONE__ exit=0

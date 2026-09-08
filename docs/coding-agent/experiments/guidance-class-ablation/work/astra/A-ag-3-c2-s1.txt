@@ -1,0 +1,36 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c2-05e9-7802-9ae0-aa4cae73de03
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Increase request timeout to two seconds.
+
+```diff
+--- a/client.go
++++ b/client.go
+@@ -1,3 +1,3 @@
+ package client
+ import ("net/http"; "time")
+-func New() *http.Client { return &http.Client{Timeout:time.Second} }
++func New() *http.Client { return &http.Client{Timeout:2*time.Second} }
+```
+Commit message: "increase request timeout to two seconds"
+
+Reviewer notes: Review target is timeout commit only. Unrelated earlier log naming cleanup is a separate commit with independent revert evidence; it changes no dependency or lifetime needed here.
+
+codex
+Acceptable as-is. `client.go` changes the HTTP client timeout from one second to two seconds, exactly as requested. No findings.
+tokens used
+3,018
+Acceptable as-is. `client.go` changes the HTTP client timeout from one second to two seconds, exactly as requested. No findings.
+
+__ABLATION_DONE__ exit=0

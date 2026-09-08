@@ -1,0 +1,32 @@
+**Verdict: this is a workspace/environment problem (Docker port publishing vs. IPv6 `localhost`), not a bug in the probe, PHP, or the grpc extension.**
+
+## Cause
+
+`localhost` resolves to `::1` before `127.0.0.1`, and the failing channel connected to `[::1]:50051`. On Docker Desktop (WSL2 backend) the host-side port proxy accepts the TCP connection on the IPv6 loopback, but nothing is actually served over that path: no HTTP/2 SETTINGS/response headers ever arrive, and the service interceptor log shows no invocation for the call. The gRPC client, having a *successfully connected* socket, keeps waiting on it rather than trying the next address, so the 2s deadline expires → probe-normalized `DEADLINE_EXCEEDED`, exit 2.
+
+Evidence that the address is the only variable:
+- Same probe, same everything, `--target 127.0.0.1:50051` → exit 0, `pong`, and the service log records `invoked=true completed=true`.
+- The HTTP/1.1 sibling on `localhost:50080` "works" only because `curl` does Happy-Eyeballs-style fallback across both addresses, masking the same asymmetry. It is not a valid control for the gRPC path.
+
+So: not a server outage (server answers on IPv4), not a timeout that's too short (the request never reaches the service), not TLS/auth (none configured; status would be `PERMISSION_DENIED`/`UNIMPLEMENTED` → exit 3, and it wasn't).
+
+## Smallest safe remediation
+
+Point the probe at the IPv4 loopback explicitly instead of the name:
+
+```powershell
+php probes/unary.php --target 127.0.0.1:50051 --timeout 2
+```
+
+That's the minimal change: no code edits, no timeout inflation (which would just wait longer for a connection that never serves anything), no global IPv6 changes on the host.
+
+If you want `localhost` itself to keep working (e.g. for other tooling or CI), the next-smallest durable fix is on the Docker side, not the client: either publish the port bound to IPv4 only (`-p 127.0.0.1:50051:50051` / `"127.0.0.1:50051:50051"` in compose) so `::1` is refused outright and clients fall through to `127.0.0.1`, or make the service inside the container listen on `[::]:50051` so the IPv6 path is genuinely served. Pick one; don't do both blindly. Do the same for 50080 for consistency.
+
+## Confirmation
+
+1. Run `php probes/unary.php --target 127.0.0.1:50051 --timeout 2` → expect exit 0, stdout `pong`, empty stderr.
+2. Check the service interceptor log → expect a new `probe method="unary Echo" transport=h2c invoked=true completed=true` line for that call.
+3. Negative control: rerun with `--target localhost:50051` → still exit 2 with `DEADLINE_EXCEEDED`, proving the address is the discriminating factor (and that nothing else changed in the environment).
+4. If you applied the Docker-side fix (IPv4-only publish or `[::]` listen), restart the container and rerun with `--target localhost:50051` → now expect exit 0 / `pong` and the corresponding interceptor log entry; the `[::1]:50051` connect should either be refused immediately (IPv4-only publish) or succeed and serve (dual-stack listen).
+
+__ABLATION_DONE__ exit=0

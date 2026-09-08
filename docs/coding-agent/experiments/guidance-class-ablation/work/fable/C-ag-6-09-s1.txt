@@ -1,0 +1,32 @@
+**Findings**
+
+1. **`Sync.kt`, `syncUsers` body — a single failing `sync` cancels every sibling and aborts the batch.**
+   `coroutineScope` uses structured concurrency with a regular `Job`. When any `async { sync(user) }` throws an ordinary exception, the failure propagates to the scope, which cancels all other in-flight children and then rethrows. This directly contradicts the stated contract ("one failing user must not cancel siblings"). Worse, `awaitAll()` throws on the first failure, so the caller learns about one exception and nothing about which other users were cancelled mid-sync — users that were partially through their own `sync` get a `CancellationException` injected at their next suspension point, which is exactly the kind of cascade that turns one bad record into a whole-tenant outage.
+   **Require:** use `supervisorScope` (so a child failure does not cancel siblings) *and* catch the failure per child so it is recorded rather than rethrown — `supervisorScope` alone still throws from `await()`/`awaitAll()` on the failed deferred. Roughly:
+   ```kotlin
+   suspend fun syncUsers(users: List<String>, sync: suspend (String) -> Unit): Map<String, Result<Unit>> =
+       supervisorScope {
+           users.map { user -> async { user to runCatching { sync(user) } } }.awaitAll().toMap()
+       }
+   ```
+   Note `runCatching` swallows `CancellationException`; if the *outer* caller cancels the batch that must still propagate, so either rethrow `CancellationException` from the catch or use a helper that excludes it. Don't use a bare `catch (e: Throwable)` that eats cancellation.
+
+2. **`Sync.kt` — the function silently discards per-user outcomes (return type is effectively `List<Unit>`).**
+   Even once failures are contained, the caller has no way to know which users failed and needs retry/alerting. Returning `List<Unit>` means "containment" degrades to "suppression" — failures vanish. Independent sync contracts imply the batch result must be reported per user.
+   **Require:** return a per-user result structure (as sketched above) or at minimum surface the collected failures (e.g. throw an aggregate after all children complete, with the failing user IDs attached). Which one depends on the caller, but discarding the outcome is not acceptable.
+
+3. **`Sync.kt` — unbounded fan-out: one `async` per user with no concurrency limit.**
+   A tenant batch of thousands of users launches thousands of concurrent syncs against whatever downstream `sync` talks to (DB, HTTP, queue). That's a self-inflicted thundering herd and a likely trigger for the very failures item 1 is trying to contain.
+   **Require:** bound concurrency with a `Semaphore(n)` around each `sync` call (or chunk the batch), with `n` a documented/configurable parameter.
+
+4. **`Sync.kt` — no per-user timeout; a hung `sync` blocks the batch indefinitely.**
+   `awaitAll()` waits for every child. If one downstream call never returns, `syncUsers` never returns and the whole tenant batch is wedged. The `sync` lambda is opaque, so the batch can't rely on it enforcing its own deadline.
+   **Require:** wrap each call in `withTimeout(perUserTimeout)` and treat `TimeoutCancellationException` as a per-user failure (it is a `CancellationException` subclass, so handle it explicitly before the generic cancellation rethrow in the catch logic).
+
+5. **`Sync.kt` — no tests.**
+   The commit adds behavior whose entire value is its failure semantics, and there is no test demonstrating that a throwing user leaves siblings completed. Given the current implementation is wrong on exactly that point, a test would have caught it.
+   **Require:** a test with a `sync` that throws for one user and records completion for the others, asserting all non-failing users completed and the failure is reported; plus a test that outer cancellation still cancels children.
+
+**Verdict:** block. The change implements the opposite of the stated containment requirement (item 1) and hides the results (item 2); items 3–5 should be addressed in the same change since they're the remaining ways this batch can cascade or hang.
+
+__ABLATION_DONE__ exit=0

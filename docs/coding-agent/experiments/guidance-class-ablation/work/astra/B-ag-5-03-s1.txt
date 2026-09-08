@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d9-a79a-7700-9b66-2c5d2f732493
+--------
+user
+Reference material loaded for this review:
+
+### Gate 5: Data and State Integrity
+
+**Expectation**
+- Data ownership, lifecycle, and state transitions are consistent and enforceable.
+- Invariants are protected at authoritative boundaries.
+- For classification or attribution features, derive the full truth table before selecting the data model.
+
+**Evidence expectations**
+- Plan identifies impacted invariants and lifecycle transitions.
+- Review verifies invariant checks remain at reliable enforcement points.
+- Concurrent or repeated execution behavior is considered where relevant.
+
+**Anti-patterns**
+- Invariants enforced only in optional caller paths.
+- Conflicting write paths without ownership clarity.
+- State transitions that allow invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Delete account and recurring jobs.
+
+```diff
+--- a/delete.go
++++ b/delete.go
+@@ -0,0 +1,5 @@
++package account
++type Store interface { MarkDeleted(string) error; CancelJobs(string) error }
++func Delete(store Store,id string) error {
++ if err:=store.MarkDeleted(id); err!=nil { return err }; return store.CancelJobs(id)
++}
+```
+Commit message: "delete account and recurring jobs"
+
+Reviewer notes: Store methods persist independently. Deleted accounts must not retain billable jobs. CancelJobs can fail and error propagates; MarkDeleted has already committed at that point.
+
+codex
+- **`delete.go:4` — Account deletion commits before job cancellation can fail.** Because the methods persist independently, a `CancelJobs` failure leaves a deleted account with billable jobs, violating the stated invariant. Returning the error does not undo deletion. Require an authoritative store operation that atomically cancels jobs and marks the account deleted, or an enforced lifecycle that prevents final deletion until billable jobs are canceled. The enforcement must also prevent concurrent job creation from leaving billable jobs on a deleted account.
+tokens used
+3,296
+- **`delete.go:4` — Account deletion commits before job cancellation can fail.** Because the methods persist independently, a `CancelJobs` failure leaves a deleted account with billable jobs, violating the stated invariant. Returning the error does not undo deletion. Require an authoritative store operation that atomically cancels jobs and marks the account deleted, or an enforced lifecycle that prevents final deletion until billable jobs are canceled. The enforcement must also prevent concurrent job creation from leaving billable jobs on a deleted account.
+
+__ABLATION_DONE__ exit=0

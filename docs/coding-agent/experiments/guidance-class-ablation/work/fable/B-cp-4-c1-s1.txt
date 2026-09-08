@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is. No blocking findings.**
+
+Reasoning against the review checks:
+
+- **Intent is readable without hidden context.** `applyDiscount(Order, boolean)` is a plainly named command; `eligible(member)` is a pure predicate. A reader sees "if eligible, subtract 10 cents from this order" without reconstructing anything.
+- **Boundaries are explicit.** The command mutates only the `Order` it is handed; there is no static/singleton state, and the predicate has no side effects. The mutation is signaled by the name (`apply…`) and the `void` return, so it isn't a surprising side effect.
+- **Single level of abstraction, straightforward control flow.** One guard, one arithmetic step.
+- **Invariants are covered by the stated preconditions.** With `cents >= 10` and one command per order, there is no underflow and no double-application concern, so I would not require a floor/clamp or idempotency guard here.
+
+One non-blocking nit I'd leave as a comment, not a requirement: the literal `10` could be lifted to a named constant (e.g. `MEMBER_DISCOUNT_CENTS`) if this rule is expected to be referenced elsewhere. In this fixture it's a single use inside a function whose name already conveys the meaning, so it doesn't rise to a defect.
+
+__ABLATION_DONE__ exit=0
