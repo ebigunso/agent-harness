@@ -234,6 +234,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: 14 sections at one seed (1,344 cells, both models; runners relaunched once after a usage-limit pause and once after a wedged fork), 28 blinded graders, scored under the pre-registered rule. Outcomes: DELETE for cp-4, cp-5, cp-6, cp-8, cp-10, ag-2 through ag-7; COMPRESS for cp-3 (Astra +21pp), cp-7 (Astra +12pp), ag-1 (Fable +12pp), arm-C FP guard passing on both models for all three. core-principles.md now carries principle 1 plus the two compressed principles; architecture-gates.md carries a compressed Gate 1 with its protected sections. outcome.md extended with results, rule table, and caveats (cp-7 decision-sensitive to whether the runbook grading ruling extends to review sections; one-seed FP guard granularity).
   - Validation evidence: validate_pilot.py PASS over 21 sections; unblind 1,344 records per model, 0 ungraded; validate_harness_package.py pass; run_validation_smoke_tests.py exit 0.
   - Notes: Task_5 review dispatched for the remaining sections; cp-7 sensitivity surfaced to ebigunso.
+- 2026-09-09 Wave 2 Task_5 APPROVED in full: [Task_5]
+  - Summary: Codex Reviewer APPROVED f1f913e: verdicts reproduce, pilot carry-forward intact, blinding and protected bytes verified, compressed bodies exact, fixtures validate, no ADR needed. One non-blocking note (pre-rebase hashes in the pilot Records paragraph) fixed in the next commit. Reviewer agrees with the cp-7 sensitivity disclosure and confirms every adopted arm-C text passes the FP guard.
+  - Validation evidence: reviewer commands per its report; validate_harness_package.py pass; smoke exit 0.
+  - Notes: Task_7 (Refresh 2, user-run) is now unblocked: Task_2 merged in PR #59 and Task_4 is recorded. Task_6 follows Task_7.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

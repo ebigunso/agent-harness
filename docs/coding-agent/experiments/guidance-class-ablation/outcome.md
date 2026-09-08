@@ -60,7 +60,7 @@ The pre-registered cap ("if every section in the pilot shows arm A at ceiling, t
 
 ## Records
 
-Transcripts: `06b047e` (Astra round 1), `254ed81` (Fable), `2b67d98` (reruns, with superseded outputs). Grades: round 1 `41e99e1` (Astra) and `7602c63` (Fable); round 2 and the blind mappings `2b67d98`; the adjudication and the reproducible aggregation path land with this revision. Every commit named is in the ancestry of the commit that carries this record.
+The branch was rebased onto main after the pilot, so the pilot commits carry rebased hashes: transcripts `8f3455c` (Astra round 1), `a4ae72c` (Fable), `794a48a` (reruns, with superseded outputs); grades round 1 `94a4c3f` (Astra) and `265f2b0` (Fable); round 2 and the blind mappings `794a48a`; the adjudication and the reproducible aggregation path in the commit that follows. Every hash named here is in the ancestry of the commit that carries this record.
 
 ## Remaining sections (2026-09-09, one seed)
 
@@ -130,4 +130,4 @@ Resulting files: `core-principles.md` keeps principle 1 (protected) plus the two
 
 ### Records
 
-Transcripts and Astra grades for these sections: `9c931a0`. Fable grades, the edits, and this section: the commit that carries them (named in the plan's Progress Log).
+Transcripts and Astra grades for these sections: `9c931a0`. Fable grades, the edits, and this section: `f1f913e`.
