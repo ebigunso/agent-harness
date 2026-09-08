@@ -1,0 +1,31 @@
+Verdict: block. The change does not fix the collisions; it hides one symptom in one of two producers.
+
+Findings
+
+1. Records.cs, RecordIds.Next() (unchanged line 10) — root cause left in place.
+   What is wrong: `new Random(42).Next()` constructs a fresh Random with a fixed seed on every call, so every call returns the identical value. Every insert after the first collides, deterministically, in both the API and the queue path. The task was "fix repeated key collisions" and the diff does not touch the generator.
+   Why it matters: no record beyond the first can ever be created. Wrapping the insert in try/catch changes the status code, not the outcome.
+   Require: replace the generator with the database sequence the notes say is available (e.g. `store.NextId()` / sequence-backed identity), or let Store assign the key on insert. Fixing it in RecordIds (or Store) fixes both callers at once; that is the whole change this task needs.
+
+2. Records.cs, RecordsController.Create — catch converts a server bug into a client error.
+   What is wrong: DuplicateKeyException here is caused by the server's own ID generator, not by anything the client sent. Returning 409 Conflict tells the client its request conflicts with existing state and invites a retry that will fail identically forever.
+   Why it matters: misleading status code, and it hides the defect from monitoring (5xx alerts go quiet while the endpoint is still 100% broken).
+   Require: drop the try/catch once the generator is fixed. If a genuine duplicate path remains (independent producers racing on client-supplied keys), catch it there with a message that says so; do not paper over generator collisions.
+
+3. Records.cs, QueueConsumer.Handle (line 25) — second producer not addressed.
+   What is wrong: same broken `RecordIds.Next()` call, no change. The task framing explicitly names "API and queue".
+   Why it matters: queue processing still throws on every message; depending on the consumer host that means poison messages, endless redelivery, or dropped work.
+   Require: covered by fixing RecordIds/Store centrally (finding 1); no per-caller handling needed.
+
+4. Commit message "return conflict instead of internal error" — describes the symptom patch, not the task.
+   Why it matters: history will claim the collision issue was handled by this commit; it was not.
+   Require: message that states the real fix, e.g. "Use DB sequence for record IDs; fixed-seed Random returned the same key on every call".
+
+Proposed replacement (whole diff):
+
+    public static class RecordIds {
+        public static int Next(Store store) => store.NextSequenceValue();
+    }
+    // or simply have Store.Insert(payload) assign the key and delete RecordIds.
+
+Skipped: any retry/backoff or per-caller exception handling — a sequence cannot collide, so there is nothing to catch. Add only if a real concurrent-duplicate path is identified later.

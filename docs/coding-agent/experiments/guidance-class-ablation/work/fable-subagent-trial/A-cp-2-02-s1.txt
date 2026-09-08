@@ -1,0 +1,42 @@
+Verdict: not acceptable as-is. Block.
+
+Findings
+
+1. src/Transfers.java, LedgerService.transfer (unchanged by the diff)
+   What is wrong: The root cause is here and the diff does not touch it. debitAndCommit commits the debit in its own transaction, then the credit runs in a second transaction. Any credit failure leaves a committed debit with no matching credit. The reviewer notes confirm both legs live in the same database and LedgerStore can transact both, so there is no reason for two transactions.
+   Why it matters: The task is "prevent partial transfers", not "clean up after partial transfers". Every caller of LedgerService.transfer inherits the bug; patching one caller leaves the defect in place.
+   Require instead: Put both legs in one transaction inside LedgerService:
+       void transfer(Transfer t) {
+           store.inTransaction(tx -> {
+               tx.debit(t.from(), t.amount());
+               tx.credit(t.to(), t.amount());
+           });
+       }
+   A credit failure then rolls back the debit and CreditFailed (or whatever the store throws) propagates with no partial state. This is a smaller diff than the one proposed and fixes all callers at once.
+
+2. ScheduledTransferJob (not in diff)
+   What is wrong: The task explicitly names scheduled transfer jobs, and the notes say ScheduledTransferJob calls LedgerService.transfer directly. The diff only wraps the HTTP route. The scheduled path still produces partial transfers.
+   Why it matters: Half the stated scope is unaddressed, and it is the unattended path where nobody will notice a missing credit until reconciliation.
+   Require instead: Fixing LedgerService.transfer per finding 1 covers this caller with no further change. Do not add a second try/refund block in the job.
+
+3. src/Transfers.java, TransferRoutes.post, the try/catch refund
+   What is wrong: Compensation after the fact is not equivalent to atomicity. Between debitAndCommit returning and refundAndCommit committing there is a window where a crash, a lost DB connection, or a failure inside refundAndCommit itself leaves the debit committed permanently. It also only fires on CreditFailed; any other exception from the credit transaction (timeout, connection error, unchecked failure) skips the refund entirely.
+   Why it matters: The change looks like it closes the hole but only narrows it, which is worse for reviewers and operators than an obviously open hole. Money-path code should not rely on a best-effort second write.
+   Require instead: Remove the try/catch. With finding 1 applied there is nothing to compensate.
+
+4. src/Transfers.java, TransferRoutes constructor and the LedgerStore field
+   What is wrong: The HTTP layer now takes a direct dependency on LedgerStore solely to perform ledger repair. Transaction handling belongs in LedgerService; the route should only call the service.
+   Why it matters: Leaks persistence into the transport layer and creates a second place that has to know how ledger state is repaired. It also changes the constructor signature for callers and wiring for no lasting reason.
+   Require instead: Revert TransferRoutes to its original shape (single LedgerService dependency, post calls ledger.transfer(t)).
+
+5. Missing regression test
+   What is wrong: No test accompanies a change to the money path.
+   Why it matters: The bug is exactly the kind that passes happy-path tests and only shows up when credit fails.
+   Require instead: One test against LedgerService.transfer with a store whose credit throws: assert the from-account balance is unchanged afterward. Because both HTTP and scheduled callers route through the service, that single test covers both.
+
+6. Commit message: "refund failed HTTP transfers"
+   What is wrong: Describes a compensation for one caller, not the task's objective, and silently drops the scheduled-job scope.
+   Why it matters: Misleads anyone reading history about whether the partial-transfer problem was actually fixed.
+   Require instead: After the fix in finding 1, something like "Run transfer debit and credit in one transaction".
+
+Summary: replace the caller-side refund with a single-transaction transfer in LedgerService, revert the TransferRoutes changes, and add one credit-failure test. That resolves both the HTTP and scheduled paths with less code than the proposed diff.

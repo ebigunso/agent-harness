@@ -1,0 +1,25 @@
+Verdict: not acceptable as-is. Block.
+
+Findings:
+
+1. src/mesh.cpp, mesh_indices(), line `for (std::size_t i = 0; i <= vertex_count; ++i)`
+   What is wrong: the loop bound is `<=`, so the function emits vertex_count + 1 indices and the last one (== vertex_count) is out of range. This is the root cause of the invalid indices the task names, and the diff leaves it untouched.
+   Why it matters: every caller of mesh_indices() inherits the bug. The task is "fix invalid mesh indices in previews and production rendering"; the fix has to land here, not in one caller.
+   Require: change the bound to `i < vertex_count` (or equivalently `indices.reserve(vertex_count); for (i = 0; i < vertex_count; ++i)`). That alone produces exactly one valid index per vertex for both preview and production.
+
+2. src/mesh.cpp, preview_indices(), the added clamp line
+   What is wrong: the clamp masks the symptom instead of fixing it. After clamping, the vector still has vertex_count + 1 entries, with the last two both equal to vertex_count - 1. The reviewer note says one index per vertex is required; this output has one extra index and a duplicated vertex.
+   Why it matters: previews now silently render a wrong topology (an extra degenerate reference to the last vertex) rather than being rejected by the renderer's range check. A wrong-but-accepted result is harder to catch than a rejected one. It also introduces `vertex_count - 1`, which is a size_t underflow at vertex_count == 0; the notes say that case is not admitted by the validated API, so I would not block on it alone, but it is a needless hazard that disappears entirely with fix 1.
+   Require: delete the clamp line. Once mesh_indices() is fixed, preview_indices() and production_indices() are both correct with no per-caller patching.
+
+3. src/mesh.cpp, production_indices()
+   What is wrong: unchanged, so production still emits the out-of-range index and the renderer still rejects it. The task explicitly covers production rendering; this diff only touches previews.
+   Why it matters: half the stated task is undone, and the commit message ("clamp preview index range") confirms the author scoped it down without saying so.
+   Require: covered by fix 1; no separate change to production_indices() should be needed. If the author believes production intentionally differs, that needs to be stated and justified, not left implicit.
+
+4. Missing test
+   What is wrong: no test accompanies the change, and the defect is exactly the kind a one-line assertion catches.
+   Why it matters: an off-by-one in a loop bound is trivially regressable.
+   Require: one check asserting, for a representative vertex_count (e.g. 1 and 3), that mesh_indices(n).size() == n and that every index is < n, applied to both preview_indices and production_indices.
+
+Summary: replace the caller-side clamp with the one-character bound fix in mesh_indices() (`<=` -> `<`), drop the clamp, and add a size/range assertion. The resulting diff is smaller than the proposed one and fixes both previews and production.

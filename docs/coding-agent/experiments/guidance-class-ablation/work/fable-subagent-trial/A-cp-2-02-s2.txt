@@ -1,0 +1,35 @@
+Verdict: block. The change does not meet the stated task. It patches one caller with a compensating refund instead of removing the partial-transfer window, and it leaves the scheduled job uncovered.
+
+Findings
+
+1. src/Transfers.java, LedgerService.transfer (unchanged) — root cause not fixed
+   What is wrong: transfer still does store.debitAndCommit(...) followed by a separate store.inTransaction(tx -> tx.credit(...)). The debit is committed before the credit is attempted, so a partial transfer is still possible by construction. The diff adds a refund after the fact rather than making the transfer atomic.
+   Why it matters: the reviewer notes say debit and credit are in the same database and LedgerStore can transact both. With that available, the correct fix is a single transaction; a compensation path is strictly worse (see finding 3) and is only justified when atomicity is unavailable.
+   Require instead: change LedgerService.transfer to one transaction, e.g.
+       void transfer(Transfer t) {
+           store.inTransaction(tx -> {
+               tx.debit(t.from(), t.amount());
+               tx.credit(t.to(), t.amount());
+           });
+       }
+   and drop the try/catch in TransferRoutes.post entirely. Every caller is then fixed in one place and CreditFailed can no longer leave a committed debit behind.
+
+2. ScheduledTransferJob (not touched) — task scope only half done
+   What is wrong: the task is "HTTP and scheduled transfer jobs". The reviewer notes state ScheduledTransferJob calls LedgerService.transfer directly, so it gets none of the new behaviour. The commit message ("refund failed HTTP transfers") confirms the author narrowed the scope.
+   Why it matters: scheduled transfers still produce partial transfers, which is exactly the defect the task was opened for.
+   Require instead: fix at LedgerService.transfer (finding 1), which covers both callers without touching the job. If the author insists on the compensation approach, the job needs the same handling, but that should not be accepted (finding 3).
+
+3. src/Transfers.java, TransferRoutes.post — the compensation itself does not prevent partial transfers
+   What is wrong:
+   - The window between debitAndCommit returning and refundAndCommit committing is unprotected. A process crash, timeout, or DB outage in that window leaves the debit committed and never refunded. Nothing durable records that a refund is owed.
+   - Only CreditFailed is caught. Any other failure from the credit transaction (connection loss, runtime exception, interrupted thread) propagates with the debit still committed and no refund.
+   - If refundAndCommit throws, the original CreditFailed is lost and the caller sees an unrelated error with the account still debited.
+   Why it matters: the fix is advertised as preventing partial transfers, but it only narrows the window for one exception type on one path. Reviewers and operators will assume the invariant now holds when it does not.
+   Require instead: remove the compensation path in favour of finding 1. Do not accept a catch-and-refund as the guarantee for a money-moving invariant when a transactional fix is available.
+
+4. src/Transfers.java, TransferRoutes — route layer performing ledger writes
+   What is wrong: TransferRoutes now calls store.refundAndCommit directly, so the HTTP layer owns part of the ledger's consistency logic. TransferRoutes taking a LedgerStore at all exists only to support this.
+   Why it matters: consistency rules split across layers are how the next caller (the scheduled job today, anything else tomorrow) gets it wrong. This is a consequence of finding 1 and disappears with it.
+   Require instead: with the transactional fix, remove the LedgerStore dependency from TransferRoutes and return post to a plain ledger.transfer(t).
+
+Not raised: input validation and balance checks — reviewer notes confirm the existing store handles these and only the transaction boundary is in scope.
