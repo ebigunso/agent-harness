@@ -226,6 +226,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Task_5 review (NEEDS_REVISION) found 23 Astra control cells had used web search, decoy cp-9-c2 lacked an import, and the PowerShell JSON key was stricter than the protocol's partial definition. Reruns: 23 control cells with web_search disabled and 12 cp-9-c2 cells on the corrected fixture. Round-2 blind regrade of every runbook section and cp-9 on both models under ebigunso's ruling (24 graders). Result: arm A at ceiling on both models on six sections and 0.98 on the seventh; all seven outcomes DELETE, so the PowerShell JSON runbook is removed rather than compressed. outcome.md rewritten with both rounds recorded; key-errata.md updated; blind mappings committed.
   - Validation evidence: unblind 672/672 per model, zero mismatches; scorer verdicts as recorded; validate_harness_package.py and smoke tests rerun below.
   - Notes: the one-seed cap condition is met on six sections and missed by one Astra cell on the seventh; the 14 remaining sections await ebigunso's call. Delta re-review dispatched.
+- 2026-09-08 Wave 2 Task_5 pilot APPROVED: [Task_5]
+  - Summary: second delta review found the cp-2 carry-forward missing from the reproducible aggregation path and one Astra Python-encoding partial still graded on the key's route. Fixed in ff91d53: unblind.py carries cp-2 from the round-1 results explicitly and applies work/adjudications.yaml (one entry, grader original preserved); outcome.md narrative corrected. Codex Reviewer APPROVED (2b67d98..ff91d53): both result files reproduce, all seven DELETE, arm A at 1.00 on every pilot section on both models.
+  - Validation evidence: unblind 672 unique rows per model, 0 ungraded; validate_harness_package.py pass; smoke tests exit 0.
+  - Notes: cap condition met; the 14 remaining sections await ebigunso's recorded choice (two seeds as registered, one-seed cap, or stop). Task_7 (Refresh 2) and Task_6 (final review) follow.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
