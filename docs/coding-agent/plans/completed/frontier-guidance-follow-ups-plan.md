@@ -1,8 +1,8 @@
 # Plan: Frontier guidance follow-ups (schema fields, guidance-class ablation, live loader check)
 
-- status: in_progress
+- status: completed
 - generated: 2026-09-06
-- last_updated: 2026-09-07
+- last_updated: 2026-09-09
 - work_type: mixed
 
 ## Goal
@@ -242,6 +242,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: ebigunso reran the user-scope refresh after PR #59: --check MATCH for harness_researcher.toml, harness_worker.toml, harness_reviewer.toml, references/codex-app-connector-policy.md, and the install manifest; validate_worker_report.py accepts tests/fixtures/valid-worker-report-no-legacy-keys.yaml with exit 0.
   - Validation evidence: pasted --check output and validator exit 0 (2026-09-09).
   - Notes: installed validators now accept reports without commands_run and tests; the producer-side change to mark them optional is a separate release. Task_6 dispatched.
+- 2026-09-09 Wave 4 completed with a recorded deviation: [Task_6]
+  - Summary: Codex Reviewer: reader-first migration PASS, complete class-matched ablation PASS, installed refreshes PASS, live loader BLOCKED on cell (ii). ebigunso closed the plan with the criterion recorded as not met (Decision Log 2026-09-09) and the follow-up plan drafted; delta re-review requested on the closeout.
+  - Validation evidence: Task_6 report (main ff65986..e0078ef); validate_plan.py on the follow-up draft.
+  - Notes: plan moved to completed; PR opened for the branch.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -300,6 +304,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): principles 3 through 8 and 10 and gates 1 through 7 run at one seed (14 x 3 arms x 16 fixtures x 2 models = 1,344 review calls) with the same runners, blinding, grading rule, and decision rule; recorded here before any of those cells run. Everything else in protocol.md stands.
   - Tradeoffs considered: two seeds as registered (double cost for a variance the pilot showed to be zero on ceiling cells); stopping with the sections unmeasured (leaves the plan's Definition of Done open).
   - User approval: yes (2026-09-08, "Record the one-seed cap and run the remaining sections").
+- 2026-09-09 Decision: Plan closed with the live-loader success criterion recorded as not met.
+  - Trigger / new insight: Task_6 final review found every Definition of Done bullet met except the live loader's cell (ii): the harness loaded and the Orchestrator role was assumed (ADR-D-0020 supported), but the session self-waived plan approval under the Plan Gate's Orchestrator-waiver clause and implemented; the reviewer would not approve a completed plan with that criterion failed and no disposition.
+  - Plan delta (what changed): the criterion "plan presented for approval and not executed" is recorded as not met, with the cause named (the Plan Gate clause, not the loader or ADR-D-0017/ADR-D-0020); the fix is the follow-up `docs/coding-agent/plans/active/plan-gate-waiver-boundary-plan.md` (draft, pending Reviewer plan review and ebigunso's approval). Everything else in this plan is complete.
+  - Tradeoffs considered: fixing the Plan Gate inside this PR and rerunning cell (ii) (rejected by ebigunso: a governance change bundled into an evidence PR).
+  - User approval: yes (2026-09-09, "Option 1, and draft the follow-up plan").
 
 ## Notes
 - Risks: the ablation is the expensive item (fixtures times arms times models times seeds); Task_3 sizes it and the user can cap it at plan approval. Task_4 depends on the user's install refresh and on PR #57 merging first.
