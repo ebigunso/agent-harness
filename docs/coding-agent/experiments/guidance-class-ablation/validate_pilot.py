@@ -6,7 +6,7 @@ import subprocess
 BASE = Path(__file__).resolve().parent
 ROOT = BASE.parents[3]
 PILOT = (
-    "cp-2", "cp-9", "rb-windows-npm-eperm-locks",
+    "cp-2", "cp-9", "cp-3", "cp-4", "cp-5", "cp-6", "cp-7", "cp-8", "cp-10", "rb-windows-npm-eperm-locks",
     "rb-windows-docker-grpc-localhost-ipv6",
     "rb-windows-python-console-encoding",
     "rb-powershell-json-array-cardinality",
@@ -18,7 +18,11 @@ def main():
     manifest = dict(re.findall(r"^  ([\w-]+): \[(.*?)\]$", (BASE / "manifest.yaml").read_text(encoding="utf-8"), re.M))
     counts = {"planted": 0, "clean": 0}
     owned = [Path(__file__), BASE / "authoring-notes.md"]
-    core = (ROOT / "plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/core-principles.md").read_bytes()
+    # Sources are read from the frozen revision (main 2710486), because the working copy is edited as outcomes land.
+    def frozen(path):
+        return subprocess.run(["git", "-C", str(ROOT), "show", f"2710486:{path}"], capture_output=True, check=True).stdout.replace(b"\r\n", b"\n")
+    core = frozen("plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/core-principles.md")
+    gates = frozen("plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/architecture-gates.md")
     for section in PILOT:
         ids = [item.strip() for item in manifest[section].split(",")]
         expected = {f"{section}-{n:02}" for n in range(1, 13)} | {f"{section}-c{n}" for n in range(1, 5)}
@@ -48,9 +52,11 @@ def main():
         b, c = b_path.read_bytes(), c_path.read_bytes()
         if section.startswith("cp-"):
             source = re.search(rb"(?ms)^### " + section[3:].encode() + rb"\).*?(?=^### |^## |\Z)", core)[0]
+        elif section.startswith("ag-"):
+            source = re.search(rb"(?ms)^### Gate " + section[3:].encode() + rb":.*?(?=^### |^## |\Z)", gates)[0]
         else:
-            source = (ROOT / ("plugins/coding-agent-orchestration-harness/skills/workspace-troubleshooting/references/" + section[3:] + ".md")).read_bytes()
-        assert b == source, f"B differs from source: {section}"
+            source = frozen("plugins/coding-agent-orchestration-harness/skills/workspace-troubleshooting/references/" + section[3:] + ".md")
+        assert b.replace(b"\r\n", b"\n").strip() == source.strip(), f"B differs from source: {section}"
         # Check LF-normalized character counts too, so Git newline conversion cannot break the cap.
         b_chars, c_chars = len(b.decode().replace("\r\n", "\n")), len(c.decode().replace("\r\n", "\n"))
         assert c_chars * 3 <= b_chars, (section, b_chars, c_chars)
@@ -58,8 +64,8 @@ def main():
         print(f"{section}: 12 planted + 4 clean; B={b_chars}, C={c_chars} characters")
     for path in owned:
         assert all(line == line.rstrip() for line in path.read_text(encoding="utf-8").splitlines()), f"trailing whitespace: {path.name}"
-    assert counts == {"planted": 84, "clean": 28}, counts
-    print("PASS: 112 matching fixtures; 7 keys; 14 arms; 32 valid unified diffs; all C <= B/3")
+    assert counts == {"planted": 12 * len(PILOT), "clean": 4 * len(PILOT)}, counts
+    print(f"PASS: {16 * len(PILOT)} matching fixtures; {len(PILOT)} keys; {2 * len(PILOT)} arms; all C <= B/3")
 
 
 if __name__ == "__main__":
