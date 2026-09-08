@@ -2435,7 +2435,7 @@ records:
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-02
   seed: 1
-  score: 0.5
+  score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-02
