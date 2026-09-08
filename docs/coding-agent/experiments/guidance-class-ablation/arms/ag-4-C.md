@@ -1,0 +1,1 @@
+Keep boundaries explicit/minimal/stable; model inputs, outputs, failures. State none/additive/breaking impact; sync producers/consumers and migrations. No implicit or ambiguous success/failure contracts.

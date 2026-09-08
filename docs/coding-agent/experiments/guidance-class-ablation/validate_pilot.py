@@ -6,7 +6,8 @@ import subprocess
 BASE = Path(__file__).resolve().parent
 ROOT = BASE.parents[3]
 PILOT = (
-    "cp-2", "cp-9", "cp-3", "cp-4", "cp-5", "cp-6", "cp-7", "cp-8", "cp-10", "rb-windows-npm-eperm-locks",
+    "cp-2", "cp-9", "cp-3", "cp-4", "cp-5", "cp-6", "cp-7", "cp-8", "cp-10",
+    "ag-1", "ag-2", "ag-3", "ag-4", "ag-5", "ag-6", "ag-7", "rb-windows-npm-eperm-locks",
     "rb-windows-docker-grpc-localhost-ipv6",
     "rb-windows-python-console-encoding",
     "rb-powershell-json-array-cardinality",
