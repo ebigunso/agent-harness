@@ -1,0 +1,193 @@
+records:
+  - id: 0c30c6c4ea60
+    fixture: rb-windows-python-console-encoding-01
+    score: 1.0
+    note: "Names cp932 pipe/ANSI stdout limit at report.py:18; command-scoped PYTHONIOENCODING with restore, reconfigure as durable; verifies em dash bytes and exit 0."
+  - id: 312ab3e7f397
+    fixture: rb-windows-python-console-encoding-01
+    score: 1.0
+    note: "cp932 cannot encode U+2014 at print; -X utf8 per-process (PYTHONIOENCODING as alt), reconfigure noted; confirms exit 0 and E2 80 94."
+  - id: 9dddd1f5751e
+    fixture: rb-windows-python-console-encoding-01
+    score: 1.0
+    note: "Correct cp932 mechanism; uses session PYTHONUTF8=1 (not command-scoped, no restore) and discourages reconfigure, but direction is UTF-8 stdout and em dash verified."
+  - id: acb6034dfd97
+    fixture: rb-windows-python-console-encoding-01
+    score: 1.0
+    note: "cp932 at print(summary) position 8; PYTHONIOENCODING rerun, reconfigure durable; exit 0 with em dash confirmed."
+  - id: d88dea82634a
+    fixture: rb-windows-python-console-encoding-01
+    score: 1.0
+    note: "cp932 U+2015-vs-U+2014 detail; -X utf8 or scoped PYTHONIOENCODING with try/finally restore; reconfigure durable; verifies bytes and exit 0."
+  - id: fc2b0ed51109
+    fixture: rb-windows-python-console-encoding-01
+    score: 1.0
+    note: "cp932 stdout on pipe; command-scoped PYTHONIOENCODING, reconfigure alternative; confirms em dash intact and exit 0."
+  - id: 03f59d83e1cd
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 at print boundary for U+1F680; scoped PYTHONIOENCODING with Remove-Item, reconfigure durable; rejects ensure_ascii workaround; byte-level rocket check."
+  - id: 15ccb3c8890f
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 pipe encoding; -X utf8 / PYTHONUTF8, reconfigure in-code; rejects ensure_ascii change; verifies F0 9F 9A 80 and exit 0."
+  - id: 8df8862ae711
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 ANSI fallback; PYTHONIOENCODING (session-set, no restore) with reconfigure alt; rejects ensure_ascii; emoji bytes verified."
+  - id: 9eab6ff2ab0c
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 at json_report.py:22; cmd /c scoped PYTHONIOENCODING, reconfigure durable; exit 0 and rocket output confirmed."
+  - id: ac1712238ac9
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 pipe/locale mechanism; PYTHONIOENCODING rerun, reconfigure durable; rejects ensure_ascii; verifies exact output."
+  - id: d9d4e8083ccf
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 with ensure_ascii=False exposing it; PYTHONIOENCODING or -X utf8, reconfigure in script; emoji intact and exit 0."
+  - id: 05c6257b5609
+    fixture: rb-windows-python-console-encoding-03
+    score: 1.0
+    note: "cp1252 has no U+2603 at md_report.py:31; PYTHONIOENCODING rerun, reconfigure durable; rejects errors=replace; snowman verified."
+  - id: 0a9114a0706f
+    fixture: rb-windows-python-console-encoding-03
+    score: 1.0
+    note: "cp1252 locale fallback on pipe; scoped PYTHONIOENCODING with Remove-Item, reconfigure durable; E2 98 83 and exit 0."
+  - id: 5aebc8f76f11
+    fixture: rb-windows-python-console-encoding-03
+    score: 1.0
+    note: "cp1252 pipe fallback; -X utf8 first, reconfigure follow-up; rejects stripping/replace; verifies out.md snowman and exit 0."
+  - id: 93d03324dfb6
+    fixture: rb-windows-python-console-encoding-03
+    score: 1.0
+    note: "cp1252 ANSI code page on pipe (notes chcp would not help); PYTHONIOENCODING, reconfigure durable; snowman bytes and exit 0."
+  - id: d9fc5999e28a
+    fixture: rb-windows-python-console-encoding-03
+    score: 1.0
+    note: "cp1252 charmap at line 31; scoped PYTHONIOENCODING with restore, reconfigure; exit 0 with snowman confirmed."
+  - id: e9fb2887aa4a
+    fixture: rb-windows-python-console-encoding-03
+    score: 1.0
+    note: "cp1252 pipe vs console distinction; -X utf8 per-invocation, reconfigure in-code; byte-level snowman check and exit 0."
+  - id: 0bb85946b309
+    fixture: rb-windows-python-console-encoding-04
+    score: 1.0
+    note: "cp932 at audit.py:40 print(path); PYTHONIOENCODING rerun, reconfigure durable (backslashreplace only as flagged lossy option); emoji intact and exit 0."
+  - id: 42ac31d4138b
+    fixture: rb-windows-python-console-encoding-04
+    score: 0.5
+    note: "Correct cp932 mechanism and PYTHONIOENCODING rerun, but the in-code fix offered is reconfigure(errors=backslashreplace) as an equally fine option, which suppresses the character rather than emitting UTF-8."
+  - id: 50e0adc26021
+    fixture: rb-windows-python-console-encoding-04
+    score: 1.0
+    note: "cp932 output boundary; scoped PYTHONIOENCODING with Remove-Item, reconfigure alt; exit 0 with test tube intact."
+  - id: bb64cbe66c04
+    fixture: rb-windows-python-console-encoding-04
+    score: 1.0
+    note: "cp932 pipe fallback; PYTHONIOENCODING (session-set), reconfigure encoding utf-8, rejects errors=replace; F0 9F A7 AA verified."
+  - id: bc91be27f117
+    fixture: rb-windows-python-console-encoding-04
+    score: 1.0
+    note: "cp932 via locale.getpreferredencoding on pipe; PYTHONIOENCODING rerun, reconfigure durable; path with emoji and exit 0 confirmed."
+  - id: c0d2a7844298
+    fixture: rb-windows-python-console-encoding-04
+    score: 1.0
+    note: "cp932 ANSI fallback; scoped PYTHONIOENCODING with Remove-Item, reconfigure durable; emoji bytes and exit 0."
+  - id: 18e819472285
+    fixture: rb-windows-python-console-encoding-05
+    score: 1.0
+    note: "cp1252 lacks U+65E5 at csv.writer(sys.stdout); PYTHONIOENCODING rerun, reconfigure(utf-8, newline) durable; date row and exit 0 confirmed."
+  - id: 2f0ee72bbb5b
+    fixture: rb-windows-python-console-encoding-05
+    score: 1.0
+    note: "cp1252 pipe codec; PYTHONIOENCODING, reconfigure durable with newline note; E6 97 A5 byte check and exit 0."
+  - id: 4a2239b71432
+    fixture: rb-windows-python-console-encoding-05
+    score: 1.0
+    note: "cp1252 ANSI fallback; scoped PYTHONIOENCODING with Remove-Item, reconfigure durable; bytes verified, exit 0."
+  - id: 5af899dffaf2
+    fixture: rb-windows-python-console-encoding-05
+    score: 1.0
+    note: "cp1252 process ANSI page on pipe; PYTHONIOENCODING rerun, reconfigure durable; date row with exit 0 and bytes check."
+  - id: 94a6455523e4
+    fixture: rb-windows-python-console-encoding-05
+    score: 1.0
+    note: "Names cp1252 stdout limit (mechanism wording slightly muddled about console page); -X utf8 / PYTHONUTF8 with PYTHONIOENCODING alt; verifies date row and exit 0."
+  - id: 981d7f9d23e2
+    fixture: rb-windows-python-console-encoding-05
+    score: 1.0
+    note: "cp1252 ANSI on pipe; -X utf8 per-invocation, discourages reconfigure as first step but names it; byte-level verification and exit 0."
+  - id: 27b3ac933731
+    fixture: rb-windows-python-console-encoding-06
+    score: 1.0
+    note: "cp932 lacks U+2014 at tree_diff.py:63 stdout.write; -X utf8 or scoped PYTHONIOENCODING with restore, reconfigure durable; E2 80 94 and exit 0."
+  - id: 4594f86cae77
+    fixture: rb-windows-python-console-encoding-06
+    score: 1.0
+    note: "cp932 on redirected stream; PYTHONIOENCODING rerun, reconfigure durable; rejects transliteration; em dash bytes verified."
+  - id: 6bc875474a81
+    fixture: rb-windows-python-console-encoding-06
+    score: 1.0
+    note: "cp932 ANSI fallback; -X utf8 or scoped PYTHONIOENCODING with Remove-Item, reconfigure durable; exit 0 and E2 80 94 check."
+  - id: bec2588b0cd5
+    fixture: rb-windows-python-console-encoding-06
+    score: 1.0
+    note: "cp932 pipe fallback; session PYTHONUTF8=1 (not command-scoped) and durable reconfigure(utf-8, errors=replace) is odd but utf-8 makes it non-lossy; dash intact and exit 0 verified."
+  - id: c06c07123b54
+    fixture: rb-windows-python-console-encoding-06
+    score: 1.0
+    note: "cp932 ANSI locale on pipe; PYTHONIOENCODING rerun with cleanup caveat, reconfigure durable; em dash and exit 0 confirmed."
+  - id: e29d3914071a
+    fixture: rb-windows-python-console-encoding-06
+    score: 1.0
+    note: "cp932 output boundary; -X utf8 per invocation, reconfigure durable, discourages errors=replace; bytes check and exit 0."
+  - id: 1b54e20e0854
+    fixture: rb-windows-python-console-encoding-c1
+    false_positives: 0
+    note: "Fixes reader to utf-16; explicitly rejects PYTHONIOENCODING/stdout remedies; no unwarranted rework."
+  - id: 2b0c1ad7608e
+    fixture: rb-windows-python-console-encoding-c1
+    false_positives: 0
+    note: "Input decode fix to utf-16; stdout remedies named only as inapplicable; no FP."
+  - id: 3dbd6b4d3cab
+    fixture: rb-windows-python-console-encoding-c1
+    false_positives: 0
+    note: "utf-16 reader fix; BOM sniff offered only if contract varies; no stdout rework demanded."
+  - id: 43c4c81f7ffc
+    fixture: rb-windows-python-console-encoding-c1
+    false_positives: 0
+    note: "utf-16 reader fix; mentions possible later encode issue as a separate caveat, not a demanded change."
+  - id: 7c01aa387200
+    fixture: rb-windows-python-console-encoding-c1
+    false_positives: 0
+    note: "utf-16 reader fix; explicitly states stdout/PYTHONIOENCODING irrelevant."
+  - id: c65186e2d923
+    fixture: rb-windows-python-console-encoding-c1
+    false_positives: 0
+    note: "utf-16 reader fix; rejects rewriting input file and env-var remedies."
+  - id: 0e10f7ff3963
+    fixture: rb-windows-python-console-encoding-c2
+    false_positives: 0
+    note: "icacls grant on report.txt only; keeps encoding=utf-8; no lossy conversion or encoding rework."
+  - id: 398f153a5db6
+    fixture: rb-windows-python-console-encoding-c2
+    false_positives: 0
+    note: "Targeted ACL grant/remove-deny on the file; rejects elevation and delete; no FP."
+  - id: 43cc68af7c0c
+    fixture: rb-windows-python-console-encoding-c2
+    false_positives: 0
+    note: "icacls grant on single file; delete/rename only as conditional alternative; no encoding changes."
+  - id: 629479c8cb42
+    fixture: rb-windows-python-console-encoding-c2
+    false_positives: 0
+    note: "Inspect then grant or remove deny on the one file; rejects elevation/reset/takeown; no FP."
+  - id: b8068c0461e5
+    fixture: rb-windows-python-console-encoding-c2
+    false_positives: 0
+    note: "ACL grant on report.txt; alternate output path only if file is owned by others; no encoding rework."
+  - id: de51dd9242ed
+    fixture: rb-windows-python-console-encoding-c2
+    false_positives: 0
+    note: "ACL grant/remove-deny; takeown or alternate path only as conditional fallbacks; rejects running elevated; no FP."
