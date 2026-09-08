@@ -238,6 +238,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Codex Reviewer APPROVED f1f913e: verdicts reproduce, pilot carry-forward intact, blinding and protected bytes verified, compressed bodies exact, fixtures validate, no ADR needed. One non-blocking note (pre-rebase hashes in the pilot Records paragraph) fixed in the next commit. Reviewer agrees with the cp-7 sensitivity disclosure and confirms every adopted arm-C text passes the FP guard.
   - Validation evidence: reviewer commands per its report; validate_harness_package.py pass; smoke exit 0.
   - Notes: Task_7 (Refresh 2, user-run) is now unblocked: Task_2 merged in PR #59 and Task_4 is recorded. Task_6 follows Task_7.
+- 2026-09-09 Wave 3 completed: [Task_7]
+  - Summary: ebigunso reran the user-scope refresh after PR #59: --check MATCH for harness_researcher.toml, harness_worker.toml, harness_reviewer.toml, references/codex-app-connector-policy.md, and the install manifest; validate_worker_report.py accepts tests/fixtures/valid-worker-report-no-legacy-keys.yaml with exit 0.
+  - Validation evidence: pasted --check output and validator exit 0 (2026-09-09).
+  - Notes: installed validators now accept reports without commands_run and tests; the producer-side change to mark them optional is a separate release. Task_6 dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
