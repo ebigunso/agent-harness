@@ -1,6 +1,6 @@
 """Generate one prompt file per cell for the pilot: work/prompts/<arm>-<fixture>-s<seed>.txt.
 
-Usage: python run/gen_prompts.py [section ...]   (default: the seven pilot sections)
+Usage: python run/gen_prompts.py [--seeds N] [section ...]   (default: the seven pilot sections; --seeds overrides manifest seeds, used for the recorded one-seed cap)
 Prompt = arm context (none for A; arms/<section>-B.md or -C.md) + the protocol prompt + the fixture
 body with its frontmatter stripped. Identical across models; seeds are separate calls of the same prompt.
 """
@@ -22,8 +22,10 @@ RUNBOOK = ("A command failed in the workspace described below. State the cause, 
            "you would confirm it worked. If the failure is not a workspace problem, say so.")
 
 
-def main(sections):
+def main(sections, seeds=None):
     manifest = yaml.safe_load((HERE / "manifest.yaml").read_text(encoding="utf-8"))
+    if seeds:
+        manifest["seeds"] = seeds
     out = HERE / "work" / "prompts"
     out.mkdir(parents=True, exist_ok=True)
     n = 0
@@ -44,4 +46,8 @@ def main(sections):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:] or PILOT)
+    args = sys.argv[1:]
+    seeds = None
+    if "--seeds" in args:
+        i = args.index("--seeds"); seeds = int(args[i + 1]); del args[i:i + 2]
+    main(args or PILOT, seeds)
