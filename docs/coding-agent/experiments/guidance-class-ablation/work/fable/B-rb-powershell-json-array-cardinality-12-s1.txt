@@ -1,0 +1,24 @@
+**Cause — not a workspace problem; the probe's assertion is wrong.**
+
+`'[null]' | ConvertFrom-Json` produces a one-element array, but the pipeline unrolls it when assigning `$parsed`, so the bare element (`$null`) is what gets stored. `$null -isnot [array]` is true, so line 10 throws. The wire value is a legal one-element array (`[null]` ≠ `[]` ≠ scalar `null`); the check is reporting pipeline enumeration, not JSON framing. Environment, execution policy, cwd and the JSON itself are all fine. Note the same bug would also reject `[]` (yields no output → `$null`), so the probe currently fails two of the three shapes the contract accepts.
+
+**Smallest safe remediation (pwsh 7.4.6, so `-NoEnumerate` is available):**
+
+Change line 5 to keep the array intact and don't re-pipe the result:
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+(`$raw | ConvertFrom-Json -NoEnumerate` also works; the key is `-NoEnumerate` plus direct assignment.) Everything else can stay as-is. If the probe ever has to run under Windows PowerShell 5.1, use the raw-framing check instead (`$raw.Trim()` starts with `[` and ends with `]`), since `-NoEnumerate` doesn't exist there.
+
+**Confirmation:**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1` — expect exit 0 and `parsed type=System.Object[]` (with `$parsed.Count` = 1, matching `wire elements=1`; add a `Write-Output ('parsed count=' + $parsed.Count)` if you want that on the record).
+2. Spot-check the contract boundaries by temporarily substituting `$raw`:
+   - `'[]'` → `System.Object[]`, count 0, exit 0
+   - `'[1,2]'` → `System.Object[]`, count 2, exit 0
+   - `'null'` and `'5'` → still throw `Expected JSON array`, exit 1
+3. Capture the raw string (`[null]`), the count, and the exact parse+assert expression as evidence, per the reference's checklist.
+
+__ABLATION_DONE__ exit=0

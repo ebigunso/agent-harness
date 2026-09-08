@@ -1,0 +1,24 @@
+**Verdict:** This is not a defect in the project or its build. It is a host-side networking/config issue: Docker Desktop's published-port proxy on the IPv6 loopback accepts the TCP connection but never completes the HTTP/2 (h2c) exchange, and the probe's target `localhost` resolves to `::1` first.
+
+**Cause**
+
+- `localhost` → `::1` (preferred), then `127.0.0.1`. The probe uses the first address and does not fall back.
+- TCP connect to `[::1]:50051` succeeds (so no UNAVAILABLE/connection-refused), but no HTTP/2 SETTINGS/response headers arrive, so the client sits until the 2s deadline → `DEADLINE_EXCEEDED`, exit 2.
+- The service interceptor log shows no invocation for the failed call: the request never reached the server, so this is not a slow handler, not an auth/method problem (those would be exit 3), and raising the timeout would not help.
+- REST on 50080 succeeding in 12 ms is consistent: HTTP/1.1 through the same proxy path doesn't hit the h2c stall (and curl also happy-eyeballs to 127.0.0.1), so it's not a "service is down" situation.
+- The controlled comparison — identical RPC, payload, deadline, server, container, and config, changing only the target to `127.0.0.1:50051` — returns `pong`, exit 0, with `invoked=true completed=true` in the service log. That isolates the address as the single variable.
+
+**Smallest safe remediation**
+
+Change the gRPC target in local config from `localhost:50051` to `127.0.0.1:50051`. No rebuild, no code change, no timeout change, no container restart.
+
+If you want the environment itself to stop presenting the trap for other tools, the next-smallest option is to publish the port IPv4-only in the compose/run config (`127.0.0.1:50051:50051`) so `::1` connections are refused immediately rather than hanging — but that is optional and touches shared config, so I'd do the target change first.
+
+**Confirmation**
+
+1. `probes/grpc_probe.exe --target 127.0.0.1:50051 --timeout 2` → exit 0, stdout `pong`, empty stderr.
+2. Service interceptor log shows a new line: `probe method="unary Echo" transport=h2c invoked=true completed=true`.
+3. Optionally re-run the original `--target localhost:50051` once to show it still fails identically (proves the fix is the address, not timing luck).
+4. Record for the ticket: both targets and port (50051), the deadline stderr text and exit 2, REST `http_code=200 total_seconds=0.012`, and the IPv4 retry result.
+
+__ABLATION_DONE__ exit=0

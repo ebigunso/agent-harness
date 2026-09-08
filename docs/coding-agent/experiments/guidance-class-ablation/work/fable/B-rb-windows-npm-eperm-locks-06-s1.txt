@@ -1,0 +1,28 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/permissions issue. `npm ci` deletes `node_modules` before reinstalling, and it hit EPERM on `unlink` of `node_modules\lmdb\build\Release\lmdb.node`. On Windows a loaded native addon (`.node` DLL) is mapped into the process that loaded it and cannot be unlinked while that process lives. `tasklist /m lmdb.node` shows exactly one holder: `node.exe` PID 4106, which is this repo's own Gatsby cache/build watcher (`scripts/gatsby-watch.js`). Everything else checks out — lockfile is in sync, cache/project are writable, a probe file beside the binary can be created/removed, no ACL denial. The sole blocker is the running watcher.
+
+**Smallest safe remediation**
+
+1. Stop the watcher gracefully first (Ctrl+C in the terminal running `gatsby-watch.js`, or stop the editor task that launched it). This is the repo's own process, so stopping it is safe; no user data is at risk beyond the Gatsby cache it can rebuild.
+2. Only if it doesn't exit on its own:
+   ```
+   taskkill /PID 4106 /F
+   ```
+3. Retry:
+   ```
+   npm ci
+   ```
+
+Don't reach for `rm -rf node_modules`, cache clears, `--force`, or running as Administrator — none of those address a file-in-use lock and the last is a needless privilege escalation.
+
+**Confirmation**
+
+- Before retry: `tasklist /m lmdb.node` returns "No tasks are running which match the specified criteria" (and `tasklist | findstr node` shows no lingering node processes for this repo).
+- `npm ci` exits 0, with `node_modules\lmdb\build\Release\lmdb.node` recreated (fresh timestamp).
+- Optional sanity: `node -e "require('lmdb')"` from the repo root loads without error.
+- Then restart `scripts/gatsby-watch.js`; it will re-map the new binary. If another EPERM appears naming a different `.node` file, repeat the `tasklist /m <that file>` step for the new holder.
+
+Evidence to keep: the original stderr above, the `tasklist /m lmdb.node` output, PID 4106 and how it was stopped, and the successful retry output.
+
+__ABLATION_DONE__ exit=0

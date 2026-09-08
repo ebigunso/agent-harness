@@ -1,0 +1,33 @@
+**Cause**
+
+This is not a workspace problem. The private registry answered `401 Unauthorized` with `WWW-Authenticate: Bearer`, which means the request reached the correct registry but the bearer token npm presented was rejected (expired, revoked, or wrong for that scope). Everything workspace-side checks out: `.npmrc` scope/registry URL is correct, `package.json` and lockfile agree, cwd and cache are writable, and there is no native-addon lock (no process has `sharp-win32-x64.node` mapped, and no unlink was attempted). The E401 is a credentials failure, full stop.
+
+**Smallest safe remediation**
+
+Refresh the credential for that registry only — don't touch the project `.npmrc`, lockfile, cache, or `node_modules`.
+
+1. Find which config is supplying the token (without printing its value):
+   ```powershell
+   npm config list -l | Select-String "_authToken|registry"
+   ```
+   Note whether it comes from the user-level `%USERPROFILE%\.npmrc`, an env var (e.g. `NPM_TOKEN` / `NODE_AUTH_TOKEN`), or the project `.npmrc`.
+
+2. Re-authenticate against the scoped registry:
+   ```powershell
+   npm login --registry=<private-registry-url> --scope=@<scope>
+   ```
+   If the registry uses pre-issued tokens (Artifactory, GitHub Packages, Azure Artifacts, etc.), instead generate a new token in that system and update the `//<registry-host>/:_authToken=` line in the **user-level** `.npmrc` (or the env var it's read from). Do not put the token in the project `.npmrc` that's under version control.
+
+3. If a stale token is set via environment variable, that wins over `.npmrc` — update or clear it in the current PowerShell session before retrying.
+
+**Confirmation**
+
+```powershell
+npm whoami --registry=<private-registry-url>   # should print your username, not E401
+npm ping   --registry=<private-registry-url>   # should report PONG / 200
+npm install                                    # exit code 0, no "npm error" lines
+```
+
+If `whoami` still returns 401 after a fresh token, the token lacks read permission on that scope/feed — that's a permissions issue on the registry side, not something to fix in this workspace.
+
+__ABLATION_DONE__ exit=0

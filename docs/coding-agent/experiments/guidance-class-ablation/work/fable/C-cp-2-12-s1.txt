@@ -1,0 +1,37 @@
+**Verdict: not acceptable as-is.** The diff does not implement the task; it replaces the fix with a foreground-only workaround and leaves the actual defect in place.
+
+---
+
+**1. `src/Session.kt`, `Session.logout()` — tenant material is still not cleared (the actual bug is untouched)**
+
+`logout()` only calls `credentials.clear()`. `tenantKeys` is never emptied. Since `Session` is the service-owned cache shared with background sync, the previous tenant's keys survive logout and will be used by the next sync pass (and by whatever tenant logs in next) — precisely the leak the task asks to remove. The diff doesn't modify this function at all.
+
+Required: make `logout()` own the invariant "after logout, no per-tenant material remains in this Session":
+
+```kotlin
+fun logout() {
+    credentials.clear()
+    tenantKeys.clear()
+}
+```
+
+Because login and sync already run on the same serialized session executor, this is sufficient for both screens and background sync with no additional synchronization. Every caller of `logout()` then gets the cleanup for free instead of each needing to compensate.
+
+**2. `src/Session.kt`, `LogoutScreen.confirm()` — `app.restart()` is a compensating hack that doesn't reach the component holding the state**
+
+Replacing `app.showSignedOut()` with `app.restart()` attempts to discard `tenantKeys` by tearing down the process rather than clearing the map. Per the notes, `restart()` only restarts the foreground; the service that owns `Session` (and its `tenantKeys`) stays alive. So this:
+
+- does not clear anything for background sync, which is half of the stated task;
+- only "works" (if at all) from this one screen — any other logout path (session expiry, remote sign-out, another screen) still leaks;
+- silently drops the `showSignedOut()` flow and imposes a full restart on the user for what should be a cache clear;
+- couples correctness to process lifecycle, which will break the moment the service/foreground split changes.
+
+Required: revert this line to `app.showSignedOut()`. With finding 1 fixed, the screen needs no special behavior.
+
+**3. (Non-blocking) `Session.tenantKeys` is a public mutable map**
+
+Exposing `mutableMapOf` publicly means any caller can add entries that `logout()` doesn't know about, weakening the invariant from finding 1. If cheap to do in this change, make it `private` and expose `put`/`get`/`clear` on `Session`. Not a blocker for this diff, but worth doing while you're here.
+
+**4. Commit message** — "restart the foreground app on logout" describes the workaround, not the requirement. Once corrected it should read along the lines of "Clear tenant keys on logout so foreground and background sync drop previous tenant material."
+
+__ABLATION_DONE__ exit=0

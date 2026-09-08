@@ -1,0 +1,24 @@
+**Cause — script logic, not the workspace.**
+
+`ConvertFrom-Json -NoEnumerate` does return the singleton as an `object[]`, but the script then pipes that result through `| ForEach-Object { $_ }`. `ForEach-Object` unwraps the array and emits its one element onto the pipeline; assigning a single pipeline output to `$parsed` yields that scalar `PSCustomObject`, exactly as the stdout shows. The `-NoEnumerate` is defeated by the downstream pipeline stage, so the `-isnot [array]` assertion correctly fires on a value that is no longer an array. The JSON, runtime, execution policy and cwd are all fine.
+
+**Smallest safe remediation**
+
+Drop the redundant `ForEach-Object` stage in line 5:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Do **not** "fix" it with `@(...)` around the expression — that would coerce scalar wire values (e.g. `9`) into a one-element array and silently violate the contract's "rejects scalar wire values" requirement. Removing the pipeline stage preserves the parser's cardinality faithfully: `[]` → empty `object[]`, `[{…}]` → 1-element `object[]`, `[{…},{…}]` → 2-element `object[]`, `9` → `Int64` (rejected).
+
+**Confirmation**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`; expect exit code 0, no stderr, and stdout line `parsed type=System.Object[]`.
+2. Spot-check the contract edges by substituting `$raw`:
+   - `'[]'` → `System.Object[]`, `$parsed.Count` = 0, exit 0.
+   - `'[{"id":1},{"id":2}]'` → `System.Object[]`, Count 2, exit 0.
+   - `'9'` → `System.Int64`, still throws `Expected JSON array` (desired rejection).
+3. Optionally verify `$parsed.Count -eq [int]$wireCount` for the singleton case to tie the parsed cardinality back to the wire count.
+
+__ABLATION_DONE__ exit=0

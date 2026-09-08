@@ -1,0 +1,34 @@
+**Verdict: block.** The change doesn't fix the defect; it delays one view's rendering of it.
+
+## Findings
+
+**1. `src/Item.tsx` — `selectItem`: the race is still there.**
+The bug is that `selectItem(A)` then `selectItem(B)` can resolve B then A, and the second `selection.setItem(itemA)` overwrites B with no check. The diff leaves this function untouched. After the change, the store still ends up holding item A while `selectedId` is B, and every subscriber will eventually render A. Fix it at the origin, once, in the shared fetcher/state code (which the notes say is in scope):
+
+```ts
+export async function selectItem(id: string) {
+  selection.setSelectedId(id);
+  const item = await api.fetchItem(id);
+  if (selection.getSelectedId() !== id) return; // stale response, discard
+  selection.setItem(item);
+}
+```
+or equivalently a generation counter / `AbortController` per call, or a guard in `state.setItem` that rejects items whose `id` doesn't match the current `selectedId`. The invariant you want is "`item` is never displayed unless `item.id === selectedId`"; encoding that in the store (or having views render `state.item?.id === state.selectedId ? state.item : undefined`) makes the bug impossible rather than merely less visible. Since `fetchItem` is read-only and transport errors are already surfaced by the API boundary, discarding the stale result has no side effects to worry about.
+
+**2. `src/Item.tsx` — `Detail`: the 200 ms `setTimeout`/`visible` shadow state is compensating logic, not a fix.**
+- It doesn't guarantee correctness: if the stale A response lands more than 200 ms after B's, `visible` becomes A and stays A. The symptom is only masked when the out-of-order window happens to be < 200 ms.
+- It adds a flat 200 ms delay to every legitimate selection, including the common non-racy case, and shows stale/undefined content on mount until the timer fires.
+- It duplicates store state in component state, which is exactly the kind of "second source of truth" that reintroduces staleness bugs later.
+- It makes the underlying race harder to catch in tests (a test would have to wait out the debounce to observe the wrong item).
+Remove this entirely; with the store-level guard from (1) the component can stay `state.item?.name`.
+
+**3. `src/Item.tsx` — `Sidebar` untouched.**
+The task explicitly covers both Detail and Sidebar. Sidebar still renders `state.item` directly, so it still shows the stale item — and now it will disagree with Detail for 200 ms on every change. This is a direct consequence of fixing at the view instead of the source; a store-level fix covers both subscribers with no per-view code.
+
+**4. Commit message — "wait for selection requests to settle" is inaccurate.**
+Nothing here waits for requests or knows when they settle; it delays a render by a fixed interval. A misleading message will send the next person debugging this to the wrong place.
+
+## What I'd accept
+Revert the `Detail` changes, add the generation/selectedId check in `selectItem` (or `state.setItem`), and ideally have both views render the item only when `item.id === selectedId`. Add a test that resolves two `fetchItem` promises out of order and asserts both views show the latest selection.
+
+__ABLATION_DONE__ exit=0

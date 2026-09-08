@@ -1,0 +1,21 @@
+**Cause:** The registry rejected the request with `401 Unauthorized` (`WWW-Authenticate: Bearer`), and npm reported `E401`. The auth token used for the configured private scope is invalid, expired, revoked, or missing for that registry host. This is an authentication/credential problem, not a workspace problem: the lockfile and `package.json` agree, `.npmrc` scope/registry URL is correct, cwd and cache are writable, no native addon unlink was attempted, and `tasklist /m sharp-win32-x64.node` shows no holders. The EPERM/EBUSY `.node` lock procedure in the reference material does not apply — do **not** kill any processes; there is nothing to kill.
+
+**Smallest safe remediation:**
+1. Re-authenticate against the private registry (not the public default):
+   ```powershell
+   npm login --registry=<private-registry-url> --scope=@<scope>
+   ```
+   If the registry uses a generated token instead of interactive login (e.g. CI/PAT), obtain a fresh token from the registry provider and update the `//<registry-host>/:_authToken=` entry in the user `.npmrc` (or the env var it references, e.g. `${NPM_TOKEN}`). Do not commit tokens to the project `.npmrc`.
+2. Retry the original command:
+   ```powershell
+   npm install
+   ```
+
+**Confirmation:**
+- `npm whoami --registry=<private-registry-url>` returns your username instead of an E401.
+- `npm install` exits 0 with no `E401` in stderr, and `node_modules` for the scoped packages is populated (`npm ls @<scope>/<pkg>` shows no "missing" or "invalid").
+- If it still fails with E401, check that the token is scoped to the correct registry host line in `.npmrc` (`npm config get //<host>/:_authToken` reports a value, not empty) and that the token has read access to the scope; if it fails with a *different* error (EPERM/EBUSY on a `.node` file), only then apply the lock-holder procedure from the reference.
+
+Record: command (`npm install`), error (`E401` / HTTP 401 Bearer), registry host and scope, the re-login/token refresh performed, `npm whoami` result, and the retry outcome. No PIDs killed.
+
+__ABLATION_DONE__ exit=0

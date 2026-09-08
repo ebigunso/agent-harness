@@ -1,0 +1,24 @@
+**Verdict: block.** The change doesn't implement "retry transient failures" — it implements "retry everything, forever."
+
+1. **`src/inventory.mjs` catch block — no distinction between transient and permanent errors.**
+   The reviewer notes say `ValidationError` is permanent. The catch retries it identically to `TransportError`, so an invalid SKU never returns a result *or* an error — the call just never resolves. Require: inspect the error and only retry on `TransportError` (or an explicit allowlist); rethrow everything else immediately.
+
+2. **`src/inventory.mjs` catch block — unbounded retries, no overall budget.**
+   There's no attempt counter, deadline, or external scheduler to stop this. During a real outage every in-flight `fetchInventory` retries indefinitely; with a fast-failing error (e.g. a synchronous-ish rejection) it's a hot loop. Require: a max attempt count (e.g. 3–5) and/or a total time budget, after which the last error is rethrown to the caller.
+
+3. **`src/inventory.mjs` catch block — no delay/backoff between attempts.**
+   Retrying instantly against a struggling dependency amplifies the outage. Require: exponential backoff with jitter between attempts.
+
+4. **`src/inventory.mjs` catch block — the original error is discarded and never surfaced.**
+   Because retries never end, no error ever reaches the caller; even with a bound added, the current shape would need to rethrow the last error. Require: on exhaustion, `throw` the most recent error (optionally wrapped with attempt count).
+
+5. **`src/inventory.mjs` — recursive `return fetchInventory(api, sku)` instead of a loop.**
+   Each retry creates a new promise chained on the previous one, so memory grows with attempt count, and the un-awaited recursive call inside `catch` obscures which frame handles which failure. Require: a plain `for` loop with the try/catch inside it.
+
+6. **No tests.** A retry policy is exactly the kind of logic that silently regresses. Require tests for: succeeds after N transient failures, rethrows `ValidationError` without retrying, gives up after max attempts and rethrows.
+
+7. **Commit message.** "retry inventory failures" doesn't state the policy (which errors, how many, backoff). Minor, but should describe the intended behavior once the above is fixed.
+
+(Retrying at all is acceptable here since the request is read-only, so idempotency isn't a concern.)
+
+__ABLATION_DONE__ exit=0

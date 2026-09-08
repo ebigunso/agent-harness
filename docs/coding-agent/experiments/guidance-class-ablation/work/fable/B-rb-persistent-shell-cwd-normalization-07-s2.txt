@@ -1,0 +1,23 @@
+**Cause:** cwd drift in the persistent shell. A prior `Set-Location -LiteralPath 'C:/work/assets'` left the shell in `C:/work/assets` (confirmed by `pwd` and `Get-ChildItem` showing only `logo.svg`). `go test ./...` was run from there, so Go found no `go.mod` in the `.` prefix, producing `directory prefix . does not contain main module or its selected dependencies`. The tool UI's remembered workspace root (`C:/work/go-service`) is not the shell's actual cwd. This is a workspace/cwd problem, not a code, Go toolchain, dependency, PATH, or permissions issue — nothing else changed between attempts.
+
+**Smallest safe remediation:**
+```powershell
+Set-Location -LiteralPath 'C:/work/go-service'
+go test ./...
+```
+Run the original command unchanged; don't stack repeated `cd` chains in retries.
+
+**Confirmation:**
+- `pwd` reports `C:/work/go-service` (with `go.mod` and `service_test.go` present)
+- `go test ./...` exits 0 with `ok  example.test/go-service 0.015s`, no stderr
+
+**Evidence record:**
+- Failing command: `go test ./...` → exit 1, `pattern ./...: directory prefix . does not contain main module...`
+- Pre-normalization cwd: `C:/work/assets`
+- Normalized cwd: `C:/work/go-service`
+- Rerun: exit 0, `ok example.test/go-service`
+- Status: **resolved** (root cause: cwd drift)
+
+**Prevention:** in this persistent session, either explicitly `Set-Location` before Go commands or use `go test -C C:/work/go-service ./...` so the command doesn't depend on inherited shell state.
+
+__ABLATION_DONE__ exit=0

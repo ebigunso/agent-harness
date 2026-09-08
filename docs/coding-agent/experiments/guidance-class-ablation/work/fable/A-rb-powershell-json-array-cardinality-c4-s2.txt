@@ -1,0 +1,31 @@
+**Cause**
+
+This is not a workspace or runtime problem. The script parsed `[1,1]` correctly (`-NoEnumerate` kept it as `System.Object[]`, the array check passed, each element boxed to `long` fine). The `HashSet[long].Add` call returned `$false` on the second `1`, and the script deliberately threw `Duplicate item 1`. Exit code 1 is the script's own contract assertion firing on data that violates the contract: the input contains a repeated ID.
+
+Everything about the environment behaved as designed — PowerShell 7.4.6, `-NoProfile`, execution policy, `ConvertFrom-Json`, and the error stream text are all consistent with a normal run.
+
+**Smallest safe remediation**
+
+Fix the data, not the script. Whatever produces the `[1,1]` payload (in the probe it's the hard-coded `$raw`; in the real pipeline it's the upstream source) must emit unique integer IDs, e.g. `[1,2]`. Don't loosen the check (e.g. deduplicating with `Sort-Object -Unique` or swallowing the throw) — the assertion is doing its job, and silently deduplicating would hide a real upstream bug.
+
+If the goal is only to unblock the probe locally for a moment, the minimal edit is changing line 3 to a valid fixture (`$raw = '[1,2]'`), but that's a test fixture change, not a fix for the underlying contract violation.
+
+**Confirmation**
+
+Re-run:
+
+```powershell
+pwsh -NoProfile -File probes/unique.ps1; $LASTEXITCODE
+```
+
+Expected after the data is corrected:
+
+```text
+raw=[1,2]
+parsed type=System.Object[]
+0
+```
+
+with nothing on stderr and `$LASTEXITCODE` = 0. As a negative control, feeding `[1,1]` again should still produce the `Duplicate item 1` throw and exit code 1, proving the check remains intact.
+
+__ABLATION_DONE__ exit=0

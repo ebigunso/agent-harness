@@ -1,0 +1,22 @@
+**Cause:** Working-directory drift, not a code/environment problem. The prior `Set-Location -LiteralPath 'C:/work/reports/tools'` moved the persistent shell to `C:/work/reports/tools`. The failing command uses a relative path, so Python resolved it to `C:\work\reports\tools\scripts\check.py`, which doesn't exist (that directory only contains `inspect.py`). The script actually lives at `C:/work/reports/scripts/check.py`, relative to the intended base. Exit code 2 with `[Errno 2] No such file or directory` on the path Python printed confirms it's a path resolution failure, not an interpreter, dependency, or permission issue. The tool UI's remembered "root" of `C:/work/reports` is not the shell's cwd — the shell state is authoritative.
+
+**Smallest safe remediation:** One explicit, absolute navigation to the intended base, then rerun the command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/reports'
+python scripts/check.py
+```
+
+No `cd ..` chains, no editing the command, no changes to code, PATH, or config. (If this command is going to run repeatedly from this shell, the more durable fix is to avoid depending on cwd at all — either invoke with an absolute path `python C:/work/reports/scripts/check.py`, or don't leave the shell parked in a subdirectory after the `tools` step. But that's optional hygiene, not required to fix this failure.)
+
+**Confirmation:** This was already captured and it succeeded:
+
+| | Before | After |
+|---|---|---|
+| cwd (`pwd`) | `C:/work/reports/tools` | `C:/work/reports` |
+| `python scripts/check.py` | exit 2, `can't open file ...tools\scripts\check.py` | exit 0, stdout `checks passed`, stderr empty |
+| Final cwd | — | `C:/work/reports` |
+
+Since the only variable changed between the two runs was the explicit cwd — same command text, same files, same interpreter — the retry isolates cwd as the cause. Status: **resolved**. Had the rerun from `C:/work/reports` still failed, the correct next step would have been to stop treating cwd as the cause and look elsewhere (e.g., script contents, interpreter, imports) rather than continuing to shuffle directories.
+
+__ABLATION_DONE__ exit=0

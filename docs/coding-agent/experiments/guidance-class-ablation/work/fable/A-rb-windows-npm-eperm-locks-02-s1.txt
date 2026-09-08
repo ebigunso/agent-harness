@@ -1,0 +1,36 @@
+**Cause**
+
+This is a file-lock conflict, not a package/permissions problem. `sharp-win32-x64.node` is a native addon (a DLL). Windows holds an exclusive mapping on any loaded DLL, so `unlink` fails with `EBUSY` (errno −4082) while a process has it loaded. `tasklist /m` shows exactly one such process: `node.exe` PID 4102, running `C:/work/npm-lock/workers/images.js` — an image worker from this repository that outlived its launch terminal. npm needs to delete/replace the sharp tree during install and cannot.
+
+Everything else checks out (lockfile in sync, writable dirs, registry reachable, ACLs fine), so nothing else needs touching.
+
+**Smallest safe remediation**
+
+Stop the orphaned worker, then re-run the install. Don't delete `node_modules`, clear the cache, or reinstall sharp — none of that addresses the lock.
+
+```powershell
+# 1. Re-verify the PID is still the same process (guard against PID reuse)
+Get-CimInstance Win32_Process -Filter "ProcessId = 4102" |
+  Select-Object ProcessId, CommandLine
+
+# 2. Stop it (it's repo-owned and detached; there's no terminal to Ctrl-C from)
+Stop-Process -Id 4102
+# if it ignores that: Stop-Process -Id 4102 -Force
+
+# 3. Retry
+npm install
+```
+
+One caution before step 2: if `workers/images.js` is launched by a supervisor (pm2, nodemon, a scheduled task, a service), stop it via that supervisor instead, or it will respawn and re-lock the file mid-install.
+
+**Confirmation**
+
+```powershell
+tasklist /m sharp-win32-x64.node      # expect: "INFO: No tasks are running which match the specified criteria."
+npm install; $LASTEXITCODE            # expect 0, no EBUSY
+node -e "require('sharp'); console.log('ok')"   # addon loads on Node 20.18.0
+```
+
+Then relaunch the image worker (`node workers/images.js` or via its supervisor) so it picks up the reinstalled addon. If you want to prevent recurrence, stop the worker as part of whatever script runs `npm install`, or run it from a supervisor that can be paused.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,22 @@
+**Cause:** This is a program logic error, not a workspace/environment problem. `compute.py` line 8 divides `numerator` (3) by `denominator` (0), and Python raises `ZeroDivisionError` before any output is produced. Nothing about Windows, PowerShell, the piped stdout, `cp932`, or `utf8_mode=0` is involved — those observations are red herrings here, since the script never reached a `print` call (and wouldn't matter anyway unless non-cp932 characters were being written).
+
+**Smallest safe remediation:** Fix the script, not the environment. Two options depending on intent:
+
+1. If `denominator == 0` is legitimately possible input, guard it at line 8:
+   ```python
+   if denominator == 0:
+       raise ValueError("denominator must be non-zero")  # or handle: ratio = None / float('inf') / skip
+   ratio = numerator / denominator
+   ```
+2. If `denominator` should never be 0, trace back to where it's set (hardcoded literal, config, input file, or upstream computation) and correct that source — that's the real bug, and the guard above is just a clearer error message.
+
+Do not change the environment (no `PYTHONUTF8`, no code-page changes); that would not address the failure and would only add noise.
+
+**Confirmation:**
+- Re-run `python compute.py`; exit code should be `0` and the expected report should appear on stdout (or, if you chose the explicit `ValueError`, a clear message instead of a traceback with the appropriate nonzero exit).
+- `Write-Output $LASTEXITCODE` in PowerShell after the run to verify the exit status.
+- If the fix was to the data source, confirm `denominator` is now nonzero (e.g., add a quick `print(numerator, denominator, file=sys.stderr)` temporarily, or run under `python -m pdb compute.py`).
+
+If, after fixing, output contains non-Japanese Unicode characters and you see a `UnicodeEncodeError` under the piped `cp932` stdout, *that* would be an environment issue — fix it then with `$env:PYTHONUTF8=1` or `sys.stdout.reconfigure(encoding="utf-8")`. But that is a separate, hypothetical problem, not this failure.
+
+__ABLATION_DONE__ exit=0

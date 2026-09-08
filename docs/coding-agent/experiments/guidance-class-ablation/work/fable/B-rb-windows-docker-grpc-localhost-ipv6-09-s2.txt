@@ -1,0 +1,26 @@
+**Cause**
+
+`localhost` resolves to `::1` first on this Windows host, so the Ruby gRPC channel dialed `[::1]:50051`. Docker Desktop's IPv6 port proxy accepted the TCP connect but never delivered the HTTP/2 (h2c) response headers, so the server-streaming Echo call sat at the transport layer until the 2 s deadline and the probe exited 2 with `DEADLINE_EXCEEDED`. The service itself is healthy and never saw the request (no interceptor-log entry), which matches a hang in front of the container rather than inside it.
+
+The evidence is a clean address-only asymmetry:
+
+- `--target localhost:50051` → exit 2, no output, no service-side invocation.
+- `--target 127.0.0.1:50051` → exit 0, `pong 1` / `pong 2`, service log `invoked=true completed=true`.
+- Sibling HTTP/1.1 port 50080 answers in 12 ms on `localhost`, showing the container/proxy path works for HTTP/1.1 but not HTTP/2 over the IPv6 proxy.
+
+This is not a workspace defect — the probe files, dependencies, gRPC library, and service are all fine. It is the local connection target interacting with Docker Desktop's IPv6 loopback proxy on Windows.
+
+**Smallest safe remediation**
+
+Change the gRPC target from `localhost:50051` to `127.0.0.1:50051` (in the command you run, and in any config/script that supplies the target for local development against Docker Desktop published ports). Nothing else needs to change: no service, port-publishing, Docker, or Ruby/grpc modifications, and the probe does not need retry or resolution-override logic.
+
+**Confirmation**
+
+1. Run `ruby probes/stream.rb --target 127.0.0.1:50051 --timeout 2` — expect exit 0, `pong 1` and `pong 2` on stdout, empty stderr (already observed once; rerun to confirm it is consistent, not a one-off).
+2. Check the service interceptor log shows a new `invoked=true completed=true` line for that call.
+3. Optionally rerun with `localhost:50051` once to reconfirm it still hangs, proving the fix is the address and not a coincidental timing change.
+4. Keep the HTTP sibling check (`curl.exe ... http://localhost:50080/health` → 200 in ~10 ms) as the control showing the container is unchanged.
+
+If a later run against `127.0.0.1:50051` ever also fails, only then move on to investigating the service, port mappings, and container health.
+
+__ABLATION_DONE__ exit=0

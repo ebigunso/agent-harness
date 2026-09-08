@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.** The fix is in the right place and correct against the stated contract. One non-blocking test request below.
+
+**Why it's correct**
+
+- `app/lines.py:parse` — Normalization is done once at the shared entry point, so `cli` and `scheduled` both inherit it with no per-caller compensating logic. This is the root-cause fix, not a symptom patch.
+- Standalone CR is preserved: `str.replace("\r\n", "\n")` only touches the exact two-character sequence. `"a\rb\n"` → `["a\rb", ""]`. Even the tricky case `"a\r\r\nb"` → `"a\r\nb"` after replace (replace is single-pass, non-overlapping, no rescan) → `["a\r", "b"]`, which is right: the lone CR survives and the CRLF is consumed.
+- Trailing empty records preserved: `"a\r\nb\r\n"` → `["a", "b", ""]`, `""` → `[""]`, identical to the prior `split("\n")` semantics.
+- No whitespace trimming, no `splitlines()` (which would have violated the contract by also splitting on lone `\r`, `\v`, `\f`, `\x1c`–`\x1e`, `\x85`, `\u2028`, `\u2029`).
+
+**Finding (non-blocking)**
+
+- `app/lines.py:test_newlines` — The tests cover LF, CRLF, and empty input, but not the two contract points most likely to regress if someone later "simplifies" this to `splitlines()` or adds a lone-`\r` replace: standalone CR preservation and mixed-convention input. Add cases such as `caller("a\rb\n") == ["a\rb", ""]`, `caller("a\r\r\nb") == ["a\r", "b"]`, and `caller("a\r\nb\n") == ["a", "b", ""]`. Cheap to add now, and they pin the exact behavior the reviewer notes call out as required.
+
+__ABLATION_DONE__ exit=0

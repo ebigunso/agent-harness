@@ -1,0 +1,35 @@
+**Verdict: block.** The change patches one symptom at one call site instead of fixing the transaction boundary that causes the partial transfer.
+
+**Findings**
+
+1. **`src/Transfers.java` — `LedgerService.transfer` (unchanged): root cause left in place.**
+   The defect is that debit is committed in its own transaction (`debitAndCommit`) and credit runs in a second one. The diff doesn't touch this. Per the reviewer notes, both accounts live in the same DB and `LedgerStore.inTransaction` can do both, so the correct fix is to make the transfer atomic:
+   ```java
+   void transfer(Transfer t) {
+       store.inTransaction(tx -> {
+           tx.debit(t.from(), t.amount());
+           tx.credit(t.to(), t.amount());
+       });
+   }
+   ```
+   Require this instead of compensation. Once the transfer is atomic, `CreditFailed` can no longer leave a committed debit, and the refund path is unnecessary.
+
+2. **`TransferRoutes.post` — compensating refund does not actually prevent partial transfers.**
+   The refund is a second committed write after the debit has already committed. If the process dies, the DB connection drops, or `refundAndCommit` itself throws between the debit commit and the refund, the customer is still debited with no credit — exactly the failure the task says to prevent. Compensation narrows the window; it does not close it. Only a single transaction does. Reject the try/catch.
+
+3. **`TransferRoutes.post` — only catches `CreditFailed`.**
+   Any other exception from the credit step (timeout, connection reset, unexpected runtime exception) propagates without refund, leaving the same partial state. This is a direct consequence of fixing at the wrong layer; with an atomic transaction in `LedgerService` the exception type is irrelevant because nothing committed.
+
+4. **Scheduled path not covered — task scope not met.**
+   The task explicitly names "HTTP and scheduled transfer jobs." `ScheduledTransferJob` calls `LedgerService.transfer` directly and receives no protection. The commit message ("refund failed HTTP transfers") confirms the author knowingly fixed only half. Fixing `LedgerService.transfer` covers both callers with one change; fixing it in the route means every present and future caller has to re-implement the same fragile compensation.
+
+5. **Layering: money-movement correctness pushed into the HTTP adapter.**
+   `TransferRoutes` now owns part of the ledger's consistency guarantee (and reaches directly into `LedgerStore` to do it). The invariant "a transfer is all-or-nothing" belongs in `LedgerService`, where the failure originates. After fixing (1), `TransferRoutes` should not need `LedgerStore` at all — drop that dependency rather than leave a hook that invites more local workarounds.
+
+**What I'd require before approval**
+- Make `LedgerService.transfer` a single transaction as in (1).
+- Remove the try/catch and the `LedgerStore` dependency from `TransferRoutes`.
+- Add a test that forces the credit step to fail and asserts the source balance is unchanged, exercised via both `TransferRoutes.post` and `ScheduledTransferJob`.
+- Reword the commit to describe the actual fix (atomic transfer), not the symptom.
+
+__ABLATION_DONE__ exit=0

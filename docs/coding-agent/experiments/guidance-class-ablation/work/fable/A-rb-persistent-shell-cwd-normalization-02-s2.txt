@@ -1,0 +1,20 @@
+**Cause:** Working-directory drift in the persistent shell. A prior `Set-Location` moved the shell to `C:/work/reports/tools`, so the relative path `scripts/check.py` resolved to `C:\work\reports\tools\scripts\check.py`, which does not exist (that directory contains only `inspect.py`). The script actually lives at `C:/work/reports/scripts/check.py`. Python's exit code 2 with `[Errno 2] No such file or directory` is the interpreter failing to open the script, not a script failure. The tool UI's remembered root (`C:/work/reports`) does not govern the shell's cwd. This is a workspace/cwd problem, not a code, environment, dependency, or permission problem.
+
+**Smallest safe remediation:** Run the command from the intended base, either by returning the shell there:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/reports'
+python scripts/check.py
+```
+
+or, without changing shell state, by using an absolute path:
+
+```powershell
+python 'C:/work/reports/scripts/check.py'
+```
+
+No file moves, no edits, no environment changes are warranted.
+
+**Confirmation:** The captured retry already validates this: after `Set-Location -LiteralPath 'C:/work/reports'`, `pwd` reports `C:/work/reports`, and the unchanged command `python scripts/check.py` exits 0 with stdout `checks passed` and empty stderr. Going forward, check `pwd` before running relative-path commands in this shell, or prefer absolute paths (or `Push-Location`/`Pop-Location`) so later commands aren't affected by leftover navigation.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,21 @@
+**Cause:** Not a workspace/cwd problem. `pwd` is already the intended root (`C:/work/reports`), and `scripts/check.py` and `README.md` resolve correctly from it. The command failed because it referenced a stale filename: `scripts/removed.py` was intentionally renamed to `scripts/check.py` in the committed tree (confirmed by `git log` / `git ls-files`, no uncommitted deletion). The command was replayed from old terminal history, and Python correctly reported `Errno 2` for a path that no longer exists.
+
+**Why cwd normalization doesn't apply:** The reference procedure says to normalize the working directory only when the path failure is caused by being in the wrong directory. Here before-cwd = intended root = final cwd, and the sibling file `scripts/check.py` is reachable. Re-running `Set-Location` and retrying `python scripts/removed.py` unchanged would fail identically. Per the guidance, when the cwd is already correct, look for another cause — which is the rename.
+
+**Smallest safe remediation:** Change nothing in the workspace. Run the command the README actually documents:
+
+```powershell
+python scripts/check.py
+```
+
+Do not recreate `scripts/removed.py`, do not add a shim/symlink, and do not revert the rename — the rename is committed and intentional.
+
+**Confirmation:**
+1. `pwd` → `C:/work/reports` (unchanged, no navigation needed).
+2. `git status --porcelain scripts/` → empty (no working-tree changes introduced).
+3. `python scripts/check.py` → exit code 0 and expected script output on stdout, no `Errno 2` on stderr.
+4. Optionally purge the stale history entry (`Remove-PSReadlineKeyHandler` isn't needed; just avoid recalling it, or edit `(Get-PSReadLineOption).HistorySavePath`) so it isn't replayed again.
+
+**Record:** before cwd `C:/work/reports` → normalized cwd `C:/work/reports` (no change) → retry of original command would still fail → final cwd `C:/work/reports` → status: not a cwd issue; resolved by using the current filename `scripts/check.py`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,45 @@
+**Verdict: block.** The change does not implement bounded retry; it converts every failure into an unterminated retry loop.
+
+**Findings**
+
+1. **`src/inventory.mjs`, `catch` block — unbounded retry, no attempt limit or overall budget.**
+   The catch recurses unconditionally. There is no attempt counter, no deadline, and (per the reviewer notes) no external scheduler to cap it. A persistent outage means `fetchInventory` never settles — callers hang forever rather than getting an error. Each attempt also consumes a full per-attempt timeout, so the effective latency for the caller is unbounded. Because the recursive call is returned without `await`, the promise chain (and captured closures) grows per attempt, so memory grows without bound as well.
+   *Require:* a fixed maximum number of attempts (e.g. 3) and/or an overall deadline, after which the function rejects.
+
+2. **Same location — permanent errors are retried.**
+   The notes state `ValidationError` is permanent (invalid SKU). The catch retries it identically to `TransportError`. An invalid SKU will never succeed, so this is an infinite loop for a caller bug that should have surfaced immediately. This is the opposite of the task ("transient failures").
+   *Require:* retry only on a recognised transient class (`error instanceof TransportError`, or an explicit `isRetryable` predicate); rethrow everything else immediately and unchanged.
+
+3. **Same location — the original error is swallowed and never reported.**
+   `error` is bound and discarded. Nothing is logged, nothing is attached to the eventual outcome, and since the function never rejects, the caller can never observe that anything went wrong. This hides failures completely — there is no signal to operators that the inventory service is degraded.
+   *Require:* when retries are exhausted, reject with an error that carries the last underlying error (`cause`), the SKU, and the attempt count; optionally log each retried attempt at debug/warn level.
+
+4. **Same location — no delay/backoff between attempts.**
+   Retries fire immediately on rejection. For fast-failing transport errors (connection refused, DNS) this is a tight loop hammering a service that is already unhealthy, which makes recovery less likely and amplifies load during an incident.
+   *Require:* exponential backoff with jitter between attempts, bounded by the overall budget from (1).
+
+5. **No tests.**
+   Retry logic is exactly the kind of code that needs a test for: succeeds after N transient failures; gives up after max attempts and rejects with the last error; does not retry `ValidationError`.
+   *Require:* unit tests covering those three cases with a stubbed `api.inventory`.
+
+**Sketch of what I'd accept**
+
+```js
+export async function fetchInventory(api, sku, { maxAttempts = 3, baseDelayMs = 100 } = {}) {
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await api.inventory(sku);
+    } catch (error) {
+      if (!(error instanceof TransportError)) throw error;
+      lastError = error;
+      if (attempt < maxAttempts) {
+        await sleep(baseDelayMs * 2 ** (attempt - 1) * (0.5 + Math.random()));
+      }
+    }
+  }
+  throw new Error(`inventory fetch failed for sku=${sku} after ${maxAttempts} attempts`, { cause: lastError });
+}
+```
+
+__ABLATION_DONE__ exit=0

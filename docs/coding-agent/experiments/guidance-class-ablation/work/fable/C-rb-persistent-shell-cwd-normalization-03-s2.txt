@@ -1,0 +1,20 @@
+**Cause:** Workspace cwd drift in the persistent shell, not a code or toolchain problem. A prior `Set-Location -LiteralPath 'C:/work/scratch'` left the shell in `C:/work/scratch` (confirmed by `pwd` and `Get-ChildItem -Name` showing only `notes.txt`). Cargo resolves the workspace by walking up from cwd looking for `Cargo.toml`; `C:/work/scratch` and its parents have none, so `cargo test -p api` failed with exit 101 and `could not find Cargo.toml in C:\work\scratch or any parent directory`. The tool UI's remembered root (`C:/work/rust-service`) does not govern the shell's actual cwd, which is why the mismatch was easy to miss.
+
+**Smallest safe remediation:** One explicit absolute navigation to the intended base, then rerun the command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/rust-service'
+cargo test -p api
+```
+
+No relative `cd ..` chains, no code/config/PATH changes. (Alternative that avoids depending on shell state at all: `cargo test --manifest-path 'C:/work/rust-service/Cargo.toml' -p api` — but that changes the command, so the cwd fix is the minimal one here.)
+
+**Confirmation (as recorded):**
+- Before: cwd `C:/work/scratch`; `cargo test -p api` → exit 101.
+- `Set-Location -LiteralPath 'C:/work/rust-service'` → exit 0; `pwd` → `C:/work/rust-service`.
+- `cargo test -p api` (unchanged) → exit 0; `test tests::ping ... ok`, `1 passed; 0 failed`; stderr shows normal `Finished`/`Running unittests src/lib.rs` build output only.
+- Final `pwd`: `C:/work/rust-service`.
+
+Status: **resolved**. The only variable that changed between the failing and passing runs was the shell's working directory, which isolates the cause. Going forward, avoid leaving the persistent shell in `C:/work/scratch` (or restore with `Push-Location`/`Pop-Location`), and treat a `pwd` check as the first step whenever cargo reports a missing `Cargo.toml`.
+
+__ABLATION_DONE__ exit=0

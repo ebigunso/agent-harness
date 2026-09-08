@@ -1,0 +1,18 @@
+**Cause:** This is not a workspace, path, or environment problem. The workspace root, `Cargo.toml`, the `api` member, and `api/src/lib.rs` all resolve correctly; `cargo metadata` succeeds; dependencies resolve; compilation finishes. `cargo test` exits 101 because a unit test genuinely failed: `tests::count` at `api/src/lib.rs:18:9` asserted `left == right` with `left: 4`, `right: 3`. Exit code 101 is Cargo's standard "test failed" status, not a tooling or filesystem error.
+
+**Remediation:** No workspace repair is needed — don't change directories, paths, or environment. The fix is a code-level decision in `api/src/lib.rs`:
+
+1. Look at line 18 and the function under test to determine which side is wrong:
+   - If the code under test is correct and the test's expectation is stale (e.g., a recent change legitimately makes the count 4), update the expected value in the assertion.
+   - If 3 is the correct behavior, fix the logic in the function that now returns 4 (the actual regression).
+2. Don't just flip the number to make it green without confirming which side is right — the observation calls it a regression, so the default assumption should be that the implementation changed and the test is catching a real bug.
+
+**Confirmation:** Re-run the narrowed command Cargo suggested:
+
+```powershell
+cargo test -p api --lib
+```
+
+Expect exit code 0 and output showing `test tests::count ... ok` with `1 passed; 0 failed`. Optionally run `cargo test -p api` (full package) to make sure no other tests were affected.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,17 @@
+**Verdict: not acceptable as-is.** The change stops the import from aborting, but it fails the second half of the task — the operator no longer gets an accurate outcome, and in fact gets a less accurate one than before.
+
+**1. `importer/load.py`, `except Exception: continue` + unconditional `return {"status": "complete"}`**
+
+- **What's wrong:** Every failed row is discarded with no record — nothing is logged, counted, or returned. The summary is the only thing the operator sees, and it says `"complete"` regardless of how many rows were dropped. `number` is already enumerated but never used, so even the row index that would identify the bad row is thrown away.
+- **Why it matters:** With the fixture input (one bad row among good ones), the operator is told the import completed and has no way to know a row is missing from the store, which row it was, or why. Before this change the failure was at least loud; now it is silent data loss disguised as success. This is the "converting failures into ambiguous states" anti-pattern directly.
+- **Require instead:** Capture each failure with its row number and the exception (e.g. `failed.append({"row": number, "error": str(e)})`), log it at warning/error level, and return a summary that reflects reality: counts of inserted vs. failed rows, the failed-row details, and a status that is not `"complete"` when `failed` is non-empty (e.g. `"partial"` / `"completed_with_errors"`). A caller must be able to distinguish "all rows in" from "some rows skipped" from the return value alone.
+
+**2. `importer/load.py`, `except Exception` is far broader than "a bad row"**
+
+- **What's wrong:** The handler catches everything — connection loss, auth failure, `AttributeError` from a wrong `store` object, `KeyboardInterrupt`-adjacent errors, etc. — and treats all of them as "skip this row."
+- **Why it matters:** If the store is unreachable, every single row raises, every one is skipped, and the function still returns `"complete"` having inserted nothing. Genuine bugs in the importer are also masked. The fallback is neither bounded nor safe.
+- **Require instead:** Catch only the exception type the store raises for a rejected/invalid row (or whatever the reviewer notes' "validates then commits" step raises on validation failure), and let everything else propagate. If the store's error hierarchy doesn't distinguish these, add a bound (e.g. abort if N consecutive rows fail, or if the first row fails) so a systemic outage cannot be reported as a clean run.
+
+Finding 1 is blocking on its own; finding 2 should be fixed in the same change since it's the same three lines.
+
+__ABLATION_DONE__ exit=0

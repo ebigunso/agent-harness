@@ -1,0 +1,24 @@
+**Verdict: block.** The change does not accomplish the stated task; it papers over one narrow case and leaves the actual defect in place.
+
+**Findings**
+
+1. **`invoices/allocate.go` — `httpMu` is a process-local mutex, but the race is cross-process.**
+   The reviewer notes state the HTTP service and batch workers are separate OS processes sharing one SQLite file. A `sync.Mutex` only serializes goroutines inside the HTTP process. It provides zero exclusion against `BatchCreate` running in another process, which is precisely the "HTTP and batch" collision the task asks to remove. The duplicate-ID failures will continue whenever HTTP and batch allocate concurrently. Required: a fix that is correct across processes (see #3).
+
+2. **`invoices/allocate.go` — `BatchCreate` is entirely unprotected.**
+   Even within a single batch process, concurrent batch goroutines still race each other through the same `SELECT MAX+1` / `INSERT` window. The diff is asymmetric with no justification; half the callers of the racy function were simply left alone.
+
+3. **`invoices/allocate.go` — the root cause (non-atomic read-then-write ID allocation) is untouched.**
+   `SELECT COALESCE(MAX(id),0)+1` followed by a separate `INSERT` is a TOCTOU race by construction; no amount of client-side locking fixes that across independent processes. The notes say the database already supports authoritative auto-generated integer IDs. Required: drop the `SELECT MAX` entirely and let the database allocate — e.g. `INSERT INTO invoices DEFAULT VALUES` (or the equivalent for the schema) and return `result.LastInsertId()`. If for some reason the DB cannot assign the ID, the fallback is a single `BEGIN IMMEDIATE` transaction wrapping the read and insert so SQLite's file lock provides the exclusion. Either way, `httpMu` should be deleted; it's dead weight once the allocation is atomic.
+
+4. **Commit message / scope mismatch — "serialize HTTP invoice creation" is not the task.**
+   The task is to remove duplicate-ID failures across HTTP *and* batch. The commit message quietly redefines the deliverable to a subset that the author could implement without touching the schema or the SQL. Anyone reading the log would reasonably assume the bug is fixed. Required: either fix the actual problem or explicitly say in the message that this is a partial mitigation and the cross-process race remains — though given #3 there's no reason to ship a partial.
+
+5. **`invoices/allocate.go` — the mutex adds cost while masking the symptom.**
+   Serializing all HTTP creations through a global lock adds tail latency under load and will reduce the *observed* failure rate (HTTP-vs-HTTP collisions go away), making the remaining cross-process failures look rarer and harder to reproduce. That's a net negative for diagnosability. This follows from #1–3 and is resolved by the same fix.
+
+6. **`invoices/allocate.go` — `import ("database/sql"; "sync")` is not `gofmt`-formatted.** Minor, but it should be a standard multi-line import block; CI/gofmt checks will flag it. (Moot if `sync` is removed per #3.)
+
+**What I'd require to approve:** remove `httpMu` and the `SELECT MAX` query; have `allocate` perform a single insert that relies on the database's auto-generated integer primary key and return `LastInsertId()`. Add a test that runs `HTTPCreate` and `BatchCreate` concurrently (ideally from two processes, or at minimum two connections) and asserts no `UNIQUE`/primary-key failures and no duplicate IDs.
+
+__ABLATION_DONE__ exit=0

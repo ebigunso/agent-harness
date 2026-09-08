@@ -1,0 +1,36 @@
+**Cause**
+
+`progress.py` prints `"Working 🧪"`, and U+1F9EA (🧪) has no representation in CP932. Because stdout is a pipe rather than an interactive console, CPython (with `utf8_mode = 0`) does not use the Unicode console API; it falls back to the process's ANSI code page — CP932 on this machine — so `sys.stdout.encoding` is `cp932` and the encode raises at `print`. (Note the reference's "Windows consoles" scope is slightly misleading here: an interactive PowerShell window would likely have printed the emoji fine; the redirect/pipe is what triggers the legacy code page.)
+
+The script's work already completed — it's a read-only scan — so this is an output-encoding problem, not a workspace or data problem. `flush=True` is irrelevant: it only changes *when* the encode happens, not *which* codec is used, so its addition not helping is expected.
+
+**Smallest safe remediation**
+
+Rerun with the encoding override, no code change:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python progress.py
+```
+
+(or equivalently `python -X utf8 progress.py`).
+
+No cleanup needed from the failed attempt: the script only reads files and the failure occurred at print time.
+
+For a lasting fix in the script you own, set the encoding explicitly at the top of `progress.py`:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+If the emoji is purely decorative and consumers might be legacy-code-page tools, `sys.stdout.reconfigure(errors="replace")` or dropping the emoji are alternatives, but `encoding="utf-8"` is the correct fix for the stated intent.
+
+**Confirmation**
+
+1. The rerun exits 0 and stdout contains `Working 🧪` (or, if the consumer can't render it, at least the bytes `f0 9f a7 aa` with no traceback).
+2. Under the same pipe, `$env:PYTHONIOENCODING='utf-8'; python -c "import sys; print(sys.stdout.encoding)"` reports `utf-8`.
+3. Evidence to keep: the original traceback (`cp932` / `'\U0001f9ea'`) and the successful override command.
+
+One caveat downstream: if the consumer of the pipe is PowerShell itself capturing into a variable, `[Console]::OutputEncoding` may still be CP932 and show mojibake rather than an error; set `[Console]::OutputEncoding = [Text.Encoding]::UTF8` in that session if so. That's a display concern, not a failure of `progress.py`.
+
+__ABLATION_DONE__ exit=0

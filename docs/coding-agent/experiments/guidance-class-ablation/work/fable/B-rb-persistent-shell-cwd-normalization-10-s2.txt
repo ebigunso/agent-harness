@@ -1,0 +1,22 @@
+**Cause:** cwd drift in the persistent shell. A prior `Set-Location -LiteralPath 'C:/work/notes'` left the shell in `C:/work/notes`, which is not inside a Git working tree (`C:/work/notes` contains only `today.txt`, and neither it nor its parent `C:/work` has a `.git`). `git status --porcelain` therefore failed with exit 128 / `fatal: not a git repository`. The tool UI's remembered workspace root (`C:/work/repo`) is not the shell's actual cwd. This is a workspace/cwd problem, not a Git, code, config, PATH, or permission problem — nothing else changed between attempts.
+
+**Smallest safe remediation:** explicitly navigate to the intended base, then rerun the original command unchanged:
+
+```powershell
+pwd                                       # expect C:/work/notes (pre-normalization)
+Set-Location -LiteralPath 'C:/work/repo'
+git status --porcelain
+```
+
+Do not stack repeated `cd C:/work/repo && ...` chains across retries in the persistent session; one explicit `Set-Location` to the target is sufficient. No changes to the repo, Git config, or files are needed.
+
+**Confirmation:** after normalization, `pwd` reports `C:/work/repo` and `git status --porcelain` exits 0 with empty stdout/stderr (a clean tree — the empty output is expected and correct, not a silent failure). This matches the captured comparison run. Optionally `git rev-parse --show-toplevel` should print `C:/work/repo` for extra assurance.
+
+**Evidence record:**
+- Failing command: `git status --porcelain` → exit 128, `fatal: not a git repository (or any of the parent directories): .git`
+- Pre-normalization cwd: `C:/work/notes`
+- Normalized cwd: `C:/work/repo`
+- Rerun result: exit 0, stdout/stderr empty
+- Status: **resolved** (root cause: cwd drift from prior `Set-Location` in the persistent shell)
+
+__ABLATION_DONE__ exit=0

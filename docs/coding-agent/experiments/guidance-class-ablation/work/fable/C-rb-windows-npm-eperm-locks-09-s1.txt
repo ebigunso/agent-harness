@@ -1,0 +1,22 @@
+**Cause:** This is a workspace problem, not an npm/registry/permissions issue. `npm ci` removes `node_modules` and tried to unlink `node_modules\node-pty\build\Release\pty.node`, but Windows refuses to unlink a loaded DLL. `tasklist /m pty.node` shows the holder: `electron.exe` PID 4109, the repo's own Electron terminal preview (launched from `C:/work/npm-lock/preview/main.js`), which has that exact module mapped. Permissions, ACLs, lockfile sync, and registry access are all fine.
+
+**Smallest safe remediation:**
+
+1. Stop the Electron preview gracefully — close its window or stop the dev task/terminal that launched `preview/main.js`. This is a repo-owned process, so stopping it is safe.
+2. Verify the module is released: `tasklist /m pty.node` should print "No tasks are running which match the specified criteria."
+3. Retry the original command: `npm ci`.
+
+Only if the preview won't exit cleanly: `taskkill /PID 4109 /F` (PID confirmed above as the pty.node holder), then repeat steps 2–3. Don't kill by image name — that could take out unrelated Electron instances.
+
+**Confirmation:**
+
+- `tasklist /m pty.node` shows no holders before the retry.
+- `npm ci` exits 0 with no EPERM/unlink errors.
+- `node_modules\node-pty\build\Release\pty.node` exists and is freshly rebuilt (new timestamp).
+- If it still fails: check which module is now named in the error and run `tasklist | findstr node` / `tasklist /m <module>.node` to find any other holder.
+
+**One caveat before restarting the preview:** `npm ci` rebuilds node-pty against Node 20's ABI, not Electron's. The preview loaded an Electron-ABI build, so after the install you'll likely need to re-run your electron-rebuild step before relaunching it, otherwise it will fail to load `pty.node`.
+
+**Record for the log:** original command `npm ci`; error `EPERM unlink ...\node-pty\build\Release\pty.node` (errno -4048); module `pty.node`; `tasklist /m pty.node` → electron.exe PID 4109 (repo preview, `preview/main.js`); PIDs killed (none if closed gracefully, else 4109); retry result.
+
+__ABLATION_DONE__ exit=0

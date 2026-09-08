@@ -1,0 +1,22 @@
+**Verdict: not acceptable — block.**
+
+**1. `lib/amounts.rb`, `accounting_amount` — the fourth caller is still wrong.**
+The task is explicitly "web, email, receipts **and accounting exports**", and the reviewer notes state all four callers must yield `12.34` for `cents=1234`. `accounting_amount` still returns `serialize(invoice)[:dollars]`, i.e. `1234`. The commit message ("visible presenters") shows this omission was a deliberate scoping choice, not an oversight, but it directly contradicts the task. Accounting exports are arguably the highest-risk consumer — a 100× error there ends up in ledgers and tax filings. Require: `accounting_amount` returns the same converted value as the other three.
+
+**2. `lib/amounts.rb`, `serialize` — the bug is at the source, not in the callers.**
+`serialize` returns `{ dollars: invoice.cents }`: an integer of cents under a key whose documented contract is a decimal dollar value. Patching three of four callers leaves the contract violated for every present and future consumer of `serialize` (the missed `accounting_amount` is the proof). Require: fix it once in `serialize`:
+
+```ruby
+def serialize(invoice)
+  { dollars: BigDecimal(invoice.cents) / 100 }
+end
+```
+
+and revert all four `*_amount` methods to `serialize(invoice)[:dollars]`. That makes the fix complete by construction and removes the three copy-pasted conversion expressions (which are already a maintenance hazard — the next unit change has to be made in N places).
+
+**3. Missing tests.**
+Nothing in the diff pins the behaviour the reviewer notes describe. Require: a test asserting `cents=1234` → `BigDecimal("12.34")` for `serialize(...)[:dollars]` and for all four `*_amount` helpers, so the accounting path can't silently regress again.
+
+Minor (non-blocking): `BigDecimal(x.to_s)` is unnecessary when `x` is already an Integer — `BigDecimal(x)` is exact. Harmless, but if the conversion moves into `serialize` per #2, drop the `.to_s`.
+
+__ABLATION_DONE__ exit=0

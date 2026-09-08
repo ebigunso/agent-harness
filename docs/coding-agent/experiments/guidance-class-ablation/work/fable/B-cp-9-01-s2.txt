@@ -1,0 +1,21 @@
+**Verdict: block.** The change does the opposite of the task — it makes timeouts *invisible* to callers instead of useful.
+
+**Finding 1 — `accounts/list.go`, the new `errors.Is(err, context.DeadlineExceeded)` branch**
+
+*What's wrong:* On a database timeout the function returns `[]Account{}, nil`. Per the reviewer notes, a nil error is serialized as HTTP 200 and an empty list means "this account has no records." So a slow/unavailable database now produces a response that is byte-for-byte identical to a legitimate "you have zero accounts" answer.
+
+*Why it matters:*
+- **Ambiguous, incorrect state.** Callers (UI, downstream services, batch jobs) cannot distinguish "no accounts" from "we don't know." Anything that acts on an empty list — showing an empty-state onboarding screen, deleting orphaned records, reconciling balances, deciding a user has nothing to migrate — will act on false data. There is no stale-result or degraded-mode contract that would make an empty list a permissible fallback.
+- **Failure is swallowed, not surfaced.** No error, no log, no metric. A database that is timing out on every request will look like a healthy service returning 200s. Alerting on error rate will stay quiet; the first signal will be users reporting missing accounts.
+- **Unbounded, unsafe fallback.** Section 9 asks that fallbacks be safe, observable, and bounded. This one is none of those: it is unsafe (wrong answer), unobservable (nil error, nothing emitted), and unbounded (applies on every timeout forever, with no circuit breaker or budget).
+- **Retry signal is lost.** A timeout is exactly the case where a caller *should* retry or back off. A 200 tells them not to.
+
+*What I'd require instead:* Keep returning an error on timeout, and make it more useful rather than less:
+- Return a distinguishable error the transport layer can map to a meaningful status — e.g. a package-level `ErrTimeout` (or a typed error) that wraps the original: `return nil, fmt.Errorf("list accounts: %w", errors.Join(ErrTimeout, err))` or a custom type implementing `Unwrap`. The existing `%w` already preserves `errors.Is(err, context.DeadlineExceeded)`, so at minimum the current behavior should stay; the improvement is giving callers a stable sentinel to switch on.
+- Have the HTTP layer map that to 503/504 (with `Retry-After` if you want to be helpful) rather than 200.
+- Emit a log line/metric on the timeout path so the failure is diagnosable.
+- If "keep listing available during timeouts" is a genuine product requirement, that needs an explicit stale-data contract (cache, clearly flagged `partial`/`stale` response, bounded staleness) — not an empty list masquerading as truth. That is a separate design change, not a three-line branch.
+
+The commit message ("keep account listing available") describes an availability goal, but returning a wrong answer with a 200 is not availability; it's silent data corruption from the caller's point of view.
+
+__ABLATION_DONE__ exit=0

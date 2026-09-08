@@ -1,0 +1,29 @@
+**Verdict:** This is a workspace/environment problem (Docker Desktop port publishing on the IPv6 loopback), not a bug in the probe or the service.
+
+**Cause**
+
+`localhost` resolves to `::1` first, so grpc-java's pick_first opens `[::1]:50051`. Docker Desktop's host-side port proxy accepts the TCP connection on `::1`, but that IPv6 listener does not actually forward to the container: the h2c connection preface goes out, no SETTINGS/response headers ever come back, and the call times out. Because the TCP connect *succeeded*, grpc-java never treats the subchannel as failed and never falls over to the second address (`127.0.0.1`); the RPC just sits in the deadline until the probe maps it to exit 2 / `DEADLINE_EXCEEDED`. That also explains why you get DEADLINE_EXCEEDED rather than UNAVAILABLE.
+
+Evidence lines up:
+- TCP connect to `[::1]:50051` succeeds, no HTTP/2 headers → accepted but unforwarded.
+- Interceptor log has no entry for the failed call → the request never reached the service.
+- Identical call to `127.0.0.1:50051` → exit 0, `pong`, `invoked=true completed=true`.
+- curl on `:50080` succeeds via `localhost` because curl does happy-eyeballs/quick fallback (or the 50080 mapping happens to forward on v6); it isn't a counter-example for the gRPC channel's single-address behavior.
+
+**Smallest safe remediation**
+
+Target the IPv4 loopback explicitly instead of `localhost`:
+
+```powershell
+java -jar probes/grpc-probe.jar --target 127.0.0.1:50051 --timeout 2
+```
+
+No code, config, or container change. If you must keep `localhost` as the target, the next-smallest option is a JVM flag rather than a Docker change: `java -Djava.net.preferIPv4Stack=true -jar probes/grpc-probe.jar --target localhost:50051 --timeout 2`. (Republishing the port as `0.0.0.0:50051:50051` or fixing the Docker Desktop proxy is the durable fix but is a larger change and not required to unblock this call.)
+
+**Confirmation**
+
+1. Rerun with `127.0.0.1:50051`: expect exit 0, stdout `pong`, empty stderr.
+2. Check the service interceptor log for a new line `probe method="unary Echo" transport=h2c invoked=true completed=true` matching that invocation.
+3. Optionally prove the asymmetry rather than a transient: rerun `--target localhost:50051` and `--target "[::1]:50051"` and confirm both still hit DEADLINE_EXCEEDED, then `netstat -ano | findstr :50051` to show the listener is bound on `[::]`/`::1` by the Docker backend proxy. If the IPv6 variant ever starts succeeding, the underlying Docker issue has been fixed and you can revert to `localhost`.
+
+__ABLATION_DONE__ exit=0

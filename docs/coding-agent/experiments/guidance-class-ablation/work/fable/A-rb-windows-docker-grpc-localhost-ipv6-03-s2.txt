@@ -1,0 +1,30 @@
+**Cause**
+
+This is not a probe, dependency, or service bug. It's a host-networking asymmetry on the Windows/Docker Desktop side:
+
+- `localhost` resolves to `::1` first, then `127.0.0.1`. grpc-go's default pick_first takes the first address, so the channel dials `[::1]:50051`.
+- The TCP connect to `[::1]:50051` succeeds (Docker Desktop's host-side port proxy is listening on the IPv6 loopback), but nothing is forwarded end-to-end: no HTTP/2 server preface/SETTINGS ever arrives, and the service interceptor log shows no invocation. The connection is effectively a black hole past the proxy.
+- grpc-go won't mark the subchannel READY until the h2 handshake completes, and its per-connection timeout is longer than your 2 s RPC deadline, so the RPC dies as `DEADLINE_EXCEEDED` (not `UNAVAILABLE`), the probe exits 2, and `go run` wraps that as its own exit 1 with `exit status 2`.
+- The address-only comparison proves it: `127.0.0.1:50051` with everything else identical returns `pong`, exit 0, and the service logs `invoked=true completed=true`.
+
+The `curl` sibling passing is not a contradiction: curl uses Happy Eyeballs and falls back to `127.0.0.1` in a few ms (or the 50080 mapping happens to forward over v6), so it masks the problem that a single-address gRPC dial exposes.
+
+**Smallest safe remediation**
+
+Target the IPv4 loopback explicitly:
+
+```
+go run ./cmd/probe --target 127.0.0.1:50051 --timeout 2s
+```
+
+That changes nothing in code, config, or the container. If you need `localhost` to keep working for other callers, the next-smallest change is to publish the port bound to IPv4 (`-p 127.0.0.1:50051:50051`) or fix the Docker Desktop IPv6 loopback forwarding, but those are larger changes and not required to unblock this call.
+
+**Confirmation**
+
+1. Run the 127.0.0.1 command above: expect exit 0, stdout `pong`, empty stderr.
+2. Check the service log for a new line `probe method="unary Echo" transport=h2c invoked=true completed=true` for that run.
+3. Optionally re-run the original `localhost:50051` command once to confirm the failure still reproduces with only the address changed, so the fix is attributed to the address and not to timing. `netstat -ano | findstr 50051` showing listeners on both `0.0.0.0`/`::` is consistent with the diagnosis but not proof; the interceptor log is the decisive signal.
+
+Caveat: these are the supplied observations, not a live reproduction, and the exact layer inside Docker Desktop/WSL2 that drops the IPv6 path isn't pinned down — but the address-only A/B plus the missing interceptor entry is sufficient to act on.
+
+__ABLATION_DONE__ exit=0

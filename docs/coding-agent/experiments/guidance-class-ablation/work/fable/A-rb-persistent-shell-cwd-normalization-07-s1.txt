@@ -1,0 +1,14 @@
+**Cause:** Wrong working directory in the persistent shell, not a code or toolchain problem. The earlier `Set-Location -LiteralPath 'C:/work/assets'` moved the shell's cwd to `C:/work/assets` (which contains only `logo.svg`, no `go.mod`). `go test ./...` resolves the pattern relative to the shell's cwd, so Go found no main module there and reported `directory prefix . does not contain main module or its selected dependencies`. The tool UI's remembered root (`C:/work/go-service`) is separate from the shell's actual cwd and does not affect where `go` runs.
+
+**Smallest safe remediation:** Navigate back to the module root in that same shell before running the command:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/go-service'
+go test ./...
+```
+
+No changes to code, `go.mod`, PATH, dependencies, or configuration are needed. (Alternatively, `go -C 'C:/work/go-service' test ./...` avoids changing cwd, but resetting cwd is the cleaner fix since the shell is persistent and later commands will assume the correct base.)
+
+**Confirmation:** After `Set-Location`, `pwd` reports `C:/work/go-service`, `Get-ChildItem -Name` lists `go.mod` and `service_test.go`, and `go test ./...` exits 0 with `ok example.test/go-service …` and empty stderr — which matches the captured comparison run. A final `pwd` still showing `C:/work/go-service` confirms the shell is left in the intended base for subsequent commands.
+
+__ABLATION_DONE__ exit=0

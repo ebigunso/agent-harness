@@ -1,0 +1,15 @@
+**Verdict: block.** The change achieves "continue past a bad row" but fails the second half of the task — the operator gets an inaccurate outcome.
+
+**Findings**
+
+1. **`importer/load.py`, `except Exception: continue` + unconditional `return {"status": "complete"}`**
+   - *What's wrong:* A failed insert is discarded with no record, and the summary still reports `complete`. Given the reviewer notes (summary is the only operator-visible result; no external log records failed rows), the invalid row simply vanishes. The row number is already available (`number`) but unused.
+   - *Why it matters:* This is the exact failure mode the guideline warns about — a failure converted into an ambiguous (here, actively misleading) state. The operator cannot tell that data was dropped, which row, or why, and has no way to remediate.
+   - *Require:* Capture each failure with its row number and error (e.g. `failures.append({"row": number, "error": str(e)})`), and return a summary that reflects it: counts of inserted/failed rows, the failure list, and a status that is not `complete` when anything failed (e.g. `partial`). Optionally also log each failure.
+
+2. **`importer/load.py`, catching bare `Exception`**
+   - *What's wrong:* The handler treats every exception as "this row is bad." Store outages, auth errors, and programming bugs in `insert` are caught identically.
+   - *Why it matters:* If the store is unreachable, every row raises, every row is skipped, and the function still returns `complete` — a total failure reported as success. Fallback is unbounded and unsafe.
+   - *Require:* Catch only the row-level error type(s) the store raises for invalid data (or a validation exception), and let everything else propagate. If the store doesn't distinguish, at minimum add a bound (e.g. abort if failures exceed a threshold or if *all* rows fail) so systemic failures aren't masked.
+
+__ABLATION_DONE__ exit=0

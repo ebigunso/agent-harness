@@ -1,0 +1,17 @@
+**Cause**
+
+This is a workspace/local-networking problem, not a server or application fault. On this Windows/Docker Desktop host, `localhost` resolves to `::1` first, and grpc-js connected to `[::1]:50051`. Docker Desktop's IPv6 published-port proxy accepted the TCP connection but never returned HTTP/2 response headers, so the client sat until the 2s deadline and exited 2 with `DEADLINE_EXCEEDED`. The service never saw the call (no interceptor log entry), which rules out server-side slowness or a method/auth error. The HTTP/1.1 health check on `localhost:50080` succeeding in 12 ms shows plain TCP/HTTP over the same proxy path works — the stall is specific to h2c through the `::1` mapping. The address-only comparison confirms it: identical RPC against `127.0.0.1:50051` succeeded (`pong`, exit 0, server log shows `invoked=true completed=true`).
+
+**Smallest safe remediation**
+
+Change the local target from `localhost:50051` to `127.0.0.1:50051` in the project's local config / probe invocation. No change to the service, container, published ports, or probe code is needed. (Optional alternative if you prefer to keep the hostname: force IPv4 resolution for local dev, e.g. an explicit `127.0.0.1` entry or a grpc-js DNS option — but the target string change is the minimal, lowest-risk fix.)
+
+**Confirmation**
+
+1. Re-run `node probes/unary.mjs --target 127.0.0.1:50051 --timeout 2` → expect exit 0, stdout `pong`, empty stderr, and a new `invoked=true completed=true` line in the service interceptor log.
+2. Re-run the original `--target localhost:50051` once more to confirm it still fails identically (exit 2, `DEADLINE_EXCEEDED`), establishing the address as the sole variable.
+3. Record for the ticket: both targets/port (`[::1]:50051` vs `127.0.0.1:50051`), the deadline output, REST timing (`200`, 0.012 s), and the IPv4 retry result.
+
+If the IPv4 retry had also failed, the next step would be checking `docker ps`/`docker inspect` for the port mappings and container health — but here that is not indicated.
+
+__ABLATION_DONE__ exit=0

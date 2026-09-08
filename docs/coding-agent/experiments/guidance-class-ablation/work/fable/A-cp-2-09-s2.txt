@@ -1,0 +1,11 @@
+**Verdict: not acceptable — block.**
+
+1. **`src/mesh.cpp`, `mesh_indices` loop (`i <= vertex_count`) — root cause left in place.**
+   The off-by-one in the loop bound is what produces the invalid index: for `vertex_count = N` it emits `N+1` indices, the last of which is `N`, out of range `[0, N-1]`. The diff doesn't touch this line. Since `production_indices` returns `mesh_indices(...)` unchanged, production rendering still emits an out-of-range index and validation will still reject it. The task explicitly required fixing production; half the task is undone. Require: change the bound to `i < vertex_count` (or equivalent) so the shared generator is correct for every caller.
+
+2. **`src/mesh.cpp`, `preview_indices` — clamp masks the bug instead of fixing it.**
+   After the clamp, preview still returns `vertex_count + 1` entries (violating the stated "one index per vertex" contract), and the final two entries are both `vertex_count - 1`. That's a duplicate/degenerate index the renderer will happily accept, so the preview now silently draws wrong geometry (an extra reference to the last vertex) where previously validation surfaced the defect. It also makes preview and production diverge in index count and content, so the preview no longer represents what production will render. Require: delete the clamp entirely; once finding 1 is fixed, `preview_indices` needs no transformation.
+
+3. **No regression test.** A trivial check that `mesh_indices(N).size() == N` and `max element == N-1` (and the same for both public wrappers) would have caught both the original bug and the fact that this patch doesn't fix it. Require adding one alongside the corrected loop bound.
+
+__ABLATION_DONE__ exit=0

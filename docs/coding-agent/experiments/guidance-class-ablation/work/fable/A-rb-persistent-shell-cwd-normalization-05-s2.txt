@@ -1,0 +1,28 @@
+**Cause**
+
+This is a working-directory drift issue, not a project/tooling fault. The earlier `Set-Location -LiteralPath 'C:/work/inventory/src'` moved the persistent shell's cwd to `C:/work/inventory/src`, while the tool UI still reports `C:/work/inventory` as the workspace root. The relative path `Tests/Tests.csproj` therefore resolved to `C:/work/inventory/src/Tests/Tests.csproj`, which does not exist — hence MSBuild's `MSB1009: Project file does not exist`. The real file is at `C:/work/inventory/Tests/Tests.csproj`.
+
+Evidence: `pwd` showed `C:/work/inventory/src`; `Get-ChildItem -Name` listed only `Inventory.csproj` (no `Tests` folder); absolute-path inspection confirms the project lives one level up.
+
+**Smallest safe remediation**
+
+Either restore the shell's cwd to the intended base before running the command:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/inventory'
+dotnet test Tests/Tests.csproj
+```
+
+or, without changing cwd, use the absolute path:
+
+```powershell
+dotnet test 'C:/work/inventory/Tests/Tests.csproj'
+```
+
+No code, config, dependency, PATH, or permission changes are needed. Going forward, avoid relying on relative paths in a persistent shell after any `Set-Location`, or `pwd`-check first.
+
+**Confirmation**
+
+The captured comparison already validates the fix: after `Set-Location -LiteralPath 'C:/work/inventory'`, `pwd` showed `C:/work/inventory`, and the identical `dotnet test Tests/Tests.csproj` returned exit 0 with `Passed! - Failed: 0, Passed: 1, Skipped: 0, Total: 1 … Tests.dll (net8.0)`. Nothing else differed between the failing and passing runs, which isolates cwd as the sole cause. To re-verify independently: run `pwd` (expect `C:/work/inventory`), `Test-Path -LiteralPath 'Tests/Tests.csproj'` (expect `True`), then the test command (expect exit 0 and no MSB1009).
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,32 @@
+**Verdict: block.** The change doesn't fix the reported failure; it narrows a race in one caller within one process and leaves the actual cause untouched.
+
+### Findings
+
+**1. `invoices/allocate.go`, `allocate()` — root cause not addressed; ID collision race remains.**
+The defect is that `allocate` does a non-atomic read-then-write: `SELECT MAX(id)+1` followed by a separate `INSERT`. Any two concurrent callers can read the same `MAX(id)` and both attempt the same primary key. The diff leaves this sequence exactly as it was. Per the reviewer notes, the HTTP service and batch workers are *separate OS processes* sharing one SQLite file, so a Go `sync.Mutex` is invisible to the other writer — the batch process will still race the HTTP process (and other HTTP replicas, if any). This is a symptom patch layered next to the bug, not a fix.
+
+Required: make ID allocation atomic at the database, which is the only place that spans both processes. The notes say the schema supports authoritative auto-generated integer IDs, so the correct change is to stop computing the ID in application code entirely:
+
+```go
+func allocate(db *sql.DB) (int64, error) {
+    res, err := db.Exec("INSERT INTO invoices DEFAULT VALUES")
+    if err != nil {
+        return 0, err
+    }
+    return res.LastInsertId()
+}
+```
+
+(with `id` declared as `INTEGER PRIMARY KEY` / autoincrement so SQLite allocates it). If for some reason the column cannot be auto-generated, the fallback is a single `BEGIN IMMEDIATE` transaction around the select+insert so SQLite's write lock serializes allocators across processes — but that should be the second choice, not the first.
+
+**2. `invoices/allocate.go`, `BatchCreate()` — half the callers named in the task are excluded.**
+The task is "across HTTP and batch workers." `BatchCreate` gets no protection at all, and the commit message ("serialize HTTP invoice creation") confirms the scope was silently reduced. Even accepting a mutex as a fix, applying it to only one of two entry points would still leave HTTP-vs-batch and batch-vs-batch collisions. Fixing #1 in `allocate` makes this moot; that's the right place because both callers share it.
+
+**3. `invoices/allocate.go` — the added mutex should be removed, not kept alongside the real fix.**
+`httpMu` is exactly the kind of compensating logic the guidelines warn against: it serializes all HTTP invoice creation in-process (a throughput cost) while providing no correctness guarantee, and it will mislead future readers into thinking allocation is safe. Once the database owns ID generation, the mutex and the `sync` import should go.
+
+**4. Nits (would not block on their own):**
+- `import ("database/sql"; "sync")` is not gofmt-formatted; run `gofmt`.
+- Commit message should describe the actual fix ("use DB-generated invoice IDs to eliminate allocation collisions"), not a partial workaround.
+
+__ABLATION_DONE__ exit=0

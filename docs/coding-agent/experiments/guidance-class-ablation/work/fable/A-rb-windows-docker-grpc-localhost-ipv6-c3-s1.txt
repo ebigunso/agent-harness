@@ -1,0 +1,34 @@
+## Diagnosis
+
+**This is not a workspace problem.** It is an application-level authorization rejection, and the command behaved exactly as designed.
+
+### Cause
+
+The gRPC call succeeded end-to-end at every infrastructure layer:
+
+- **Transport/connectivity works.** The server-side evidence shows `invoked=true`, and the response arrived in ~15 ms. A connectivity, port-publishing, or h2c-transport fault would have produced `UNAVAILABLE` (exit 2) or a deadline, not a fast, clean rejection.
+- **`localhost` vs `127.0.0.1` is a non-factor.** Both address forms produce identical results, ruling out the Docker Desktop / WSL2 loopback address asymmetry you flagged as a hypothesis. The HTTP sibling on 50080 also returns 200 in 12 ms, confirming loopback and publishing are healthy.
+- **The rejection is a policy decision.** The server's interceptor recorded the request, then returned `PERMISSION_DENIED: role required`. The probe maps `PERMISSION_DENIED` to exit 3, so exit 3 with that stderr is the correct, faithful reporting of an authorized-but-unpermitted call.
+
+In short: the `Private` method requires a role/credential the probe did not present. The environment, build, ports, and transport are all fine.
+
+### Smallest safe remediation
+
+Supply the credential the interceptor expects, rather than changing anything in the environment. Concretely, in order of least intrusive:
+
+1. **Re-invoke the probe with the required role/metadata** (e.g., an auth token or role header), if the probe contract supports passing call credentials. The stated contract (`--target`, `--timeout`, `--method`) shows no credential flag, so confirm whether the probe accepts one before assuming it can.
+2. If the probe cannot attach credentials, **target a method the caller is already authorized for** to prove the path, or have the server grant the caller the required role.
+
+Do **not** disable TLS checks (there are none), change addresses, extend timeouts, or rebuild — none of those touch the actual cause and all add risk.
+
+### Confirmation
+
+- **Positive path:** Re-run `Private` with the correct role and expect exit `0` and non-empty stdout (the probe prints response values only after a successful call).
+- **Cross-check the boundary is authz, not transport:** Run the probe against a public/unauthenticated method on the same `localhost:50051`; expect exit `0`. This confirms the channel works and isolates the failure to authorization.
+- **Server-side:** Expect the interceptor log to change from `status=PERMISSION_DENIED` to a success status for the credentialed call, with `invoked=true` unchanged.
+
+### Note
+
+If your actual goal was simply to verify the service is reachable and serving h2c, that is already proven by `invoked=true` plus the 15 ms rejection — no remediation is needed. Remediation is only warranted if the objective is to obtain a successful `Private` response.
+
+__ABLATION_DONE__ exit=0

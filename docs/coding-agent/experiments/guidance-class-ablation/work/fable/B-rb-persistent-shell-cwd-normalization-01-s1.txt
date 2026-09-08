@@ -1,0 +1,26 @@
+**Cause: cwd drift in the persistent shell (workspace/navigation issue, not a code or build problem).**
+
+The prior command `Set-Location -LiteralPath 'C:/work/shop/web'` left the persistent shell's cwd at `C:/work/shop/web` (confirmed by `pwd` and by `Get-ChildItem -Name` showing `package.json`, `src`, `node_modules`). The failing command `cd web && npm run build` assumed it was starting from the base `C:/work/shop`, so the relative `cd web` resolved to `C:\work\shop\web\web`, which does not exist. `Set-Location` failed with status 1 and `&&` short-circuited, so `npm run build` never ran. Note the tool UI's remembered root (`C:/work/shop`) does not reflect the shell's actual cwd — that mismatch is what made the stacked `cd web` assumption unsafe.
+
+**Smallest safe remediation**
+
+Normalize cwd explicitly, then rerun the original command unchanged:
+
+```powershell
+pwd                                          # confirm pre-fix cwd: C:/work/shop/web
+Set-Location -LiteralPath 'C:/work/shop'     # return to intended base
+cd web && npm run build                      # original command, unchanged
+```
+
+No changes to code, dependencies, config, PATH, or permissions are needed. Going forward in this persistent session, avoid re-stacking relative `cd web` on retries; either navigate once from the base or use an absolute path (`Set-Location -LiteralPath 'C:/work/shop/web'; npm run build`).
+
+**Confirmation (already captured)**
+
+- Pre-normalization cwd: `C:/work/shop/web`
+- Normalized cwd after `Set-Location -LiteralPath 'C:/work/shop'`: `C:/work/shop` (status 0)
+- Rerun `cd web && npm run build`: status 0, stdout `> web@1.0.0 build` / `> tsc`, stderr empty
+- Final `pwd`: `C:/work/shop/web`
+
+Status: **resolved**. Root cause was cwd drift in the persistent shell, not a workspace, dependency, or build failure.
+
+__ABLATION_DONE__ exit=0

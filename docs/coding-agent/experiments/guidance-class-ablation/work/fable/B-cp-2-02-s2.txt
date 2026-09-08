@@ -1,0 +1,28 @@
+**Verdict: not acceptable as-is.** The change patches one symptom in one caller and leaves the actual defect in place.
+
+**Findings**
+
+1. **`src/Transfers.java`, `LedgerService.transfer` — root cause untouched.**
+   The partial transfer exists because `transfer` does `debitAndCommit` (its own committed transaction) and then `credit` in a *second* transaction. Anything that fails between those two commits leaves the debit stranded. The diff does not change this; it adds compensation downstream. Per the reviewer notes, both accounts live in the same database and `LedgerStore` can transact both, so the correct fix is to make the operation atomic at its source:
+   ```java
+   void transfer(Transfer t) {
+       store.inTransaction(tx -> {
+           tx.debit(t.from(), t.amount());
+           tx.credit(t.to(), t.amount());
+       });
+   }
+   ```
+   With that, a credit failure rolls back the debit and no compensation is needed anywhere. I would require this and would require the refund logic in `TransferRoutes` be removed rather than kept as a belt-and-braces.
+
+2. **`src/Transfers.java`, `TransferRoutes.post` — the compensation is itself not safe, so it doesn't even reliably fix the HTTP path.**
+   `refundAndCommit` is a separate committed write, not a rollback. If the process dies, the DB connection drops, or `refundAndCommit` throws between the committed debit and the refund, the account is left debited — exactly the bug the task is about, now just with a smaller window. It also only catches `CreditFailed`; any other exception escaping after `debitAndCommit` (timeout, connection loss, a different store error) still produces a partial transfer. And the refund is a second ledger entry rather than an absence of the first, which pollutes balance history/audit with debit/refund pairs for transfers that "didn't happen." A single transaction has none of these problems.
+
+3. **`ScheduledTransferJob` — task scope not met.**
+   The task explicitly covers HTTP *and* scheduled transfer jobs. `ScheduledTransferJob` calls `LedgerService.transfer` directly and gets nothing from this diff. The commit message ("refund failed HTTP transfers") confirms the author consciously narrowed scope. Fixing `LedgerService.transfer` (finding 1) covers both callers automatically; copying the try/catch/refund into the job would just duplicate fragile compensating logic in a second module, which is the pattern the review guidance says to reject.
+
+4. **`TransferRoutes` — layering: route handler reaching into `LedgerStore`.**
+   Minor relative to the above, but the HTTP layer now performs ledger writes directly (`store.refundAndCommit`). Once transactionality lives in `LedgerService`, `TransferRoutes` should not need a `LedgerStore` at all; I'd drop that dependency from the constructor so future callers can't be tempted to repeat this pattern.
+
+**Required change, in short:** make `LedgerService.transfer` a single transaction wrapping debit and credit; delete the refund/catch from `TransferRoutes.post`; remove `LedgerStore` from `TransferRoutes`; verify `ScheduledTransferJob` needs no change because it goes through the same now-atomic method. Add a test that forces `credit` to throw and asserts the source balance is unchanged, exercised for both callers.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,33 @@
+**Cause**
+
+This is a workspace/environment problem, not a code-logic problem. The DB read succeeded and `row.description` is already a correct Unicode string (`"Launch 🚀"`). The crash happens only when `print` encodes it for stdout: `sys.stdout.encoding` is `cp932`, which cannot represent U+1F680 (🚀).
+
+One correction to the runbook's framing: stdout here is a *pipe*, not an interactive console, so the encoding isn't inherited from the console code page. For a non-tty stream on Windows with `utf8_mode = 0`, Python falls back to the locale ANSI code page (`locale.getpreferredencoding()`), which is CP932 on a Japanese-locale machine. Same failure mode, same fix — just a different source of the bad default. Note that since the string is still Unicode before `print` and nothing was written, there are no partial side effects to clean up.
+
+**Smallest safe remediation**
+
+Rerun with the I/O encoding override, without touching the script or the database:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python db_report.py
+```
+
+(`$env:PYTHONUTF8 = 1` would also work but is broader — it changes file-open defaults too — so the targeted `PYTHONIOENCODING` is the smaller change.)
+
+If this report is run routinely, the durable fix in `db_report.py` is to make the output encoding explicit at startup so it no longer depends on the caller's locale or on whether stdout is a tty:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+Make sure whatever consumes the pipe expects UTF-8 (e.g. a redirect to a file, or a PowerShell caller with `[Console]::OutputEncoding` / `$OutputEncoding` set to UTF-8), otherwise you'll trade a crash for mojibake.
+
+**Confirmation**
+
+1. Verify the override is effective in the *same piped context*:
+   `python -c "import sys; print(sys.stdout.encoding)" | Out-String` → should print `utf-8`.
+2. Rerun `python db_report.py` under the override: exit code 0, no `UnicodeEncodeError`, and the line `Launch 🚀` appears intact in the captured output (or in the redirected file when opened as UTF-8).
+3. Optionally confirm no side effects: the script only prints, and the observation already shows no committed writes, so there's nothing to roll back.
+
+__ABLATION_DONE__ exit=0

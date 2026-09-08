@@ -1,0 +1,25 @@
+**Cause**
+
+`npm install` needs to replace `onnxruntime-node`'s native addon and tries to `unlink` `node_modules\onnxruntime-node\bin\napi-v3\win32\x64\onnxruntime_binding.node`. On Windows a loaded DLL/`.node` file is mapped into the process address space and cannot be deleted or overwritten, so the unlink fails with `EBUSY` (errno -4082). `tasklist /m` confirms the file is loaded by `node.exe` PID 4108, which is this repository's own model preview server (`workers/model-preview.js`). This is not a permissions, lockfile, cache, or registry problem — the probe-file test and ACL check already rule those out. It is a workspace problem: a process owned by the repo is holding the artifact that install must replace.
+
+**Smallest safe remediation**
+
+Stop the preview server (it is repo-owned, so stopping it is in scope), rerun the install, then restart the worker:
+
+```powershell
+Stop-Process -Id 4108
+npm install
+# restart the preview worker however it is normally launched, e.g.
+node C:/work/npm-lock/workers/model-preview.js
+```
+
+Prefer a graceful stop if the worker has one (e.g., its own shutdown signal or the terminal/task that launched it); use `-Force` only if the plain stop doesn't release the file. Do not delete `node_modules`, clear the npm cache, or change lock/ACL settings — none of those address the mapped-file lock.
+
+**Confirmation**
+
+1. Before rerunning: `tasklist /m onnxruntime_binding.node` should report no processes (message "INFO: No tasks are running which match the specified criteria").
+2. `npm install` exits 0 with no `EBUSY` in stderr.
+3. `npm ls onnxruntime-node` shows the expected version with no errors, and the binary exists at the same path.
+4. After restarting the worker, it loads the addon successfully (no `Module did not self-register` / `The specified module could not be found` errors) and `tasklist /m onnxruntime_binding.node` again shows the new PID — proving the worker is using the freshly installed binary.
+
+__ABLATION_DONE__ exit=0

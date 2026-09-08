@@ -1,0 +1,31 @@
+**Verdict:** not a workspace/environment problem. The script's assertion is measuring pipeline unrolling, not JSON framing.
+
+**Cause**
+
+`$parsed = $raw | ConvertFrom-Json` emits the parsed value through the pipeline. `ConvertFrom-Json` enumerates a top-level array by default, so the one-element array `[null]` is unrolled and its single element — `$null` — is what lands in `$parsed`. That's why stdout shows `parsed type=<null>` and why `$parsed -isnot [array]` throws. The wire value is a legal singleton array; the script is discarding the framing before it checks it. (Any singleton array would misfire the same way; `[null]` just makes it look like the parser returned nothing.)
+
+**Smallest safe remediation**
+
+You're on pwsh 7.4.6, so `-NoEnumerate` is available. Change line 5 to:
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+```
+
+(`$raw | ConvertFrom-Json -NoEnumerate` also works because the result is assigned rather than re-piped; the `-InputObject` form just removes the pipeline from the picture entirely.) Do not pipe `$parsed` anywhere afterward or it will unroll again.
+
+Nothing else needs to change: `$null -eq $parsed` is a scalar-on-left comparison so it does not filter the array and correctly yields `False`; `.GetType().FullName` will report `System.Object[]`; `-isnot [array]` becomes false.
+
+If this ever has to run under Windows PowerShell 5.1 (no `-NoEnumerate`), fall back to asserting on the raw string instead: `$raw.Trim().StartsWith('[') -and $raw.Trim().EndsWith(']')`.
+
+**Confirmation**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`. Expect exit code 0 and stdout ending in `parsed type=System.Object[]`, with `$parsed.Count` equal to 1 if you add a count line.
+2. Spot-check the contract boundaries by substituting `$raw`:
+   - `'[]'` → `System.Object[]`, count 0, passes
+   - `'[1,2]'` → `System.Object[]`, count 2, passes
+   - `'null'` → `<null>`, throws (correct rejection of scalar)
+   - `'1'` → `System.Int64`, throws (correct rejection of scalar)
+3. Capture the raw string, the element count, and the exact parse/assert line with the result, so the singleton case is documented as a regression check rather than rediscovered later.
+
+__ABLATION_DONE__ exit=0

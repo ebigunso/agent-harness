@@ -1,0 +1,41 @@
+**Verdict: workspace/code problem, not an environment fault — a locale-default file encoding.**
+
+**Cause**
+
+Line 25 does `open('report.txt','w')` with no `encoding=`. On this Windows box the locale default is cp932 (`utf8_mode = 0`), so the file handle is cp932, and `text` contains U+2014 (em dash), which Python's cp932 codec cannot map. The write raises `UnicodeEncodeError`.
+
+Two things to be clear about:
+
+- **stdout is not involved.** `sys.stdout.encoding = cp932` is true but irrelevant — the traceback is on the file write, and stdout was empty. So `PYTHONIOENCODING=utf-8` (from the reference notes) would *not* fix this; it only affects stdio.
+- **There is a partial effect.** `'w'` truncates before the write, so the previous valid `report.txt` is already gone (0 bytes). Nothing else was mutated, and the inputs are intact, so a rerun is safe and will regenerate it.
+
+**Smallest safe remediation**
+
+Fix the owned handle in `export_report.py`, line 25:
+
+```python
+with open('report.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+(The `with` also closes the handle deterministically; the original one-liner leaked it.)
+
+If you need a rerun *before* touching code, the command-scoped equivalent is Python's UTF-8 mode, which changes the `open()` default (unlike `PYTHONIOENCODING`):
+
+```powershell
+$env:PYTHONUTF8=1; python export_report.py
+```
+
+Prefer the code fix — it's one line, it's the actual defect, and it doesn't depend on every caller remembering an env var.
+
+**Confirmation**
+
+1. `python export_report.py` → exit code 0, no traceback.
+2. `report.txt` is non-zero size:  
+   `(Get-Item report.txt).Length`
+3. The em dash round-trips as UTF-8:  
+   `python -c "print(open('report.txt', encoding='utf-8').read().count('\u2014'))"` → ≥ 1  
+   (or check bytes: `Format-Hex report.txt` shows `E2 80 94`).
+4. Optional regression guard: `chcp` / locale unchanged, `PYTHONUTF8` unset, and the script still succeeds — proves the fix is in the code, not the shell.
+
+__ABLATION_DONE__ exit=0

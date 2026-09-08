@@ -1,0 +1,27 @@
+**Verdict: not acceptable as-is.** The change compensates for the bug at one call site instead of fixing the transaction boundary that causes it, and it leaves the scheduled job unfixed.
+
+1. **`src/Transfers.java` — `LedgerService.transfer` (unchanged, but this is where the defect lives).**
+   The debit is committed in its own transaction (`debitAndCommit`) and the credit runs in a second one. That split is the partial-transfer bug. The reviewer notes state both accounts are in the same database and `LedgerStore` can transact both, so the correct fix is to make the transfer atomic:
+   ```java
+   void transfer(Transfer t) {
+       store.inTransaction(tx -> {
+           tx.debit(t.from(), t.amount());
+           tx.credit(t.to(), t.amount());
+       });
+   }
+   ```
+   With that, a credit failure rolls back the debit and no compensation code is needed anywhere. I'd require this change rather than a caller-side refund.
+
+2. **`src/Transfers.java` — `TransferRoutes.post`: compensating refund is not equivalent to atomicity.**
+   Between `debitAndCommit` returning and `refundAndCommit` completing, the debit is durable and visible while the credit never happened. If the process dies, the DB connection drops, or `refundAndCommit` throws, the partial transfer persists — which is exactly what the task says to prevent. A compensation pattern is only justifiable when the two writes *can't* share a transaction; here they can. Remove this try/catch once (1) is in place.
+
+3. **`src/Transfers.java` — `TransferRoutes.post`: only `CreditFailed` is handled.**
+   Any other failure out of the credit transaction (timeout, SQL/runtime exception, thread interruption) escapes without a refund, leaving the debit committed. Even taken on its own terms, the patch narrows the fix to one exception type. This becomes moot with (1), which is another reason to fix the boundary rather than enumerate failure modes at callers.
+
+4. **Scope — `ScheduledTransferJob` is not fixed.**
+   The task explicitly names scheduled transfer jobs, and the notes say `ScheduledTransferJob` calls `LedgerService.transfer` directly. It receives none of this patch's protection; it will still produce partial transfers. Fixing at the `LedgerService` level covers both HTTP and scheduled callers with one change; fixing per-caller would require duplicating the refund logic in the job as well. The commit message ("refund failed HTTP transfers") accurately describes what was done, which is narrower than what was asked.
+
+5. **Minor / follow-up — `TransferRoutes` holding `LedgerStore`.**
+   Once the refund is removed, `TransferRoutes` no longer needs a `LedgerStore` dependency (it's only used for the refund). Not blocking, but I'd drop the field and constructor parameter rather than leave a route handler with direct store access whose only purpose was to bypass the service's transaction boundary.
+
+__ABLATION_DONE__ exit=0

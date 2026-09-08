@@ -1,0 +1,24 @@
+**Verdict: Block.** The change does the opposite of the task.
+
+**Findings**
+
+1. **`src/PaymentClient.java`, `catch (GatewayTimeout timeout)` block — timeout is treated as success.**
+   - *What's wrong:* On `GatewayTimeout` the code calls `store.markPaid(order.id())` and returns `ChargeStatus.PAID`. The catch body is byte-for-byte identical to the success path, so a timeout is indistinguishable from a confirmed capture.
+   - *Why it matters:* Per the notes, a timeout can occur before **or** after remote capture. The outcome is unknown at this point. Asserting `PAID` fabricates state: if the capture never happened, the order ships/fulfils unpaid and the customer is never charged; if it did happen, we got lucky. Either way the local ledger no longer reflects reality, and downstream systems (fulfilment, receipts, refunds) act on a fiction. This is exactly the misreporting the task was meant to prevent — and the commit message ("complete checkout on gateway timeout") shows the intent was wrong, not just the implementation.
+   - *Require instead:* Model the ambiguity explicitly. The infrastructure for this already exists (pending + reconciliation are supported). On timeout:
+     - `store.markPending(order.id(), order.paymentKey())` (or equivalent) and return `ChargeStatus.PENDING`, so the order does not proceed as paid, **and**
+     - hand off to reconciliation (e.g. enqueue a status check keyed by `paymentKey`) so the pending state is bounded and resolves to PAID or FAILED, **or**
+     - optionally, because `paymentKey` is stable and the gateway is idempotent, retry `gateway.charge` a bounded number of times first; only if retries also time out fall through to PENDING + reconcile. Never resolve to PAID without a gateway response confirming it.
+
+2. **Same location — failure is swallowed silently.**
+   - *What's wrong:* The `GatewayTimeout` is caught and discarded; nothing is logged, no metric, the exception object isn't even referenced.
+   - *Why it matters:* Gateway timeouts are an operational signal (gateway degradation, network issues). Hiding them removes the only evidence that the payment path is unhealthy, and makes any later reconciliation mismatch impossible to trace back to its cause.
+   - *Require instead:* Log at warn/error with `orderId`, `paymentKey`, and the timeout details (cause, elapsed), and emit a counter/metric. Preserve the exception as the cause if anything is rethrown or wrapped.
+
+3. **Minor / structural — duplicated success path.**
+   - *What's wrong:* `store.markPaid(...); return ChargeStatus.PAID;` appears in both the catch and the fall-through. Even setting aside finding 1, duplicating the success path inside an error handler blurs the boundary between "confirmed" and "unknown" and invites the next edit to keep them in lockstep incorrectly.
+   - *Require instead:* Distinct outcomes should have distinct code paths and distinct return values; the catch block should not be able to reach the PAID path.
+
+**Acceptable-as-is?** No. Finding 1 is a correctness defect that creates real financial misreporting; the change must be rewritten to return PENDING and reconcile (with optional bounded idempotent retry) rather than PAID.
+
+__ABLATION_DONE__ exit=0

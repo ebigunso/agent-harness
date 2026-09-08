@@ -1,0 +1,22 @@
+**Cause:** This is not a workspace or environment problem. `npm test -- --runInBand` ran Jest successfully; Jest exited 1 because one test failed on an application assertion: `test/count.test.js` → "counts visible items" expected `3`, received `4`. Install is healthy (`npm ci` exited 0 on the unchanged lockfile), no watcher is running, and there is no EPERM/EBUSY/native-module unlink error anywhere in the output.
+
+**Why the loaded reference doesn't apply:** The Windows native-module lock runbook is triggered by EPERM/EBUSY on `<module>.node` during `npm ci`/`npm install`. None of those symptoms are present. Do not run `tasklist /m`, do not `taskkill` anything, do not reinstall `node_modules` — that would be busywork with no bearing on the failure.
+
+**Smallest safe remediation:** Fix the code-under-test or the test expectation, whichever is actually wrong. Concretely:
+
+1. Open `test/count.test.js` and read the "counts visible items" case: what fixture it builds, what "visible" is supposed to mean, and what function it calls.
+2. Look at the implementation being called (the counting/filtering function). Determine whether it is incorrectly counting an item that should be excluded (e.g., a hidden/filtered item leaking through, an off-by-one, or a boundary condition like `>=` vs `>`).
+3. If the implementation is wrong, correct the filter/boundary so it returns 3 for that fixture.
+4. If the fixture or requirement changed and 4 is now correct, update the expectation — but only after confirming that with the intent of the test, not just to make it green.
+
+Use `git log`/`git diff` on those two files to see which side changed most recently; that usually tells you which side is the regression.
+
+**Confirmation:**
+
+```powershell
+npm test -- --runInBand
+```
+
+Expected: `Test Suites: 1 passed, 1 total`, `Tests: 1 passed, 1 total`, exit code 0 (`$LASTEXITCODE` → `0`). Optionally run the single test first for a tighter loop: `npx jest test/count.test.js --runInBand`.
+
+__ABLATION_DONE__ exit=0

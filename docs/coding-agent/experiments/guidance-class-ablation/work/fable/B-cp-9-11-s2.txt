@@ -1,0 +1,19 @@
+**Verdict: block.** The change does the opposite of what the task asks — it converts a bad_alloc into a permanent hang of the only dispatch thread.
+
+**Findings**
+
+1. **`src/service.cpp`, `Service::process` — unbounded retry on a deterministic failure.**
+   Per the reviewer notes, validated input can legitimately exceed the fixed worker memory limit, and an identical retry cannot reduce the allocation size. For such inputs `allocate_and_run` will throw `bad_alloc` every time, so `for (;;)` never exits. The service has a single dispatch thread, so one oversized request wedges the entire service — exactly the failure the task was meant to prevent. Beyond that, the loop is a hot spin (no backoff, no yield), so it also pegs a core while wedged.
+   *Required:* the failure must be bounded and terminal. Either bound the retry count (and only if a retry can plausibly succeed, e.g. transient pressure from other allocations) and then fail the request, or don't retry at all and surface the allocation failure as a request-level error — e.g. return an error `Result` or rethrow with context. If retries are kept, add backoff and a hard cap.
+
+2. **`src/service.cpp`, catch block — failure is swallowed with no observability.**
+   `catch (const std::bad_alloc&) { continue; }` discards the exception with no log, metric, or counter. When the loop from finding 1 wedges the worker, operators have no signal that an allocation failure occurred or which input caused it; the service just goes silent. Even with a bounded retry, each attempt is invisible.
+   *Required:* record the failure (input identity/size, attempt number) before any retry, and emit a distinguishable error to the caller when giving up, so the failure path is diagnosable rather than indistinguishable from a hang.
+
+3. **Commit message / design — "retry until successful" is the wrong contract.**
+   The message states the intent as retrying indefinitely, so this isn't an implementation slip; the design itself assumes allocation failures are always transient. The notes establish they are not. The correct handling for over-limit input is to reject it (ideally the size check could happen earlier, at validation, so the worker never attempts the allocation).
+   *Required:* revise the approach to reject/fail oversized input deterministically; consider adding a pre-allocation size check against the worker limit so `bad_alloc` is reserved for genuinely transient conditions.
+
+**Not a finding (noted for completeness):** the notes confirm `allocate_and_run` releases partial resources on throw and has no external side effects before success, so a *bounded* retry would be safe with respect to resource leaks and duplicate effects. The `<new>` include is already present, so `std::bad_alloc` resolves. The problem is purely that the retry is unbounded and silent.
+
+__ABLATION_DONE__ exit=0

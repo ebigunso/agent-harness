@@ -1,0 +1,23 @@
+**Cause:** Persistent-shell cwd drift, not a code/config/dependency problem. A prior command in the same session had already done `Set-Location 'C:/work/shop/web'`, so the shell's cwd was `C:/work/shop/web` (confirmed by `pwd` and by `Get-ChildItem` showing `package.json`, `src`, `node_modules`). The failing command `cd web && npm run build` then tried to enter `C:\work\shop\web\web`, which doesn't exist. `Set-Location` failed (status 1) and, because of `&&`, `npm run build` never ran. The tool UI's remembered root (`C:/work/shop`) did not match the shell's actual cwd.
+
+**Smallest safe remediation:** Normalize the shell cwd to the intended base once, then rerun the original command unchanged:
+
+```powershell
+pwd                                        # pre-normalization: C:/work/shop/web
+Set-Location -LiteralPath 'C:/work/shop'
+pwd                                        # normalized: C:/work/shop
+cd web && npm run build
+```
+
+Going forward in this session, avoid stacking `cd web && ...` on retries; either run the command from a stable, explicitly-set base (as above) or, since the shell is already in `web`, just run `npm run build` directly.
+
+**Confirmation:** This is already verified by the captured comparison — after `Set-Location 'C:/work/shop'` (`pwd` → `C:/work/shop`), the unchanged `cd web && npm run build` returned status 0 with `> web@1.0.0 build` / `> tsc` and empty stderr, and the final `pwd` is `C:/work/shop/web`. Optionally also confirm `tsc` output exists (e.g. `Get-ChildItem C:/work/shop/web/dist` or whatever `outDir` tsconfig specifies).
+
+**Evidence record:**
+- Failing command: `cd web && npm run build` → `Set-Location: Cannot find path 'C:\work\shop\web\web' because it does not exist.` (status 1; npm never launched)
+- Pre-normalization cwd: `C:/work/shop/web`
+- Normalized cwd: `C:/work/shop`
+- Rerun: status 0, `tsc` ran cleanly
+- Status: **resolved** — root cause was cwd drift in the persistent shell; no workspace, code, or environment change was needed.
+
+__ABLATION_DONE__ exit=0

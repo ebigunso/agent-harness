@@ -1,0 +1,34 @@
+**Cause**
+
+Not a workspace/environment problem. The script hard-codes an invalid JSON literal: `$raw = '[1,'` is truncated after the comma (no second value, no closing `]`). `ConvertFrom-Json` rejects it with `ArgumentException: Invalid array passed in, extra trailing ','`, and because `$ErrorActionPreference = 'Stop'` that becomes a terminating error, so the script exits 1. The failure happens at parse time, before any array-shape/framing assertion could run; the `-NoEnumerate`/pipeline-unrolling concerns from the reference don't apply here (and `-NoEnumerate` doesn't exist on 5.1 anyway).
+
+**Smallest safe remediation**
+
+Fix the data, not the runtime. In `probes/parse.ps1` line 3, supply well-formed JSON:
+
+```powershell
+$raw = '[1,2]'
+```
+
+(If `$raw` is meant to come from an external producer in the real probe, the fix belongs upstream — the payload is being truncated before it reaches the script. If the intent is to *test* malformed input, wrap the parse in `try { ... } catch { ... }` instead and treat the exception as the expected outcome.)
+
+Optionally add the raw-framing check the reference recommends, since on 5.1 that's the only reliable way to prove wire framing:
+
+```powershell
+$t = $raw.Trim()
+if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw "raw JSON is not array-framed: $raw" }
+$parsed = $raw | ConvertFrom-Json
+Write-Output ('count=' + @($parsed).Count)
+```
+
+**Confirmation**
+
+Re-run `powershell.exe -NoProfile -File probes/parse.ps1` and check:
+
+- exit code `0` (`$LASTEXITCODE`),
+- stdout shows `raw=[1,2]` (and `count=2` if the count line was added),
+- stderr is empty — no `ConvertFrom-Json` ArgumentException.
+
+Record the raw string, the element count, and that the parse was `$raw | ConvertFrom-Json` on Windows PowerShell 5.1 (no `-NoEnumerate`).
+
+__ABLATION_DONE__ exit=0

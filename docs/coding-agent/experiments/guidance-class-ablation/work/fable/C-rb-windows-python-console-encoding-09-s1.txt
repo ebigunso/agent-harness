@@ -1,0 +1,44 @@
+**Cause**
+
+Not a workspace or check failure — all read-only checks passed. The crash is in the final `print`: stdout is a pipe, so CPython 3.12 (UTF-8 mode off, `sys.flags.utf8_mode = 0`) fell back to the locale encoding `cp1252`, which has no mapping for U+2713 CHECK MARK. `codecs.charmap_encode` raised `UnicodeEncodeError` before anything was written, hence empty stdout and exit 1. The result line was never emitted; the work before it is unaffected.
+
+**Partial effects before rerunning**
+
+`check.py` is a read-only checker and the traceback occurred at the output stage, so there is nothing to undo. Safe to rerun.
+
+**Smallest safe remediation**
+
+Command-scoped only, no persistent env or code change required:
+
+```powershell
+python -X utf8 check.py
+```
+
+(`-X utf8` enables UTF-8 mode for this process only, making `sys.stdout.encoding` `utf-8`.) Equivalent env-var form if you prefer the documented override, scoped to a single command without leaking into the session:
+
+```powershell
+cmd /c "set PYTHONIOENCODING=utf-8 && python check.py"
+```
+
+If you own `check.py` and want it to stop depending on the caller's environment, add at the top:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+and use `open(..., encoding="utf-8")` for any files it writes. That is the durable fix; the command-line override is the minimal one for this run.
+
+**Confirmation**
+
+Rerun with the override and check:
+
+- exit code `0`
+- stdout is `PASS ✓` (U+2713), no traceback on stderr
+- optionally `python -X utf8 -c "import sys; print(sys.stdout.encoding)"` in the same piped context prints `utf-8`
+
+If the consumer of the pipe is PowerShell itself and shows `PASS â€œ`-style mojibake, that is the consumer decoding UTF-8 bytes as cp1252; set `[Console]::OutputEncoding = [Text.Encoding]::UTF8` on the reading side — the Python side is already correct at that point.
+
+**Record for the log:** error `UnicodeEncodeError: 'charmap' codec can't encode character '\u2713'`, encoding `cp1252`, piped stdout, utf8_mode=0; override `python -X utf8 check.py` → exit 0, output `PASS ✓`.
+
+__ABLATION_DONE__ exit=0

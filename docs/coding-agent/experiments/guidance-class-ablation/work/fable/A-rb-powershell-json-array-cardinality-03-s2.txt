@@ -1,0 +1,20 @@
+**Cause (script logic, not the workspace):** PowerShell's pipeline enumerates collections. `ConvertFrom-Json` correctly parses `["north"]` into a one-element array, but when that array is emitted down the pipeline it is unrolled, and a single-element array collapses to its lone element — here the string `"north"`. Hence `parsed type=System.String` and the `-isnot [array]` assertion fires. The same mechanism would turn `[]` into `$null`, so the contract's "empty array accepted" case would also fail. The JSON, the runtime, and the environment are fine; the probe is testing the wrong value.
+
+**Smallest safe remediation:** keep the array intact with `-NoEnumerate` (available in PowerShell 7's `ConvertFrom-Json`). Change line 5 only:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Nothing else in the script needs to change; a scalar wire value such as `'"north"'` still yields `System.String` and is still rejected, which is what the contract wants.
+
+**Confirmation:**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`. Expect exit code 0 and `parsed type=System.Object[]` in stdout, no stderr.
+2. Spot-check the other contract cases in a one-liner:
+   ```powershell
+   pwsh -NoProfile -c "foreach ($j in '[]','[\"north\"]','[\"a\",\"b\"]','\"north\"') { $p = $j | ConvertFrom-Json -NoEnumerate; '{0,-12} -> {1} isArray={2}' -f $j, ($null -eq $p ? '<null>' : $p.GetType().FullName), ($p -is [array]) }"
+   ```
+   Expect the three array inputs to report `System.Object[] isArray=True` (with lengths 0, 1, 2) and the scalar to report `System.String isArray=False`.
+
+__ABLATION_DONE__ exit=0

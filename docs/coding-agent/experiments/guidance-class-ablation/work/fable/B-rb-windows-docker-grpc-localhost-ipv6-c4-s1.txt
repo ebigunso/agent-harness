@@ -1,0 +1,13 @@
+**Cause:** Not a transport, Docker, or workspace problem. The gRPC call reached the service over h2c and the server answered `UNIMPLEMENTED` because the requested method `Absent` does not exist on the deployed service; the descriptor exposes `Ping`. Exit 3 is the probe's documented mapping for `UNIMPLEMENTED`. The evidence rules out the loaded "localhost → `::1` hang" pattern: both `127.0.0.1:50051` and `localhost:50051` returned the same status promptly (no deadline, no `UNAVAILABLE`), the server access log recorded the request (`method=Absent transport=h2c status=UNIMPLEMENTED`), and the HTTP/1.1 sibling on 50080 is healthy. Connection string changes are neither needed nor relevant here.
+
+**Smallest safe remediation:** Fix the invocation, not the environment — call a method the service actually exposes:
+
+```powershell
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --method Ping
+```
+
+(If the intent was genuinely to call `Absent`, then the gap is in the service's deployed API surface, and the fix belongs in the service/descriptor — but nothing in the workspace or Docker setup should be changed for this failure.)
+
+**Confirmation:** The rerun with `--method Ping` should exit 0 and print the response value to stdout with nothing on stderr; the server log should show `method=Ping ... status=OK`. Optionally rerun with `--target localhost:50051 --method Ping` to show both addresses behave identically, confirming no address asymmetry is involved.
+
+__ABLATION_DONE__ exit=0

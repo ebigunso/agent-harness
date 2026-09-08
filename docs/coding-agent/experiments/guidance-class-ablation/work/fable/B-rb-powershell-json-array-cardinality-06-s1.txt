@@ -1,0 +1,33 @@
+**Verdict:** Not an environment/workspace problem. The runtime (PowerShell 7.4.6) and `ConvertFrom-Json -NoEnumerate` behave correctly; the probe script itself defeats `-NoEnumerate` by re-emitting the result through a function's output pipeline.
+
+**Cause**
+
+`Parse` does `$items = $raw | ConvertFrom-Json -NoEnumerate; $items`. The `-NoEnumerate` keeps `[7]` as a one-element `object[]` *inside* the function, but writing `$items` as the function's output sends it through the pipeline again, which unrolls the single-element array to its bare element. `$parsed = Parse` therefore receives `System.Int64` (exactly what stdout shows), and the `-isnot [array]` assertion throws. This is the "avoid re-piping the result" caveat from the reference: the check is measuring pipeline unrolling, not wire framing.
+
+**Smallest safe remediation**
+
+Prevent the second unroll at the function boundary. One-line change in `probes/cardinality.ps1`, line 5:
+
+```powershell
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; Write-Output -NoEnumerate $items }; $parsed = Parse
+```
+
+(`,$items` would also work — the unary comma wraps the array so the one unroll strips only the wrapper — but `Write-Output -NoEnumerate` states the intent explicitly.)
+
+This preserves the contract: `[]` → empty `object[]`, `[7]` → one-element `object[]`, `[1,2]` → `object[]`, scalar `7` → `Int64` (still rejected).
+
+If you'd rather not depend on pipeline discipline at all, the alternative from step 2 of the reference is to assert on framing instead: replace line 10 with
+
+```powershell
+$t = $raw.Trim(); if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+Either is sufficient; don't do both unless you want the parse-type check as a secondary signal.
+
+**Confirmation**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`. Expect exit code 0 and stdout ending in `parsed type=System.Object[]` with no stderr.
+2. Spot-check the contract's edges by temporarily setting `$raw` to `'[]'` and `'[1,2]'` (both must exit 0, type `System.Object[]`) and `'7'` (must exit 1 with `Expected JSON array`).
+3. Evidence to keep, per the reference: the raw string (`[7]`), element count (1), and the exact parse + assertion expressions above.
+
+__ABLATION_DONE__ exit=0

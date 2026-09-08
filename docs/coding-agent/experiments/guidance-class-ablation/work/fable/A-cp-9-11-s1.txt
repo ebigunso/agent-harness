@@ -1,0 +1,19 @@
+**Verdict: block.** The change converts a recoverable failure into an unrecoverable hang, which is the opposite of the task.
+
+1. **`src/service.cpp`, `Service::process` — unbounded retry loop wedges the dispatch thread.**
+   Per the notes, validated input can legitimately need more memory than the fixed worker limit, and identical retries cannot shrink the allocation. For such an input, `allocate_and_run` throws `bad_alloc` deterministically, `continue` re-runs it, and the loop never exits. With a single dispatch thread, that means one oversized request permanently wedges the service worker — exactly the failure mode the task was meant to fix. Before this change the exception at least propagated and the thread survived; now it is stuck forever.
+   Require: no unbounded retry. Either bound it (small N) or, given the notes say retries cannot help, don't retry at all — catch `bad_alloc` and convert it to an error `Result` (or a typed failure) that the caller/dispatcher can act on.
+
+2. **Same location — tight busy-spin with no backoff.**
+   Even in a hypothetical transient-pressure case, the loop spins at full CPU immediately re-attempting the same allocation, starving anything else on the box and giving memory no time to be freed. If any retry is kept, it needs backoff and a cap.
+
+3. **Same location — failure is silently swallowed; no signal to the caller or operator.**
+   The catch produces no log, metric, or error return. The caller has no way to distinguish "still working" from "stuck forever," and the oversized input is never reported or rejected, so it will be resubmitted and hang the worker again.
+   Require: on allocation failure, return/propagate a distinguishable error (e.g. `Result::error(OutOfMemory)`), log the input identifier and requested size, and emit a metric. Ideally also reject inputs whose memory requirement exceeds the worker limit at validation time so they never reach the engine.
+
+4. **Commit message "retry allocation until successful" is a misstatement of behavior and intent.**
+   "Until successful" is unbounded by design; the task is to *handle* allocation failure, not to wait for a fixed limit to change. The message should describe the actual policy (e.g. "return OutOfMemory error from Service::process instead of propagating bad_alloc").
+
+Minor/non-blocking: `<new>` being already included is fine for `std::bad_alloc`; catching only `bad_alloc` (not a broad `catch(...)`) is correct. The notes that `allocate_and_run` releases partial resources and has no external side effects before success mean a *bounded* retry would be safe — but they do not make an unbounded one acceptable.
+
+__ABLATION_DONE__ exit=0

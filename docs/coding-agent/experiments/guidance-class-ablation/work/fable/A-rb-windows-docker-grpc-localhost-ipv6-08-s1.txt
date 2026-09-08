@@ -1,0 +1,27 @@
+**Verdict:** This is not a workspace (files/build/dependency/cwd) problem and not a probe bug. It is a host networking address‑family problem: `localhost` resolves to `::1` first, and Docker Desktop's port publisher on the host accepts the TCP connection on `[::1]:50051` but never forwards it to the service, so the HTTP/2 handshake stalls until the 2 s deadline.
+
+**Cause, from the evidence**
+
+- Same method, payload, deadline, container and config; only the target differs: `127.0.0.1:50051` → exit 0, `pong`, interceptor log `invoked=true completed=true`. `localhost:50051` → exit 2, `DEADLINE_EXCEEDED`, and *no* entry in the interceptor log. So the request never reaches the service on the IPv6 path.
+- The channel used `[::1]:50051` because resolution ordered `::1` before `127.0.0.1`. gRPC's `pick_first` only falls over to the next address on a *connect* failure. Here the TCP connect *succeeds* (the host‑side Docker proxy is listening on `::1`) but no HTTP/2 SETTINGS/response headers arrive, so the subchannel sits in CONNECTING/half‑open until the deadline — no fallback to `127.0.0.1`.
+- The HTTP sibling is not a like‑for‑like control: curl does its own Happy‑Eyeballs‑style fallback across `::1`/`127.0.0.1`, and port 50080's forwarding may simply not have the same asymmetry. The captured `127.0.0.1` gRPC call is the proper control, and it isolates the address, not the service, TLS (none), method, or build.
+
+**Smallest safe remediation**
+
+Address the service by its working IPv4 loopback instead of the hostname:
+
+```powershell
+probes/grpc_probe.exe --target 127.0.0.1:50051 --timeout 2
+```
+
+(equivalently `ipv4:127.0.0.1:50051` to be explicit about the resolver). This changes nothing in the project, the container, or Docker configuration, and it's the exact configuration already shown to work.
+
+If you'd rather fix it for everyone using `localhost`, the next‑smallest change is on the Docker side, not the workspace: publish the port bound to IPv4 only (`-p 127.0.0.1:50051:50051`) so `::1` connects are refused (which gRPC *will* fall over from), or have the service bind dual‑stack (`[::]:50051`) so the IPv6 forward actually answers. I would not touch host DNS/hosts‑file ordering; that's broader than the problem.
+
+**Confirmation**
+
+1. Rerun the command above: expect exit 0, stdout `pong`, empty stderr, and a new interceptor line `probe method="unary Echo" transport=h2c invoked=true completed=true`.
+2. Rerun `--target localhost:50051 --timeout 2` once more: expect it to still fail with exit 2 / `DEADLINE_EXCEEDED` and no interceptor entry. That confirms the difference is the address family, not a transient.
+3. Optionally, `--target [::1]:50051 --timeout 2` explicitly: expect the same deadline failure, pinning the fault to the IPv6 forward. If you apply the Docker‑side fix instead, `localhost:50051` should then succeed (either by refused‑`::1`‑then‑IPv4 fallback, or by `::1` answering directly), again with the interceptor entry present.
+
+__ABLATION_DONE__ exit=0

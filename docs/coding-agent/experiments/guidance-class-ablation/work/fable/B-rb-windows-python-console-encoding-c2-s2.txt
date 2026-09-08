@@ -1,0 +1,25 @@
+**Cause**
+
+This is not the encoding failure the reference note describes. The traceback is a `PermissionError` (Errno 13) raised by `open('report.txt', 'w', encoding='utf-8')` — the script is being denied write access to `C:\work\py-report\report.txt` by that file's ACL. The encoding path is irrelevant: the open explicitly requested UTF-8, stdout was already UTF-8 in the captured-pipe environment, and the failure happened at the file-open step before any character was ever encoded. Setting `PYTHONIOENCODING` or calling `sys.stdout.reconfigure` would change nothing here.
+
+It *is* a workspace problem — a filesystem permission issue on the output file — not a code or interpreter defect.
+
+**Smallest safe remediation**
+
+Open mode `'w'` requires write permission on the existing file, and the ACL denies it for this user. Fix the ACL on that one file rather than changing the script or running elevated:
+
+```powershell
+icacls .\report.txt /grant "$env:USERNAME:(M)"
+```
+
+(Modify is sufficient for truncate-and-write; you can inspect the current ACL first with `icacls .\report.txt` or `Get-Acl .\report.txt | Format-List`.) If the file is deliberately locked down by someone else, the alternative that touches nothing shared is to have the script write to a different output path — but that requires a code/config change, so the ACL fix is the smaller change when you own the file.
+
+No cleanup is needed for the failed run: the open failed before truncation, so the existing `report.txt` content is intact and no partial output was produced.
+
+**Confirmation**
+
+1. `icacls .\report.txt` shows the user (or a group they belong to) with `M` or `F` and no explicit `DENY` for write.
+2. Rerun `python export_report.py`; exit code should be 0 with no traceback.
+3. `Get-Item .\report.txt | Select-Object Length, LastWriteTime` shows a fresh timestamp and non-zero size, and `Get-Content .\report.txt -Head 5` shows the expected report content (with any non-ASCII characters rendered correctly, confirming the UTF-8 write path works).
+
+__ABLATION_DONE__ exit=0

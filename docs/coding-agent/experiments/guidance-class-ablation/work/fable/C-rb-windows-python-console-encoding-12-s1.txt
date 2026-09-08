@@ -1,0 +1,42 @@
+**Cause**
+
+The script finished its real work. Line 45's `os.replace` atomically installed `manifest.json`, and read-only inspection confirms it is complete, valid, and byte-identical to the expected artifact (`{"title":"🚀","version":1}`). The traceback is from the *next* statement, `print('built ' + title)`: with stdout captured through a pipe and `utf8_mode = 0`, CPython 3.12 on this Windows box binds `sys.stdout` to the legacy ANSI code page (`cp932`, Japanese), which has no encoding for U+1F680 🚀. So the exit code 1 reflects a failed status message, not a failed build.
+
+This is not a workspace problem (no bad file, no corrupt state, no partial write) — it is a process-level stdout encoding mismatch in the captured-stream environment.
+
+**Partial-effect check before rerunning**
+
+- `manifest.json`: already replaced atomically, verified correct. Rerunning regenerates the same deterministic bytes, so a rerun is idempotent.
+- No counters, remote writes, or other side effects reported. Safe to rerun.
+
+**Smallest safe remediation**
+
+Override the stdout encoding for that one invocation only (PowerShell 7.4):
+
+```powershell
+$env:PYTHONIOENCODING='utf-8'; python build_manifest.py; Remove-Item Env:PYTHONIOENCODING
+```
+
+Equivalent and even more contained: `python -X utf8 build_manifest.py` (sets `utf8_mode=1` for just that process).
+
+Do not change the system locale/code page or global environment; do not edit the manifest.
+
+If you own `build_manifest.py` and want it to stop depending on the caller's environment, add near the top:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+and keep any file writes explicit: `open(path, "w", encoding="utf-8")` (the manifest write already produces correct UTF‑8 per the hash, so this is a hardening step, not a fix for this failure).
+
+**Confirmation**
+
+1. Exit code is `0` for the rerun.
+2. Captured stdout contains `built 🚀` — bytes `62 75 69 6c 74 20 f0 9f 9a 80` — with no traceback on stderr.
+3. `manifest.json` hash is unchanged from the pre-rerun inspection (proves the rerun was a no-op on the artifact).
+4. Optional sanity check in the same piped context: `python -c "import sys; print(sys.stdout.encoding)"` prints `cp932` without the override and `utf-8` with it.
+
+Record for the incident note: error `UnicodeEncodeError: 'cp932' codec can't encode character '\U0001f680'`, offending character U+1F680, override command as above, and the successful `built 🚀` output.
+
+__ABLATION_DONE__ exit=0

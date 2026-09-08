@@ -1,0 +1,29 @@
+**Cause**
+
+Not a code, build, or dependency problem — it's a local network-path problem in the Docker Desktop port publishing. `localhost` resolves to `::1` first, so the probe's channel dialed `[::1]:50051`. Docker Desktop's IPv6 port proxy accepted the TCP connection but never completed the HTTP/2 (h2c) exchange, so the unary Echo never reached the server and the client hit its 2s deadline. The evidence lines up:
+
+- Failed call: `[::1]:50051`, TCP connect OK, no HTTP/2 response headers, `DEADLINE_EXCEEDED`, and **no entry in the service interceptor log** (the request never arrived).
+- Identical call at `127.0.0.1:50051`: exit 0, `pong`, and the server logged `invoked=true completed=true`.
+- REST on 50080 at 12 ms only shows HTTP/1.1 is unaffected by that proxy path (or curl fell back to IPv4); it doesn't clear the h2c path on `::1`.
+
+Side note on the exit code: the probe itself exited 2 (as its contract says for deadline/UNAVAILABLE); `go run` reports its own exit 1 and prints `exit status 2`. That's normal `go run` behaviour, not an extra failure.
+
+**Smallest safe remediation**
+
+Point the local probe/config at the IPv4 loopback instead of `localhost`:
+
+```powershell
+go run ./cmd/probe --target 127.0.0.1:50051 --timeout 2s
+```
+
+and make `127.0.0.1:50051` the default in the local (dev-only) config. Don't change the server, the Docker port mappings, grpc-go, or the machine's IPv6/hosts settings — the IPv4 target is enough, is reversible, and is scoped to this workstation.
+
+**Confirmation**
+
+1. Rerun the probe against `127.0.0.1:50051` with the same method/payload/timeout: expect exit 0, `pong` on stdout, empty stderr, and a new `invoked=true completed=true` line in the interceptor log.
+2. Rerun against `localhost:50051` once more: if it still deadlines with no interceptor entry, that confirms the address is the only variable (already shown by the captured comparison).
+3. Record for the ticket: both targets and port (50051), the `DEADLINE_EXCEEDED` output, the REST timing (200, 0.012 s), and the IPv4 retry result.
+
+If both addresses had failed, the next step would be `docker compose ps` / port mappings and container health — but here the IPv4 success rules that out.
+
+__ABLATION_DONE__ exit=0

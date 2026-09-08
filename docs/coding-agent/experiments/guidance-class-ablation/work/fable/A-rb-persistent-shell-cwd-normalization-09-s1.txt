@@ -1,0 +1,13 @@
+**Cause:** Working-directory drift in the persistent shell. A prior `cd '/c/work/c-lib/tests'` left the shell's cwd at `C:/work/c-lib/tests`, while the tool UI still shows `C:/work/c-lib` as the workspace root. `make -f Makefile test` resolves `Makefile` relative to the shell's cwd, and `tests/` contains only `test_math.c` — hence `make: Makefile: No such file or directory` and exit 2. This is a shell-state problem, not a workspace, code, toolchain, or permissions problem (the Makefile exists at `C:/work/c-lib/Makefile`, and nothing else changed between attempts).
+
+**Smallest safe remediation:** Return the shell to the intended base before running make:
+
+```bash
+cd '/c/work/c-lib' && make -f Makefile test
+```
+
+Equivalently, without changing cwd: `make -C /c/work/c-lib -f Makefile test`. No edits to the Makefile, sources, PATH, or config are warranted.
+
+**Confirmation:** The captured retry already validates this: after `cd '/c/work/c-lib'`, `pwd` reports `C:/work/c-lib`, and the unchanged command `make -f Makefile test` exits 0 with `./build/test_math.exe` / `1 test passed` and empty stderr. To guard against recurrence, either run `pwd` (or `ls -1 Makefile`) before invoking make in this persistent shell, or use `make -C` with an absolute path so the command is independent of leftover cwd state.
+
+__ABLATION_DONE__ exit=0

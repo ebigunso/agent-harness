@@ -1,0 +1,44 @@
+**Verdict:** This is a workspace problem — a file-lock, not permissions or a broken lockfile.
+
+**Cause**
+
+`npm ci` deletes `node_modules` before reinstalling. On Windows, `unlink` of a DLL/`.node` addon that is currently mapped into a running process fails with `EPERM` (errno -4048, the libuv mapping of `ERROR_SHARING_VIOLATION`-class failures). Everything else checks out (lockfile in sync, cache/project writable, registry OK, probe file beside the module can be created/removed, no ACL denial), so the only remaining explanation is a holder — and `tasklist /m better_sqlite3.node` confirms it:
+
+- `Code.exe` PID 4110, the editor's integrated test host, has `C:\work\npm-lock\node_modules\better-sqlite3\build\Release\better_sqlite3.node` loaded. The test-host log corroborates the PID and absolute path, and no other process/extension uses the file.
+
+**Smallest safe remediation**
+
+1. Release the handle gracefully — do not start with `taskkill`. In the editor, stop the running test session / dispose the test runner, or "Reload Window" (or close VS Code) so the extension host that loaded the addon exits. Stopping just the test run is the smallest change; reloading the window is the next step if the host keeps the module mapped.
+2. Verify the holder is gone:
+   ```powershell
+   tasklist /m better_sqlite3.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. Re-run the original command:
+   ```powershell
+   npm ci
+   ```
+4. Only if step 1 cannot release it (host is hung), use the last resort against the *confirmed* PID and nothing broader:
+   ```powershell
+   taskkill /PID 4110 /F
+   ```
+   Then repeat steps 2–3. Do not `taskkill /IM Code.exe` or kill every `node.exe` — the observation identifies exactly one holder.
+
+**Confirmation**
+
+- `npm ci` exits 0 with no `EPERM`/`unlink` lines.
+- `node_modules\better-sqlite3\build\Release\better_sqlite3.node` exists with a fresh timestamp (`Get-Item ...node | Select LastWriteTime`).
+- `tasklist /m better_sqlite3.node` returns no holders (until the editor loads it again).
+- If the reinstall still fails, inspect the newly installed module and run `tasklist | findstr node` / `tasklist /m better_sqlite3.node` again to see whether a new process re-attached (e.g., the editor auto-restarted the test host on file change).
+
+**One caveat to plan for:** the previous binary was a source build compiled for the editor's runtime (Electron). `npm ci` will rebuild it for Node 20.18.0's ABI. If the editor test host then fails to load it (`NODE_MODULE_VERSION` mismatch), rerun your existing editor-runtime rebuild step (e.g., `electron-rebuild -f -w better-sqlite3`) before restarting the test session. That's expected, not a regression from the fix.
+
+**Record for the log**
+
+- Original command / error: `npm ci` → `EPERM unlink ...\better-sqlite3\build\Release\better_sqlite3.node`, errno -4048, exit 1.
+- Module: `better_sqlite3.node` (better-sqlite3 9.6.0, editor-runtime source build).
+- `tasklist /m` output: `Code.exe 4110 better_sqlite3.node`.
+- PIDs stopped: 4110 via graceful test-host stop/window reload (note if `taskkill /PID 4110 /F` was required instead).
+- Retry result: `npm ci` exit code and whether an editor-runtime rebuild was needed afterward.
+
+__ABLATION_DONE__ exit=0

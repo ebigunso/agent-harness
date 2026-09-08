@@ -1,0 +1,17 @@
+**Cause:** This is not a workspace, path, or environment problem. Cargo resolved the workspace and the `api` member correctly, dependencies resolved, and compilation succeeded. Exit code 101 is Cargo's standard "a test failed" status. The single failure is a genuine assertion in `api/src/lib.rs:18:9` inside `tests::count`: the code under test returned `4` where the test expected `3`. That's a logic/regression issue in the crate's code (or a stale expectation in the test), not something to fix by navigating, editing config, or re-running.
+
+**Smallest safe remediation:**
+1. Do not touch cwd, `Cargo.toml`, or the environment — they're already correct and nothing about them contributed.
+2. Reproduce narrowly: `cargo test -p api --lib tests::count`.
+3. Open `api/src/lib.rs` around line 18, read the assertion and the function it calls, and determine which side is wrong:
+   - If the function's behavior is correct and the test expectation is outdated, update the expected value to `4` (with a comment/commit message explaining the intended behavior change).
+   - If the test is correct and the function regressed, fix the counting logic so it yields `3`.
+   Don't guess — pick based on the documented/intended behavior, and use `git log -p api/src/lib.rs` or `git blame` to see what changed most recently if it's not obvious.
+4. Make only that one-line/one-function change; don't add `#[ignore]` or loosen the assertion.
+
+**Confirmation:**
+- `cargo test -p api --lib tests::count` → `test result: ok. 1 passed`, exit code 0.
+- Then `cargo test -p api` (and ideally `cargo test --workspace`) to make sure the fix didn't break other tests.
+- Optionally `RUST_BACKTRACE=1 cargo test -p api --lib tests::count` before the fix if the call chain to line 18 isn't clear from the source.
+
+__ABLATION_DONE__ exit=0

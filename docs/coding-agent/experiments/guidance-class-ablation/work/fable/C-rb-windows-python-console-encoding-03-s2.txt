@@ -1,0 +1,38 @@
+**Cause**
+
+This is an output-encoding problem, not a rendering bug. The Markdown was built successfully (`# Weather ☃`), and the failure is in `print(markdown)` at line 31. Because stdout is a pipe (not a console) and UTF-8 mode is off (`sys.flags.utf8_mode = 0`), CPython 3.12 on Windows falls back to the locale code page, `cp1252`, for `sys.stdout`. U+2603 (☃) has no mapping in cp1252, so the `charmap` codec raises `UnicodeEncodeError`.
+
+**Partial effects check**
+
+Safe to rerun: stdout is empty (the encode failed before anything was emitted), the traceback confirms no file writes, and the observation says none occurred. Nothing to clean up.
+
+**Smallest safe remediation**
+
+Override the stream encoding for just this invocation:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python md_report.py; Remove-Item Env:\PYTHONIOENCODING
+```
+
+(Equivalent and strictly per-invocation: `python -X utf8 md_report.py`.)
+
+If you own `md_report.py`, make it self-sufficient so callers don't need the env var — add before the print:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+and if a file writer is added later, use `open(path, "w", encoding="utf-8")` rather than relying on the locale default.
+
+Don't change the system locale or `chcp` globally; that's a larger blast radius than needed.
+
+**Confirmation**
+
+1. Rerun with the override; expect exit code 0 and stdout `# Weather ☃`.
+2. Verify the stream setting under the same piped conditions: `python -c "import sys; print(sys.stdout.encoding)"` with the override → `utf-8`.
+3. Caveat on the consumer side: PowerShell decodes native-command output using `[Console]::OutputEncoding` (OEM code page by default), so ☃ may render as mojibake in the captured text even though Python succeeded. If that happens, set `[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()` in the capturing session, or write to a file with `-Encoding utf8` and inspect bytes `E2 98 83`.
+
+**Record for the log**: error `UnicodeEncodeError: 'charmap' codec can't encode character '\u2603'` (☃, position 10, stdout encoding cp1252), override command as above, and the successful output `# Weather ☃` with exit code 0.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,24 @@
+**Cause**
+
+`npm ci` is a workspace-local file lock, not a permissions or manifest problem. The EPERM on `unlink` of `node_modules\better-sqlite3\build\Release\better_sqlite3.node` occurs because `npm ci` wipes `node_modules` first, and Windows refuses to unlink a loaded native DLL. `tasklist /m better_sqlite3.node` shows exactly one holder: `node.exe` PID 4101, which process inspection confirms is this repo's own Express/TypeScript dev server (`src/server.ts`) that still has the addon mapped. The other observations (lockfile in sync, cache/project writable, probe file creatable beside the module, no ACL denial, registry reachable) rule out the alternative explanations npm's message suggests.
+
+**Smallest safe remediation**
+
+1. Stop the dev server gracefully in its original terminal (Ctrl+C). It is the only process holding the module, so this should release the lock without needing to kill anything.
+2. Only if it doesn't exit and `tasklist /m better_sqlite3.node` still lists PID 4101:
+   `taskkill /PID 4101 /F`
+   (Safe here because ownership inspection ties 4101 to this repository, not to some unrelated process.)
+3. Re-run `npm ci`.
+
+No cache clearing, `node_modules` deletion by hand, elevation, or antivirus changes are needed.
+
+**Confirmation**
+
+- Before retrying: `tasklist /m better_sqlite3.node` returns no `node.exe` rows (or "No tasks are running which match the specified criteria"), and `tasklist | findstr node` shows no leftover node process for this repo.
+- `npm ci` exits 0 with no EPERM/EBUSY.
+- `node_modules\better-sqlite3\build\Release\better_sqlite3.node` exists again (freshly installed/rebuilt).
+- Restart the dev server and verify it loads better-sqlite3 successfully.
+
+Evidence to record: the original `npm ci` error above, module name `better_sqlite3.node`, the `tasklist /m` output showing PID 4101, whether a `taskkill` was needed, and the exit code of the retry.
+
+__ABLATION_DONE__ exit=0

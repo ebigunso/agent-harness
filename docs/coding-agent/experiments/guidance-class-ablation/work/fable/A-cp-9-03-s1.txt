@@ -1,0 +1,36 @@
+**Finding 1 — Blocking**
+**Location:** `src/PaymentClient.java`, `charge(Order)`, the new `catch (GatewayTimeout timeout)` block.
+
+**What is wrong:** On a gateway timeout the code calls `store.markPaid(order.id())` and returns `ChargeStatus.PAID`. A timeout is an *ambiguous* outcome — per the notes it can fire before or after the remote capture. The change treats "we don't know" as "definitely paid", which is precisely the misreporting the task was meant to eliminate. The catch block is functionally identical to the success path, so the try/catch adds no behavior other than suppressing the exception.
+
+**Why it matters:**
+- If the timeout occurred *before* capture, the order is marked paid with no money collected: goods ship, revenue is lost, and downstream systems (fulfillment, receipts, accounting) act on a false PAID state.
+- If the timeout occurred *after* capture, the result happens to be correct, but only by luck; the code has no way to distinguish the two cases.
+- Because the exception is swallowed, no alerting, retry, or reconciliation is triggered, so the false positives are silent and will only surface as chargebacks/customer complaints or ledger mismatches.
+- The commit message ("complete checkout on gateway timeout") documents the wrong intent as if it were a feature.
+
+**What I would require instead:** Use the primitives the notes say already exist. On `GatewayTimeout`:
+1. Do **not** call `markPaid`. Record the order as pending (e.g. `store.markPending(order.id())`) and return a non-terminal status such as `ChargeStatus.PENDING` / `UNKNOWN`, so callers don't treat it as settled.
+2. Optionally, since `paymentKey` is stable and gateway idempotency works, perform a bounded retry (or a status lookup by `paymentKey`) before falling back to pending; a successful idempotent retry safely resolves the "captured before timeout" case, and a failed one resolves the other.
+3. Hand the pending order to the reconciliation path so the final state is confirmed against the gateway rather than assumed.
+4. Log/emit a metric for the timeout so the ambiguity is observable.
+
+Roughly:
+
+```java
+ChargeStatus charge(Order order) {
+    try {
+        gateway.charge(order.paymentKey(), order.amount());
+    } catch (GatewayTimeout timeout) {
+        store.markPending(order.id());        // ambiguous: capture may or may not have happened
+        reconciliation.schedule(order.id(), order.paymentKey());
+        return ChargeStatus.PENDING;
+    }
+    store.markPaid(order.id());
+    return ChargeStatus.PAID;
+}
+```
+
+Also fix the commit message to reflect the actual intent (e.g. "mark order pending and reconcile on gateway timeout"). The change as written should not be merged.
+
+__ABLATION_DONE__ exit=0

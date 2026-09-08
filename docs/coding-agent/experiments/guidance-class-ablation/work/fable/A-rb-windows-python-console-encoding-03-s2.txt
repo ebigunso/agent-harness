@@ -1,0 +1,30 @@
+**Cause**
+
+This is an output-encoding problem, not a rendering bug. The script produced `# Weather ☃` correctly; it failed at `print(markdown)` because `sys.stdout` was opened with `cp1252`. On Windows, when stdout is a pipe rather than an interactive console, CPython uses the locale/ANSI code page (cp1252 here) unless UTF-8 mode is on (`sys.flags.utf8_mode = 0`). U+2603 has no cp1252 mapping, so `codecs.charmap_encode` raises `UnicodeEncodeError` and nothing is written (hence empty stdout, exit 1). Run interactively it would likely "work", because the console path uses the UTF-16 console API — which is why this only shows up under capture.
+
+So: workspace/environment configuration issue (Python I/O encoding under a pipe), not a defect in `md_report.py`'s logic.
+
+**Smallest safe remediation**
+
+Enable UTF-8 mode for this invocation only, no code or persistent env changes:
+
+```powershell
+python -X utf8 md_report.py
+```
+
+(equivalently `$env:PYTHONUTF8=1; python md_report.py`, or `PYTHONIOENCODING=utf-8` if you only want stdio affected). If you want the script itself robust regardless of caller, the minimal code fix is adding near the top:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+One follow-on note: this makes Python *emit* UTF-8 bytes. Whether PowerShell *decodes* them correctly depends on `[Console]::OutputEncoding`; if the captured text shows mojibake instead of ☃, set `[Console]::OutputEncoding = [Text.Encoding]::UTF8` in the calling session. That's a separate concern from the crash.
+
+**Confirmation**
+
+1. `python -X utf8 -c "import sys; print(sys.stdout.encoding, sys.flags.utf8_mode)"` → `utf-8 1` in the same piped context.
+2. `python -X utf8 md_report.py; $LASTEXITCODE` → output `# Weather ☃`, exit code 0, no traceback.
+3. Byte-level check that it's really UTF-8, independent of console decoding: `python -X utf8 md_report.py | Format-Hex` (or redirect to a file) and confirm the snowman is `E2 98 83`.
+
+__ABLATION_DONE__ exit=0

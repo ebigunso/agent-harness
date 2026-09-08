@@ -1,0 +1,28 @@
+**Cause**
+
+This is not a pipeline-unrolling or workspace problem, and the reference note about `-is [array]` / `-NoEnumerate` does not apply. The script already does the right thing: it validates framing on the raw serialized string (`Trim()`, `StartsWith('[')`, `EndsWith(']')`), not on the parsed object. The assertion failed because the input genuinely is not an array — `$raw` is `{"id":7}`, a single JSON object with `{`/`}` framing. `ConvertFrom-Json` succeeded (the payload is valid JSON), so the only thing wrong is the shape of the data versus the contract the probe enforces. Exit code 1 and the `throw` at line 8 are the probe working as designed.
+
+**Smallest safe remediation**
+
+Leave the assertion alone — it is correct and the one you actually want (raw framing, not post-pipeline type). Fix the input to match the contract. In this script the payload is a hardcoded literal, so the change is the framing on line 3:
+
+```powershell
+$raw = '[{"id":7}]'
+```
+
+If in the real flow `$raw` comes from a producer (file, API, another command), the fix belongs at that producer: it must emit an array (`[...]`) even for one element. Don't "fix" this by wrapping in the consumer (`"[$raw]"`) or by relaxing the check to accept objects — that would hide the very cardinality drift this probe exists to catch.
+
+If instead the contract is wrong and a bare object is acceptable, then the correct change is to the probe's requirement, not the data — but that's a spec decision, not a bug fix, and nothing in the diagnostics suggests it.
+
+**Confirmation**
+
+Re-run the same command:
+
+```
+pwsh -NoProfile -File probes/require-array.ps1
+echo $LASTEXITCODE
+```
+
+Expected: stdout `raw=[{"id":7}]`, no stderr, exit code 0. For a negative control, keep `{"id":7}` and confirm it still throws `Expected array framing` — that proves the check discriminates on framing rather than passing trivially. Note that a one-element array still exercises the case the reference warns about; because the check is on the raw string, it passes regardless of how the pipeline would have unrolled the parsed result.
+
+__ABLATION_DONE__ exit=0

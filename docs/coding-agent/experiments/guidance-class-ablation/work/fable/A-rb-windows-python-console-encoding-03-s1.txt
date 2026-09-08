@@ -1,0 +1,45 @@
+**Cause**
+
+This is a workspace/runtime configuration problem, not a bug in the rendering logic. Rendering succeeded ("# Weather ☃"); the crash is at `print(markdown)`. Because stdout is a pipe (not a Windows console), CPython 3.12 does not use its UTF-8 console path — it falls back to the locale encoding, which on this Windows box is cp1252 (`sys.stdout.encoding = cp1252`, `utf8_mode = 0`). U+2603 (☃) has no mapping in cp1252, so the charmap encoder raises `UnicodeEncodeError` and the script exits 1 with nothing on stdout.
+
+**Smallest safe remediation**
+
+Enable UTF-8 mode for that invocation only — no code or system-wide changes:
+
+```powershell
+python -X utf8 md_report.py
+```
+
+Equivalent env-var form if the command line can't be changed (scoped to the session):
+
+```powershell
+$env:PYTHONUTF8 = "1"; python md_report.py
+# or, narrower — affects only stdio: $env:PYTHONIOENCODING = "utf-8"
+```
+
+If you want the fix to live in the script instead (so callers don't need to know), add near the top of `md_report.py`:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+I'd prefer the `-X utf8` / `PYTHONUTF8=1` route first because it's zero-diff and reversible; the in-script `reconfigure` is the right follow-up if this script is regularly piped by others.
+
+Don't "fix" it by stripping/replacing the ☃ or using `errors="replace"` — that silently corrupts the report to hide a configuration issue.
+
+**Confirmation**
+
+1. Rerun under the same pipe conditions:
+   ```powershell
+   python -X utf8 md_report.py | Out-File -Encoding utf8 out.md; $LASTEXITCODE
+   ```
+   Expect exit code `0`, no traceback, and `out.md` containing `# Weather ☃` (open it or `Get-Content out.md`).
+2. Sanity-check the encoding actually changed in the captured-stream context:
+   ```powershell
+   python -X utf8 -c "import sys; print(sys.stdout.encoding, sys.flags.utf8_mode)" | Out-String
+   ```
+   Expect `utf-8 1` (vs. the previous `cp1252 0`).
+3. If you chose the in-script `reconfigure` fix, rerun the plain `python md_report.py` and verify step 1's result without any flags.
+
+__ABLATION_DONE__ exit=0

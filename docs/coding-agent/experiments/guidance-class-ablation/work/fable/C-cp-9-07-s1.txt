@@ -1,0 +1,31 @@
+**Verdict: block.** The diff makes the job asynchronous but breaks the second half of the task — completion status is now always wrong on failure, and failures are invisible.
+
+**1. `worker/start.go` — `supervisor.Succeeded` is called before `Run` finishes, regardless of outcome.**
+After spawning the goroutine, `StartJob` immediately marks the job as durably succeeded and returns `nil`. `Run` has not completed; it may fail seconds later. Per the reviewer notes, `Succeeded` means durable completion, not launch acceptance, so this records a false success for every job that eventually fails. This is exactly the "hide or blur failures" pattern the guidance forbids.
+Require: move the status transition into the goroutine, after `Run` returns, and branch on the result:
+```go
+go func() {
+    if err := job.Run(ctx); err != nil {
+        supervisor.Failed(job.ID(), err) // or equivalent
+        return
+    }
+    supervisor.Succeeded(job.ID())
+}()
+```
+If `Supervisor` has no failure method, that's a prerequisite change, not something to work around.
+
+**2. `worker/start.go` — the `result` channel has no receiver; the `Run` error is discarded.**
+The buffer keeps the goroutine from blocking, but the value is written and never read, so the error goes nowhere. This is dead plumbing that gives the appearance of error handling without any. Either the channel is removed (status is reported via the supervisor, per #1) or it is returned/exposed as a completion handle that a caller is obligated to consume. Don't ship both nothing and a channel.
+
+**3. `worker/start.go` — `StartJob` still returns `error` but can now only return `nil`.**
+The signature promises a failure signal it never delivers; existing callers that check the return will believe every job succeeded. Either document that the return now means "launch accepted" (and keep it meaningful — e.g. reject nil job / cancelled ctx up front), or change the signature. Silently changing the contract from "ran to completion" to "always nil" is a defect on its own.
+
+**4. `worker/start.go` — context lifetime is now caller-scoped but execution outlives the call.**
+`Run` honors cancellation, and `ctx` is whatever the caller passed. If that's request/handler-scoped, the job is cancelled as soon as the caller returns, and with #1 it will have already been marked succeeded. Decide explicitly: either the caller must pass a long-lived context (document it), or `StartJob` derives its own (`context.WithoutCancel` plus a bounded timeout, or a supervisor-owned context). The current state is a race between the job and the caller's cleanup.
+
+**5. `worker/start.go` — no panic boundary in the new goroutine.**
+Previously a panic in `Run` surfaced on the caller's stack; now it takes down the process from an anonymous goroutine with no job ID in the trace. Add a `recover` that records the panic as a failure with the job ID and re-panics or logs per the service's policy — the point is context, not swallowing.
+
+Minor: the commit message ("run jobs asynchronously") should also state the new `StartJob` contract, since callers must change how they interpret the return value.
+
+__ABLATION_DONE__ exit=0

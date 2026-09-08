@@ -1,0 +1,36 @@
+**Verdict: not acceptable as-is.** The change patches three call sites around a bug that lives in `serialize`, leaves the fourth caller broken, and the commit scope ("visible presenters") contradicts the stated task, which includes accounting exports.
+
+## Findings
+
+**1. `lib/amounts.rb` — `serialize` is the root cause and is left untouched.**
+`{ dollars: invoice.cents }` puts an integer cents value under a key whose contract is "dollars as a decimal." Every consumer of `serialize` is handed a mislabeled value. The diff compensates in three callers instead of fixing the one place the units are wrong. This is exactly the symptom-patch pattern: the invariant ("`:dollars` holds dollars") is still violated at the source, so any new or existing caller of `serialize` — not just the four listed — still receives cents.
+*Required:* Fix the serializer so it honours its own contract, e.g. `{ dollars: BigDecimal(invoice.cents) / 100 }`, and revert the per-caller conversions. All four presenters then return the plain serializer value and yield `12.34` for `cents = 1234`.
+
+**2. `lib/amounts.rb` — `accounting_amount` still returns cents (1234, not 12.34).**
+The task explicitly requires correct dollar units in accounting exports. After this change `accounting_amount` still emits the raw integer, so accounting data is off by 100×. That is a correctness defect in a financial export, not a scope choice; the commit message ("convert cents in *visible* presenters") appears to have narrowed the task rather than completed it. This defect disappears automatically once finding 1 is addressed, which is the point: the caller-by-caller approach is what allowed one to be missed.
+*Required:* `accounting_amount` must yield `12.34` for `cents = 1234`. Do not add a fourth copy of the conversion; fix the serializer.
+
+**3. `lib/amounts.rb` — identical conversion expression copied into `web_amount`, `email_amount`, `receipt_amount`.**
+`BigDecimal(serialize(invoice)[:dollars].to_s) / 100` is duplicated verbatim. Beyond the maintenance cost, the copies encode a hidden assumption ("the `:dollars` key actually contains cents") that is now spread across the module and will silently double-convert (divide by 100 twice) the moment someone corrects `serialize`. This is fragile logic being duplicated rather than an invariant being strengthened.
+*Required:* Remove the duplicated conversions once the serializer is fixed. If a shared helper is genuinely wanted, it belongs in one place (the serializer or a `cents_to_dollars` function), not inlined in each presenter.
+
+**4. Missing test coverage for the stated acceptance criterion.**
+The reviewer notes give a concrete expectation — `cents = 1234` ⇒ all four callers return `12.34` — but no test is added. A single test asserting that would have caught finding 2 and would guard against the double-conversion hazard in finding 3.
+*Required:* Add a spec covering `serialize(invoice)[:dollars]` and all four presenters for the `1234 → 12.34` case (and ideally a value with a leading-zero cents component, e.g. `1205 → 12.05`, to confirm no float/truncation issues).
+
+## Summary of what I'd merge instead
+
+```ruby
+def serialize(invoice)
+  { dollars: BigDecimal(invoice.cents) / 100 }
+end
+
+def web_amount(invoice)        = serialize(invoice)[:dollars]
+def email_amount(invoice)      = serialize(invoice)[:dollars]
+def receipt_amount(invoice)    = serialize(invoice)[:dollars]
+def accounting_amount(invoice) = serialize(invoice)[:dollars]
+```
+
+One-line fix at the source, no duplicated logic, all four outputs correct, and the serializer's key name finally matches its value.
+
+__ABLATION_DONE__ exit=0

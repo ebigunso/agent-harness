@@ -1,0 +1,38 @@
+## Diagnosis
+
+**Cause:** The command failed with a `ZeroDivisionError` at `compute.py` line 8 (`ratio = numerator / denominator`) because `denominator = 0`. This is a logic/data problem in the script, not an environment or encoding issue.
+
+Note that the loaded reference material describes a Windows `UnicodeEncodeError` (cp932/legacy stdout can't encode a character). That does **not** apply here:
+- The traceback is `ZeroDivisionError`, not `UnicodeEncodeError`.
+- The failure occurs during **computation**, before any `print` call, so stdout encoding is never exercised.
+- No character-encoding error appears, and no output/files were produced.
+
+So this is a workspace (code/data) problem, and the `PYTHONIOENCODING=utf-8` / `sys.stdout.reconfigure` remediations are irrelevant to fixing it.
+
+## Smallest safe remediation
+
+The real fix depends on what `denominator = 0` means for your data, but the smallest safe change is to guard the division before line 8, e.g.:
+
+```python
+if denominator == 0:
+    raise ValueError("denominator is zero; cannot compute ratio")  # or handle explicitly
+ratio = numerator / denominator
+```
+
+Choose one intended behavior:
+- **Reject** invalid input (raise a clear error), or
+- **Substitute** a defined value (e.g., `ratio = None` / `float("nan")`) if a zero denominator is expected.
+
+If instead the `0` came from bad input data (not the code), correct the input so `denominator` is nonzero and leave the code as-is.
+
+Because computation halted before any writes, **no partial effects need cleanup** — the run confirmed "No files were written," so there is nothing to roll back.
+
+## Confirmation
+
+1. Rerun the exact command: `python compute.py`.
+2. Expect exit code `0` and the intended `ratio` output (or your explicit, handled message) instead of the traceback.
+3. Verify with a zero-denominator case that it now fails/handles gracefully as designed rather than throwing a raw `ZeroDivisionError`, and with a valid nonzero case that it produces the correct ratio.
+
+(If you separately want to harden against the *reference* Windows encoding issue for later print steps, that would be a distinct change — set `PYTHONIOENCODING=utf-8` for the command scope or `sys.stdout.reconfigure(encoding="utf-8")` — but it is not required to resolve this failure.)
+
+__ABLATION_DONE__ exit=0

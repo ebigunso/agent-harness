@@ -1,0 +1,20 @@
+**Cause:** This is not a workspace, runtime, or script-defect problem. The script did exactly what it was written to do:
+
+- Line 4 parsed the JSON; `-NoEnumerate` kept it as `System.Object[]`, so the `-isnot [array]` shape check on line 7 passed (stdout confirms `parsed type=System.Object[]`).
+- Line 8 is a schema assertion: it inspects the first element's properties for `name`. The hardcoded fixture `[{"id":7}]` only has `id`, so `PSObject.Properties['name']` is `$null`, the condition is true, and the script `throw`s. With `$ErrorActionPreference = 'Stop'` an uncaught `throw` terminates the script with exit code 1.
+
+Everything in stderr is consistent with that: `RuntimeException`, `OperationStopped`, message equals the throw string, position at line 8 char 52 (the `throw`). No file access, no piping problems, no encoding or execution-policy issue — the parse/assert logic is sound and the failure is a genuine validation failure on the input data.
+
+**Smallest safe remediation:** Fix the data, not the workspace. Since the schema (per the diagnostic notes) requires both `id` and `name`, the fixture on line 3 is what's wrong:
+
+```powershell
+$raw = '[{"id":7,"name":"seven"}]'
+```
+
+That is a one-line change and doesn't touch the assertions. Do *not* weaken line 8 or drop `-NoEnumerate` — the shape check depends on `-NoEnumerate` (without it a single-element array would unwrap to a `PSCustomObject` and line 7 would throw instead), and removing the `name` requirement would silently contradict the schema.
+
+If, on the other hand, the probe is intentionally exercising a *negative* case (verifying that a missing `name` is rejected), then exit 1 with that message is the expected outcome and nothing should be changed.
+
+**Confirmation:** Re-run `pwsh -NoProfile -File probes/check-items.ps1` and check `$LASTEXITCODE` is `0`, stdout still shows `raw=…` and `parsed type=System.Object[]`, and stderr is empty. As a control, temporarily revert the fixture to `[{"id":7}]` and verify it still fails at line 8 with the same message, proving the assertion is what changed the result rather than anything environmental.
+
+__ABLATION_DONE__ exit=0

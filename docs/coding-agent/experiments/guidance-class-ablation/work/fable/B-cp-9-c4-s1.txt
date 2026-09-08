@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.** I would approve this change.
+
+Verification against the task:
+
+- **Bound of three attempts:** `attempt` runs 1, 2, 3; on attempt 3 a retryable failure is rethrown. Exactly three calls to `client.read()` maximum, no off-by-one.
+- **Permanent failures preserved:** `!failure.retryable()` short-circuits on attempt 1, so validation/auth errors are thrown immediately with no retry.
+- **Final failure preserved:** the caught `ClientFailure` object is rethrown unchanged (`throw failure;`), so type, message, cause and stack trace are intact. Nothing is wrapped or swallowed.
+- **Scope of retry:** only `ClientFailure` is caught; any other exception propagates on the first occurrence, which is correct — nothing unexpected is retried.
+- **Termination:** the only exits are `return` and `throw`; the loop cannot spin because attempt 3 always throws. The `for(;;)` with no `break` makes the method end unreachable, so this compiles without a trailing `return`.
+- **Safety of retrying:** read-only, 100 ms enforced timeout, no delay explicitly accepted per the notes — bounded worst case is ~300 ms.
+
+One non-blocking observation, not a required change: the first two retryable failures are discarded without a trace, so a caller seeing the final exception cannot tell it was preceded by two others. If diagnosability becomes a concern later, `failure.addSuppressed(previous)` on the final throw would surface them without altering the rethrown exception's type or cause. Given the notes ("no framework required", exact rethrow expected), I would not hold the change for this.
+
+__ABLATION_DONE__ exit=0

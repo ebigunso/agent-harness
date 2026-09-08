@@ -1,0 +1,25 @@
+**Cause**
+
+Not a workspace/environment problem — the script defeats its own `-NoEnumerate`. Line 5 does the right thing (`ConvertFrom-Json -NoEnumerate` returns a real one-element `Object[]`) and then immediately re-pipes that result through `| ForEach-Object { $_ }`. The pipeline unrolls the collection, so `$parsed` receives the single `PSCustomObject`, exactly as stdout shows (`parsed type=System.Management.Automation.PSCustomObject`). The `-isnot [array]` check is then reporting pipeline unrolling, not the wire framing — the reference note's step 3 explicitly says "avoid re-piping the result." The JSON itself is valid and correctly framed as an array; the exit code 1 is a false negative from the probe.
+
+**Smallest safe remediation**
+
+Remove the re-piping on line 5 (the `ForEach-Object { $_ }` is a no-op apart from unrolling):
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Nothing else needs to change; PowerShell 7.4.6 supports `-NoEnumerate`. If you want the check to be robust regardless of what later code does with `$parsed`, the belt-and-braces alternative is to assert on the raw string per step 2 (`$raw.Trim().StartsWith('[') -and $raw.Trim().EndsWith(']')`), which is also the only option if this probe ever has to run under Windows PowerShell 5.1.
+
+**Confirmation**
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`. Expect exit code 0, no stderr, and stdout showing `parsed type=System.Object[]`.
+2. Exercise the contract's edge cases by temporarily swapping `$raw`:
+   - `'[]'` → `System.Object[]`, exit 0 (empty array accepted)
+   - `'[{"id":1},{"id":2}]'` → `System.Object[]`, exit 0
+   - `'{"id":9}'` → `PSCustomObject`, throws `Expected JSON array`, exit 1 (scalar correctly rejected)
+
+If all four behave as listed, the fix is correct and the assertion now reflects wire framing rather than element count.
+
+__ABLATION_DONE__ exit=0

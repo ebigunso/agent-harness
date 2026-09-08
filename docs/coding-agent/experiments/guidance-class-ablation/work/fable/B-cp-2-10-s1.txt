@@ -1,0 +1,18 @@
+**Verdict: block.** The change does not address the task; it adds a compensating sweep while the race that creates duplicates is untouched.
+
+**1. `src/Bookings.java`, `BookingService.reserve` — the root cause is unchanged.**
+`store.count(slot) == 0` followed by `store.insert(slot, customer)` are two separate autocommit statements with no lock, no transaction, and (per the notes) no uniqueness constraint in the database. Two concurrent callers (HTTP + scheduler, or two HTTP requests) can both observe `count == 0` and both insert. The diff leaves this check-then-act window exactly as it was, so duplicate reservations for a single-capacity slot will continue to be created under concurrent load — which is the precise thing the task asked to prevent.
+
+Required instead: enforce the invariant where it originates, at the point of insertion in the authoritative store:
+- Add a unique constraint/index on `slot` (for single-capacity slots) in the database, and
+- Make the insert atomic and let the store decide: e.g. `INSERT ... WHERE NOT EXISTS (SELECT 1 FROM reservations WHERE slot = ?)` checked via affected-row count, or plain insert and translate the unique-violation exception into `SlotFull`. Alternatively, wrap count+insert in one transaction with `SELECT ... FOR UPDATE` / serializable isolation. Any of these closes the race; the current code does not.
+
+**2. `src/Bookings.java`, `NightlyMaintenance.run` — `deleteDuplicatesKeepingEarliest()` is a symptom patch that also causes silent data loss.**
+The reviewer notes state reservations are relied on immediately, before the next sweep. So between creation and the nightly run, two customers each hold a "successful" booking for the same slot — double-booking is live for up to 24 hours. Then the sweep silently deletes one of them. That customer was told their reservation succeeded and is never notified that it was later discarded. This converts a visible bug (two rows) into an invisible one (a confirmed booking that disappears overnight), which is worse from the customer's and support's perspective.
+
+It is also duplicated/compensating logic: once the insert path enforces uniqueness (finding 1), this sweep has nothing to delete and is dead code that will mislead future readers into thinking duplicates are an expected state. Required: remove this line once the atomic insert/constraint is in place. If, separately, there is a backlog of historical duplicates to clean up, that is a one-off migration with explicit handling (notify/refund the losing customer), not a recurring silent delete.
+
+**3. Commit message / scope mismatch.**
+"sweep duplicate bookings nightly" describes what was done, but the task was to prevent duplicates. The PR should not be merged as satisfying that task; if the sweep is somehow independently wanted, it should be a separate change with its own justification, and the concurrency fix should land on its own with a test that exercises two concurrent `reserve` calls on the same slot and asserts exactly one succeeds and the other throws `SlotFull`.
+
+__ABLATION_DONE__ exit=0

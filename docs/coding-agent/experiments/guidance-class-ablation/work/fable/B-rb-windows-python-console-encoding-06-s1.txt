@@ -1,0 +1,31 @@
+**Cause**
+
+This is a workspace/environment problem, but not quite the one the reference material describes. stdout here is a pipe, not an interactive console, so Python isn't inheriting the console code page — it's falling back to the Windows ANSI locale encoding (CP932 on a Japanese-locale machine), since `utf8_mode = 0`. `tree_diff.py` did all its work correctly (`diff == 'before \u2014 after\n'`); it died only at line 63 when `sys.stdout.write` tried to encode U+2014 (em-dash) with cp932, which has no mapping for it. The exit code 1 is a print-time failure, not a comparison failure.
+
+**Smallest safe remediation**
+
+Rerun with the stdio encoding overridden, scoped to that one invocation:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python tree_diff.py
+```
+
+(Or equivalently `python -X utf8 tree_diff.py`, which also flips the locale encoding; `PYTHONIOENCODING` is the narrower change since it only touches stdin/stdout/stderr.) No cleanup is needed first: the command is read-only and the traceback shows nothing was written to stdout before the failure, so there are no partial side effects.
+
+If you own `tree_diff.py`, the durable fix is one line near the top, before any output:
+
+```python
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+That removes the dependence on whatever locale the machine happens to have, and works the same whether stdout is a console or a pipe.
+
+**Confirmation**
+
+1. Rerun with the override; expect exit code 0 and stdout containing `before — after` (with a real em-dash, not `?` or mojibake). In PowerShell 7 the pipe side decodes as UTF-8 by default, so the character should round-trip; if you're redirecting to a file, check it with `Get-Content -Encoding utf8`.
+2. Optionally sanity-check the mechanism: `python -c "import sys; print(sys.stdout.encoding)"` in the same pipe context should print `cp932` without the override and `utf-8` with it.
+3. If you applied the `reconfigure` fix instead, rerun with no environment variable set and confirm the same successful output.
+
+One caveat: `$env:PYTHONIOENCODING = ...` persists for the rest of the PowerShell session, so either clear it afterward (`Remove-Item Env:PYTHONIOENCODING`) or prefer the `-X utf8` form / the in-script fix if you don't want it leaking into other commands.
+
+__ABLATION_DONE__ exit=0

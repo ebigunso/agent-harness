@@ -1,0 +1,30 @@
+**Cause**
+
+This is a workspace problem, not an npm/lockfile/permissions problem. `npm ci` deletes `node_modules` before reinstalling, and the `unlink` of `node_modules\lmdb\build\Release\lmdb.node` fails with `EPERM` (errno -4048) because the file is mapped into a running process. `tasklist /m lmdb.node` shows exactly one holder: `node.exe` PID 4106, the Gatsby cache/build watcher launched from `C:/work/npm-lock/scripts/gatsby-watch.js`. Windows won't let you unlink a loaded native addon while a process has it mapped. The other observations rule out alternatives: lockfile and manifest are in sync, the directory is writable, an ordinary probe file beside the module can be created/removed, and there's no ACL denial — so this is a file lock, not permissions, cache, or registry.
+
+**Smallest safe remediation**
+
+1. Stop the watcher gracefully first, since it belongs to this repo: close/Ctrl‑C the terminal or task running `scripts/gatsby-watch.js`.
+2. If it doesn't exit, kill only that PID:
+   ```
+   taskkill /PID 4106 /F
+   ```
+3. Re-run:
+   ```
+   npm ci
+   ```
+
+Don't delete `node_modules` by hand, disable antivirus, or run elevated — none of those address the cause and the antivirus/permissions hint in npm's message is a red herring here.
+
+**Confirmation**
+
+- `tasklist /m lmdb.node` returns "No tasks are running which match the specified criteria" (i.e., no process has the addon loaded).
+- Optionally `tasklist | findstr node` to verify no other node process for this repo is still running.
+- `npm ci` exits 0 and `node_modules\lmdb\build\Release\lmdb.node` is present (rebuilt from source under Node 20.18.0).
+- Restart the Gatsby watcher afterwards and confirm it loads lmdb normally.
+
+If the retry fails on a different `<module>.node`, repeat the `tasklist /m <module>.node` → stop/kill → retry cycle for that file.
+
+Evidence to keep: the original `npm ci` stderr above, the `tasklist /m lmdb.node` output naming PID 4106, the PID stopped, and the exit code of the retry.
+
+__ABLATION_DONE__ exit=0

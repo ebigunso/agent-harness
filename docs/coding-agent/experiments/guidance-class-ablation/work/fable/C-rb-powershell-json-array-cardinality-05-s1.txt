@@ -1,0 +1,47 @@
+## Cause
+
+This is a **script bug, not a workspace/environment problem.** The workspace is fine: the raw JSON is valid, execution is permitted, and nothing needs to be written to disk.
+
+The failure comes from the script proving array framing *after* a pipeline:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json | Write-Output
+...
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+PowerShell pipelines **unroll** collections. `ConvertFrom-Json` produces a one-element array, but piping it (through `| Write-Output`, and the assignment itself) enumerates that array and emits the single `PSCustomObject`. So `$parsed` ends up as the element, not the array — which is exactly what the stdout shows (`parsed type=System.Management.Automation.PSCustomObject`). The `-isnot [array]` test then fails and throws.
+
+On Windows PowerShell 5.1 there is no `ConvertFrom-Json -NoEnumerate`, so a post-pipeline `-is [array]` check *cannot* reliably prove wire framing — a singleton array is indistinguishable from a scalar after unrolling.
+
+## Smallest safe remediation
+
+Stop trying to infer framing from the post-pipeline object type. Assert on the **raw wire text** instead (trimmed, starts `[` and ends `]`). Also drop the needless `| Write-Output`, which forces the enumeration.
+
+```powershell
+$parsed = ConvertFrom-Json -InputObject $raw          # no pipeline needed
+$t = $raw.Trim()
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+This is a syntactic framing check (start/end brackets), not a full JSON validator — appropriate here since the contract only distinguishes array-shaped wire values from scalars.
+
+## How to confirm
+
+Re-run the exact command:
+
+`powershell.exe -NoProfile -File probes/cardinality.ps1`
+
+- **Expected:** exit code `0`, empty stderr, stdout still shows `raw=[{"id":8}]`, `wire elements=1`.
+- **Contract regression checks** (change `$raw` and re-run):
+  - `'[]'` (empty) → passes (starts `[`, ends `]`).
+  - `'[{"id":1},{"id":2}]'` (multiple) → passes.
+  - `'8'` or `'{"id":8}'` (scalar/object) → throws `Expected JSON array` with exit code `1`, confirming rejection still works.
+
+Record raw JSON, the element count, and the exact assertion outcome for each case.
+
+__ABLATION_DONE__ exit=0

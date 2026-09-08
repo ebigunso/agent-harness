@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is. No blocking or flagging findings.**
+
+Why I'm not raising anything, checked against the stated principle (context, visibility, bounded, correct):
+
+- **Failure is not hidden.** The thumbnail error is logged at `warn` with the upload `id` and the underlying error, and it is surfaced to the caller as `warning: Some(UploadWarning::ThumbnailUnavailable)` with `thumbnail: None`. Reviewer notes confirm clients render the warning, so the degradation is visible end-to-end, not just in logs.
+- **Only the optional step is downgraded.** `store.save(file)?` still propagates. The fallback is scoped to `thumbnails::create` alone; the mandatory scan/validation path is untouched and precedes this function.
+- **The fallback is safe and correct.** The returned `UploadResult` accurately describes state: the file *is* stored, the thumbnail *is* absent. Nothing is fabricated (no placeholder image), and the published contract already models both as `Option`, so no API change is being smuggled in.
+- **Bounded.** `thumbnails::create` has a 2s ceiling and cleans up its temp files, so the degraded path can't hang the upload or leak resources.
+- **No secret leakage.** The unit variant `ThumbnailUnavailable` gives the client a stable signal without exposing internal error text; the detailed error stays server-side, and notes confirm it contains no secrets.
+
+One non-blocking observation only if it's not already covered: if you rely on alerting for thumbnail pipeline health, a counter/metric on the `Err` arm would make sustained degradation observable beyond per-request log lines. Not a defect in this diff.
+
+__ABLATION_DONE__ exit=0

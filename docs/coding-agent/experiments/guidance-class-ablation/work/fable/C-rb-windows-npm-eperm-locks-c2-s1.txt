@@ -1,0 +1,17 @@
+**Cause:** This is not a workspace or file-lock problem. The private registry rejected the request with HTTP 401 (`WWW-Authenticate: Bearer`) — the auth token npm sent for the scoped registry is invalid, expired, or revoked. The `.npmrc` scope/registry URL is correct, the lockfile and `package.json` agree, the directories are writable, and no `.node` unlink occurred (no processes hold `sharp-win32-x64.node`). The EPERM/EBUSY playbook does not apply; do not kill any processes.
+
+**Smallest safe remediation:**
+1. Confirm where the token is sourced from (`.npmrc` in cwd, user-level `~/.npmrc`, or an env var like `NPM_TOKEN` referenced via `${NPM_TOKEN}`). Don't print the value.
+2. Refresh the credential for that registry only:
+   - Interactive: `npm login --registry <private-registry-url> --scope @<scope>`
+   - Or, if the token is provisioned externally (CI/secret manager), regenerate it in the registry's UI and update the single `//<registry-host>/:_authToken=` line or the env var.
+3. Re-run `npm install`.
+
+**Confirmation:**
+- `npm whoami --registry <private-registry-url>` returns your username (proves the new token authenticates).
+- `npm install` exits 0 with no `E401`, and `node_modules` / `package-lock.json` are populated as expected.
+- Optionally `npm view @<scope>/<some-package> version --registry <private-registry-url>` succeeds, confirming scoped reads work.
+
+**Record for the ticket:** original command (`npm install`), error (`E401 Unable to authenticate`), registry response (401 Bearer), token source location, action taken (re-login / token rotation), and the successful retry. No PIDs were killed; none needed to be.
+
+__ABLATION_DONE__ exit=0

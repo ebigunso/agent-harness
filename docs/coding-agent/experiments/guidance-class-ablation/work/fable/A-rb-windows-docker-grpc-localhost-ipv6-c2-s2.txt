@@ -1,0 +1,28 @@
+**Cause**
+
+The probe was pointed at the wrong port. Nothing listens on host port 50052: Docker publishes only 50051 (gRPC h2c) and 50080 (HTTP/1.1 health). The TCP SYN to 50052 is rejected by the host stack before any HTTP/2 or gRPC handshake occurs, which is why:
+
+- both `localhost:50052` and `127.0.0.1:50052` fail identically (`UNAVAILABLE: connection refused`) — this rules out an IPv6/IPv4 localhost asymmetry;
+- the server log shows no invocation for either call — the request never reached the service;
+- the sibling `curl` to `localhost:50080` returns 200 in ~12 ms — the host, Docker networking, and name resolution are all fine;
+- correctly targeted 50051 probes are healthy.
+
+Exit 2 is the probe's documented mapping for `UNAVAILABLE`. This is not a workspace, dependency, TLS, or timing problem; it is a command-argument error (a typo/misconfiguration of the target port).
+
+**Smallest safe remediation**
+
+Change the target port to the published gRPC port. Do not add a 50052 mapping or touch the container.
+
+```powershell
+node probes/unary.mjs --target localhost:50051 --timeout 2
+```
+
+If this port comes from a script, env var, or config rather than a hand-typed command, fix it at that source so the wrong value doesn't recur.
+
+**Confirmation**
+
+1. The command exits 0 and prints response values to stdout, with nothing on stderr.
+2. The server invocation log shows a new entry for the unary call at the time of the probe.
+3. Optionally, re-run the original 50052 command to confirm it still fails with `connection refused` (exit 2) — proving the fix was the port change, not an unrelated state change — and `docker port <container>` still lists only `50051/tcp` and `50080/tcp`.
+
+__ABLATION_DONE__ exit=0

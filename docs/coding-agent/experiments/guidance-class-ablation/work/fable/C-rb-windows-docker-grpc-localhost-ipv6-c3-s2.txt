@@ -1,0 +1,42 @@
+## Cause
+
+This is **not a workspace, network, or Docker problem.** The command behaved correctly and the failure is a legitimate server-side authorization decision.
+
+Evidence rules out the infrastructure hypotheses:
+
+- **No hang, no timeout.** Exit code is `3` (mapped to `PERMISSION_DENIED`/`UNIMPLEMENTED`), not `2` (`DEADLINE_EXCEEDED`/`UNAVAILABLE`). The response returned in ~15 ms, well under the 2 s deadline.
+- **The IPv6/`::1` proxy-stall pattern does not apply.** That pattern produces a stall on `localhost` that clears when retrying at `127.0.0.1`. Here both `localhost:50051` and `127.0.0.1:50051` return the identical `PERMISSION_DENIED: role required` — the HTTP/2 transport completed on both, so address resolution is irrelevant.
+- **The RPC actually reached the server.** `method=Private invoked=true policy=role-required status=PERMISSION_DENIED` confirms the call was received and the policy interceptor ran, then rejected it for a missing role. The sibling REST health check (`200 OK`, 12 ms) confirms port publishing and general connectivity are fine.
+
+In short: transport, ports, and container health all work. The server received the `Private` call and denied it because the caller carried no credential granting the required role.
+
+## Smallest safe remediation
+
+Supply the credential/role the `Private` method requires — do not change ports, addresses, timeouts, or local config. The probe does not attach credentials, so provide them through whatever mechanism the service expects (e.g., a bearer token or metadata the probe/environment injects for authorized calls). If your intent was only to reach the endpoint, `Private` is simply the wrong (privileged) method to test with; use a method your identity is authorized for.
+
+No source, `pom`/dependency, port-publishing, or `localhost`→`127.0.0.1` change is warranted — none of those are the cause.
+
+## Confirmation
+
+Re-run the same command with the required role/credential present:
+
+```powershell
+java -jar probes/grpc-probe.jar --target 127.0.0.1:50051 --method Private --timeout 2
+```
+
+Success criteria:
+- Exit code `0` (not `3`).
+- Response values printed to **stdout** (the probe only prints on a successful call).
+- Empty stderr (no `PERMISSION_DENIED`).
+- Server evidence shows `invoked=true` with `status=OK` instead of `PERMISSION_DENIED`.
+
+If it still returns exit `3` with `role required`, the credential is missing or lacks the needed role — an identity/authorization issue to resolve with whoever owns the service policy, still not a workspace fix.
+
+## What I recorded
+
+- Targets/port: `localhost:50051` and `127.0.0.1:50051` — identical result, so no IPv4/IPv6 asymmetry.
+- Deadline output: none; exit `3`, not a deadline (`2`) case; latency ~15 ms.
+- REST timing: `http://localhost:50080/health` → `200`, `total_seconds=0.012`.
+- IPv4 retry: performed; same `PERMISSION_DENIED`, confirming an authz — not transport — cause.
+
+__ABLATION_DONE__ exit=0

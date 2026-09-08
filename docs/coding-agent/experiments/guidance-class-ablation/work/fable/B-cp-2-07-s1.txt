@@ -1,0 +1,31 @@
+**Verdict: block.** The change does not address the task; it hides the failure on one of the two producers and leaves the actual defect in place.
+
+**1. `Records.cs` — `RecordIds.Next()` is the root cause and is untouched.**
+`new Random(42).Next()` constructs a freshly seeded generator on every call, so every call returns the *same* integer. Collisions are not "repeated" by chance — they are guaranteed on the second insert, forever. The task was to fix the collisions; this diff leaves the generator exactly as it was. Required: remove the random-based ID generation and allocate IDs from the database sequence that the notes say is available (e.g. `store.Insert(store.NextId(), payload)` or have `Insert` obtain the ID from the sequence internally). That is the only thing that actually guarantees uniqueness across several independent producers sharing one store; a shared `Random` instance or `Guid`-derived int would merely make collisions rarer, not impossible.
+
+**2. `RecordsController.Create` — the `catch (DuplicateKeyException) → 409 Conflict` is a symptom patch and is semantically wrong.**
+A 409 tells the client *its* request conflicts with current state, implying a retry with different input might succeed. Here the client's payload has nothing to do with the collision; the server generated the key. Every create after the first will now return 409 while looking like a deliberate, handled outcome, so the bug becomes invisible in logs/alerts and records are silently dropped. Once the ID source is fixed (finding 1), `DuplicateKeyException` should not be reachable from this path, and if it somehow is, that is an internal error and should surface as one. Required: drop the `try/catch`; do not add compensating logic around a bug that should be removed.
+
+**3. `QueueConsumer.Handle` — not changed at all, still calls the same broken `RecordIds.Next()`.**
+The task explicitly names the queue as one of the two colliding producers. It still throws `DuplicateKeyException` on every message after the first, and the consumer has no handling, so messages will be poison-pilled/retried indefinitely depending on the queue's policy. If the author had continued down the diff's approach they'd have had to duplicate the catch here too — which is exactly the duplicated-workaround pattern to avoid. Required: both producers must obtain IDs from the shared sequence; no per-callsite handling.
+
+**4. Commit message misrepresents the change.**
+"return conflict instead of internal error" describes a status-code tweak, not a fix for key collisions, and the PR is framed as the collision fix. Whoever reads history later will believe the collision problem was resolved here. Required: message should describe the actual fix (ID allocation moved to the DB sequence) once that fix is made.
+
+Minimal acceptable shape of the change:
+
+```csharp
+public sealed class RecordsController(Store store) {
+    public IResult Create(Payload payload) {
+        store.Insert(store.NextId(), payload);   // sequence-backed
+        return Results.StatusCode(StatusCodes.Status201Created);
+    }
+}
+public sealed class QueueConsumer(Store store) {
+    public void Handle(Payload payload) => store.Insert(store.NextId(), payload);
+}
+```
+
+with `RecordIds` deleted (or reduced to a thin wrapper over the sequence so there is a single ID source), and no `DuplicateKeyException` handling at the call sites.
+
+__ABLATION_DONE__ exit=0

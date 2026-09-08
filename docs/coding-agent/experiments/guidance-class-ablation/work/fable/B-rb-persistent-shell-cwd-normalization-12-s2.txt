@@ -1,0 +1,21 @@
+**Cause:** cwd drift in the persistent shell, not a code/tooling problem. A prior `Set-Location -LiteralPath 'C:/work/php-app/docs'` left the shell in `docs/` (confirmed by `pwd` → `C:/work/php-app/docs` and `Get-ChildItem -Name` → only `README.md`). The relative path `bin/console` resolved to `C:/work/php-app/docs/bin/console`, which doesn't exist, so PHP reported `Could not open input file: bin/console`. The tool UI's remembered root (`C:/work/php-app`) is not the shell's actual cwd.
+
+**Smallest safe remediation:** navigate once to the intended base and rerun the command unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/php-app'
+php bin/console cache:clear
+```
+
+No code, dependency, config, PATH, or permission changes are needed. Avoid stacking repeated `cd <same-dir> && ...` retries in the persistent session; one explicit navigation is sufficient. (If you want a cwd-independent form for future runs, `php C:/work/php-app/bin/console cache:clear` also works, but that's optional.)
+
+**Confirmation:** this was already validated in the captured comparison —
+
+| | Pre-normalization | Post-normalization |
+|---|---|---|
+| `pwd` | `C:/work/php-app/docs` | `C:/work/php-app` |
+| `php bin/console cache:clear` | exit 1, stderr `Could not open input file: bin/console` | exit 0, stdout `[OK] Cache for the "dev" environment (debug=true) was successfully cleared.` |
+
+Final `pwd` remains `C:/work/php-app`. Status: **resolved**; root cause recorded as persistent-shell cwd drift.
+
+__ABLATION_DONE__ exit=0

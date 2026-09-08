@@ -1,0 +1,34 @@
+**Verdict: not a workspace/cwd problem.** The failure is a missing git ref.
+
+**Cause**
+
+`git rev-parse --verify missing-branch` exits 128 with `fatal: Needed a single revision` because no ref named `missing-branch` exists. That is exactly the error `--verify` emits when the argument doesn't resolve to a single object. The workspace is fine:
+
+- cwd = intended root = tool workspace root = `C:/work/repo`
+- `.git` and `README.md` resolve at that path
+- `git rev-parse --show-toplevel` succeeds and prints `C:/work/repo`
+- `git branch --list` shows only `main`; `git show-ref` has no `missing-branch`
+
+Per the loaded guidance, since cwd normalization already holds (before/final `pwd` both `C:/work/repo`, no repo error), we should stop treating this as a path issue and look at the other cause — which is simply that the branch isn't there.
+
+**Smallest safe remediation**
+
+Do not navigate or alter the environment; the cwd is already correct. Choose one depending on intent:
+
+1. **If the branch name was a typo / wrong target:** rerun with the ref that actually exists, e.g. `git rev-parse --verify main`.
+2. **If the branch is expected to exist locally but lives on a remote:** `git fetch --all` and check `git branch -r` for `origin/missing-branch`, then use that ref or create a tracking branch.
+3. **If the branch is genuinely supposed to exist and doesn't:** create it deliberately, e.g. `git branch missing-branch main` (only if that's the desired state — this is a repo change, so confirm intent first).
+4. **If the command is a script probe meant to tolerate absence:** use `git rev-parse --verify --quiet missing-branch` and branch on the exit code rather than treating 128 as fatal.
+
+Option 1 or 4 is the "smallest" change; options 2/3 modify repo state and should only be applied if the branch is actually wanted.
+
+**Confirmation**
+
+- `pwd` → still `C:/work/repo` (no drift).
+- `git show-ref --verify refs/heads/<chosen-ref>` → exit 0.
+- Rerun `git rev-parse --verify <chosen-ref>` → exit 0 and prints a 40-hex SHA.
+- If a branch was created: `git branch --list missing-branch` lists it.
+
+Record: before cwd `C:/work/repo`, normalized cwd unchanged, retry with existing ref succeeds, final cwd `C:/work/repo`, status resolved — root cause was a nonexistent ref, not the workspace.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,21 @@
+**Cause**
+
+Not a bug in the template or in Jinja2 — rendering succeeded. The failure is at output time: because stdout is a pipe (not the Windows console) and UTF-8 mode is off (`utf8_mode = 0`), CPython 3.12 on Windows encodes `sys.stdout` with the ANSI code page, here cp1252. Cyrillic `Ж` (U+0416) has no mapping in cp1252, so `print()` raises `UnicodeEncodeError`. This is an environment/encoding-configuration problem in the workspace, not a code defect.
+
+**Smallest safe remediation**
+
+Run the script in UTF-8 mode without touching the source or persistent settings:
+
+```powershell
+python -X utf8 templates.py
+```
+
+Equivalent per-session form if you'll run it repeatedly: `$env:PYTHONUTF8 = 1` (or `$env:PYTHONIOENCODING = 'utf-8'`). Editing the script (`sys.stdout.reconfigure(encoding="utf-8")`) also works but is a larger change and is only needed if you can't control the invocation.
+
+**Confirmation**
+
+1. `python -X utf8 -c "import sys; print(sys.stdout.encoding)" | Out-String` in the same piped context should print `utf-8`.
+2. Rerun `python -X utf8 templates.py`; expect `$LASTEXITCODE` = 0, no traceback on stderr, and the rendered text on stdout.
+3. Caveat for display only: if the `Ж` shows as `?` or mojibake in PowerShell, that's the consumer side decoding with the OEM/ANSI code page — set `[Console]::OutputEncoding = [Text.Encoding]::UTF8` before running. The exit code and absence of the traceback are the real success signal.
+
+__ABLATION_DONE__ exit=0

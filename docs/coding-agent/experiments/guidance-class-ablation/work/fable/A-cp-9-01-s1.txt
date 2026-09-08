@@ -1,0 +1,20 @@
+**Verdict: block.**
+
+**1. `accounts/list.go`, new `errors.Is(err, context.DeadlineExceeded)` branch — a timeout is converted into a successful empty result.**
+
+*What's wrong:* On a database timeout the function now returns `([]Account{}, nil)`. Per the reviewer notes, a nil error is serialized as HTTP 200 and an empty list is the contract for "this account has no records." So a slow/overloaded database is reported to callers as "you have zero accounts" — a false negative that is indistinguishable from real data. The same branch also fires when the *caller's* context deadline expires, so a client that gave up still gets a fabricated success.
+
+*Why it matters:* This is silent data loss at the API boundary. Anything downstream that acts on "no accounts" (UI empty states, onboarding that creates a default account, cleanup/billing jobs, reconciliation) will do the wrong thing, and nothing in logs, metrics, or status codes will show a failure occurred. It also defeats retries and load-shedding, since clients see 200 and will not back off. Because no stale-result contract exists, there is no cached/known-good value to fall back to — the empty slice is simply invented. The task was to make timeout handling *useful to callers*; this change hides the timeout from them, which is the opposite.
+
+*Required instead:* Surface the timeout as a distinguishable error rather than suppressing it. E.g. define a sentinel in the package and wrap it so both `errors.Is(err, ErrTimeout)` and `errors.Is(err, context.DeadlineExceeded)` hold:
+
+```go
+if errors.Is(err, context.DeadlineExceeded) {
+    return nil, fmt.Errorf("list accounts: %w: %w", ErrTimeout, err)
+}
+return nil, fmt.Errorf("list accounts: %w", err)
+```
+
+Then have the HTTP layer map that to 503/504 (with `Retry-After` if appropriate). If "available during timeouts" is a genuine requirement, it needs a real stale-read/cache design with an explicit staleness signal to the caller — not an empty list with `nil`. Add a unit test asserting that a wrapped `context.DeadlineExceeded` from `Store.List` yields a non-nil error and a nil slice, so this regression can't reappear.
+
+__ABLATION_DONE__ exit=0

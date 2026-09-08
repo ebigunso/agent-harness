@@ -1,0 +1,33 @@
+**Verdict:** Not a workspace problem. The audit itself completed (the file `C:/reports/🧪.txt` was opened and inspected; the script is read-only). The failure is at the output site: `print(path)` at `audit.py:40` can't encode `U+1F9EA` (🧪) because the Python process's stdout stream is using cp932.
+
+**Cause**
+
+`sys.stdout.encoding = cp932`, `utf8_mode = 0`. Because stdout is a pipe rather than an interactive console, CPython on Windows doesn't use the UTF-8 console writer; it falls back to the locale (ANSI) code page, which on this machine is cp932. cp932 has no encoding for emoji, so `print` raises even though the work succeeded. Same failure class as the reference note, with the nuance that here it's the pipe/locale encoding rather than the console code page — the fix is the same. Nothing is wrong with the file, the path, or the workspace contents.
+
+**Smallest safe remediation**
+
+Rerun with the stream-encoding override only (narrower than `-X utf8`, which also changes filesystem/default encodings):
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python audit.py
+```
+
+No cleanup needed: the script is read-only and the traceback confirms the failure was at print time, so there are no partial side effects to unwind.
+
+If you own `audit.py` and want this to stop recurring, add near the top:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+(or `errors="backslashreplace"` if you'd rather never crash on unencodable output, at the cost of lossy display).
+
+**Confirmation**
+
+- Exit code is 0 and stderr contains no `UnicodeEncodeError`.
+- stdout contains the path line with `🧪` intact (i.e. `C:/reports/🧪.txt`), not `?` or an escape.
+- Optionally, in the same piped context, `python -c "import sys; print(sys.stdout.encoding)"` with the env var set prints `utf-8`.
+- One caveat on the consumer side: whatever reads the pipe must decode it as UTF-8. In PowerShell 7 that means `[Console]::OutputEncoding` should be UTF-8 (`[Console]::OutputEncoding = [System.Text.Encoding]::UTF8`) if you're displaying or capturing the output there; otherwise the bytes are correct but may render as mojibake. That's a display concern, not a failure — the script will no longer crash either way.
+
+__ABLATION_DONE__ exit=0

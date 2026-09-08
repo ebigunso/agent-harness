@@ -1,0 +1,24 @@
+**Cause — not a workspace problem; the probe's assertion is wrong.**
+
+`$raw | ConvertFrom-Json` runs inside a pipeline, and by default `ConvertFrom-Json` enumerates the top-level array's elements onto the pipeline. A one-element wire array `[{"id":7}]` therefore arrives at the assignment as a single `PSCustomObject`, not an `Object[]`. So `$parsed -isnot [array]` is true and the script throws — a false negative. The raw JSON is valid, the wire framing is a proper array (`wire elements=1`), and nothing in the environment (Win11 22631, pwsh 7.4.6, execution policy) is at fault. The same logic would also wrongly reject `[]` (enumerates to nothing → `$parsed` is `$null`), so the probe fails two of the three shapes the contract accepts.
+
+**Smallest safe remediation — assert on the raw wire framing, not the post-pipeline type.**
+
+Replace line 10:
+
+```powershell
+$t = $raw.Trim()
+if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+This is a framing check, not a syntax validator (validity is still established by `ConvertFrom-Json` succeeding on line 5 with `$ErrorActionPreference = 'Stop'`). It accepts empty, singleton and multi-element arrays and rejects scalars like `7` or `"x"`, matching the stated contract, and it works identically on Windows PowerShell 5.1.
+
+Alternative on 7.4.6 only: `$parsed = $raw | ConvertFrom-Json -NoEnumerate` keeps `$parsed` as `Object[]` (length 0 or 1 included) and the existing `-isnot [array]` line then passes — but only as long as `$parsed` isn't re-piped later, and it doesn't exist on 5.1. I'd prefer the framing check for that reason.
+
+**Confirmation.**
+
+1. Rerun `pwsh -NoProfile -File probes/cardinality.ps1`; expect exit code 0 and stdout still showing `raw=[{"id":7}]`, `wire elements=1`, `parsed type=System.Management.Automation.PSCustomObject` (the type line is informational only now).
+2. Spot-check the contract by temporarily setting `$raw` to `[]` and `[{"id":1},{"id":2}]` (expect exit 0) and to `7` and `{"id":7}` (expect exit 1 with `Expected JSON array`).
+3. Record for the review: the raw JSON string, the element count (`1`), the exact parse call (`$raw | ConvertFrom-Json`, no `-NoEnumerate`), and the assertion that fired (`$parsed -isnot [array]` on line 10) so the unrolling explanation is traceable.
+
+__ABLATION_DONE__ exit=0

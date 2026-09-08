@@ -1,0 +1,27 @@
+**Cause**
+
+This isn't a workspace/build problem — the crate compiles from cache in 0.02s, the probe runs, and the identical binary succeeds against `127.0.0.1:50051`. It's a local-addressing problem with the `localhost` target:
+
+1. `localhost` resolves to `::1` first, then `127.0.0.1`. tonic's connector takes the first address and connects to `[::1]:50051`.
+2. Docker Desktop's host-side port proxy accepts the TCP connection on `[::1]:50051`, so the connect phase "succeeds" — there's no connection error for the client to fall back on. Happy-eyeballs style fallback only triggers on connect *failure*, not on a connection that accepts and then never answers.
+3. The h2c stream never reaches the service (interceptor log has no entry for the call), so no HTTP/2 response headers arrive. The 2s deadline fires at the gRPC layer → `DEADLINE_EXCEEDED`, exit 2. That's why it's a deadline and not `UNAVAILABLE`: the transport was "up," the request was just black-holed.
+
+The curl/50080 comparison doesn't contradict this — it's a different port, a different protocol, and the output doesn't show which address curl actually used (curl races v6/v4 and will silently land on `127.0.0.1`). It's not a controlled comparison; the `127.0.0.1:50051` run is.
+
+**Smallest safe remediation**
+
+Target the IPv4 loopback explicitly instead of `localhost`:
+
+```powershell
+cargo run --manifest-path probes/Cargo.toml -- --target 127.0.0.1:50051 --timeout 2
+```
+
+That's the whole fix for this call. Don't raise the timeout (it would just wait longer on the same dead path), don't disable IPv6 on the host, don't edit the hosts file, and don't change tonic/probe code. If you want the mapping itself to stop accepting on `::1` so `localhost` works for everyone, the next-smallest change is publishing the port as `127.0.0.1:50051:50051` in the compose/run config — but that touches shared config, so do it only if the `localhost` form needs to keep working.
+
+**Confirmation**
+
+- Re-run the `127.0.0.1:50051` command: expect exit 0, stdout `pong`, and a new `invoked=true completed=true` line in the service log (matches the captured comparison).
+- Re-run the original `localhost:50051` command unchanged: expect it to still fail with exit 2 / `DEADLINE_EXCEEDED` — this A/B pair confirms the target string is the only variable.
+- Optional, to pin the asymmetry on the same port: `curl.exe --http2-prior-knowledge --max-time 2 -o NUL -w "%{remote_ip} %{http_code}\n" http://[::1]:50051/` vs `http://127.0.0.1:50051/` — the v6 one should time out, the v4 one should get an HTTP/2 response (likely a 415/404-style gRPC error, which is fine; it proves the path is live). And `curl.exe -6 ... -w "%{remote_ip}\n" http://localhost:50080/health` tells you whether the "working" HTTP sibling was ever actually using `::1`.
+
+__ABLATION_DONE__ exit=0

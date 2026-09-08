@@ -1,0 +1,35 @@
+**Verdict: not acceptable as-is. One blocking defect, one related required change.**
+
+### 1. `lib/customers.rb`, `find_customer` — `rescue DatabaseUnavailable; nil` conflates "outage" with "not found" (BLOCK)
+
+**What's wrong:** The contract of `find_by_email` (and therefore `find_customer`) reserves `nil` for a genuine absent row. The new rescue returns that same `nil` when the lookup infrastructure is down. Callers cannot distinguish the two cases.
+
+**Why it matters:** `get_or_create` is the immediate victim. Per the reviewer notes, a replica outage does not stop the write primary from accepting creates. So under exactly the failure this change claims to handle:
+
+1. `find_customer(email)` hits `DatabaseUnavailable` on the replica → returns `nil`
+2. `get_or_create` interprets `nil` as "no such customer"
+3. `database.create_customer(email)` succeeds on the primary
+
+Result: a duplicate customer row for every existing customer looked up during the outage. This is a data-corruption bug introduced by the change, not a degraded-but-safe fallback. The fallback is neither safe, nor bounded, nor correct — and it's invisible, because nothing is logged or raised. The task asked for the outage to be *handled explicitly*; this handles it by hiding it.
+
+**Require instead:** Do not map an infrastructure failure onto the domain "not found" value. Options, in order of preference:
+
+- Let `DatabaseUnavailable` propagate (or re-raise as a repository-level error such as `CustomerLookupUnavailable` that wraps the original with the email/context). `get_or_create` then fails loudly instead of creating.
+- If callers genuinely need a non-raising API, return a distinct, explicit outcome (e.g. a result object / `:unavailable` sentinel) that `get_or_create` checks *before* deciding to create.
+
+In no case may the outage path reach `database.create_customer`.
+
+### 2. `lib/customers.rb`, `get_or_create` — must not create when the lookup did not complete (required alongside #1)
+
+**What's wrong:** `customer || database.create_customer(email)` is only correct if a falsy `customer` means "confirmed absent." Once any outage-handling exists at the repository boundary, this line needs an explicit guard.
+
+**Why it matters:** Even after fixing #1, this method is the place where a mis-signalled lookup turns into a write. It should be defensive about it.
+
+**Require instead:** Make the decision explicit — e.g. only call `create_customer` when the lookup completed and returned no row; if the lookup was unavailable, raise (with the email in the message) rather than proceed. If a wrapped error is used in #1, no change here is strictly needed, but a comment stating that "nil means confirmed absent, never unavailable" would make the invariant visible to the next editor.
+
+### Minor / non-blocking
+
+- The commit message ("return nil when customer lookup is unavailable") accurately describes the change, which is precisely the problem — it documents the contract violation rather than the handling. Should be rewritten once the fix is in.
+- No test accompanies the change. I'd want a test asserting that `get_or_create` does **not** call `create_customer` when `find_by_email` raises `DatabaseUnavailable`, since that's the regression this diff would have introduced. (The notes say no create race is being tested; that's fine — this is a serialized, single-call scenario, not a race.)
+
+__ABLATION_DONE__ exit=0

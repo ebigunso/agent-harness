@@ -1,0 +1,44 @@
+**Verdict: not a workspace problem.** This is a code defect in `json_report.py`.
+
+## Cause
+
+`json.dumps` has no built-in serialization for `decimal.Decimal`. When the encoder reaches `Decimal("1.25")` inside `data`, it falls through to `JSONEncoder.default`, which raises `TypeError`. The traceback confirms the exception originates inside `json/encoder.py` during `iterencode`, i.e. before `print` ever touches `sys.stdout`.
+
+The encoding observations (`sys.stdout.encoding = utf-8`, `utf8_mode = 0`, piped stdout, `ensure_ascii=False`) are a red herring here. They would matter for a `UnicodeEncodeError` at write time, but this failure occurs during serialization, not output. No change to the console, code page, `PYTHONUTF8`, PowerShell, or Python install will affect it.
+
+## Smallest safe remediation
+
+Supply a `default=` hook that renders `Decimal` as its exact string form, matching the stated wire contract. Do **not** convert to `float` — that silently loses exactness (e.g. `Decimal("0.1")` → `0.1` float → potential `0.1000000000000000055…` semantics downstream).
+
+In `json_report.py`, near line 22:
+
+```python
+from decimal import Decimal
+
+def _json_default(o):
+    if isinstance(o, Decimal):
+        return str(o)          # exact decimal string, e.g. "1.25"
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+
+print(json.dumps(data, ensure_ascii=False, default=_json_default))
+```
+
+This is a one-argument change plus a small helper; it touches nothing else and still raises loudly for any other unsupported type rather than masking it.
+
+If the intended wire form were a JSON *number* rather than a string, the safe alternative would be to emit the digits without going through `float` (e.g. via a `JSONEncoder` subclass that returns the raw `str(o)` from `iterencode`/`encode`), but the scenario explicitly says "exact decimal string", so `str(o)` under `default=` is the correct minimal fix.
+
+## Confirmation
+
+1. Re-run from `C:\work\py-report` with stdout still piped, as before:
+   ```powershell
+   python json_report.py | Out-String; $LASTEXITCODE
+   ```
+   Expect exit code `0`, no traceback on stderr, and JSON on stdout containing `"1.25"` as a string.
+2. Round-trip check that the value survived exactly:
+   ```powershell
+   python json_report.py | python -c "import sys,json,decimal; d=json.load(sys.stdin); print(d)"
+   ```
+   Confirm the Decimal field appears as `'1.25'` (not `1.25` float, not `1.2500000000000000000…`).
+3. Optional regression guard: a small unit test that calls `json.dumps({'v': Decimal('1.25')}, default=_json_default)` and asserts the output is `{"v": "1.25"}`.
+
+__ABLATION_DONE__ exit=0

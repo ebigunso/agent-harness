@@ -1,0 +1,34 @@
+## Cause
+
+This is a workspace (script logic) problem, not a runtime or environment fault.
+
+`ConvertFrom-Json` emits its result into the pipeline, and PowerShell's pipeline **unrolls/enumerates collections**. When the JSON is an empty array `[]`, the pipeline enumerates zero elements, so nothing is assigned and `$parsed` becomes `$null`. That is exactly what the stdout shows: `parsed type=<null>`. Since `$null -isnot [array]` is true, the `throw` fires and the script exits 1.
+
+The JSON parsed fine — the bug is that the array was flattened away by pipeline enumeration before the type check. (The same bug would also break a singleton array like `[5]`, which would unroll to a bare scalar `5`.)
+
+## Smallest safe remediation
+
+Stop the enumeration by adding `-NoEnumerate` to the conversion, so the array object is preserved intact:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+(Equivalently `$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate`.) This is a one-flag change, touches no other logic, writes no files, and keeps the contract semantics — empty, singleton, and multi-element arrays all remain `[array]`, while a scalar wire value (e.g. `"x"` or `5`) still fails the `-isnot [array]` check as intended.
+
+## How to confirm
+
+1. Re-run the exact command:
+   `pwsh -NoProfile -File probes/cardinality.ps1`
+   - Expect exit code `0` (`$LASTEXITCODE` = 0).
+   - Expect stdout line `parsed type=System.Object[]` instead of `<null>`, and no stderr.
+
+2. Regression-check the contract boundaries by temporarily setting `$raw`:
+   - `'[]'` → passes (empty array).
+   - `'[1]'` → passes (singleton, confirming the enumeration fix).
+   - `'[1,2]'` → passes (multiple).
+   - `'5'` or `'"x"'` → still throws `Expected JSON array`, exit 1 (scalar correctly rejected).
+
+If all four behave as above, the fix is verified.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,24 @@
+**Verdict: block.** The change fixes one symptom at one call site and leaves the root cause (and two of the three required paths) untouched.
+
+1. **`src/dates.php`, `validDate()` — regression not fixed at its origin.**
+   The reviewer notes say the regression was that the *shared* `validDate` lost its `checkdate` step. The diff leaves `validDate` shape-only, so `apiAccepts` and `importAccepts` still accept `2023-02-30`, `2023-04-31`, `2023-02-29`, etc. The task explicitly names form, API and imports; two of three are still broken. Required: put the calendar check back where it was:
+   ```php
+   function validDate(string $value): bool {
+       if (preg_match('/^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/D', $value, $p) !== 1) {
+           return false;
+       }
+       return checkdate((int)$p[2], (int)$p[3], (int)$p[1]);
+   }
+   ```
+   and leave all three `*Accepts` functions as `return validDate($value);`.
+
+2. **`src/dates.php`, `formAccepts()` — duplicated/compensating logic.**
+   The regex is now copy-pasted into `formAccepts`, creating a second source of truth for the date shape. Any future change to the format (or to the checkdate handling) has to be made in two places, and the form/API/import paths can silently diverge — which is exactly the kind of inconsistency this patch already exhibits. Required: revert `formAccepts` to delegate to `validDate`; no per-caller validation.
+
+3. **Commit message / scope mismatch.**
+   "validate form calendar dates" documents a narrower change than the task required, which masks that API and import are still non-compliant. Required: once the fix is in `validDate`, describe it as restoring calendar validation for all date entry points.
+
+4. **Missing regression coverage (would flag, not block on its own).**
+   Nothing prevents the same regression recurring. Required: tests exercising all three entry points against invalid-but-well-shaped dates (`2023-02-30`, `2023-02-29`, `2023-04-31`, `0000-01-01` — the regex admits year `0000`, and only `checkdate` rejects it per the 0001–9999 contract) and valid edge cases (`2024-02-29`, `0001-01-01`, `9999-12-31`). Since `validDate` becomes the single implementation, these can be written against it plus a thin assertion that each `*Accepts` delegates.
+
+__ABLATION_DONE__ exit=0

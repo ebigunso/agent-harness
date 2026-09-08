@@ -1,0 +1,26 @@
+**Cause**
+
+This is an environment/stream-encoding problem, not a data or code-logic bug. On Windows, when stdout is a pipe rather than a console, CPython picks the ANSI code page for `sys.stdout` (here cp932, Japanese) because UTF-8 mode is off (`utf8_mode = 0`). `json.dumps(..., ensure_ascii=False)` legitimately emits the raw 🚀 (U+1F680), which has no cp932 encoding, so `print` raises `UnicodeEncodeError` at the write boundary. Decoding and serialization already succeeded; only the final write fails.
+
+**Smallest safe remediation**
+
+Make the captured stdout UTF-8 without touching the script:
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'
+python json_report.py
+```
+
+(or equivalently `python -X utf8 json_report.py` / `$env:PYTHONUTF8=1`; those are slightly broader since they also change the default for `open()`, which is fine here since there are no file writes, but `PYTHONIOENCODING` is the narrowest fix).
+
+If you'd rather the script be self-defending for any caller, the one-line code equivalent is `sys.stdout.reconfigure(encoding="utf-8")` before the `print`. Dropping `ensure_ascii=False` would also "work" but changes the output (`\ud83d\ude80` escapes), so I would not call that the safe default.
+
+One caveat: since the consumer is a PowerShell pipe, PowerShell decodes native-command output using `[Console]::OutputEncoding`, which on this box is likely also cp932. If the downstream cmdlet shows mojibake, set `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` in the same session so both ends agree.
+
+**Confirmation**
+
+1. Re-run under the same capture: `python json_report.py | Out-String` → exit code 0 and output `{"label": "🚀"}`.
+2. Verify the stream setting took effect in the piped context: `python -c "import sys; print(sys.stdout.encoding)" | Out-String` → `utf-8`.
+3. Byte-level check that the emoji is real UTF-8, not a substitution: `python json_report.py | Format-Hex` (with `[Console]::OutputEncoding` set to UTF-8, or write to a file with `-Encoding utf8` and hex-dump it) should show `F0 9F 9A 80` at the emoji position.
+
+__ABLATION_DONE__ exit=0

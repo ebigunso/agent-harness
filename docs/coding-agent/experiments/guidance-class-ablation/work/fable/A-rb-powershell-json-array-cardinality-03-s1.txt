@@ -1,0 +1,36 @@
+## Cause
+
+This is a **script bug**, not an environment problem.
+
+`ConvertFrom-Json` returns a collection for a JSON array, but the result is fed through the pipeline into the assignment (`$raw | ConvertFrom-Json`). The pipeline **enumerates** the output, and PowerShell then re-wraps it. For a single-element array the enumeration yields exactly one item, so `$parsed` ends up bound to that lone scalar (`System.String "north"`) instead of an array.
+
+That's exactly what stdout shows: `parsed type=System.String`. The `-isnot [array]` guard then correctly (given the unwrapped value) throws, and `$ErrorActionPreference = 'Stop'` turns the `throw` into exit code 1.
+
+Note this only bites on the singleton case. Empty (`[]`) and multi-element arrays survive because there's nothing to unwrap to / more than one element keeps a collection — which is why the contract's singleton case is the one that breaks.
+
+## Smallest safe remediation
+
+Tell `ConvertFrom-Json` not to hand its output to the enumerating pipeline. Add `-NoEnumerate`:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+`-NoEnumerate` (PowerShell 6+, available in 7.4.6) emits the deserialized result as a single object, preserving the array wrapper. It changes no files and no other behavior. (Equivalent alternative: `$parsed = ConvertFrom-Json -InputObject $raw` avoids the pipeline entirely, but `-NoEnumerate` is the precise fix for the intent here.)
+
+## Confirmation
+
+Re-run the exact command:
+
+```
+pwsh -NoProfile -File probes/cardinality.ps1
+```
+
+Expect:
+- `parsed type=System.Object[]` in stdout (no longer `System.String`)
+- No stderr, exit code `0` (`$LASTEXITCODE` = 0).
+
+Then spot-check the other contract cases by temporarily setting `$raw` to `'[]'`, `'["north","south"]'`, and a scalar like `'"north"'`:
+- `[]` and the two-element array → pass (exit 0), and the scalar → still throws `Expected JSON array` (exit 1), confirming the guard still rejects non-arrays as intended.
+
+__ABLATION_DONE__ exit=0

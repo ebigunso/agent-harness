@@ -1,0 +1,17 @@
+**Cause:** Wrong working directory, not a workspace/dependency problem. The persistent shell's cwd was `C:/work/unrelated` (from the earlier `Set-Location`), which contains only `notes.txt`. Bundler searches the cwd and its ancestors for a `Gemfile` or `.bundle/`, finds none, and exits 10 with "Could not locate Gemfile or .bundle/ directory". The tool UI's remembered root (`C:/work/ruby-app`) is not the shell's cwd. The project itself is intact and its gems satisfy the lockfile, as the successful retry shows.
+
+**Smallest safe remediation:** Change to the intended base before running the command:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/ruby-app'
+bundle exec rake spec
+```
+
+No edits to code, `BUNDLE_GEMFILE`, PATH, or gems are needed. (Setting `BUNDLE_GEMFILE` would also work but is a broader, persistent change; navigating is smaller and safer. To avoid future drift, either run the command with an explicit `Push-Location`/`Pop-Location` or via `Start-Process`/`-WorkingDirectory` so the cwd doesn't leak between tasks.)
+
+**Confirmation:**
+1. `pwd` prints `C:/work/ruby-app`.
+2. `Get-ChildItem -Name` lists `Gemfile`, `Gemfile.lock`, `Rakefile`, `spec`.
+3. `bundle exec rake spec` exits 0 and reports `1 example, 0 failures` with empty stderr — which matches the captured comparison run.
+
+__ABLATION_DONE__ exit=0

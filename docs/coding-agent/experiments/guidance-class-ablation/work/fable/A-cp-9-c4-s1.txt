@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is.**
+
+I traced the loop against every requirement in the task and the reviewer notes and found nothing I would block or flag:
+
+- **Bound is correct.** `attempt` runs 1, 2, 3. On the third `ClientFailure` the condition `attempt == 3` is true, so it throws; there is no path to a fourth `read()` and no infinite loop. This matches the "three immediate attempts" the notes explicitly accept.
+- **Permanent failures stop immediately.** `!failure.retryable()` is checked first, so a validation/auth error on attempt 1 is rethrown without a second call.
+- **Final exception is preserved.** `throw failure;` rethrows the caught object itself, so the type, message, cause chain, and stack trace of the last failure are intact. No wrapping, no new exception.
+- **Non-`ClientFailure` exceptions** (e.g. a `RuntimeException` from `read()`) are not caught and propagate on the first occurrence, which is the correct default — the task only asks for retry on transient client failures.
+- **Compiles cleanly.** The `for (;;)` with every path ending in `return` or `throw` means the method end is unreachable, so no missing-return error. `attempt` cannot overflow.
+- **No delay/backoff** is intentional per the notes (local IPC, 100 ms enforced timeout), so worst-case latency is bounded at ~300 ms plus overhead.
+
+Non-blocking nit only, not a finding: the literal `3` could be a named constant (`MAX_ATTEMPTS`) for readability. I would not hold the change for it.
+
+__ABLATION_DONE__ exit=0

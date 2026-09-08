@@ -1,0 +1,33 @@
+**Cause: cwd drift in the persistent shell — a workspace/environment problem, not a code or Go problem.**
+
+The prior command `Set-Location -LiteralPath 'C:/work/assets'` moved the persistent shell to `C:/work/assets`, and that state carried forward. `pwd` confirms it, and `Get-ChildItem -Name` shows only `logo.svg` — no `go.mod`. `go test ./...` resolves `./...` relative to the shell's cwd, so Go found no module there and failed with `directory prefix . does not contain main module or its selected dependencies`. The tool UI's remembered root (`C:/work/go-service`) is irrelevant; the shell's own cwd is what `go` sees. The intended base is intact (`C:/work/go-service/go.mod` and `service_test.go` exist), and nothing else changed between attempts.
+
+**Smallest safe remediation**
+
+Navigate the persistent shell back to the intended base and rerun the original command unchanged:
+
+```powershell
+pwd                                                # evidence: C:/work/assets
+Set-Location -LiteralPath 'C:/work/go-service'
+go test ./...
+```
+
+Do not modify code, `go.mod`, PATH, or config. Avoid stacking `cd <dir> && ...` retries; one explicit `Set-Location` is sufficient. Optionally, for future commands in this session, use `Push-Location`/`Pop-Location` or run with an explicit `-C`-style working directory to avoid leaking cwd changes (e.g. `go test -C C:/work/go-service ./...` on Go 1.20+).
+
+**Confirmation**
+
+- Post-navigation `pwd` returns `C:/work/go-service`.
+- `go test ./...` exits 0 with `ok  	example.test/go-service  0.015s` and empty stderr — which the captured comparison already shows.
+- Final `pwd` still `C:/work/go-service`, confirming the shell is left in the intended state for subsequent commands.
+
+**Evidence summary**
+
+| Item | Value |
+|---|---|
+| Failing command | `go test ./...` → exit 1, `directory prefix . does not contain main module` |
+| Pre-normalization cwd | `C:/work/assets` |
+| Normalized cwd | `C:/work/go-service` |
+| Rerun result | exit 0, `ok example.test/go-service 0.015s` |
+| Status | **resolved** (root cause: cwd drift from prior `Set-Location`) |
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,38 @@
+## Cause
+
+Print-time encoding failure, not a build failure. The script's real work completed before line 46: `manifest.json` was atomically replaced via `os.replace` and inspection shows the complete, correct artifact (`{"title":"🚀","version":1}`, expected bytes/hash). The only thing that failed was the status message `print('built ' + title)`.
+
+Why it failed: stdout is a pipe, so CPython 3.12 does not use the UTF-8 console writer it would use for an interactive Windows console; it falls back to the locale encoding (`cp932`) because UTF-8 mode is off (`sys.flags.utf8_mode = 0`) and `PYTHONIOENCODING` is unset. `'\U0001f680'` (🚀) is outside CP932, so `print` raised. The exit code 1 is misleading — it reports the status line, not the artifact.
+
+(One nuance vs. the reference note: on modern Python the interactive console path is already UTF-8; the CP932 trap specifically bites when stdout is redirected or piped, which is exactly this case.)
+
+## Is this a workspace problem?
+
+No. The workspace state is correct and no rollback is needed: the write was atomic, the artifact is valid, and there are no counters, remote writes, or other side effects. The problem is the process's stdout encoding under a pipe.
+
+## Smallest safe remediation
+
+Rerun with the I/O encoding override (PowerShell):
+
+```powershell
+$env:PYTHONIOENCODING = 'utf-8'; python build_manifest.py
+```
+
+(`$env:PYTHONUTF8 = '1'` also works and additionally fixes file-handle defaults, but it's a broader change; `PYTHONIOENCODING` is the narrowest.)
+
+Rerunning is safe: generation is deterministic and the replace is atomic, so `manifest.json` will be rewritten with identical bytes.
+
+For a durable fix in the script you own, make the output site explicit so callers don't have to remember the env var:
+
+```python
+import sys
+sys.stdout.reconfigure(encoding="utf-8")  # at startup, before any print
+```
+
+## Confirmation
+
+1. Rerun exits 0 and stdout contains `built 🚀` (no traceback on stderr).
+2. `manifest.json` hash is unchanged from the pre-rerun inspection — proves the rerun was a no-op on the artifact and the earlier failure had no side effects.
+3. Optionally, `python -c "import sys; print(sys.stdout.encoding)" | Out-String` with the override set should report `utf-8` rather than `cp932`, confirming the override took effect in the piped configuration.
+
+__ABLATION_DONE__ exit=0

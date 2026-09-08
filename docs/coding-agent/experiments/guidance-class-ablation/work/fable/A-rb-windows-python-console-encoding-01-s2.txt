@@ -1,0 +1,45 @@
+**Verdict:** This is not a workspace (files/dependencies) problem. The script ran correctly and produced `'Summary — complete'`; it failed only when *writing* that string to stdout. It's a process/environment encoding configuration issue.
+
+**Cause**
+
+- stdout is a pipe, not a Windows console, so CPython 3.12 does not use the console's UTF‑8 path; it falls back to the locale ANSI code page — here cp932 (Japanese), as confirmed by `sys.stdout.encoding = cp932`.
+- UTF‑8 mode is off (`sys.flags.utf8_mode = 0`), so nothing overrides that.
+- U+2014 EM DASH has no mapping in cp932 (cp932's 0x815C is U+2015 HORIZONTAL BAR, not U+2014), so `print()` raises `UnicodeEncodeError` with the default `strict` error handler. Exit 1, empty stdout.
+
+**Smallest safe remediation**
+
+Make Python's stdio UTF‑8 for this invocation only, without touching the script:
+
+```powershell
+$env:PYTHONUTF8 = '1'
+python report.py
+```
+
+(`$env:PYTHONIOENCODING = 'utf-8'` is an even narrower alternative that affects only stdio, not filesystem/locale defaults; either is fine here because no files are written.)
+
+If the pipe's consumer is PowerShell itself (e.g., `python report.py | Out-File` or capturing into a variable), also tell PowerShell to decode native output as UTF‑8, or the bytes will be mis‑decoded on the other side:
+
+```powershell
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+```
+
+If the consumer is a file redirect or another UTF‑8‑aware tool, that second line isn't needed.
+
+I would *not* recommend `sys.stdout.reconfigure(encoding='utf-8')` or `errors='replace'` in `report.py` as the first step — the former is a code change with wider blast radius, and the latter silently corrupts output.
+
+**Confirmation**
+
+```powershell
+$env:PYTHONUTF8 = '1'
+python -c "import sys; print(sys.stdout.encoding, sys.flags.utf8_mode)" | Out-String
+# expect: utf-8 1
+
+python report.py; $LASTEXITCODE
+# expect: Summary — complete   and   0
+```
+
+Optionally verify the raw bytes are UTF‑8 (`E2 80 94` for the dash): `python report.py | Format-Hex` (after setting `[Console]::OutputEncoding` as above) or redirect to a file and inspect with `Format-Hex`.
+
+If a persistent fix is wanted, set `PYTHONUTF8=1` at the user level (`setx PYTHONUTF8 1`) or in the CI/job environment rather than modifying the script.
+
+__ABLATION_DONE__ exit=0

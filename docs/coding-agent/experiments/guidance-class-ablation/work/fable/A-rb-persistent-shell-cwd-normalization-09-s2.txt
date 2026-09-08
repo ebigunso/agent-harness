@@ -1,0 +1,15 @@
+**Cause:** A working-directory mismatch, not a workspace or code problem. The persistent shell had been moved by the prior `cd '/c/work/c-lib/tests'`, so `make -f Makefile test` ran from `C:/work/c-lib/tests`, where no `Makefile` exists (only `test_math.c`). Make therefore reported "Makefile: No such file or directory" and exited 2. The Makefile lives one level up at `C:/work/c-lib/Makefile`. The tool UI's remembered root (`C:/work/c-lib`) diverged from the shell's actual cwd; nothing about code, PATH, dependencies, permissions, or config changed.
+
+**Smallest safe remediation:** Run make from the intended base, without touching any files:
+
+```bash
+cd /c/work/c-lib && make -f Makefile test
+```
+
+(Equivalent non-cwd-changing alternative: `make -C /c/work/c-lib -f Makefile test`.) Do not create or copy a Makefile into `tests/` — that would fork the build definition to paper over a navigation error.
+
+**Confirmation:** `pwd` shows `/c/work/c-lib` (C:/work/c-lib), and the unchanged command exits 0 with stderr empty and stdout `./build/test_math.exe` / `1 test passed`. The captured comparison run already demonstrates exactly this: identical command, only the cwd differed, exit 0 and the test passed.
+
+To avoid recurrence in this persistent shell, either return to the base after subdirectory work or use `make -C` / absolute paths so the command is cwd-independent.
+
+__ABLATION_DONE__ exit=0

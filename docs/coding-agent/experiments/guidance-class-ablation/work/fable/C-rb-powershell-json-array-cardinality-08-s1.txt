@@ -1,0 +1,35 @@
+## Cause
+
+This is a **script bug**, not a runtime or environment problem.
+
+The line
+
+```powershell
+$parsed = ($raw | ConvertFrom-Json -NoEnumerate) | ForEach-Object { $_ }
+```
+
+correctly uses `-NoEnumerate` so `ConvertFrom-Json` emits the array as a single object — but that array is then **re-piped** into `ForEach-Object`. A pipeline unrolls arrays, so `ForEach-Object` receives the one element and emits it alone. `$parsed` therefore becomes a bare `PSCustomObject`, not an `Object[]`. The `-isnot [array]` assertion then fires and throws.
+
+`-NoEnumerate` only protects framing until the value is piped again; the trailing `| ForEach-Object { $_ }` defeats exactly the property it was meant to guarantee. The stdout confirms this: `parsed type=System.Management.Automation.PSCustomObject`.
+
+## Smallest safe remediation
+
+Remove the re-pipe and assign the `ConvertFrom-Json -NoEnumerate` output directly:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Assignment collects the pipeline output without unrolling the single object, so a one-element array stays `Object[]`. (You're on PowerShell 7.4.6, so `-NoEnumerate` is available — no need for the 5.1 raw-framing fallback here.)
+
+## How to confirm
+
+1. Re-run `pwsh -NoProfile -File probes/cardinality.ps1`; expect **exit code 0** and `parsed type=System.Object[]` with no `Expected JSON array` on stderr.
+2. Exercise the contract boundaries to prove the assertion still discriminates correctly:
+   - Singleton `[{"id":9}]` → array, passes (the case above).
+   - Empty `[]` and multi-element `[1,2]` → arrays, pass.
+   - Scalar wire value, e.g. `raw='5'` → parses to `Int32`, `-isnot [array]` is true, still throws as intended.
+
+Optionally cross-check the wire framing independently (trimmed raw starts `[` and ends `]`, element count) rather than relying solely on post-parse type, since `-is [array]` alone cannot prove the original wire shape.
+
+__ABLATION_DONE__ exit=0

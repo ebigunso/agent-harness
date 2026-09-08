@@ -1,0 +1,19 @@
+**Verdict: block.** The change does the opposite of the task — it converts a backend timeout into a response that clients cannot distinguish from a successful empty result.
+
+**1. `src/Endpoint.kt`, catch block — timeout is reported as success**
+- **What's wrong:** `Response(success = true, payload = null)` is, per the existing envelope contract, a legitimate empty result. A client that times out now receives HTTP 200 with "nothing found" instead of an error.
+- **Why it matters:** This is a silent failure. Clients will cache/act on "no data" that was never actually determined; retries that would have succeeded won't happen; monitoring based on envelope status/HTTP codes will show zero errors while the backend is timing out. The task explicitly asked for an *accurate* result on timeout; this makes it inaccurate.
+- **Require instead:** Return a failed envelope so the existing transport maps it to the appropriate HTTP error (e.g. 504 Gateway Timeout / 503), carrying the sanitized operation ID from `BackendTimeout` so the client and support can correlate it. Something like `Response(success = false, error = TimeoutError(error.operationId))` (matching however the envelope expresses failures today). Do not reuse the "empty payload" shape for an error.
+
+**2. `src/Endpoint.kt`, `log.debug("Backend timeout", error)` — failure logged at debug, with no request context**
+- **What's wrong:** A backend timeout is an operational fault, not a trace-level event. Debug is typically off in production, so this will be invisible; and it doesn't include `request.id` or the operation ID for correlation.
+- **Why it matters:** Combined with finding 1, there would be no signal anywhere that timeouts are occurring. Even once the envelope is fixed, the log is the server-side breadcrumb and needs to be findable.
+- **Require instead:** Log at warn (or error, per project convention) and include `request.id` and `error.operationId` in the message/structured fields. Note the reviewer point: logging is not a substitute for a correct client response — it's in addition to fixing finding 1.
+
+**3. Commit message — "return an empty response after timeout"**
+- **What's wrong:** It accurately describes what the diff does, which is precisely the bug; it does not describe a fix for the stated task.
+- **Require instead:** Once corrected, e.g. "surface backend timeout as a failed envelope / gateway-timeout error".
+
+What is fine as-is: catching only `BackendTimeout` and letting other exceptions propagate unchanged is the correct scope for this change.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.**
+
+I walked through the usual failure modes for this kind of change and none of them apply here:
+
+- **Ordering / durability.** `store.save(file)?` still runs first and still propagates on failure, so a failed store never yields a fake success. The thumbnail attempt only happens once there is a real `id`, which is the correct order for "stored upload remains usable."
+- **Visibility.** The degraded path is surfaced on both channels: `UploadWarning::ThumbnailUnavailable` to the client (which per the notes is displayed alongside the original file) and a `warn!` with the upload `id` for operators. The two are correlatable, so losing the detailed error from the client-facing variant is fine.
+- **Contract.** `thumbnail: Option<Thumbnail>` and `warning: Option<UploadWarning>` are already the published shape; the diff populates them consistently (`Some`/`None` and `None`/`Some`, never both or neither in a contradictory way).
+- **Blast radius of swallowing the error.** `thumbnails::create` is bounded (2s), cleans up its temp files, and doesn't log secrets, so catching its error doesn't leak resources, hang the request, or put sensitive data in logs. Scanning/validation happens before and is unaffected.
+- **Type/return shape.** The function signature is unchanged; store errors still return `Err(StoreError)`.
+
+The one thing I'd mention (non-blocking): the diff adds a new branch and doesn't show a test for it. If the repo has coverage for `upload`, I'd expect a case asserting that a failing `thumbnails::create` yields `Ok` with `thumbnail == None` and `warning == Some(ThumbnailUnavailable)`, and that a failing `store.save` still returns `Err`. If that exists elsewhere in the PR, nothing further.
+
+__ABLATION_DONE__ exit=0

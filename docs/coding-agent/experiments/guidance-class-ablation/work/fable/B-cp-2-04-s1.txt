@@ -1,0 +1,16 @@
+**Verdict: block.** The change does not do what the task asked, and it actively hides the bug it was supposed to fix.
+
+**1. `app/export.py`, `destination()` — root cause left in place**
+`destination` still returns `Path(config.export_subdir) / name`, i.e. the relative path `daily/<name>`. The reviewer notes say the refactor dropped `export_root`; that's the defect, and this diff doesn't touch it. With cwd `/srv/app`, exports will land in `/srv/app/daily/<name>`, not `/srv/exports/daily/<name>`. The task ("restore exports to the configured absolute output root") is simply not accomplished.
+Required: `return Path(config.export_root) / config.export_subdir / name`. Both `cli_export` and `batch_export` go through `destination`, so that single line fixes both paths.
+
+**2. `write_export()` — the `try/except FileNotFoundError` + `mkdir` is a symptom patch that masks the regression**
+Before this change, the misrouted write failed with `FileNotFoundError` because `/srv/app/daily` doesn't exist — a loud, accurate signal that the path is wrong. After this change, the code silently creates `/srv/app/daily/` (or `./daily/` wherever the process happens to be launched) and reports success. The exports are still in the wrong place, but now nothing tells you. That's strictly worse than the original bug: it converts a visible failure into silent data misplacement, and will litter stray `daily/` directories across every cwd the CLI is run from.
+Required: remove the try/except entirely. The configured `/srv/exports/daily` exists and is writable, so once `destination` is fixed there is nothing to create. If auto-creating the export directory is genuinely a requirement, do it once, explicitly, from the configured absolute path (e.g. at config load / startup), not as a fallback triggered by an exception on a path that may be wrong.
+
+**3. Commit message and intent mismatch**
+"create missing export folders" describes a different change from the assigned task. That's a signal the author diagnosed the wrong problem — worth noting so the resubmission comes with a message that reflects the actual fix (restoring `export_root` in `destination`).
+
+Minor / would not block on its own: the duplicated `target.write_bytes(data)` on both branches is the kind of compensating logic that tends to get copied elsewhere; it goes away with fix #2.
+
+__ABLATION_DONE__ exit=0

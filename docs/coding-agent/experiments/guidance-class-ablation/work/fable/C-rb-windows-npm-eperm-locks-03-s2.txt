@@ -1,0 +1,38 @@
+**Verdict:** This is a workspace problem — a file lock, not an npm, lockfile, registry, or permissions issue.
+
+## Cause
+
+`npm ci` removes the existing `node_modules` before reinstalling. On Windows, a native addon (`.node` is a DLL) that is mapped into a running process cannot be unlinked; the OS rejects the delete with `EPERM` (libuv errno `-4048`). The holder is identified directly:
+
+- `tasklist /m swc.win32-x64-msvc.node` → `node.exe` PID 4103
+- Process inspection: that PID is the Next dev server launched from `C:/work/npm-lock/node_modules/next/dist/bin/next dev`, i.e. this repository's own dev task, which has loaded `@swc/core-win32-x64-msvc/swc.win32-x64-msvc.node`.
+
+Everything else rules out other causes: the probe file beside the module can be created/removed, no ACL denial, `package.json`/`package-lock.json` are in sync, registry requests succeed. The `.node` binary itself is intact (it loaded fine before the install), so this is not a corrupt module.
+
+## Smallest safe remediation
+
+1. **Stop the Next dev server gracefully** — `Ctrl+C` in the terminal running `next dev` (or stop the task in the editor/task runner that launched it). Do not kill it first; it is a legitimate repo process that just needs to release the DLL.
+2. **Re-run the original command:** `npm ci`.
+3. **Last resort only** — if the process does not exit and `tasklist /m` still shows it holding the module, and you have confirmed PID 4103 is that dev server (already confirmed above): `taskkill /PID 4103 /F`, then retry `npm ci`.
+4. Restart `next dev` after the install completes.
+
+Do not delete `node_modules` manually with elevated rights, disable antivirus, or change ACLs — none of those are the cause and they add risk.
+
+## Confirmation
+
+- Before retry: `tasklist /m swc.win32-x64-msvc.node` returns `INFO: No tasks are running which match the specified criteria.` (no `node.exe` row).
+- `npm ci` exits `0` with no `EPERM`/`unlink` lines in stderr.
+- `node_modules\@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` exists at version 1.7.26 (`npm ls @swc/core-win32-x64-msvc` shows it, no `invalid`/`missing`).
+- `next dev` starts cleanly afterwards and compiles a page (proves the freshly installed addon loads).
+
+If the retry still fails on a *different* module, inspect that module's holder with `tasklist /m <module>.node` and `tasklist | findstr node` and repeat.
+
+## Record
+
+- Original command: `npm ci` — exit 1, `EPERM unlink … \@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` (errno -4048)
+- Module: `@swc/core-win32-x64-msvc@1.7.26` / `swc.win32-x64-msvc.node`
+- `tasklist /m swc.win32-x64-msvc.node`: `node.exe` PID 4103 (Next dev server, repo-owned)
+- Process stopped: PID 4103 (graceful; note if `taskkill /F` was required)
+- Retry: `npm ci` — expected exit 0; record actual result.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,52 @@
+**Verdict: block.** The change does not implement bounded transient-error retry; it implements unconditional infinite retry that can hang callers forever and hide permanent errors.
+
+## Findings
+
+### 1. `src/inventory.mjs` — retry is unbounded (no attempt cap, no overall deadline)
+`catch` unconditionally re-calls `fetchInventory`. There is no attempt counter, no total time budget, and the reviewer notes confirm nothing upstream imposes one. If the transport is down, the returned promise never settles — the caller hangs indefinitely, and each per-attempt timeout just feeds the next attempt. Each recursion also allocates a new pending promise chained to the previous one, so memory grows without bound for as long as the failure lasts.
+
+Require: a loop with a fixed max attempts (e.g. 3) *and* an overall deadline, after which the last error is thrown.
+
+### 2. `src/inventory.mjs` — permanent errors are retried
+The task is to retry *transient* failures, but the catch does not inspect `error`. `ValidationError` (invalid SKU, permanent per the notes) will be retried forever, exactly like a network blip. For a synchronously-throwing client this is direct recursion → stack overflow; for an async rejection it is a tight microtask loop that starves the event loop. Either way a bad SKU turns from a clear error into a hang/crash.
+
+Require: only retry on `TransportError` (or an explicit "retryable" predicate); rethrow everything else immediately and unchanged.
+
+### 3. `src/inventory.mjs` — the error is swallowed with no context
+`error` is bound and discarded. Nothing is logged, nothing is attached to the eventual failure, and because the function never gives up there is no eventual failure to report. An operator sees a stuck request with no signal about why. This directly violates "never hide or blur failures."
+
+Require: when retries are exhausted, throw an error that includes attempt count, elapsed time, SKU, and the last underlying error (`{ cause }`), so the failure is visible and diagnosable.
+
+### 4. `src/inventory.mjs` — no backoff between attempts
+Retries fire immediately. Against a degraded inventory service this is a retry storm: every caller hammers the dependency at maximum rate precisely when it is least able to serve, worsening the outage.
+
+Require: exponential backoff with jitter between attempts, capped so it stays within the overall deadline.
+
+### 5. Commit message — "retry inventory failures" misstates intent and scope
+It says all failures, which is what the code does but not what the task asked for. Once the above is fixed the message should say what is retried, how many times, and with what budget.
+
+## What I'd expect instead (sketch)
+
+```js
+export async function fetchInventory(api, sku, { maxAttempts = 3, deadlineMs = 5000, baseDelayMs = 100 } = {}) {
+  const start = Date.now();
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await api.inventory(sku);
+    } catch (error) {
+      if (!(error instanceof TransportError)) throw error;   // permanent: surface immediately
+      lastError = error;
+      const elapsed = Date.now() - start;
+      if (attempt === maxAttempts || elapsed >= deadlineMs) break;
+      const delay = Math.min(baseDelayMs * 2 ** (attempt - 1) * (0.5 + Math.random()), deadlineMs - elapsed);
+      await new Promise(r => setTimeout(r, delay));
+    }
+  }
+  throw new Error(`fetchInventory(${sku}) failed after ${maxAttempts} attempts / ${Date.now() - start}ms`, { cause: lastError });
+}
+```
+
+Plus tests covering: succeeds on retry after a `TransportError`; `ValidationError` is thrown on first attempt with no retry; persistent `TransportError` throws after N attempts with the cause attached; total time respects the deadline.
+
+__ABLATION_DONE__ exit=0

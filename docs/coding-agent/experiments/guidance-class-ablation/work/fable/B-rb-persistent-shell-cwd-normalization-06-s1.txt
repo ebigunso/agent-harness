@@ -1,0 +1,33 @@
+**Cause: cwd drift in the persistent shell, not a code, environment, or Gradle problem.**
+
+A prior command in the same session (`cd '/c/work/jvm-app/service'`) moved the shell into the `service` subproject. The tool UI still remembered `C:/work/jvm-app` as the workspace root, but the shell's actual cwd was `/c/work/jvm-app/service` (confirmed by `pwd` and `ls -1`, which shows only `build.gradle.kts` and `src`). The Gradle wrapper script lives only at the root (`C:/work/jvm-app/gradlew`, alongside `settings.gradle.kts`), so the relative path `./gradlew` resolved to a nonexistent `service/gradlew`. Bash reports exactly that (`No such file or directory`, exit 127 = command not found). Nothing else changed between attempts: same command, same files, same permissions, same PATH; `gradlew` is executable with Unix line endings and its wrapper JAR is present.
+
+**Smallest safe remediation**
+
+Normalize the shell cwd back to the intended base and rerun the command unchanged:
+
+```
+pwd                      # observe: /c/work/jvm-app/service
+cd '/c/work/jvm-app'
+./gradlew test
+```
+
+No file, config, or permission changes are needed. Going forward in this session, avoid stacking `cd service && ...` assumptions; if you need to target the subproject, run from the root with `./gradlew :service:test`.
+
+**Confirmation**
+
+- `pwd` after navigation prints `/c/work/jvm-app` (the captured normalized cwd shows `C:/work/jvm-app`).
+- `./gradlew test` exits 0 and prints `> Task :service:test` … `BUILD SUCCESSFUL`, with empty stderr — which is exactly what the captured retry produced.
+- Final `pwd` still `C:/work/jvm-app`, so the session is left in the intended base for subsequent commands.
+
+**Evidence summary**
+
+| Item | Value |
+|---|---|
+| Failing command | `./gradlew test` → exit 127, `bash: ./gradlew: No such file or directory` |
+| Pre-normalization cwd | `/c/work/jvm-app/service` |
+| Normalized cwd | `C:/work/jvm-app` |
+| Rerun result | exit 0, `BUILD SUCCESSFUL in 1s` (3 actionable tasks) |
+| Status | **resolved** — root cause was persistent-shell cwd drift; not a workspace/toolchain defect |
+
+__ABLATION_DONE__ exit=0

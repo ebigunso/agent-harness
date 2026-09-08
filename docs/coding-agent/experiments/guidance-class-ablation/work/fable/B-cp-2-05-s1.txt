@@ -1,0 +1,15 @@
+**Verdict: block.** The change patches one symptom in one caller and leaves the actual cause in place.
+
+**Findings**
+
+1. **`invoices/allocate.go` — `httpMu` cannot fix the reported failure.**
+   The collisions come from the read-modify-write in `allocate` (`SELECT MAX(id)+1` then `INSERT`) being non-atomic. Per the reviewer notes, HTTP and batch run as *separate OS processes* against the same SQLite file. A `sync.Mutex` is process-local; it has no effect on a batch process racing an HTTP process, and `BatchCreate` isn't even wrapped, so batch-vs-batch concurrency is untouched too. The only race this removes is HTTP-handler vs HTTP-handler within one process. The task as stated ("across HTTP and batch workers") is not accomplished, and the commit message quietly narrows the scope to hide that.
+   *Require:* drop the mutex and remove the `MAX+1` allocation entirely. The schema already provides authoritative auto-generated integer IDs, so `allocate` should be a single `INSERT INTO invoices DEFAULT VALUES` (or the equivalent) and return `LastInsertId()` / `RETURNING id`. That makes allocation atomic at the database, which is the only place shared by both processes, and lets `HTTPCreate`/`BatchCreate` stay thin with no synchronization code. If for some reason auto-generated IDs can't be used, the fallback is a `BEGIN IMMEDIATE` transaction around select+insert — still in the DB, never an in-process lock.
+
+2. **`invoices/allocate.go` — mutex adds a global serialization point with no benefit.**
+   Even in the cases where it does apply, `httpMu` serializes every HTTP invoice creation behind one lock for a problem the database can handle concurrently. This is exactly the "compensating logic in the caller" pattern that will get copied to `BatchCreate` next and still be wrong. Goes away with fix #1.
+
+3. **`invoices/allocate.go` — `import ("database/sql"; "sync")` is not gofmt output.**
+   Minor, and moot once `sync` is removed, but it indicates the file wasn't run through the formatter; CI should be catching this.
+
+__ABLATION_DONE__ exit=0

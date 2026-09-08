@@ -1,0 +1,16 @@
+**Verdict: block.** The change does the opposite of the task — it makes timeouts *less* accurate to clients than before.
+
+**1. `src/Endpoint.kt`, catch block — timeout is reported as a successful empty result.**
+`Response(success = true, payload = null)` is the existing envelope for a legitimate "no data" result. A client receiving it after a backend timeout cannot distinguish "the resource is empty" from "the backend never answered." Before this change the exception at least propagated as an error; now it is silently converted into a 200 with a null body, which is a correctness regression (clients may cache or act on a false empty result). The task was to give clients an *accurate* result; this gives them a misleading one.
+Required: return a failed envelope so the existing transport layer maps it to the right HTTP error (e.g. a gateway/upstream timeout status). Something like `Response(success = false, error = TimeoutError(error.operationId))` — whatever the envelope's failure shape is. If the envelope has no way to carry a timeout-specific failure, add one rather than reusing the empty-success shape.
+
+**2. Same block — `log.debug` is the wrong level and the log does not substitute for a client-visible signal.**
+A backend timeout is an operational event that should be visible in production logging; debug is typically off there, so the only trace of the failure disappears along with the client-facing signal. The commit appears to treat the log as the "handling," but logging has no effect on what the client sees.
+Required: log at warn (or error, per project convention) and include the sanitized operation ID from `BackendTimeout` so the event is correlatable; keep the client-facing fix in (1) as the actual behavioral change.
+
+**3. Commit message — "return an empty response after timeout" describes the bug, not a fix.**
+It accurately states what the code does, which is exactly the behavior the task says clients should not get. Once (1) is fixed, the message should say the endpoint now surfaces backend timeouts as an error envelope/HTTP error.
+
+Minor/optional: consider whether this catch should live in the endpoint at all, or whether the transport layer should map `BackendTimeout` centrally so other endpoints get the same behavior — but that's a design question, not a blocker.
+
+__ABLATION_DONE__ exit=0

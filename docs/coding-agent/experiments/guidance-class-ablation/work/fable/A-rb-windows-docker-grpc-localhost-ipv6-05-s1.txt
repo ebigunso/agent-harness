@@ -1,0 +1,39 @@
+## Cause
+
+This is a workspace/environment problem — specifically a name-resolution + Docker port-binding asymmetry — not a bug in the probe, the service, or the gRPC call itself.
+
+`localhost` resolves to `::1` (IPv6) before `127.0.0.1` (IPv4). The failed channel therefore dials `[::1]:50051`. The TCP handshake succeeds (something is listening on that IPv6 endpoint), but the Docker Desktop/WSL2 published mapping does not actually deliver that IPv6 connection into the container's h2c listener, so **no HTTP/2 response headers ever arrive** and the client sits until the 2s deadline fires → `DEADLINE_EXCEEDED`, exit 2.
+
+Three observations confirm this and rule out other causes:
+
+- **No interceptor log entry** for the failed call → the request never reached the service. So the service and the method are fine; the traffic died in transit.
+- **The same call to `127.0.0.1:50051` succeeds** (`pong`, exit 0, `invoked=true completed=true`) → identical method/payload/deadline/server; only the address differs. This isolates the fault to address selection, not gRPC config, TLS (there is none), or timeout tuning.
+- **The HTTP health check on `:50080` returns 200 in 12 ms** → the host, Docker, and general networking are healthy; this is specific to how the `::1` path for `:50051` is (not) forwarded.
+
+The 2s timeout is not the real problem — raising it would only make the same connection fail more slowly.
+
+## Smallest safe remediation
+
+Change the target from `localhost` to the IPv4 literal:
+
+```
+dotnet run --project probes/GrpcProbe -- --target 127.0.0.1:50051 --timeout 2
+```
+
+This is the minimal, non-destructive fix: no rebuild, no config edit, no service or Docker restart, no change to resolution order or firewall rules. It just avoids the broken `::1` path by naming the endpoint that is actually mapped.
+
+## Confirmation
+
+1. Rerun the command above and check:
+   - exit code `0`
+   - stdout `pong`
+   - stderr empty
+2. Confirm the request actually reached the service — the interceptor log should now show a new line:
+   ```
+   probe method="unary Echo" transport=h2c invoked=true completed=true
+   ```
+   (This distinguishes a real success from a fast local failure.)
+
+If you want a durable fix rather than a per-invocation workaround, address the IPv6 mapping directly (e.g., publish/bind the container port on `127.0.0.1` explicitly, or ensure the `::1` publish forwards into the container). But the address swap above is the smallest safe change to unblock the probe now.
+
+__ABLATION_DONE__ exit=0

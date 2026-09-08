@@ -1,0 +1,19 @@
+**Verdict: block.** The change suppresses the symptom in one caller and leaves the actual bug in place.
+
+**1. `src/mesh.cpp`, `mesh_indices` — root cause untouched (off-by-one).**
+`for (std::size_t i = 0; i <= vertex_count; ++i)` emits `vertex_count + 1` indices, the last of which (`vertex_count`) is out of range. This is the origin of *every* invalid index in both preview and production. The diff doesn't change it. Required: `i < vertex_count`. That single-character fix makes both `preview_indices` and `production_indices` correct with no further code.
+
+**2. `src/mesh.cpp`, `production_indices` — task not accomplished.**
+The task says "previews and production rendering." Production still calls the unfixed `mesh_indices` and still hands the renderer an index equal to `vertex_count`, which the renderer will reject. Half the stated defect remains.
+
+**3. `src/mesh.cpp`, `preview_indices` — the clamp is compensating logic that produces a different wrong output.**
+After clamping, the preview buffer is still `vertex_count + 1` long, with `vertex_count - 1` appearing twice at the tail. The reviewer notes say one index per vertex is required, so this violates the API contract. Worse, it converts a loud failure (renderer rejects out-of-range index) into a silent one (renderer accepts a buffer with a duplicated final index and draws a degenerate/extra primitive). Preview and production now also disagree in length and content, so previews no longer predict production. Required: delete the clamp line entirely once (1) is fixed. There is no legitimate reason for a per-index `std::min` here; if an index needs clamping, the generator is wrong.
+
+**4. Missing regression test.**
+Nothing pins the invariant. Required: a test for both `preview_indices` and `production_indices` asserting `size() == vertex_count`, `back() == vertex_count - 1`, and `preview_indices(n) == production_indices(n)` for representative `n` (1, 2, a large value within the validated range).
+
+**5. Commit message** — "clamp preview index range" describes a workaround, not the fix, and omits production. Should read along the lines of "fix off-by-one in mesh_indices producing out-of-range index."
+
+Minor, non-blocking: `indices.reserve(vertex_count)` before the loop.
+
+__ABLATION_DONE__ exit=0

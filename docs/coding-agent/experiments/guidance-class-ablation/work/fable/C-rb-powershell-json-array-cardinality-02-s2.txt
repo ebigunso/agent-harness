@@ -1,0 +1,29 @@
+**Cause — probe logic bug, not a workspace/environment problem.**
+
+`$parsed = $raw | ConvertFrom-Json` runs ConvertFrom-Json in a pipeline, and by default it enumerates the top-level JSON array into the pipeline. For `[]` there are zero elements, so nothing is emitted and `$parsed` is `$null` — exactly what stdout shows (`parsed type=<null>`). `$null -isnot [array]` is true, so line 10 throws. The wire JSON is a well-formed empty array; the assertion is simply testing the wrong thing. Note the same bug also breaks the singleton case (`[1]` unrolls to an `Int64`, not an array), so the probe only "passes" for arrays with ≥2 elements. Post-pipeline `-is [array]` cannot prove wire framing.
+
+**Smallest safe remediation** — assert on the raw framing, keep the parse only as a validity check:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[]'
+$wireCount = '0'
+$parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+$t = $raw.Trim()
+if (-not ($t.StartsWith('[') -and $t.EndsWith(']'))) { throw 'Expected JSON array' }
+```
+
+This is a framing check, not a syntax validator; syntax is still covered by ConvertFrom-Json under `Stop`. It works on both pwsh 7 and Windows PowerShell 5.1, and it correctly accepts `[]`, `[1]`, `[1,2]` and rejects scalars like `42` or `"x"`. (Alternative on 7.4.6 only: `ConvertFrom-Json -NoEnumerate` gives `Object[]` with length 0 here, but it is unavailable on 5.1 and is lost again if `$parsed` is re-piped, so the raw framing check is the safer change.)
+
+**Confirmation**
+
+1. Rerun `pwsh -NoProfile -File probes/cardinality.ps1` — expect exit code 0, empty stderr, and stdout still showing `raw=[]`, `wire elements=0`, `parsed type=<null>` (the type line is informational only now).
+2. Spot-check the contract by temporarily substituting `$raw`: `[1]` (wireCount 1) and `[1,2]` (wireCount 2) must exit 0; `42` and `"abc"` must exit 1 with `Expected JSON array`; `[` must fail at the ConvertFrom-Json line with a parse error, proving syntax checking still happens before the framing assertion.
+3. Record for the review: raw JSON `[]`, element count 0, parse result `$null` under default enumeration, assertion changed from `$parsed -isnot [array]` to trimmed-raw `[`…`]` framing.
+
+__ABLATION_DONE__ exit=0

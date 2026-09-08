@@ -1,0 +1,23 @@
+**Cause**
+
+This is a workspace/environment problem, not a code or server bug. `localhost` resolves to `::1` first on this host, so the PHP gRPC channel connects to `[::1]:50051`. Docker Desktop's IPv6 published-port proxy accepts the TCP connection but never completes the HTTP/2 (h2c) handshake, so the client sits until the 2s deadline fires (`DEADLINE_EXCEEDED`, exit 2). The server never sees the request — the interceptor log has no entry for the failed call. The HTTP/1.1 health check on 50080 is not affected by the same stall, which is why REST is fast (12 ms) while gRPC hangs.
+
+Evidence that isolates the address as the only variable: the identical call to `127.0.0.1:50051` (same method, payload, deadline, container, config) returns `pong`, exit 0, and the service log shows `invoked=true completed=true`.
+
+**Smallest safe remediation**
+
+Use the IPv4 literal for the gRPC target in local config: `127.0.0.1:50051` instead of `localhost:50051`. Nothing else needs to change — no Docker, service, or probe code changes, and no TLS considerations since the port is plaintext h2c with no certificate-name check. (Leave `localhost` for the 50080 health URL if you like; it works either way.)
+
+**Confirmation**
+
+Re-run from the same cwd:
+
+```powershell
+php probes/unary.php --target 127.0.0.1:50051 --timeout 2
+```
+
+Expect exit 0, stdout `pong`, empty stderr, and a new `probe method="unary Echo" transport=h2c invoked=true completed=true` line in the service log. Optionally re-run with `localhost:50051` once more to reconfirm it still fails, proving the address is the only differentiator.
+
+For the record: target `localhost:50051` → `[::1]:50051`, deadline 2s, `DEADLINE_EXCEEDED` exit 2, no server invocation; REST `http://localhost:50080/health` 200 in 0.012s; IPv4 retry `127.0.0.1:50051` → `pong`, exit 0, server invoked.
+
+__ABLATION_DONE__ exit=0

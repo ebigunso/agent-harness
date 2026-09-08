@@ -1,0 +1,26 @@
+**Verdict: implementation is correct; one gap in the tests I'd ask to close before merging.**
+
+The core change (`text.replace("\r\n", "\n").split("\n")`) satisfies the contract as stated:
+
+- Trailing empty records preserved: `"a\nb\n"` and `"a\r\nb\r\n"` both → `["a", "b", ""]`; `""` → `[""]`.
+- Standalone CR preserved: `"a\rb"` → `["a\rb"]`. `str.replace` is single-pass and only matches the exact `\r\n` pair, so `"a\r\r\nb"` → `["a\r", "b"]` (the lone CR stays in the record, only the CRLF is consumed). No collapsing of `\r\n\r\n`.
+- No whitespace trimming, no support for bare `\r` or other conventions.
+- Both callers route through `parse`, so the fix lands in one place.
+
+**Finding 1 — `app/lines.py`, `test_newlines`: the test doesn't exercise the contract's negative constraints.**
+
+The assertions only cover the happy path (LF, CRLF, empty). Nothing checks that a standalone `\r` is preserved or that bare CR is *not* treated as a separator. That's the part of the contract most likely to be broken by a future "cleanup" — e.g. switching to `re.split(r"\r\n?|\n", ...)` or `text.replace("\r", "\n")` — and every current assertion would still pass under those changes. Since the reviewer notes call out standalone CR explicitly, the test should pin it.
+
+Require adding, inside the same loop:
+
+```python
+assert caller("a\rb") == ["a\rb"]           # bare CR is data, not a separator
+assert caller("a\r\r\nb") == ["a\r", "b"]   # only the CRLF is consumed
+assert caller(" a \r\n") == [" a ", ""]      # no trimming
+```
+
+(Note `splitlines()` would already be caught by the trailing-empty assert, so that particular regression is covered; the ones above are not.)
+
+**Non-blocking note:** `test_newlines` lives in the production module. The notes say that's how examples are run here, so I won't block on it, but if there's a `tests/` directory it belongs there — as written, `cli`/`scheduled` importers pull in test code too.
+
+__ABLATION_DONE__ exit=0

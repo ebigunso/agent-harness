@@ -1,0 +1,27 @@
+**Cause: cwd drift in the persistent shell (workspace problem, not a code/tooling problem).**
+
+The earlier `Set-Location -LiteralPath 'C:/work/inventory/src'` left the persistent PowerShell session in `C:/work/inventory/src`, while the tool UI still reports `C:/work/inventory` as the workspace root. The relative argument `Tests/Tests.csproj` was therefore resolved against `src/`, yielding `C:/work/inventory/src/Tests/Tests.csproj`, which does not exist — hence `MSB1009: Project file does not exist`. The pre-repair evidence confirms this: `pwd` → `C:/work/inventory/src`, and `Get-ChildItem -Name` shows only `Inventory.csproj`, no `Tests/` directory. The real project is at `C:/work/inventory/Tests/Tests.csproj`.
+
+**Smallest safe remediation**
+
+Normalize the shell's cwd to the intended base with a single explicit navigation, then rerun the original command unchanged:
+
+```powershell
+pwd                                          # confirm drift: C:/work/inventory/src
+Set-Location -LiteralPath 'C:/work/inventory'
+dotnet test Tests/Tests.csproj
+```
+
+No code, dependency, configuration, PATH, or permission changes are needed. Going forward, either run from the base with one explicit `Set-Location` per session, or make the invocation cwd-independent (e.g. `dotnet test C:/work/inventory/Tests/Tests.csproj`) so it cannot be affected by leftover shell state.
+
+**Confirmation**
+
+The captured comparison already demonstrates the fix:
+
+- Pre-normalization cwd: `C:/work/inventory/src` → `dotnet test Tests/Tests.csproj` exit 1, MSB1009.
+- Normalized cwd: `C:/work/inventory` (verified via `pwd`) → same command, exit 0, `Passed! - Failed: 0, Passed: 1, Skipped: 0, Total: 1`, stderr empty.
+- Final `pwd` remains `C:/work/inventory`.
+
+Since the only variable that changed between the failing and passing runs was the working directory, cwd drift is the root cause. Status: **resolved**.
+
+__ABLATION_DONE__ exit=0

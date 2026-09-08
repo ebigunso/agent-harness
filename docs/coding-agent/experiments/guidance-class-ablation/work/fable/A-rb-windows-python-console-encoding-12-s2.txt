@@ -1,0 +1,28 @@
+**Cause**
+
+The script finished its real work: `os.replace` had already landed a complete, valid, hash-correct `manifest.json`. The only thing that failed is the final log line `print('built ' + title)`. Because stdout is a pipe (not a Windows console), CPython 3.12 doesn't use the UTF‑8 console writer; with `utf8_mode = 0` it falls back to the ANSI code page, here **cp932**. U+1F680 (🚀) has no cp932 mapping, so `print` raises `UnicodeEncodeError` and the process exits 1.
+
+So this *is* a workspace/environment problem — a stdout-encoding mismatch in the captured-stream setup — not a defect in the manifest generation. The exit code 1 is a false negative about the artifact.
+
+**Smallest safe remediation**
+
+Run Python in UTF‑8 mode for this invocation only; no code change, no artifact change:
+
+```powershell
+python -X utf8 build_manifest.py
+```
+
+(Equivalent: `$env:PYTHONUTF8 = 1` for the session, or `PYTHONIOENCODING=utf-8` if you want to touch only the stdio streams.)
+
+Re-running is safe: the generation is deterministic, `os.replace` is atomic, and there are no counters or remote side effects, so the second run just rewrites identical bytes.
+
+If you'd rather harden the script instead, the minimal in-code fix is `sys.stdout.reconfigure(encoding="utf-8")` (or `errors="backslashreplace"`) before the print — but for "smallest safe" I'd pick the flag first.
+
+**Confirmation**
+
+1. `python -X utf8 -c "import sys; print(sys.stdout.encoding, sys.flags.utf8_mode)"` under the same pipe → `utf-8 1`.
+2. `python -X utf8 build_manifest.py; $LASTEXITCODE` → exit `0`, stderr empty, stdout `built 🚀`.
+3. `Get-FileHash manifest.json` matches the hash observed after the failed run (proves the rerun changed nothing).
+4. If the consumer on the other side of the pipe is PowerShell and you see mojibake rather than an error, set `[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()` so it decodes the UTF‑8 bytes — that's a display concern, not a build failure.
+
+__ABLATION_DONE__ exit=0

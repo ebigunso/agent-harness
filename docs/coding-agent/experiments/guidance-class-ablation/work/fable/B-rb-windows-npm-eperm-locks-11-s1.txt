@@ -1,0 +1,39 @@
+## Cause
+
+This is a workspace problem, not an npm/registry/lockfile problem. `npm ci` deletes `node_modules` before reinstalling, and the unlink of `node_modules\better-sqlite3\build\Release\better_sqlite3.node` fails with `EBUSY` (errno -4082) because the DLL is mapped into two live processes. Windows will not let a loaded native module be unlinked.
+
+Evidence that it's specifically a lock and nothing else:
+- Lockfile is in sync, cache/project are writable, registry works, and an ordinary probe file beside the addon can be created/removed — so it isn't permissions, disk, or a lockfile mismatch.
+- `tasklist /m better_sqlite3.node` names exactly two holders: `node.exe` PID 4111 and 4112.
+- Both were launched from `C:/work/npm-lock/workers/test-worker.js` and have that exact absolute addon path loaded. They belong to this repo (a leftover test-worker pool), so stopping them is safe.
+
+Note: **both** PIDs must go. Killing only one leaves the file still mapped and `npm ci` will fail identically.
+
+## Smallest safe remediation
+
+1. Stop the workers gracefully first, if their parent/test runner is still around (close that terminal / stop the runner). If they're orphaned, or that doesn't release them, terminate the two specific PIDs — not "all node.exe":
+
+   ```powershell
+   taskkill /PID 4111 /F
+   taskkill /PID 4112 /F
+   ```
+
+2. Re-run the original command:
+
+   ```powershell
+   npm ci
+   ```
+
+Do **not** delete `node_modules` by hand, clear the npm cache, or reboot — none of those address the mapped DLL, and cache clearing is unnecessary given the observations.
+
+## Confirmation
+
+- `tasklist /m better_sqlite3.node` now prints `INFO: No tasks are running which match the specified criteria.` (no PID rows). If new rows appear, something re-spawns the workers (a watcher/test runner in another window) — stop that source before retrying.
+- `npm ci` exits 0 with no `EBUSY`/`EPERM` on stderr.
+- The rebuilt binary exists: `Test-Path node_modules\better-sqlite3\build\Release\better_sqlite3.node` → `True`.
+- Addon loads under the installed runtime: `node -e "require('better-sqlite3'); console.log('ok')"` prints `ok`.
+- Optionally `tasklist | findstr node` shows only expected processes.
+
+Record for the ticket: original command + stderr, module name (`better_sqlite3.node`), the `tasklist /m` output, PIDs killed (4111, 4112), and the retry result.
+
+__ABLATION_DONE__ exit=0

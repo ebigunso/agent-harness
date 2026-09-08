@@ -1,0 +1,23 @@
+**Cause**
+
+Not a workspace/client problem, and not the localhost→::1 address asymmetry the reference material describes. That hypothesis is already falsified by the evidence:
+
+- The IPv4 retry (`127.0.0.1:50051`) fails identically to `localhost:50051` — same exit 2, same `DEADLINE_EXCEEDED` after 2s.
+- The server-side interceptor records an invocation for both addresses, so the TCP connection and HTTP/2 handshake succeed and the RPC reaches the handler. A proxy that "accepts TCP but stalls HTTP/2" would never produce `invoked=true`.
+- The HTTP/1.1 sibling on 50080 answers in 12 ms, so Docker port publishing and container health are fine.
+
+The actual cause is on the server: the `Echo` handler is blocked in `phase=db-query` waiting on database lock `lock-42`, which is held by a stalled migration transaction. The client's 2 s deadline expires while the handler is still waiting, and the probe maps that status to exit 2. The client, target address, port mapping, and probe config are all correct.
+
+**Smallest safe remediation**
+
+Clear the stalled migration transaction that holds `lock-42` — let it finish if it's genuinely progressing, otherwise roll it back / terminate that database session so the lock is released. Do not change the probe, the target address, Docker port mapping, or the deadline; a longer timeout would only hide the blocked handler.
+
+**Confirmation**
+
+1. Verify on the database that `lock-42` is no longer held and no session is in the stalled migration transaction.
+2. Re-run the original command unchanged: `python probes/unary.py --target 127.0.0.1:50051 --timeout 2`. Expect exit 0, the echoed response value on stdout, and empty stderr, well inside the 2 s deadline.
+3. Optionally re-run with `localhost:50051` for the same result, and check the handler trace no longer shows `waiting_on=lock-42`.
+
+If the probe still times out after the lock is released, then the migration wasn't the only blocker and the next step is to look at what else holds locks on the same table, not at the network path.
+
+__ABLATION_DONE__ exit=0

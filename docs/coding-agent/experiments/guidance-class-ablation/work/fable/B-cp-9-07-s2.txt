@@ -1,0 +1,32 @@
+**Verdict: block.** The change moves execution off the caller goroutine but breaks the second half of the task — completion status is no longer accurate, and failures are now invisible.
+
+1. **`worker/start.go`, `supervisor.Succeeded(job.ID())` after the `go` statement.**
+   Success is recorded unconditionally, immediately after launch, before `job.Run` has done anything. Per the notes, `Succeeded` marks *durable completion*, so every job — including ones that fail a millisecond later — is persisted as complete. This is a correctness bug, not a style issue. The call must move inside the goroutine, after `job.Run(ctx)` returns, and only on the `err == nil` branch.
+
+2. **`worker/start.go`, `result` channel is written but never read.**
+   The buffer stops the goroutine from leaking, but the error value goes into a channel nobody drains and is dropped on the floor. A `Run` failure produces no log, no metric, no supervisor state change, no return value — the failure mode is a silent success. Either remove the channel and handle the error directly in the goroutine, or return the channel/a handle to the caller so someone is obligated to consume it. A channel with no consumer is a code smell that signals the author noticed the error and then discarded it.
+
+3. **`worker/start.go`, no failure path to the supervisor.**
+   There is no `supervisor.Failed(id, err)` (or equivalent) call. If the `Supervisor` interface only has `Succeeded`, this change needs to extend it; the async model has no other way to make "a later Run error observable" as the notes require. Required shape:
+   ```go
+   go func() {
+       if err := job.Run(ctx); err != nil {
+           supervisor.Failed(job.ID(), err)
+           return
+       }
+       supervisor.Succeeded(job.ID())
+   }()
+   ```
+
+4. **`worker/start.go`, `StartJob` always returns `nil`.**
+   The signature still says `error` but the function can no longer fail, and callers who previously branched on the return now get `nil` for jobs that will fail. If the intended contract is "nil means launched," document it in the function comment and make sure existing callers don't treat it as "nil means completed." Better: keep a synchronous error for launch-time failures (nil job, supervisor rejection, etc.) so the return value still carries meaning.
+
+5. **`worker/start.go`, caller's `ctx` is used for the detached goroutine.**
+   `Job.Run` honors cancellation. If callers pass a request- or call-scoped context (common for something that used to be synchronous), the context is cancelled as soon as `StartJob` returns and the job aborts almost immediately — and with finding 1, it is *still* marked succeeded. Either require callers to pass a long-lived context and say so, or derive a detached context (`context.WithoutCancel` plus an explicit cancel handle owned by the supervisor) so job lifetime is decoupled from the caller's.
+
+6. **`worker/start.go`, no panic recovery in the spawned goroutine.** (Minor, flag rather than block on its own.)
+   Before this change a panic in `job.Run` unwound to the caller, who could recover. Now it terminates the process. If jobs are third-party or untrusted, add a `defer` that recovers, records the failure via the supervisor, and re-panics or logs per your policy. If jobs are trusted internal code, a comment stating that is sufficient.
+
+Also: the commit message "run jobs asynchronously" describes only half the task. Once the above is fixed, mention the status-reporting contract in the message.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,41 @@
+## Cause
+
+This is a **script logic bug**, not a workspace/environment problem. The JSON is valid, execution policy is fine, and no files are involved.
+
+The failure is PowerShell's **output enumeration** unwrapping the array on return from the function.
+
+- `ConvertFrom-Json -NoEnumerate` correctly produces a single `Object[]` containing one `Int64` (the `-NoEnumerate` stops *ConvertFrom-Json* from streaming the element).
+- But the function's final statement `$items` writes that array to the output stream, and **the pipeline enumerates it again**. A one-element array collapses to its single scalar element.
+- So `$parsed` receives `System.Int64` (as the stdout confirms: `parsed type=System.Int64`), the `-isnot [array]` test is true, and the `throw` fires.
+
+Note: `$ErrorActionPreference = 'Stop'` is not the cause here — the `throw` is an explicit, intentional failure once the (incorrect) scalar is seen.
+
+## Smallest safe remediation
+
+Wrap the function's output in the unary comma (array-construction) operator so the array survives being written to the pipeline. Change line 5:
+
+```powershell
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }; $parsed = Parse
+```
+
+(Equivalently `return ,$items`, or `Write-Output -NoEnumerate $items`.) This is a one-token change that preserves the intended contract — empty, singleton, and multi-element arrays stay arrays; a bare scalar wire value like `7` still parses to a non-array and is correctly rejected.
+
+## How to confirm
+
+Re-run the exact command:
+
+```
+pwsh -NoProfile -File probes/cardinality.ps1
+```
+
+Expect:
+- Exit code `0` (`$LASTEXITCODE` / `$?`).
+- stdout now shows `parsed type=System.Object[]`.
+- No stderr, no `Expected JSON array`.
+
+Also sanity-check the contract boundaries by temporarily setting `$raw` to:
+- `'[]'` → should pass (type `System.Object[]`),
+- `'[7,8]'` → should pass,
+- `'7'` → should still `throw 'Expected JSON array'` (scalar correctly rejected).
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,17 @@
+**Verdict: block.**
+
+**1. `lib/customers.rb`, `find_customer` — `rescue DatabaseUnavailable; nil`**
+
+- **What's wrong:** The rescue maps an outage onto `nil`, which the contract reserves for a genuine not-found. The two states are now indistinguishable to every caller.
+- **Why it matters:** `get_or_create` treats `nil` as "no such customer" and calls `database.create_customer(email)`. Per the reviewer notes, during a replica outage the write primary still accepts creates, so an existing customer whose lookup failed will be re-created. Once the replica recovers you have duplicate rows for the same email (or a unique-constraint failure surfacing from the create path, far from the actual cause). This is exactly the failure the task asked to prevent — it makes the outage *worse*, not explicit. Serialized calls / no race test don't help; this is a single-call correctness bug, not a concurrency one.
+- **What I'd require:** Don't return `nil`. Either let `DatabaseUnavailable` propagate (possibly wrapped in a repository-level error such as `CustomerLookupUnavailable`) or return an explicit tri-state result (`found(customer)` / `not_found` / `unavailable`). `get_or_create` must only take the create branch on a confirmed not-found; on `unavailable` it should raise or return the unavailable result to its caller, never create.
+
+**2. `lib/customers.rb`, same rescue — silent swallow**
+
+- **What's wrong:** The exception is discarded with no log, metric, or annotation.
+- **Why it matters:** A DB outage becomes invisible at the layer that knows about it; the only symptom will be the downstream duplicate-customer fallout from finding 1, which is much harder to trace back.
+- **What I'd require:** If any handling stays at this boundary, it must record the outage (log with context, increment a metric) before raising/returning the distinct unavailable state. Whichever fix is chosen for finding 1, add a test asserting that `get_or_create` does **not** call `create_customer` when `find_by_email` raises `DatabaseUnavailable`.
+
+(The commit message accurately describes what the code does; the problem is that what it does is the wrong behavior, so no separate finding there.)
+
+__ABLATION_DONE__ exit=0

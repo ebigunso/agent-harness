@@ -1,0 +1,48 @@
+**Cause**
+
+This is a stdout-encoding mismatch, not a data or JSON problem. On Windows, when stdout is a pipe rather than a console, CPython 3.12 encodes `sys.stdout` with the locale's ANSI code page — here cp932 (Japanese) — because UTF-8 mode is off (`sys.flags.utf8_mode = 0`). `json.dumps(..., ensure_ascii=False)` emits the raw `🚀` (U+1F680), which cp932 cannot represent, so `print` raises `UnicodeEncodeError`. The traceback confirms the failure is at the write boundary; parsing and serialization succeeded and nothing was written.
+
+So: it is a workspace/environment configuration issue (Python's default stream encoding on a non-UTF-8 Windows locale), not a bug in the input or in `json`.
+
+**Smallest safe remediation**
+
+Run the script in UTF-8 mode without touching the code:
+
+```powershell
+python -X utf8 json_report.py
+```
+
+or, persistently for the session:
+
+```powershell
+$env:PYTHONUTF8 = 1
+python json_report.py
+```
+
+This makes `sys.stdout` UTF-8 for pipes and files. It doesn't change output semantics (JSON is UTF-8 by spec) and doesn't affect other tools.
+
+If you need the script to be robust regardless of how it's invoked, the equivalent in-code fix is one line near the top:
+
+```python
+sys.stdout.reconfigure(encoding="utf-8")
+```
+
+I'd avoid switching to `ensure_ascii=True` as the "fix" — it works, but it changes the output bytes (`"\ud83d\ude80"` instead of `🚀`), which may not be what downstream consumers expect.
+
+**Confirmation**
+
+1. Exit code is 0 and the expected line is produced:
+   ```powershell
+   python -X utf8 json_report.py; $LASTEXITCODE   # expect 0
+   ```
+2. Verify the bytes are actually UTF-8 rather than trusting the terminal rendering (PowerShell decodes external-process output with `[Console]::OutputEncoding`, which is also cp932 on this box and could show mojibake even when the fix worked):
+   ```powershell
+   python -X utf8 json_report.py > out.json
+   Format-Hex out.json
+   ```
+   Expect `F0 9F 9A 80` where the rocket is, and `python -c "import json;print(json.load(open('out.json',encoding='utf-8')))"` should print `{'label': '🚀'}`.
+3. Optionally confirm the mode took effect: `python -X utf8 -c "import sys;print(sys.stdout.encoding, sys.flags.utf8_mode)"` → `utf-8 1`.
+
+If step 2 is clean but the PowerShell console still displays garbage, that's a separate consumer-side setting (`[Console]::OutputEncoding = [Text.Encoding]::UTF8`), not the failure diagnosed here.
+
+__ABLATION_DONE__ exit=0

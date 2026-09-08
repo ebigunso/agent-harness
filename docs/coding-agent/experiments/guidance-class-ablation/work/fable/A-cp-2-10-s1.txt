@@ -1,0 +1,22 @@
+**Verdict: block.** The change does not do what the task asks; it papers over the defect after the fact and introduces a new way to silently lose confirmed bookings.
+
+**1. `src/Bookings.java` — `BookingService.reserve` (unchanged): the race is still there.**
+`count` and `insert` are separate autocommit statements with no uniqueness constraint behind them. Two concurrent callers (HTTP + scheduler both go through `reserve`) can both observe `count == 0` and both insert. The diff doesn't touch this path at all, so duplicate reservations are still created exactly as before. The task was "prevent duplicate reservations under concurrent booking"; this change prevents nothing.
+*Require:* make the check-and-insert atomic at the authoritative store. Preferred: a unique constraint / unique index on `slot` for single-capacity slots, with `reserve` doing the insert and translating the unique-violation into `SlotFull`. Acceptable alternative: run `count` + `insert` in one transaction with a row/advisory lock on the slot (e.g. `SELECT … FOR UPDATE` on a slot row, or `INSERT … WHERE NOT EXISTS` under serializable isolation). Either way, the guarantee has to be enforced where the writes happen, not by a later cleanup.
+
+**2. `NightlyMaintenance.run` — `deleteDuplicatesKeepingEarliest()` silently revokes a booking the customer was told succeeded.**
+When the race hits, both customers get a successful `reserve` return; neither gets `SlotFull`. Per the notes, reservations are relied on immediately. Up to ~24h later the sweep deletes the later one with no notification, no return value, no audit record. From the customer's perspective their confirmed booking vanished. This is worse than the current behaviour in one respect: today the duplicate at least remains visible to operators; after this change the evidence is destroyed nightly.
+*Require:* if a sweep is kept at all (as defense-in-depth / data repair, not as the fix), it must not delete blind — it should report/alert (or move rows to a quarantine table) so someone can contact the affected customer, and it should be logged with the deleted rows' identities. Once fix #1 is in place, the sweep should find nothing; treat any hit as an incident signal.
+
+**3. `deleteDuplicatesKeepingEarliest()` — scope and tie-breaking are unspecified.**
+The task talks about *single-capacity* slots. If any slot legitimately allows more than one reservation, a store-wide "delete duplicates" deletes valid bookings. Also, "earliest" presumably keys on an insert timestamp; under a race the two inserts can land in the same clock tick, so "earliest" may be arbitrary or the implementation may keep/delete both. None of this is visible in the diff, and the store method isn't shown.
+*Require:* confirm (and constrain in the query) that dedup applies only to single-capacity slots, and define a deterministic tie-break (e.g. by primary key). If the store method is new, it needs to be in the diff for review along with a test covering ties.
+
+**4. No test.**
+There's no test demonstrating the duplicate is prevented (or even detected). A reviewer can't tell from this diff that the concurrent case was ever reproduced.
+*Require:* a test that runs two `reserve` calls for the same slot concurrently (or interleaves count/insert deterministically) and asserts exactly one row exists and the other caller received `SlotFull`.
+
+**5. Commit message mismatch.**
+"sweep duplicate bookings nightly" is accurate for what the diff does, which is the problem: it describes cleanup, not the requested prevention. When the real fix is made, the message should state that reservations are now enforced unique at the store and how `SlotFull` is derived.
+
+__ABLATION_DONE__ exit=0

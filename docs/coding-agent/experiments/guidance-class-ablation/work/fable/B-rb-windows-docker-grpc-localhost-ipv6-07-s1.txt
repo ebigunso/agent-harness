@@ -1,0 +1,23 @@
+**Cause**
+
+Not a service, build, or workspace problem. `localhost` resolves to `::1` before `127.0.0.1`, so grpcurl dials `[::1]:50051`. Docker Desktop's IPv6 port proxy accepts the TCP connect but never returns HTTP/2 response frames, so the h2c channel stalls at the transport layer until `-max-time 2` fires ("Failed to dial target host … context deadline exceeded"). The REST sibling on 50080 is HTTP/1.1 and is unaffected. The evidence is consistent: no interceptor log entry for the failed call (nothing reached the service), and the identical command against `127.0.0.1:50051` returns `{"value":"pong"}` with `invoked=true completed=true`. Reflection isn't a factor — dial fails before any RPC starts.
+
+**Smallest safe remediation**
+
+Change the target from `localhost` to `127.0.0.1` for gRPC clients hitting Docker Desktop published ports on this Windows host:
+
+```powershell
+grpcurl -plaintext -max-time 2 -d '{}' 127.0.0.1:50051 demo.Probe/Ping
+```
+
+Apply the same substitution in any Go client connection string / config that targets this local port. Do not touch the service, port mappings, container, or dependencies — they are healthy.
+
+**Confirmation**
+
+1. The `127.0.0.1:50051` call exits 0 and prints `{"value":"pong"}` (already captured).
+2. Service interceptor log shows `probe method="unary demo.Probe/Ping" transport=h2c invoked=true completed=true` for that call (already captured).
+3. Optionally, re-run the original `localhost:50051` form once more to confirm it still hangs — demonstrating the asymmetry is purely the loopback address, not intermittent service behavior.
+
+If the IPv4 call had also failed, only then would investigating port publishing or container health be warranted; here it is not.
+
+__ABLATION_DONE__ exit=0

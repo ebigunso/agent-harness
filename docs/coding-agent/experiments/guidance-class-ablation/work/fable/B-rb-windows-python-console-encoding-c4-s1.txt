@@ -1,0 +1,21 @@
+**Cause:** `compute.py` divides `numerator / denominator` with `denominator == 0`, raising `ZeroDivisionError` at line 8. This is a logic/input problem in the script (or the data feeding it), not an environment or encoding problem. The Unicode/CP932 reference doesn't apply: the traceback is `ZeroDivisionError`, not `UnicodeEncodeError`, and the failure occurs before any `print` call. The observed `sys.stdout.encoding = cp932` is a latent, unrelated condition — setting `PYTHONIOENCODING=utf-8` would not change this outcome and should not be proposed as the fix.
+
+**Is it a workspace problem?** No. The environment (Windows 11, PowerShell 7.4.6, CPython 3.12.7, piped stdout) is fine. The defect is in `compute.py` / its inputs. No files were written, so there is nothing to clean up.
+
+**Smallest safe remediation:**
+1. Determine whether `denominator = 0` is a bad input or a legitimate case. Check where `denominator` comes from (hardcoded, argument, or file).
+2. If it's bad input, correct the input. If zero is a legitimate case, guard the division in `compute.py`:
+   ```python
+   if denominator == 0:
+       sys.exit("denominator is zero; cannot compute ratio")  # or handle per spec
+   ratio = numerator / denominator
+   ```
+   Don't silently substitute a value (e.g., `ratio = 0`) unless the spec says so.
+
+**Confirmation:**
+- Rerun `python compute.py` with a valid denominator: exit code 0, expected output on stdout, no traceback.
+- Rerun with `denominator = 0` (if guarded): a clear error message and a non-zero exit rather than a traceback.
+
+**Optional, separate follow-up (not needed for this failure):** since stdout is cp932 in this environment, if the script later prints non-ASCII characters it will hit the issue in the reference material. Adding `sys.stdout.reconfigure(encoding="utf-8")` at startup would preempt that, but it's a distinct change and shouldn't be bundled with fixing the division error.
+
+__ABLATION_DONE__ exit=0

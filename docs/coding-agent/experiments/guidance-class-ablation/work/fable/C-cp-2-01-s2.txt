@@ -1,0 +1,30 @@
+**Verdict: not acceptable as-is. The change hides the symptom in one reader and leaves the actual defect (duplicate records being written) in place.**
+
+## Findings
+
+### 1. `app/imports.py` — `report()`: deduplication is applied at the read site instead of at the write site
+
+**What's wrong:** The task is to stop duplicate imported record IDs. The diff leaves `import_rows` unchanged — every call still unconditionally `store.append(row)`s — and instead collapses duplicates when `report()` happens to read them back. The store still accumulates a duplicate record every time `cli_import` or `scheduled_import` is re-run.
+
+**Why it matters:**
+- The reviewer notes state "imported records themselves must be unique." After this change they are not; the report just stops showing it. Any other consumer of `store.rows()` (exports, counts, downstream jobs, a future second report) will still see duplicates, and each of them would need its own copy of this dict trick — compensating logic that spreads instead of a single invariant.
+- The store keeps growing with redundant records on every scheduled run, so the underlying problem gets worse over time while the only visible signal of it has been removed.
+- `{row["id"]: row ...}` keeps the *last* row per ID, which silently chooses a winner among conflicting duplicates. If a re-import contains a different payload for the same ID, the report now quietly reflects whichever was appended most recently, with no indication that the store holds several versions. That is a data-integrity decision made accidentally inside a formatting function.
+- The commit message ("hide repeated IDs") describes the change accurately — and that description is exactly why it should not merge.
+
+**What I'd require instead:** Enforce uniqueness where records enter the store, so the invariant holds for every reader:
+- In `import_rows`, skip (or explicitly upsert, if that's the intended semantics) rows whose `id` is already present — e.g. build/consult a set of existing IDs, and also dedupe within the incoming batch so a single input file with a repeated ID doesn't produce two records.
+- Since `cli_import` and `scheduled_import` both delegate to `import_rows`, fixing it there covers both entry points named in the task without duplicating the logic.
+- Ideally, also make the store itself reject duplicate IDs (an ID constraint / keyed structure) so the invariant can't be bypassed by any future write path. The notes say the store has no ID constraint and all write code is in scope, so this is achievable here.
+- Once writes are unique, revert `report()` to `list(store.rows())`. A report should not need to repair its input; if it has to, the store's contract is broken.
+- Add a test that runs `cli_import` and `scheduled_import` twice on the same input and asserts `store.rows()` (not just `report()`) contains each ID exactly once, plus a test for a batch that internally repeats an ID.
+
+### 2. `app/imports.py` — `report()`: the "last row wins" policy is undocumented and unintentional
+
+**What's wrong:** Even if some read-side dedupe were justified, the dict comprehension encodes a conflict-resolution rule (last occurrence wins) with no comment, no test, and no relation to any stated requirement.
+
+**Why it matters:** If a later re-import ever carries changed data for an existing ID, this choice determines what users see, and nobody decided it deliberately. It will also be hard to notice when it starts mattering.
+
+**What I'd require instead:** This goes away naturally if finding 1 is addressed at the write site, where the policy (skip vs. replace on duplicate ID) should be chosen explicitly and tested.
+
+__ABLATION_DONE__ exit=0

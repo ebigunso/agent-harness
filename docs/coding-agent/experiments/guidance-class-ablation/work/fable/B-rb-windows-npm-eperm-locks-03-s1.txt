@@ -1,0 +1,29 @@
+**Cause**
+
+`npm ci` must delete `node_modules` before reinstalling, and the unlink of `@swc\core-win32-x64-msvc\swc.win32-x64-msvc.node` failed with `EPERM` (errno -4048). This is not a permissions or workspace-integrity problem: the lockfile is in sync, the directory is writable, and an ordinary file can be created/removed beside the module. It is a Windows file lock. `tasklist /m swc.win32-x64-msvc.node` shows the binary is loaded into `node.exe` PID 4103, and process inspection confirms that PID is the Next dev server (`next dev`) launched from this repository. Windows will not allow unlinking a loaded DLL/`.node` addon, so the install fails at that file.
+
+**Smallest safe remediation**
+
+Stop the Next dev server that owns the lock — it belongs to this repo, so it is safe to stop. Prefer a clean stop (Ctrl+C in its terminal or stopping the editor task). If that isn't available, terminate the identified PID:
+
+```
+taskkill /PID 4103 /F
+```
+
+Then retry:
+
+```
+npm ci
+```
+
+Do not delete `node_modules` manually or touch ACLs/antivirus settings; nothing indicates those are involved.
+
+**Confirmation**
+
+1. `tasklist /m swc.win32-x64-msvc.node` returns no entries (or `tasklist | findstr node` shows no node processes for this repo).
+2. `npm ci` exits 0 with no EPERM/EBUSY output.
+3. Restart the dev server (`next dev`) afterward and confirm it loads the freshly installed `@swc/core-win32-x64-msvc` 1.7.26 without errors.
+
+If the retry fails on a different `.node` filename, repeat the `tasklist /m <module>.node` → stop process → retry loop for that file.
+
+__ABLATION_DONE__ exit=0

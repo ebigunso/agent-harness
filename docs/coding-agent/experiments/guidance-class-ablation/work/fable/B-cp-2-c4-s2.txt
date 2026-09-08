@@ -1,0 +1,9 @@
+**Verdict: acceptable as-is.** Nothing here rises to a block.
+
+Against the root-cause criterion: the source of the defect is in a binary-only, externally pinned SDK (V-184) that the repository cannot patch, so the true root fix is unavailable to this codebase. Given that, the change does the right thing: it normalizes at the single boundary through which SDK booleans enter (`read_vendor_flag`), rather than sprinkling case handling at call sites. It doesn't duplicate or reimplement parsing — it still delegates to `vendor::parse_bool`, so error semantics and the definition of "valid boolean" remain owned by the vendor parser. Scope is tight: only the two literals the SDK actually emits are mapped, no general case folding, and invalid input still fails the same way. Tests cover the new literals, the existing ones, invalid input, and error propagation. There is an owner and an explicit removal trigger (vendor 2.2 qualification / re-evaluate by 2026-10-01).
+
+One non-blocking suggestion:
+
+- **`src/vendor_adapter.rs`, comment on the `match`** — the comment explains *why* but not *when this goes away*. The removal condition and issue ID (V-184, vendor 2.2, re-evaluate 2026-10-01) currently live only in the review notes, which won't survive into the codebase. I'd ask for them in the comment (e.g. `// Workaround for vendor issue V-184 (2.1 emits "TRUE"/"FALSE"). Remove once 2.2 is qualified; re-evaluate by 2026-10-01.`) so the shim is discoverable and gets cleaned up rather than silently becoming permanent. Happy to merge with that as a follow-up.
+
+__ABLATION_DONE__ exit=0

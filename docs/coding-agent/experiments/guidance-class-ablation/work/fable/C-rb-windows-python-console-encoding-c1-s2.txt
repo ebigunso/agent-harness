@@ -1,0 +1,31 @@
+## Cause
+
+This is **not** the stdout `UnicodeEncodeError` scenario from the reference material. The failure is a **decode error on input**, not an encode error on output.
+
+`read_input.py` line 9 opens `input.txt` with `encoding='utf-8'`, but the file's producer wrote it as **UTF-16LE with a BOM** (the leading bytes `FF FE`). Byte `0xFF` is not a valid UTF-8 start byte, so the decode aborts at position 0. The declared/actual encoding of the file and the encoding the reader requested simply don't match.
+
+The environment notes (captured pipe, `sys.stdout.encoding = utf-8`, `utf8_mode = 0`) are a red herring here: no output call ran, so stdout encoding was never exercised. Setting `PYTHONIOENCODING=utf-8` or reconfiguring `sys.stdout` would change nothing, because `Path.read_text(encoding=...)` uses its explicit argument, not the I/O environment.
+
+## Smallest safe remediation
+
+Fix the reader's encoding to match the file. Since the file carries a BOM:
+
+```python
+text = Path('input.txt').read_text(encoding='utf-16')
+```
+
+Using `'utf-16'` (not `'utf-16-le'`) lets Python read the BOM and pick the byte order automatically, and it consumes the BOM so it won't appear as a stray `\ufeff` at the start of `text`.
+
+This is the minimal change: one keyword edit, no environment variables, no file rewrites. Because no output executed and no files were modified, there are no partial effects to clean up first.
+
+If, instead, the *file* is wrong and should have been UTF-8, the alternative fix is to have the producer emit UTF-8 — but with the smallest-change principle and the file's self-declaration, correcting the reader is the safer move.
+
+## Confirmation
+
+1. Rerun `python read_input.py`; expect exit code 0 and no traceback.
+2. Verify the content decoded sanely — e.g., print `repr(text[:20])` and confirm readable characters with no leading `\ufeff` and no mojibake.
+3. Optionally assert `text[:1] != '\ufeff'` to confirm the BOM was consumed.
+
+No further verification of stdout/PYTHONIOENCODING is needed, since that path was never the problem.
+
+__ABLATION_DONE__ exit=0

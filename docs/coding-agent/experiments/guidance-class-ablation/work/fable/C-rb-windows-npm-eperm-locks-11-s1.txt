@@ -1,0 +1,33 @@
+**Cause**
+
+`npm ci` deletes `node_modules` before reinstalling, and Windows refuses to unlink a DLL that is currently mapped into a process. Two repository-owned Node test workers (PID 4111 and 4112, launched from `C:/work/npm-lock/workers/test-worker.js`) still have `C:\work\npm-lock\node_modules\better-sqlite3\build\Release\better_sqlite3.node` loaded, so the unlink fails with `EBUSY` (errno -4082). This is a workspace problem: leftover test processes, not a lockfile, cache, registry, ACL, or npm bug (the probe file beside the module can be created/removed, lockfile is in sync, registry works).
+
+**Smallest safe remediation**
+
+1. Stop the two workers gracefully: end whatever launched them (the test runner / watch session — Ctrl+C in that terminal, or its stop command). Only these two PIDs, not every `node.exe`.
+2. Verify they're gone:
+   ```powershell
+   tasklist /m better_sqlite3.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.`
+3. If they don't exit, last resort — kill only the confirmed PIDs:
+   ```powershell
+   taskkill /PID 4111 /PID 4112 /F
+   ```
+4. Retry the original command unchanged:
+   ```powershell
+   npm ci
+   ```
+
+**Confirmation**
+
+- `tasklist /m better_sqlite3.node` shows no holders before the retry.
+- `npm ci` exits 0 with no `EBUSY`/`EPERM` in stderr.
+- `npm ls better-sqlite3` reports `better-sqlite3@9.6.0`, and `node -e "require('better-sqlite3')"` exits 0 (addon loads on Node 20.18.0).
+- Restart the test workers afterward if they're needed; they'll pick up the reinstalled binary.
+
+If the retry fails on a *different* `.node` path, treat that as a separate holder: inspect the new module with `tasklist /m <module>.node` and `tasklist | findstr node`, and repeat the same stop-then-retry step.
+
+**Record for the log:** command `npm ci`; error `EBUSY unlink ...\better_sqlite3.node` (errno -4082); module `better_sqlite3.node` (better-sqlite3 9.6.0); tasklist output showing node.exe 4111 and 4112; PIDs stopped/killed (4111, 4112) and how; retry result.
+
+__ABLATION_DONE__ exit=0

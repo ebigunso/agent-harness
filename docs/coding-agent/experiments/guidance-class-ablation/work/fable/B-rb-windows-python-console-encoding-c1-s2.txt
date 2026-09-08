@@ -1,0 +1,31 @@
+## Diagnosis
+
+This is **not** the console/code-page problem the reference material describes, and that guidance should not be applied here:
+
+- The error is a `UnicodeDecodeError` on **reading** `input.txt`, not a `UnicodeEncodeError` on printing. It occurs at line 9, before any output call.
+- `sys.stdout.encoding` is already `utf-8` (stdout is a pipe), so `PYTHONIOENCODING=utf-8` or `sys.stdout.reconfigure(...)` would change nothing — the failing line never touches stdout.
+- The evidence is exact: the file starts with `FF FE` (the UTF-16LE BOM) and its producer declares it UTF-16LE with BOM. `0xFF` is never a valid UTF-8 lead byte, hence "invalid start byte in position 0". The script explicitly asked for `encoding='utf-8'`, so this is a codec mismatch between the file's actual encoding and the reader, i.e. a bug/contract mismatch in the workspace script (or its input contract), not an environment or Windows issue. The same command would fail identically on Linux/macOS.
+
+No side effects to clean up: the exception was raised before any output or file write.
+
+## Smallest safe remediation
+
+Change the reader to match the declared input encoding. In `read_input.py` line 9:
+
+```python
+text = Path('input.txt').read_text(encoding='utf-16')
+```
+
+`'utf-16'` (without explicit endianness) consumes the BOM to detect byte order and strips it from the returned string, so `text` won't start with a stray `\ufeff`. Use `'utf-16-le'` only if you want to fail on non-LE input, but note that codec does **not** strip the BOM.
+
+If the script must accept both UTF-8 and UTF-16 inputs, the next-smallest change is a BOM sniff (`data = path.read_bytes(); enc = 'utf-16' if data[:2] in (b'\xff\xfe', b'\xfe\xff') else 'utf-8-sig'`), but don't add that unless the input contract actually varies.
+
+Do **not** "fix" this with `errors='ignore'`/`'replace'` — that would silently corrupt a UTF-16 file into alternating NULs and garbage. Converting the file itself to UTF-8 is also an option but changes the producer's contract and touches data; the one-token code change is smaller and safer.
+
+## Confirmation
+
+1. Rerun `python read_input.py` in the same pipe environment: expect exit code 0 and no traceback.
+2. Verify the decoded content is sane, e.g. `python -c "from pathlib import Path; t=Path('input.txt').read_text(encoding='utf-16'); print(repr(t[:40])); print(t.startswith('\ufeff'))"` — expect readable text and `False`.
+3. Optionally cross-check the file's declared encoding independently: `python -c "print(open('input.txt','rb').read(2))"` → `b'\xff\xfe'`, confirming the fix matches the data rather than masking it.
+
+__ABLATION_DONE__ exit=0

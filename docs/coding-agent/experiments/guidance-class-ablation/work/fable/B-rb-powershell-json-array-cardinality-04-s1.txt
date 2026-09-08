@@ -1,0 +1,24 @@
+**Verdict:** not a workspace/environment problem. The JSON is valid and the runtime is fine; the script's assertion is wrong for PowerShell's semantics.
+
+**Cause**
+`$raw | ConvertFrom-Json` produces a one-element array, but the pipeline unrolls it, so `$parsed` receives the bare element (`PSCustomObject`, as stdout shows). `$parsed -isnot [array]` then reports scalar even though the wire value was framed `[...]`. This same script would also mis-handle `[]` (unrolls to nothing → `$null` → throws) while passing for 2+ elements — exactly the cardinality-dependent flakiness the reference describes. The stderr text is just the script's own `throw`, not a runtime error.
+
+**Smallest safe remediation** (pwsh 7.4.6 supports `-NoEnumerate`)
+Change line 5 only:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+(or equivalently `ConvertFrom-Json -InputObject $raw -NoEnumerate`). Do not re-pipe `$parsed` afterward. No other lines change; the type/print and `-isnot [array]` check are now correct for all contract cases.
+
+**Confirmation**
+1. Rerun `pwsh -NoProfile -File probes/cardinality.ps1` → exit code 0, stdout shows `parsed type=System.Object[]`, no stderr.
+2. Spot-check the contract by substituting `$raw` (or via `pwsh -NoProfile -c`):
+   - `'[]'` → `Object[]`, passes (previously would have thrown as `<null>`)
+   - `'[{"id":7},{"id":8}]'` → `Object[]`, passes
+   - `'7'` and `'{"id":7}'` → still throw `Expected JSON array` (scalar wire values correctly rejected)
+
+If the script must also run on Windows PowerShell 5.1 (not the case here), `-NoEnumerate` is unavailable; then assert on the trimmed raw string starting with `[` and ending with `]` instead.
+
+__ABLATION_DONE__ exit=0

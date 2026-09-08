@@ -1,0 +1,15 @@
+**Verdict: block.** The change does the opposite of what the task asked.
+
+**1. `src/Orders.scala`, `finish` — removing `.recover` turns an optional-enrichment outage into an order failure.**
+
+- What's wrong: `EnrichmentUnavailable` now propagates as a failed `Future`. Per the reviewer notes, the workflow treats a failed `Future` as order failure. So a paid, durably-persisted order will be reported as failed purely because a read-only, optional lookup was down.
+- Why it matters: The task was "keep durable paid orders usable when optional enrichment is unavailable." Payment and the order are already committed before `finish`; there is nothing upstream that can be "un-done," so signaling failure here doesn't roll anything back — it just misreports a successful order as failed, which is exactly the ambiguous/unsafe failure state the fallback existed to prevent. The existing contract explicitly permits `None` with `degraded = true`, so the previous behavior was in-contract; the new behavior violates the task's stated goal and the workflow's interpretation of a failed `Future`.
+- Require: Restore the `recover` for `EnrichmentUnavailable` returning `OrderResult(order, None, degraded = true)`. If the author believes the degraded path is wrong, that needs a contract/workflow change and a stated reason, not silent removal.
+
+**2. Same location — the diagnosable, bounded fallback was removed with nothing in its place.**
+
+- What's wrong: The `log.warn` with order id and cause is gone, and the failure is no longer scoped to `EnrichmentUnavailable`; it's just whatever the workflow does with an arbitrary exception.
+- Why it matters: The old path made the failure mode visible (warn + `degraded = true` on the result) while keeping the outcome correct. The new path is less observable at this boundary (no context-carrying log where the decision is made) and the caller can no longer distinguish "order is fine, enrichment missing" from "order processing broke." The commit message ("propagate enrichment errors to the workflow") also doesn't reconcile with the task; if propagation were genuinely desired, the PR should explain how the workflow will keep the paid order usable, which it doesn't.
+- Require: Keep the warn-with-context and the explicit degraded result. If additional error types need handling later, add them deliberately rather than by dropping the recovery.
+
+__ABLATION_DONE__ exit=0

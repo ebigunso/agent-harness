@@ -1,0 +1,19 @@
+**Verdict:** This is a workspace/environment problem — specifically a Docker Desktop port-publishing asymmetry on Windows — not a bug in the probe, the service, or gRPC.
+
+**Cause**
+
+`localhost` resolves to `::1` first, so the gRPC channel connects to `[::1]:50051`. Docker Desktop's published-port proxy on the IPv6 loopback accepts the TCP connection but never returns HTTP/2 (h2c) response frames, so the client sits until its 2 s deadline and exits 2 with `DEADLINE_EXCEEDED`. The service interceptor log shows no invocation for that call, confirming the request never reached the container. The controlled comparison — identical method, payload, deadline, container and config, only the target changed to `127.0.0.1:50051` — returns `pong` in well under the deadline and the service logs `invoked=true completed=true`. The HTTP/1.1 health check on `localhost:50080` succeeding (12 ms) is consistent with this: the IPv6 proxy path handles HTTP/1.1 fine but stalls HTTP/2, so it isn't a general connectivity or container-health problem, and it also rules out the container being down.
+
+**Smallest safe remediation**
+
+Pin the local gRPC target to IPv4 rather than the name: use `127.0.0.1:50051` in the local config (env var, `.env`, or wherever the probe target is sourced for this workspace). Do not change the probe code, add retries, alter the server, or touch Docker's IPv6 settings — the only thing that differs between the failing and passing runs is the address, so that's the only thing that needs to change. Scope the change to local/dev configuration; it should not leak into anything that runs in-cluster or on Linux hosts where `localhost` behaves normally.
+
+**Confirmation**
+
+1. Rerun the original command with the config change in effect (or explicitly `python probes/unary.py --target 127.0.0.1:50051 --timeout 2`): expect exit 0, stdout `pong`, empty stderr.
+2. Check the service interceptor log for `probe method="unary Echo" transport=h2c invoked=true completed=true` for that run.
+3. Optionally re-run against `localhost:50051` once more to confirm it still fails identically, demonstrating the fix is the address and not something transient.
+
+**Record for the ticket:** target `localhost:50051` → resolved `[::1]:50051`, TCP connect OK, no HTTP/2 headers, exit 2 `DEADLINE_EXCEEDED: deadline expired after 2s`, no server invocation; REST sibling `localhost:50080` HTTP 200 in 0.012 s; IPv4 retry `127.0.0.1:50051` exit 0 `pong` with server-side `invoked=true completed=true`.
+
+__ABLATION_DONE__ exit=0

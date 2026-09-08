@@ -1,0 +1,42 @@
+**Cause**
+
+This is a workspace problem, not an npm/registry/lockfile problem. `npm ci` deletes `node_modules` before installing, and on Windows a native addon (`.node` is a DLL) cannot be unlinked while any process has it mapped. `tasklist /m better_sqlite3.node` shows two `node.exe` processes (PIDs 4111 and 4112) with `C:\work\npm-lock\node_modules\better-sqlite3\build\Release\better_sqlite3.node` loaded, both launched from this repo's `workers/test-worker.js` and still running. The kernel refuses the unlink → `EBUSY` (errno -4082). Everything else checks out: lockfile in sync, project/cache writable, registry reachable, probe file beside the module creates/deletes fine, no ACL denial.
+
+**Smallest safe remediation**
+
+Stop only the two repo-owned workers, then rerun the install. Don't delete `node_modules` by hand, don't elevate, don't use `--force`, don't reboot — none of those address the held mapping, and the first two just fail the same way.
+
+```powershell
+# Confirm these are the test workers before touching them
+Get-CimInstance Win32_Process -Filter "ProcessId=4111 OR ProcessId=4112" |
+  Select-Object ProcessId, CommandLine
+
+# Stop them (graceful first; -Force only if they don't exit)
+Stop-Process -Id 4111, 4112
+Start-Sleep -Seconds 2
+```
+
+If something supervises those workers (a test runner in watch mode, a task scheduler, a terminal running `npm test -- --watch`), stop that parent instead, otherwise it will respawn the workers and you'll hit the same lock on the next `npm ci`.
+
+Then:
+
+```powershell
+npm ci
+```
+
+**Confirmation**
+
+1. Before rerunning, the handle is gone:
+   ```powershell
+   tasklist /m better_sqlite3.node
+   ```
+   Expected: `INFO: No tasks are running which match the specified criteria.` (no `node.exe` rows).
+2. `npm ci` exits 0 with no `EBUSY` in stderr, and `node_modules\better-sqlite3\build\Release\better_sqlite3.node` exists with a fresh timestamp.
+3. The addon loads in the current runtime:
+   ```powershell
+   node -e "require('better-sqlite3')(':memory:'); console.log('ok')"
+   ```
+   Expected: `ok`.
+4. Restart the test workers afterward if they're supposed to be running; they'll pick up the reinstalled binary.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,19 @@
+**Cause:** Not a workspace or cwd problem. The shell is in the intended root (`pwd` = `C:/work/repo`, `.git` and `README.md` resolve there, `git rev-parse --show-toplevel` succeeds and prints the same path). The failure is `git rev-parse --verify` doing exactly what it's for: `missing-branch` does not exist as a ref (`git branch --list` shows only `main`; `git show-ref` has no matching entry), so git exits 128 with `fatal: Needed a single revision`. The cwd normalization runbook does not apply here — the triage checklist steps 1–2 already confirm the cwd is correct, and the guide says to move on rather than overfit on cwd.
+
+**Smallest safe remediation:** Do not touch the workspace. Decide what the caller actually intended:
+
+- If the goal was to *check whether* the branch exists, this is the expected negative result; treat exit 128 as "not found" (and optionally quiet it: `git rev-parse --verify --quiet missing-branch`, which exits 1 without the fatal message).
+- If the goal was to *resolve a real branch*, use the correct name (e.g. `git rev-parse --verify main`), or fetch/create the branch you meant before referencing it.
+
+Nothing in this scenario justifies creating `missing-branch` speculatively.
+
+**Confirmation:**
+
+- `git rev-parse --verify main` → exit 0, prints a commit SHA (proves git and the repo are healthy from this cwd).
+- `git rev-parse --verify --quiet missing-branch; $LASTEXITCODE` → exit 1, no stderr (confirms the failure was purely "ref does not exist", not an environment error).
+- `git branch --list missing-branch` → empty output, consistent with the above.
+- `pwd` still reports `C:/work/repo`; no navigation or file changes were made.
+
+**Evidence summary:** failing command `git rev-parse --verify missing-branch`, exit 128, `fatal: Needed a single revision`; pre- and post-check cwd both `C:/work/repo`; cwd not a factor; status: **not a workspace problem — nonexistent ref**.
+
+__ABLATION_DONE__ exit=0

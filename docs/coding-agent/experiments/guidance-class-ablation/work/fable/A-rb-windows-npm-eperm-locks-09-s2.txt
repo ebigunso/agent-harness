@@ -1,0 +1,25 @@
+**Cause**
+
+`npm ci` wipes `node_modules` before reinstalling. The `unlink` of `node-pty\build\Release\pty.node` fails with `EPERM` (errno -4048) because that native addon is currently mapped into a running process: `tasklist /m pty.node` shows `electron.exe` PID 4109 holding it, and process inspection confirms it's the repo's own Electron terminal preview launched from `C:/work/npm-lock/preview/main.js`. On Windows a loaded DLL/`.node` image cannot be deleted or overwritten while mapped. This is not a permissions, ACL, cache, registry, or lockfile problem — the probe file beside the module can be created/removed fine, and package.json/package-lock.json are in sync.
+
+**Smallest safe remediation**
+
+Stop the process that owns the file, then rerun the install. Since the holder is this repository's own preview task (not an unrelated tool), closing it is safe:
+
+```powershell
+Stop-Process -Id 4109
+# or gracefully close the Electron preview window / stop the dev task that launched preview/main.js
+npm ci
+```
+
+Don't reach for `-Force` on `Remove-Item node_modules`, disabling antivirus, running as admin, or `npm cache clean` — none of those address a mapped image, and the last three are unnecessary and broader than needed.
+
+Note: after `npm ci`, node-pty will be rebuilt for Node's ABI, not Electron's. If the preview needs the Electron ABI build again, rerun your existing rebuild step (e.g. `npx @electron/rebuild` or whatever the project uses) before relaunching the preview.
+
+**Confirmation**
+
+1. `tasklist /m pty.node` returns no rows (or "No tasks are running which match the specified criteria").
+2. `npm ci` exits 0 with no `EPERM`/`unlink` error.
+3. `Test-Path node_modules\node-pty\build\Release\pty.node` is `True` after the (re)build, and relaunching the preview loads the addon without error.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,20 @@
+**Cause:** `npm install` needs to unlink `node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node` (npm rebuilds/replaces the native addon tree during reification), but on Windows a loaded DLL/.node file cannot be deleted. `tasklist /m bcrypt_lib.node` shows node.exe PID 4105 — the Jest `--watch` worker from this repository, idle after its last run but still holding the addon mapped. That's the `EBUSY` / errno -4082 on `unlink`. This is not a permissions, cache, registry, or lockfile problem (the probe file test and synchronized lockfile rule those out).
+
+**Smallest safe remediation:** stop the watcher that owns the handle, then rerun the install.
+
+1. Preferably quit Jest cleanly from its terminal (`q` in watch mode or Ctrl+C). If that terminal isn't available, terminate just that process:
+   ```powershell
+   Stop-Process -Id 4105
+   ```
+   Don't kill other node.exe instances, don't delete `node_modules` wholesale, and don't fall back to `--force` or elevated shells — none of those release a mapped module and they risk collateral damage.
+2. Rerun `npm install`.
+
+**Confirmation:**
+- `tasklist /m bcrypt_lib.node` returns "INFO: No tasks are running which match the specified criteria." (i.e., no process has the addon loaded).
+- `npm install` exits 0 with no EBUSY output.
+- Sanity check the addon still loads on the host runtime: `node -e "require('bcrypt'); console.log('ok')"`.
+- Restart `jest --watch` afterward.
+
+Going forward, stop watch-mode processes (test runners, `nest start --watch`, editors' debug sessions) before running `npm install`/`npm ci` on Windows, since any process with a native addon loaded will block replacement of that file.
+
+__ABLATION_DONE__ exit=0

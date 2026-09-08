@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is. No blocking findings.**
+
+The diff correctly fixes the off-by-one. Before the change, `attempt := 1; attempt < maxAttempts` executed `maxAttempts-1` iterations, so `maxAttempts=1` ran the loop zero times and returned the zero-value `last == nil` — reporting success without ever invoking `operation`. That is the real defect (silent false success), not just "one fewer retry." The new loop `attempt := 0; attempt < maxAttempts` executes exactly `maxAttempts` invocations, matching the task framing that `maxAttempts` includes the first attempt. The reviewer's verified cases (max=1 → one call, returns its error; max=3 → three calls; early success returns immediately) are consistent with the code as written.
+
+Things I checked and am not flagging:
+
+- `CLI` and `Service` both pass `3`; under the old code they got 2 attempts, now 3. That is the intended semantic correction, not a behavior regression to worry about.
+- No delay/backoff: reviewer notes state this is a short, bounded, local idempotent read where a tight loop is deliberate. Fine.
+- `attempt` is unused inside the loop body other than as a counter; that's fine in Go since it's used in the `for` clause.
+
+One non-blocking note, not a required change: `Run(maxAttempts <= 0, ...)` still returns `nil` without invoking `operation` — the same "silent success" failure mode this PR is fixing. The notes say `>= 1` is enforced in both config loaders and no caller passes zero or negative, so I accept that today. But `Run` is exported, and the guard lives outside this package. If you want the invariant to be self-enforcing, a one-line `if maxAttempts < 1 { maxAttempts = 1 }` (or returning an explicit error) would close it; I would not hold the merge on it.
+
+__ABLATION_DONE__ exit=0

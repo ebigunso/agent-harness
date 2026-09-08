@@ -1,0 +1,26 @@
+**Cause**
+
+The persistent shell's working directory drifted. A prior command (`Set-Location -LiteralPath 'C:/work/notes'`) moved the shell's cwd to `C:/work/notes`, which contains only `today.txt` and no `.git` in it or any parent. `git status --porcelain` therefore correctly reported exit 128 / "not a git repository". The tool UI's remembered root (`C:/work/repo`) does not govern the shell's actual cwd, so the two diverged. The repo itself is intact (`C:/work/repo/.git` exists).
+
+**Smallest safe remediation**
+
+Navigate back to the intended base and rerun, unchanged:
+
+```powershell
+Set-Location -LiteralPath 'C:/work/repo'
+git status --porcelain
+```
+
+No code, config, dependency, permission, or git change is needed. To make the command robust against future cwd drift, prefer either running it with an explicit repo path (`git -C 'C:/work/repo' status --porcelain`) or prefixing each step in the persistent shell with the `Set-Location` above.
+
+**Confirmation**
+
+- `pwd` reports `C:/work/repo`.
+- `git status --porcelain` exits 0 with empty stderr (empty stdout is expected — clean tree). The captured retry already shows exactly this.
+- Optionally `git rev-parse --show-toplevel` prints `C:/work/repo` to confirm git is resolving the intended repository.
+
+**Classification**
+
+This is a workspace/shell-state problem (wrong cwd), not a defect in git, the repository, or the environment.
+
+__ABLATION_DONE__ exit=0

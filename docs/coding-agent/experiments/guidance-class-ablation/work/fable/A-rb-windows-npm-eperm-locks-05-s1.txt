@@ -1,0 +1,23 @@
+**Cause**
+
+This is a workspace problem, not a project, cache, or permissions issue. `npm install` needs to replace `node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node`, but on Windows a loaded native addon (`.node` DLL) cannot be unlinked while a process holds it mapped. `tasklist /m bcrypt_lib.node` shows PID 4105 — a Jest worker started from this repo (`jest.js --watch`), idle in watch mode after the last run — still has the module loaded. Windows returns `EBUSY` (errno -4082), and npm aborts. The probe file succeeding and the absence of ACL denials confirm it's a file lock, not a filesystem/ACL fault.
+
+**Smallest safe remediation**
+
+Stop the watcher that owns the lock, then rerun the install. The watcher is this repository's own Jest process, so stopping it is safe and loses nothing (watch mode is idle; press `q` in its terminal, or Ctrl+C). If the terminal isn't at hand:
+
+```powershell
+Stop-Process -Id 4105
+npm install
+```
+
+Don't delete `node_modules`, don't `npm cache clean`, don't run as admin, and don't kill unrelated `node.exe` processes — only the PID that actually holds the module.
+
+**Confirmation**
+
+1. `tasklist /m bcrypt_lib.node` → should report "No tasks are running which match the specified criteria" (no process lists the module).
+2. `npm install` exits 0 with no `EBUSY` in stderr.
+3. `node -e "require('bcrypt')"` (or `npm ls bcrypt`) loads cleanly, confirming the rebuilt/replaced binary is intact.
+4. Restart the watcher afterward (`npx jest --watch`) so it picks up the fresh binary rather than the old mapped copy.
+
+__ABLATION_DONE__ exit=0
