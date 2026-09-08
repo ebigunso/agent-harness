@@ -1,6 +1,6 @@
-# Guidance-class ablation: outcome (pilot, 2026-09-08)
+# Guidance-class ablation: outcome (pilot 2026-09-08; remaining sections 2026-09-09)
 
-Pre-registered protocol: `protocol.md` (frozen 2026-09-07); fixtures per `fixture-plan.md` and `manifest.yaml`; scorer `score.py`. This record covers the pre-registered pilot: the five Windows runbooks and core principles 2 and 9. The remaining fourteen sections (principles 3 through 8 and 10, gates 1 through 7) have not run; see "Remaining sections" below.
+Pre-registered protocol: `protocol.md` (frozen 2026-09-07); fixtures per `fixture-plan.md` and `manifest.yaml`; scorer `score.py`. The first part of this record covers the pre-registered pilot (the five Windows runbooks and core principles 2 and 9). The second part, "Remaining sections", covers principles 3 through 8 and 10 and gates 1 through 7, run at the one-seed cap ebigunso recorded on 2026-09-08.
 
 ## Fleet, runs, and grading
 
@@ -61,3 +61,73 @@ The pre-registered cap ("if every section in the pilot shows arm A at ceiling, t
 ## Records
 
 Transcripts: `06b047e` (Astra round 1), `254ed81` (Fable), `2b67d98` (reruns, with superseded outputs). Grades: round 1 `41e99e1` (Astra) and `7602c63` (Fable); round 2 and the blind mappings `2b67d98`; the adjudication and the reproducible aggregation path land with this revision. Every commit named is in the ancestry of the commit that carries this record.
+
+## Remaining sections (2026-09-09, one seed)
+
+- Cells: 14 sections x 3 arms x 16 fixtures x 1 seed x 2 models = 1,344; all completed with exit 0 (39 Fable cells hit a usage-limit 429 mid-run and were rerun after the reset; a wedged runner was relaunched once with no lost cells). Same runners and flags as the pilot; Astra with `web_search="disabled"` throughout, loader aside and hash-restored on each run.
+- Fixtures: batch 1 (principles) and batch 2 (gates) authored by the Codex worker under the pilot rulings, validated by `validate_pilot.py` against the frozen revision 2710486 (arm-B texts byte-equal to the original sections; 336 fixtures, 21 keys, 42 arms).
+- Grading: one blinded Claude Fable 5.1 grader per section per model (48 responses each, review rule: hit requires the planted mechanism at the planted location and the key's fix direction); 28 graders. Pilot sections carried forward from `work/results-<model>-pilot.yaml` by `run/unblind.py` (printed on each run). No adjudication was applied to these sections.
+
+| Section | Model | A det | B det | C det | A FP | B FP | C FP |
+|---|---|---|---|---|---|---|---|
+| cp-3 small cohesive changes | Fable | 1.00 | 1.00 | 1.00 | 0.00 | 0.25 | 0.00 |
+| cp-3 small cohesive changes | Astra | 0.79 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| cp-4 readability | Fable | 1.00 | 1.00 | 1.00 | 1.50 | 1.25 | 1.00 |
+| cp-4 readability | Astra | 0.96 | 1.00 | 0.96 | 0.00 | 0.00 | 0.00 |
+| cp-5 invariants | Fable | 1.00 | 1.00 | 1.00 | 1.50 | 1.00 | 1.75 |
+| cp-5 invariants | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| cp-6 contract fidelity | Fable | 1.00 | 1.00 | 1.00 | 1.00 | 0.50 | 1.00 |
+| cp-6 contract fidelity | Astra | 1.00 | 1.00 | 1.00 | 0.25 | 0.25 | 0.25 |
+| cp-7 testability | Fable | 0.96 | 1.00 | 1.00 | 0.25 | 0.25 | 0.00 |
+| cp-7 testability | Astra | 0.88 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| cp-8 complexity | Fable | 1.00 | 1.00 | 1.00 | 1.25 | 1.00 | 0.75 |
+| cp-8 complexity | Astra | 0.92 | 1.00 | 1.00 | 0.25 | 0.25 | 0.25 |
+| cp-10 easier to change | Fable | 1.00 | 1.00 | 1.00 | 0.50 | 0.50 | 0.50 |
+| cp-10 easier to change | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| ag-1 responsibility boundaries | Fable | 0.88 | 1.00 | 1.00 | 0.75 | 0.00 | 0.25 |
+| ag-1 responsibility boundaries | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| ag-2 dependency direction | Fable | 1.00 | 1.00 | 1.00 | 1.50 | 0.00 | 0.50 |
+| ag-2 dependency direction | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| ag-3 cohesive change surface | Fable | 1.00 | 1.00 | 1.00 | 0.50 | 0.75 | 1.00 |
+| ag-3 cohesive change surface | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| ag-4 interface contracts | Fable | 1.00 | 1.00 | 1.00 | 2.00 | 1.25 | 2.75 |
+| ag-4 interface contracts | Astra | 0.96 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| ag-5 data and state integrity | Fable | 1.00 | 1.00 | 1.00 | 0.25 | 0.25 | 0.75 |
+| ag-5 data and state integrity | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+| ag-6 failure containment | Fable | 1.00 | 1.00 | 1.00 | 1.25 | 1.75 | 0.50 |
+| ag-6 failure containment | Astra | 0.96 | 1.00 | 1.00 | 0.50 | 0.00 | 0.75 |
+| ag-7 observability | Fable | 1.00 | 1.00 | 1.00 | 2.50 | 2.00 | 1.25 |
+| ag-7 observability | Astra | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | 0.00 |
+
+### Rule applied (worst model = lowest arm-A detection)
+
+| Section | Worst model | dB | dC | Arm-C FP guard (both models) | Outcome | Edit made |
+|---|---|---|---|---|---|---|
+| cp-3 | Astra (0.79) | +21pp | +21pp | pass (C 0.00 vs A 0.00 on both) | COMPRESS | principle "Keep Changes Small, Cohesive, and Reversible" body replaced with `arms/cp-3-C.md` |
+| cp-4 | Astra (0.96) | +4pp | +0pp | n/a | DELETE | section removed |
+| cp-5 | tie (1.00) | +0pp | +0pp | n/a | DELETE | section removed |
+| cp-6 | tie (1.00) | +0pp | +0pp | n/a | DELETE | section removed |
+| cp-7 | Astra (0.88) | +12pp | +12pp | pass (Fable C 0.00 vs A 0.25; Astra 0.00 vs 0.00) | COMPRESS | principle "Build for Testability and Verifiability" body replaced with `arms/cp-7-C.md` |
+| cp-8 | Astra (0.92) | +8pp | +8pp | n/a | DELETE | section removed |
+| cp-10 | tie (1.00) | +0pp | +0pp | n/a | DELETE | section removed |
+| ag-1 | Fable (0.88) | +12pp | +12pp | pass (Fable C 0.25 vs A 0.75; Astra 0.00 vs 0.00) | COMPRESS | Gate 1 body replaced with `arms/ag-1-C.md` |
+| ag-2 | tie (1.00) | +0pp | +0pp | n/a | DELETE | gate removed |
+| ag-3 | tie (1.00) | +0pp | +0pp | n/a | DELETE | gate removed |
+| ag-4 | Astra (0.96) | +4pp | +4pp | n/a | DELETE | gate removed |
+| ag-5 | tie (1.00) | +0pp | +0pp | n/a | DELETE | gate removed |
+| ag-6 | Astra (0.96) | +4pp | +4pp | n/a | DELETE | gate removed |
+| ag-7 | tie (1.00) | +0pp | +0pp | n/a | DELETE | gate removed |
+
+Resulting files: `core-principles.md` keeps principle 1 (protected) plus the two compressed principles, renumbered 1 through 3, with Common Anti-Patterns, Durable-Code Hygiene, Quick Review Pass, and Non-Goals untouched. `architecture-gates.md` keeps its Purpose, How to Use, Decision Guidance, Output Template, and Non-Goals sections (protected) with Gate 1 compressed and gates 2 through 7 removed. Routing in `engineering-quality-baselines/SKILL.md` is unchanged because both files remain. Package validation and smoke tests pass after the edits.
+
+### Caveats for this part
+
+- Three sections show real lift on the worst model, the first in this study: cp-3 (the Astra control accepted scope-coupled changes without requiring a split in three cells), cp-7 (both models accepted a formatting check as behavioral evidence in one cell each; Astra also chose a set/restore fixture over a seam in one cell), ag-1 (the Fable control endorsed domain policy inside a decoder and routed a scheduler bypass without moving policy). The grader notes are in `work/grades/`.
+- cp-7 is decision-sensitive to the grading rule: the Astra partial on `cp-7-03` is a remediation-route disagreement with the mechanism named. ebigunso's 2026-09-08 ruling (any working remediation is a hit) was stated for runbook sections; applied as graded here, cp-7 is COMPRESS at +12pp; if the ruling extended to review sections that cell would be a hit and cp-7 would be DELETE at +8pp. Recorded, not adjudicated; the compressed text ships unless ebigunso extends the ruling.
+- One seed makes the FP guard coarse: with four decoys per section, one extra blocking finding moves an arm's FP rate by 0.25, above the 0.10 threshold, so `score.py` flags FP regressions on eight non-adopted arms (for example Fable arm C on ag-4, 2.75 vs 2.00). None of them is an adopted arm; every adopted arm-C text passes the guard on both models. The flags are reported, not acted on.
+- Fable's decoy false-positive rates are high across the gate sections in every arm (up to 2.50 findings per decoy review on the ag-7 control): Fable demands tests, logging, and rollback notes on clean diffs regardless of guidance. That is a model trait, not an arm effect, and does not enter the detection rule.
+- Seeds: one per cell by the recorded cap, so cross-seed variance is not measured here; the pilot's two-seed cells showed zero variance on planted fixtures.
+
+### Records
+
+Transcripts and Astra grades for these sections: `9c931a0`. Fable grades, the edits, and this section: the commit that carries them (named in the plan's Progress Log).

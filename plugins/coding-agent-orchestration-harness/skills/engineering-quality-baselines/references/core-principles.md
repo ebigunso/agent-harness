@@ -43,73 +43,11 @@ Review checks:
 
 ### 2) Keep Changes Small, Cohesive, and Reversible
 
-- Group related edits into a single coherent unit.
-- Avoid coupling unrelated refactors with functional changes.
-- Make rollback straightforward by limiting blast radius.
+One cohesive goal; separate unrelated refactors. Limit rollback scope; require safe revert without collateral.
 
-Review checks:
-- Is the diff focused on one clear goal?
-- Can this change be safely reverted without collateral edits?
+### 3) Build for Testability and Verifiability
 
-### 3) Optimize for Readability and Local Reasoning
-
-- Favor clear names, explicit boundaries, and straightforward control flow.
-- Keep functions/components at a single level of abstraction.
-- Reduce hidden coupling and surprising side effects.
-
-Review checks:
-- Can a reader understand intent without reconstructing hidden context?
-- Are responsibilities and boundaries obvious?
-
-### 4) Define and Protect Invariants
-
-- Make assumptions explicit at module boundaries.
-- Validate inputs at trust boundaries and normalize internal state early.
-- Fail early with actionable errors when invariants are violated.
-
-Review checks:
-- Which invariants are introduced or relied upon?
-- Are boundary checks and failure modes explicit?
-
-### 5) Maintain Contract Fidelity Across Layers
-
-- Keep data models, service contracts, and adapters aligned.
-- Avoid silent field loss, implicit coercions, or shape drift.
-- Version and migrate interfaces deliberately when needed.
-
-Review checks:
-- Do upstream/downstream boundaries agree on schema and semantics?
-- Is contract drift prevented or merely tolerated?
-
-### 6) Build for Testability and Verifiability
-
-- Structure logic so important decisions are easy to test.
-- Prefer deterministic seams over hidden global state.
-- Match validation depth to risk and change surface.
-
-Review checks:
-- Can critical behavior be validated without fragile setup?
-- Is evidence proportional to risk?
-
-### 7) Control Complexity and Duplication
-
-- Remove accidental complexity before introducing abstraction.
-- Abstract only when multiple concrete uses justify it.
-- Keep dependency direction intentional and acyclic where practical.
-
-Review checks:
-- Does abstraction reduce or increase cognitive load?
-- Is new complexity justified by measurable maintenance benefit?
-
-### 8) Leave the System Easier to Change
-
-- Improve clarity, boundaries, or diagnostics when touching code.
-- Avoid debt amplification in the name of short-term speed.
-- Prefer incremental improvement aligned with existing architecture.
-
-Review checks:
-- Is maintainability improved, neutral, or degraded?
-- Did the change reduce future risk at reasonable cost?
+Test decisions via deterministic seams, not globals. Avoid fragile setup; match evidence to risk/surface.
 
 ## Common Anti-Patterns
 

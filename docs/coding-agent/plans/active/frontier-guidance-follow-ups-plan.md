@@ -230,6 +230,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: second delta review found the cp-2 carry-forward missing from the reproducible aggregation path and one Astra Python-encoding partial still graded on the key's route. Fixed in ff91d53: unblind.py carries cp-2 from the round-1 results explicitly and applies work/adjudications.yaml (one entry, grader original preserved); outcome.md narrative corrected. Codex Reviewer APPROVED (2b67d98..ff91d53): both result files reproduce, all seven DELETE, arm A at 1.00 on every pilot section on both models.
   - Validation evidence: unblind 672 unique rows per model, 0 ungraded; validate_harness_package.py pass; smoke tests exit 0.
   - Notes: cap condition met; the 14 remaining sections await ebigunso's recorded choice (two seeds as registered, one-seed cap, or stop). Task_7 (Refresh 2) and Task_6 (final review) follow.
+- 2026-09-09 Wave 2 Task_5 remaining sections applied: [Task_5]
+  - Summary: 14 sections at one seed (1,344 cells, both models; runners relaunched once after a usage-limit pause and once after a wedged fork), 28 blinded graders, scored under the pre-registered rule. Outcomes: DELETE for cp-4, cp-5, cp-6, cp-8, cp-10, ag-2 through ag-7; COMPRESS for cp-3 (Astra +21pp), cp-7 (Astra +12pp), ag-1 (Fable +12pp), arm-C FP guard passing on both models for all three. core-principles.md now carries principle 1 plus the two compressed principles; architecture-gates.md carries a compressed Gate 1 with its protected sections. outcome.md extended with results, rule table, and caveats (cp-7 decision-sensitive to whether the runbook grading ruling extends to review sections; one-seed FP guard granularity).
+  - Validation evidence: validate_pilot.py PASS over 21 sections; unblind 1,344 records per model, 0 ungraded; validate_harness_package.py pass; run_validation_smoke_tests.py exit 0.
+  - Notes: Task_5 review dispatched for the remaining sections; cp-7 sensitivity surfaced to ebigunso.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

@@ -1,0 +1,193 @@
+records:
+  - id: 05e52817e149
+    fixture: cp-7-01
+    score: 1.0
+    note: "Names datetime.now hidden clock, requires injectable now and fixed-instant tests replacing the midnight sleep."
+  - id: 72a7bbcc4b31
+    fixture: cp-7-01
+    score: 1.0
+    note: "Names wall-clock/TZ coupling, requires today/now parameter and deterministic boundary asserts; delete sleep loop."
+  - id: a4729158d48c
+    fixture: cp-7-01
+    score: 1.0
+    note: "Names hidden clock+TZ globals, requires explicit now/tz seam and fixed-instant tests; sleep test deleted."
+  - id: 00025bfc131e
+    fixture: cp-7-02
+    score: 1.0
+    note: "Names hardcoded time.Sleep, requires injected sleeper matching Sibling seam with recording sleeper asserting attempts-1 calls."
+  - id: 2cda3596a9da
+    fixture: cp-7-02
+    score: 1.0
+    note: "Blocks on hardwired sleep, requires sleeper injection and deterministic attempt/sleep-count assertions."
+  - id: 45c20f591eed
+    fixture: cp-7-02
+    score: 1.0
+    note: "Names hard-coded sleep with no seam, requires sleeper parameter and exact attempt/budget boundary tests."
+  - id: 8eceb44bf453
+    fixture: cp-7-03
+    score: 1.0
+    note: "Names mutable static Rates.current and order dependence; requires rate passed in explicitly, no global mutation in tests."
+  - id: 90f456c51e7b
+    fixture: cp-7-03
+    score: 1.0
+    note: "Names hidden mutable global and order-dependent tests; requires explicit rate parameter or injected RateSource."
+  - id: b7f65cbf4bf8
+    fixture: cp-7-03
+    score: 1.0
+    note: "Names global leak/order dependence; requires tests set and restore rate explicitly, injection strongly recommended but not blocking."
+  - id: 0f2de5e234b1
+    fixture: cp-7-04
+    score: 1.0
+    note: "Blocks on missing denied-role evidence; requires viewer->403 unit test rather than screenshots."
+  - id: 7543def8ab8f
+    fixture: cp-7-04
+    score: 1.0
+    note: "Identifies unverified denied path, requires viewer 403 unit test and route-level denied check before merge."
+  - id: 7b7dcbe529b7
+    fixture: cp-7-04
+    score: 1.0
+    note: "Blocks on absent deny-branch evidence; requires viewer 403 check and both-role unit test."
+  - id: 2320dfed0152
+    fixture: cp-7-05
+    score: 1.0
+    note: "Names hidden random.choice with no seam; requires injectable selection and exact boundary cases replacing statistical test."
+  - id: bd36c194ffe1
+    fixture: cp-7-05
+    score: 1.0
+    note: "Names insufficient statistical test and hard-wired global RNG; requires rng/selected seam and exact deterministic cases."
+  - id: f984149fcf7d
+    fixture: cp-7-05
+    score: 1.0
+    note: "Names fused randomness, requires pure fee(cents, selected) seam and exact threshold/formula tests."
+  - id: 6ab59fad86ae
+    fixture: cp-7-06
+    score: 1.0
+    note: "Blocks on fmt-only evidence; requires old-data read and new-data round-trip serde tests."
+  - id: 8fc2513d9556
+    fixture: cp-7-06
+    score: 1.0
+    note: "Would not merge on fmt alone; requires old-JSON deserialize and round-trip tests with cargo test output."
+  - id: ac1bcea2f67d
+    fixture: cp-7-06
+    score: 0.5
+    note: "Names missing persisted-format evidence and describes the right tests, but verdict is acceptable-as-is/flag-not-block, so fix not required."
+  - id: 6af04de8e2b2
+    fixture: cp-7-07
+    score: 1.0
+    note: "Blocks on billed session wrapping pure branch and no seam; requires removing/injecting session so tax branch is testable."
+  - id: 7d88b8854cc5
+    fixture: cp-7-07
+    score: 1.0
+    note: "Names unused billed session and no seam; requires pure ComputeTax extraction plus injected transport/factory."
+  - id: d5840a4a5c08
+    fixture: cp-7-07
+    score: 1.0
+    note: "Blocks on untestable pure decision behind live vendor session; requires separating pure ComputeTax and injecting transport."
+  - id: 0482f33653c7
+    fixture: cp-7-08
+    score: 1.0
+    note: "Names unrestored process-global ENV under parallelize_me!; requires injectable limit seam or drop parallel plus restore."
+  - id: 58fbf00e4996
+    fixture: cp-7-08
+    score: 1.0
+    note: "Names leaking ENV mutation and hidden global read; requires limit injection, or restore with parallelism dropped."
+  - id: be0424754975
+    fixture: cp-7-08
+    score: 1.0
+    note: "Names ENV leak and parallel race, root-causes to direct ENV read; requires injectable limit or remove parallelize_me! with teardown."
+  - id: 8bc261260cf6
+    fixture: cp-7-09
+    score: 1.0
+    note: "Names Thread.sleep(10) race; requires in-process server with request-received/release latches before cancel."
+  - id: a04070e88d75
+    fixture: cp-7-09
+    score: 1.0
+    note: "Names sleep as timing guess; requires server-side latch/blocked handler seam so request is provably in flight."
+  - id: aabfe3e9c428
+    fixture: cp-7-09
+    score: 1.0
+    note: "Blocks on sleep-based precondition; requires fixture hold/release signal and bounded waits, no sleeps."
+  - id: 03b776beb41e
+    fixture: cp-7-10
+    score: 1.0
+    note: "Blocks on valid-only evidence; requires replay, expired (used stays false), and boundary rejection tests."
+  - id: adff6d8823fb
+    fixture: cp-7-10
+    score: 1.0
+    note: "Blocks on happy-path-only evidence; requires replay, expired, and boundary rejection tests."
+  - id: caf30a53c22c
+    fixture: cp-7-10
+    score: 1.0
+    note: "Would not approve without rejection-path tests; requires used, expired, and boundary cases."
+  - id: 0a512ce6a443
+    fixture: cp-7-11
+    score: 1.0
+    note: "Names internal Clock::now read and paused-CI flake; requires now passed in with three fixed timepoint asserts."
+  - id: e7c158103d62
+    fixture: cp-7-11
+    score: 1.0
+    note: "Names hard-wired clock as root cause; requires now-as-input seam with fixed timepoints incl. equality boundary."
+  - id: f371e8598581
+    fixture: cp-7-11
+    score: 1.0
+    note: "Names 20ms race under CI pause; requires injectable now/fake clock and deterministic boundary asserts."
+  - id: 4449de003c78
+    fixture: cp-7-12
+    score: 1.0
+    note: "Names transition fused to socket I/O; requires pure transition(state, event) with direct unit tests over log grep."
+  - id: ee7a05034261
+    fixture: cp-7-12
+    score: 1.0
+    note: "Blocks on no callable seam; requires extracted pure transition function with unit tests, cluster boot demoted to smoke."
+  - id: f6b137efb79a
+    fixture: cp-7-12
+    score: 1.0
+    note: "Requires pure transition extraction with direct input/output tests; stdout grep shown insufficient."
+  - id: 0bf6076c1a24
+    fixture: cp-7-c1
+    false_positives: 0
+    note: "Acceptable as-is; only a non-blocking nit about moving check() to a test file."
+  - id: afa10b4474b8
+    fixture: cp-7-c1
+    false_positives: 0
+    note: "Acceptable as-is; nits on test discovery, docstring, PEP 8, none required."
+  - id: de8d1179a6d2
+    fixture: cp-7-c1
+    false_positives: 0
+    note: "Acceptable as-is; one non-blocking note about test location."
+  - id: bb89b54df33c
+    fixture: cp-7-c2
+    false_positives: 1
+    note: "Labeled flag-not-block but says extra retry-bound cases wanted before merge; counted as rework demand."
+  - id: cdd8a2feb871
+    fixture: cp-7-c2
+    false_positives: 0
+    note: "Acceptable as-is; retry-bound case suggested as would-not-block."
+  - id: ee4759c992b8
+    fixture: cp-7-c2
+    false_positives: 0
+    note: "Approves; gofmt, doc comment, extra cases left to author discretion."
+  - id: 7062ff529af0
+    fixture: cp-7-c3
+    false_positives: 0
+    note: "Acceptable as-is; adapter accept-path gap explicitly not requested."
+  - id: c235d0cc865e
+    fixture: cp-7-c3
+    false_positives: 0
+    note: "Acceptable as-is; one take-it-or-leave-it nit."
+  - id: f36630e4b003
+    fixture: cp-7-c3
+    false_positives: 0
+    note: "Acceptable as-is; non-blocking adapter accept-path nit."
+  - id: 04ef8cc739cd
+    fixture: cp-7-c4
+    false_positives: 0
+    note: "Acceptable as-is; brittleness/message nits not required."
+  - id: eaec9d03293d
+    fixture: cp-7-c4
+    false_positives: 1
+    note: "Gates approval on grepping all Submit usages and possibly adding a label prop or commit-body note; label-only edit per notes."
+  - id: ee93b955e40b
+    fixture: cp-7-c4
+    false_positives: 0
+    note: "Acceptable as-is; optional nit on full-markup assertion."

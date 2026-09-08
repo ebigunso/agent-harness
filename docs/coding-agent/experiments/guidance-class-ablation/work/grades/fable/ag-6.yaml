@@ -1,0 +1,193 @@
+records:
+  - id: 8a9d04151cc7
+    fixture: ag-6-01
+    score: 1.0
+    note: "Names per-attempt randomUUID key -> duplicate charge and for(;;) unbounded retry; requires hoisted stable key and attempt cap."
+  - id: ce18d562ebc8
+    fixture: ag-6-01
+    score: 1.0
+    note: "Blocks on regenerated Idempotency-Key (double charge) and unbounded retry; requires stable key, bounded attempts with backoff."
+  - id: ff11f25ce278
+    fixture: ag-6-01
+    score: 1.0
+    note: "Fresh key per retry -> N-fold charge, for(;;) no cap; requires key once before loop and bounded attempts surfacing unknown outcome."
+  - id: 0b2b5718288c
+    fixture: ag-6-02
+    score: 1.0
+    note: "No connect/request timeout on checkout thread, optional call not degraded; requires timeouts and Optional-return containment."
+  - id: 4daa44c420c4
+    fixture: ag-6-02
+    score: 1.0
+    note: "Names missing timeouts blocking checkout threads and failure not contained; requires timeouts and deliberate degradation."
+  - id: dc09844c10d1
+    fixture: ag-6-02
+    score: 1.0
+    note: "No connect/request timeout pins checkout thread; requires short timeouts and Optional degradation."
+  - id: 52f245a7faa8
+    fixture: ag-6-03
+    score: 1.0
+    note: "Shared 4-slot pool lets stalled enrichment starve payments; requires separate pools or reserved capacity plus bounded acquire."
+  - id: e4057674b058
+    fixture: ag-6-03
+    score: 1.0
+    note: "Shared bulkhead cascade from optional enrichment to payments; requires isolated pools/quotas and context-bounded acquire."
+  - id: f9e10d702e22
+    fixture: ag-6-03
+    score: 1.0
+    note: "Shared pool cascade named at Enrich/Payment; requires bulkhead separation and ctx-bounded Run."
+  - id: 0a7a77108253
+    fixture: ag-6-04
+    score: 1.0
+    note: "Unbounded while True retries permanent 400; requires classification, attempt/time cap, raise actionable error on exhaustion."
+  - id: 4dff3b57278b
+    fixture: ag-6-04
+    score: 1.0
+    note: "No cap and retries 400 forever; requires retryable-status classification, bounded attempts, raise with last status."
+  - id: 50e3ccedc6ec
+    fixture: ag-6-04
+    score: 1.0
+    note: "Unbounded loop retrying 4xx forever; requires transient/permanent classification, cap, explicit exception propagation."
+  - id: 01cee931b9cc
+    fixture: ag-6-05
+    score: 1.0
+    note: "Guid.NewGuid per attempt after unknown outcome creates duplicate objects; requires key computed once and reused."
+  - id: 058c844dc28b
+    fixture: ag-6-05
+    score: 1.0
+    note: "New key per retry defeats idempotency on unknown outcome; requires stable key before loop."
+  - id: 890ceb732b00
+    fixture: ag-6-05
+    score: 1.0
+    note: "Fresh key inside retry loop leaks orphaned uploads; requires stable key outside loop, returned/accepted for reconciliation."
+  - id: 052b6c8cce94
+    fixture: ag-6-06
+    score: 1.0
+    note: "Empty rescue StandardError plus unconditional booked:true hides unbooked shipment; requires propagate/record failure and truthful booked state."
+  - id: 7f46816586d5
+    fixture: ag-6-06
+    score: 1.0
+    note: "Broad rescue swallows booking failure and reports booked:true; requires surfacing failure and accurate outcome."
+  - id: fbc26ad46894
+    fixture: ag-6-06
+    score: 1.0
+    note: "rescue swallows vendor failure, returns booked:true; requires propagation or booked:false with logged cause."
+  - id: 2780a1ca3ee2
+    fixture: ag-6-07
+    score: 1.0
+    note: "Detached AbortController signal ignores callerSignal so query keeps holding connection; requires passing caller signal (or AbortSignal.any)."
+  - id: 4c82d1991dbf
+    fixture: ag-6-07
+    score: 1.0
+    note: "Fresh detached signal at line 3, caller disconnect never propagates; requires forwarding callerSignal."
+  - id: 949010a2ff24
+    fixture: ag-6-07
+    score: 1.0
+    note: "callerSignal ignored in favor of unabortable controller; requires db.query(callerSignal)."
+  - id: 45d33cf95730
+    fixture: ag-6-08
+    score: 1.0
+    note: "Nested retry yields 3^5=243 attempts vs budget 3; requires single-layer/shared budget and error propagation."
+  - id: 701fffb242d0
+    fixture: ag-6-08
+    score: 1.0
+    note: "Five-layer retry multiplies to 243 remote attempts; requires retry at one layer or threaded shared budget."
+  - id: e8251b0024cb
+    fixture: ag-6-08
+    score: 1.0
+    note: "Retry amplification 243 attempts; requires retry at exactly one layer with owned budget."
+  - id: 718d79c775d1
+    fixture: ag-6-09
+    score: 1.0
+    note: "coroutineScope+async cancels siblings on one failure; requires supervisorScope with per-child catch and per-user results."
+  - id: ec23a3fb3a91
+    fixture: ag-6-09
+    score: 1.0
+    note: "One failing user cancels batch via coroutineScope; requires supervisorScope, per-user catch, per-user outcomes."
+  - id: fc528e4ef993
+    fixture: ag-6-09
+    score: 1.0
+    note: "Single failing sync cancels whole batch; requires per-user isolation inside coroutine with aggregated outcomes."
+  - id: 9a35cb603ef8
+    fixture: ag-6-10
+    score: 1.0
+    note: "No CURLOPT_TIMEOUT/CONNECTTIMEOUT plus unbounded buffering; requires budget-derived timeouts and byte cap via write callback."
+  - id: ba25d9dc08bc
+    fixture: ag-6-10
+    score: 1.0
+    note: "Unlimited curl timeouts and unbounded body buffering in critical worker; requires timeouts and hard byte cap with clear error."
+  - id: d9f35af9df32
+    fixture: ag-6-10
+    score: 1.0
+    note: "Default 0 timeouts hang curl_exec, no size cap; requires CONNECTTIMEOUT_MS/TIMEOUT_MS and WRITEFUNCTION cap."
+  - id: 0dcdaa630610
+    fixture: ag-6-11
+    score: 1.0
+    note: "export_metrics called under state_mutex, exporter hang stalls all writers; requires snapshot under lock then export outside."
+  - id: 12ff692fa57f
+    fixture: ag-6-11
+    score: 1.0
+    note: "Network exporter invoked while holding state_mutex; requires snapshot-release-export and explicit exporter failure contract."
+  - id: 43497042439f
+    fixture: ag-6-11
+    score: 1.0
+    note: "Exporter under state lock blocks core state path; requires copy under lock, release, then export."
+  - id: 2cdaabbdf571
+    fixture: ag-6-12
+    score: 1.0
+    note: "3x fan-out into same outage domain with no deadline amplifies load; requires sequential/hedged bounded fallback with per-call and aggregate timeouts."
+  - id: 77ebaeb8c2cb
+    fixture: ag-6-12
+    score: 1.0
+    note: "Unbounded mirror fan-out into shared failing domain, no deadline; requires sequential capped fallback with budget."
+  - id: cc620c9df2b7
+    fixture: ag-6-12
+    score: 1.0
+    note: "Names unbounded fan-out into shared outage domain and missing deadlines; requires bounded degradation with breaker/caps."
+  - id: 2336fdd70984
+    fixture: ag-6-c1
+    false_positives: 2
+    note: "Blocks on instanceof Timeout not matching AbortSignal reason plus required test rework; key-errata candidate (adapter contract may throw Timeout), graded as FP per key."
+  - id: 7e3041f5e6a3
+    fixture: ag-6-c1
+    false_positives: 2
+    note: "Blocks on Timeout-class classification vs signal reason and requires signal-driven test; key-errata candidate, graded as FP per key."
+  - id: eea83dbc404e
+    fixture: ag-6-c1
+    false_positives: 2
+    note: "Block on instanceof Timeout classification plus required abort-path test; key-errata candidate, graded as FP per key."
+  - id: 5686e90100a8
+    fixture: ag-6-c2
+    false_positives: 0
+    note: "Acceptable as-is; doc comment, signal distinction, gofmt left as non-blocking notes."
+  - id: a79986614dc5
+    fixture: ag-6-c2
+    false_positives: 5
+    note: "Not acceptable; requires error passthrough to signal, parent-cancel handling, doc comment, tests, gofmt (panic note conditional, not counted)."
+  - id: e4ab8274fcb1
+    fixture: ag-6-c2
+    false_positives: 3
+    note: "Requires gofmt, tests, and doc comment before merge on a correct change."
+  - id: 2c1ef3ea56ad
+    fixture: ag-6-c3
+    false_positives: 0
+    note: "Acceptable as-is; only a non-blocking nit on Poison message constructor."
+  - id: 6106896f0efd
+    fixture: ag-6-c3
+    false_positives: 0
+    note: "Acceptable as-is; no flags."
+  - id: b0c4a838040a
+    fixture: ag-6-c3
+    false_positives: 0
+    note: "Acceptable as-is; in-memory durability noted as out of scope."
+  - id: 66f673c16be8
+    fixture: ag-6-c4
+    false_positives: 0
+    note: "Acceptable; one optional test-assertion nit."
+  - id: d4a3bea912d6
+    fixture: ag-6-c4
+    false_positives: 0
+    note: "Acceptable; two explicitly non-blocking flags (test placement, signal contract comment)."
+  - id: df9291158af1
+    fixture: ag-6-c4
+    false_positives: 0
+    note: "Acceptable; optional assertion nit only."
