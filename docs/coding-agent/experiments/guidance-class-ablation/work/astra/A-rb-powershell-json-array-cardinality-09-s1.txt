@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d79-bce9-76f2-9ea6-1d8645e7368a
+session id: 01a0815b-21ab-7f72-8117-dc3c22e4e13a
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,46 +56,31 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. data.json contains exactly two spaces, [true], and two spaces.
 
 codex
-I’ll check PowerShell 5.1’s array handling and the smallest fix that still rejects scalar JSON.
+The failure is in the script’s pipeline, not `data.json` or execution policy. Windows PowerShell 5.1’s `ConvertFrom-Json` preserves the JSON array, but the trailing `Write-Output` enumerates it. Assignment then captures its sole element as `System.Boolean`.
 
-web search: 
-web search: site.learn.microsoft.com ConvertFrom-Json Windows PowerShell 5.1 array single element pipeline NoEnumerate
-web search: 
-exec
-"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command "powershell.exe -NoProfile -Command '"'$PSVersionTable.PSVersion.ToString(); foreach ($json in @("[]", "[true]", "[true,false]", "true", "null", "1", "{}")) { $parsed = $json | ConvertFrom-Json; $kind = if ($null -eq $parsed) { "<null>" } else { $parsed.GetType().FullName }; Write-Output ("json=" + $json + " type=" + $kind + " isArray=" + ($parsed -is [array]) + " count=" + @($parsed).Count) }'"'" in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
- succeeded in 794ms:
-5.1.26100.9168
-json=[] type=System.Object[] isArray=True count=0
-json=[true] type=System.Object[] isArray=True count=1
-json=[true,false] type=System.Object[] isArray=True count=2
-json=true type=System.Boolean isArray=False count=1
-json=null type=<null> isArray=False count=1
-json=1 type=System.Int32 isArray=False count=1
-json={} type=System.Management.Automation.PSCustomObject isArray=False count=1
+The smallest safe fix is to remove that trailing command:
 
-web search: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-output?view=powershell-5.1
-codex
-The cause is a bug in `probes/cardinality.ps1`. Windows PowerShell 5.1’s `ConvertFrom-Json` preserves the array, but the trailing `Write-Output` enumerates it. Assignment captures its single element as `System.Boolean`, triggering the assertion. This enumeration behavior is documented in the [PowerShell issue tracker](https://github.com/PowerShell/PowerShell/issues/3424).
-
-The smallest safe fix is to remove `| Write-Output`:
 ```powershell
 $raw = Get-Content -Raw data.json
 $parsed = $raw | ConvertFrom-Json
 ```
-Keep the assertion and `data.json` unchanged. Wrapping the result in `@(...)` would incorrectly allow scalar JSON through the array check.
 
-Confirm by rerunning the original command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also verify `[]`, `[true]`, and `[true,false]` pass, while `true`, `1`, `"text"`, and `null` fail. I verified the array/scalar distinction on locally installed Windows PowerShell 5.1, though its patch build differs from the supplied environment.
+Keep the array assertion. Don’t merely wrap the original pipeline in `@(...)`: that would also wrap scalar JSON values and incorrectly accept them.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]` and exit code `0`. Then check `[]`, `[true]`, and `[true,false]` all pass, while scalar inputs such as `true`, `1`, and `"text"` fail the assertion.
 tokens used
-15,246
-The cause is a bug in `probes/cardinality.ps1`. Windows PowerShell 5.1’s `ConvertFrom-Json` preserves the array, but the trailing `Write-Output` enumerates it. Assignment captures its single element as `System.Boolean`, triggering the assertion. This enumeration behavior is documented in the [PowerShell issue tracker](https://github.com/PowerShell/PowerShell/issues/3424).
+3,696
+The failure is in the script’s pipeline, not `data.json` or execution policy. Windows PowerShell 5.1’s `ConvertFrom-Json` preserves the JSON array, but the trailing `Write-Output` enumerates it. Assignment then captures its sole element as `System.Boolean`.
 
-The smallest safe fix is to remove `| Write-Output`:
+The smallest safe fix is to remove that trailing command:
+
 ```powershell
 $raw = Get-Content -Raw data.json
 $parsed = $raw | ConvertFrom-Json
 ```
-Keep the assertion and `data.json` unchanged. Wrapping the result in `@(...)` would incorrectly allow scalar JSON through the array check.
 
-Confirm by rerunning the original command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also verify `[]`, `[true]`, and `[true,false]` pass, while `true`, `1`, `"text"`, and `null` fail. I verified the array/scalar distinction on locally installed Windows PowerShell 5.1, though its patch build differs from the supplied environment.
+Keep the array assertion. Don’t merely wrap the original pipeline in `@(...)`: that would also wrap scalar JSON values and incorrectly accept them.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]` and exit code `0`. Then check `[]`, `[true]`, and `[true,false]` all pass, while scalar inputs such as `true`, `1`, and `"text"` fail the assertion.
 
 __ABLATION_DONE__ exit=0

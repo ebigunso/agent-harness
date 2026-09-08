@@ -1,0 +1,96 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d79-9890-79f3-a00a-4af477a86313
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"id":9}]'
+$wireCount = '1'
+$parsed = ($raw | ConvertFrom-Json -NoEnumerate) | ForEach-Object { $_ }
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"id":9}]
+wire elements=1
+parsed type=System.Management.Automation.PSCustomObject
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+codex
+I’ll check how the pipeline affects the array shape and whether the fix preserves the scalar-rejection contract.
+web search: 
+web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array
+codex
+The cause is script-level array enumeration, not a workspace or execution-policy problem. `-NoEnumerate` preserves the converter’s array output, but piping the parenthesized result through `ForEach-Object` enumerates it again. Assignment receives one object, so `$parsed` becomes a `PSCustomObject` and the assertion throws. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4)
+
+The smallest safe fix is to replace the assignment with:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Keep the array assertion. Don’t wrap the result in `@(...)` or cast it to `[array]`: that would also turn scalar inputs into arrays, violating the contract. `$wireCount` is hard-coded and proves nothing about the parsed type.
+
+Confirm by rerunning the command and checking:
+
+- `[]`, `[{"id":9}]`, and `[{"id":9},{"id":10}]` retain array types with counts 0, 1, and 2, and exit 0.
+- Scalar inputs such as `9`, `"x"`, `true`, and `null`, plus the non-array object `{"id":9}`, still fail the array assertion and exit 1.
+- The original input prints `parsed type=System.Object[]` with no stderr.
+tokens used
+7,938
+The cause is script-level array enumeration, not a workspace or execution-policy problem. `-NoEnumerate` preserves the converter’s array output, but piping the parenthesized result through `ForEach-Object` enumerates it again. Assignment receives one object, so `$parsed` becomes a `PSCustomObject` and the assertion throws. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4)
+
+The smallest safe fix is to replace the assignment with:
+
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Keep the array assertion. Don’t wrap the result in `@(...)` or cast it to `[array]`: that would also turn scalar inputs into arrays, violating the contract. `$wireCount` is hard-coded and proves nothing about the parsed type.
+
+Confirm by rerunning the command and checking:
+
+- `[]`, `[{"id":9}]`, and `[{"id":9},{"id":10}]` retain array types with counts 0, 1, and 2, and exit 0.
+- Scalar inputs such as `9`, `"x"`, `true`, and `null`, plus the non-array object `{"id":9}`, still fail the array assertion and exit 1.
+- The original input prints `parsed type=System.Object[]` with no stderr.
+
+__ABLATION_DONE__ exit=0

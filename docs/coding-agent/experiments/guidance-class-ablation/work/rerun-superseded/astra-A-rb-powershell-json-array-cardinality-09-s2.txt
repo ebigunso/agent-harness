@@ -1,0 +1,127 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d79-cc42-7562-9e4f-717b6fd6cc03
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; Windows PowerShell 5.1.22621.4391; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `powershell.exe -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '  [true]  '
+$wireCount = '1'
+$raw = Get-Content -Raw data.json; $parsed = $raw | ConvertFrom-Json | Write-Output
+Write-Output ('raw=<' + $raw + '>')
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=<  [true]  >
+wire elements=1
+parsed type=System.Boolean
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
+    + FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. data.json contains exactly two spaces, [true], and two spaces.
+
+codex
+I’ll check PowerShell 5.1’s JSON and pipeline behavior to identify a fix that preserves the distinction between arrays and scalars.
+
+web search: 
+web search: site.learn.microsoft.com powershell 5.1 ConvertFrom-Json single element array Write-Output NoEnumerate
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$PSVersionTable.PSVersion.ToString()
+$cases = '"'[]', '  [true]  ', '[true,false]', 'true', '1', '\"x\"', 'null', '{}'
+foreach ("'$raw in $cases) {
+    $parsed = $raw | ConvertFrom-Json
+    $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }
+    '"'{0}: type={1}; isArray={2}; count={3}' -f "'$raw, $kind, ($parsed -is [array]), @($parsed).Count
+}' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 512ms:
+7.4.19
+[]: type=<null>; isArray=False; count=0
+  [true]  : type=System.Boolean; isArray=False; count=1
+[true,false]: type=System.Object[]; isArray=True; count=2
+true: type=System.Boolean; isArray=False; count=1
+1: type=System.Int64; isArray=False; count=1
+"x": type=System.String; isArray=False; count=1
+null: type=<null>; isArray=False; count=1
+{}: type=System.Management.Automation.PSCustomObject; isArray=False; count=1
+
+web search: 
+web search: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-output?view=powershell-5.1
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command "powershell.exe -NoProfile -Command '"'$PSVersionTable.PSVersion.ToString(); $cases = '"''[]'', ''  [true]  '', ''[true,false]'', ''true'', ''1'', ''\"x\"'', ''null'', ''{}''; foreach ("'$raw in $cases) { $parsed = $raw | ConvertFrom-Json; $kind = if ($null -eq $parsed) { '"''<null>'' } else { "'$parsed.GetType().FullName }; '"''{0}: type={1}; isArray={2}; count={3}'' -f "'$raw, $kind, ($parsed -is [array]), @($parsed).Count }'"'" in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 1614ms:
+5.1.26100.9168
+[]: type=System.Object[]; isArray=True; count=0
+  [true]  : type=System.Object[]; isArray=True; count=1
+[true,false]: type=System.Object[]; isArray=True; count=2
+true: type=System.Boolean; isArray=False; count=1
+1: type=System.Int32; isArray=False; count=1
+"x": type=System.String; isArray=False; count=1
+null: type=<null>; isArray=False; count=1
+{}: type=System.Management.Automation.PSCustomObject; isArray=False; count=1
+
+web search: 
+web search: https://github.com/PowerShell/PowerShell/issues/3424
+codex
+The cause is a bug in `probes/cardinality.ps1`. In Windows PowerShell 5.1, `ConvertFrom-Json` preserves the array, but the trailing `Write-Output` enumerates it. Assignment captures its sole element as `System.Boolean`, causing the assertion to throw. This behavior is documented in the [PowerShell issue tracker](https://github.com/PowerShell/PowerShell/issues/3424). The JSON file and its whitespace are valid.
+
+The smallest safe fix is to remove `| Write-Output`:
+
+```powershell
+$raw = Get-Content -Raw data.json
+$parsed = $raw | ConvertFrom-Json
+```
+
+Keep the existing assertion. Wrapping the result in `@(...)` would also turn scalar inputs into arrays, violating the contract.
+
+Confirm by rerunning the original command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check that `[]`, `[true]`, and `[true,false]` pass, while `true`, `1`, `"x"`, `null`, and `{}` fail. I verified these type distinctions on locally installed Windows PowerShell 5.1.26100.9168; the supplied build should receive the same checks.
+tokens used
+15,757
+The cause is a bug in `probes/cardinality.ps1`. In Windows PowerShell 5.1, `ConvertFrom-Json` preserves the array, but the trailing `Write-Output` enumerates it. Assignment captures its sole element as `System.Boolean`, causing the assertion to throw. This behavior is documented in the [PowerShell issue tracker](https://github.com/PowerShell/PowerShell/issues/3424). The JSON file and its whitespace are valid.
+
+The smallest safe fix is to remove `| Write-Output`:
+
+```powershell
+$raw = Get-Content -Raw data.json
+$parsed = $raw | ConvertFrom-Json
+```
+
+Keep the existing assertion. Wrapping the result in `@(...)` would also turn scalar inputs into arrays, violating the contract.
+
+Confirm by rerunning the original command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check that `[]`, `[true]`, and `[true,false]` pass, while `true`, `1`, `"x"`, `null`, and `{}` fail. I verified these type distinctions on locally installed Windows PowerShell 5.1.26100.9168; the supplied build should receive the same checks.
+
+__ABLATION_DONE__ exit=0

@@ -50,9 +50,6 @@ If you see “external changes” (formatter/user/tool edits) and need to decide
 If the user reports missing changes or your view doesn’t match theirs:
 - Read references/stale-view-or-branch-mismatch.md
 
-If PowerShell JSON array checks behave inconsistently for one-element arrays (cardinality validation after ConvertFrom-Json):
-- Read references/powershell-json-array-cardinality.md
-
 If gh CLI auth fails mid-task or a session assigned real-GitHub validation reports an invalid stored token:
 - Read references/github-cli-auth-failures.md
 

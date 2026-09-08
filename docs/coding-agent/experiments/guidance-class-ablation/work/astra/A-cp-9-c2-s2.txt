@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d78-0783-7283-b3c3-b00283ff8a0b
+session id: 01a08159-e2a9-7bb1-94eb-4319e23fb042
 --------
 user
 You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
@@ -17,7 +17,9 @@ Task framing: Allow bounded stale catalog reads during source outages.
 ```diff
 --- a/catalog/read.py
 +++ b/catalog/read.py
-@@ -1,2 +1,11 @@
+@@ -1,4 +1,13 @@
+ from catalog.source import SourceUnavailable
+
  def read_catalog(source, cache, clock):
 -    return {"items": source.read(), "stale": False, "age_seconds": 0}
 +    try:
@@ -35,11 +37,10 @@ Commit message: "expose bounded catalog fallback"
 
 Reviewer notes: Contract explicitly permits stale product descriptions up to 60 seconds; catalog contains no price, stock or authorization decisions. clock is the injected monotonic clock, sampled after the failed read immediately before returning the fallback; cache timestamps use the same clock and restart clears cache. SourceUnavailable is the existing source exception. Negative and expired ages are rejected. Result envelope exposes degradation; both callers show it. Cache/source errors beyond SourceUnavailable propagate.
 
-2026-09-07T20:03:33.737187Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
 codex
-Acceptable as-is. The fallback is limited to `SourceUnavailable`, rejects missing, negative-age, and older-than-60-second cache entries, and exposes staleness and age. The reviewer notes resolve clock consistency and caller handling. No findings I would raise.
+Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, accepts only cache ages from 0 through 60 seconds, and exposes staleness and age. The reviewer notes establish consistent clock semantics and caller handling of degradation.
 tokens used
-3,241
-Acceptable as-is. The fallback is limited to `SourceUnavailable`, rejects missing, negative-age, and older-than-60-second cache entries, and exposes staleness and age. The reviewer notes resolve clock consistency and caller handling. No findings I would raise.
+3,218
+Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, accepts only cache ages from 0 through 60 seconds, and exposes staleness and age. The reviewer notes establish consistent clock semantics and caller handling of degradation.
 
 __ABLATION_DONE__ exit=0

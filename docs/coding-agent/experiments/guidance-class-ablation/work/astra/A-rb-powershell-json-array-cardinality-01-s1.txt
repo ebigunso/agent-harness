@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d78-e354-7a62-81d4-d167aea2fddf
+session id: 01a0815a-5c1e-72d1-b3a1-2edffac6733b
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,33 +56,25 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
 
 codex
-I’ll check the array-preservation option against the contract, including scalar rejection.
-web search: 
-web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array
-codex
-Cause: `ConvertFrom-Json` enumerates arrays by default, so `[7]` produces one `System.Int64` value on assignment. The assertion then throws. This is a script logic issue, not a workspace or execution-policy problem.
+Cause: `ConvertFrom-Json` enumerates the JSON array by default. Assigning its single output from `[7]` makes `$parsed` a `System.Int64`, so the array assertion fails. This is script behavior, not a workspace or permission problem.
 
-Smallest safe fix: preserve the JSON array with [`-NoEnumerate`](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4):
-
+Smallest safe fix:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
+This preserves JSON arrays, including empty and singleton arrays. Avoid `@(...)` wrapping: it would also wrap scalar wire values, incorrectly allowing them through the assertion.
 
-Keep the assertion. Wrapping the result in `@(...)` would also turn scalar input into an array, violating the contract.
-
-Confirm by rerunning the command: expect `parsed type=System.Object[]`, no stderr, and exit code `0`. Also check `[]`, `[7]`, and `[7,8]` pass with counts `0`, `1`, and `2`; scalar inputs such as `7`, `"hello"`, `true`, and `null` must still fail the assertion.
+Confirm by rerunning with `[]`, `[7]`, and `[7,8]`: each should report an array type and exit 0. Scalar inputs such as `7` and `"seven"` should still fail the assertion and exit 1.
 tokens used
-7,887
-Cause: `ConvertFrom-Json` enumerates arrays by default, so `[7]` produces one `System.Int64` value on assignment. The assertion then throws. This is a script logic issue, not a workspace or execution-policy problem.
+14,677
+Cause: `ConvertFrom-Json` enumerates the JSON array by default. Assigning its single output from `[7]` makes `$parsed` a `System.Int64`, so the array assertion fails. This is script behavior, not a workspace or permission problem.
 
-Smallest safe fix: preserve the JSON array with [`-NoEnumerate`](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4):
-
+Smallest safe fix:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
+This preserves JSON arrays, including empty and singleton arrays. Avoid `@(...)` wrapping: it would also wrap scalar wire values, incorrectly allowing them through the assertion.
 
-Keep the assertion. Wrapping the result in `@(...)` would also turn scalar input into an array, violating the contract.
-
-Confirm by rerunning the command: expect `parsed type=System.Object[]`, no stderr, and exit code `0`. Also check `[]`, `[7]`, and `[7,8]` pass with counts `0`, `1`, and `2`; scalar inputs such as `7`, `"hello"`, `true`, and `null` must still fail the assertion.
+Confirm by rerunning with `[]`, `[7]`, and `[7,8]`: each should report an array type and exit 0. Scalar inputs such as `7` and `"seven"` should still fail the assertion and exit 1.
 
 __ABLATION_DONE__ exit=0

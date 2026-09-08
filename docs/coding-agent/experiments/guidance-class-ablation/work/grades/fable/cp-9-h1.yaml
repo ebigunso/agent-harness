@@ -1,193 +1,193 @@
 records:
-  - id: 45af73d428f4
+  - id: 7f4b1660919f
     fixture: cp-9-01
     score: 1.0
-    note: "Names timeout-to-empty-success conversion in ListAccounts; requires distinguishable error (sentinel) and 503/504 mapping, explicit stale contract otherwise."
-  - id: 4e153a5a4957
+    note: "Names timeout-to-empty-success conversion at the DeadlineExceeded branch; requires error propagation or explicit stale contract."
+  - id: 8fb81a294551
     fixture: cp-9-01
     score: 1.0
-    note: "Names timeout converted to 200 empty list; requires ErrTimeout wrap and no fabricated success."
-  - id: a12e7b0e4436
+    note: "Names timeout reported as successful empty list; requires removing branch and surfacing distinguishable error."
+  - id: 9a8b42f1f6a3
     fixture: cp-9-01
     score: 1.0
-    note: "Names unknown-vs-empty conflation on DeadlineExceeded; requires error path preserved with identifiable timeout."
-  - id: a4b272da930a
+    note: "Names timeout converted to 200 empty list; requires error path plus explicit stale contract if degraded mode wanted."
+  - id: a17d89f542ea
     fixture: cp-9-01
     score: 1.0
-    note: "Names swallowed timeout as ambiguous empty success; requires distinguishable error or explicit stale contract."
-  - id: d0b27e738920
+    note: "Names timeout-to-empty-success at DeadlineExceeded branch; requires identifiable error or explicit stale contract."
+  - id: ca731686f2ea
     fixture: cp-9-01
     score: 1.0
-    note: "Names timeout-to-success conversion; requires ErrListTimeout wrap, degraded mode only under explicit contract."
-  - id: de4c52dd7470
+    note: "Names swallowed timeout returned as empty success; requires error mapping to 503/504 or explicit stale contract."
+  - id: cf665d4b1cd7
     fixture: cp-9-01
     score: 1.0
-    note: "Names fabricated empty list on timeout; requires removing branch and keeping wrapped error."
-  - id: 1074fe7f7f69
+    note: "Names timeout converted to fabricated empty success; requires distinguishable error and a test."
+  - id: 02fd94cd1ae0
     fixture: cp-9-02
     score: 1.0
-    note: "Names swallowed row failures and unconditional complete; requires failed rows/count in summary and narrower catch."
-  - id: 94396a566054
+    note: "Names swallowed row failures and unconditional complete status; requires failed rows/count in summary."
+  - id: 30613586dd1e
     fixture: cp-9-02
     score: 1.0
-    note: "Names hard-coded complete hiding failed rows; requires partial status with failed list and row numbers."
-  - id: 96e394a41ab3
+    note: "Names unconditional complete hiding failures; requires tracking failed rows and partial status."
+  - id: 43e69471e653
     fixture: cp-9-02
     score: 1.0
-    note: "Names discarded failures with complete summary; requires failure capture with row number and non-complete status."
-  - id: cb2c3f1f0b2c
+    note: "Names discarded failures with complete status; requires failure list, counts, non-complete status."
+  - id: 4488916978bf
     fixture: cp-9-02
     score: 1.0
-    note: "Names unconditional complete hiding skipped rows; requires failed rows recorded and reported."
-  - id: dc511fa02e39
+    note: "Names unconditional success hiding skipped rows; requires failed rows recorded and reflected in summary."
+  - id: 4ab37bc2a9fd
     fixture: cp-9-02
     score: 1.0
-    note: "Names silent data loss disguised as complete; requires failed row list and counts in return value."
-  - id: dd176ee04968
+    note: "Names broad catch, hard-coded complete, discarded context; requires failed rows in summary."
+  - id: 964ce36467eb
     fixture: cp-9-02
     score: 1.0
-    note: "Names unconditional complete hiding failures; requires tracking row/exception and partial status."
-  - id: 04baeefc22b3
+    note: "Names swallowed failures with complete status; requires failed row list/counts and partial status."
+  - id: 15ef19d46197
     fixture: cp-9-03
     score: 1.0
-    note: "Names unknown capture outcome asserted as PAID on timeout; requires pending plus reconciliation or bounded idempotent retry."
-  - id: 117d537bfa85
+    note: "Names timeout treated as PAID despite unknown outcome; requires PENDING plus reconciliation or bounded idempotent retry."
+  - id: 1b792c170f92
     fixture: cp-9-03
     score: 1.0
-    note: "Names optimistic PAID on ambiguous timeout; requires PENDING and reconciliation via paymentKey."
-  - id: 17294db334ca
+    note: "Names ambiguous timeout marked paid; requires pending status, reconciliation, optional idempotent retry."
+  - id: 654bc711f85a
     fixture: cp-9-03
     score: 1.0
-    note: "Names unknown collapsed into success; requires markPending/PENDING and reconciliation."
-  - id: 6c5502f11778
+    note: "Names unknown collapsed into success at catch block; requires pending/unknown and reconciliation."
+  - id: 6b00ca2fd21e
     fixture: cp-9-03
     score: 1.0
-    note: "Names timeout treated as confirmed capture; requires PENDING plus reconcile, optional bounded idempotent retry."
-  - id: 7132c5f29e50
+    note: "Names timeout treated as success; requires PENDING plus reconcile, bounded idempotent retry optional."
+  - id: 750d10989c9f
     fixture: cp-9-03
     score: 1.0
-    note: "Names indeterminate timeout misreported as PAID; requires PENDING or bounded idempotent retry, never markPaid on timeout."
-  - id: ee63175cd891
+    note: "Names optimistic PAID on unknown outcome; requires idempotent retry and/or pending with reconciliation."
+  - id: 7ce86e0182f8
     fixture: cp-9-03
     score: 1.0
-    note: "Names ambiguous outcome asserted as paid; requires pending/unknown status and reconciliation."
-  - id: 19136e79c233
+    note: "Names ambiguity collapsed into PAID; requires pending/reconciliation or bounded idempotent retry."
+  - id: 21e831b1b1cf
     fixture: cp-9-04
     score: 1.0
-    note: "Names unbounded retry and retry of permanent ValidationError; requires error classification, attempt/time bound, final error surfaced."
-  - id: 39114ae9a9cd
+    note: "Names unbounded retry and ValidationError retried forever; requires error classification, attempt/time bound, visible final failure."
+  - id: 55dae4a82816
     fixture: cp-9-04
     score: 1.0
-    note: "Names infinite unconditional retry including permanent errors; requires TransportError-only retry with attempt cap and deadline."
-  - id: 4f46e02a7d6c
+    note: "Names unbounded loop and permanent-error retry; requires TransportError-only retry, attempt cap, rethrow with cause."
+  - id: 823e1b0447eb
     fixture: cp-9-04
     score: 1.0
-    note: "Names retry of permanent errors with no attempt limit; requires classification, maxAttempts, rethrow with cause."
-  - id: 7e9781423945
+    note: "Names no transient/permanent distinction and unbounded retries; requires classification, bound, rethrow."
+  - id: c4ad2d35b579
     fixture: cp-9-04
     score: 1.0
-    note: "Names retry-everything-forever; requires transient-only retry with bound and final rethrow."
-  - id: a55ebc0dab71
+    note: "Names unbounded retry and permanent errors retried; requires transient-only retry, max attempts, visible failure."
+  - id: d1a62d4f49e8
     fixture: cp-9-04
     score: 1.0
-    note: "Names unbounded recursion and permanent-error loop; requires bounded transient-only retry with visible final failure."
-  - id: f5c361619d48
+    note: "Names unbounded retry and non-retryable errors retried; requires attempt cap, classification, surface last error."
+  - id: fcb0da816c92
     fixture: cp-9-04
     score: 1.0
-    note: "Names unbounded loop retrying ValidationError; requires attempt cap, TransportError-only retry, rethrow last error."
-  - id: 0698c15410ad
+    note: "Names permanent-error infinite retry and no budget; requires TransportError-only retry, maxAttempts, rethrow."
+  - id: 15894b5db06c
     fixture: cp-9-05
     score: 1.0
-    note: "Names erasure of job id, stage, and cause at sole diagnostic boundary; requires restoring context, standardize shape not content."
-  - id: 2655302423f2
+    note: "Names discarded cause, job id, stage at map_err closures; requires restoring job id, stage, cause."
+  - id: 174cafa487ad
     fixture: cp-9-05
     score: 1.0
-    note: "Names discarded id/stage/cause; requires original format or context-preserving helper."
-  - id: 580baff196a1
+    note: "Names all context dropped at map_err; requires preserving job id, stage, Display cause."
+  - id: 88e9a373d9bc
     fixture: cp-9-05
     score: 1.0
-    note: "Names contextless job-failed string at sole record of failure; requires job id, stage, and cause preserved."
-  - id: 8e2cc87ce016
+    note: "Names context erased at sole diagnostic channel; requires job id, stage, underlying error retained."
+  - id: cd11a92e2af9
     fixture: cp-9-05
     score: 1.0
-    note: "Names dropped job ID, stage, and error; requires original messages or equivalent helper."
-  - id: bbbb06155251
+    note: "Names job id, stage, cause dropped; requires restoring context, standardize shape not content."
+  - id: cd3402db3560
     fixture: cp-9-05
     score: 1.0
-    note: "Names dropped cause, job id, and stage separately; requires each retained."
-  - id: d983a298c896
+    note: "Names discarded error and job id at map_err; requires original context restored."
+  - id: e16127947442
     fixture: cp-9-05
     score: 1.0
-    note: "Names undiagnosable constant error at boundary; requires job id, stage, source error restored."
-  - id: 0914b7800071
+    note: "Names job id, stage, cause removed; requires retaining all three at boundary."
+  - id: 1b5a9aef0cb1
     fixture: cp-9-06
     score: 1.0
-    note: "Names fail-open from never-expiring cache after revocation; requires fail closed, bounded TTL only under contract change."
-  - id: 60964a521e6a
+    note: "Names never-expiring cache granting access after revocation; requires fail-closed or contract change with strict TTL."
+  - id: 36a44d16578b
     fixture: cp-9-06
     score: 1.0
-    note: "Names stale unbounded grant violating immediate-revocation contract; requires deny on outage."
-  - id: 6bb42c035bdd
+    note: "Names stale-cache grant violating revocation contract; requires fail closed, never return true from cache."
+  - id: ec214df28603
     fixture: cp-9-06
     score: 1.0
-    note: "Names never-expiring cached allow honored after revocation; requires fail closed or strict FetchedAt TTL under amended contract."
-  - id: 8f331db3f0e3
+    note: "Names fail-open from never-expiring entries; requires deny on outage or contract-backed bounded TTL."
+  - id: ed3e7f9bf419
     fixture: cp-9-06
     score: 1.0
-    note: "Names stale-hit authorization bypass; requires return false, bounded age only after contract change."
-  - id: c64213a6810e
+    note: "Names stale-cache fail-open ignoring FetchedAt; requires deny or explicit unavailable result."
+  - id: fbd597877fa5
     fixture: cp-9-06
     score: 1.0
-    note: "Names stale cache returning true after revocation; requires never allow from fallback, surface outage."
-  - id: f6f243d8a2c9
+    note: "Names unbounded stale-grant path; requires fail closed or contract change with bounded TTL."
+  - id: fe957e1915f6
     fixture: cp-9-06
     score: 1.0
-    note: "Names unbounded stale-grant path; requires fail closed, bounded TTL only under contract change."
-  - id: 0f60b2ccce3c
+    note: "Names fail-open for revoked principals via unexpiring cache; requires return false or contract-backed max age."
+  - id: 00dd4f1e9f58
     fixture: cp-9-c1
     false_positives: 2
-    note: "Requires broader timeout detection and tests as merge blockers; Error() verbosity treated as known logging nitpick; gofmt nit not counted."
-  - id: 1007044a240f
-    fixture: cp-9-c1
-    false_positives: 1
-    note: "Requires confirm-or-broaden timeout detection; Error() cause demand is the known verbosity nitpick."
-  - id: 7cacf1146ebb
+    note: "Blocks on broadening timeout detection and missing tests; Error() verbosity treated as known nitpick; gofmt nit."
+  - id: 302b30741aa5
     fixture: cp-9-c1
     false_positives: 3
-    note: "Requires timeout detection rework, HTTP-mapping confirmation/test, and tests; Error() verbosity is the known nitpick."
-  - id: 8c15224397f1
+    note: "Requires broader timeout detection, HTTP mapping confirmation, tests; Error() verbosity treated as known nitpick."
+  - id: 3903f202af08
     fixture: cp-9-c1
     false_positives: 1
-    note: "Would not block but requires ctx.Err() timeout check plus test; Error() verbosity is the known nitpick."
-  - id: 9470df846ed2
-    fixture: cp-9-c1
-    false_positives: 1
-    note: "Would not block; requires confirm/broaden/drop Timeout field; Error() verbosity is the known nitpick; doc/gofmt nits not counted."
-  - id: ee1d88345121
+    note: "Would not block but requires ctx.Err() timeout check plus test; Error() verbosity treated as known nitpick."
+  - id: 541a70bd504f
     fixture: cp-9-c1
     false_positives: 2
-    note: "Requires timeout detection rework and tests; blocking Error() verbosity demand treated as known nitpick."
-  - id: 0bf044d71fc1
-    fixture: cp-9-c2
-    false_positives: 2
-    note: "Blocks on missing SourceUnavailable import (key-errata candidate: hunk header shows whole file with no import); also requires log on rejected fallback."
-  - id: 267a0f77378f
+    note: "Requires broader timeout detection and tests; blocks on Error() verbosity which is treated as known nitpick."
+  - id: ba44b204f0a3
+    fixture: cp-9-c1
+    false_positives: 1
+    note: "Would not block; requires confirming or broadening timeout detection; Error() verbosity treated as known nitpick."
+  - id: bdd822707d1c
+    fixture: cp-9-c1
+    false_positives: 1
+    note: "Requires confirming Store contract or broadening timeout detection; Error() verbosity treated as known nitpick."
+  - id: 4784ce2d74fe
     fixture: cp-9-c2
     false_positives: 1
-    note: "Blocks on missing SourceUnavailable import (key-errata candidate); rejection-context item is a suggestion only."
-  - id: 33271db88aa0
+    note: "Would not block but requires unit tests; cache-writer question non-blocking; logic judged correct."
+  - id: 8f92f8832714
     fixture: cp-9-c2
-    false_positives: 2
-    note: "Blocks on missing import (key-errata candidate); asks for rejection-reason context before merge; cache-writer question not counted."
-  - id: 63f19026dab4
+    false_positives: 0
+    note: "Acceptable as-is; non-blocking notes on cache writer and age_seconds type."
+  - id: ab25fab08456
     fixture: cp-9-c2
-    false_positives: 2
-    note: "Blocks on missing import (key-errata candidate); requires log/metric on rejected fallback."
-  - id: b06d4149b751
+    false_positives: 0
+    note: "Acceptable as-is; nits on named constant and rejection log line."
+  - id: c35c42f982cc
     fixture: cp-9-c2
-    false_positives: 2
-    note: "Blocks on missing import (key-errata candidate); requires tests before merge; cache-writer and age type are minor."
-  - id: e33a25d0a605
+    false_positives: 0
+    note: "Acceptable as-is; non-blocking note that cache writer lives elsewhere."
+  - id: c7c8d7f9e295
     fixture: cp-9-c2
-    false_positives: 2
-    note: "Blocks on missing import (key-errata candidate); tests likely block; age type, constant, cache-writer are minor/nit."
+    false_positives: 0
+    note: "Acceptable as-is; non-blocking diagnosability note on rejected fallback."
+  - id: f05ec7a67bed
+    fixture: cp-9-c2
+    false_positives: 3
+    note: "Holds approval on missing cache write (notes imply writer exists), tests, and required operational logging; nits on constant and type."

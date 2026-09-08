@@ -1,193 +1,193 @@
 records:
-  - id: 260b5fc52be8
+  - id: 66d4953e0827
     fixture: cp-9-07
     score: 1.0
-    note: "Names unread result channel and premature Succeeded; requires Failed/Succeeded reported from goroutine after Run."
-  - id: 8c40302f5274
+    note: "Names Succeeded-before-Run and unread result channel; requires supervisor Failed/Succeeded from goroutine after Run."
+  - id: 73167464cc78
     fixture: cp-9-07
     score: 1.0
-    note: "Names discarded channel error and launch-time Succeeded; requires supervisor Failed hook and completion reporting from goroutine."
-  - id: 9fd51b8902d2
+    note: "Names premature Succeeded and discarded channel error; requires completion/error propagation to supervisor."
+  - id: 77cf85ea9d61
     fixture: cp-9-07
     score: 1.0
-    note: "Names unobserved Run error and premature Succeeded; requires reporting on both branches from goroutine."
-  - id: aadd6df29c3c
+    note: "Names unobserved async failure (no receiver) and false success; requires Failed hook and Succeeded gated on Run result."
+  - id: 7d7c20e62941
     fixture: cp-9-07
     score: 1.0
-    note: "Names Succeeded-before-Run and receiver-less channel; requires status transition inside goroutine with Failed path."
-  - id: e5161950aba9
+    note: "Names Succeeded at launch and dead channel; requires status from inside goroutine after Run."
+  - id: cd3653e99d6e
     fixture: cp-9-07
     score: 1.0
-    note: "Names dropped Run error and false durable success; requires goroutine to dispatch Succeeded/Failed to supervisor."
-  - id: f15b1409b65b
+    note: "Names premature Succeeded and discarded error; requires reporting on both branches from goroutine."
+  - id: ffcbd9bc6200
     fixture: cp-9-07
     score: 1.0
-    note: "Names silent async failure and premature Succeeded; requires error handled in goroutine and reported to supervisor."
-  - id: 0e804a31f3bf
+    note: "Names launch-as-success and unread channel; requires Failed/Succeeded propagation after Run."
+  - id: 59fc4428f35f
     fixture: cp-9-08
     score: 1.0
-    note: "Names nil conflating outage with not-found and duplicate create via get_or_create; requires propagate/distinct signal, never create on outage."
-  - id: 2a442659a3bc
+    note: "Names nil conflating outage with not-found and duplicate create; requires distinct error/result, no create on outage."
+  - id: c1f6b4d6dde1
     fixture: cp-9-08
     score: 1.0
-    note: "Names outage-as-nil and duplicate customer creation; requires distinct error/sentinel and no create when lookup incomplete."
-  - id: 2e8aaa48344c
+    note: "Names outage-as-nil and duplicate customer creation; requires re-raise or distinct unavailable result."
+  - id: c33aca74f93e
     fixture: cp-9-08
     score: 1.0
-    note: "Names nil contract violation causing duplicate creation; requires domain error or distinct result, refuse create on unknown."
-  - id: 3f1e379256d2
+    note: "Names nil ambiguity driving create on primary; requires propagate/tri-state and create only on confirmed not-found."
+  - id: cd031f37ff8c
     fixture: cp-9-08
     score: 1.0
-    note: "Names outage collapsed into not-found and duplicate writes; requires propagation/typed error and create only on confirmed not-found."
-  - id: 68601f34dc98
+    note: "Names outage collapsed into not-found causing duplicate create; requires distinct signal, no fallthrough to create."
+  - id: dae0cb91f170
     fixture: cp-9-08
     score: 1.0
-    note: "Names outage-to-nil and duplicate customer creation; requires reraise with context or distinct unavailable signal."
-  - id: a1e2d53849b8
+    note: "Names nil conflation and duplicate create regression; requires propagate/wrap or distinct sentinel, no create on outage."
+  - id: e1b51d46a9e8
     fixture: cp-9-08
     score: 1.0
-    note: "Names nil conflation and re-creation of existing customer; requires propagate or tri-state result, never create on unavailable."
-  - id: 00e7e7865a76
+    note: "Names outage-vs-not-found conflation and duplicate creation; requires propagation or explicit unavailable outcome."
+  - id: 46bca6b4440d
     fixture: cp-9-09
     score: 1.0
-    note: "Names swallowed DiskWriteError returning ready with truncated file and in-place truncation; requires atomic write-beside/rename and honest status."
-  - id: 95d842890e90
+    note: "Names swallowed DiskWriteError returning ready with truncated file and in-place truncation; requires atomic sidecar publish and failure status."
+  - id: 88e1551b24c3
     fixture: cp-9-09
     score: 1.0
-    note: "Names partial file reported ready and destroyed prior artifact; requires sidecar-then-rename and failing the export."
-  - id: 9b11129dbb4d
+    note: "Names partial file reported ready and destroyed prior artifact; requires replaceAtomically or write-beside-then-rename with error propagation."
+  - id: b5824c3deec0
     fixture: cp-9-09
     score: 1.0
-    note: "Names truncation of last-good artifact and swallowed error returning ready; requires temp path plus rename on success and non-ready status."
-  - id: b5fb4d4d19eb
+    note: "Names truncated artifact published as ready and lost prior valid file; requires atomic publish and non-ready status on failure."
+  - id: bae9ea79cdce
     fixture: cp-9-09
     score: 1.0
-    note: "Names failure-as-success with truncated artifact and lost atomic publish; requires propagate/failed status and write-beside publish-on-success."
-  - id: d3f3f63f5229
+    note: "Names swallowed write error returning ready and in-place truncation; requires temp-then-rename and explicit failure."
+  - id: edeaf5cf56b6
     fixture: cp-9-09
     score: 1.0
-    note: "Names swallowed write error returning ready and in-place truncation; requires keeping replaceAtomically or temp-then-rename with error surfaced."
-  - id: daf498779140
+    note: "Names partial file as success and destroyed last-good artifact; requires write-beside-then-rename and non-ready status."
+  - id: ffeff3882575
     fixture: cp-9-09
     score: 1.0
-    note: "Names mid-write failure reported ready and destroyed prior file; requires propagate/non-ready status and write-beside-then-rename."
-  - id: 0077e194cf12
+    note: "Names in-place truncation and swallowed error returning ready; requires sidecar atomic publish and honest failure return."
+  - id: 2a6b1843b653
     fixture: cp-9-10
     score: 1.0
-    note: "Names timeout returned as success=true empty envelope indistinguishable from legit empty; requires failed envelope with operation ID."
-  - id: 1efaaca946b5
+    note: "Names timeout laundered into success=true/null indistinguishable from empty; requires failed envelope with operation ID."
+  - id: 6de6a5245ed3
     fixture: cp-9-10
     score: 1.0
-    note: "Names timeout laundered into empty-success shape; requires success=false envelope with timeout reason and operation ID."
-  - id: 541b082d65ce
+    note: "Names timeout masked as legitimate empty success; requires failed envelope mapped to HTTP error."
+  - id: 7b828353636a
     fixture: cp-9-10
     score: 1.0
-    note: "Names timeout reported as success/null payload; requires failed envelope mapped to HTTP error with operation ID."
-  - id: 957ddc2cfabc
+    note: "Names timeout reported as success/empty; requires success=false with timeout classification and operation ID."
+  - id: be876805e954
     fixture: cp-9-10
     score: 1.0
-    note: "Names timeout conflated with valid empty payload; requires success=false envelope carrying timeout classification."
-  - id: 97ce7f0acc5e
+    note: "Names ambiguous empty-success on timeout; requires failed envelope via existing transport mapping."
+  - id: dbf02753c769
     fixture: cp-9-10
     score: 1.0
-    note: "Names timeout as ambiguous 200 empty result; requires failed envelope with BACKEND_TIMEOUT and operation ID."
-  - id: dd7994425686
+    note: "Names timeout as false empty success; requires failed envelope carrying sanitized operation ID."
+  - id: f4188a6bb7b6
     fixture: cp-9-10
     score: 1.0
-    note: "Names success=true/null timeout masking; requires failed envelope and tests pinning the two cases distinct."
-  - id: 0b2083c0ea59
+    note: "Names timeout converted to success=true/null; requires failed envelope with timeout reason and operation ID."
+  - id: 1b38a6bb8247
     fixture: cp-9-11
     score: 1.0
-    note: "Names unbounded retry on deterministic bad_alloc wedging single dispatch thread; requires error Result with logging/metric."
-  - id: 1b4a853d09ae
+    note: "Names unbounded retry on deterministic bad_alloc wedging single thread; requires bound or no retry with error Result and logging."
+  - id: 1d6ee57257a5
     fixture: cp-9-11
     score: 1.0
-    note: "Names infinite spin on over-limit input starving all requests; requires per-request error Result and observability."
-  - id: 4a63c4374649
+    note: "Names endless retry of non-transient allocation failure; requires bounded/terminal failure surfaced with context."
+  - id: 729fb2e5376f
     fixture: cp-9-11
     score: 1.0
-    note: "Names unbounded retry of non-transient allocation failure; requires hard bound/no retry with error Result and context."
-  - id: 60b58bf6e53b
+    note: "Names infinite spin on over-limit input; requires catch once and return error Result with logging."
+  - id: 885dd4021bf2
     fixture: cp-9-11
     score: 1.0
-    note: "Names for(;;) never exiting on oversized input, wedging service; requires bounded/terminal failure surfaced with context."
-  - id: c2067585284c
+    note: "Names unbounded retry on deterministic failure; requires failed Result with diagnostics, bounded if any retry."
+  - id: 8d1aab4bbd10
     fixture: cp-9-11
     score: 1.0
-    note: "Names unbounded busy-loop wedging dispatch thread; requires no/bounded retry, error Result, logging."
-  - id: fa0edf65d7d6
+    note: "Names unbounded bad_alloc loop wedging dispatch thread; requires bounded retry or immediate error result with context."
+  - id: f9d472410652
     fixture: cp-9-11
     score: 1.0
-    note: "Names unbounded silent retry on bad_alloc hanging the worker; requires bounded attempts ending in explicit failure with context."
-  - id: 05fe6d5c185d
+    note: "Names infinite busy-loop on non-transient failure; requires hard bound/no retry and explicit error Result with logging."
+  - id: 125ca85c92d7
     fixture: cp-9-12
     score: 1.0
-    note: "Names removed recover turning optional enrichment outage into failure of durable paid order; requires restoring degraded=true result."
-  - id: 668e6d8cc2c1
+    note: "Names removed recover failing durable paid order on optional enrichment outage; requires restoring degraded=true result."
+  - id: 552fdd81a441
     fixture: cp-9-12
     score: 1.0
-    note: "Names failed Future for paid durable order due to read-only enrichment; requires restoring bounded recover with degraded result."
-  - id: 78afac020ec1
+    note: "Names optional enrichment failure now failing paid order; requires restoring narrow recover with degraded result."
+  - id: 71cf1e47836d
     fixture: cp-9-12
     score: 1.0
-    note: "Names charged-but-failed orders from propagated EnrichmentUnavailable; requires keeping recover and degraded=true contract."
-  - id: 849c2e11bea2
+    note: "Names enrichment outage failing durable paid orders; requires keeping recover returning None/degraded=true."
+  - id: d0d963586636
     fixture: cp-9-12
     score: 1.0
-    note: "Names optional enrichment outage failing paid orders; requires restoring narrow recover returning None/degraded=true."
-  - id: d4f832507259
+    note: "Names optional-enrichment outage turned into order failure post-payment; requires restoring degraded recover."
+  - id: e310e5bba57b
     fixture: cp-9-12
     score: 1.0
-    note: "Names contracted degraded result replaced by order failure post-payment; requires restoring recover scoped to EnrichmentUnavailable."
-  - id: dcf3d3f37aa0
+    note: "Names charged-but-failed orders from removed recover; requires keeping recover clause and degraded flag."
+  - id: f6ccacafe31f
     fixture: cp-9-12
     score: 1.0
-    note: "Names enrichment outage failing durable paid orders; requires keeping recover with degraded=true and warn log."
-  - id: 033dd6d7598c
+    note: "Names optional enrichment failure aborting completed order; requires restoring bounded recover with degraded=true."
+  - id: 4eff67d72aa2
     fixture: cp-9-c3
     false_positives: 0
-    note: "Acceptable as-is; only non-blocking observation about warning variant lacking reason."
-  - id: 0e182b468932
+    note: "Acceptable as-is; optional metric observation, non-blocking."
+  - id: 59b2511828ea
     fixture: cp-9-c3
     false_positives: 0
-    note: "Acceptable as-is; optional metric suggestion, not a defect."
-  - id: b5a958b23341
+    note: "Acceptable as-is; non-blocking test-coverage mention."
+  - id: 6495798370a2
     fixture: cp-9-c3
     false_positives: 0
-    note: "Acceptable as-is; non-blocking note on warning variant carrying no reason."
-  - id: c91aadb3e400
+    note: "Acceptable as-is; minor non-blocking observation on warning variant."
+  - id: 6c4b13d5830e
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is; nothing required."
+  - id: 79d3ad5f5be9
+    fixture: cp-9-c3
+    false_positives: 0
+    note: "Acceptable as-is; non-blocking note on warning carrying no reason."
+  - id: e0da4965e42d
     fixture: cp-9-c3
     false_positives: 0
     note: "Acceptable as-is; nothing to block or rework."
-  - id: f39f87e48755
-    fixture: cp-9-c3
-    false_positives: 0
-    note: "Acceptable as-is; no required changes."
-  - id: f8f48329d1ce
-    fixture: cp-9-c3
-    false_positives: 0
-    note: "Acceptable as-is; conditional non-blocking mention of test coverage."
-  - id: 51c7fe32f029
+  - id: 0ac10e772347
     fixture: cp-9-c4
     false_positives: 0
-    note: "Acceptable as-is; optional addSuppressed suggestion explicitly not held against merge."
-  - id: 5cb930459e6a
+    note: "Acceptable as-is; named-constant nit explicitly non-blocking."
+  - id: 55bca82dc856
     fixture: cp-9-c4
     false_positives: 0
-    note: "Acceptable as-is; optional named-constant nit."
-  - id: 6fa2d37383f2
+    note: "Acceptable as-is; considered addSuppressed but declined to hold."
+  - id: 78d0f2f91e26
     fixture: cp-9-c4
     false_positives: 0
-    note: "Acceptable as-is; optional MAX_ATTEMPTS nit."
-  - id: 853d2ba5fba2
+    note: "Acceptable as-is; addSuppressed suggestion non-blocking."
+  - id: 8b3514cd324c
     fixture: cp-9-c4
     false_positives: 0
-    note: "Acceptable as-is; considered and declined addSuppressed flag."
-  - id: d1ae73d4d40a
+    note: "Acceptable as-is; MAX_ATTEMPTS nit non-blocking."
+  - id: 8b565e93d4e1
     fixture: cp-9-c4
     false_positives: 0
-    note: "Acceptable as-is; optional addSuppressed suggestion, not required."
-  - id: e2a347895f07
+    note: "Acceptable as-is; addSuppressed observation non-blocking."
+  - id: bb92660a439a
     fixture: cp-9-c4
     false_positives: 0
-    note: "Approve; optional addSuppressed observation, not required."
+    note: "Approve; addSuppressed observation non-blocking."

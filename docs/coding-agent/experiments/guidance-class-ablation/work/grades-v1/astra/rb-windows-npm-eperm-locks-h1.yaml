@@ -1,0 +1,193 @@
+records:
+  - id: 1b1f97b7f4d6
+    fixture: rb-windows-npm-eperm-locks-01
+    score: 1.0
+    note: "Dev server PID 4101 holds better_sqlite3.node; Ctrl+C graceful stop, tasklist recheck, rerun npm ci exit 0; no broad kill or lockfile deletion."
+  - id: 3aabcd226c41
+    fixture: rb-windows-npm-eperm-locks-01
+    score: 1.0
+    note: "Dev server PID 4101 holds better_sqlite3.node; Ctrl+C graceful stop, tasklist recheck, rerun npm ci exit 0."
+  - id: 4049fed359ab
+    fixture: rb-windows-npm-eperm-locks-01
+    score: 1.0
+    note: "Dev server PID 4101 holds better_sqlite3.node; Ctrl+C first, PID-specific taskkill only as last resort, retry npm ci, record evidence."
+  - id: 40e009ea3f26
+    fixture: rb-windows-npm-eperm-locks-01
+    score: 1.0
+    note: "Dev server PID 4101 holds better_sqlite3.node; Ctrl+C first, taskkill /PID 4101 only if graceful fails, tasklist recheck, rerun npm ci."
+  - id: 684026357023
+    fixture: rb-windows-npm-eperm-locks-01
+    score: 1.0
+    note: "Dev server PID 4101 holds better_sqlite3.node; graceful stop, PID-specific kill last resort, retry npm ci exit 0, record evidence."
+  - id: e2cf99c81dd3
+    fixture: rb-windows-npm-eperm-locks-01
+    score: 1.0
+    note: "Dev server PID 4101 holds better_sqlite3.node; Ctrl+C, taskkill /PID last resort after reconfirming, tasklist recheck, npm ci exit 0."
+  - id: 0b06b9957a31
+    fixture: rb-windows-npm-eperm-locks-02
+    score: 1.0
+    note: "Image worker PID 4102 holds sharp binary after terminal disconnect; graceful stop, PID-only termination if needed, rerun npm install exit 0."
+  - id: 173a7a7429be
+    fixture: rb-windows-npm-eperm-locks-02
+    score: 1.0
+    note: "Image worker PID 4102 holds sharp binary; graceful stop, taskkill /PID 4102 last resort, tasklist recheck, retry npm install exit 0."
+  - id: 55b10eaae2dd
+    fixture: rb-windows-npm-eperm-locks-02
+    score: 1.0
+    note: "Image worker PID 4102 holds sharp binary; graceful stop, PID-specific kill last resort, tasklist recheck, retry npm install."
+  - id: a4cb53d595a0
+    fixture: rb-windows-npm-eperm-locks-02
+    score: 1.0
+    note: "Image worker PID 4102 holds sharp binary; ordered graceful stop then taskkill /PID last resort, retry npm install, record evidence."
+  - id: c2318a00cf7d
+    fixture: rb-windows-npm-eperm-locks-02
+    score: 1.0
+    note: "Image worker PID 4102 holds sharp binary; graceful stop, confirmed-PID taskkill last resort, tasklist recheck, npm install exit 0."
+  - id: cb5a5164e5ff
+    fixture: rb-windows-npm-eperm-locks-02
+    score: 1.0
+    note: "Worker PID 4102 holds sharp binary; graceful shutdown, Stop-Process -Id 4102 only if needed, leave other node/lockfile alone, rerun npm install."
+  - id: 3e77d1d74087
+    fixture: rb-windows-npm-eperm-locks-03
+    score: 1.0
+    note: "Next dev server PID 4103 holds swc binary; Ctrl+C graceful stop, tasklist recheck, rerun npm ci exit 0; no broad termination."
+  - id: 4822f77bc45b
+    fixture: rb-windows-npm-eperm-locks-03
+    score: 1.0
+    note: "Next dev server PID 4103 holds swc binary; Ctrl+C first, taskkill /PID 4103 only if it will not stop, tasklist recheck, npm ci exit 0."
+  - id: 70fc3a595e0d
+    fixture: rb-windows-npm-eperm-locks-03
+    score: 1.0
+    note: "Next dev server PID 4103 holds swc binary; graceful stop, reconfirm PID then taskkill last resort, explicit no-kill-all/no-lockfile-delete, retry npm ci."
+  - id: 8d7a3610087d
+    fixture: rb-windows-npm-eperm-locks-03
+    score: 1.0
+    note: "Next dev server PID 4103 holds swc binary; Ctrl+C, taskkill /PID last resort after reconfirm, tasklist recheck, npm ci exit 0, record evidence."
+  - id: b62dc16f0049
+    fixture: rb-windows-npm-eperm-locks-03
+    score: 1.0
+    note: "Next dev server PID 4103 holds swc binary; graceful Ctrl+C stop, rerun npm ci exit 0; leaves lockfile/cache alone."
+  - id: ec283dc536a5
+    fixture: rb-windows-npm-eperm-locks-03
+    score: 1.0
+    note: "Next dev server PID 4103 holds swc binary; Ctrl+C first, taskkill /PID 4103 only if it will not stop, tasklist then npm ci exit 0."
+  - id: 3e67eaa136a8
+    fixture: rb-windows-npm-eperm-locks-04
+    score: 1.0
+    note: "Watch task PID 4104 holds watcher.node; graceful stop first, Stop-Process -Id 4104 if detached state prevents it, rerun npm ci exit 0."
+  - id: 59368cdfa683
+    fixture: rb-windows-npm-eperm-locks-04
+    score: 1.0
+    note: "Detached Parcel/Vue watcher PID 4104 holds watcher.node; graceful stop if available else taskkill /PID 4104 only, retry npm ci exit 0."
+  - id: a6ea611431be
+    fixture: rb-windows-npm-eperm-locks-04
+    score: 1.0
+    note: "Watcher PID 4104 holds watcher.node; graceful stop first, Stop-Process -Id 4104 fallback after verifying PID, rerun npm ci exit 0."
+  - id: d294c3bbd567
+    fixture: rb-windows-npm-eperm-locks-04
+    score: 1.0
+    note: "Detached watcher PID 4104 holds watcher.node; graceful stop else confirmed-PID taskkill, tasklist recheck, npm ci exit 0."
+  - id: dae828895bef
+    fixture: rb-windows-npm-eperm-locks-04
+    score: 1.0
+    note: "Watcher PID 4104 holds watcher.node; ordered graceful stop then taskkill /PID 4104 last resort, retry npm ci, record evidence."
+  - id: db83f2fa45b2
+    fixture: rb-windows-npm-eperm-locks-04
+    score: 1.0
+    note: "Watcher PID 4104 holds watcher.node, closing shell insufficient since detached; graceful stop, reconfirm PID then taskkill last resort, no kill-all, retry npm ci."
+  - id: 011be710e250
+    fixture: rb-windows-npm-eperm-locks-05
+    score: 1.0
+    note: "Jest watch worker PID 4105 holds bcrypt_lib.node; Ctrl+C graceful stop, taskkill /PID 4105 last resort, tasklist recheck, npm install exit 0."
+  - id: 03c9d1f5d3ec
+    fixture: rb-windows-npm-eperm-locks-05
+    score: 1.0
+    note: "Jest watch worker PID 4105 holds bcrypt_lib.node; Ctrl+C, stop only that verified PID if needed, rerun npm install, confirm success."
+  - id: 6dd60c83ec64
+    fixture: rb-windows-npm-eperm-locks-05
+    score: 1.0
+    note: "Jest watch worker PID 4105 holds bcrypt_lib.node; graceful Ctrl+C stop, terminate only verified worker if necessary, rerun npm install exit 0."
+  - id: 7078d81b4580
+    fixture: rb-windows-npm-eperm-locks-05
+    score: 1.0
+    note: "Jest watch worker PID 4105 holds bcrypt_lib.node; Ctrl+C, reconfirm PID then taskkill last resort, tasklist recheck, npm install exit 0, record evidence."
+  - id: b653ba94e934
+    fixture: rb-windows-npm-eperm-locks-05
+    score: 1.0
+    note: "Jest watch worker PID 4105 holds bcrypt_lib.node; Ctrl+C/editor stop, taskkill /PID 4105 only if it cannot exit gracefully, rerun npm install exit 0."
+  - id: dd76991d2644
+    fixture: rb-windows-npm-eperm-locks-05
+    score: 1.0
+    note: "Jest watch worker PID 4105 holds bcrypt_lib.node; ordered Ctrl+C, tasklist recheck, taskkill /PID last resort, retry npm install exit 0."
+  - id: 0ee61f5282f4
+    fixture: rb-windows-npm-eperm-locks-06
+    score: 1.0
+    note: "Gatsby watcher PID 4106 holds lmdb.node; graceful stop, taskkill /PID 4106 only if it will not stop, no unrelated kills, tasklist recheck, npm ci exit 0."
+  - id: 179f782b1262
+    fixture: rb-windows-npm-eperm-locks-06
+    score: 1.0
+    note: "Gatsby watcher PID 4106 holds lmdb.node; graceful stop, tasklist recheck, reconfirm PID then taskkill last resort, retry npm ci exit 0, record evidence."
+  - id: 36f909e06a11
+    fixture: rb-windows-npm-eperm-locks-06
+    score: 1.0
+    note: "Gatsby watcher PID 4106 retains lmdb.node; graceful stop via terminal/task runner, rerun npm ci exit 0."
+  - id: 4ebb490bd501
+    fixture: rb-windows-npm-eperm-locks-06
+    score: 1.0
+    note: "Gatsby watcher PID 4106 holds lmdb.node; graceful stop, taskkill /PID 4106 only if it will not stop, tasklist recheck, npm ci exit 0."
+  - id: b60ca98722bd
+    fixture: rb-windows-npm-eperm-locks-06
+    score: 1.0
+    note: "Gatsby watcher PID 4106 retains lmdb.node mapping; graceful stop ensuring cache worker exits, rerun npm ci exit 0; no unrelated kills."
+  - id: fd9a8d1a8048
+    fixture: rb-windows-npm-eperm-locks-06
+    score: 1.0
+    note: "Gatsby watcher PID 4106 retains lmdb.node; ordered Ctrl+C, tasklist recheck, retry npm ci, taskkill /PID last resort, no kill-all, record evidence."
+  - id: 029b82bafd1b
+    fixture: rb-windows-npm-eperm-locks-c1
+    false_positives: 0
+    note: "Diagnoses package.json/lockfile mismatch (is-number 7 vs 6); npm install --package-lock-only then npm ci; explicitly no process kills or lockfile deletion."
+  - id: 04385fdbfb7e
+    fixture: rb-windows-npm-eperm-locks-c1
+    false_positives: 0
+    note: "Diagnoses lockfile mismatch; npm install to update lockfile then npm ci; no process killing or cache/lockfile deletion."
+  - id: 2e0ff1c3396b
+    fixture: rb-windows-npm-eperm-locks-c1
+    false_positives: 0
+    note: "Diagnoses lockfile mismatch; npm install --package-lock-only then npm ci; no process termination or cache cleanup."
+  - id: 6de043726c83
+    fixture: rb-windows-npm-eperm-locks-c1
+    false_positives: 0
+    note: "Diagnoses lockfile mismatch; npm install --package-lock-only then npm ci and npm ls check; no process termination."
+  - id: ad8c5d9c3424
+    fixture: rb-windows-npm-eperm-locks-c1
+    false_positives: 0
+    note: "Diagnoses lockfile mismatch; npm install --package-lock-only then npm ci; explicitly no process termination, cache cleanup, or lockfile deletion."
+  - id: b21e8be556f5
+    fixture: rb-windows-npm-eperm-locks-c1
+    false_positives: 0
+    note: "Diagnoses lockfile mismatch; npm install --package-lock-only then npm ci; explicitly no lockfile deletion, cache clear, or process kills."
+  - id: 11d7b97ac09a
+    fixture: rb-windows-npm-eperm-locks-c2
+    false_positives: 0
+    note: "Diagnoses E401 private-registry auth; refresh credential via scoped npm login or secret store; no process kills, cache clear, or lockfile change; credentials kept out of logs."
+  - id: 313819b6fad2
+    fixture: rb-windows-npm-eperm-locks-c2
+    false_positives: 0
+    note: "Diagnoses E401 auth token rejection; refresh via scoped npm login or secret store; explicitly no kills, cache clear, or node_modules/lockfile deletion."
+  - id: 5de9fa5cdf09
+    fixture: rb-windows-npm-eperm-locks-c2
+    false_positives: 0
+    note: "Diagnoses E401 registry credential problem; refresh via npm login --registry or credential setup; no kills, cache clear, or dependency-file change."
+  - id: 852ecfffd743
+    fixture: rb-windows-npm-eperm-locks-c2
+    false_positives: 0
+    note: "Diagnoses E401 invalid token; refresh credential via login or env/CI config; explicitly no cache clear, lockfile deletion, or process termination."
+  - id: 8be41bbd1355
+    fixture: rb-windows-npm-eperm-locks-c2
+    false_positives: 0
+    note: "Diagnoses E401 auth failure; scoped npm login or replace token in secret source; explicitly no cache clear, dependency deletion, lockfile change, or kills."
+  - id: 9a2e43a59a4e
+    fixture: rb-windows-npm-eperm-locks-c2
+    false_positives: 0
+    note: "Diagnoses E401 invalid token; refresh via registry login/token flow; no process termination, cache clear, or file deletion."

@@ -1,193 +1,193 @@
 records:
-  - id: 426c457aaa12
+  - id: 1f724e1a7c31
     fixture: rb-windows-docker-grpc-localhost-ipv6-07
     score: 1.0
-    note: "Names IPv6 [::1] Docker published-port HTTP/2 stall, sets target to 127.0.0.1, confirms same RPC with pong and invoked/completed log."
-  - id: 5a69f4613e81
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 2a45776b115a
     fixture: rb-windows-docker-grpc-localhost-ipv6-07
     score: 1.0
-    note: "IPv6 loopback path to Docker published port; 127.0.0.1 target; confirms exit 0, pong, service log."
-  - id: d402180ac241
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 50624ab9bf1d
     fixture: rb-windows-docker-grpc-localhost-ipv6-07
     score: 1.0
-    note: "Isolates failure to IPv6 loopback path (h2c never ready), explicit IPv4 target, confirms via same command plus log; hedges on exact forwarding component but mechanism is stated."
-  - id: db86be2746ac
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 76446c7780f3
     fixture: rb-windows-docker-grpc-localhost-ipv6-07
     score: 1.0
-    note: "IPv6 localhost path through Docker published port, HTTP/2 stall; 127.0.0.1 in local config; confirms pong and log."
-  - id: df6ad6dfb716
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 7ca3361e752c
     fixture: rb-windows-docker-grpc-localhost-ipv6-07
     score: 1.0
-    note: "IPv6 published-port path stalls before transport setup, Docker IPv6 proxy; change target to 127.0.0.1; confirms RPC and log."
-  - id: e51b5615cce2
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: b819860aadff
     fixture: rb-windows-docker-grpc-localhost-ipv6-07
     score: 1.0
-    note: "Address-specific IPv6 path failure, not server; use 127.0.0.1; confirms exit 0, pong, matching log."
-  - id: 026f33329d39
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 10094ccf7f75
     fixture: rb-windows-docker-grpc-localhost-ipv6-08
     score: 1.0
-    note: "IPv6 loopback/published-port HTTP/2 stall; 127.0.0.1 target; rerun with same deadline and check service log."
-  - id: 25d30fe24bdf
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 1af62c896da9
     fixture: rb-windows-docker-grpc-localhost-ipv6-08
     score: 1.0
-    note: "IPv6 path stall consistent with Docker Desktop IPv6 proxy; 127.0.0.1; confirms exit 0, pong, Echo log."
-  - id: 59d954c1e1a4
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 297ac5754468
     fixture: rb-windows-docker-grpc-localhost-ipv6-08
     score: 1.0
-    note: "IPv6 published-port path stalls before headers; change target to 127.0.0.1; confirms pong and log."
-  - id: 6284904568db
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 6d993da1bf2b
     fixture: rb-windows-docker-grpc-localhost-ipv6-08
     score: 1.0
-    note: "IPv6 published-port path stall, not workspace; 127.0.0.1 in local config; confirms invoked/completed log."
-  - id: 79c6de1cff90
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: c7c4d87675da
     fixture: rb-windows-docker-grpc-localhost-ipv6-08
     score: 1.0
-    note: "IPv6 [::1] path, no HTTP/2 headers, no invocation; explicit IPv4 probe; confirms exit 0, pong, log."
-  - id: e9fa6dcf3130
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: f8b0a5a1b24f
     fixture: rb-windows-docker-grpc-localhost-ipv6-08
     score: 1.0
-    note: "Address-dependent IPv6 transport failure; use 127.0.0.1; confirms same deadline, pong, log."
-  - id: 010f6974cca8
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 012f4ee0e36d
     fixture: rb-windows-docker-grpc-localhost-ipv6-09
     score: 1.0
-    note: "Local Docker IPv6 path, HTTP/2 headers never arrive; 127.0.0.1 target; confirms pong 1/2 and log."
-  - id: 2be8635d0e56
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via streamed pongs + service log."
+  - id: 66f4700aebfc
     fixture: rb-windows-docker-grpc-localhost-ipv6-09
     score: 1.0
-    note: "IPv6 [::1] stall before headers or invocation; explicit IPv4; confirms stream output and log."
-  - id: acf28bcc9dc8
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via streamed pongs + service log."
+  - id: 6c88d2e4fc23
     fixture: rb-windows-docker-grpc-localhost-ipv6-09
     score: 1.0
-    note: "Address-dependent IPv6 gRPC transport problem; explicit IPv4; confirms pong 1/2 and invoked/completed log."
-  - id: aff0a30c24d5
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via streamed pongs + service log."
+  - id: 79bb46b62b51
     fixture: rb-windows-docker-grpc-localhost-ipv6-09
     score: 1.0
-    note: "IPv6 loopback through Docker Desktop published-port proxy; 127.0.0.1 in connection string; confirms stream and log."
-  - id: f20ab7ea72b5
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via streamed pongs + service log."
+  - id: a1cfd4ff0bf1
     fixture: rb-windows-docker-grpc-localhost-ipv6-09
     score: 1.0
-    note: "IPv6 localhost published-port path, stalled Docker proxy; 127.0.0.1; confirms same probe and log."
-  - id: f2f9edec8911
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via streamed pongs + service log."
+  - id: c5639c437b29
     fixture: rb-windows-docker-grpc-localhost-ipv6-09
     score: 1.0
-    note: "IPv6 Docker published-port path stall; 127.0.0.1 target; confirms pong 1/2 and log."
-  - id: 0d0e339b7b7e
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via streamed pongs + service log."
+  - id: 06b2a64ba04f
     fixture: rb-windows-docker-grpc-localhost-ipv6-10
     score: 1.0
-    note: "IPv6 loopback/published-port HTTP/2 stall; 127.0.0.1; confirms pong and Echo invocation log."
-  - id: 0f4061549e8c
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 1ca2c0bf34bd
     fixture: rb-windows-docker-grpc-localhost-ipv6-10
     score: 1.0
-    note: "IPv6 path through Docker Desktop published port stalls HTTP/2; 127.0.0.1; confirms pong and log."
-  - id: 5d96773683ec
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 3d830923ddfe
     fixture: rb-windows-docker-grpc-localhost-ipv6-10
     score: 1.0
-    note: "IPv6 endpoint path, no headers, no invocation; explicit IPv4; confirms exit 0, pong, log."
-  - id: f636794b720a
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 406dd895a998
     fixture: rb-windows-docker-grpc-localhost-ipv6-10
     score: 1.0
-    note: "IPv6 transport path, Docker published-port proxy stall; 127.0.0.1 keeping h2c and timeout; confirms pong and invocation."
-  - id: f82647a24856
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: be5c77b89c9e
     fixture: rb-windows-docker-grpc-localhost-ipv6-10
     score: 1.0
-    note: "Address-dependent IPv6 transport failure; IPv4 target; confirms pong and invoked/completed log."
-  - id: fbee70cfdce1
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: df0ad8144120
     fixture: rb-windows-docker-grpc-localhost-ipv6-10
     score: 1.0
-    note: "IPv6 published-port path stalls before headers; 127.0.0.1; confirms pong and log."
-  - id: 0580f87e37bb
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via pong + service log."
+  - id: 017dd9491fe5
     fixture: rb-windows-docker-grpc-localhost-ipv6-11
     score: 1.0
-    note: "IPv6 localhost/Docker published-port HTTP/2 stall before dispatch; 127.0.0.1; confirms pong 1/2 and log."
-  - id: 0fa23be34853
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via bidi pongs + service log."
+  - id: 067eee615869
     fixture: rb-windows-docker-grpc-localhost-ipv6-11
     score: 1.0
-    note: "IPv6 loopback to Docker Desktop published gRPC port, not handler; 127.0.0.1; confirms stream and log."
-  - id: 1ad029bf8fa3
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via bidi pongs + service log."
+  - id: 66e65f7c9a40
     fixture: rb-windows-docker-grpc-localhost-ipv6-11
     score: 1.0
-    note: "IPv6 published-port path stalls before headers; 127.0.0.1; confirms pong 1/2 and log."
-  - id: 23cae055696b
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via bidi pongs + service log."
+  - id: ca8d4c88e5aa
     fixture: rb-windows-docker-grpc-localhost-ipv6-11
     score: 1.0
-    note: "IPv6 loopback to Docker published port stalls HTTP/2, not bidi implementation; 127.0.0.1; confirms stream and log."
-  - id: 46cd521a788c
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via bidi pongs + service log."
+  - id: e91bb3719eb9
     fixture: rb-windows-docker-grpc-localhost-ipv6-11
     score: 1.0
-    note: "Address-dependent IPv6 transport failure never reaching handler; IPv4 target; confirms pong 1/2 and log."
-  - id: f58ffa18e96c
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via bidi pongs + service log."
+  - id: ee9bb821fcb3
     fixture: rb-windows-docker-grpc-localhost-ipv6-11
     score: 1.0
-    note: "IPv6 [::1] path, no headers, handler never reached; explicit IPv4; confirms stream output and log."
-  - id: 1dcb028f3a24
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; prescribes 127.0.0.1 and confirms via bidi pongs + service log."
+  - id: 35acf70eb4e4
     fixture: rb-windows-docker-grpc-localhost-ipv6-12
     score: 1.0
-    note: "IPv6 Docker published-port HTTP/2 stall; restores local profile target to 127.0.0.1; confirms via profile run, pong, log."
-  - id: 3009c4c908fd
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; restores profile target to 127.0.0.1 and confirms via pong + service log."
+  - id: 3a3fa022bedb
     fixture: rb-windows-docker-grpc-localhost-ipv6-12
     score: 1.0
-    note: "Ties profile change to [::1] path stall; restores profile to 127.0.0.1; confirms effective target, pong, log."
-  - id: 3bdbb69cd11a
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; restores profile target to 127.0.0.1 and confirms via pong + service log."
+  - id: 51f10ec25861
     fixture: rb-windows-docker-grpc-localhost-ipv6-12
     score: 1.0
-    note: "Profile change to localhost selected IPv6 path with no headers; restore profile to 127.0.0.1; confirms rerun and log."
-  - id: 8ce41e2ce901
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; restores profile target to 127.0.0.1 and confirms via pong + service log."
+  - id: 7ab572329f18
     fixture: rb-windows-docker-grpc-localhost-ipv6-12
     score: 1.0
-    note: "IPv6 loopback through Docker Desktop stalls HTTP/2; restore profile target to 127.0.0.1; confirms probe, log, and app uses corrected profile."
-  - id: b912a65880e8
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; restores profile target to 127.0.0.1 and confirms via pong + service log."
+  - id: 931d92dd4e7c
     fixture: rb-windows-docker-grpc-localhost-ipv6-12
     score: 1.0
-    note: "Target change to localhost selected IPv6 Docker path that stalls HTTP/2; restore profile to 127.0.0.1; confirms probe plus original caller."
-  - id: e382cff30897
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; restores profile target to 127.0.0.1 and confirms via pong + service log."
+  - id: bc0377d16b0c
     fixture: rb-windows-docker-grpc-localhost-ipv6-12
     score: 1.0
-    note: "IPv6 published-port path stall; restore profile to 127.0.0.1; confirms via corrected profile, pong, log."
-  - id: 2672a0f81f65
+    note: "Names ::1/IPv6 Docker published-port HTTP/2 stall; restores profile target to 127.0.0.1 and confirms via pong + service log."
+  - id: 133e5949cfb6
     fixture: rb-windows-docker-grpc-localhost-ipv6-c3
     false_positives: 0
-    note: "Authorization failure, use identity with required role; explicitly no address/Docker/timeout changes."
-  - id: 4ef62822930f
+    note: "Correctly attributes PERMISSION_DENIED to role policy; asks for authorized identity only; rejects address change. No unwarranted remediation."
+  - id: 14f94b89965a
     fixture: rb-windows-docker-grpc-localhost-ipv6-c3
     false_positives: 0
-    note: "Role-required rejection; authorized identity; rejects 127.0.0.1 switch as a fix."
-  - id: c919d26fce3d
+    note: "Correctly attributes PERMISSION_DENIED to role policy; asks for authorized identity only; rejects address change. No unwarranted remediation."
+  - id: 41b9bdac64dc
     fixture: rb-windows-docker-grpc-localhost-ipv6-c3
     false_positives: 0
-    note: "Authorization failure; supply authorized identity or correct role assignment; no transport changes."
-  - id: d706d50afe10
+    note: "Correctly attributes PERMISSION_DENIED to role policy; asks for authorized identity only; rejects address change. No unwarranted remediation."
+  - id: 5a25f58024aa
     fixture: rb-windows-docker-grpc-localhost-ipv6-c3
     false_positives: 0
-    note: "Authorization failure; authorized identity; keeps localhost target and policy unchanged."
-  - id: dd6d0421a1c4
+    note: "Correctly attributes PERMISSION_DENIED to role policy; asks for authorized identity only; rejects address change. No unwarranted remediation."
+  - id: 6c86c018c6f0
     fixture: rb-windows-docker-grpc-localhost-ipv6-c3
     false_positives: 0
-    note: "Authorization failure; identity with required role; explicitly says address change will not help."
-  - id: f6c70bf70c09
+    note: "Correctly attributes PERMISSION_DENIED to role policy; asks for authorized identity only; rejects address change. No unwarranted remediation."
+  - id: b2317753d813
     fixture: rb-windows-docker-grpc-localhost-ipv6-c3
     false_positives: 0
-    note: "Authorization interceptor rejection; authorized identity; no IPv4 switch; no credential logging."
-  - id: 0af3fa5d3464
+    note: "Correctly attributes PERMISSION_DENIED to role policy; asks for authorized identity only; rejects address change. No unwarranted remediation."
+  - id: 45759db5dc06
     fixture: rb-windows-docker-grpc-localhost-ipv6-c4
     false_positives: 0
-    note: "Method-selection error; call exposed Ping; no address/transport/timeout changes."
-  - id: 173076c849b1
+    note: "Correctly attributes UNIMPLEMENTED to wrong method; changes only --method to Ping. No unwarranted remediation."
+  - id: 4e90fe6c90c1
     fixture: rb-windows-docker-grpc-localhost-ipv6-c4
     false_positives: 0
-    note: "Absent not implemented, Ping exposed; change only the method; no transport changes."
-  - id: 209fbd992890
+    note: "Correctly attributes UNIMPLEMENTED to wrong method; changes only --method to Ping. No unwarranted remediation."
+  - id: 58c314518739
     fixture: rb-windows-docker-grpc-localhost-ipv6-c4
     false_positives: 0
-    note: "Wrong method; switch to Ping; rejects IPv6 hang framing."
-  - id: 4523adec2677
+    note: "Correctly attributes UNIMPLEMENTED to wrong method; changes only --method to Ping. No unwarranted remediation."
+  - id: 9fb38fc01928
     fixture: rb-windows-docker-grpc-localhost-ipv6-c4
     false_positives: 0
-    note: "Wrong method; switch to Ping; explicitly no address/Docker/dependency changes."
-  - id: 7fea9667d05d
+    note: "Correctly attributes UNIMPLEMENTED to wrong method; changes only --method to Ping. No unwarranted remediation."
+  - id: bf2a52bf3ac4
     fixture: rb-windows-docker-grpc-localhost-ipv6-c4
     false_positives: 0
-    note: "Unsupported RPC method; use Ping; no networking or timeout changes."
-  - id: db400a589724
+    note: "Correctly attributes UNIMPLEMENTED to wrong method; changes only --method to Ping. No unwarranted remediation."
+  - id: e99ed40b333c
     fixture: rb-windows-docker-grpc-localhost-ipv6-c4
     false_positives: 0
-    note: "Wrong method; use Ping (adds explicit --timeout 2, harmless); no networking or workspace changes."
+    note: "Correctly attributes UNIMPLEMENTED to wrong method; changes only --method to Ping. No unwarranted remediation."

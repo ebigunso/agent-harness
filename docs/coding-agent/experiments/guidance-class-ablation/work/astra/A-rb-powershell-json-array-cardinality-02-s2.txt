@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d78-f392-76b0-89e1-00b02a575ec0
+session id: 01a0815a-6309-7142-acbb-3a630cf3fa29
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -55,47 +55,26 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
 
-2026-09-07T20:04:34.273431Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
 codex
-I’ll check how `ConvertFrom-Json` handles empty arrays and which fix preserves the scalar rejection check.
-web search: 
-web search: site.learn.microsoft.com powershell convertfrom-json NoEnumerate empty array
-exec
-"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$PSVersionTable.PSVersion.ToString(); foreach ($raw in @('"'[]', '[1]', '[1,2]', '1', 'null', '\"text\"', '{}')) { "'$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate; $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }; Write-Output ('"'raw={0} type={1} accepted={2} count={3}' -f "'$raw, $kind, ($parsed -is [array]), @($parsed).Count) }' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
- succeeded in 533ms:
-7.4.19
-raw=[] type=System.Object[] accepted=True count=0
-raw=[1] type=System.Object[] accepted=True count=1
-raw=[1,2] type=System.Object[] accepted=True count=2
-raw=1 type=System.Int64 accepted=False count=1
-raw=null type=<null> accepted=False count=1
-raw="text" type=System.String accepted=False count=1
-raw={} type=System.Management.Automation.PSCustomObject accepted=False count=1
+**Cause:** `ConvertFrom-Json` enumerates arrays by default. For `[]`, it emits no objects, so `$parsed` becomes `$null` and the assertion throws. This is a script deserialization issue, not a workspace or permissions problem.
 
-codex
-Cause: `ConvertFrom-Json` enumerates arrays by default. For `[]`, it emits no objects, so `$parsed` becomes `$null` and the assertion throws. This is a script logic issue, not a workspace or execution-policy problem.
-
-Smallest safe fix: add [`-NoEnumerate`](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate), keeping the assertion:
-
+**Smallest safe remediation:** Preserve the JSON array:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
+Keep the existing array assertion. Wrapping the result in `@(...)` would also wrap scalar values, incorrectly accepting them.
 
-Avoid wrapping the result in `@(...)`: that would also wrap scalar inputs and incorrectly accept them.
-
-Confirm by rerunning the command: expect `parsed type=System.Object[]`, no stderr, and exit code `0`. Check that `[]`, `[1]`, and `[1,2]` pass with counts 0, 1, and 2, while `1`, `"text"`, `true`, and `null` still fail the array assertion.
+**Confirm:** Rerun with `[]`, `[1]`, and `[1,2]`; expect array values with counts 0, 1, and 2 and exit code 0. Test scalar JSON such as `1`, `"x"`, `true`, and `null`; each should still fail the assertion with exit code 1.
 tokens used
-8,085
-Cause: `ConvertFrom-Json` enumerates arrays by default. For `[]`, it emits no objects, so `$parsed` becomes `$null` and the assertion throws. This is a script logic issue, not a workspace or execution-policy problem.
+14,718
+**Cause:** `ConvertFrom-Json` enumerates arrays by default. For `[]`, it emits no objects, so `$parsed` becomes `$null` and the assertion throws. This is a script deserialization issue, not a workspace or permissions problem.
 
-Smallest safe fix: add [`-NoEnumerate`](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate), keeping the assertion:
-
+**Smallest safe remediation:** Preserve the JSON array:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
+Keep the existing array assertion. Wrapping the result in `@(...)` would also wrap scalar values, incorrectly accepting them.
 
-Avoid wrapping the result in `@(...)`: that would also wrap scalar inputs and incorrectly accept them.
-
-Confirm by rerunning the command: expect `parsed type=System.Object[]`, no stderr, and exit code `0`. Check that `[]`, `[1]`, and `[1,2]` pass with counts 0, 1, and 2, while `1`, `"text"`, `true`, and `null` still fail the array assertion.
+**Confirm:** Rerun with `[]`, `[1]`, and `[1,2]`; expect array values with counts 0, 1, and 2 and exit code 0. Test scalar JSON such as `1`, `"x"`, `true`, and `null`; each should still fail the assertion with exit code 1.
 
 __ABLATION_DONE__ exit=0

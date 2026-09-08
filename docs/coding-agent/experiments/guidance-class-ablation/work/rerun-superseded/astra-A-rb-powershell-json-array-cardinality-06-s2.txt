@@ -1,0 +1,117 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d79-6197-7120-9d77-b4abb73abcf3
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[7]'
+$wireCount = '1'
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; $items }; $parsed = Parse
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[7]
+wire elements=1
+parsed type=System.Int64
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+codex
+I’ll check how PowerShell handles the array at the function’s output boundary and identify a fix that still rejects scalar JSON.
+
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command "pwsh -NoProfile -Command '"'$PSVersionTable.PSVersion.ToString()'"'" in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 573ms:
+7.4.19
+
+web search: 
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$ErrorActionPreference = '"'Stop'
+function ParseOriginal { "'$items = $raw | ConvertFrom-Json -NoEnumerate; $items }
+function ParseFixed { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }
+foreach ($raw in @('"'[]', '[7]', '[7,8]', '7', '\"x\"', 'true', 'null')) {
+  "'$original = ParseOriginal
+  $parsed = ParseFixed
+  $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }
+  $expectArray = $raw.StartsWith('"'[')
+  if (("'$parsed -is [array]) -ne $expectArray) { throw "Unexpected shape: $raw" }
+  if ($expectArray) {
+    $expectedCount = switch ($raw) { '"'[]' { 0 }; '[7]' { 1 }; '[7,8]' { 2 } }
+    if ("'$parsed.Count -ne $expectedCount) { throw "Unexpected count: $raw" }
+  }
+  Write-Output "$raw => $kind; accepts=$($parsed -is [array])"
+}' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 330ms:
+[] => System.Object[]; accepts=True
+[7] => System.Object[]; accepts=True
+[7,8] => System.Object[]; accepts=True
+7 => System.Int64; accepts=False
+"x" => System.String; accepts=False
+true => System.Boolean; accepts=False
+null => <null>; accepts=False
+
+web search: site.learn.microsoft.com PowerShell about_Return unary comma array function return
+codex
+The cause is a script bug in `Parse`. `ConvertFrom-Json -NoEnumerate` preserves the array in `$items`, but the subsequent `$items` expression enumerates it when emitting function output. With `[7]`, `$parsed` therefore becomes the single `System.Int64` value. This is documented [PowerShell function behavior](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_return), not a permissions or environment problem.
+
+The smallest safe fix is adding one comma:
+```powershell
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }; $parsed = Parse
+```
+
+This preserves the array across the function boundary. Avoid `$parsed = @(Parse)`: that would also wrap scalar JSON and incorrectly accept it.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check that `[]`, `[7]`, and `[7,8]` retain counts `0`, `1`, and `2`, while scalar inputs still fail the assertion. Those shape/count checks passed locally on PowerShell 7.4.19; rerun on the scenario’s 7.4.6 to confirm there.
+tokens used
+10,845
+The cause is a script bug in `Parse`. `ConvertFrom-Json -NoEnumerate` preserves the array in `$items`, but the subsequent `$items` expression enumerates it when emitting function output. With `[7]`, `$parsed` therefore becomes the single `System.Int64` value. This is documented [PowerShell function behavior](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_return), not a permissions or environment problem.
+
+The smallest safe fix is adding one comma:
+```powershell
+function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }; $parsed = Parse
+```
+
+This preserves the array across the function boundary. Avoid `$parsed = @(Parse)`: that would also wrap scalar JSON and incorrectly accept it.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check that `[]`, `[7]`, and `[7,8]` retain counts `0`, `1`, and `2`, while scalar inputs still fail the assertion. Those shape/count checks passed locally on PowerShell 7.4.19; rerun on the scenario’s 7.4.6 to confirm there.
+
+__ABLATION_DONE__ exit=0

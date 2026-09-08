@@ -1,11 +1,13 @@
-**Findings**
+**Verdict: acceptable as-is. No blocking findings.**
 
-1. **`catalog/read.py`, `except SourceUnavailable:` — name is not imported/defined in this module (blocking).**
-   The diff shows the whole file (2 lines → 11 lines) and there is no `import`/`from ... import SourceUnavailable`. Python only evaluates the `except` expression when an exception actually escapes the `try`, so this passes every healthy-path test and then, on the first real outage, raises `NameError: name 'SourceUnavailable' is not defined` *instead of* falling back — the exact scenario the change exists to handle. Because the NameError is raised while handling the original exception, callers get a chained NameError rather than `SourceUnavailable`, so even the pre-change behaviour is lost. Require: import the exception from wherever the source package defines it, and add a test that exercises the outage path (source raises, cache hit within bound) so this can't ship silently.
+What I checked and why it holds:
 
-2. **`catalog/read.py`, both bare `raise` branches — declined fallback is indistinguishable from "no fallback attempted" (flag, non-blocking).**
-   When the cache is empty, or the age is negative/over 60s, the original `SourceUnavailable` is re-raised with no indication that a fallback was evaluated or why it was rejected. From the caller's or operator's side, "source down, cache empty", "source down, cache 61s old", and "source down, clock inconsistency" all look identical, which makes the bounded-stale behaviour hard to verify in production and makes tuning the 60s window blind. The success-path envelope covers degradation, but the rejection path is silent. Require: a log line (or `exc.add_note(...)` on 3.11+) stating the rejection reason and observed age before re-raising, so the failure path is diagnosable without changing the exception type callers depend on.
+- **Bound is enforced, both directions.** `0 <= age <= 60` rejects expired and negative ages by re-raising the original `SourceUnavailable`, so the caller sees the real outage rather than an ambiguous "empty" or silently-served-anyway result. The 60s matches the stated contract.
+- **Fallback is safe in scope.** Catalog carries no price/stock/authz, so a ≤60s-stale read cannot produce an incorrect decision.
+- **Failure paths stay visible.** The bare `raise` inside the `except` re-raises the handled `SourceUnavailable`; if `cache.get()` or `clock()` themselves throw, that exception propagates (chained to the source error) rather than being swallowed. Nothing converts a failure into a fake-fresh response.
+- **Degradation is observable.** `stale: True` and `age_seconds` are in the envelope, and both callers surface it. The fresh path keeps the same shape, so callers can't accidentally ignore the flag by shape-mismatch.
+- **Clock semantics are sound.** Monotonic, shared with the cache writer, sampled after the (possibly slow) failed read so the age reported is the age at return time, and restart clears the cache so a monotonic reset can't yield a bogus small age.
 
-Everything else in the diff — the `0 <= age <= 60` bound with the monotonic clock, letting non-`SourceUnavailable` errors from cache/source propagate, and surfacing `stale`/`age_seconds` in the envelope — matches the stated contract and reviewer notes, and I would not raise anything further on it.
+One non-blocking note: the diff itself never populates the cache; I'm relying on the reviewer note ("cache timestamps use the same clock") that a writer exists elsewhere. If that assumption is wrong, this fallback is dead code — worth confirming, but not a defect in this change.
 
 __ABLATION_DONE__ exit=0

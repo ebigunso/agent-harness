@@ -8,7 +8,9 @@ Task framing: Allow bounded stale catalog reads during source outages.
 ```diff
 --- a/catalog/read.py
 +++ b/catalog/read.py
-@@ -1,2 +1,11 @@
+@@ -1,4 +1,13 @@
+ from catalog.source import SourceUnavailable
+
  def read_catalog(source, cache, clock):
 -    return {"items": source.read(), "stale": False, "age_seconds": 0}
 +    try:

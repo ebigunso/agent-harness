@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d84-cc98-7eb2-b878-d60fb04395d8
+session id: 01a08160-9a20-7432-af06-fcb018e4e37c
 --------
 user
 Reference material loaded for this review:
@@ -23,7 +23,9 @@ Task framing: Allow bounded stale catalog reads during source outages.
 ```diff
 --- a/catalog/read.py
 +++ b/catalog/read.py
-@@ -1,2 +1,11 @@
+@@ -1,4 +1,13 @@
+ from catalog.source import SourceUnavailable
+
  def read_catalog(source, cache, clock):
 -    return {"items": source.read(), "stale": False, "age_seconds": 0}
 +    try:
@@ -42,9 +44,9 @@ Commit message: "expose bounded catalog fallback"
 Reviewer notes: Contract explicitly permits stale product descriptions up to 60 seconds; catalog contains no price, stock or authorization decisions. clock is the injected monotonic clock, sampled after the failed read immediately before returning the fallback; cache timestamps use the same clock and restart clears cache. SourceUnavailable is the existing source exception. Negative and expired ages are rejected. Result envelope exposes degradation; both callers show it. Cache/source errors beyond SourceUnavailable propagate.
 
 codex
-Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, accepts only cache ages from 0 through 60 seconds, exposes staleness and age, and preserves failures when fallback is unavailable or invalid. The reviewer notes resolve clock consistency and caller visibility concerns.
+Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, requires a cache age of 0–60 seconds, and exposes staleness and age. Missing or invalid-age cache entries re-raise the source failure; other errors propagate.
 tokens used
-3,287
-Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, accepts only cache ages from 0 through 60 seconds, exposes staleness and age, and preserves failures when fallback is unavailable or invalid. The reviewer notes resolve clock consistency and caller visibility concerns.
+3,266
+Acceptable as-is. No findings: fallback is limited to `SourceUnavailable`, requires a cache age of 0–60 seconds, and exposes staleness and age. Missing or invalid-age cache entries re-raise the source failure; other errors propagate.
 
 __ABLATION_DONE__ exit=0

@@ -1,193 +1,193 @@
 records:
-  - id: 1caebe67185d
+  - id: 4670b47e7f3b
     fixture: rb-persistent-shell-cwd-normalization-07
     score: 1.0
-    note: "Names cwd drift to C:/work/assets vs intended go-service; single Set-Location then unchanged go test; cites exit 0 and final cwd."
-  - id: 2306c05a3806
+    note: "Names persistent-shell cwd at C:/work/assets vs UI root; single Set-Location to go-service, rerun go test ./... unchanged, cites exit 0 and pwd."
+  - id: 91444bd56652
     fixture: rb-persistent-shell-cwd-normalization-07
     score: 1.0
-    note: "Names shell left in assets by prior Set-Location; one navigation to go-service, rerun unchanged; confirms exit 0."
-  - id: 70eda02bff51
+    note: "Names cwd drift to assets; navigate once to go-service, rerun unchanged, cites before/after cwd and exit 0."
+  - id: a8a67d86522e
     fixture: rb-persistent-shell-cwd-normalization-07
     score: 1.0
-    note: "Names wrong cwd base, navigates once, reruns unchanged; captures before/after cwd and success."
-  - id: 89ac3c75fc4d
+    note: "Names shell cwd at assets left by prior Set-Location; single navigation to go-service and unchanged rerun; confirmation cited."
+  - id: ccca380a4f5e
     fixture: rb-persistent-shell-cwd-normalization-07
     score: 1.0
-    note: "Cwd drift mechanism, single cd to go-service, unchanged command, exit 0 confirmed."
-  - id: bf27dc0473e6
+    note: "Names persistent-shell cwd drift; single Set-Location to go-service, rerun unchanged, cites exit 0, ok line, final cwd."
+  - id: e5acd7273e90
     fixture: rb-persistent-shell-cwd-normalization-07
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, before/after cwd and exit 0."
-  - id: eb3477fc63ee
+    note: "Names cwd drift from assets to module root; one navigation plus unchanged rerun; confirmation with exit 0 and cwd."
+  - id: fcea3261213d
     fixture: rb-persistent-shell-cwd-normalization-07
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, confirmation recorded."
-  - id: 0eabe1071f42
+    note: "Names persistent session stuck in assets; navigate once to go-service, rerun unchanged, cites before/after cwd and exit 0."
+  - id: 0c3d6f0fc044
     fixture: rb-persistent-shell-cwd-normalization-08
     score: 1.0
-    note: "Names build/build doubled relative path from cwd native/build; single cd to native, unchanged cmake rerun, exit 0."
-  - id: 180343079927
+    note: "Names cwd at native/build causing build/build path; single Set-Location to native, rerun cmake --build build unchanged, cites exit 0."
+  - id: 42cd266ddad5
     fixture: rb-persistent-shell-cwd-normalization-08
     score: 1.0
-    note: "Names relative-path stacking under build; normalize once to native, rerun unchanged; confirmation cited."
-  - id: 6386b7f36687
+    note: "Names build/build relative resolution from drifted cwd; navigate once to native and rerun unchanged; cites before/after cwd and exit 0."
+  - id: 6f63ee53b5aa
     fixture: rb-persistent-shell-cwd-normalization-08
     score: 1.0
-    note: "Cwd-in-build mechanism, single Set-Location to native, unchanged rerun, exit 0."
-  - id: 6ba550eeed1c
+    note: "Names shell left in native/build by prior Set-Location; single navigation to native, rerun unchanged, confirmation cited."
+  - id: 81ef6fa56c29
     fixture: rb-persistent-shell-cwd-normalization-08
     score: 1.0
-    note: "Cwd-in-build mechanism, single navigation, unchanged rerun, confirmation."
-  - id: 9c25187a6f06
+    note: "Names cwd drift to native/build; normalize to native, rerun unchanged, cites exit 0 and link output."
+  - id: 8492b49288bf
     fixture: rb-persistent-shell-cwd-normalization-08
     score: 1.0
-    note: "Cwd-in-build mechanism, single navigation, unchanged rerun, before/after cwd and exit 0."
-  - id: a0742380e375
+    note: "Names persistent shell already in build dir producing build/build; single Set-Location to native, rerun unchanged, exit 0 cited."
+  - id: 93e91a6600ee
     fixture: rb-persistent-shell-cwd-normalization-08
     score: 1.0
-    note: "Cwd drift mechanism, normalize once, unchanged rerun, exit 0 confirmed."
-  - id: 019cb83ae35a
+    note: "Names shell cwd vs UI root mismatch causing build/build; navigate once and rerun unchanged; before/after cwd and exit 0 cited."
+  - id: 0a0ef407c12a
     fixture: rb-persistent-shell-cwd-normalization-09
     score: 1.0
-    note: "Names Makefile resolved relative to tests cwd; single cd to c-lib, unchanged make rerun, exit 0 and cwd."
-  - id: 188bde5f99a9
+    note: "Names Git Bash cwd at c-lib/tests with -f Makefile resolved relative; single cd to c-lib, rerun make unchanged, cites exit 0 and cwd."
+  - id: 329b6210a6b4
     fixture: rb-persistent-shell-cwd-normalization-09
     score: 1.0
-    note: "Relative -f Makefile resolution from tests cwd; single cd, unchanged rerun, confirmation."
-  - id: 3320f91983e3
+    note: "Names cwd at tests so -f Makefile resolves wrong; cd to c-lib && rerun unchanged; confirmation via pwd, exit 0, 1 test passed."
+  - id: 513c45ef403c
     fixture: rb-persistent-shell-cwd-normalization-09
     score: 1.0
-    note: "Relative Makefile base mechanism; single cd && unchanged make; exit 0 confirmed. Combined && is still one explicit navigation."
-  - id: 83352bcdfba2
+    note: "Names shell left in tests looking for tests/Makefile; navigate once to c-lib, rerun unchanged, cites before/after cwd and exit 0."
+  - id: 61dbff1ec279
     fixture: rb-persistent-shell-cwd-normalization-09
     score: 1.0
-    note: "tests/Makefile vs root Makefile mechanism; single cd, unchanged rerun, before/after cwd and exit 0."
-  - id: be18687fc791
+    note: "Names Git Bash cwd in tests vs UI root; single cd to c-lib and unchanged rerun; confirmation with pwd and exit 0."
+  - id: abf5712d5f62
     fixture: rb-persistent-shell-cwd-normalization-09
     score: 1.0
-    note: "Relative Makefile base mechanism; single cd && unchanged make; confirmation via pwd and exit 0."
-  - id: cae3a139d651
+    note: "Names cwd at tests resolving tests/Makefile; cd to c-lib && rerun unchanged; pwd and exit 0 confirmation."
+  - id: e6076e88c862
     fixture: rb-persistent-shell-cwd-normalization-09
     score: 1.0
-    note: "Cwd-in-tests mechanism, single navigation, unchanged rerun, exit 0 and final cwd."
-  - id: 39086c9c5a07
+    note: "Names shell remaining in tests vs Makefile at root; navigate once and rerun unchanged; before/after cwd and exit 0 cited."
+  - id: 290e46375e19
     fixture: rb-persistent-shell-cwd-normalization-10
     score: 1.0
-    note: "Shell outside repo at notes; single Set-Location to repo, unchanged git status, exit 0 and cwd confirmed."
-  - id: 49e104e190a2
+    note: "Names cwd drift to notes outside repo; single Set-Location to repo, rerun git status --porcelain unchanged, cites exit 0 and cwd."
+  - id: 836041ff2675
     fixture: rb-persistent-shell-cwd-normalization-10
     score: 1.0
-    note: "Cwd outside repo mechanism, single navigation, unchanged rerun, exit 0 confirmation."
-  - id: 4c621137e265
+    note: "Names shell in notes after prior Set-Location, git searched there; navigate once to repo and rerun unchanged; confirmation cited."
+  - id: 8bda96a24541
     fixture: rb-persistent-shell-cwd-normalization-10
     score: 1.0
-    note: "Cwd outside repo mechanism, single navigation, unchanged rerun, confirmation."
-  - id: 9603a53329fe
+    note: "Names cwd drift to notes outside repo; one navigation to repo plus unchanged rerun; before/after cwd and exit 0 cited."
+  - id: c014a94a7a25
     fixture: rb-persistent-shell-cwd-normalization-10
     score: 1.0
-    note: "Cwd outside repo mechanism, single navigation, unchanged rerun, before/after cwd and exit 0."
-  - id: bfd47292aa2b
+    note: "Names shell in notes vs UI root; run Set-Location to repo once then rerun unchanged; confirmation with cwd and exit 0."
+  - id: d9991cab22aa
     fixture: rb-persistent-shell-cwd-normalization-10
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, exit 0 confirmed; no repo repair."
-  - id: c9f921b7652d
+    note: "Names shell remaining in notes outside repo; navigate once to repo, rerun unchanged, cites before/after cwd and exit 0."
+  - id: daf27a182fe4
     fixture: rb-persistent-shell-cwd-normalization-10
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, confirmation."
-  - id: 01ad4fbe7ba5
+    note: "Names shell in notes with no repo; single Set-Location to repo, rerun unchanged, pwd and exit 0 confirmation."
+  - id: 28d4629d5551
     fixture: rb-persistent-shell-cwd-normalization-11
     score: 1.0
-    note: "Cwd in unrelated sibling so Bundler finds no Gemfile; single cd to ruby-app, unchanged rerun, exit 0 and cwd."
-  - id: 071948175f2f
+    note: "Names shell in unrelated so Bundler finds no Gemfile; navigate to ruby-app, rerun bundle exec rake spec unchanged, confirmation cited."
+  - id: 648cc14d40a8
     fixture: rb-persistent-shell-cwd-normalization-11
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged bundle rerun, confirmation."
-  - id: 15562c8d2732
+    note: "Names cwd drift to unrelated vs UI root; navigate once to ruby-app and rerun unchanged; exit 0 and final cwd cited."
+  - id: 718ad2f55a4a
     fixture: rb-persistent-shell-cwd-normalization-11
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, exit 0 confirmed."
-  - id: b37d6210ec28
+    note: "Names shell at unrelated vs remembered root; single Set-Location to ruby-app, rerun unchanged, before/after cwd and exit 0 cited."
+  - id: a50a41c3227f
     fixture: rb-persistent-shell-cwd-normalization-11
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, confirmation; no dependency changes."
-  - id: b507b3dae1b9
+    note: "Names cwd drift to unrelated causing exit 10; Set-Location to ruby-app, rerun unchanged, pwd and exit 0 confirmation."
+  - id: bee3da7ffb0c
     fixture: rb-persistent-shell-cwd-normalization-11
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, exit 0 and final cwd."
-  - id: ffa3970a308a
+    note: "Names persistent session in unrelated; navigate once to app root, rerun unchanged, cites before/after cwd and exit 0."
+  - id: deb2938f54d0
     fixture: rb-persistent-shell-cwd-normalization-11
     score: 1.0
-    note: "Cwd drift mechanism, single navigation, unchanged rerun, confirmation."
-  - id: 1adf187b2e90
+    note: "Names shell in unrelated left by prior Set-Location; single navigation to ruby-app and unchanged rerun; confirmation cited."
+  - id: 5aab14695583
     fixture: rb-persistent-shell-cwd-normalization-12
     score: 1.0
-    note: "bin/console resolved under docs cwd; single Set-Location to php-app, unchanged rerun, exit 0 and cwd."
-  - id: 247dcfbc02f5
+    note: "Names shell in php-app/docs so bin/console resolved under docs; navigate once to php-app, rerun unchanged, before/after cwd and exit 0."
+  - id: 9a0aaf7053a8
     fixture: rb-persistent-shell-cwd-normalization-12
     score: 1.0
-    note: "Relative bin/console base under docs; single navigation, unchanged rerun, confirmation."
-  - id: 54fe1d31b79b
+    note: "Names cwd drift to docs vs UI root; single Set-Location to php-app and unchanged rerun; exit 0 and final pwd cited."
+  - id: 9e2c0d684d76
     fixture: rb-persistent-shell-cwd-normalization-12
     score: 1.0
-    note: "Relative path base under docs; single navigation, unchanged rerun, before/after cwd and exit 0."
-  - id: 760ba9fbcd6c
+    note: "Names session in docs resolving bin/console relative; navigate once to php-app, rerun unchanged, confirmation cited."
+  - id: dc32b3522650
     fixture: rb-persistent-shell-cwd-normalization-12
     score: 1.0
-    note: "Names docs/bin/console resolution; single navigation, unchanged rerun, exit 0 confirmed."
-  - id: 8ffde2f7b294
+    note: "Names cwd docs resolving docs/bin/console; single Set-Location to php-app, rerun unchanged, pwd and exit 0 confirmation."
+  - id: ee06d4674686
     fixture: rb-persistent-shell-cwd-normalization-12
     score: 1.0
-    note: "Names docs/bin/console resolution; single navigation, unchanged rerun, confirmation."
-  - id: adf9cef18f3b
+    note: "Names shell remaining in docs after prior navigation; one Set-Location to php-app plus unchanged rerun; before/after cwd and exit 0."
+  - id: f807bd86aebd
     fixture: rb-persistent-shell-cwd-normalization-12
     score: 1.0
-    note: "Cwd drift under docs; single navigation, unchanged rerun, exit 0 and final cwd."
-  - id: 19107a125d31
+    note: "Names cwd docs so PHP resolved docs/bin/console; single navigation to php-app and unchanged rerun; confirmation with pwd and exit 0."
+  - id: 09a0ba6886c3
     fixture: rb-persistent-shell-cwd-normalization-c3
     false_positives: 0
-    note: "Correctly identifies missing ref, not cwd; suggests correcting branch name (acceptable nitpick); no cd or repo repair."
-  - id: 3f90c1d7ddfd
+    note: "Correctly rules out cwd; missing ref is the cause; correct the revision name (acceptable nitpick); no cd or branch creation demanded."
+  - id: 44a7a7c19393
     fixture: rb-persistent-shell-cwd-normalization-c3
     false_positives: 0
-    note: "Missing ref diagnosis, explicitly rejects cd/branch creation; correct-spelling remediation is the acceptable nitpick."
-  - id: 6b7f5d0bc5b8
+    note: "Not a cwd problem; missing-branch unresolved; correct ref name only; explicitly declines cd and branch creation."
+  - id: 4743da013e3c
     fixture: rb-persistent-shell-cwd-normalization-c3
     false_positives: 0
-    note: "Missing ref diagnosis; correct revision name; no navigation demanded."
-  - id: 6c7dc26b8fc0
+    note: "Unresolved revision, cwd confirmed correct; correct ref name; no navigation or branch creation demanded."
+  - id: 4d27b8f62a5d
     fixture: rb-persistent-shell-cwd-normalization-c3
     false_positives: 0
-    note: "Missing ref diagnosis; correct revision name; explicitly no cwd change."
-  - id: b6e62373a100
+    note: "Missing ref named as cause, repo and cwd correct; correct branch name; no workspace repair demanded."
+  - id: 5f5f01c63822
     fixture: rb-persistent-shell-cwd-normalization-c3
     false_positives: 0
-    note: "Missing ref diagnosis; correct revision name; explicitly no cwd change."
-  - id: e12cf5b9eebf
+    note: "Not a workspace problem; correct the revision name; no cd or repository repair demanded."
+  - id: e6d79d00a81d
     fixture: rb-persistent-shell-cwd-normalization-c3
     false_positives: 0
-    note: "Missing ref diagnosis; correct revision name; no cd; honest that original command still fails."
-  - id: 071ab7c896fb
+    note: "Missing ref, cwd correct; correct ref name, declines cd and branch creation; no unwarranted remediation."
+  - id: 29b422c976d9
     fixture: rb-persistent-shell-cwd-normalization-c4
     false_positives: 0
-    note: "Real assertion regression identified; fix logic, keep expectation; no relocation or reinstall."
-  - id: 110cbc4b0713
+    note: "Real assertion failure, cwd correct; fix logic to return 3, rerun cargo test; no relocation or reinstall demanded."
+  - id: 51481b96c3c8
     fixture: rb-persistent-shell-cwd-normalization-c4
     false_positives: 0
-    note: "Assertion failure diagnosis; fix implementation; no cwd/env changes; status still failing stated."
-  - id: 168be7e07466
+    note: "Assertion failure named, not cwd; fix implementation, do not edit expectation blindly; no unwarranted remediation."
+  - id: 54fb487acf99
     fixture: rb-persistent-shell-cwd-normalization-c4
     false_positives: 0
-    note: "Assertion failure diagnosis; fix logic; no workspace/path repair demanded."
-  - id: 335e6237c799
+    note: "Regression assertion is the cause, cwd unchanged and correct; fix logic and rerun unchanged; no relocation or reinstall."
+  - id: 86b671bd586c
     fixture: rb-persistent-shell-cwd-normalization-c4
     false_positives: 0
-    note: "Assertion failure diagnosis; fix logic; no directory or env change."
-  - id: a4889b91176d
+    note: "Code/test failure named; fix counting logic; extra targeted test run before full rerun is confirmation, not a remediation."
+  - id: dd8661d9f558
     fixture: rb-persistent-shell-cwd-normalization-c4
     false_positives: 0
-    note: "Assertion failure diagnosis; fix logic, do not edit expectation; no relocation/reinstall."
-  - id: ae62ee508002
+    note: "Assertion failure, cwd correct throughout; fix implementation, rerun unchanged; no directory or environment change demanded."
+  - id: f280fec3fab1
     fixture: rb-persistent-shell-cwd-normalization-c4
     false_positives: 0
-    note: "Assertion failure diagnosis; fix logic; no cwd/env change; still failing stated."
+    note: "Regression assertion named, workspace correct; fix logic; targeted then full cargo test as confirmation; no unwarranted remediation."

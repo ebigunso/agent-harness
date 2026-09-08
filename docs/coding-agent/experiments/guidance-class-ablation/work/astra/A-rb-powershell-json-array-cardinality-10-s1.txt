@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d79-cd81-7180-9ef3-2c567fbafce8
+session id: 01a0815b-3687-7301-b14a-8a64b2f2f8be
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,61 +56,29 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. Node 20.18.0 tiny HTTP producer returns HTTP 200 and Content-Type application/json with exact body [{"state":"ok"}]; independently captured raw response matches. No transport/authentication error. Scenario port is 5080.
 
 codex
-I’ll check PowerShell’s JSON array handling and verify a fix that preserves arrays while still rejecting scalar responses.
+**Cause:** `ConvertFrom-Json` enumerates top-level arrays by default. Assigning its single emitted element to `$parsed` produces a `PSCustomObject`, so the assertion fails. This is a checker implementation issue, not a workspace, server, or transport problem.
 
-web search: 
-web search: site.learn.microsoft.com PowerShell ConvertFrom-Json NoEnumerate single element array
-exec
-"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$PSVersionTable.PSVersion.ToString(); Get-Command ConvertFrom-Json -Syntax' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
- succeeded in 269ms:
-7.4.19
-
-ConvertFrom-Json [-InputObject] <string> [-AsHashtable] [-Depth <int>] [-NoEnumerate] [<CommonParameters>]
-
-
-exec
-"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$ErrorActionPreference = '"'Stop'
-foreach ("'$json in @('"'[]', '[{\"state\":\"ok\"}]', '[1,2]', '{\"state\":\"ok\"}', '1', '\"ok\"', 'true', 'null')) {
-  "'$parsed = $json | ConvertFrom-Json -NoEnumerate
-  $expected = $json.StartsWith('"'[')
-  "'$actual = $parsed -is [array]
-  if ($actual -ne $expected) { throw "Unexpected classification: $json" }
-  Write-Output ('"'{0} -> array={1}' -f "'$json, $actual)
-}' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
- succeeded in 259ms:
-[] -> array=True
-[{"state":"ok"}] -> array=True
-[1,2] -> array=True
-{"state":"ok"} -> array=False
-1 -> array=False
-"ok" -> array=False
-true -> array=False
-null -> array=False
-
-codex
-Cause: the checker’s parsing step loses the array shape. `ConvertFrom-Json` enumerates the top-level array, so assigning its single output produces a `PSCustomObject`. The assertion then throws. This is a script issue, not a workspace, transport, or producer problem. [PowerShell documentation](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4).
-
-Smallest safe fix: add `-NoEnumerate`, keeping the existing assertion:
+**Smallest safe remediation:** Preserve the JSON array during conversion:
 
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
 
-Avoid wrapping the result in `@(...)`: that would also turn scalar responses into arrays and incorrectly accept them.
+Keep the existing array assertion. Avoid wrapping the result in `@(...)`, which would also wrap scalar input and incorrectly accept it.
 
-Confirm by rerunning the command against port 5080: expect `parsed type=System.Object[]`, no assertion error, and exit code 0. Also check that empty, singleton, and multiple-element arrays pass, while objects, strings, numbers, booleans, and `null` fail. I verified those classifications locally on PowerShell 7.4.19; the scenario’s 7.4.6 rerun remains to be done.
+**Confirmation:** Rerun the command against port 5080; expect `parsed type=System.Object[]` and exit code `0`. Also check that `[]`, `[{"state":"ok"}]`, and arrays with multiple elements pass, while non-array JSON values such as `{}`, `"ok"`, `1`, and `null` fail the assertion.
 tokens used
-8,650
-Cause: the checker’s parsing step loses the array shape. `ConvertFrom-Json` enumerates the top-level array, so assigning its single output produces a `PSCustomObject`. The assertion then throws. This is a script issue, not a workspace, transport, or producer problem. [PowerShell documentation](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4).
+3,539
+**Cause:** `ConvertFrom-Json` enumerates top-level arrays by default. Assigning its single emitted element to `$parsed` produces a `PSCustomObject`, so the assertion fails. This is a checker implementation issue, not a workspace, server, or transport problem.
 
-Smallest safe fix: add `-NoEnumerate`, keeping the existing assertion:
+**Smallest safe remediation:** Preserve the JSON array during conversion:
 
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
 
-Avoid wrapping the result in `@(...)`: that would also turn scalar responses into arrays and incorrectly accept them.
+Keep the existing array assertion. Avoid wrapping the result in `@(...)`, which would also wrap scalar input and incorrectly accept it.
 
-Confirm by rerunning the command against port 5080: expect `parsed type=System.Object[]`, no assertion error, and exit code 0. Also check that empty, singleton, and multiple-element arrays pass, while objects, strings, numbers, booleans, and `null` fail. I verified those classifications locally on PowerShell 7.4.19; the scenario’s 7.4.6 rerun remains to be done.
+**Confirmation:** Rerun the command against port 5080; expect `parsed type=System.Object[]` and exit code `0`. Also check that `[]`, `[{"state":"ok"}]`, and arrays with multiple elements pass, while non-array JSON values such as `{}`, `"ok"`, `1`, and `null` fail the assertion.
 
 __ABLATION_DONE__ exit=0

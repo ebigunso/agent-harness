@@ -1,4 +1,4 @@
-work/blind/
+work/blind/*/*/
 work/prompts/
 work/empty/
 work/empty-mcp.json

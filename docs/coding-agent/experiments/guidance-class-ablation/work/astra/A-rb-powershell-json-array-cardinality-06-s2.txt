@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d79-6197-7120-9d77-b4abb73abcf3
+session id: 01a0815a-bf76-7b31-aa7d-a88c1cf22229
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,62 +56,55 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
 
 codex
-I’ll check how PowerShell handles the array at the function’s output boundary and identify a fix that still rejects scalar JSON.
+The cause is **PowerShell’s function-output enumeration**, a script bug rather than a workspace or permissions problem. `ConvertFrom-Json -NoEnumerate` preserves `[7]` as an array in `$items`, but the bare `$items` expression emits its elements. With one element, `$parsed` becomes `System.Int64`.
 
-exec
-"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command "pwsh -NoProfile -Command '"'$PSVersionTable.PSVersion.ToString()'"'" in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
- succeeded in 573ms:
-7.4.19
+The smallest safe fix is to preserve the array at the function boundary using a unary comma:
 
-web search: 
-exec
-"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$ErrorActionPreference = '"'Stop'
-function ParseOriginal { "'$items = $raw | ConvertFrom-Json -NoEnumerate; $items }
-function ParseFixed { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }
-foreach ($raw in @('"'[]', '[7]', '[7,8]', '7', '\"x\"', 'true', 'null')) {
-  "'$original = ParseOriginal
-  $parsed = ParseFixed
-  $kind = if ($null -eq $parsed) { '"'<null>' } else { "'$parsed.GetType().FullName }
-  $expectArray = $raw.StartsWith('"'[')
-  if (("'$parsed -is [array]) -ne $expectArray) { throw "Unexpected shape: $raw" }
-  if ($expectArray) {
-    $expectedCount = switch ($raw) { '"'[]' { 0 }; '[7]' { 1 }; '[7,8]' { 2 } }
-    if ("'$parsed.Count -ne $expectedCount) { throw "Unexpected count: $raw" }
-  }
-  Write-Output "$raw => $kind; accepts=$($parsed -is [array])"
-}' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
- succeeded in 330ms:
-[] => System.Object[]; accepts=True
-[7] => System.Object[]; accepts=True
-[7,8] => System.Object[]; accepts=True
-7 => System.Int64; accepts=False
-"x" => System.String; accepts=False
-true => System.Boolean; accepts=False
-null => <null>; accepts=False
-
-web search: site.learn.microsoft.com PowerShell about_Return unary comma array function return
-codex
-The cause is a script bug in `Parse`. `ConvertFrom-Json -NoEnumerate` preserves the array in `$items`, but the subsequent `$items` expression enumerates it when emitting function output. With `[7]`, `$parsed` therefore becomes the single `System.Int64` value. This is documented [PowerShell function behavior](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_return), not a permissions or environment problem.
-
-The smallest safe fix is adding one comma:
 ```powershell
-function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }; $parsed = Parse
+function Parse {
+    $items = $raw | ConvertFrom-Json -NoEnumerate
+    ,$items
+}
+$parsed = Parse
 ```
 
-This preserves the array across the function boundary. Avoid `$parsed = @(Parse)`: that would also wrap scalar JSON and incorrectly accept it.
+The comma adds an outer array for PowerShell to enumerate, leaving the original value intact. Scalar JSON still produces a scalar and fails the existing assertion. Wrapping the caller in `@(Parse)` would incorrectly make scalars pass.
 
-Confirm by rerunning the command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check that `[]`, `[7]`, and `[7,8]` retain counts `0`, `1`, and `2`, while scalar inputs still fail the assertion. Those shape/count checks passed locally on PowerShell 7.4.19; rerun on the scenario’s 7.4.6 to confirm there.
+Confirm by rerunning with these `$raw` values:
+
+| Raw JSON | Expected result |
+|---|---|
+| `[]` | Array, count 0; exit 0 |
+| `[7]` | Array, count 1; exit 0 |
+| `[7,8]` | Array, count 2; exit 0 |
+| `7` | Scalar; `Expected JSON array`, exit 1 |
+
+Check `$parsed.Count` for accepted inputs; `$wireCount` is hard-coded and does not verify cardinality.
 tokens used
-10,845
-The cause is a script bug in `Parse`. `ConvertFrom-Json -NoEnumerate` preserves the array in `$items`, but the subsequent `$items` expression enumerates it when emitting function output. With `[7]`, `$parsed` therefore becomes the single `System.Int64` value. This is documented [PowerShell function behavior](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_return), not a permissions or environment problem.
+14,897
+The cause is **PowerShell’s function-output enumeration**, a script bug rather than a workspace or permissions problem. `ConvertFrom-Json -NoEnumerate` preserves `[7]` as an array in `$items`, but the bare `$items` expression emits its elements. With one element, `$parsed` becomes `System.Int64`.
 
-The smallest safe fix is adding one comma:
+The smallest safe fix is to preserve the array at the function boundary using a unary comma:
+
 ```powershell
-function Parse { $items = $raw | ConvertFrom-Json -NoEnumerate; ,$items }; $parsed = Parse
+function Parse {
+    $items = $raw | ConvertFrom-Json -NoEnumerate
+    ,$items
+}
+$parsed = Parse
 ```
 
-This preserves the array across the function boundary. Avoid `$parsed = @(Parse)`: that would also wrap scalar JSON and incorrectly accept it.
+The comma adds an outer array for PowerShell to enumerate, leaving the original value intact. Scalar JSON still produces a scalar and fails the existing assertion. Wrapping the caller in `@(Parse)` would incorrectly make scalars pass.
 
-Confirm by rerunning the command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check that `[]`, `[7]`, and `[7,8]` retain counts `0`, `1`, and `2`, while scalar inputs still fail the assertion. Those shape/count checks passed locally on PowerShell 7.4.19; rerun on the scenario’s 7.4.6 to confirm there.
+Confirm by rerunning with these `$raw` values:
+
+| Raw JSON | Expected result |
+|---|---|
+| `[]` | Array, count 0; exit 0 |
+| `[7]` | Array, count 1; exit 0 |
+| `[7,8]` | Array, count 2; exit 0 |
+| `7` | Scalar; `Expected JSON array`, exit 1 |
+
+Check `$parsed.Count` for accepted inputs; `$wireCount` is hard-coded and does not verify cardinality.
 
 __ABLATION_DONE__ exit=0

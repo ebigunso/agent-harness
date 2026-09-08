@@ -1,0 +1,97 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07d79-22b6-7b52-9385-656498bddb4d
+--------
+user
+A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
+
+Task framing: Diagnose the failed command and give the smallest safe remediation and confirmation.
+
+Synthetic workspace/profile; parse/assertion behavior and stream text checked on installed runtimes.
+
+Environment: Windows 11 23H2 build 22631; PowerShell 7.4.6; cwd C:/work/json-shape. Script execution is permitted in this scenario.
+
+Command: `pwsh -NoProfile -File probes/cardinality.ps1`
+
+Source, probes/cardinality.ps1:
+```powershell
+$ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
+$raw = '[{"id":7}]'
+$wireCount = '1'
+$parsed = $raw | ConvertFrom-Json
+Write-Output ('raw=' + $raw)
+Write-Output ('wire elements=' + $wireCount)
+$kind = if ($null -eq $parsed) { '<null>' } else { $parsed.GetType().FullName }
+Write-Output ('parsed type=' + $kind)
+if ($parsed -isnot [array]) { throw 'Expected JSON array' }
+```
+
+Exit code: 1
+
+stdout:
+```text
+raw=[{"id":7}]
+wire elements=1
+parsed type=System.Management.Automation.PSCustomObject
+```
+
+stderr:
+```text
+Expected JSON array
+At C:\work\json-shape\probes\cardinality.ps1:10 char:31
++ if ($parsed -isnot [array]) { throw 'Expected JSON array' }
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : OperationStopped: (Expected JSON array:String) [], RuntimeException
++ FullyQualifiedErrorId : Expected JSON array
+```
+
+Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
+
+2026-09-07T20:04:46.210036Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:04:46.265399Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:04:47.616122Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+2026-09-07T20:04:48.082374Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 2/5
+2026-09-07T20:04:48.705125Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 3/5
+2026-09-07T20:04:49.752677Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 4/5
+2026-09-07T20:04:51.581136Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
+ERROR: Reconnecting... 5/5
+codex
+I’ll check PowerShell’s JSON array handling and identify a fix that still rejects scalar JSON values.
+web search: 
+web search: site.learn.microsoft.com powershell 7.4 ConvertFrom-Json NoEnumerate single element array
+codex
+The cause is PowerShell’s default pipeline enumeration: `ConvertFrom-Json` emits the array’s elements individually, so the singleton becomes a `PSCustomObject` on assignment. The script’s assertion then throws. This is a script logic issue, not a workspace, permissions, or JSON validity problem. [PowerShell documentation](https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/7.4/Microsoft.PowerShell.Utility/ConvertFrom-Json.md)
+
+The smallest safe fix is:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Keep the existing assertion. Avoid wrapping the result in `@(...)` or casting to `[array]`: those would also wrap scalar inputs and defeat the contract.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Then check that `[]`, `[{"id":7}]`, and `[{"id":7},{"id":8}]` pass with counts `0`, `1`, and `2`; non-array inputs such as `7`, `"text"`, `true`, `null`, and `{"id":7}` must still fail the assertion.
+tokens used
+7,648
+The cause is PowerShell’s default pipeline enumeration: `ConvertFrom-Json` emits the array’s elements individually, so the singleton becomes a `PSCustomObject` on assignment. The script’s assertion then throws. This is a script logic issue, not a workspace, permissions, or JSON validity problem. [PowerShell documentation](https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/7.4/Microsoft.PowerShell.Utility/ConvertFrom-Json.md)
+
+The smallest safe fix is:
+```powershell
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
+```
+
+Keep the existing assertion. Avoid wrapping the result in `@(...)` or casting to `[array]`: those would also wrap scalar inputs and defeat the contract.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Then check that `[]`, `[{"id":7}]`, and `[{"id":7},{"id":8}]` pass with counts `0`, `1`, and `2`; non-array inputs such as `7`, `"text"`, `true`, `null`, and `{"id":7}` must still fail the assertion.
+
+__ABLATION_DONE__ exit=0

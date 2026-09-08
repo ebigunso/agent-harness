@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d78-fb75-7741-aa09-c8a8ee0b5b9c
+session id: 01a0815a-6459-7ab2-95f1-b12cc117dbbd
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -55,43 +55,28 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
 
-2026-09-07T20:04:36.180058Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-2026-09-07T20:04:36.268908Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-2026-09-07T20:04:37.810711Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-2026-09-07T20:04:38.189570Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-ERROR: Reconnecting... 2/5
-2026-09-07T20:04:38.792625Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-ERROR: Reconnecting... 3/5
-2026-09-07T20:04:39.757887Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-ERROR: Reconnecting... 4/5
-2026-09-07T20:04:41.474059Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-ERROR: Reconnecting... 5/5
-2026-09-07T20:04:44.666133Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://chatgpt.com/backend-api/codex/responses
-warning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Unknown error, url: wss://chatgpt.com/backend-api/codex/responses, cf-ray: a3785304397196a6-KIX
 codex
-I’ll check PowerShell’s array handling against the contract, including scalar rejection.
-web search: 
-web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array
-codex
-**Cause:** `ConvertFrom-Json` enumerates arrays by default. The singleton array emits one string, so `$parsed` becomes `System.String` and the explicit assertion throws. This is script logic, not a workspace, permissions, or JSON validity problem. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate)
+Cause: `ConvertFrom-Json` enumerates the JSON array by default. Assigning its single emitted element to `$parsed` produces a `System.String`, so the assertion fails. This is a script behavior issue, not a workspace or permissions problem.
 
-**Smallest safe remediation:** Change only the parsing line:
+Smallest safe fix:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the array assertion. Avoid `@(...)` or an `[array]` cast: those would also wrap scalar inputs, defeating scalar rejection.
 
-**Confirmation:** Rerun the command; expect `parsed type=System.Object[]`, no stderr, and exit code `0`. Also check `[]`, `["north"]`, and `["north","south"]` pass with counts `0`, `1`, and `2`; scalar inputs such as `"north"`, `1`, `true`, and `null` must still fail the assertion with exit code `1`.
+This preserves JSON arrays, including empty and singleton arrays, while leaving scalar values as scalars. Avoid wrapping the result in `@(...)`, which would also make scalar inputs pass the array check.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]` and exit code `0`. Also test `[]` and a multiple-element array for success, and scalar JSON such as `"north"`, `1`, and `null` for rejection.
 tokens used
-7,854
-**Cause:** `ConvertFrom-Json` enumerates arrays by default. The singleton array emits one string, so `$parsed` becomes `System.String` and the explicit assertion throws. This is script logic, not a workspace, permissions, or JSON validity problem. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate)
+14,701
+Cause: `ConvertFrom-Json` enumerates the JSON array by default. Assigning its single emitted element to `$parsed` produces a `System.String`, so the assertion fails. This is a script behavior issue, not a workspace or permissions problem.
 
-**Smallest safe remediation:** Change only the parsing line:
+Smallest safe fix:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the array assertion. Avoid `@(...)` or an `[array]` cast: those would also wrap scalar inputs, defeating scalar rejection.
 
-**Confirmation:** Rerun the command; expect `parsed type=System.Object[]`, no stderr, and exit code `0`. Also check `[]`, `["north"]`, and `["north","south"]` pass with counts `0`, `1`, and `2`; scalar inputs such as `"north"`, `1`, `true`, and `null` must still fail the assertion with exit code `1`.
+This preserves JSON arrays, including empty and singleton arrays, while leaving scalar values as scalars. Avoid wrapping the result in `@(...)`, which would also make scalar inputs pass the array check.
+
+Confirm by rerunning the command: expect `parsed type=System.Object[]` and exit code `0`. Also test `[]` and a multiple-element array for success, and scalar JSON such as `"north"`, `1`, and `null` for rejection.
 
 __ABLATION_DONE__ exit=0

@@ -2,491 +2,16 @@ model: claude-fable-5-1
 run_date: '2026-09-08'
 records:
 - arm: A
-  section: cp-2
-  fixture: cp-2-01
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-01
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-01
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-01
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-01
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-01
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-02
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-02
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-02
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-02
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-02
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-02
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-03
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-03
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-03
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-03
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-03
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-03
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-04
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-04
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-04
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-04
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-04
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-04
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-05
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-05
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-05
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-05
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-05
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-05
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-06
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-06
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-06
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-06
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-06
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-06
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c1
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c1
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c1
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c1
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c1
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c1
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c2
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c2
-  seed: 1
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c2
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c2
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c2
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c2
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-07
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-07
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-07
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-07
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-07
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-07
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-08
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-08
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-08
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-08
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-08
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-08
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-09
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-09
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-09
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-09
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-09
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-09
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-10
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-10
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-10
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-10
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-10
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-10
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-11
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-11
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-11
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-11
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-11
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-11
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-12
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-12
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-2
-  fixture: cp-2-12
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-12
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-12
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-2
-  fixture: cp-2-12
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c3
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c3
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c3
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c3
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c3
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c3
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c4
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c4
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: cp-2
-  fixture: cp-2-c4
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: cp-2
-  fixture: cp-2-c4
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c4
-  seed: 1
-  false_positives: 0
-- arm: A
-  section: cp-2
-  fixture: cp-2-c4
-  seed: 2
-  false_positives: 0
-- arm: A
   section: cp-9
   fixture: cp-9-01
   seed: 2
   score: 1.0
-- arm: A
+- arm: C
+  section: cp-9
+  fixture: cp-9-01
+  seed: 2
+  score: 1.0
+- arm: B
   section: cp-9
   fixture: cp-9-01
   seed: 1
@@ -501,25 +26,20 @@ records:
   fixture: cp-9-01
   seed: 2
   score: 1.0
-- arm: B
+- arm: A
   section: cp-9
   fixture: cp-9-01
   seed: 1
   score: 1.0
 - arm: C
   section: cp-9
-  fixture: cp-9-01
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-9
   fixture: cp-9-02
   seed: 2
   score: 1.0
-- arm: C
+- arm: A
   section: cp-9
   fixture: cp-9-02
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: B
   section: cp-9
@@ -531,22 +51,22 @@ records:
   fixture: cp-9-02
   seed: 1
   score: 1.0
+- arm: C
+  section: cp-9
+  fixture: cp-9-02
+  seed: 1
+  score: 1.0
 - arm: B
   section: cp-9
   fixture: cp-9-02
   seed: 2
   score: 1.0
 - arm: A
-  section: cp-9
-  fixture: cp-9-02
-  seed: 2
-  score: 1.0
-- arm: B
   section: cp-9
   fixture: cp-9-03
   seed: 2
   score: 1.0
-- arm: B
+- arm: A
   section: cp-9
   fixture: cp-9-03
   seed: 1
@@ -561,19 +81,14 @@ records:
   fixture: cp-9-03
   seed: 2
   score: 1.0
-- arm: A
-  section: cp-9
-  fixture: cp-9-03
-  seed: 2
-  score: 1.0
-- arm: A
+- arm: B
   section: cp-9
   fixture: cp-9-03
   seed: 1
   score: 1.0
-- arm: A
+- arm: B
   section: cp-9
-  fixture: cp-9-04
+  fixture: cp-9-03
   seed: 2
   score: 1.0
 - arm: C
@@ -584,7 +99,7 @@ records:
 - arm: B
   section: cp-9
   fixture: cp-9-04
-  seed: 2
+  seed: 1
   score: 1.0
 - arm: A
   section: cp-9
@@ -596,25 +111,20 @@ records:
   fixture: cp-9-04
   seed: 2
   score: 1.0
+- arm: A
+  section: cp-9
+  fixture: cp-9-04
+  seed: 2
+  score: 1.0
 - arm: B
   section: cp-9
   fixture: cp-9-04
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: C
   section: cp-9
   fixture: cp-9-05
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-9
-  fixture: cp-9-05
   seed: 1
-  score: 1.0
-- arm: A
-  section: cp-9
-  fixture: cp-9-05
-  seed: 2
   score: 1.0
 - arm: A
   section: cp-9
@@ -624,19 +134,29 @@ records:
 - arm: C
   section: cp-9
   fixture: cp-9-05
-  seed: 1
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-9
+  fixture: cp-9-05
+  seed: 2
   score: 1.0
 - arm: B
   section: cp-9
   fixture: cp-9-05
   seed: 2
+  score: 1.0
+- arm: B
+  section: cp-9
+  fixture: cp-9-05
+  seed: 1
   score: 1.0
 - arm: B
   section: cp-9
   fixture: cp-9-06
   seed: 1
   score: 1.0
-- arm: A
+- arm: C
   section: cp-9
   fixture: cp-9-06
   seed: 1
@@ -649,14 +169,14 @@ records:
 - arm: A
   section: cp-9
   fixture: cp-9-06
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-9
-  fixture: cp-9-06
   seed: 1
   score: 1.0
 - arm: B
+  section: cp-9
+  fixture: cp-9-06
+  seed: 2
+  score: 1.0
+- arm: A
   section: cp-9
   fixture: cp-9-06
   seed: 2
@@ -666,11 +186,6 @@ records:
   fixture: cp-9-c1
   seed: 1
   false_positives: 2
-- arm: C
-  section: cp-9
-  fixture: cp-9-c1
-  seed: 1
-  false_positives: 1
 - arm: A
   section: cp-9
   fixture: cp-9-c1
@@ -681,6 +196,11 @@ records:
   fixture: cp-9-c1
   seed: 2
   false_positives: 1
+- arm: C
+  section: cp-9
+  fixture: cp-9-c1
+  seed: 2
+  false_positives: 2
 - arm: B
   section: cp-9
   fixture: cp-9-c1
@@ -689,42 +209,52 @@ records:
 - arm: C
   section: cp-9
   fixture: cp-9-c1
-  seed: 2
-  false_positives: 2
-- arm: B
-  section: cp-9
-  fixture: cp-9-c2
-  seed: 2
-  false_positives: 2
-- arm: C
+  seed: 1
+  false_positives: 1
+- arm: A
   section: cp-9
   fixture: cp-9-c2
   seed: 1
   false_positives: 1
-- arm: C
-  section: cp-9
-  fixture: cp-9-c2
-  seed: 2
-  false_positives: 2
 - arm: B
   section: cp-9
   fixture: cp-9-c2
   seed: 1
-  false_positives: 2
-- arm: A
+  false_positives: 0
+- arm: C
   section: cp-9
   fixture: cp-9-c2
   seed: 1
-  false_positives: 2
+  false_positives: 0
+- arm: B
+  section: cp-9
+  fixture: cp-9-c2
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: cp-9
+  fixture: cp-9-c2
+  seed: 2
+  false_positives: 0
 - arm: A
   section: cp-9
   fixture: cp-9-c2
   seed: 2
-  false_positives: 2
+  false_positives: 3
+- arm: C
+  section: cp-9
+  fixture: cp-9-07
+  seed: 1
+  score: 1.0
 - arm: B
   section: cp-9
   fixture: cp-9-07
   seed: 2
+  score: 1.0
+- arm: B
+  section: cp-9
+  fixture: cp-9-07
+  seed: 1
   score: 1.0
 - arm: A
   section: cp-9
@@ -739,34 +269,19 @@ records:
 - arm: C
   section: cp-9
   fixture: cp-9-07
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: C
   section: cp-9
-  fixture: cp-9-07
+  fixture: cp-9-08
   seed: 2
   score: 1.0
 - arm: B
-  section: cp-9
-  fixture: cp-9-07
-  seed: 1
-  score: 1.0
-- arm: C
   section: cp-9
   fixture: cp-9-08
   seed: 1
   score: 1.0
 - arm: A
-  section: cp-9
-  fixture: cp-9-08
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-9
-  fixture: cp-9-08
-  seed: 1
-  score: 1.0
-- arm: C
   section: cp-9
   fixture: cp-9-08
   seed: 2
@@ -779,27 +294,17 @@ records:
 - arm: A
   section: cp-9
   fixture: cp-9-08
-  seed: 2
+  seed: 1
   score: 1.0
 - arm: C
   section: cp-9
-  fixture: cp-9-09
-  seed: 2
+  fixture: cp-9-08
+  seed: 1
   score: 1.0
 - arm: A
   section: cp-9
   fixture: cp-9-09
   seed: 2
-  score: 1.0
-- arm: B
-  section: cp-9
-  fixture: cp-9-09
-  seed: 2
-  score: 1.0
-- arm: B
-  section: cp-9
-  fixture: cp-9-09
-  seed: 1
   score: 1.0
 - arm: A
   section: cp-9
@@ -809,26 +314,21 @@ records:
 - arm: C
   section: cp-9
   fixture: cp-9-09
-  seed: 1
-  score: 1.0
-- arm: A
-  section: cp-9
-  fixture: cp-9-10
-  seed: 1
-  score: 1.0
-- arm: B
-  section: cp-9
-  fixture: cp-9-10
-  seed: 1
-  score: 1.0
-- arm: C
-  section: cp-9
-  fixture: cp-9-10
   seed: 2
   score: 1.0
 - arm: B
   section: cp-9
-  fixture: cp-9-10
+  fixture: cp-9-09
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-9
+  fixture: cp-9-09
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-9
+  fixture: cp-9-09
   seed: 2
   score: 1.0
 - arm: C
@@ -843,18 +343,28 @@ records:
   score: 1.0
 - arm: B
   section: cp-9
-  fixture: cp-9-11
+  fixture: cp-9-10
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-9
+  fixture: cp-9-10
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-9
+  fixture: cp-9-10
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-9
+  fixture: cp-9-10
   seed: 1
   score: 1.0
 - arm: A
   section: cp-9
   fixture: cp-9-11
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-9
-  fixture: cp-9-11
-  seed: 2
+  seed: 1
   score: 1.0
 - arm: B
   section: cp-9
@@ -864,6 +374,11 @@ records:
 - arm: A
   section: cp-9
   fixture: cp-9-11
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-9
+  fixture: cp-9-11
   seed: 1
   score: 1.0
 - arm: C
@@ -871,27 +386,17 @@ records:
   fixture: cp-9-11
   seed: 1
   score: 1.0
+- arm: C
+  section: cp-9
+  fixture: cp-9-11
+  seed: 2
+  score: 1.0
 - arm: B
-  section: cp-9
-  fixture: cp-9-12
-  seed: 2
-  score: 1.0
-- arm: C
-  section: cp-9
-  fixture: cp-9-12
-  seed: 2
-  score: 1.0
-- arm: A
-  section: cp-9
-  fixture: cp-9-12
-  seed: 2
-  score: 1.0
-- arm: C
   section: cp-9
   fixture: cp-9-12
   seed: 1
   score: 1.0
-- arm: B
+- arm: C
   section: cp-9
   fixture: cp-9-12
   seed: 1
@@ -903,20 +408,30 @@ records:
   score: 1.0
 - arm: B
   section: cp-9
-  fixture: cp-9-c3
-  seed: 1
-  false_positives: 0
+  fixture: cp-9-12
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-9
+  fixture: cp-9-12
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-9
+  fixture: cp-9-12
+  seed: 2
+  score: 1.0
 - arm: C
   section: cp-9
   fixture: cp-9-c3
   seed: 2
   false_positives: 0
-- arm: C
+- arm: A
   section: cp-9
   fixture: cp-9-c3
-  seed: 1
+  seed: 2
   false_positives: 0
-- arm: A
+- arm: B
   section: cp-9
   fixture: cp-9-c3
   seed: 1
@@ -926,20 +441,15 @@ records:
   fixture: cp-9-c3
   seed: 2
   false_positives: 0
-- arm: A
-  section: cp-9
-  fixture: cp-9-c3
-  seed: 2
-  false_positives: 0
 - arm: C
   section: cp-9
-  fixture: cp-9-c4
+  fixture: cp-9-c3
   seed: 1
   false_positives: 0
 - arm: A
   section: cp-9
-  fixture: cp-9-c4
-  seed: 2
+  fixture: cp-9-c3
+  seed: 1
   false_positives: 0
 - arm: A
   section: cp-9
@@ -956,6 +466,16 @@ records:
   fixture: cp-9-c4
   seed: 2
   false_positives: 0
+- arm: A
+  section: cp-9
+  fixture: cp-9-c4
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: cp-9
+  fixture: cp-9-c4
+  seed: 1
+  false_positives: 0
 - arm: B
   section: cp-9
   fixture: cp-9-c4
@@ -964,42 +484,32 @@ records:
 - arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-01
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-01
-  seed: 1
-  score: 0.5
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-01
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-01
   seed: 1
   score: 1.0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-01
   seed: 2
-  score: 0.5
+  score: 1.0
 - arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-01
+  seed: 2
+  score: 1.0
+- arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-01
   seed: 1
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-02
+  fixture: rb-persistent-shell-cwd-normalization-01
   seed: 1
   score: 1.0
-- arm: A
+- arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-02
-  seed: 1
+  fixture: rb-persistent-shell-cwd-normalization-01
+  seed: 2
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
@@ -1007,6 +517,11 @@ records:
   seed: 2
   score: 1.0
 - arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-02
+  seed: 2
+  score: 1.0
+- arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-02
   seed: 2
@@ -1019,24 +534,14 @@ records:
 - arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-02
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-03
   seed: 1
-  score: 1.0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-03
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-03
-  seed: 2
   score: 1.0
 - arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-02
+  seed: 1
+  score: 1.0
+- arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-03
   seed: 2
@@ -1053,15 +558,40 @@ records:
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-03
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-03
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-03
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-04
   seed: 1
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-04
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-04
   seed: 1
   score: 1.0
-- arm: A
+- arm: B
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-04
+  seed: 1
+  score: 1.0
+- arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-04
   seed: 2
@@ -1071,15 +601,20 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-04
   seed: 2
   score: 1.0
-- arm: A
+- arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-04
+  fixture: rb-persistent-shell-cwd-normalization-05
   seed: 1
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-04
+  fixture: rb-persistent-shell-cwd-normalization-05
   seed: 2
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-05
+  seed: 1
   score: 1.0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
@@ -1098,41 +633,6 @@ records:
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-05
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-05
-  seed: 1
-  score: 0.5
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-05
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-06
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-06
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-06
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-06
-  seed: 2
-  score: 0.5
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-06
   seed: 1
   score: 1.0
@@ -1140,11 +640,36 @@ records:
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-06
   seed: 2
+  score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-06
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-06
+  seed: 2
+  score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-06
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-06
+  seed: 1
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c1
   seed: 1
+  false_positives: 0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c1
+  seed: 2
   false_positives: 0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
@@ -1156,27 +681,17 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-c1
   seed: 2
   false_positives: 0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c1
+  seed: 2
+  false_positives: 0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c1
   seed: 1
   false_positives: 0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c1
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c1
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c2
-  seed: 1
-  false_positives: 0
-- arm: A
+- arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c2
   seed: 1
@@ -1191,7 +706,12 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-c2
   seed: 2
   false_positives: 0
-- arm: B
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c2
+  seed: 2
+  false_positives: 0
+- arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c2
   seed: 1
@@ -1199,7 +719,7 @@ records:
 - arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c2
-  seed: 2
+  seed: 1
   false_positives: 0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
@@ -1209,22 +729,12 @@ records:
 - arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-07
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-07
   seed: 2
-  score: 1.0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-07
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-07
-  seed: 1
   score: 1.0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
@@ -1233,7 +743,12 @@ records:
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-08
+  fixture: rb-persistent-shell-cwd-normalization-07
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-07
   seed: 1
   score: 1.0
 - arm: A
@@ -1241,12 +756,22 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-08
   seed: 1
   score: 1.0
-- arm: C
+- arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-08
   seed: 2
   score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-08
+  seed: 1
+  score: 1.0
 - arm: B
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-08
+  seed: 1
+  score: 1.0
+- arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-08
   seed: 2
@@ -1256,32 +781,17 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-08
   seed: 2
   score: 1.0
-- arm: C
+- arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-08
-  seed: 1
+  fixture: rb-persistent-shell-cwd-normalization-09
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-09
   seed: 2
   score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-09
-  seed: 1
-  score: 1.0
 - arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-09
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-09
-  seed: 2
-  score: 1.0
-- arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-09
   seed: 1
@@ -1293,20 +803,20 @@ records:
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-10
-  seed: 2
+  fixture: rb-persistent-shell-cwd-normalization-09
+  seed: 1
   score: 1.0
-- arm: C
+- arm: A
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-10
+  fixture: rb-persistent-shell-cwd-normalization-09
   seed: 1
   score: 1.0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-10
-  seed: 2
+  seed: 1
   score: 1.0
-- arm: A
+- arm: C
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-10
   seed: 1
@@ -1321,20 +831,15 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-10
   seed: 1
   score: 1.0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-11
-  seed: 2
-  score: 1.0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-11
+  fixture: rb-persistent-shell-cwd-normalization-10
   seed: 2
   score: 1.0
-- arm: A
+- arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-11
-  seed: 1
+  fixture: rb-persistent-shell-cwd-normalization-10
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
@@ -1344,37 +849,42 @@ records:
 - arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-11
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-11
   seed: 2
   score: 1.0
-- arm: B
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-11
+  seed: 2
+  score: 1.0
+- arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-11
   seed: 1
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-12
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-12
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-12
+  fixture: rb-persistent-shell-cwd-normalization-11
   seed: 2
-  score: 1.0
-- arm: A
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-12
-  seed: 1
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-12
   seed: 2
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-12
+  seed: 2
+  score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-12
+  seed: 1
   score: 1.0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
@@ -1383,8 +893,18 @@ records:
   score: 1.0
 - arm: B
   section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c3
+  fixture: rb-persistent-shell-cwd-normalization-12
   seed: 1
+  score: 1.0
+- arm: A
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-12
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c3
+  seed: 2
   false_positives: 0
 - arm: C
   section: rb-persistent-shell-cwd-normalization
@@ -1396,6 +916,11 @@ records:
   fixture: rb-persistent-shell-cwd-normalization-c3
   seed: 2
   false_positives: 0
+- arm: B
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c3
+  seed: 1
+  false_positives: 0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c3
@@ -1405,26 +930,6 @@ records:
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c3
   seed: 2
-  false_positives: 0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c3
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c4
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c4
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: rb-persistent-shell-cwd-normalization
-  fixture: rb-persistent-shell-cwd-normalization-c4
-  seed: 1
   false_positives: 0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
@@ -1434,34 +939,49 @@ records:
 - arm: B
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c4
-  seed: 2
+  seed: 1
   false_positives: 0
 - arm: A
   section: rb-persistent-shell-cwd-normalization
   fixture: rb-persistent-shell-cwd-normalization-c4
   seed: 1
   false_positives: 0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c4
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c4
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-persistent-shell-cwd-normalization
+  fixture: rb-persistent-shell-cwd-normalization-c4
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-01
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-01
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-01
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-01
   seed: 2
   score: 1.0
 - arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-01
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-01
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-01
-  seed: 1
-  score: 1.0
-- arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-01
   seed: 2
@@ -1474,17 +994,12 @@ records:
 - arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-02
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-02
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-02
   seed: 1
+  score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-02
+  seed: 2
   score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
@@ -1496,14 +1011,14 @@ records:
   fixture: rb-powershell-json-array-cardinality-02
   seed: 2
   score: 1.0
-- arm: A
+- arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-02
   seed: 1
   score: 1.0
-- arm: B
+- arm: A
   section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-03
+  fixture: rb-powershell-json-array-cardinality-02
   seed: 2
   score: 1.0
 - arm: C
@@ -1516,6 +1031,16 @@ records:
   fixture: rb-powershell-json-array-cardinality-03
   seed: 1
   score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-03
+  seed: 2
+  score: 1.0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-03
+  seed: 2
+  score: 1.0
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-03
@@ -1526,42 +1051,37 @@ records:
   fixture: rb-powershell-json-array-cardinality-03
   seed: 1
   score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-03
-  seed: 2
-  score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-04
   seed: 2
-  score: 1.0
-- arm: B
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-04
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-04
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-04
-  seed: 1
   score: 1.0
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-04
   seed: 1
   score: 1.0
-- arm: C
+- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-04
   seed: 2
   score: 1.0
 - arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-04
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-04
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-04
+  seed: 1
+  score: 1.0
+- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-05
   seed: 2
@@ -1570,16 +1090,16 @@ records:
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-05
   seed: 1
-  score: 0.5
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-05
-  seed: 2
-  score: 0.5
+  score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-05
   seed: 2
+  score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-05
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
@@ -1589,26 +1109,6 @@ records:
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-05
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-06
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-06
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-06
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-06
   seed: 2
   score: 1.0
 - arm: B
@@ -1621,7 +1121,42 @@ records:
   fixture: rb-powershell-json-array-cardinality-06
   seed: 1
   score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-06
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-06
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-06
+  seed: 2
+  score: 1.0
 - arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-06
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c1
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c1
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c1
+  seed: 2
+  false_positives: 0
+- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c1
   seed: 2
@@ -1629,24 +1164,9 @@ records:
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c1
-  seed: 1
-  false_positives: 0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c1
   seed: 2
-  false_positives: 1
+  false_positives: 0
 - arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c1
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c1
-  seed: 1
-  false_positives: 0
-- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c1
   seed: 1
@@ -1654,19 +1174,9 @@ records:
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c2
-  seed: 2
+  seed: 1
   false_positives: 0
 - arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c2
-  seed: 1
-  false_positives: 0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c2
-  seed: 1
-  false_positives: 0
-- arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c2
   seed: 2
@@ -1679,14 +1189,34 @@ records:
 - arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c2
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c2
   seed: 2
   false_positives: 0
 - arm: A
   section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c2
+  seed: 2
+  false_positives: 0
+- arm: B
+  section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-07
   seed: 2
   score: 1.0
 - arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-07
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-07
+  seed: 2
+  score: 1.0
+- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-07
   seed: 1
@@ -1696,35 +1226,15 @@ records:
   fixture: rb-powershell-json-array-cardinality-07
   seed: 1
   score: 1.0
-- arm: A
+- arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-07
   seed: 1
   score: 1.0
 - arm: C
   section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-07
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-07
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-08
   seed: 1
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-08
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-08
-  seed: 2
   score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
@@ -1736,16 +1246,31 @@ records:
   fixture: rb-powershell-json-array-cardinality-08
   seed: 2
   score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-08
+  seed: 1
+  score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-08
   seed: 1
   score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-08
+  seed: 2
+  score: 1.0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-09
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-09
   seed: 2
-  score: 0.5
+  score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-09
@@ -1756,32 +1281,22 @@ records:
   fixture: rb-powershell-json-array-cardinality-09
   seed: 1
   score: 1.0
-- arm: B
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-09
-  seed: 2
-  score: 1.0
 - arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-09
   seed: 1
-  score: 0.5
+  score: 1.0
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-09
   seed: 2
   score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-10
-  seed: 1
-  score: 1.0
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-10
   seed: 2
   score: 1.0
-- arm: C
+- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-10
   seed: 1
@@ -1790,6 +1305,11 @@ records:
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-10
   seed: 2
+  score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-10
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
@@ -1801,21 +1321,6 @@ records:
   fixture: rb-powershell-json-array-cardinality-10
   seed: 2
   score: 1.0
-- arm: B
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-11
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-11
-  seed: 1
-  score: 0.5
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-11
-  seed: 2
-  score: 0.5
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-11
@@ -1826,30 +1331,30 @@ records:
   fixture: rb-powershell-json-array-cardinality-11
   seed: 2
   score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-11
+  seed: 2
+  score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-11
   seed: 1
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-11
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-11
+  seed: 2
   score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-12
   seed: 2
-  score: 1.0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-12
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-12
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-12
-  seed: 1
   score: 1.0
 - arm: B
   section: rb-powershell-json-array-cardinality
@@ -1861,10 +1366,35 @@ records:
   fixture: rb-powershell-json-array-cardinality-12
   seed: 2
   score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-12
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-12
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-12
+  seed: 2
+  score: 1.0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c3
+  seed: 2
+  false_positives: 0
 - arm: B
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c3
   seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c3
+  seed: 1
   false_positives: 0
 - arm: B
   section: rb-powershell-json-array-cardinality
@@ -1874,24 +1404,29 @@ records:
 - arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c3
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c3
   seed: 2
   false_positives: 0
 - arm: C
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c3
   seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c4
+  seed: 2
   false_positives: 0
 - arm: A
   section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c3
+  fixture: rb-powershell-json-array-cardinality-c4
+  seed: 1
+  false_positives: 0
+- arm: C
+  section: rb-powershell-json-array-cardinality
+  fixture: rb-powershell-json-array-cardinality-c4
   seed: 2
   false_positives: 0
-- arm: B
+- arm: A
   section: rb-powershell-json-array-cardinality
   fixture: rb-powershell-json-array-cardinality-c4
   seed: 2
@@ -1907,24 +1442,14 @@ records:
   seed: 1
   false_positives: 0
 - arm: C
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c4
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c4
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: rb-powershell-json-array-cardinality
-  fixture: rb-powershell-json-array-cardinality-c4
-  seed: 1
-  false_positives: 0
-- arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-01
-  seed: 2
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-01
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -1939,12 +1464,7 @@ records:
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-01
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-01
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -1954,27 +1474,12 @@ records:
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-02
-  seed: 2
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-02
   seed: 2
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-02
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-02
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-02
-  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -1983,35 +1488,50 @@ records:
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-02
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-02
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-02
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-03
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-03
   seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-03
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-03
   seed: 2
   score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-03
-  seed: 1
-  score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-03
   seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-03
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-03
-  seed: 2
   score: 1.0
 - arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-03
+  seed: 1
+  score: 1.0
+- arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-04
   seed: 1
@@ -2021,42 +1541,27 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-04
   seed: 2
   score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-04
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-04
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-04
-  seed: 2
-  score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-04
   seed: 2
   score: 1.0
-- arm: B
+- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-05
+  fixture: rb-windows-docker-grpc-localhost-ipv6-04
   seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-05
+  fixture: rb-windows-docker-grpc-localhost-ipv6-04
   seed: 1
   score: 1.0
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-05
+  fixture: rb-windows-docker-grpc-localhost-ipv6-04
   seed: 1
   score: 1.0
-- arm: B
+- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-05
   seed: 1
@@ -2073,12 +1578,17 @@ records:
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-06
+  fixture: rb-windows-docker-grpc-localhost-ipv6-05
+  seed: 2
+  score: 1.0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-05
   seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-06
+  fixture: rb-windows-docker-grpc-localhost-ipv6-05
   seed: 1
   score: 1.0
 - arm: B
@@ -2089,6 +1599,21 @@ records:
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-06
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-06
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-06
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-06
   seed: 2
   score: 1.0
 - arm: A
@@ -2096,15 +1621,10 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-06
   seed: 1
   score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-06
-  seed: 2
-  score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c1
-  seed: 2
+  seed: 1
   false_positives: 0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -2114,12 +1634,12 @@ records:
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c1
-  seed: 1
+  seed: 2
   false_positives: 0
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c1
-  seed: 2
+  seed: 1
   false_positives: 0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -2129,21 +1649,6 @@ records:
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c1
-  seed: 1
-  false_positives: 0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c2
-  seed: 2
-  false_positives: 0
-- arm: C
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c2
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c2
   seed: 2
   false_positives: 0
 - arm: A
@@ -2154,27 +1659,37 @@ records:
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c2
-  seed: 1
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+  seed: 2
   false_positives: 0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c2
   seed: 1
   false_positives: 0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+  seed: 2
+  false_positives: 0
 - arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c2
+  seed: 1
+  false_positives: 0
+- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-07
-  seed: 2
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-07
   seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-07
-  seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -2186,10 +1701,15 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-07
   seed: 2
   score: 1.0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-07
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-07
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -2201,16 +1721,6 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-08
   seed: 1
   score: 1.0
-- arm: C
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-08
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-08
-  seed: 1
-  score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-08
@@ -2223,10 +1733,25 @@ records:
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-08
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-08
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-09
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-09
   seed: 2
   score: 1.0
-- arm: C
+- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-09
   seed: 2
@@ -2239,17 +1764,12 @@ records:
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-09
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-09
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-09
   seed: 2
+  score: 1.0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-09
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -2266,6 +1786,11 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-10
   seed: 2
   score: 1.0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-10
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-10
@@ -2274,11 +1799,31 @@ records:
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-10
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-11
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-11
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-11
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-11
   seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-10
+  fixture: rb-windows-docker-grpc-localhost-ipv6-11
   seed: 1
   score: 1.0
 - arm: B
@@ -2286,32 +1831,7 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-11
   seed: 1
   score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-11
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-11
-  seed: 2
-  score: 1.0
 - arm: C
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-11
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-11
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-11
-  seed: 1
-  score: 1.0
-- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-12
   seed: 2
@@ -2319,7 +1839,7 @@ records:
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-12
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-docker-grpc-localhost-ipv6
@@ -2336,27 +1856,12 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-12
   seed: 1
   score: 1.0
-- arm: C
+- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-12
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c3
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c3
   seed: 1
-  false_positives: 0
-- arm: C
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c3
-  seed: 2
-  false_positives: 0
-- arm: B
+  score: 1.0
+- arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c3
   seed: 1
@@ -2371,7 +1876,27 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-c3
   seed: 2
   false_positives: 0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+  seed: 2
+  false_positives: 0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+  seed: 1
+  false_positives: 0
 - arm: A
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+  seed: 2
+  false_positives: 0
+- arm: B
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c4
   seed: 2
@@ -2381,16 +1906,6 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-c4
   seed: 1
   false_positives: 0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c4
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: rb-windows-docker-grpc-localhost-ipv6
-  fixture: rb-windows-docker-grpc-localhost-ipv6-c4
-  seed: 2
-  false_positives: 0
 - arm: A
   section: rb-windows-docker-grpc-localhost-ipv6
   fixture: rb-windows-docker-grpc-localhost-ipv6-c4
@@ -2401,6 +1916,31 @@ records:
   fixture: rb-windows-docker-grpc-localhost-ipv6-c4
   seed: 2
   false_positives: 0
+- arm: B
+  section: rb-windows-docker-grpc-localhost-ipv6
+  fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-01
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-01
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-01
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-01
+  seed: 2
+  score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-01
@@ -2413,31 +1953,6 @@ records:
   score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-01
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-01
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-01
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-01
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-02
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-02
   seed: 2
   score: 1.0
@@ -2449,37 +1964,32 @@ records:
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-02
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-02
   seed: 1
-  score: 0.5
+  score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-02
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-02
   seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-03
-  seed: 2
+  fixture: rb-windows-npm-eperm-locks-02
+  seed: 1
   score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-03
   seed: 1
   score: 1.0
-- arm: A
+- arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-03
   seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-03
-  seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
@@ -2493,34 +2003,49 @@ records:
   score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-04
-  seed: 2
+  fixture: rb-windows-npm-eperm-locks-03
+  seed: 1
   score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-04
-  seed: 1
+  fixture: rb-windows-npm-eperm-locks-03
+  seed: 2
   score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-04
-  seed: 1
-  score: 0.5
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-04
   seed: 1
   score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-04
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-04
   seed: 2
   score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-04
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-04
+  seed: 1
+  score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-04
   seed: 2
-  score: 0.5
+  score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-05
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-05
@@ -2531,37 +2056,22 @@ records:
   fixture: rb-windows-npm-eperm-locks-05
   seed: 1
   score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-05
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-05
-  seed: 1
-  score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-05
   seed: 2
   score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-05
+  seed: 1
+  score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-05
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-06
   seed: 1
   score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-06
-  seed: 2
-  score: 1.0
-- arm: A
+- arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-06
   seed: 2
@@ -2571,16 +2081,31 @@ records:
   fixture: rb-windows-npm-eperm-locks-06
   seed: 1
   score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-06
+  seed: 1
+  score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-06
   seed: 1
   score: 1.0
-- arm: C
+- arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-06
   seed: 2
   score: 1.0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-06
+  seed: 2
+  score: 1.0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c1
+  seed: 1
+  false_positives: 0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c1
@@ -2589,29 +2114,34 @@ records:
 - arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c1
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c1
   seed: 1
+  false_positives: 0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c1
+  seed: 2
   false_positives: 0
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c1
   seed: 1
   false_positives: 0
-- arm: A
+- arm: C
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c1
-  seed: 1
+  fixture: rb-windows-npm-eperm-locks-c2
+  seed: 2
   false_positives: 0
 - arm: B
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c1
-  seed: 2
+  fixture: rb-windows-npm-eperm-locks-c2
+  seed: 1
   false_positives: 0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c1
-  seed: 2
-  false_positives: 0
-- arm: A
+- arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c2
   seed: 2
@@ -2626,17 +2156,7 @@ records:
   fixture: rb-windows-npm-eperm-locks-c2
   seed: 1
   false_positives: 0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c2
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c2
-  seed: 2
-  false_positives: 0
-- arm: C
+- arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c2
   seed: 2
@@ -2644,12 +2164,7 @@ records:
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-07
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-07
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
@@ -2664,7 +2179,7 @@ records:
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-07
-  seed: 2
+  seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-npm-eperm-locks
@@ -2672,6 +2187,11 @@ records:
   seed: 2
   score: 1.0
 - arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-07
+  seed: 1
+  score: 1.0
+- arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-08
   seed: 2
@@ -2691,7 +2211,7 @@ records:
   fixture: rb-windows-npm-eperm-locks-08
   seed: 1
   score: 1.0
-- arm: C
+- arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-08
   seed: 2
@@ -2704,21 +2224,6 @@ records:
 - arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-09
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-09
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-09
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-09
   seed: 1
   score: 1.0
 - arm: C
@@ -2726,7 +2231,22 @@ records:
   fixture: rb-windows-npm-eperm-locks-09
   seed: 1
   score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-09
+  seed: 2
+  score: 1.0
 - arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-09
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-09
+  seed: 1
+  score: 1.0
+- arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-09
   seed: 2
@@ -2734,6 +2254,11 @@ records:
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-10
+  seed: 2
+  score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-10
   seed: 1
   score: 1.0
 - arm: B
@@ -2741,42 +2266,22 @@ records:
   fixture: rb-windows-npm-eperm-locks-10
   seed: 1
   score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-10
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-10
-  seed: 2
-  score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-10
   seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-10
+  seed: 2
   score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-10
   seed: 2
   score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-11
-  seed: 2
-  score: 1.0
 - arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-11
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-11
-  seed: 2
-  score: 1.0
-- arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-11
   seed: 1
@@ -2786,25 +2291,25 @@ records:
   fixture: rb-windows-npm-eperm-locks-11
   seed: 1
   score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-11
+  seed: 2
+  score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-11
   seed: 2
   score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-12
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-12
-  seed: 2
-  score: 1.0
 - arm: A
   section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-12
+  fixture: rb-windows-npm-eperm-locks-11
   seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-11
+  seed: 2
   score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
@@ -2814,27 +2319,32 @@ records:
 - arm: A
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-12
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-12
   seed: 2
+  score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-12
+  seed: 2
+  score: 1.0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-12
+  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-12
   seed: 1
   score: 1.0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c3
-  seed: 1
-  false_positives: 0
-- arm: A
+- arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c3
   seed: 2
-  false_positives: 0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c3
-  seed: 1
   false_positives: 0
 - arm: B
   section: rb-windows-npm-eperm-locks
@@ -2844,49 +2354,54 @@ records:
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c3
-  seed: 2
+  seed: 1
   false_positives: 0
-- arm: C
+- arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c3
   seed: 1
   false_positives: 0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c3
+  seed: 1
+  false_positives: 0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c3
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c4
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c4
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c4
+  seed: 1
+  false_positives: 0
 - arm: C
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c4
   seed: 1
   false_positives: 0
-- arm: A
+- arm: B
   section: rb-windows-npm-eperm-locks
   fixture: rb-windows-npm-eperm-locks-c4
   seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-windows-npm-eperm-locks
+  fixture: rb-windows-npm-eperm-locks-c4
+  seed: 2
   false_positives: 0
 - arm: C
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c4
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c4
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c4
-  seed: 2
-  false_positives: 0
-- arm: B
-  section: rb-windows-npm-eperm-locks
-  fixture: rb-windows-npm-eperm-locks-c4
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-01
-  seed: 1
-  score: 1.0
-- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-01
   seed: 1
@@ -2899,9 +2414,9 @@ records:
 - arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-01
-  seed: 2
+  seed: 1
   score: 1.0
-- arm: C
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-01
   seed: 2
@@ -2909,6 +2424,31 @@ records:
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-01
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-01
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-02
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-02
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-02
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-02
   seed: 1
   score: 1.0
 - arm: C
@@ -2921,40 +2461,10 @@ records:
   fixture: rb-windows-python-console-encoding-02
   seed: 2
   score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-02
-  seed: 1
-  score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-02
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-02
+  fixture: rb-windows-python-console-encoding-03
   seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-02
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-03
-  seed: 1
-  score: 1.0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-03
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-03
-  seed: 1
   score: 1.0
 - arm: B
   section: rb-windows-python-console-encoding
@@ -2964,27 +2474,32 @@ records:
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-03
-  seed: 2
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-03
+  seed: 1
+  score: 1.0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-03
+  seed: 1
   score: 1.0
 - arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-03
   seed: 2
   score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-04
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-04
-  seed: 1
-  score: 0.5
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-04
   seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-04
+  seed: 2
   score: 1.0
 - arm: A
   section: rb-windows-python-console-encoding
@@ -2996,30 +2511,20 @@ records:
   fixture: rb-windows-python-console-encoding-04
   seed: 2
   score: 1.0
-- arm: C
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-04
-  seed: 2
+  seed: 1
   score: 1.0
-- arm: B
+- arm: A
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-05
+  fixture: rb-windows-python-console-encoding-04
   seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-05
   seed: 1
-  score: 1.0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-05
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-05
-  seed: 2
   score: 1.0
 - arm: A
   section: rb-windows-python-console-encoding
@@ -3031,22 +2536,32 @@ records:
   fixture: rb-windows-python-console-encoding-05
   seed: 1
   score: 1.0
-- arm: C
+- arm: B
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-06
+  fixture: rb-windows-python-console-encoding-05
   seed: 2
   score: 1.0
 - arm: B
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-06
-  seed: 2
+  fixture: rb-windows-python-console-encoding-05
+  seed: 1
   score: 1.0
 - arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-05
+  seed: 2
+  score: 1.0
+- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-06
   seed: 1
   score: 1.0
-- arm: A
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-06
+  seed: 2
+  score: 1.0
+- arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-06
   seed: 1
@@ -3063,20 +2578,15 @@ records:
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c1
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c1
-  seed: 1
-  false_positives: 0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c1
+  fixture: rb-windows-python-console-encoding-06
   seed: 2
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c1
+  seed: 1
   false_positives: 0
-- arm: A
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-c1
   seed: 2
@@ -3091,22 +2601,17 @@ records:
   fixture: rb-windows-python-console-encoding-c1
   seed: 1
   false_positives: 0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c1
+  seed: 2
+  false_positives: 0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c2
+  fixture: rb-windows-python-console-encoding-c1
   seed: 1
   false_positives: 0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c2
-  seed: 2
-  false_positives: 0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c2
-  seed: 2
-  false_positives: 0
-- arm: A
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-c2
   seed: 1
@@ -3116,15 +2621,30 @@ records:
   fixture: rb-windows-python-console-encoding-c2
   seed: 2
   false_positives: 0
-- arm: B
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c2
+  seed: 2
+  false_positives: 0
+- arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-c2
   seed: 1
   false_positives: 0
-- arm: B
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c2
+  seed: 1
+  false_positives: 0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c2
+  seed: 2
+  false_positives: 0
+- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-07
-  seed: 1
+  seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
@@ -3139,79 +2659,99 @@ records:
 - arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-07
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-07
   seed: 1
   score: 1.0
-- arm: A
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-07
   seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-08
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-08
-  seed: 2
-  score: 1.0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-08
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-08
-  seed: 2
-  score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-08
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-08
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-09
-  seed: 1
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-09
+  fixture: rb-windows-python-console-encoding-07
   seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-09
+  fixture: rb-windows-python-console-encoding-08
+  seed: 2
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-08
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-08
+  seed: 2
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-08
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-08
   seed: 1
   score: 1.0
 - arm: A
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-09
-  seed: 2
+  fixture: rb-windows-python-console-encoding-08
+  seed: 1
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-09
   seed: 2
   score: 1.0
-- arm: B
+- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-09
   seed: 2
   score: 1.0
 - arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-09
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-09
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-09
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-09
+  seed: 1
+  score: 1.0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-10
+  seed: 2
+  score: 1.0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-10
+  seed: 2
+  score: 1.0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-10
+  seed: 1
+  score: 1.0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-10
+  seed: 1
+  score: 1.0
+- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-10
   seed: 2
@@ -3223,30 +2763,20 @@ records:
   score: 1.0
 - arm: A
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-10
-  seed: 1
-  score: 1.0
-- arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-10
+  fixture: rb-windows-python-console-encoding-11
   seed: 2
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-10
+  fixture: rb-windows-python-console-encoding-11
   seed: 2
   score: 1.0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-10
-  seed: 1
-  score: 1.0
-- arm: A
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-11
   seed: 1
   score: 1.0
-- arm: C
+- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-11
   seed: 1
@@ -3259,16 +2789,11 @@ records:
 - arm: C
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-11
-  seed: 2
+  seed: 1
   score: 1.0
-- arm: A
+- arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-11
-  seed: 2
-  score: 1.0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-11
+  fixture: rb-windows-python-console-encoding-12
   seed: 1
   score: 1.0
 - arm: C
@@ -3276,7 +2801,7 @@ records:
   fixture: rb-windows-python-console-encoding-12
   seed: 2
   score: 1.0
-- arm: A
+- arm: B
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-12
   seed: 2
@@ -3286,7 +2811,7 @@ records:
   fixture: rb-windows-python-console-encoding-12
   seed: 1
   score: 1.0
-- arm: B
+- arm: A
   section: rb-windows-python-console-encoding
   fixture: rb-windows-python-console-encoding-12
   seed: 2
@@ -3298,66 +2823,541 @@ records:
   score: 1.0
 - arm: C
   section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-12
+  fixture: rb-windows-python-console-encoding-c3
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c3
+  seed: 1
+  false_positives: 0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c3
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c3
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c3
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c3
+  seed: 2
+  false_positives: 0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c4
+  seed: 1
+  false_positives: 0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c4
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c4
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c4
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c4
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: rb-windows-python-console-encoding
+  fixture: rb-windows-python-console-encoding-c4
+  seed: 1
+  false_positives: 0
+- arm: A
+  section: cp-2
+  fixture: cp-2-01
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-01
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-01
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-01
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-01
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-01
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-02
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-02
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-02
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-02
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-02
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-02
   seed: 1
   score: 1.0
 - arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c3
+  section: cp-2
+  fixture: cp-2-03
   seed: 2
-  false_positives: 0
+  score: 1.0
 - arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c3
+  section: cp-2
+  fixture: cp-2-03
   seed: 2
-  false_positives: 0
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-03
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-03
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-03
+  seed: 1
+  score: 1.0
 - arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c3
+  section: cp-2
+  fixture: cp-2-03
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-04
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-04
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-04
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-04
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-04
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-04
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-05
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-05
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-05
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-05
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-05
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-05
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-06
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-06
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-06
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-06
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-06
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-06
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c1
   seed: 1
   false_positives: 0
 - arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c3
+  section: cp-2
+  fixture: cp-2-c1
+  seed: 1
+  false_positives: 0
+- arm: C
+  section: cp-2
+  fixture: cp-2-c1
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: cp-2
+  fixture: cp-2-c1
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c1
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: cp-2
+  fixture: cp-2-c1
+  seed: 2
+  false_positives: 0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c2
+  seed: 2
+  false_positives: 0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c2
   seed: 1
   false_positives: 0
 - arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c3
-  seed: 1
-  false_positives: 0
-- arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c3
+  section: cp-2
+  fixture: cp-2-c2
   seed: 2
   false_positives: 0
-- arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c4
-  seed: 1
-  false_positives: 0
 - arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c4
+  section: cp-2
+  fixture: cp-2-c2
   seed: 2
   false_positives: 0
 - arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c4
-  seed: 2
+  section: cp-2
+  fixture: cp-2-c2
+  seed: 1
   false_positives: 0
 - arm: C
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c4
+  section: cp-2
+  fixture: cp-2-c2
+  seed: 1
+  false_positives: 0
+- arm: C
+  section: cp-2
+  fixture: cp-2-07
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-07
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-07
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-07
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-07
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-07
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-08
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-08
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-08
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-08
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-08
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-08
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-09
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-09
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-09
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-09
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-09
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-09
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-10
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-10
+  seed: 2
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-10
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-10
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-10
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-10
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-11
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-11
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-11
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-11
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-11
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-11
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-12
+  seed: 2
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-12
+  seed: 1
+  score: 1.0
+- arm: B
+  section: cp-2
+  fixture: cp-2-12
+  seed: 1
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-12
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-12
+  seed: 1
+  score: 1.0
+- arm: C
+  section: cp-2
+  fixture: cp-2-12
+  seed: 2
+  score: 1.0
+- arm: A
+  section: cp-2
+  fixture: cp-2-c3
   seed: 1
   false_positives: 0
 - arm: B
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c4
+  section: cp-2
+  fixture: cp-2-c3
+  seed: 1
+  false_positives: 0
+- arm: C
+  section: cp-2
+  fixture: cp-2-c3
   seed: 2
   false_positives: 0
 - arm: A
-  section: rb-windows-python-console-encoding
-  fixture: rb-windows-python-console-encoding-c4
+  section: cp-2
+  fixture: cp-2-c3
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: cp-2
+  fixture: cp-2-c3
   seed: 1
+  false_positives: 0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c3
+  seed: 2
+  false_positives: 0
+- arm: C
+  section: cp-2
+  fixture: cp-2-c4
+  seed: 1
+  false_positives: 0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c4
+  seed: 2
+  false_positives: 0
+- arm: B
+  section: cp-2
+  fixture: cp-2-c4
+  seed: 1
+  false_positives: 0
+- arm: C
+  section: cp-2
+  fixture: cp-2-c4
+  seed: 2
+  false_positives: 0
+- arm: A
+  section: cp-2
+  fixture: cp-2-c4
+  seed: 1
+  false_positives: 0
+- arm: A
+  section: cp-2
+  fixture: cp-2-c4
+  seed: 2
   false_positives: 0

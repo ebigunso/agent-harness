@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d79-cdc8-71a3-aeb1-7c1421bf5f3f
+session id: 01a0815b-3756-75b2-b9da-0b7730e9a3cb
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,29 +56,25 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. Node 20.18.0 tiny HTTP producer returns HTTP 200 and Content-Type application/json with exact body [{"state":"ok"}]; independently captured raw response matches. No transport/authentication error. Scenario port is 5080.
 
 codex
-I’ll check PowerShell’s JSON conversion behavior against the array contract.
-web search: 
-web search: site.learn.microsoft.com powershell 7.4 ConvertFrom-Json NoEnumerate single element array
-codex
-The cause is in the workspace’s PowerShell checker. `ConvertFrom-Json` enumerates arrays by default, so assigning its singleton output produces a `PSCustomObject`; the assertion then throws. The HTTP producer and JSON are correct. [PowerShell documentation](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4)
+**Cause:** `ConvertFrom-Json` enumerates the top-level array by default. PowerShell assignment unwraps its single output element, so `$parsed` becomes a `PSCustomObject`. This is a script deserialization issue, not a server, transport, or workspace configuration problem.
 
-The smallest safe fix is to add `-NoEnumerate`:
+**Smallest safe remediation:** Preserve the JSON array:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the existing array assertion. Don’t wrap the result in `@(...)`: that would also make scalar wire values pass.
+Keep the existing array assertion. Avoid `@(...)`, which would also wrap scalar JSON values and incorrectly accept them.
 
-Confirm by rerunning `pwsh -NoProfile -File probes/cardinality.ps1` against port 5080: expect `parsed type=System.Object[]`, no error, and exit code 0. Also check that empty and multiple-element arrays pass, while an object, string, number, boolean, and `null` each fail the assertion. The printed `wire elements=1` is hard-coded, so it is not independent validation.
+**Confirmation:** Rerun the command against port 5080; expect `parsed type=System.Object[]` and exit code `0`. Also verify that `[]`, singleton arrays, and multiple-element arrays pass, while top-level objects, strings, numbers, booleans, and `null` fail the assertion.
 tokens used
-7,770
-The cause is in the workspace’s PowerShell checker. `ConvertFrom-Json` enumerates arrays by default, so assigning its singleton output produces a `PSCustomObject`; the assertion then throws. The HTTP producer and JSON are correct. [PowerShell documentation](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4)
+3,532
+**Cause:** `ConvertFrom-Json` enumerates the top-level array by default. PowerShell assignment unwraps its single output element, so `$parsed` becomes a `PSCustomObject`. This is a script deserialization issue, not a server, transport, or workspace configuration problem.
 
-The smallest safe fix is to add `-NoEnumerate`:
+**Smallest safe remediation:** Preserve the JSON array:
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the existing array assertion. Don’t wrap the result in `@(...)`: that would also make scalar wire values pass.
+Keep the existing array assertion. Avoid `@(...)`, which would also wrap scalar JSON values and incorrectly accept them.
 
-Confirm by rerunning `pwsh -NoProfile -File probes/cardinality.ps1` against port 5080: expect `parsed type=System.Object[]`, no error, and exit code 0. Also check that empty and multiple-element arrays pass, while an object, string, number, boolean, and `null` each fail the assertion. The printed `wire elements=1` is hard-coded, so it is not independent validation.
+**Confirmation:** Rerun the command against port 5080; expect `parsed type=System.Object[]` and exit code `0`. Also verify that `[]`, singleton arrays, and multiple-element arrays pass, while top-level objects, strings, numbers, booleans, and `null` fail the assertion.
 
 __ABLATION_DONE__ exit=0

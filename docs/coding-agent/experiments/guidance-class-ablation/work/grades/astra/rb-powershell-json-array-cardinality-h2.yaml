@@ -1,193 +1,193 @@
 records:
-  - id: 0bad73391496
+  - id: 06b9eb74cdd5
     fixture: rb-powershell-json-array-cardinality-07
     score: 1.0
-    note: "Names trailing Write-Output as the post-parse enumeration site; drops it, keeps -NoEnumerate; adds raw framing and full cardinality matrix."
-  - id: 2e05241e5e04
+    note: "Names Write-Output enumerating the -NoEnumerate result; drops the re-pipe; rejects @() masking; confirms [], singleton, multi, scalars."
+  - id: 0c83d591a817
     fixture: rb-powershell-json-array-cardinality-07
     score: 1.0
-    note: "Names Write-Output enumeration after -NoEnumerate; removes re-pipe; rejects @() masking; confirms [], singleton, multi, scalars."
-  - id: 52e76145f85a
+    note: "Names Write-Output re-enumeration site; removes the trailing pipe; full contract confirmation table."
+  - id: 65ad0ed0746f
     fixture: rb-powershell-json-array-cardinality-07
     score: 1.0
-    note: "Names trailing Write-Output pipeline as the enumeration site; removes it; rejects @(); full confirmation matrix."
-  - id: c7b148391466
+    note: "Names downstream Write-Output enumeration; drops the re-pipe; confirms arrays accepted and scalars rejected."
+  - id: 6635d59f606c
     fixture: rb-powershell-json-array-cardinality-07
     score: 1.0
-    note: "Names Write-Output enumeration after -NoEnumerate; replaces with -InputObject -NoEnumerate, no re-pipe; correct confirmation."
-  - id: e0c8af8e78e2
+    note: "Names Write-Output enumeration; replaces with -InputObject -NoEnumerate and no re-pipe; contract confirmed."
+  - id: c121661b17d6
     fixture: rb-powershell-json-array-cardinality-07
     score: 1.0
-    note: "Names the extra Write-Output pipeline as the site; removes it; rejects @(); confirms arrays vs scalars."
-  - id: f33a01706e64
+    note: "Names Write-Output re-enumeration; drops the re-pipe; adds trimmed raw framing check as independent evidence."
+  - id: eac25a9a1f42
     fixture: rb-powershell-json-array-cardinality-07
     score: 1.0
-    note: "Names trailing Write-Output as re-enumeration site; removes it; rejects @(); confirmation covers cardinality contract."
-  - id: 2781c072b646
+    note: "Names Write-Output re-enumeration after -NoEnumerate; removes the extra pipe; contract cases confirmed."
+  - id: 49651cf3f7c0
     fixture: rb-powershell-json-array-cardinality-08
     score: 1.0
-    note: "Names ForEach-Object re-pipe as the enumeration site; removes it, keeps -NoEnumerate; rejects @(); full matrix."
-  - id: 5ed3106ed022
+    note: "Names ForEach-Object re-enumeration site; -InputObject -NoEnumerate without re-pipe; contract confirmed."
+  - id: 78216a21becf
     fixture: rb-powershell-json-array-cardinality-08
     score: 1.0
-    note: "Names ForEach-Object enumeration after -NoEnumerate; removes downstream pipeline; notes 5.1 raw-framing alternative; full matrix."
-  - id: 7a92105ed793
+    note: "Names ForEach-Object re-enumeration; drops the downstream pipeline; notes 5.1 raw-framing alternative correctly."
+  - id: 94e20c75ad97
     fixture: rb-powershell-json-array-cardinality-08
     score: 1.0
-    note: "Names ForEach-Object re-pipe as site; assigns -NoEnumerate result directly; rejects @()/[array] cast; correct confirmation."
-  - id: 7d7c938fc74f
+    note: "Names ForEach-Object second-pipeline enumeration; removes it; contract table confirmed."
+  - id: ae51b44fa8e9
     fixture: rb-powershell-json-array-cardinality-08
     score: 1.0
-    note: "Names ForEach-Object pipeline enumeration; removes it; adds raw trimmed framing check; full matrix."
-  - id: 9885c0d87503
+    note: "Names ForEach-Object enumeration site; removes the pipeline; adds trimmed raw framing check alongside."
+  - id: b24715c13c9f
     fixture: rb-powershell-json-array-cardinality-08
     score: 1.0
-    note: "Names ForEach-Object re-enumeration site; direct -NoEnumerate assignment; rejects @(); confirms arrays pass and scalars/object fail."
-  - id: cc00055474d3
+    note: "Names the subsequent pipeline enumeration; -InputObject -NoEnumerate with no re-pipe; contract confirmed."
+  - id: b69b64032528
     fixture: rb-powershell-json-array-cardinality-08
     score: 1.0
-    note: "Names ForEach-Object second pipeline as site; removes it; rejects @(); full matrix."
-  - id: 1201f5bd2d7b
-    fixture: rb-powershell-json-array-cardinality-09
-    score: 0.5
-    note: "Correctly names Write-Output unrolling on 5.1 and avoids -NoEnumerate, but remediation relies on the 5.1 parser preserving the array instead of the key's raw trimmed framing route."
-  - id: 1fbdbc4486f5
+    note: "Names the ForEach-Object re-pipe explicitly; removes it; confirms [], singleton, multi, non-arrays."
+  - id: 510230db1b23
     fixture: rb-powershell-json-array-cardinality-09
     score: 1.0
-    note: "Names pipeline unrolling; replaces type assertion with trimmed raw [ ] framing on 5.1; notes -NoEnumerate unavailable; keeps parse for syntax; full matrix."
-  - id: 2a4f26e66080
+    note: "Names pipeline unrolling via Write-Output on 5.1; raw trimmed framing check with parse retained; correctly avoids -NoEnumerate."
+  - id: 56e63798678f
     fixture: rb-powershell-json-array-cardinality-09
     score: 1.0
-    note: "Names pipeline unwrap; raw trimmed framing assertion on 5.1; explicitly rules out -NoEnumerate; matrix incl. malformed case."
-  - id: 624ebdb9936b
-    fixture: rb-powershell-json-array-cardinality-09
-    score: 0.5
-    note: "Names Write-Output unrolling on 5.1 and avoids -NoEnumerate, but fixes by removing the re-pipe rather than the key's raw framing route for 5.1."
-  - id: a260b99d63ba
+    note: "Names pipeline unwrap of singleton; raw trimmed framing check on 5.1; notes -NoEnumerate unavailable and @() masking."
+  - id: 575d1a301625
     fixture: rb-powershell-json-array-cardinality-09
     score: 1.0
-    note: "Names pipeline unwrap; raw trimmed framing check on 5.1; rules out -NoEnumerate and @(); confirms contract."
-  - id: eb4c4b759668
+    note: "Names Write-Output enumerating the 5.1-preserved array; drops the re-pipe (verified on 5.1: [], [true], [null] stay arrays, scalars rejected); key prefers raw framing."
+  - id: 73aea7cdfa18
     fixture: rb-powershell-json-array-cardinality-09
     score: 1.0
-    note: "Names pipeline unwrap to Boolean; raw trimmed framing check; notes -NoEnumerate unavailable on 5.1; rejects @(); confirms contract."
-  - id: 37119d01c13a
+    note: "Names trailing Write-Output enumeration on 5.1; drops the re-pipe, which works on the 5.1 legacy parser; no -NoEnumerate prescribed."
+  - id: e602a01a8aee
+    fixture: rb-powershell-json-array-cardinality-09
+    score: 1.0
+    note: "Names pipeline unwrap; raw trimmed framing check with parse kept; explicitly rules out -NoEnumerate on 5.1."
+  - id: f89a5b316273
+    fixture: rb-powershell-json-array-cardinality-09
+    score: 1.0
+    note: "Names pipeline unwrap and that runtime type cannot prove framing; raw trimmed framing route on 5.1; contract plus malformed case confirmed."
+  - id: 1c38b9c4fa2e
     fixture: rb-powershell-json-array-cardinality-10
     score: 1.0
-    note: "Names ConvertFrom-Json enumeration, exonerates HTTP producer; -NoEnumerate without re-piping; rejects @(); full matrix."
-  - id: 6b556eff2123
+    note: "Names default enumeration of the top-level array, exonerates server/transport; -NoEnumerate with no re-pipe; contract confirmed."
+  - id: 3dd2913a2e4d
     fixture: rb-powershell-json-array-cardinality-10
     score: 1.0
-    note: "Names singleton enumeration, exonerates producer; -NoEnumerate, direct assignment; rejects @(); full matrix."
-  - id: a4283d5185b4
+    note: "Names singleton enumeration, exonerates HTTP producer; -NoEnumerate assigned directly, warns against re-piping; contract table."
+  - id: 426c3557ab45
     fixture: rb-powershell-json-array-cardinality-10
     score: 1.0
-    note: "Names default enumeration, producer correct; adds -NoEnumerate; rejects @(); confirms empty/multi/scalars."
-  - id: e4d071a34f49
+    note: "Names enumeration and faulty assertion, not producer; -InputObject -NoEnumerate, avoids re-pipe and @(); contract confirmed."
+  - id: 5aeae2dacbf7
     fixture: rb-powershell-json-array-cardinality-10
     score: 1.0
-    note: "Names enumeration of top-level array, exonerates transport/producer; -NoEnumerate; rejects @(); confirms contract."
-  - id: f2aec12f4263
+    note: "Names enumerated singleton, exonerates producer/transport; -NoEnumerate with no re-pipe; contract confirmed."
+  - id: e8245b054df7
     fixture: rb-powershell-json-array-cardinality-10
     score: 1.0
-    note: "Names enumeration, producer correct; -NoEnumerate without re-piping; rejects @(); full matrix with counts."
-  - id: fb15d46b3dbb
+    note: "Names default top-level enumeration, exonerates server; -NoEnumerate; contract confirmed."
+  - id: f27ea5c9cf66
     fixture: rb-powershell-json-array-cardinality-10
     score: 1.0
-    note: "Names enumeration, exonerates producer; -NoEnumerate direct assignment; rejects @(); full matrix."
-  - id: 2d59e764cf72
-    fixture: rb-powershell-json-array-cardinality-11
-    score: 0.5
-    note: "Names @() wrapper masking scalar, but remediation is -NoEnumerate plus parsed-type check rather than the key's raw framing rejection of scalar 7."
-  - id: 819c942718b1
+    note: "Names enumeration into pipeline, exonerates producer; -InputObject -NoEnumerate assigned directly; contract table with measured count."
+  - id: 06fcd2e59033
     fixture: rb-powershell-json-array-cardinality-11
     score: 1.0
-    note: "Names @() wrapper as masking wire shape; rejects scalar 7 by trimmed raw [ ] framing; keeps parse for syntax; contract matrix."
-  - id: 9ac722ca0b5d
+    note: "Names @() forcing scalar into Object[]; removes wrapper, uses -NoEnumerate parsed-type check (works on 7.4); scalar passes inverse test, arrays preserved."
+  - id: 0c7acf094a22
     fixture: rb-powershell-json-array-cardinality-11
     score: 1.0
-    note: "Names @() wrapper, distinguishes from singleton unrolling; raw trimmed framing assertion; parsed type no longer evidence; matrix."
-  - id: acfa7c5c7877
-    fixture: rb-powershell-json-array-cardinality-11
-    score: 0.5
-    note: "Names @() forced wrapping, but fix is -NoEnumerate with runtime-type assertion instead of the key's raw framing route."
-  - id: d979fe751e92
+    note: "Names @() wrapping the parsed scalar; -NoEnumerate parsed-type route on pwsh 7; scalar/array distinction confirmed."
+  - id: 6661645da63d
     fixture: rb-powershell-json-array-cardinality-11
     score: 1.0
-    note: "Names @() wrapper testing wrapper not wire shape; raw trimmed framing inverse assertion; keeps parse; contract matrix."
-  - id: dbca4116e508
+    note: "Names @() wrapper testing the wrapper not the wire; raw trimmed framing route for the inverse assertion; contract confirmed."
+  - id: aa23b26c3e80
     fixture: rb-powershell-json-array-cardinality-11
-    score: 0.5
-    note: "Names @() wrapper correctly, but remediates with -NoEnumerate and type check rather than raw framing per key."
-  - id: 1730564d4923
+    score: 1.0
+    note: "Names explicit @() collection as the mask, not unrolling; -NoEnumerate parsed-type route; contract confirmed."
+  - id: b251de1a39b7
+    fixture: rb-powershell-json-array-cardinality-11
+    score: 1.0
+    note: "Names @() masking wire shape; raw trimmed framing assertion with parse retained; contract table."
+  - id: c8645e041ece
+    fixture: rb-powershell-json-array-cardinality-11
+    score: 1.0
+    note: "Names @() wrapper detected instead of wire shape; raw trimmed framing route; notes parsed type no longer evidence of framing."
+  - id: 19fad2713969
     fixture: rb-powershell-json-array-cardinality-12
     score: 1.0
-    note: "Names enumeration of [null] to $null; -NoEnumerate plus raw trimmed framing; no re-piping; confirms [null] count 1 vs [] and scalar null."
-  - id: 311f6e689a08
+    note: "Names enumeration collapsing [null] to $null; -NoEnumerate without re-pipe; confirms Count 1 with null element, [] and scalars distinguished."
+  - id: 1ff37e55950a
     fixture: rb-powershell-json-array-cardinality-12
     score: 1.0
-    note: "Names enumeration unwrapping [null]; -NoEnumerate preserved collection; rejects @(); confirms [null] count 1 with null element, [] and scalars."
-  - id: 7cc2bca309bb
+    note: "Names enumeration losing [null] vs null distinction; -NoEnumerate no re-pipe; contract table including [null]."
+  - id: a05d5a03c6fa
     fixture: rb-powershell-json-array-cardinality-12
     score: 1.0
-    note: "Names default enumeration; -NoEnumerate; rejects @(); full matrix distinguishing [null], [], null."
-  - id: 9b409497d756
+    note: "Names enumeration of [null]; -NoEnumerate plus raw trimmed framing check; [null] vs [] vs null confirmed."
+  - id: ae6421e04e6f
     fixture: rb-powershell-json-array-cardinality-12
     score: 1.0
-    note: "Names enumeration; -NoEnumerate, no re-pipe; confirms Count 1 and null element for [null]; [] and scalars covered."
-  - id: f1fe32da4bd4
+    note: "Names enumeration leaving $parsed null; -NoEnumerate without re-pipe; confirms Count 1 and null element."
+  - id: c0743c02860b
     fixture: rb-powershell-json-array-cardinality-12
     score: 1.0
-    note: "Names enumeration leaving $null; -NoEnumerate, no re-pipe; confirms count/null element and scalar rejection."
-  - id: f9b5eb7549d2
+    note: "Names default enumeration collapsing [null]; -NoEnumerate; confirms Count 1 null element, [] and scalars."
+  - id: efb1d76b18c9
     fixture: rb-powershell-json-array-cardinality-12
     score: 1.0
-    note: "Names enumeration losing [null] vs null distinction; -NoEnumerate, no re-pipe; rejects @(); full matrix."
-  - id: 6c7bb7cf7d8d
+    note: "Names enumeration yielding sole null element; -NoEnumerate; confirms [null] one null element, [] and scalars."
+  - id: 523dcb808ed8
     fixture: rb-powershell-json-array-cardinality-c3
     false_positives: 0
-    note: "Malformed [1, diagnosed; fix payload; no unwarranted remediation."
-  - id: 70bb9e4ea04f
+    note: "Correctly diagnoses malformed JSON; suggested framing+count checks are paired with parsing and offered as confirmation, not demanded."
+  - id: 5e3ab7af28cd
     fixture: rb-powershell-json-array-cardinality-c3
     false_positives: 0
-    note: "Malformed JSON diagnosed; fix payload; no unwarranted remediation."
-  - id: 8d742f08ddc0
+    note: "Correctly diagnoses incomplete JSON; fix at payload source; framing check only alongside parse."
+  - id: 6547ce0573d7
     fixture: rb-powershell-json-array-cardinality-c3
     false_positives: 0
-    note: "Malformed JSON diagnosed; fix payload; extra confirmation checks only, parsing retained."
-  - id: a21c9b034621
+    note: "Correctly diagnoses malformed payload; no parser rework demanded."
+  - id: 82ce7ba35e28
     fixture: rb-powershell-json-array-cardinality-c3
     false_positives: 0
-    note: "Malformed JSON diagnosed; fix payload; framing note is confirmation advice alongside parsing, not a demanded rework."
-  - id: b9c4a1d6c8e6
+    note: "Correctly diagnoses incomplete JSON; optional count assertion in confirmation only."
+  - id: 899470e6a391
     fixture: rb-powershell-json-array-cardinality-c3
     false_positives: 0
-    note: "Malformed JSON diagnosed; fix payload; framing advice paired with parsing, no unwarranted remediation."
-  - id: d7ecb5b0a3e7
+    note: "Correctly diagnoses malformed JSON; minimal fix; no spurious demands."
+  - id: cf3baf567fc3
     fixture: rb-powershell-json-array-cardinality-c3
     false_positives: 0
-    note: "Malformed JSON diagnosed; fix payload; confirmation snippet keeps ConvertFrom-Json for syntax, bracket check supplementary."
-  - id: 6bb175378546
+    note: "Correctly diagnoses malformed JSON; minimal fix; no spurious demands."
+  - id: 053fe9bab0a0
     fixture: rb-powershell-json-array-cardinality-c4
     false_positives: 0
-    note: "Duplicate ID diagnosed; fix input, keep uniqueness check; no unrolling blame."
-  - id: 7b73b1798a54
+    note: "Correctly attributes to duplicate ID; keeps uniqueness check and parse."
+  - id: 23c7b1ecb2d3
     fixture: rb-powershell-json-array-cardinality-c4
     false_positives: 0
-    note: "Duplicate ID diagnosed; fix input, keep uniqueness check."
-  - id: ae32cbebe870
+    note: "Correctly attributes to duplicate ID; keeps uniqueness check."
+  - id: 7e8c53b77d97
     fixture: rb-powershell-json-array-cardinality-c4
     false_positives: 0
-    note: "Duplicate ID diagnosed; fix input at source, keep check and -NoEnumerate; retains negative case."
-  - id: c224733fb24b
+    note: "Correctly attributes to duplicate ID; confirms -NoEnumerate preserved array; no unrolling blame."
+  - id: 929d6ff6c7ad
     fixture: rb-powershell-json-array-cardinality-c4
     false_positives: 0
-    note: "Duplicate ID diagnosed; fix payload, keep uniqueness check."
-  - id: c7643763885c
+    note: "Correctly attributes to duplicate ID; keeps check and -NoEnumerate; retains negative case."
+  - id: 9e070c4f058c
     fixture: rb-powershell-json-array-cardinality-c4
     false_positives: 0
-    note: "Duplicate ID diagnosed; fix payload, keep uniqueness check."
-  - id: d8377c056d38
+    note: "Correctly attributes to duplicate ID; keeps uniqueness check."
+  - id: d6bcd8b263a1
     fixture: rb-powershell-json-array-cardinality-c4
     false_positives: 0
-    note: "Duplicate ID diagnosed; fix payload, keep uniqueness check."
+    note: "Correctly attributes to duplicate ID; explicitly rules out pipeline enumeration."

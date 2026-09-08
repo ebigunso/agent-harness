@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d79-7b12-72b3-b1a7-49d71f4ddb57
+session id: 01a0815a-c63a-72b3-945c-76a3f144c19d
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,37 +56,41 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values.
 
 codex
-I’ll check the PowerShell array-handling behavior against the stated contract.
-web search: 
-web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array Write-Output enumeration
-web search: 
-web search: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-output?view=powershell-7.4
+I’ll trace where the array shape is lost and check the fix against the scalar-rejection requirement.
 codex
-**Cause:** The script loses the JSON array shape in the outer pipeline: the parenthesized result is enumerated, and `Write-Output` also enumerates collections by default. Assignment captures the single emitted element as `System.String`, triggering the assertion. `-NoEnumerate` on the converter does not protect subsequent pipeline stages. See [PowerShell documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-output?view=powershell-7.4). This is a script logic bug, not a workspace configuration or permission problem.
+**Cause:** The downstream `Write-Output` enumerates the array preserved by `ConvertFrom-Json -NoEnumerate`. Assignment then stores its sole element as a `System.String`. This is a script pipeline bug, not a workspace or execution-policy problem.
 
-**Smallest safe remediation:** Replace the assignment with:
+**Smallest safe remediation:** Remove the downstream pipeline stage:
+
 ```powershell
-$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the assertion. Avoid wrapping or casting the result into an array: that would also accept scalar wire values.
 
-**Confirmation:** Rerun the command; expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check:
+Keep the existing array assertion. Don’t wrap the result in `@(...)`; that would also turn scalar JSON values into arrays, violating the contract.
 
-- `[]`, `["north"]`, and `["north","south"]`: pass, with counts `0`, `1`, and `2`.
-- `"north"`, `1`, `true`, and `null`: still fail the array assertion.
+**Confirmation:** Rerun with these `$raw` values:
+
+- `[]`, `["north"]`, `["north","south"]`: array type, counts 0/1/2, exit 0.
+- `"north"`, `1`, `null`: existing `Expected JSON array` error, exit 1.
+
+For each case, set `$wireCount` appropriately; its printed value is hard-coded and does not validate the parsed result.
 tokens used
-10,760
-**Cause:** The script loses the JSON array shape in the outer pipeline: the parenthesized result is enumerated, and `Write-Output` also enumerates collections by default. Assignment captures the single emitted element as `System.String`, triggering the assertion. `-NoEnumerate` on the converter does not protect subsequent pipeline stages. See [PowerShell documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-output?view=powershell-7.4). This is a script logic bug, not a workspace configuration or permission problem.
+3,662
+**Cause:** The downstream `Write-Output` enumerates the array preserved by `ConvertFrom-Json -NoEnumerate`. Assignment then stores its sole element as a `System.String`. This is a script pipeline bug, not a workspace or execution-policy problem.
 
-**Smallest safe remediation:** Replace the assignment with:
+**Smallest safe remediation:** Remove the downstream pipeline stage:
+
 ```powershell
-$parsed = ConvertFrom-Json -InputObject $raw -NoEnumerate
+$parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the assertion. Avoid wrapping or casting the result into an array: that would also accept scalar wire values.
 
-**Confirmation:** Rerun the command; expect `parsed type=System.Object[]`, exit code `0`, and no stderr. Also check:
+Keep the existing array assertion. Don’t wrap the result in `@(...)`; that would also turn scalar JSON values into arrays, violating the contract.
 
-- `[]`, `["north"]`, and `["north","south"]`: pass, with counts `0`, `1`, and `2`.
-- `"north"`, `1`, `true`, and `null`: still fail the array assertion.
+**Confirmation:** Rerun with these `$raw` values:
+
+- `[]`, `["north"]`, `["north","south"]`: array type, counts 0/1/2, exit 0.
+- `"north"`, `1`, `null`: existing `Expected JSON array` error, exit 1.
+
+For each case, set `$wireCount` appropriately; its printed value is hard-coded and does not validate the parsed result.
 
 __ABLATION_DONE__ exit=0

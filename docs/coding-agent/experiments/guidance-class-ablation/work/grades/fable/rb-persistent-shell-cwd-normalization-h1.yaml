@@ -1,193 +1,193 @@
 records:
-  - id: 0374ad2fe4ab
+  - id: 10f6e8b207cf
     fixture: rb-persistent-shell-cwd-normalization-01
     score: 1.0
-    note: "Names stacked relative cd from already-entered web; single Set-Location to C:/work/shop, reruns cd web && npm run build unchanged, records before/after cwd and exit 0."
-  - id: 361033ebf4b8
-    fixture: rb-persistent-shell-cwd-normalization-01
-    score: 0.5
-    note: "Mechanism correct (repeated cd web from web) but remediation drops the original command (bare npm run build or absolute cd to web) instead of normalizing to C:/work/shop and rerunning unchanged."
-  - id: 52437192d3fe
+    note: "Names stacked relative cd on drifted cwd; Set-Location C:/work/shop then rerun unchanged; before/after cwd recorded."
+  - id: 85808b62356e
     fixture: rb-persistent-shell-cwd-normalization-01
     score: 1.0
-    note: "Stacked relative cd named; one Set-Location to C:/work/shop, original command rerun unchanged, before/after table with final cwd."
-  - id: 7e4f7f31c065
+    note: "Names stacked cd web from drifted cwd; remediation is npm run build in place or absolute Set-Location to web, both work."
+  - id: 9f4bd8ff5973
     fixture: rb-persistent-shell-cwd-normalization-01
     score: 1.0
-    note: "Names relative cd resolved against wrong base; single navigation to C:/work/shop, unchanged rerun, full evidence record."
-  - id: e3ecf166fe5f
-    fixture: rb-persistent-shell-cwd-normalization-01
-    score: 0.5
-    note: "Correct cause but remediation replaces the command (npm run build alone / absolute cd to web / --prefix) rather than normalizing to parent root and rerunning the original unchanged."
-  - id: f49005ecde11
+    note: "Names relative cd resolving to web/web; Set-Location C:/work/shop then rerun unchanged with before/after table."
+  - id: d8d0ca4c0fa6
     fixture: rb-persistent-shell-cwd-normalization-01
     score: 1.0
-    note: "Stacked cd named; Set-Location C:/work/shop then original command verbatim; before/after cwd, exit 0, final cwd recorded; notes to look elsewhere if retry still failed."
-  - id: 195ac5963dce
+    note: "Names repeated cd web from already-entered web; npm run build in place or absolute Set-Location; both work."
+  - id: d957715032e0
+    fixture: rb-persistent-shell-cwd-normalization-01
+    score: 1.0
+    note: "Names cd web resolving against drifted cwd; Set-Location C:/work/shop then rerun unchanged; full evidence record."
+  - id: e3594439e3ed
+    fixture: rb-persistent-shell-cwd-normalization-01
+    score: 1.0
+    note: "Names stacked cd web on drifted cwd; Set-Location C:/work/shop with pwd before/after, rerun unchanged."
+  - id: 11528ff171c1
     fixture: rb-persistent-shell-cwd-normalization-02
     score: 1.0
-    note: "Relative path resolved under tools named; one Set-Location to C:/work/reports, unchanged rerun, before/after table; absolute-path form offered only as optional hygiene."
-  - id: 22fd19f11fa1
+    note: "Names relative scripts/check.py resolved under tools; single Set-Location to C:/work/reports, rerun unchanged."
+  - id: 1e06ad68a36c
     fixture: rb-persistent-shell-cwd-normalization-02
     score: 1.0
-    note: "Correct mechanism; primary fix is single navigation to C:/work/reports and unchanged rerun with pwd/Test-Path/exit 0 confirmation; absolute path given as alternative only."
-  - id: 79d9a125831a
+    note: "Names cwd drift to tools; Set-Location C:/work/reports or absolute script path; both work."
+  - id: 25fbfd2fb9cc
     fixture: rb-persistent-shell-cwd-normalization-02
     score: 1.0
-    note: "cwd drift under tools named; single explicit navigation, original command unchanged, evidence record with pre/post cwd and exit 0."
-  - id: 9fbe7bd9f6aa
+    note: "Names relative path resolved under tools; single Set-Location then rerun unchanged; before/after recorded."
+  - id: 3ac9c8ae8c99
     fixture: rb-persistent-shell-cwd-normalization-02
     score: 1.0
-    note: "Correct mechanism; navigate to C:/work/reports and rerun unchanged as first option, absolute path as alternative; confirmation cites pwd and exit 0."
-  - id: dac96c728b89
+    note: "Names drifted cwd resolving relative path; pwd then Set-Location C:/work/reports, rerun unchanged."
+  - id: 5c4c371deb5d
     fixture: rb-persistent-shell-cwd-normalization-02
     score: 1.0
-    note: "Names wrong relative base; one Set-Location, unchanged rerun, before/after cwd and result recorded."
-  - id: f2618d6d63cf
+    note: "Names relative-path base under tools; single absolute Set-Location, rerun unchanged; before/after table."
+  - id: 5d36b229d60d
     fixture: rb-persistent-shell-cwd-normalization-02
     score: 1.0
-    note: "Correct mechanism and single-navigation fix with unchanged rerun; full before/after record; notes to look elsewhere if retry still fails."
-  - id: 07e0c2a42c53
+    note: "Names cwd drift to tools; Set-Location to base or absolute script path; confirmation via pwd and rerun."
+  - id: 31db621538ae
     fixture: rb-persistent-shell-cwd-normalization-03
     score: 1.0
-    note: "Cargo walks up from scratch cwd named; Set-Location to C:/work/rust-service, unchanged rerun, before/after cwd and exit 0; --manifest-path only as aside."
-  - id: 52b7c8dee5dd
+    note: "Names cargo walking up from scratch cwd; single Set-Location to rust-service, rerun unchanged."
+  - id: 34ac87b7ee62
     fixture: rb-persistent-shell-cwd-normalization-03
     score: 1.0
-    note: "Correct mechanism; single absolute navigation, original command unchanged, full evidence record and fallback guidance if still failing."
-  - id: 5889383ac52e
+    note: "Names cwd drift to scratch; absolute Set-Location then rerun unchanged; --manifest-path noted as alternative."
+  - id: 56939a27c4ea
     fixture: rb-persistent-shell-cwd-normalization-03
     score: 1.0
-    note: "cwd drift to scratch named; pwd then single Set-Location to rust-service, unchanged rerun, before/after recorded."
-  - id: 841800330b89
+    note: "Names stale scratch cwd; Set-Location to rust-service or --manifest-path; both work."
+  - id: 743c881d271c
     fixture: rb-persistent-shell-cwd-normalization-03
     score: 1.0
-    note: "Correct mechanism; navigation to C:/work/rust-service plus unchanged rerun given first, --manifest-path as alternative; confirmation cites pwd and exit 0."
-  - id: 96cd273d9ec7
+    note: "Names cwd drift to scratch; explicit Set-Location then rerun unchanged; evidence recorded."
+  - id: 859390f57f4b
     fixture: rb-persistent-shell-cwd-normalization-03
     score: 1.0
-    note: "Correct mechanism; one absolute navigation, unchanged rerun, explicitly rejects manifest-path as changing the command; before/after record."
-  - id: f98a9e7ab74f
+    note: "Names drifted cwd with no Cargo.toml in parents; single absolute Set-Location, rerun unchanged."
+  - id: c0beefa260a9
     fixture: rb-persistent-shell-cwd-normalization-03
     score: 1.0
-    note: "Correct mechanism; Set-Location form given first and preferred for persistent shell, unchanged rerun with pwd and exit 0 confirmation."
-  - id: 1e4894648291
+    note: "Names shell cwd at scratch vs UI root; Set-Location or --manifest-path; explicitly rejects creating Cargo.toml."
+  - id: 0506b7b9c2fa
     fixture: rb-persistent-shell-cwd-normalization-04
     score: 1.0
-    note: "No POM under resources cwd named; single Set-Location to C:/work/orders, mvn test unchanged, before/after cwd and BUILD SUCCESS recorded."
-  - id: 75a9de25985b
+    note: "Names cwd drift to resources dir; Set-Location C:/work/orders or mvn -f absolute pom; both work."
+  - id: 111999079d7c
     fixture: rb-persistent-shell-cwd-normalization-04
     score: 1.0
-    note: "Correct mechanism; single absolute navigation, unchanged rerun, before/after table; explicitly rejects -f, copying pom, cd chaining."
-  - id: 78714a06cbd5
+    note: "Names cwd left in resources folder; Set-Location to root or mvn -f; both work."
+  - id: 6584ed09ffa7
     fixture: rb-persistent-shell-cwd-normalization-04
     score: 1.0
-    note: "Correct mechanism; navigate-then-rerun given first, mvn -f as alternative; confirmation cites pwd and exit 0."
-  - id: a1b300468371
+    note: "Names cwd drift; single absolute Set-Location, rerun unchanged; before/after table."
+  - id: b2d68283b004
     fixture: rb-persistent-shell-cwd-normalization-04
     score: 1.0
-    note: "cwd drift to resources named; pwd, single Set-Location, mvn test unchanged, evidence record with pre/post cwd."
-  - id: b7d654db9b89
+    note: "Names cwd drift to resources; pwd, Set-Location C:/work/orders, rerun unchanged."
+  - id: d56ca3d114db
     fixture: rb-persistent-shell-cwd-normalization-04
     score: 1.0
-    note: "Correct mechanism; Set-Location to C:/work/orders and unchanged rerun given first, -f as alternative; confirmation from captured comparison."
-  - id: bbe88019583d
+    note: "Names shell cwd below pom directory; single absolute Set-Location, rerun unchanged."
+  - id: e64ef1c3c9dc
     fixture: rb-persistent-shell-cwd-normalization-04
     score: 1.0
-    note: "Correct mechanism; single absolute navigation, unchanged rerun, before/after table; prefers cwd reset over -f for persistent shell."
-  - id: 0f4dc0b85cde
+    note: "Names persistent-shell cwd drift; Set-Location to root, rerun unchanged; evidence record."
+  - id: 1bc01a48662d
     fixture: rb-persistent-shell-cwd-normalization-05
     score: 1.0
-    note: "Relative Tests path resolved under src named; Set-Location to C:/work/inventory and unchanged rerun given first, absolute path as alternative; pwd/Test-Path/exit 0 confirmation."
-  - id: 329511c7cddb
+    note: "Names relative Tests path resolved under src; Set-Location C:/work/inventory, rerun unchanged."
+  - id: 28354ff06c54
     fixture: rb-persistent-shell-cwd-normalization-05
     score: 1.0
-    note: "Correct mechanism; single absolute navigation, unchanged rerun, before/after record; absolute path only as optional hardening."
-  - id: 3c907407267d
+    note: "Names relative path resolved against src; single absolute Set-Location, rerun unchanged."
+  - id: 2c8c2b99c0cf
     fixture: rb-persistent-shell-cwd-normalization-05
     score: 1.0
-    note: "Correct mechanism; pwd, single Set-Location, dotnet test unchanged; pre/post cwd and exit 0 recorded."
-  - id: 53b52ac65200
+    note: "Names relative path resolved under src; absolute csproj path or Push-Location to base; both work."
+  - id: 30883c9e6a98
     fixture: rb-persistent-shell-cwd-normalization-05
     score: 1.0
-    note: "Correct mechanism; one explicit navigation, unchanged rerun, before/after cwd and result recorded."
-  - id: 9b6251e30d68
-    fixture: rb-persistent-shell-cwd-normalization-05
-    score: 0.5
-    note: "Mechanism correct but remediation is to stop relying on cwd: leads with absolute csproj path, alternative is Push/Pop-Location; never normalizes the persistent shell to C:/work/inventory as the fix."
-  - id: e2a3d5c1c4d5
+    note: "Names cwd drift to src; Set-Location to base or absolute csproj path; both work."
+  - id: 7ca4c90472dc
     fixture: rb-persistent-shell-cwd-normalization-05
     score: 1.0
-    note: "Correct mechanism; single absolute navigation, unchanged rerun, evidence chain with normalized and final cwd."
-  - id: 5f54c11a0c53
+    note: "Names relative Tests path resolved under src; single absolute Set-Location, rerun unchanged."
+  - id: b18e71bf8017
+    fixture: rb-persistent-shell-cwd-normalization-05
+    score: 1.0
+    note: "Names cwd at src resolving relative path; pwd, Set-Location to base, rerun unchanged."
+  - id: 1f5b6fd9747f
     fixture: rb-persistent-shell-cwd-normalization-06
     score: 1.0
-    note: "gradlew only at root, ./gradlew resolved in service named; cd to /c/work/jvm-app then ./gradlew test unchanged; before/after cwd, exit 0, rejects copying gradlew."
-  - id: 68e4f679234d
+    note: "Names ./gradlew resolved in service subdir; cd /c/work/jvm-app, rerun unchanged; evidence table."
+  - id: 77dc3bea28ca
     fixture: rb-persistent-shell-cwd-normalization-06
     score: 1.0
-    note: "Correct mechanism; single cd to root with original command unchanged; confirmation via pwd, ls gradlew, exit 0."
-  - id: 70d4b211bf6e
+    note: "Names relative ./gradlew against service cwd; cd to root with pwd before/after, rerun unchanged."
+  - id: 8fe1a80be53a
     fixture: rb-persistent-shell-cwd-normalization-06
     score: 1.0
-    note: "Correct mechanism; single absolute cd, unchanged rerun, full before/after record; rejects copy/symlink of gradlew."
-  - id: c6a3b9172590
-    fixture: rb-persistent-shell-cwd-normalization-06
-    score: 0.5
-    note: "Mechanism correct but primary remediation changes the command (./gradlew :service:test) and also offers ../gradlew from the subdir; unchanged rerun from root only parenthetical."
-  - id: dfa1acfff6b8
+    note: "Names cwd drift to service; cd to root, rerun unchanged; rejects copying gradlew."
+  - id: e9a73e6bba8a
     fixture: rb-persistent-shell-cwd-normalization-06
     score: 1.0
-    note: "Correct mechanism; pwd, single cd to root, ./gradlew test unchanged; evidence table with pre/post cwd and exit 0."
-  - id: f8e87b357678
+    note: "Names ./gradlew resolved in service subdir; cd root && ./gradlew (:service:test or test) or ../gradlew; all work."
+  - id: f5df5b66a4ec
     fixture: rb-persistent-shell-cwd-normalization-06
     score: 1.0
-    note: "Correct mechanism; pwd before/after single cd to root, unchanged rerun, evidence record."
-  - id: 148bb00ee9c8
+    note: "Names relative wrapper path against service cwd; cd to root, rerun unchanged; rejects copy/symlink."
+  - id: fc4577563423
+    fixture: rb-persistent-shell-cwd-normalization-06
+    score: 1.0
+    note: "Names cwd drift to service; cd /c/work/jvm-app && ./gradlew test; rejects copying gradlew."
+  - id: 1e6ce5915777
     fixture: rb-persistent-shell-cwd-normalization-c1
     false_positives: 0
-    note: "Correctly identifies TS2322 source error, no cwd change; fix limited to src/index.ts line 3."
-  - id: 1f7912f6d1aa
+    note: "Correctly identifies TS2322 source error, no cwd change; fix code at src/index.ts:3 only."
+  - id: 4caf7a155b39
     fixture: rb-persistent-shell-cwd-normalization-c1
     false_positives: 0
-    note: "Source type error identified; explicitly no Set-Location, reinstall, or tsconfig change."
-  - id: 6a44a201c36c
+    note: "Genuine type error; fix source line, no cd/reinstall/tsconfig edits."
+  - id: 5ce79d5b5d76
     fixture: rb-persistent-shell-cwd-normalization-c1
     false_positives: 0
-    note: "Correct diagnosis; code fix only, rejects suppression and cd/reinstall."
-  - id: 75943a28275a
+    note: "Type error in source; code fix only, explicitly rejects environment changes."
+  - id: 886cdada38d5
     fixture: rb-persistent-shell-cwd-normalization-c1
     false_positives: 0
-    note: "Correct diagnosis; code fix at src/index.ts:3; optional npm test is confirmation, not a remediation."
-  - id: 7cddc2aacb05
+    note: "Rules out cwd drift; fix TS2322 at line 3; no workspace changes demanded."
+  - id: 8c4487e0b6da
     fixture: rb-persistent-shell-cwd-normalization-c1
     false_positives: 0
-    note: "Correct diagnosis; fix type mismatch in source, no directory/reinstall/config changes."
-  - id: 93abbad50b11
+    note: "Not a cwd problem; fix source; optional tsc --noEmit scope check is not a remediation demand."
+  - id: 9802d9ac2dcc
     fixture: rb-persistent-shell-cwd-normalization-c1
     false_positives: 0
-    note: "Correct diagnosis; read-only tsc --noEmit scope check before editing is not a remediation demand."
-  - id: 6a03b7c289b1
+    note: "Rules out cwd; code fix at src/index.ts:3; optional npm test suggestion is not an unwarranted remediation."
+  - id: 6298702ba780
     fixture: rb-persistent-shell-cwd-normalization-c2
     false_positives: 0
-    note: "Stale filename after intentional rename identified; run scripts/check.py, no cwd change, no recreation of removed.py."
-  - id: 808a05d237dd
+    note: "Stale command; run scripts/check.py; rejects recreating removed.py or navigating."
+  - id: 74b190920789
     fixture: rb-persistent-shell-cwd-normalization-c2
     false_positives: 0
-    note: "Correct diagnosis; run renamed script only; history cleanup flagged as optional hygiene, not demanded."
-  - id: 99a41fdab4cb
+    note: "Stale history entry; run renamed script; no cd, no shim."
+  - id: 9350aa7f1f8b
     fixture: rb-persistent-shell-cwd-normalization-c2
     false_positives: 0
-    note: "Correct diagnosis; explicitly declines cwd normalization and shims; runs check.py."
-  - id: ace6c71bfb22
+    note: "Stale filename; run check.py; optional history cleanup noted as outside fix."
+  - id: a1047b46ff9f
     fixture: rb-persistent-shell-cwd-normalization-c2
     false_positives: 0
-    note: "Correct diagnosis; run check.py, no recreate/shim/revert; history note optional."
-  - id: c8bf2031cb02
+    note: "Explains why cwd normalization does not apply; run check.py; history purge marked optional."
+  - id: bbdad389cd99
     fixture: rb-persistent-shell-cwd-normalization-c2
     false_positives: 0
-    note: "Correct diagnosis; run documented check.py; preventive history note is optional hygiene."
-  - id: e78c82d1c265
+    note: "Stale command; run check.py; rejects recreating removed.py."
+  - id: d73056be2028
     fixture: rb-persistent-shell-cwd-normalization-c2
     false_positives: 0
-    note: "Correct diagnosis; explains why normalization does not apply; runs check.py; history purge optional."
+    note: "Not a cwd problem; run README-documented check.py; no file/git changes."

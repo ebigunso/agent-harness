@@ -1,193 +1,193 @@
 records:
-  - id: 18a38ad010ef
+  - id: 1ce69e3b7f09
     fixture: rb-windows-python-console-encoding-01
     score: 1.0
-    note: "Names cp932 stdout limit at print(summary); command-scoped -X utf8 (UTF-8 mode variant of stdout override); verifies em dash and exit 0."
-  - id: 36e7f1e9fe11
+    note: "cp932 at print(summary), U+2014; command-scoped PYTHONIOENCODING via cmd /c; confirms exit 0 and em dash preserved"
+  - id: 82db6f06b6dd
     fixture: rb-windows-python-console-encoding-01
     score: 1.0
-    note: "cp932 at print(summary); PYTHONIOENCODING=utf-8 with restore; verifies em dash preserved and exit 0."
-  - id: 53b79a265250
+    note: "cp932 at print(summary); python -X utf8 (works, enables UTF-8 stdout); confirms exit 0 and em dash"
+  - id: a234dcd0e0e9
     fixture: rb-windows-python-console-encoding-01
     score: 1.0
-    note: "cp932 at print(summary); try/finally scoped PYTHONIOENCODING with restore; verifies em dash and exit 0."
-  - id: 7bc6d8d2ee95
+    note: "cp932 at print(summary); PYTHONIOENCODING with restore; confirms exit 0 and em dash"
+  - id: a3e831e4a325
     fixture: rb-windows-python-console-encoding-01
     score: 1.0
-    note: "cp932 at print(summary); PYTHONIOENCODING=utf-8, restore noted; verifies em dash, exit 0, empty stderr."
-  - id: 968596f5fdfb
+    note: "cp932 pipe encoding at print(summary); PYTHONIOENCODING, restore mentioned; confirms exit 0 and output"
+  - id: cdfa69d77180
     fixture: rb-windows-python-console-encoding-01
     score: 1.0
-    note: "cp932 at print(summary); command-scoped -X utf8; verifies em dash and exit 0."
-  - id: abeb611020b3
+    note: "cp932 at print; PYTHONIOENCODING, restore mentioned; confirms encoding, exit 0, em dash"
+  - id: d0898cecbbeb
     fixture: rb-windows-python-console-encoding-01
     score: 1.0
-    note: "cp932 at print(summary); cmd /c child-scoped PYTHONIOENCODING; verifies em dash and exit 0."
-  - id: 0669dd339cac
-    fixture: rb-windows-python-console-encoding-02
-    score: 1.0
-    note: "cp932 at print of json.dumps; command-scoped -X utf8; verifies rocket parses back and exit 0."
-  - id: 7a6dddedb998
+    note: "cp932 at print(summary); python -X utf8; confirms exit 0 and em dash"
+  - id: 2786404e9540
     fixture: rb-windows-python-console-encoding-02
     score: 0.5
-    note: "Mechanism right, but primary fix drops ensure_ascii=False to escape the emoji (changes output text); stdout UTF-8 only as fallback."
-  - id: 8a10a24118f8
+    note: "names cp932 at print; primary fix drops ensure_ascii=False, escaping the rocket rather than preserving it; UTF-8 stdout only as afterthought"
+  - id: 36aedee00222
     fixture: rb-windows-python-console-encoding-02
     score: 1.0
-    note: "cp932 at print; scoped PYTHONIOENCODING with restore; verifies rocket preserved and exit 0."
-  - id: a7ca0a25f9bb
+    note: "cp932 at print boundary, U+1F680; command-scoped PYTHONIOENCODING; confirms exit 0 and rocket preserved"
+  - id: 38e562c51617
     fixture: rb-windows-python-console-encoding-02
     score: 1.0
-    note: "cp932 at print; scoped PYTHONIOENCODING with restore; verifies rocket preserved and exit 0."
-  - id: b912a4beae4e
+    note: "cp932 stdout encoder; PYTHONIOENCODING with restore; confirms exit 0 and rocket"
+  - id: a6b039a4d892
     fixture: rb-windows-python-console-encoding-02
     score: 1.0
-    note: "cp932 at print; PYTHONIOENCODING=utf-8 (no restore mentioned); verifies rocket preserved and exit 0."
-  - id: ff333219bf82
+    note: "cp932 pipe at stdout; PYTHONIOENCODING; confirms exit 0 and rocket"
+  - id: ae82e67311cb
     fixture: rb-windows-python-console-encoding-02
     score: 1.0
-    note: "cp932 at print; cmd /c child-scoped PYTHONIOENCODING; verifies rocket preserved and exit 0."
-  - id: 25fda062446b
+    note: "cp932 at print; PYTHONIOENCODING with restore; confirms exit 0 and rocket"
+  - id: d1b62ad5f714
+    fixture: rb-windows-python-console-encoding-02
+    score: 1.0
+    note: "cp932 at print; python -X utf8; confirms exit 0 and rocket"
+  - id: 205da7de71ee
     fixture: rb-windows-python-console-encoding-03
     score: 1.0
-    note: "cp1252 at print(markdown); cmd /c child-scoped PYTHONIOENCODING; verifies snowman and exit 0."
-  - id: 37f10152cff3
+    note: "cp1252 at print(markdown), U+2603; command-scoped PYTHONIOENCODING; confirms exit 0 and snowman"
+  - id: 56fdd4dfeaf1
     fixture: rb-windows-python-console-encoding-03
     score: 1.0
-    note: "cp1252 at print(markdown); command-scoped -X utf8; verifies snowman and exit 0."
-  - id: 6673d8c81dbd
+    note: "cp1252 at print(markdown); PYTHONIOENCODING (no restore mentioned); confirms exit 0 and snowman"
+  - id: 79dd7205c114
     fixture: rb-windows-python-console-encoding-03
     score: 1.0
-    note: "cp1252 at print(markdown); PYTHONIOENCODING with restore noted; verifies snowman and exit 0."
-  - id: 6de03c5c997a
+    note: "cp1252 at print(markdown); python -X utf8; confirms exit 0 and snowman"
+  - id: d03ac3168e19
     fixture: rb-windows-python-console-encoding-03
     score: 1.0
-    note: "cp1252 at print(markdown); try/finally scoped PYTHONIOENCODING; verifies snowman and exit 0."
-  - id: cb212c0438d5
+    note: "cp1252 at print(markdown); PYTHONIOENCODING, restore mentioned; confirms exit 0 and snowman"
+  - id: d1956b064cdf
     fixture: rb-windows-python-console-encoding-03
     score: 1.0
-    note: "cp1252 at print(markdown); PYTHONIOENCODING session-scoped, no restore mentioned; verifies snowman and exit 0."
-  - id: ed07eb50f51d
+    note: "cp1252 at print(markdown); PYTHONIOENCODING with restore; confirms exit 0 and snowman"
+  - id: ec85c42ef540
     fixture: rb-windows-python-console-encoding-03
     score: 1.0
-    note: "cp1252 at print(markdown); command-scoped -X utf8; verifies snowman and exit 0."
-  - id: 23b0f05d2817
+    note: "cp1252 piped stdout; python -X utf8; confirms exit 0 and snowman"
+  - id: 2769c062db05
     fixture: rb-windows-python-console-encoding-04
     score: 1.0
-    note: "cp932 at print(path); PYTHONIOENCODING with restore noted; verifies test-tube path and exit 0."
-  - id: 42e7714be880
+    note: "cp932 at print(path), U+1F9EA; python -X utf8; confirms encoding and path display, exit 0"
+  - id: 36bf527ac85d
     fixture: rb-windows-python-console-encoding-04
     score: 1.0
-    note: "cp932 at print(path); PYTHONIOENCODING with restore noted; verifies emoji retained and clean exit."
-  - id: 774d3147e350
+    note: "cp932 at print(path); command-scoped PYTHONIOENCODING; confirms exit 0 and test-tube path"
+  - id: 55626560ddee
     fixture: rb-windows-python-console-encoding-04
     score: 1.0
-    note: "cp932 at print(path); cmd /c child-scoped PYTHONIOENCODING; verifies path emoji and exit 0."
-  - id: 84cd1eab50f7
+    note: "cp932 at print(path); PYTHONIOENCODING, restore mentioned; confirms glyph retained and exit"
+  - id: 56820f4690b1
     fixture: rb-windows-python-console-encoding-04
     score: 1.0
-    note: "cp932 at print(path); cmd /c child-scoped PYTHONIOENCODING; verifies path emoji and exit 0."
-  - id: b384e1574e7b
+    note: "cp932 at print(path); command-scoped PYTHONIOENCODING; confirms exit 0 and path"
+  - id: 6e049b7cbb82
     fixture: rb-windows-python-console-encoding-04
     score: 1.0
-    note: "cp932 at print(path); PYTHONIOENCODING with restore noted; verifies path emoji and exit 0."
-  - id: ef2f22952de3
+    note: "cp932 at print(path); PYTHONIOENCODING, restore mentioned; confirms exit 0 and path"
+  - id: 6e93b987e8a1
     fixture: rb-windows-python-console-encoding-04
     score: 1.0
-    note: "cp932 at print(path); command-scoped -X utf8; verifies path emoji and exit 0."
-  - id: 176084bdb626
+    note: "cp932 at print(path); PYTHONIOENCODING, restore mentioned; confirms exit 0 and glyph"
+  - id: 05b32450b634
     fixture: rb-windows-python-console-encoding-05
     score: 1.0
-    note: "cp1252 at csv.writer(sys.stdout); try/finally scoped PYTHONIOENCODING; verifies U+65E5 bytes and exit 0."
-  - id: 401ef947017b
+    note: "cp1252 at csv writer on stdout, U+65E5; sys.stdout.reconfigure(utf-8, newline='') in owned code; confirms exact UTF-8 bytes and exit 0"
+  - id: 4927e98fb724
     fixture: rb-windows-python-console-encoding-05
     score: 1.0
-    note: "cp1252 at csv writer; sys.stdout.reconfigure(encoding=utf-8, newline=empty); verifies bytes and exit 0."
-  - id: 524eb2243fb2
+    note: "cp1252 stdout at CSV write; command-scoped PYTHONIOENCODING; confirms exit 0 and date,U+65E5 CRLF"
+  - id: b4aef336f9ef
     fixture: rb-windows-python-console-encoding-05
     score: 1.0
-    note: "cp1252 at csv writer; PYTHONIOENCODING session-scoped, no restore mentioned; verifies U+65E5 and exit 0."
-  - id: 6b0deb75fdd0
+    note: "cp1252 piped stdout; sys.stdout.reconfigure before writer; confirms exit 0 and U+65E5 preserved"
+  - id: b8ea7c1901f9
     fixture: rb-windows-python-console-encoding-05
     score: 1.0
-    note: "cp1252 at csv writer; sys.stdout.reconfigure before writer; verifies U+65E5 field and exit 0."
-  - id: ac7c2ab1207f
+    note: "cp1252 at CSV row write; PYTHONIOENCODING; confirms exit 0 and date,U+65E5 CRLF"
+  - id: fbc7e9f791ce
     fixture: rb-windows-python-console-encoding-05
     score: 1.0
-    note: "cp1252 at csv writer; PYTHONIOENCODING with restore; verifies U+65E5 and exit 0."
-  - id: e7939d7265a8
+    note: "cp1252 stdout; PYTHONIOENCODING with restore; confirms exit 0 and date,U+65E5 CRLF"
+  - id: fc7a73b1938b
     fixture: rb-windows-python-console-encoding-05
     score: 1.0
-    note: "cp1252 at csv writer; cmd /c child-scoped PYTHONIOENCODING; verifies U+65E5 and exit 0."
-  - id: 28c945897b99
+    note: "cp1252 stdout at position 5; PYTHONIOENCODING with restore; confirms exact bytes and exit 0"
+  - id: 17ac940894b4
     fixture: rb-windows-python-console-encoding-06
     score: 1.0
-    note: "cp932 at sys.stdout.write(diff); command-scoped -X utf8; verifies em dash and exit 0."
-  - id: 6d82a6cb0604
+    note: "cp932 at sys.stdout.write, U+2014; command-scoped PYTHONIOENCODING; confirms exit 0 and em dash"
+  - id: 5d53c9893793
     fixture: rb-windows-python-console-encoding-06
     score: 1.0
-    note: "cp932 at stdout.write; cmd /c child-scoped PYTHONIOENCODING; verifies em dash and exit 0."
-  - id: 6ee108976ae2
+    note: "cp932 captured stream at diff write; cmd /c scoped PYTHONIOENCODING; confirms exit 0 and em dash"
+  - id: 9e9ca181a6fd
     fixture: rb-windows-python-console-encoding-06
     score: 1.0
-    note: "cp932 at stdout.write; PYTHONIOENCODING=utf-8 (no restore mentioned); verifies em dash and exit 0."
-  - id: 75fbbdc7c86e
+    note: "cp932 stdout at diff output; python -X utf8; confirms exit 0 and em dash"
+  - id: e5c602b8749a
     fixture: rb-windows-python-console-encoding-06
     score: 1.0
-    note: "cp932 at stdout.write; cmd /c child-scoped PYTHONIOENCODING; verifies em dash and exit 0."
-  - id: a64fcd6f29a2
+    note: "cp932 at diff write; PYTHONIOENCODING; confirms exit 0 and em dash"
+  - id: ec48c2515d98
     fixture: rb-windows-python-console-encoding-06
     score: 1.0
-    note: "cp932 at sys.stdout.write(diff); PYTHONIOENCODING=utf-8 (no restore mentioned); verifies em dash and exit 0."
-  - id: fc04df6f887d
+    note: "cp932 piped stdout; PYTHONIOENCODING with restore (no command shown but direction is correct); confirms exit 0 and em dash"
+  - id: fc6cd06e6dc2
     fixture: rb-windows-python-console-encoding-06
     score: 1.0
-    note: "cp932 at stdout.write; PYTHONIOENCODING with restore; verifies em dash and exit 0."
-  - id: 0252562050c7
+    note: "cp932 at sys.stdout.write(diff); PYTHONIOENCODING; confirms exit 0 and em dash"
+  - id: 1de3260e2227
     fixture: rb-windows-python-console-encoding-c1
     false_positives: 0
-    note: "Correctly diagnoses UTF-16 input decoding; fixes read_text encoding; rejects PYTHONIOENCODING."
-  - id: 0fdead91f213
+    note: "input decode mismatch, read_text(encoding='utf-16'); no stdout remediation demanded"
+  - id: 306077823ad9
     fixture: rb-windows-python-console-encoding-c1
     false_positives: 0
-    note: "Input decoding mismatch, utf-16 fix; no stdout remediation demanded."
-  - id: 227841fd381a
+    note: "input decode mismatch, utf-16 read; explicitly rejects PYTHONIOENCODING"
+  - id: 69a1d34d7054
     fixture: rb-windows-python-console-encoding-c1
     false_positives: 0
-    note: "Input decoding mismatch, utf-16 fix; explicitly no PYTHONIOENCODING override."
-  - id: 351f3f29d323
+    note: "input decode mismatch, utf-16 read; explicitly rejects PYTHONIOENCODING"
+  - id: b681b46ab40c
     fixture: rb-windows-python-console-encoding-c1
     false_positives: 0
-    note: "Input decoding mismatch, utf-16 fix; stdout encoding stated unrelated."
-  - id: d7381983c422
+    note: "input decode mismatch, utf-16 read; no unwarranted remediation"
+  - id: b97c3d736415
     fixture: rb-windows-python-console-encoding-c1
     false_positives: 0
-    note: "Input decoding mismatch, utf-16 fix; no unwarranted remediations."
-  - id: d844d3a8795e
+    note: "input decode mismatch, utf-16 read; stdout explicitly ruled out"
+  - id: d631742ed90d
     fixture: rb-windows-python-console-encoding-c1
     false_positives: 0
-    note: "Input decoding mismatch, utf-16 fix; leaves input file and env unchanged."
-  - id: 140579081c2b
+    note: "input decode mismatch, utf-16 read; explicitly rejects PYTHONIOENCODING"
+  - id: 1b2c712a6d28
     fixture: rb-windows-python-console-encoding-c2
     false_positives: 0
-    note: "ACL write denial diagnosed; narrow ACL fix or writable path; encoding stated unrelated."
-  - id: 1fd16ee9dc72
+    note: "ACL write denial; writable path or scoped ACL fix; rejects encoding changes and admin"
+  - id: 59628556605f
     fixture: rb-windows-python-console-encoding-c2
     false_positives: 0
-    note: "ACL write denial; narrow ACL fix or alternate path; no encoding override."
-  - id: 6f162fcc2689
+    note: "ACL write denial; scoped ACL fix or approved writable path; no encoding change"
+  - id: 8c21be91797b
     fixture: rb-windows-python-console-encoding-c2
     false_positives: 0
-    note: "ACL write denial; writable path or owner grant; encoding changes rejected."
-  - id: b13b172e8e6a
+    note: "ACL write denial; narrow ACL fix or writable path; no encoding override"
+  - id: b2795cd7cd03
     fixture: rb-windows-python-console-encoding-c2
     false_positives: 0
-    note: "ACL write denial; writable path or scoped grant; PYTHONIOENCODING rejected."
-  - id: c42ceee3c717
+    note: "ACL write denial; writable path or scoped grant; rejects PYTHONIOENCODING"
+  - id: b290dbdbc8f6
     fixture: rb-windows-python-console-encoding-c2
     false_positives: 0
-    note: "ACL write denial; narrow ACL entry fix or authorized path; no encoding remediation."
-  - id: ec47e731f51b
+    note: "ACL write denial; scoped ACL entry or writable location; no encoding change"
+  - id: e49b0d2ce2fa
     fixture: rb-windows-python-console-encoding-c2
     false_positives: 0
-    note: "ACL write denial; new writable path or scoped ACL; no encoding remediation."
+    note: "ACL write denial; writable path or owner grant; rejects encoding changes"

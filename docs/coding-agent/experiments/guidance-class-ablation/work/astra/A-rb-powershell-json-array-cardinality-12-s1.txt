@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d7a-09b7-7e01-a0f7-9edd9a0d32c7
+session id: 01a0815b-5d45-75c1-a130-e6d938bb32be
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,53 +56,55 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. [null] is a legal one-element array, distinct from [] and scalar null.
 
 codex
-I’ll check PowerShell’s JSON array handling and identify a fix that preserves the distinction between arrays and scalar values.
-web search: 
-web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array
+I’ll check how PowerShell preserves the top-level JSON array and identify a fix that still rejects scalar inputs.
+exec
+"C:\\Program Files\\PowerShell\\7\\pwsh.exe" -Command '$PSVersionTable.PSVersion.ToString()
+foreach ($raw in @('"'[]', '[null]', '[1]', '[1,2]', 'null', '1', '\"text\"', '{}')) {
+  "'$parsed = $raw | ConvertFrom-Json -NoEnumerate
+  $isArray = $parsed -is [array]
+  $count = if ($isArray) { $parsed.Count } else { '"'-' }
+  "'$nullElement = if ($isArray -and $parsed.Count -eq 1) { $null -eq $parsed[0] } else { '"'-' }
+  Write-Output \"raw="'$raw array=$isArray count=$count singletonNull=$nullElement"
+}' in C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+ succeeded in 7644ms:
+7.4.19
+raw=[] array=True count=0 singletonNull=-
+raw=[null] array=True count=1 singletonNull=True
+raw=[1] array=True count=1 singletonNull=False
+raw=[1,2] array=True count=2 singletonNull=-
+raw=null array=False count=- singletonNull=-
+raw=1 array=False count=- singletonNull=-
+raw="text" array=False count=- singletonNull=-
+raw={} array=False count=- singletonNull=-
+
 codex
-**Cause:** `ConvertFrom-Json` enumerates arrays by default. For `[null]`, assignment receives the sole null element, so `$parsed` becomes `$null` and fails the array assertion. This is a script logic issue, not a workspace, permissions, or execution-policy problem. [PowerShell documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate)
+The cause is PowerShell’s default `ConvertFrom-Json` array enumeration. `[null]` becomes a single `$null` result on assignment, so the array assertion fails. This is a script behavior issue, not a workspace, permissions, or JSON validity problem.
 
-**Smallest safe remediation:** Change only the parsing line:
+The smallest fix is:
 
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
 
-Keep the array assertion. Avoid wrapping the result in `@(...)` or casting it to `[array]`: that would also turn scalar inputs into arrays, defeating the contract.
+Keep the existing assertion. Avoid wrapping the result in `@(...)`, which would also turn scalar inputs into arrays.
 
-**Confirmation:** Rerun the command. Expect exit code `0`, `parsed type=System.Object[]`, and no stderr. Verify these cases too:
+Confirm the command exits successfully and `[null]` produces an array with `Count = 1` and a null first element. Also check that `[]` and multiple-element arrays pass, while scalar `null`, numbers, strings, and objects fail the assertion.
 
-| Raw JSON | Expected result |
-|---|---|
-| `[]` | Array, count 0; passes |
-| `[null]` | Array, count 1, null first element; passes |
-| `[1]` | Array, count 1; passes |
-| `[1,2]` | Array, count 2; passes |
-| `null`, `1`, `"x"`, `true`, `{}` | Non-arrays; assertion rejects |
-
-Check counts directly on `$parsed.Count` after verifying its array type.
+I verified those cases on the available PowerShell 7.4.19 runtime; the supplied scenario uses 7.4.6.
 tokens used
-7,801
-**Cause:** `ConvertFrom-Json` enumerates arrays by default. For `[null]`, assignment receives the sole null element, so `$parsed` becomes `$null` and fails the array assertion. This is a script logic issue, not a workspace, permissions, or execution-policy problem. [PowerShell documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate)
+4,197
+The cause is PowerShell’s default `ConvertFrom-Json` array enumeration. `[null]` becomes a single `$null` result on assignment, so the array assertion fails. This is a script behavior issue, not a workspace, permissions, or JSON validity problem.
 
-**Smallest safe remediation:** Change only the parsing line:
+The smallest fix is:
 
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
 
-Keep the array assertion. Avoid wrapping the result in `@(...)` or casting it to `[array]`: that would also turn scalar inputs into arrays, defeating the contract.
+Keep the existing assertion. Avoid wrapping the result in `@(...)`, which would also turn scalar inputs into arrays.
 
-**Confirmation:** Rerun the command. Expect exit code `0`, `parsed type=System.Object[]`, and no stderr. Verify these cases too:
+Confirm the command exits successfully and `[null]` produces an array with `Count = 1` and a null first element. Also check that `[]` and multiple-element arrays pass, while scalar `null`, numbers, strings, and objects fail the assertion.
 
-| Raw JSON | Expected result |
-|---|---|
-| `[]` | Array, count 0; passes |
-| `[null]` | Array, count 1, null first element; passes |
-| `[1]` | Array, count 1; passes |
-| `[1,2]` | Array, count 2; passes |
-| `null`, `1`, `"x"`, `true`, `{}` | Non-arrays; assertion rejects |
-
-Check counts directly on `$parsed.Count` after verifying its array type.
+I verified those cases on the available PowerShell 7.4.19 runtime; the supplied scenario uses 7.4.6.
 
 __ABLATION_DONE__ exit=0

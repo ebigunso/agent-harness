@@ -7,7 +7,7 @@ approval: on-request
 sandbox: read-only
 reasoning effort: high
 reasoning summaries: none
-session id: 01a07d7a-10f5-7d70-bd8b-0abc0f9d4c2c
+session id: 01a0815b-dc05-7441-a9f1-e1fad8fab4bd
 --------
 user
 A command failed in the workspace described below. State the cause, the smallest safe remediation, and how you would confirm it worked. If the failure is not a workspace problem, say so.
@@ -56,37 +56,29 @@ At C:\work\json-shape\probes\cardinality.ps1:10 char:31
 Diagnostic observations: Raw JSON is valid; checker writes no files. Contract accepts empty, singleton and multiple-element arrays, and rejects scalar wire values. [null] is a legal one-element array, distinct from [] and scalar null.
 
 codex
-I’ll check how `ConvertFrom-Json` preserves array shape, including the distinction between `[null]`, `[]`, and scalar `null`.
-web search: 
-web search: site.learn.microsoft.com powershell ConvertFrom-Json NoEnumerate single element array
-codex
-The cause is PowerShell’s output enumeration: `ConvertFrom-Json` unwraps `[null]`, so `$parsed` becomes `$null` and the array assertion throws. This is a script logic issue, not a workspace, permissions, or JSON validity problem. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate).
+**Cause:** `ConvertFrom-Json` enumerates top-level arrays by default. For `[null]`, assignment receives the sole null element, so `$parsed` becomes `$null` and fails the array assertion. This is a script logic issue, not a workspace configuration or execution-policy problem.
 
-The smallest safe fix is:
+**Smallest safe remediation:** Preserve the JSON array with `-NoEnumerate`:
+
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the array assertion. Wrapping the result in `@(...)` would also wrap scalar inputs, defeating the contract.
 
-To confirm, rerun the command: expect exit code `0`, `parsed type=System.Object[]`, and empty stderr. Also verify:
+Keep the existing array assertion. Don’t wrap the result in `@(...)`: that would also turn scalar inputs into arrays, defeating the contract.
 
-- `[null]`: array with count `1` and a null first element.
-- `[]`, `[1]`, `[1,2]`: arrays with counts `0`, `1`, `2`.
-- `null`, `1`, `"text"`, `true`: still rejected by the assertion.
+**Confirmation:** Rerun the command; expect `parsed type=System.Object[]` and exit code `0`. Verify that `[]`, `[null]`, `[1]`, and `[1,2]` remain arrays with counts `0`, `1`, `1`, and `2`; `[null]` must contain one null element. Scalar inputs such as `null`, `1`, and `"x"` must still fail the assertion.
 tokens used
-7,893
-The cause is PowerShell’s output enumeration: `ConvertFrom-Json` unwraps `[null]`, so `$parsed` becomes `$null` and the array assertion throws. This is a script logic issue, not a workspace, permissions, or JSON validity problem. [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-json?view=powershell-7.4#-noenumerate).
+14,820
+**Cause:** `ConvertFrom-Json` enumerates top-level arrays by default. For `[null]`, assignment receives the sole null element, so `$parsed` becomes `$null` and fails the array assertion. This is a script logic issue, not a workspace configuration or execution-policy problem.
 
-The smallest safe fix is:
+**Smallest safe remediation:** Preserve the JSON array with `-NoEnumerate`:
+
 ```powershell
 $parsed = $raw | ConvertFrom-Json -NoEnumerate
 ```
-Keep the array assertion. Wrapping the result in `@(...)` would also wrap scalar inputs, defeating the contract.
 
-To confirm, rerun the command: expect exit code `0`, `parsed type=System.Object[]`, and empty stderr. Also verify:
+Keep the existing array assertion. Don’t wrap the result in `@(...)`: that would also turn scalar inputs into arrays, defeating the contract.
 
-- `[null]`: array with count `1` and a null first element.
-- `[]`, `[1]`, `[1,2]`: arrays with counts `0`, `1`, `2`.
-- `null`, `1`, `"text"`, `true`: still rejected by the assertion.
+**Confirmation:** Rerun the command; expect `parsed type=System.Object[]` and exit code `0`. Verify that `[]`, `[null]`, `[1]`, and `[1,2]` remain arrays with counts `0`, `1`, `1`, and `2`; `[null]` must contain one null element. Scalar inputs such as `null`, `1`, and `"x"` must still fail the assertion.
 
 __ABLATION_DONE__ exit=0

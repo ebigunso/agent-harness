@@ -1,0 +1,11 @@
+**Findings**
+
+1. **`catalog/read.py`, `except SourceUnavailable:` — name is not imported/defined in this module (blocking).**
+   The diff shows the whole file (2 lines → 11 lines) and there is no `import`/`from ... import SourceUnavailable`. Python only evaluates the `except` expression when an exception actually escapes the `try`, so this passes every healthy-path test and then, on the first real outage, raises `NameError: name 'SourceUnavailable' is not defined` *instead of* falling back — the exact scenario the change exists to handle. Because the NameError is raised while handling the original exception, callers get a chained NameError rather than `SourceUnavailable`, so even the pre-change behaviour is lost. Require: import the exception from wherever the source package defines it, and add a test that exercises the outage path (source raises, cache hit within bound) so this can't ship silently.
+
+2. **`catalog/read.py`, both bare `raise` branches — declined fallback is indistinguishable from "no fallback attempted" (flag, non-blocking).**
+   When the cache is empty, or the age is negative/over 60s, the original `SourceUnavailable` is re-raised with no indication that a fallback was evaluated or why it was rejected. From the caller's or operator's side, "source down, cache empty", "source down, cache 61s old", and "source down, clock inconsistency" all look identical, which makes the bounded-stale behaviour hard to verify in production and makes tuning the 60s window blind. The success-path envelope covers degradation, but the rejection path is silent. Require: a log line (or `exc.add_note(...)` on 3.11+) stating the rejection reason and observed age before re-raising, so the failure path is diagnosable without changing the exception type callers depend on.
+
+Everything else in the diff — the `0 <= age <= 60` bound with the monotonic clock, letting non-`SourceUnavailable` errors from cache/source propagate, and surfacing `stale`/`age_seconds` in the envelope — matches the stated contract and reviewer notes, and I would not raise anything further on it.
+
+__ABLATION_DONE__ exit=0

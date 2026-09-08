@@ -1,193 +1,193 @@
 records:
-  - id: 08535112315c
+  - id: 51b92e46cbfb
     fixture: rb-windows-docker-grpc-localhost-ipv6-01
     score: 1.0
-    note: "Hit: IPv6 [::1] published-port HTTP/2 stall named; fix 127.0.0.1; confirms pong + service log."
-  - id: 090dcfac1f84
+    note: "Names ::1 Docker published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1 target and log-confirmed rerun."
+  - id: 9a8c3a19955a
     fixture: rb-windows-docker-grpc-localhost-ipv6-01
     score: 1.0
-    note: "Hit: IPv6 localhost path to Docker-published port; IPv4 target; confirms exit 0/pong/invoked log."
-  - id: 681383d58c91
+    note: "Names ::1 Docker published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1 target and log-confirmed rerun."
+  - id: 9c84c21cc1e3
     fixture: rb-windows-docker-grpc-localhost-ipv6-01
     score: 1.0
-    note: "Hit: IPv6 path for published gRPC port, h2c stalls; explicit IPv4; confirms with service log."
-  - id: 6d5b3dc68f67
+    note: "Names ::1 Docker published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1 target and log-confirmed rerun."
+  - id: b30bb9d9959e
     fixture: rb-windows-docker-grpc-localhost-ipv6-01
     score: 1.0
-    note: "Hit: Docker published-port IPv6 loopback path; set target 127.0.0.1; confirms pong + completed invocation."
-  - id: dab76c71fbb3
+    note: "Names ::1 Docker published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1 target and log-confirmed rerun."
+  - id: c0bbb3534513
     fixture: rb-windows-docker-grpc-localhost-ipv6-01
     score: 1.0
-    note: "Hit: IPv6 loopback to Docker published port; change target to 127.0.0.1; confirm log invocation."
-  - id: eb59e287bc2a
+    note: "Names ::1 Docker published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1 target and log-confirmed rerun."
+  - id: d05c17ca9956
     fixture: rb-windows-docker-grpc-localhost-ipv6-01
     score: 1.0
-    note: "Hit: [::1] HTTP/2 transport stall on published-port path; IPv4 target; confirms via probe + log."
-  - id: 130b43dff383
+    note: "Names ::1 Docker published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1 target and log-confirmed rerun."
+  - id: 0c298fa4b42e
     fixture: rb-windows-docker-grpc-localhost-ipv6-02
     score: 1.0
-    note: "Hit: IPv6 loopback/published-port HTTP/2 stall; target 127.0.0.1; confirms pong + service log."
-  - id: 373355688827
+    note: "Names IPv6 [::1] published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with exit 0/pong/log confirmation."
+  - id: 297e92d27f03
     fixture: rb-windows-docker-grpc-localhost-ipv6-02
     score: 1.0
-    note: "Hit: IPv6 transport path to Docker published port; change to 127.0.0.1; confirms completed invocation."
-  - id: 4f2ef1613789
+    note: "Names IPv6 [::1] published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with exit 0/pong/log confirmation."
+  - id: 640800c8799e
     fixture: rb-windows-docker-grpc-localhost-ipv6-02
     score: 1.0
-    note: "Hit: [::1] path stalls before HTTP/2 headers, no invocation; IPv4 target; confirms exit 0/pong/log."
-  - id: 5ade2c4ebe20
+    note: "Names IPv6 [::1] published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with exit 0/pong/log confirmation."
+  - id: 6ed56e8ae58d
     fixture: rb-windows-docker-grpc-localhost-ipv6-02
     score: 1.0
-    note: "Hit: IPv6 Docker published-port path stalls HTTP/2; set 127.0.0.1; confirms pong + log."
-  - id: 7aa23f6b4517
+    note: "Names IPv6 [::1] published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with exit 0/pong/log confirmation."
+  - id: 70a37d453c91
     fixture: rb-windows-docker-grpc-localhost-ipv6-02
     score: 1.0
-    note: "Hit: IPv6 localhost path through Docker published port; change target to 127.0.0.1; confirms with log."
-  - id: ccd8f0c947af
+    note: "Names IPv6 [::1] published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with exit 0/pong/log confirmation."
+  - id: f6f970ff8dba
     fixture: rb-windows-docker-grpc-localhost-ipv6-02
     score: 1.0
-    note: "Hit: [::1] path no HTTP/2 headers; IPv4 target; confirms exit 0/pong/invoked log."
-  - id: 0e7baa11c247
+    note: "Names IPv6 [::1] published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with exit 0/pong/log confirmation."
+  - id: 2c9b4d806672
     fixture: rb-windows-docker-grpc-localhost-ipv6-03
     score: 1.0
-    note: "Hit: IPv6 localhost path to Docker published gRPC port; target 127.0.0.1; confirms pong + log; exit codes explained."
-  - id: 18d67513b161
+    note: "Names IPv6 loopback Docker published-port stall; prescribes 127.0.0.1 target; also explains go run exit-code wrapping."
+  - id: 437bbffdc037
     fixture: rb-windows-docker-grpc-localhost-ipv6-03
     score: 1.0
-    note: "Hit: [::1] HTTP/2 stall vs IPv4 success; explicit IPv4; confirms exit 0/pong/interceptor entry."
-  - id: 3cb8825b2378
+    note: "Names IPv6 loopback Docker published-port stall; prescribes 127.0.0.1 target; also explains go run exit-code wrapping."
+  - id: 81957ebc1b39
     fixture: rb-windows-docker-grpc-localhost-ipv6-03
     score: 1.0
-    note: "Hit: Docker Desktop loopback IPv6 published-port path; change to 127.0.0.1; confirms Echo invocation in log."
-  - id: 4d680488ea92
+    note: "Names IPv6 loopback Docker published-port stall; prescribes 127.0.0.1 target; also explains go run exit-code wrapping."
+  - id: 9baa9693564b
     fixture: rb-windows-docker-grpc-localhost-ipv6-03
     score: 1.0
-    note: "Hit: IPv6 loopback to Docker published port; set 127.0.0.1; confirms pong + service log."
-  - id: 598c6d08376d
+    note: "Names IPv6 loopback Docker published-port stall; prescribes 127.0.0.1 target; also explains go run exit-code wrapping."
+  - id: bad52b35fb20
     fixture: rb-windows-docker-grpc-localhost-ipv6-03
     score: 1.0
-    note: "Hit: [::1] transport stall isolated by IPv4 comparison; IPv4 target; confirms invoked/completed log."
-  - id: e17326b21a10
+    note: "Names IPv6 loopback Docker published-port stall; prescribes 127.0.0.1 target; also explains go run exit-code wrapping."
+  - id: e83260b07a92
     fixture: rb-windows-docker-grpc-localhost-ipv6-03
     score: 1.0
-    note: "Hit: Docker published-port IPv6 path HTTP/2 stall; change to 127.0.0.1; confirms pong + interceptor entry."
-  - id: 0adfb6ee0aec
+    note: "Names IPv6 loopback Docker published-port stall; prescribes 127.0.0.1 target; also explains go run exit-code wrapping."
+  - id: 01a6981e5db8
     fixture: rb-windows-docker-grpc-localhost-ipv6-04
     score: 1.0
-    note: "Hit: Docker-published port IPv6 path stalls before HTTP/2 headers; target 127.0.0.1; confirms Echo log."
-  - id: 28d95fb57588
+    note: "Names [::1] published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1:50051 with log confirmation."
+  - id: 507e447f5312
     fixture: rb-windows-docker-grpc-localhost-ipv6-04
     score: 1.0
-    note: "Hit: IPv6 published-port path stall, Docker loopback transport; change to 127.0.0.1; confirms log."
-  - id: 29b069646dca
+    note: "Names [::1] published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1:50051 with log confirmation."
+  - id: 77c19b459c66
     fixture: rb-windows-docker-grpc-localhost-ipv6-04
     score: 1.0
-    note: "Hit: [::1] published-port path HTTP/2 stall; set 127.0.0.1; confirms invoked=true completed=true."
-  - id: b3569907e6d7
+    note: "Names [::1] published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1:50051 with log confirmation."
+  - id: 93dff27169c4
     fixture: rb-windows-docker-grpc-localhost-ipv6-04
     score: 1.0
-    note: "Hit: IPv6 path h2c stall, no invocation; IPv4 target; confirms exit 0/pong/log."
-  - id: bc2dfa136782
+    note: "Names [::1] published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1:50051 with log confirmation."
+  - id: b4e169a31f82
     fixture: rb-windows-docker-grpc-localhost-ipv6-04
     score: 1.0
-    note: "Hit: IPv6 loopback to Docker published port; change to 127.0.0.1; confirms Echo completion in log."
-  - id: eff481e24ad1
+    note: "Names [::1] published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1:50051 with log confirmation."
+  - id: c3f369458947
     fixture: rb-windows-docker-grpc-localhost-ipv6-04
     score: 1.0
-    note: "Hit: IPv6 loopback transport path stall; explicit IPv4; confirms invoked/completed log."
-  - id: 3cad31d31cb3
+    note: "Names [::1] published-port HTTP/2 stall vs IPv4 success; prescribes 127.0.0.1:50051 with log confirmation."
+  - id: 08452b0e2942
     fixture: rb-windows-docker-grpc-localhost-ipv6-05
     score: 1.0
-    note: "Hit: [::1] path no HTTP/2 headers, no invocation; IPv4 target; confirms exit 0/pong/log."
-  - id: 69063dc428d4
+    note: "Names IPv6 Docker published-port path stall; prescribes 127.0.0.1:50051 and confirms via probe plus service log."
+  - id: 2dceed3c33f0
     fixture: rb-windows-docker-grpc-localhost-ipv6-05
     score: 1.0
-    note: "Hit: IPv6 published-port path stall; change to 127.0.0.1; confirms invoked/completed log."
-  - id: 77b98e8e3c47
+    note: "Names IPv6 Docker published-port path stall; prescribes 127.0.0.1:50051 and confirms via probe plus service log."
+  - id: 4fb50efd93aa
     fixture: rb-windows-docker-grpc-localhost-ipv6-05
     score: 1.0
-    note: "Hit: Docker published-port IPv6 path HTTP/2 stall; set 127.0.0.1; confirms Echo invocation in log."
-  - id: 7e17fe072211
+    note: "Names IPv6 Docker published-port path stall; prescribes 127.0.0.1:50051 and confirms via probe plus service log."
+  - id: 9ad7ae110b23
     fixture: rb-windows-docker-grpc-localhost-ipv6-05
     score: 1.0
-    note: "Hit: IPv6 loopback path for gRPC endpoint; explicit IPv4; confirms exit 0/pong/log."
-  - id: df4aaf52e8d0
+    note: "Names IPv6 Docker published-port path stall; prescribes 127.0.0.1:50051 and confirms via probe plus service log."
+  - id: 9bc2331906bc
     fixture: rb-windows-docker-grpc-localhost-ipv6-05
     score: 1.0
-    note: "Hit: IPv6 loopback through Docker published port stalls HTTP/2; change to 127.0.0.1; confirms log."
-  - id: f11e37ac53bc
+    note: "Names IPv6 Docker published-port path stall; prescribes 127.0.0.1:50051 and confirms via probe plus service log."
+  - id: d0d94ad9e9d1
     fixture: rb-windows-docker-grpc-localhost-ipv6-05
     score: 1.0
-    note: "Hit: Docker published-port IPv6 loopback HTTP/2 stall; target 127.0.0.1; confirms h2c Echo in log."
-  - id: 0938288bbc1b
+    note: "Names IPv6 Docker published-port path stall; prescribes 127.0.0.1:50051 and confirms via probe plus service log."
+  - id: 1b939b89df4b
     fixture: rb-windows-docker-grpc-localhost-ipv6-06
     score: 1.0
-    note: "Hit: ::1 path through Docker published port stalls HTTP/2; change to 127.0.0.1; confirms pong + log."
-  - id: 10ffbed92c7b
+    note: "Names [::1] Docker published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with unchanged deadline confirmation."
+  - id: 2b6a41239331
     fixture: rb-windows-docker-grpc-localhost-ipv6-06
     score: 1.0
-    note: "Hit: IPv6 loopback transport on Docker published-port path; set 127.0.0.1; confirms invoked/completed log."
-  - id: 6b4247a2535e
+    note: "Names [::1] Docker published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with unchanged deadline confirmation."
+  - id: 45b82f9d09bd
     fixture: rb-windows-docker-grpc-localhost-ipv6-06
     score: 1.0
-    note: "Hit: [::1] no HTTP/2 headers, never reaches interceptor; IPv4 target; confirms exit 0/pong/log."
-  - id: d983ca18f8bf
+    note: "Names [::1] Docker published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with unchanged deadline confirmation."
+  - id: 4e5789ab6d53
     fixture: rb-windows-docker-grpc-localhost-ipv6-06
     score: 1.0
-    note: "Hit: IPv6 loopback through Docker published port; change to 127.0.0.1; confirms Echo completed in log."
-  - id: e8ae37a4645f
+    note: "Names [::1] Docker published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with unchanged deadline confirmation."
+  - id: 9cdc74e11f65
     fixture: rb-windows-docker-grpc-localhost-ipv6-06
     score: 1.0
-    note: "Hit: IPv6/Docker published-port path HTTP/2 stall; set 127.0.0.1; confirms pong + service log."
-  - id: f1584808a848
+    note: "Names [::1] Docker published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with unchanged deadline confirmation."
+  - id: f5add403049a
     fixture: rb-windows-docker-grpc-localhost-ipv6-06
     score: 1.0
-    note: "Hit: address-dependent IPv6 transport stall vs IPv4 success; explicit IPv4; confirms invoked/completed log."
-  - id: 1ece3f352406
+    note: "Names [::1] Docker published-port HTTP/2 stall; prescribes 127.0.0.1:50051 with unchanged deadline confirmation."
+  - id: 0c65bd4dd3d2
     fixture: rb-windows-docker-grpc-localhost-ipv6-c1
     false_positives: 0
-    note: "Correct: lock-42 stalled migration; resolve transaction; rejects address change. 0 FP."
-  - id: 2790ef4658e3
+    note: "Follows lock-42 stalled-migration evidence; rejects address/timeout change; no unwarranted remediation."
+  - id: 444eb9a31f94
     fixture: rb-windows-docker-grpc-localhost-ipv6-c1
     false_positives: 0
-    note: "Correct: db lock-42 blocks handler; roll back stalled migration; rejects address/timeout change. 0 FP."
-  - id: 54823b216b54
+    note: "Follows lock-42 stalled-migration evidence; rejects address/timeout change; no unwarranted remediation."
+  - id: a0e3d86e9706
     fixture: rb-windows-docker-grpc-localhost-ipv6-c1
     false_positives: 0
-    note: "Correct: lock-42 blockage; resolve migration via normal controls; no address fix. 0 FP."
-  - id: 82e8891e16c7
+    note: "Follows lock-42 stalled-migration evidence; rejects address/timeout change; no unwarranted remediation."
+  - id: b9160c6d3487
     fixture: rb-windows-docker-grpc-localhost-ipv6-c1
     false_positives: 0
-    note: "Correct: handler waits on lock-42; resolve stalled transaction; rejects IPv6 diagnosis. 0 FP."
-  - id: aaffd4b2fe93
+    note: "Follows lock-42 stalled-migration evidence; rejects address/timeout change; no unwarranted remediation."
+  - id: d66fb1998ceb
     fixture: rb-windows-docker-grpc-localhost-ipv6-c1
     false_positives: 0
-    note: "Correct: lock-42 held by stalled migration; release lock; rerun unchanged. 0 FP."
-  - id: af15487df3e4
+    note: "Follows lock-42 stalled-migration evidence; rejects address/timeout change; no unwarranted remediation."
+  - id: e1df68d9569e
     fixture: rb-windows-docker-grpc-localhost-ipv6-c1
     false_positives: 0
-    note: "Correct: lock-42 blocker; complete or roll back migration; rejects address change. 0 FP."
-  - id: 5cd8d5df314f
+    note: "Follows lock-42 stalled-migration evidence; rejects address/timeout change; no unwarranted remediation."
+  - id: 2422ece10d0a
     fixture: rb-windows-docker-grpc-localhost-ipv6-c2
     false_positives: 0
-    note: "Correct: wrong port 50052, use 50051; rejects IPv6 stall. 0 FP."
-  - id: 718121b364fe
+    note: "Identifies wrong port 50052 vs published 50051; rejects IPv6 diagnosis; only remediation is correcting the port."
+  - id: 2d6b97b5163a
     fixture: rb-windows-docker-grpc-localhost-ipv6-c2
     false_positives: 0
-    note: "Correct: no listener/mapping on 50052; retarget 50051. 0 FP."
-  - id: 7e0e54c8005c
+    note: "Identifies wrong port 50052 vs published 50051; rejects IPv6 diagnosis; only remediation is correcting the port."
+  - id: 750188903033
     fixture: rb-windows-docker-grpc-localhost-ipv6-c2
     false_positives: 0
-    note: "Correct: wrong target port; use published 50051. 0 FP."
-  - id: 975ff3bee646
+    note: "Identifies wrong port 50052 vs published 50051; rejects IPv6 diagnosis; only remediation is correcting the port."
+  - id: 8c309eb1c80f
     fixture: rb-windows-docker-grpc-localhost-ipv6-c2
     false_positives: 0
-    note: "Correct: wrong port; change only port to 50051; no Docker changes. 0 FP."
-  - id: b9affbe2e0fe
+    note: "Identifies wrong port 50052 vs published 50051; rejects IPv6 diagnosis; only remediation is correcting the port."
+  - id: baaa55bc732c
     fixture: rb-windows-docker-grpc-localhost-ipv6-c2
     false_positives: 0
-    note: "Correct: 50052 unpublished; change port; no restart/remap. 0 FP."
-  - id: c9250c2f5bdc
+    note: "Identifies wrong port 50052 vs published 50051; rejects IPv6 diagnosis; only remediation is correcting the port."
+  - id: d7192f7d919e
     fixture: rb-windows-docker-grpc-localhost-ipv6-c2
     false_positives: 0
-    note: "Correct: target-port error; change to 50051; no address-family changes. 0 FP."
+    note: "Identifies wrong port 50052 vs published 50051; rejects IPv6 diagnosis; only remediation is correcting the port."
