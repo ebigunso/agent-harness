@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e8-afa1-7b71-9f0b-cf878deaed61
+--------
+user
+Reference material loaded for this review:
+
+Define meaningful success/failure signals; inspect key boundary events. Assess sensitive-data exposure and minimize logged fields. Avoid silent failures and excessive noise hiding actionable indicators.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Log failed reset-token queries.
+
+```diff
+--- a/Reset.scala
++++ b/Reset.scala
+@@ -0,0 +1,7 @@
++import java.sql.SQLException
++object Reset {
++ def query(sql: String, resetToken: String, run: (String,String) => Unit, log: String => Unit): Unit = {
++  try run(sql,resetToken)
++  catch { case error: SQLException => log(s"query failed sql=$sql token=$resetToken"); throw error }
++ }
++}
+```
+Commit message: "log failed reset-token queries"
+
+Reviewer notes: Scala 2.13. SQL itself contains placeholders, while resetToken is a secret bearer value. Database operation throws SQLException; error propagates, but telemetry also receives raw secret.
+
+codex
+- **Reset.scala:5 — Logs the raw reset token.** `token=$resetToken` exposes a secret bearer credential to telemetry. Anyone with access to those logs could potentially use it to reset the associated account. Remove the token from the log entirely; record a safe operation identifier and nonsecret failure details, such as the SQLState or database error code, while preserving exception propagation.
+tokens used
+3,285
+- **Reset.scala:5 — Logs the raw reset token.** `token=$resetToken` exposes a secret bearer credential to telemetry. Anyone with access to those logs could potentially use it to reset the associated account. Remove the token from the log entirely; record a safe operation identifier and nonsecret failure details, such as the SQLState or database error code, while preserving exception propagation.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,27 @@
+**Verdict: Block.**
+
+## Findings
+
+### 1. `Crash.kt`, `reportCrash` — crash signal leaks private profile fields via data-class `toString()`
+
+**What's wrong:** `signal("crash profile=$profile")` string-interpolates the whole `Profile` instance. Kotlin data classes auto-generate `toString()` over every constructor property, so the emitted payload is `crash profile=Profile(id=..., homeAddress=..., recoveryAnswer=...)`. Home address and the account-recovery answer are sent to crash analytics, which per the reviewer notes is retained outside the profile service's control.
+
+**Why it matters:** This is the Gate 7 anti-pattern "logging sensitive payloads as a convenience," verbatim. The recovery answer is effectively an authentication secret — once it lands in an externally retained crash store it is exposed to everyone with analytics access, subject to that vendor's retention/breach posture, and likely a regulatory violation (PII in third-party telemetry without minimisation). Neither field contributes to diagnosing a crash; the task only asked for "profile context," which `id` satisfies. Observability should support diagnosis *without* exposing sensitive internals; this does the opposite.
+
+**What I'd require instead:**
+- Emit only the identifier: `signal("crash profileId=${profile.id}")`. If correlation across systems is a concern, emit a hashed or pseudonymous ID rather than the raw one.
+- Do not rely on data-class `toString()` for any type carrying sensitive fields. Either override `toString()` on `Profile` to redact (`"Profile(id=$id)"`), or better, don't pass `Profile` into the reporting path at all — accept a narrow `CrashContext(profileId: String)` so the type system prevents recurrence.
+- Add a unit test asserting the emitted signal does not contain `homeAddress` or `recoveryAnswer` values, so a future field addition to `Profile` can't silently re-introduce the leak.
+
+### 2. `Crash.kt`, `Profile` — sensitive fields modelled with no protection against accidental serialization
+
+**What's wrong:** `Profile` is a plain data class with `homeAddress` and `recoveryAnswer` as ordinary `String` constructor properties. That makes leakage the default outcome of any `toString()`, string template, logger argument, or `equals`/`copy` usage anywhere in the codebase, not just this call site.
+
+**Why it matters:** Finding 1 is a symptom; this is the structural cause. Fixing only the call site leaves the same trap for the next developer. The recovery answer in particular should not be a freely printable value.
+
+**What I'd require instead:** At minimum, a redacting `toString()` override on `Profile`. Preferably, wrap secrets in a dedicated type (e.g. `value class Secret(val value: String) { override fun toString() = "***" }`) so they can never be printed accidentally, and keep the recovery answer out of any DTO that flows toward telemetry paths.
+
+## Not flagged
+- No `signal` implementation, retention config, or call sites are in the diff, so I can't assess whether the crash reporter itself is inspectable or noisy; that's out of scope here. The two findings above are sufficient to block on their own.
+
+__ABLATION_DONE__ exit=0

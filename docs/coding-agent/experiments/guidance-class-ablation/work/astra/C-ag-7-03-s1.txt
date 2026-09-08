@@ -1,0 +1,43 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e8-12d9-7eb1-8f53-7993c2cbb2c7
+--------
+user
+Reference material loaded for this review:
+
+Define meaningful success/failure signals; inspect key boundary events. Assess sensitive-data exposure and minimize logged fields. Avoid silent failures and excessive noise hiding actionable indicators.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add polling debug output.
+
+```diff
+--- a/poller.py
++++ b/poller.py
+@@ -1,2 +1,4 @@
+ def poll(read, logger):
+-    return read()
++    payload=read()
++    logger.debug("poll payload: %r",payload)
++    return payload
+```
+Commit message: "add polling debug output"
+
+Reviewer notes: Poller runs every 10ms; logger accepts DEBUG and ERROR into same bounded retention sink. Payloads are non-sensitive synthetic measurements of roughly 64 KiB. Rare fatal outcomes already use this sink; new unbounded debug volume exhausts retention.
+
+codex
+- **`poller.py:3` — Full payload logging on every poll exhausts shared retention.** At 10 ms intervals and roughly 64 KiB per payload, this adds about 6.25 MiB/s before formatting overhead, evicting rare fatal-error records from the bounded DEBUG/ERROR sink. Require bounded, rate-limited debug summaries and retention that preserves fatal records, such as separate debug storage or reserved ERROR capacity.
+tokens used
+3,181
+- **`poller.py:3` — Full payload logging on every poll exhausts shared retention.** At 10 ms intervals and roughly 64 KiB per payload, this adds about 6.25 MiB/s before formatting overhead, evicting rare fatal-error records from the bounded DEBUG/ERROR sink. Require bounded, rate-limited debug summaries and retention that preserves fatal records, such as separate debug storage or reserved ERROR capacity.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`scheduler.py` — `INTERVAL_SECONDS` changed from 60 to 5**
+   - **What's wrong:** This is an unrelated behavioral change bundled into a commit whose stated purpose (task and commit message) is only to reword a CLI error string. It is not mentioned in the commit message at all.
+   - **Why it matters:** It violates the one-change-one-purpose rule and breaks safe revert. If the wording change ever needs to be reverted, the scheduler cadence silently reverts with it (or vice versa). A 12× increase in job frequency is also a production-relevant change (load, cost, log volume, downstream rate limits) that deserves its own review and ticket — "idempotent and safe at either interval" does not make it free, and the reviewer notes confirm it belongs to a separate ticket. Bisecting a future cadence-related incident to a commit titled "clarify missing-file cli message" would be actively misleading.
+   - **Require instead:** Drop the `scheduler.py` hunk from this change. Land it (if wanted) as a separate commit/PR under its own ticket with a commit message that states the reason for the new interval.
+
+2. **`cli.py` — message wording (minor, non-blocking)**
+   - The new text `Input file not found: {path}` is a clear improvement over `bad: {path}` and meets the task. No change required. If the codebase has a convention for error prefixes (e.g. `error:`) or tests asserting the old string, confirm those are updated, but nothing in the diff indicates a problem.
+
+**Verdict:** Block until the `scheduler.py` change is removed. The `cli.py` change is acceptable on its own.
+
+__ABLATION_DONE__ exit=0

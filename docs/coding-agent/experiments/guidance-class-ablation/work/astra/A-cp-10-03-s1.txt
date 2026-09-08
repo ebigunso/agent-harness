@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0818f-50f5-7ac3-b5ec-b0fe60b2a9ec
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Import newline-separated records.
+
+```diff
+--- a/importer.py
++++ b/importer.py
+@@ -0,0 +1,8 @@
++def import_rows(raw, decode, store):
++    rows = decode(raw)
++    if any(not row for row in rows):
++        raise ValueError("empty id")
++    store.extend(rows)
++    return len(rows)
++def comma_rows(raw):
++    return raw.split(",")
+--- a/lines.py
++++ b/lines.py
+@@ -0,0 +1,6 @@
++def import_lines(raw, store):
++    rows = raw.splitlines()
++    if any(not row for row in rows):
++        raise ValueError("empty id")
++    store.extend(rows)
++    return len(rows)
+```
+Commit message: "import newline-separated records"
+
+Reviewer notes: Existing import_rows owns validation and persistence; adapters only decode format. Inputs are bounded strings; IDs are nonempty lines. Upcoming required validation is max ID length and belongs in this shared workflow. New script instead forks that workflow.
+
+codex
+- **`lines.py:1–6` — Duplicates the shared import workflow.** `import_lines` performs validation and persistence itself, although `import_rows` owns those responsibilities and adapters should only decode the format. This creates a second validation path that will miss the upcoming max ID length check when it is added to `import_rows`. Require a newline decoder using `raw.splitlines()` and have `import_lines` delegate to `import_rows`, keeping validation, persistence, and the returned count centralized.
+tokens used
+3,320
+- **`lines.py:1–6` — Duplicates the shared import workflow.** `import_lines` performs validation and persistence itself, although `import_rows` owns those responsibilities and adapters should only decode the format. This creates a second validation path that will miss the upcoming max ID length check when it is added to `import_rows`. Require a newline decoder using `raw.splitlines()` and have `import_lines` delegate to `import_rows`, keeping validation, persistence, and the returned count centralized.
+
+__ABLATION_DONE__ exit=0

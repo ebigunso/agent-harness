@@ -1,0 +1,20 @@
+**Verdict: no blocking defects. Architecture is correct — `adapter` imports `domain`, `domain` owns the `Quote` port, no reverse import, and both packages compile as shown.** A few things I would flag:
+
+1. **Commit message / task vs. diff — `domain/price.go`**
+   The task and commit say "through *existing* port," but the diff creates `domain/price.go` from scratch (hunk `@@ -0,0 +1,3 @@`). Either there was no existing port and the message is inaccurate, or there *is* one elsewhere and this introduces a duplicate. Require: confirm no prior port exists; if so, fix the commit message to "add quote port and wire adapter." If one does exist, delete this one and implement that interface instead.
+
+2. **`domain/price.go:3` — unnamed magic markup `+10`**
+   `q.Quote()+10` bakes a business constant into the pricing rule with no name, no unit, and no test. "Bounded cents" is asserted in the notes but nothing in the code says these are cents. Require: `const markupCents = 10` (or an explicit parameter), plus a unit test of `Price` so the rule is pinned.
+
+3. **`adapter/quote.go:3-4` — `Fixed` is a hardcoded stub, not a quote source**
+   `Fixed{}` always returns `100`. If the goal is to wire real quotes, this is a placeholder masquerading as an adapter; if it is intentionally a test double, it should live in a `_test.go` file or be named/documented as a fake so nobody ships it as the production path. Require: either the real implementation, or clear naming (`FakeQuoter`) and a comment stating it is a fixture.
+
+4. **`adapter/quote.go:5` — adapter package exposes a driving entry point `Price()`**
+   The same package both implements the outbound port (`Fixed.Quote`) and acts as an inbound caller of the use case (`adapter.Price` → `domain.Price`). That is composition-root work, not adapter work, and it hard-wires `Fixed` so callers can't substitute another `Quote`. Non-blocking, but require a note on where the real composition root will live, or move `Price()` to `main`/a `app` package that injects the implementation.
+
+5. **Formatting — both Go files**
+   Not `gofmt`-clean (`interface { Quote() int }` on one line, `q.Quote()+10` without spaces, no blank lines between decls). Require running `gofmt`/`goimports` before merge; CI should already reject this.
+
+Nit, not required: Go convention would name the interface `Quoter` (method `Quote`) rather than `Quote`/`Quote`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`query.ts`, line 3 — `handle` passes a fresh, detached `AbortSignal` instead of the caller's.**
+   `new AbortController().signal` is created inline, the controller is immediately unreachable, and nothing can ever abort it. `callerSignal` is accepted as a parameter and then never read. The result is that caller disconnect has no effect on the in-flight query: the expensive query runs to completion, the scoped connection stays held until then, and the promise resolves into a caller that has already left. This is exactly the failure the task was meant to fix (Gate 6: failures not contained to the caller's scope; a leaving caller still consumes DB capacity), and the commit message claims a behavior the code does not deliver.
+
+   **Require:** forward the caller's signal directly — `return db.query(callerSignal);`. If the intent was to compose an additional local reason (e.g. a server-side timeout) with the caller's disconnect, use `AbortSignal.any([callerSignal, timeoutSignal])` (or a controller that listens to `callerSignal` and aborts on either event) so that caller cancellation still propagates. Either way, the caller's signal must be an input to the signal the query actually receives.
+
+2. **`query.ts` — no test or verification that cancellation propagates.**
+   This bug is trivially catchable by a unit test that passes an already-aborted or later-aborted `callerSignal` and asserts the `Database.query` stub observes `signal.aborted === true` (or an `abort` event). The diff ships a cancellation feature with no evidence it cancels anything. Given the reviewer notes explicitly say "disconnect has no effect", this is a blocking gap, not a nit.
+
+   **Require:** add a test with a fake `Database` that captures the received signal, abort `callerSignal`, and assert the captured signal is aborted (and that the connection release path is exercised if the fake models it). Also a test for the already-aborted-on-entry case so the query is never started for a caller that has already gone.
+
+Minor, non-blocking: `return await` inside an `async` function that does nothing else is redundant; `return db.query(...)` is equivalent. Not worth blocking on, but drop it while fixing (1).
+
+**Verdict:** Not acceptable as-is. Finding 1 is a functional defect that makes the change a no-op relative to its stated purpose; finding 2 is the missing evidence that would have caught it.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,66 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081da-771b-76b2-915c-aff01fe811ed
+--------
+user
+Reference material loaded for this review:
+
+### Gate 6: Operational and Failure Containment
+
+**Expectation**
+- Failures are contained to the smallest practical scope.
+- Timeouts, retries, idempotency, and degradation paths are intentional when integrating external dependencies.
+
+**Evidence expectations**
+- Plan lists likely failure modes for touched integrations.
+- Review verifies error propagation and fallback behavior are deliberate.
+- Risky operations include containment strategy notes.
+
+**Anti-patterns**
+- Unbounded retries or blocking operations in critical paths.
+- Broad exception/error suppression that obscures root causes.
+- Cascading failure paths without isolation boundaries.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Retry timed-out charge requests.
+
+```diff
+--- a/charge.js
++++ b/charge.js
+@@ -0,0 +1,10 @@
++import {randomUUID} from "node:crypto";
++export async function charge() {
++ for (;;) {
++  try {
++   const response=await fetch("https://payments.example.test/charge", {method:"POST", headers:{"Idempotency-Key":randomUUID()}, body:"100", signal:AbortSignal.timeout(1000)});
++   if(!response.ok) throw new Error(`charge status ${response.status}`);
++   return await response.text();
++  } catch(error) { if(error.name!=="TimeoutError") throw error; }
++ }
++}
+```
+Commit message: "retry timed-out charge requests"
+
+Reviewer notes: Node 24 fetch. Server supports idempotency by Idempotency-Key; a timeout can follow a committed charge. amount is fixed cents; only timeout is retried, other failures surface.
+
+codex
+- **`charge.js:5` — Each retry uses a new idempotency key.** A timed-out request may already have committed the charge. Retrying with a new key allows the server to charge again. Generate the key once per logical charge, before the loop, and reuse it for every attempt.
+
+- **`charge.js:3–8` — Timeout retries are unbounded.** The one-second timeout limits each attempt, but repeated timeouts keep `charge()` pending indefinitely and continuously send payment requests. Require a finite retry budget or overall deadline, with bounded backoff and jitter. When exhausted, surface the timeout and indicate that the charge outcome may be unknown.
+tokens used
+3,395
+- **`charge.js:5` — Each retry uses a new idempotency key.** A timed-out request may already have committed the charge. Retrying with a new key allows the server to charge again. Generate the key once per logical charge, before the loop, and reuse it for every attempt.
+
+- **`charge.js:3–8` — Timeout retries are unbounded.** The one-second timeout limits each attempt, but repeated timeouts keep `charge()` pending indefinitely and continuously send payment requests. Require a finite retry budget or overall deadline, with bounded backoff and jitter. When exhausted, surface the timeout and indicate that the charge outcome may be unknown.
+
+__ABLATION_DONE__ exit=0

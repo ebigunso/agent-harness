@@ -1,0 +1,30 @@
+**Behavioral check first:** the new code is functionally equivalent to the old one. Null/blank address → null; empty cart → null; otherwise it snapshots `cart.items`, clears the cart, and pays with the snapshot. Ordering (snapshot → clear → pay) is preserved. No correctness regression. All findings below are about how the workflow reads, which the reviewer notes explicitly ask about.
+
+**Findings**
+
+1. **`Checkout.kt`, both `?: return null` clauses — redundant non-local returns.**
+   The function's return type is `String?`, and `?.let` already yields `null` on the null path. `return X ?: return null` is identical to `return X`; the inner `?: return null` is likewise dead (its value would just be re-handled by the outer elvis). Non-local `return` inside nested lambdas is one of the harder Kotlin constructs to reason about, and here it buys nothing. Require: drop both `?: return null` and let the chain evaluate to `null` naturally — or, better, see (3).
+
+2. **`Checkout.kt`, lambda parameter `items` — name now refers to the mutable cart list, not the snapshot.**
+   `cart.items.takeIf { ... }?.let { items -> ... }` binds `items` to the *same* `MutableList` as `cart.items`. The immutable snapshot that actually goes to `pay` is the anonymous `it` from `.toList()`. The original code used `items` for the snapshot. Anyone reading `items.toList().also { cart.items.clear() }` has to work out that `items` and `cart.items` are aliases and that the copy happens before the clear. Require: name the snapshot explicitly (e.g. `val snapshot = cart.items.toList()`) and don't reuse `items` for the live list.
+
+3. **`Checkout.kt`, `.also { cart.items.clear() }` — the one side effect is buried mid-chain.**
+   Consuming the cart is the only mutation in this function and the invariant that matters (copy before clear, clear before pay). Hiding it in an `also` between `toList()` and `let { pay(...) }` makes the step order implicit and fragile — reordering the chain or hoisting `toList()` would silently pay from an empty list or double-consume. The original three statements made the sequence obvious. Functional style is fine, but the steps should still be visible. Require: guards up front, then three explicit steps, e.g.
+
+   ```kotlin
+   fun checkout(cart: Cart, address: String?): String? {
+       val target = address?.takeIf { it.isNotBlank() } ?: return null
+       if (cart.items.isEmpty()) return null
+       val snapshot = cart.items.toList()
+       cart.items.clear()
+       return pay(snapshot, target)
+   }
+   ```
+   This keeps the null-safe idioms while exposing guard → snapshot → consume → pay as a linear sequence.
+
+4. **Commit message — describes a feature, but the diff is a pure refactor.**
+   "submit cart to selected address" is what the function already did before this change; no behavior is added. A reader of history will look for a functional change that isn't there. Require: message that says it's a restructuring with no behavior change (and ideally why).
+
+**Verdict:** not acceptable as-is. Nothing is broken, but the rewrite makes a simple four-step workflow harder to read than the version it replaces (redundant non-local returns, misleading `items` binding, side effect hidden in an `also`), which is the opposite of what the reviewer notes ask for. I'd request the flattened form above before merging.
+
+__ABLATION_DONE__ exit=0

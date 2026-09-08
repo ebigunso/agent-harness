@@ -1,0 +1,24 @@
+**Verdict: block — implementation is correct, but the submitted evidence does not exercise the change.**
+
+## Findings
+
+### 1. `reset.php` — `testValid()`: no test covers either rejection branch the task asked for
+
+**What's wrong:** The only test is the valid-unused happy path. That test would have passed against the *pre-change* `consume()` too (it always set `used = true` and returned true). Nothing in the submitted evidence demonstrates that an expired token is rejected, that a second `consume()` on the same token is rejected, or where the expiry boundary falls. The one line that actually implements the task — `if ($token["used"] || $now >= $token["expires"]) return false;` — is unobserved.
+
+**Why it matters:** This is the replay/expiry gate on password reset. If the `||` were an `&&`, or `>=` were `<`, or the guard were accidentally placed after `$token["used"] = true;`, the current test would still be green. For a security-relevant helper the negative cases *are* the surface; the happy path is incidental. The function already has the right deterministic seam (`$now` injected rather than calling `time()`), so there is no setup obstacle to writing these — they are cheap and stable.
+
+**What I'd require:** Add, in the same style:
+- **Replay:** consume once → true; consume again on the same `$token` → false, and `used` remains true.
+- **Expired:** `["used" => false, "expires" => 100]`, `consume($token, 200)` → false, and assert `$token["used"]` is still `false` (rejection must not mutate the token).
+- **Boundary:** `consume($token, 200)` with `expires => 200` → false (documents that expiry is exclusive at the instant of `expires`; `now = 199` → true). Pin this deliberately so a future `>` vs `>=` edit is caught.
+
+Secondary, same finding: `testValid()` is a bare function definition in the production file with no runner or invocation shown. A test that is never executed is not evidence. Either show it being invoked in the submission, or move these into whatever test entry point the project uses.
+
+## Not flagged
+
+- The guard logic itself (`used || now >= expires` → reject, then mark used) is correct and correctly ordered; rejection paths do not mutate the token.
+- Passing `$now` as a parameter is the right seam; no global clock dependency introduced.
+- Boundary choice (`>=`) is the conventional one for epoch-second expiry; acceptable, it just needs to be pinned by a test per above.
+
+__ABLATION_DONE__ exit=0

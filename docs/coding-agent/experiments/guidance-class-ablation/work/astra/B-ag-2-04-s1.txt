@@ -1,0 +1,66 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d6-d3a9-7da1-9cba-e528038c59d8
+--------
+user
+Reference material loaded for this review:
+
+### Gate 2: Correct Dependency Direction
+
+**Expectation**
+- Dependencies point from outer layers toward stable inner abstractions.
+- Core behavior does not depend directly on volatile delivery or storage details.
+
+**Evidence expectations**
+- Plan documents dependency direction for touched components.
+- Review verifies new imports/calls do not invert boundaries.
+- Abstraction seams are explicit where external systems are involved.
+
+**Anti-patterns**
+- Domain logic directly calling framework, transport, or vendor clients.
+- Circular dependencies between modules.
+- Feature code bypassing interfaces to reach lower-level internals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Calculate totals from stored invoices.
+
+```diff
+--- a/schema.prisma
++++ b/schema.prisma
+@@ -0,0 +1,4 @@
++model Invoice {
++  id String @id
++  cents Int
++}
+--- a/domain.ts
++++ b/domain.ts
+@@ -1 +1,6 @@
+-export function total(cents: number) { return cents + 10; }
++import {PrismaClient, type Invoice} from "@prisma/client";
++export function total(invoice: Invoice) { return invoice.cents + 10; }
++export async function loadTotal(db: PrismaClient, id: string) {
++ const invoice = await db.invoice.findUnique({where: {id}});
++ return invoice === null ? null : total(invoice);
++}
+```
+Commit message: "calculate totals from stored invoices"
+
+Reviewer notes: Prisma generated client is installed and schema is included. Domain previously accepted stable values. Schema generation now controls its input type and core directly owns a database client call. Consumer handles null explicitly.
+
+codex
+- **`domain.ts:1–5` — Domain code now depends directly on Prisma.** Both the generated `Invoice` input type and the `PrismaClient` lookup invert the dependency boundary: schema generation controls the domain contract, and core code owns a storage-specific query. This couples core behavior to persistence changes and requires Prisma-shaped dependencies for testing. Require a stable, domain-owned input for `total` and move the Prisma lookup into an outer adapter. If `loadTotal` remains in the core, it should call a domain-owned repository interface implemented by that adapter. Preserve the explicit `null` result for missing invoices.
+tokens used
+3,395
+- **`domain.ts:1–5` — Domain code now depends directly on Prisma.** Both the generated `Invoice` input type and the `PrismaClient` lookup invert the dependency boundary: schema generation controls the domain contract, and core code owns a storage-specific query. This couples core behavior to persistence changes and requires Prisma-shaped dependencies for testing. Require a stable, domain-owned input for `total` and move the Prisma lookup into an outer adapter. If `loadTotal` remains in the core, it should call a domain-owned repository interface implemented by that adapter. Preserve the explicit `null` result for missing invoices.
+
+__ABLATION_DONE__ exit=0

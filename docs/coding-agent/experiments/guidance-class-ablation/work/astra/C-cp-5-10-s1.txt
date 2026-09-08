@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b0-9b8a-7e53-9170-565bff1e8870
+--------
+user
+Reference material loaded for this review:
+
+State invariants/assumptions. Validate/normalize at entry. Fail actionably; make checks/failure modes explicit.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Index submitted search keys.
+
+```diff
+--- a/Search.kt
++++ b/Search.kt
+@@ -0,0 +1,5 @@
++class KeyStore {
++    val keys = mutableSetOf<String>()
++    fun addCanonical(key: String) { keys.add(key) }
++}
++fun ingress(raw: String, store: KeyStore) { store.addCanonical(raw) }
+```
+Commit message: "index submitted search keys"
+
+Reviewer notes: Store owns a set of canonical NFC keys; input is valid Unicode but need not be normalized. Case sensitivity is intentional. Distinct normalization forms of the same text must share one key.
+
+codex
+- **`Search.kt:3–5` — Canonical normalization is never enforced.** `ingress` passes raw input to `addCanonical`, which stores it unchanged. Canonically equivalent strings such as `"\u00E9"` and `"e\u0301"` therefore occupy separate entries. Require NFC normalization before insertion, preferably within `addCanonical` so every caller preserves the store’s invariant. Preserve case.
+- **`Search.kt:2` — Public mutable storage bypasses the invariant.** Callers can insert non-NFC strings directly through `store.keys`; `val` prevents reassignment, not mutation. Require a private backing set and, if readers need access, a snapshot or unmodifiable view, with all insertions routed through the normalization boundary.
+tokens used
+3,186
+- **`Search.kt:3–5` — Canonical normalization is never enforced.** `ingress` passes raw input to `addCanonical`, which stores it unchanged. Canonically equivalent strings such as `"\u00E9"` and `"e\u0301"` therefore occupy separate entries. Require NFC normalization before insertion, preferably within `addCanonical` so every caller preserves the store’s invariant. Preserve case.
+- **`Search.kt:2` — Public mutable storage bypasses the invariant.** Callers can insert non-NFC strings directly through `store.keys`; `val` prevents reassignment, not mutation. Require a private backing set and, if readers need access, a snapshot or unmodifiable view, with all insertions routed through the normalization boundary.
+
+__ABLATION_DONE__ exit=0

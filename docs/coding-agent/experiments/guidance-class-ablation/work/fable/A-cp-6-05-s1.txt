@@ -1,0 +1,14 @@
+**Verdict: block.** The Rust side is fine; the frontend will render the new status as "Approved", which is exactly the outcome the task forbids.
+
+**1. `schema.ts` — `Status` type and `mapStatus` not updated for `PendingReview` (blocking)**
+
+- What's wrong: `Status` is still `"Approved" | "Rejected"`, and `mapStatus` is `raw === "Rejected" ? "Rejected" : "Approved"`. The API now emits the string `"PendingReview"`; it is not `"Rejected"`, so it falls through to `"Approved"`.
+- Why it matters: Every pending review will display as approved to users. That's the one behavior the requirement explicitly rules out, and it's a correctness/trust bug, not a cosmetic one. The Rust compiler forced the match arm to be added; nothing forces the TS side, so the diff is only half a feature. (The `@@ -0,0 +1,4 @@` header also suggests this file was either re-added from a stale generator output or the diff is malformed — either way the content shipped is the pre-change schema.)
+- Require instead:
+  - Regenerate (or hand-edit) `schema.ts` so `Status = "Approved" | "Rejected" | "PendingReview"`.
+  - Map explicitly: `"PendingReview" -> "PendingReview"`, and make the fallback fail-safe. Unknown/unexpected wire strings must not default to `"Approved"` — either throw, or map to a non-approved sentinel (`"PendingReview"`/`"Unknown"`) so a future enum addition can't silently repeat this bug.
+  - Add a test asserting `mapStatus("PendingReview")` is not `"Approved"`, and that an unrecognized string is not `"Approved"`.
+
+No other findings. `status.rs` is correct as written; if there is a `FromStr`/deserialize counterpart elsewhere that isn't shown, it needs the same addition, but nothing in the diff indicates one exists.
+
+__ABLATION_DONE__ exit=0

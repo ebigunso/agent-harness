@@ -1,0 +1,25 @@
+**Verdict: block.**
+
+**1. `worker.cpp`, `item()` — full stack trace emitted at INFO on every successful call, into the quota-limited sink shared with failures**
+
+- *What's wrong:* The success path now writes `std::to_string(std::stacktrace::current())` — a multi-line, multi-hundred-byte payload — for each routine item. This goes to the same quota-limited sink that failure signals depend on.
+- *Why it matters:* This is the "overly noisy instrumentation that hides actionable indicators" anti-pattern in Gate 7, and it does more than hide them: it consumes the quota, so failure entries get dropped or age out early. The change degrades the observability of the one thing we actually need to diagnose (failures) in order to add a signal for the thing that needs no diagnosis (success). Net retention of actionable data goes down.
+- *Require instead:* The success signal should be a lightweight event, not a stack. Emit a single-line message (or better, a counter/metric increment) with an item identifier; reserve `std::stacktrace::current()` for the failure path, or gate it behind a debug/trace level or a sampling rate that is off by default. Success and failure should not compete for the same quota at full volume.
+
+**2. `worker.cpp`, `item()` — stack capture + symbolization on the hot path**
+
+- *What's wrong:* `std::stacktrace::current()` walks the stack, and `std::to_string` symbolizes every frame, on every call.
+- *Why it matters:* Symbolization is expensive (symbol table lookups, heap allocations, potentially milliseconds per call) and this sits directly after the allocation being traced. For a routine per-item path that is a measurable performance regression introduced by instrumentation, and the allocations it performs will themselves confuse anyone profiling allocation behavior here.
+- *Require instead:* Do not capture a stack on the success path (see #1). If a stack is ever needed, capture only when the log level/sampler says it will be emitted, so the cost is not paid unconditionally.
+
+**3. `worker.cpp`, `item()` — the trace carries almost no diagnostic information per byte**
+
+- *What's wrong:* The stack from inside `item()` is the caller chain, which is essentially identical across routine calls. The message contains no item identity, size, or outcome detail — nothing that distinguishes one success from another.
+- *Why it matters:* We are paying the quota and CPU cost of #1 and #2 for data that is redundant after the first entry. The signal the task asks for ("this allocation succeeded") is fully conveyed by a one-liner with an identifier.
+- *Require instead:* Replace the stack with the actual context of the allocation (item id, size/kind) in a single line. That is what someone diagnosing behavior at this boundary would need.
+
+**4. (Minor, not blocking on its own) Failure path remains without a local signal**
+
+- `allocate()` throwing skips `info` entirely, so the only diagnosable signal for a failed allocation is whatever the caller does with the exception. The task scope is successes, so I would not block on this, but if we are touching this function's observability, the failure case is the one that deserves the stack trace — flip the current design rather than add to it.
+
+__ABLATION_DONE__ exit=0

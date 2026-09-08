@@ -1,0 +1,22 @@
+## Verdict: **Block.** The change does not actually expire sessions — it deletes the owner record while every capability that owner issued remains usable.
+
+### Findings
+
+**1. `Sessions.expire` — expiring an owner does not revoke that owner's capabilities (blocking)**
+- *What:* `expire` does `owners -= owner` and nothing else. Every entry in `capabilities` whose `owner == owner` stays in the map with `active = true`.
+- *Why it matters:* The stated invariant is "a capability is valid only while its owner session exists." After this change, `valid(token)` returns `true` for tokens belonging to an expired owner indefinitely. That's the exact security property the feature is supposed to enforce, so the commit is functionally a no-op with a misleading message. Data-integrity wise, the two stores are now allowed to sit in an inconsistent intermediate state (owner gone, capabilities live) with nothing that ever reconciles them.
+- *Require:* `expire` must be the single write path that transitions the owner *and* its capabilities together in one call, e.g. `capabilities.filterInPlace((_, c) => c.owner != owner)` (or flip them to `active = false` if you need an audit trail — but pick one representation, see #2). Add a test: create owner, issue capability, `expire(owner)`, assert `valid(token) == false`.
+
+**2. `Sessions.valid` — invariant checked against the wrong (non-authoritative) source**
+- *What:* `valid` decides using only `Capability.active`. Owner existence — the thing the invariant is actually about — is never consulted at the verification boundary.
+- *Why it matters:* Even after fixing #1, the invariant is enforced only in the optional cleanup path. Any other route that removes an owner (a future bulk purge, a direct write to the public `owners` set, a crash between the two mutations once they exist) silently re-opens the hole because the verifier trusts a denormalized flag. `active` and `owners.contains(cap.owner)` are two sources of truth for the same fact and can disagree.
+- *Require:* Enforce at the authoritative boundary: `capabilities.get(token).exists(c => c.active && owners.contains(c.owner))`. If `active` has no independent meaning beyond "owner is alive," drop the field entirely and derive validity from owner membership so there's nothing to drift.
+
+**3. `owners` / `capabilities` are public mutable state — no ownership of the write path**
+- *What:* Both collections are `val`s exposed on the class; any caller can add/remove entries directly, bypassing `expire` and whatever invariant maintenance it performs.
+- *Why it matters:* Conflicting write paths with no ownership clarity; the invariant fix in #1 only holds if `expire` is the only way owners disappear. As written, nothing guarantees that.
+- *Require:* Make the collections `private`; expose `addOwner`, `issue(owner)` (which should refuse to issue for an owner not in `owners`), and `expire`. This is what makes #1's "atomic" transition actually enforceable.
+
+Minor: no tests accompany a change that touches an auth-relevant invariant; require coverage for issue → expire → valid, and for `expire` on an unknown owner (currently a harmless no-op, which is fine and should stay that way — idempotent repeat calls are correct).
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,57 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819e-956d-7681-bee1-37ebcce0e5db
+--------
+user
+Reference material loaded for this review:
+
+### 3) Keep Changes Small, Cohesive, and Reversible
+
+- Group related edits into a single coherent unit.
+- Avoid coupling unrelated refactors with functional changes.
+- Make rollback straightforward by limiting blast radius.
+
+Review checks:
+- Is the diff focused on one clear goal?
+- Can this change be safely reverted without collateral edits?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Backfill missing display labels.
+
+```diff
+--- a/db/migrate/202609080001_backfill.rb
++++ b/db/migrate/202609080001_backfill.rb
+@@ -0,0 +1,11 @@
++require "active_record"
++class Backfill < ActiveRecord::Migration[7.1]
++  def up
++    execute "UPDATE accounts SET label = name WHERE label IS NULL"
++    remove_column :accounts, :old_alias
++    remove_column :accounts, :old_note
++  end
++  def down
++    execute "UPDATE accounts SET label = NULL"
++  end
++end
+```
+Commit message: "backfill missing display labels"
+
+Reviewer notes: Rails migration runs under the standard migration transaction. labels was newly introduced and all rows have NULL before this release; down may restore NULL. old_alias and old_note are legacy columns with data and an independent retirement decision. This proposed migration has not run.
+
+codex
+- **`db/migrate/202609080001_backfill.rb`, `up` — both `remove_column` calls:** Dropping `old_alias` and `old_note` couples an independent retirement decision to the label backfill and deletes existing data. The migration transaction does not make that deletion reversible after commit, and `down` restores neither column nor its contents. Require removing both drops from this unrun migration; handle retirement in a separate, explicitly approved change with a data-preservation and rollback strategy.
+tokens used
+3,320
+- **`db/migrate/202609080001_backfill.rb`, `up` — both `remove_column` calls:** Dropping `old_alias` and `old_note` couples an independent retirement decision to the label backfill and deletes existing data. The migration transaction does not make that deletion reversible after commit, and `down` restores neither column nor its contents. Require removing both drops from this unrun migration; handle retirement in a separate, explicitly approved change with a data-preservation and rollback strategy.
+
+__ABLATION_DONE__ exit=0

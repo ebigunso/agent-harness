@@ -1,0 +1,22 @@
+**Findings**
+
+1. **`Queue.cs`, `Endpoint.Post` — `Enqueue` return value is discarded; 204 is returned unconditionally.**
+   `IQueue.Enqueue` returns `bool`, and per the stated contract `false` means the queue rejected the report for capacity. The endpoint ignores that and still returns 204. Since 204 is defined here as "accepted into the durable queue," this is a false acknowledgment: on a full queue the caller is told the report was durably accepted, will not retry, and the report is silently lost. This is a correctness/data-loss bug, not a style nit. I'd block on this.
+
+   Required: branch on the result and surface a retryable error on `false`. Something like:
+   ```csharp
+   public static int Post(IQueue queue, string id) {
+       return queue.Enqueue(id) ? 204 : 503;
+   }
+   ```
+   (503 Service Unavailable is the conventional retryable capacity signal; 429 is also defensible if the semantics are per-client rate limiting. Either way it must be a status the client treats as retryable, and the choice should be documented in the interface or endpoint comment.)
+
+2. **`Queue.cs`, `IQueue` — the `bool` return's meaning is undocumented.**
+   The contract "false = capacity rejection, retryable" exists only in the reviewer notes. Nothing in the code states it, which is exactly how defect #1 happened. Require a doc comment on `Enqueue` stating what `false` means and that callers must not acknowledge on `false`. If there are other failure modes (e.g. malformed id, transient IO error) that should map to different statuses, a `bool` is too narrow and this should be an enum/result type — worth confirming with the author before merging.
+
+3. **No test covering the rejection path.**
+   The diff adds the endpoint with no test; the critical behavior (rejected enqueue must not yield 204) is exactly the case that was missed. Require at minimum two tests with a stub `IQueue`: `Enqueue → true` yields 204, `Enqueue → false` yields the retryable status.
+
+Not raising: the missing input validation on `id` and the raw `int` status code instead of a typed result — those may be conventions elsewhere in the codebase and aren't in scope for this task.
+
+__ABLATION_DONE__ exit=0

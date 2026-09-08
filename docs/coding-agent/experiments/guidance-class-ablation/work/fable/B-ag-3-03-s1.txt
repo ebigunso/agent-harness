@@ -1,0 +1,35 @@
+**Verdict: Block.** The diff is not what the commit message and task claim it is.
+
+## Findings
+
+### 1. `config.ts` line 2 — hidden behavior change: `enabled:false` → `enabled:true`
+- **What's wrong:** The task was "sort module imports mechanically" and the task explicitly requires behavior preservation. This line flips a feature flag from off to on. That is a runtime behavior change, not a sort.
+- **Why it matters:** This is the exact Gate 3 anti-pattern — "hidden behavior changes inside nominally mechanical diffs." A reviewer skimming a commit titled "sort module imports mechanically" will not expect a flag flip and may approve it without scrutiny; anyone bisecting a later regression will be misled by the commit message. The reviewer note that "feature default is internal, with no import-order side effects" is not a defense: the concern isn't import-order side effects, it's that the flag value changed at all. Whether the flag is "internal" says nothing about whether flipping it is safe, tested, or intended.
+- **Require instead:** Revert to `enabled:false` in this commit. If turning the flag on is actually wanted, land it as its own commit/PR with a message that says so, a rationale, and whatever tests cover the enabled path.
+
+### 2. `config.ts` line 2 — unrelated edit: object property reorder (`sum, enabled` → `enabled, sum`)
+- **What's wrong:** Reordering object literal keys is not import sorting. It's scope creep bundled into a mechanical change without rationale.
+- **Why it matters:** It's not purely cosmetic either — property insertion order is observable via `Object.keys`, `JSON.stringify`, `for…in`, snapshot tests, etc. Minor risk, but it's exactly the kind of "drive-by" edit Gate 3 says to keep out of refactor-only diffs, and it makes the diff noisier so the flag flip in Finding 1 is easier to miss.
+- **Require instead:** Leave `{sum:a+b, enabled:false}` untouched. If key ordering is a style rule, apply it separately across the codebase via the formatter, not piecemeal here.
+
+### 3. `values.ts` — new file added in an "import sort" commit
+- **What's wrong:** The hunk `@@ -0,0 +1,2 @@` shows `values.ts` did not exist before this change (the `a/values.ts` header rather than `/dev/null` is also malformed, suggesting a hand-edited diff). Creating a new module is not sorting imports.
+- **Why it matters:** If `config.ts` previously imported from a non-existent module, the pre-change state was broken and this commit is actually a build fix — which should be stated, not hidden under "sort imports." If `values.ts` did exist and the diff header is just wrong, the diff as presented can't be trusted to reflect the real change set. Either way, the change surface doesn't match the stated intent.
+- **Require instead:** Clarify what happened to `values.ts`. If it's genuinely new, split it out with an honest commit message ("add values module referenced by config"). If it's a diff-generation error, regenerate the diff from the actual commit.
+
+### 4. Commit message misrepresents the change
+- **What's wrong:** "sort module imports mechanically" describes only the `{b,a}` → `{a,b}` edit. Of the four changed lines, that's the only one it accounts for.
+- **Why it matters:** The message is the primary signal reviewers and future maintainers use to calibrate scrutiny. A message claiming a mechanical change while carrying a flag flip is the failure mode Gate 3 exists to catch.
+- **Require instead:** After stripping Findings 1–3, the message is accurate. Otherwise it must describe every behavioral change it carries.
+
+## What would be acceptable
+A commit containing exactly:
+
+```diff
+-import {b,a} from "./values";
++import {a,b} from "./values";
+```
+
+with nothing else. That single-line change is correct and fine as-is — named import order has no semantic effect, and the reviewer note that all symbols are present holds.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c9-6573-74f2-8a83-1f7fc8dc1c42
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record bounded downstream failure metrics.
+
+```diff
+--- a/metrics.go
++++ b/metrics.go
+@@ -0,0 +1,7 @@
++package metrics
++import ("context"; "errors"; "time")
++func Call(run func()error, observe func(string,time.Duration)) error {
++ start:=time.Now(); err:=run(); category:="success"
++ if errors.Is(err,context.DeadlineExceeded) { category="deadline" } else if err!=nil { category="other" }
++ observe(category,time.Since(start)); return err
++}
+```
+Commit message: "record bounded downstream failure metrics"
+
+Reviewer notes: Go. Categories are fixed success/deadline/other; no request body, URL or error text labels. Duration and error propagation are preserved. Injected observe is a bounded nonthrowing sink.
+
+codex
+Acceptable as-is. Categories are bounded, wrapped deadline errors are classified correctly, duration is recorded, and the original error is returned. No findings.
+tokens used
+3,119
+Acceptable as-is. Categories are bounded, wrapped deadline errors are classified correctly, duration is recorded, and the original error is returned. No findings.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,24 @@
+**Findings**
+
+1. **`ClusterReducer.scala`, `run()` — transition logic has no callable seam.**
+   The `(state, event) match { ... }` block, which is the entire behavior this change is supposed to add, is inlined between `Socket` I/O and `println`. Nothing exposes `transition(state, event)` as a function. The only way to exercise it is to boot the real cluster on `127.0.0.1:5080`, feed a connection, and grep stdout — exactly the fragile, global-environment setup the review guidance says to avoid. Any regression in the match (e.g. someone later adds a `case ("running", "resume")` typo) can't be caught without the harness.
+   **Require:** extract a pure function, e.g.
+   ```scala
+   def transition(state: String, event: String): String = (state, event) match {
+     case ("running", "pause")  => "paused"
+     case ("paused",  "resume") => "running"
+     case _                     => state
+   }
+   ```
+   and have `run()` call it. Add direct unit tests for `transition` covering `("running","pause")`, `("paused","resume")`, and the no-op cases for `other`. Keep the socket path as a thin adapter.
+
+2. **Validation evidence doesn't match the risk.** The existing check "boots the cluster and searches stdout for `paused`" passes whenever the emitted output contains `paused` — including when the server's *initial* state is already `paused` and the event is `other`, in which case the new transition never fires. So the current validation can go green with the `("running","pause")` case deleted. Given the transition is the whole point of the change, that's not acceptable evidence.
+   **Require:** the unit tests from (1) as the primary evidence for the transition; treat the cluster boot as an optional integration smoke check, not the proof that the logic works. If the integration check is kept, it should assert on specific input→output pairs rather than a substring grep.
+
+3. **Minor — hardcoded endpoint in `run()`.** `"127.0.0.1"` / `5080` are baked in. Not blocking on its own (it matches the harness contract), but once (1) is done, taking host/port (or an `InputStream`) as parameters costs nothing and removes the last reason anyone would need a live socket to test this object. I'd ask for it in the same change.
+
+Not raising: null/EOF handling on `readLine` — the protocol is stated as closed and guarantees two lines, and the `case _` arm tolerates a `null` event without throwing. I'd only revisit if that guarantee changes.
+
+**Verdict:** not acceptable as-is. Block on (1) and (2); (3) is a request, not a blocker.
+
+__ABLATION_DONE__ exit=0

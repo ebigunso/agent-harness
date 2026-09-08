@@ -1,0 +1,35 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c8-20ec-7cd3-adf9-3ff7200d910b
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Log successful login context.
+
+```diff
+--- a/Login.java
++++ b/Login.java
+@@ -0,0 +1,3 @@
++import java.util.function.Consumer;
++record Credentials(String accountId,String password,String bearerToken) {}
++final class Login { static void success(Credentials credentials, Consumer<String> log) { log.accept("login_success "+credentials); } }
+```
+Commit message: "log successful login context"
+
+Reviewer notes: Java 17. Login is already authenticated; logging sink is long-retained telemetry accessible beyond auth operators. DTO includes secret password and bearer token; only account/event/request identifiers are necessary.
+
+codex
+- **`Login.java:3` — Secrets exposed in telemetry.** Concatenating `credentials` invokes the record’s generated `toString()`, which includes both the password and bearer token. This puts reusable credentials in long-retained logs accessible beyond auth operators, creating an account-compromise risk. Require explicit logging of only the event, account ID, and any necessary request identifier; never log the full credentials object.
+tokens used
+3,113
+- **`Login.java:3` — Secrets exposed in telemetry.** Concatenating `credentials` invokes the record’s generated `toString()`, which includes both the password and bearer token. This puts reusable credentials in long-retained logs accessible beyond auth operators, creating an account-compromise risk. Require explicit logging of only the event, account ID, and any necessary request identifier; never log the full credentials object.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,36 @@
+**Verdict: not acceptable as-is.** One blocking finding, two minor.
+
+---
+
+**1. `lines.py` — `import_lines` forks the shared import workflow instead of adding a decoder (BLOCKING)**
+
+What's wrong: `import_lines` re-implements the validate-then-persist sequence that `import_rows` already owns. The only genuinely new thing here is `raw.splitlines()`; everything else is a copy of `importer.import_rows`.
+
+Why it matters: The design boundary is explicit — `import_rows` owns validation and persistence, adapters only decode. This change breaks that boundary. The immediate cost is the known upcoming max-ID-length check: with this diff it must be added (and tested, and kept identical) in two places, and the second copy is the one that will be forgotten or drift. That's exactly the fast debt the review criteria say to avoid. It also makes the codebase harder to read: a future maintainer now has to diff two near-identical functions to discover there's no behavioral difference.
+
+Require instead: delete `import_lines`. Add a decode-only adapter alongside `comma_rows`:
+
+```python
+def line_rows(raw):
+    return raw.splitlines()
+```
+
+and have callers use `import_rows(raw, line_rows, store)`. If `lines.py` needs to exist as a module, it should contain only the adapter (or a thin wrapper that delegates to `import_rows`), never its own validation or `store.extend`.
+
+---
+
+**2. Adapters disagree on empty input (minor, flag)**
+
+`comma_rows("")` → `[""]` → `import_rows` raises `"empty id"`. `line_rows("")` (or `raw.splitlines()` in the current diff) → `[]` → imports zero rows, returns `0`, no error. Whether empty input is an error or a no-op should be a decision made once in `import_rows`, not an accident of which `str` method the adapter happens to use. Require: decide the intended behavior, document it in `import_rows`, and add an explicit check there (e.g. `if not rows: raise ValueError("no records")` or an explicit early return) so both adapters behave the same.
+
+---
+
+**3. No tests for the new decoder (minor, flag)**
+
+The diff adds behavior with a couple of non-obvious edges — trailing newline (`"a\nb\n"` → 2 rows, not 3), blank line in the middle (must raise), empty input (see #2), `\r\n` handling — and none are covered. Require: tests for the adapter through `import_rows`, covering at least those four cases. These will also be the regression net for when max-ID-length lands in the shared function.
+
+---
+
+Not raised: `"empty id"` lacks a row index, which would be a diagnostics improvement, but that's pre-existing behavior in `import_rows` and out of scope for a change that should only be adding an adapter. Worth a follow-up, not a block here.
+
+__ABLATION_DONE__ exit=0

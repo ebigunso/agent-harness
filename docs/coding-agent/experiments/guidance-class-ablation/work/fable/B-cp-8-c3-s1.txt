@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`store.go`, `Label` — the change doesn't match the task or the commit message.**  
+   The task is "use current stores through existing reader port." Before this diff, `Label` already took `Reader` and both `Memory` and `Config` already satisfied it — so there was nothing to do on that front, and the diff doesn't touch how stores are wired. The only thing that actually changes is behavior: `Label` now runs `strings.TrimSpace` on the name. That's an unrelated, unstated semantic change riding under a no-op commit message. A reviewer reading the log later would have no idea this commit altered output.  
+   *Require:* Either drop the `TrimSpace` (if the task really is complete as-is, say so and close it with no diff), or split the trimming into its own commit with a message and rationale that describe the behavior change.
+
+2. **`store.go`, `Label` — silent normalization in the port consumer creates an inconsistency.**  
+   `Label(r)` and `r.Name()` now return different strings for the same store when the value has surrounding whitespace. Anyone calling `Name()` directly (or writing a third store) gets untrimmed values; anyone going through `Label` gets trimmed values. That's hidden coupling: the contract of `Reader.Name()` is unclear (is it raw or normalized?), and callers have to know which path they took. If whitespace in `Value` is a data-quality problem, it should be fixed where the value is produced (in the concrete stores, or at construction/validation), not patched over in a generic pass-through.  
+   *Require:* Decide and document where normalization belongs. If `Name()` is meant to be clean, trim in `Memory.Name`/`Config.Name` (or validate `Value`), not in `Label`. If `Label` is specifically a "display label" with its own normalization rules, name/document that intent and keep it out of the "reader port" story.
+
+3. **No test covering the new behavior.**  
+   Trimming is a real behavior change with an obvious edge case (`" x "`, `""`, all-whitespace). Nothing in the diff exercises it, and nothing guards against it being "cleaned up" later by someone who sees a puzzling `TrimSpace` in a pass-through.  
+   *Require:* If the trimming stays, add a test for `Label` with leading/trailing whitespace and an all-whitespace value.
+
+The reviewer notes about acyclic dependencies and the narrow port are correct but beside the point — this diff doesn't add or change any dependency structure; the only substantive content is an undocumented behavior change. Not acceptable as-is.
+
+__ABLATION_DONE__ exit=0

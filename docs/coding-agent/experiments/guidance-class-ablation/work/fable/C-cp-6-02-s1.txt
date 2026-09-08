@@ -1,0 +1,15 @@
+**Finding 1 — Blocking. `invoice.js`, `mapInvoice`: adapter drops `taxAmount`, so the displayed total never includes tax.**
+
+- What's wrong: The Python contract emits `{"amount": 1000, "taxAmount": 100}`, but `mapInvoice` returns only `{amount: wire.amount}`. `total()` then evaluates `invoice.taxAmount ?? 0`, which is always `0` for anything that went through the adapter. For the fixture, `total(mapInvoice(response()))` is `1000`, not `1100`.
+- Why it matters: This is exactly the feature the change claims to deliver ("display invoice total with tax"), and it silently does the opposite for every record, including new ones that always carry tax. The `?? 0` fallback — intended for genuinely legacy untaxed records — masks the shape drift, so nothing errors; the user just sees an under-stated total on every taxed invoice. That's a financial display bug that will not surface until someone compares against the server value.
+- Require: `mapInvoice` must carry the field through: `return { amount: wire.amount, taxAmount: wire.taxAmount };` (preserving `undefined` for legacy records so the existing `?? 0` semantic still holds only for truly missing tax). Add a contract test that round-trips the actual Python-shaped payload through the JS adapter and asserts `total(...) === 1100`, plus one for a legacy payload without `taxAmount` asserting `1000`. Without a test across the language boundary, this class of drift will recur the next time either side adds a field.
+
+**Finding 2 — Flag (non-blocking, follows from #1). `invoice.js`, `total`: the `?? 0` default is applied to the *adapted* object rather than distinguished at the boundary.**
+
+- What's wrong: The "missing tax means legacy untaxed" rule is applied after adaptation, where "missing" can mean either "legacy record" or "adapter forgot the field" — the two are indistinguishable, which is how Finding 1 went unnoticed.
+- Why it matters: Any future rename/drop on either side degrades to "tax is zero" with no signal.
+- Require: Move the legacy defaulting into `mapInvoice` (`taxAmount: wire.taxAmount ?? 0`) so the adapted model always has a concrete integer `taxAmount`, and have `total` do plain `invoice.amount + invoice.taxAmount`. Then a missing field on the adapted object is a bug, not a silent zero, and the legacy-compat rule lives in one place next to the wire shape it's compensating for.
+
+Not acceptable as-is; Finding 1 must be fixed before merge.
+
+__ABLATION_DONE__ exit=0

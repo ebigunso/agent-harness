@@ -1,0 +1,43 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081be-7505-7c70-8272-5bff9fdce922
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record approval audit events.
+
+```diff
+--- a/ApprovalDao.scala
++++ b/ApprovalDao.scala
+@@ -0,0 +1,11 @@
++import java.sql.Connection
++object ApprovalDao {
++ def update(db: Connection, id: Long, status: String, audit: String => Unit): Unit = {
++  val q = db.prepareStatement("UPDATE orders SET status=? WHERE id=?")
++  try {
++   q.setString(1,status); q.setLong(2,id)
++   val changed = q.executeUpdate()
++   if (changed == 1 && status == "approved") audit(s"Approved:$id")
++  } finally q.close()
++ }
++}
+```
+Commit message: "record approval audit events"
+
+Reviewer notes: Scala 2.13/JDBC. Caller owns a transaction with autoCommit=false and may roll back after DAO update. audit is an independent event sink; an Approved event means committed business approval.
+
+codex
+- **ApprovalDao.scala:8 — Approval event is emitted before commit.** `executeUpdate()` only changes the caller’s uncommitted transaction. The independent audit sink can record `Approved:$id` even if the caller later rolls back or commit fails, falsely reporting a committed approval. Require a transactional outbox entry written in the same transaction as the update, with publication after successful commit, or an equivalent mechanism that reliably ties event delivery to commit.
+tokens used
+14,534
+- **ApprovalDao.scala:8 — Approval event is emitted before commit.** `executeUpdate()` only changes the caller’s uncommitted transaction. The independent audit sink can record `Approved:$id` even if the caller later rolls back or commit fails, falsely reporting a committed approval. Require a transactional outbox entry written in the same transaction as the update, with publication after successful commit, or an equivalent mechanism that reliably ties event delivery to commit.
+
+__ABLATION_DONE__ exit=0

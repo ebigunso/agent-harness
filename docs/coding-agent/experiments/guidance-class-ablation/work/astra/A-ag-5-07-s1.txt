@@ -1,0 +1,40 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c4-ee66-7dd1-96a0-54d8631c04be
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record approvals with approver identity.
+
+```diff
+--- a/approval.rb
++++ b/approval.rb
+@@ -0,0 +1,7 @@
++require "active_record"
++class Approval < ActiveRecord::Base
++  def approve!(approver)
++    update!(status: "approved")
++    update!(approver_id: approver)
++  end
++end
+```
+Commit message: "record approvals with approver identity"
+
+Reviewer notes: Rails 7, no wrapping transaction at caller. Approved state requires non-null approver; observers can read committed updates between saves. Required approver ID is already validated.
+
+2026-09-08T16:06:05.484025Z ERROR codex_models_manager::manager: failed to refresh available models: timeout waiting for child process to exit
+codex
+- **`approval.rb:4–5` — Approval state and approver identity are saved separately.** Without a wrapping transaction, observers can see a committed `"approved"` state with a null or stale approver, violating the approval invariant. If the second save fails, that inconsistency persists. Require a single atomic update: `update!(status: "approved", approver_id: approver)`.
+tokens used
+3,175
+- **`approval.rb:4–5` — Approval state and approver identity are saved separately.** Without a wrapping transaction, observers can see a committed `"approved"` state with a null or stale approver, violating the approval invariant. If the second save fails, that inconsistency persists. Require a single atomic update: `update!(status: "approved", approver_id: approver)`.
+
+__ABLATION_DONE__ exit=0

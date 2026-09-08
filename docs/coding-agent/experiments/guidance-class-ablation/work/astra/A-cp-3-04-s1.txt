@@ -1,0 +1,42 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08191-070a-7871-8760-dfdcbf4665a6
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Accept surrounding whitespace in numeric input.
+
+```diff
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -1,4 +1,4 @@
+-pub mod presentation {
++pub mod display {
+     pub fn label() -> &'static str { "ready" }
+ }
+-pub fn parse(s: &str) -> Result<u32, std::num::ParseIntError> { s.parse() }
++pub fn parse(s: &str) -> Result<u32, std::num::ParseIntError> { s.trim().parse() }
+```
+Commit message: "accept surrounding whitespace in numeric input"
+
+Reviewer notes: One commit also moves the unrelated module name. The queued consumer change imports display::label; parser rollback is expected independently. Both module versions are shown; no external consumers.
+
+codex
+- **`src/lib.rs:1` / commit scope:** Renaming `presentation` to `display` is unrelated to accepting whitespace. Bundling them couples the queued consumer’s `display::label` import to the parser change: reverting this commit to roll back parsing would also remove `display`, breaking that consumer once applied. Put the module rename in a separate commit so the parser change can be reverted independently.
+
+The `s.trim().parse()` change itself is acceptable.
+tokens used
+3,166
+- **`src/lib.rs:1` / commit scope:** Renaming `presentation` to `display` is unrelated to accepting whitespace. Bundling them couples the queued consumer’s `display::label` import to the parser change: reverting this commit to roll back parsing would also remove `display`, breaking that consumer once applied. Put the module rename in a separate commit so the parser change can be reverted independently.
+
+The `s.trim().parse()` change itself is acceptable.
+
+__ABLATION_DONE__ exit=0

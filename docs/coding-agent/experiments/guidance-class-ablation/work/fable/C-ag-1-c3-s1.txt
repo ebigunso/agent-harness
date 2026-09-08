@@ -1,0 +1,19 @@
+**Verdict:** The layering itself is correct — `place` owns the positive-integer invariant and the append; `post` only does transport conversion and status mapping, and doesn't duplicate the business rule. I would not block on the design. I would block on one item and flag a few others.
+
+**Findings**
+
+1. **`order.py`, `check()` — test code in the production module (block).**
+   `check()` is an ad-hoc assertion function living next to the handler and application code. It isn't named so any runner discovers it, nothing calls it, and it ships with the module. Move it to a test file (`test_order.py`) as proper `test_*` functions. While doing so, cover the cases the handler actually branches on but the current asserts don't: missing key, non-string value (`{"quantity": 2}`), non-ASCII decimal digits (`"٢"`, `"２"`), sign/whitespace (`"+2"`, `" 2"`), and a direct `place()` call with `True` and with a negative int.
+
+2. **`order.py` — handler, application, and test in one module (flag).**
+   The reference guidance is to keep layer responsibilities clear and map owners. The responsibilities are separated at function level, but a single `order.py` holding the HTTP handler, the application rule, and the test blurs ownership as soon as a second endpoint or rule arrives. Split into at least an application module (`place`) and a handler module (`post`), and state that mapping in the plan/commit rather than only in reviewer notes.
+
+3. **`post()` — string-only `quantity` rejects JSON numbers (flag, needs confirmation).**
+   The notes say the framework supplies a JSON object, yet the handler returns 400 for `{"quantity": 2}`, which is the natural JSON encoding. If the transport genuinely delivers quantities as strings (form-encoded, query-string-style), say so in the handler docstring; otherwise accept `int` (still excluding `bool` and `float`) alongside the digit-string form. As written this is a silent contract restriction with no test documenting it.
+
+4. **`post()` — mapping bare `ValueError` to 400 (flag).**
+   `except ValueError` treats any `ValueError` from inside the `try` as a client error. Today that covers `place()`'s rejection and also `int(raw)` exceeding Python's integer-string digit limit on very long inputs, which happens to be fine, but it will also swallow any future `ValueError` raised for programming errors in the application layer. Have `place()` raise a domain-specific exception (e.g. `InvalidQuantity(ValueError)`) and catch only that in the handler.
+
+5. **Nits (non-blocking):** one-line `try:`/`except:` bodies and no blank lines between defs hurt readability; no type hints on either function; 400 is returned with no reason, so clients can't distinguish "malformed" from "zero/negative".
+
+__ABLATION_DONE__ exit=0

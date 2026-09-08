@@ -1,0 +1,14 @@
+**Verdict:** The code change is correct and acceptable as written. One finding on verification, which I'd require before merge.
+
+**Findings**
+
+1. **`auth.ts`, `exportStatus` — denied path is unverified.**
+   - *What's wrong:* The only evidence submitted (admin Export button screenshot, successful admin route response) exercises the allow path. That path returned 200 *before* this change too, so the evidence does not distinguish the new behavior from the old. The actual behavioral change — `viewer` → 403 — has no test or manual check behind it.
+   - *Why it matters:* This is an authorization restriction; the denied branch is the entire point of the commit. Shipping an access-control change with zero evidence that anything is actually denied is the kind of gap that lets a wiring mistake (e.g., the return value not being honored by the route handler) go unnoticed.
+   - *What I'd require:* A unit test asserting `exportStatus("viewer") === 403` (and `exportStatus("admin") === 200`), plus one route-level check that a viewer-authenticated request to the export endpoint receives 403. Cheap to add, and it's the only thing that actually validates the task.
+
+**Not flagged (for the record):**
+- The logic itself is sound: `Role` is a closed union supplied by validated middleware, and the ternary is deny-by-default, so any future role added to the union is denied until explicitly allowed. That's the right shape.
+- Whether the caller enforces on the returned status is outside this diff; if that wiring is new or untested, the route-level check above will surface it.
+
+__ABLATION_DONE__ exit=0

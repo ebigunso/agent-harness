@@ -1,0 +1,38 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08194-2e7d-7e71-b4f1-29041dbedf2f
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Accept task status updates.
+
+```diff
+--- a/status.php
++++ b/status.php
+@@ -0,0 +1,6 @@
++<?php
++final class Task {
++    public function __construct(public string $status) {}
++    public function terminal(): bool { return $this->status !== "open"; }
++}
++function update(string $status): Task { return new Task($status); }
+```
+Commit message: "accept task status updates"
+
+Reviewer notes: Route receives a string after JSON shape checks. Allowed domain statuses are open and closed; lower-level code assumes that closed is the only non-open value.
+
+codex
+- **`status.php:3–6` — Unsupported status strings are accepted.** JSON shape checks establish that the input is a string, but `update()` accepts values outside `open` and `closed`. For example, `"pending"` creates a task whose `terminal()` returns `true`, violating the downstream assumption that every non-open status is `closed`. Require explicit validation against the two allowed values and reject invalid updates before creating a task.
+tokens used
+3,181
+- **`status.php:3–6` — Unsupported status strings are accepted.** JSON shape checks establish that the input is a string, but `update()` accepts values outside `open` and `closed`. For example, `"pending"` creates a task whose `terminal()` returns `true`, violating the downstream assumption that every non-open status is `closed`. Require explicit validation against the two allowed values and reject invalid updates before creating a task.
+
+__ABLATION_DONE__ exit=0

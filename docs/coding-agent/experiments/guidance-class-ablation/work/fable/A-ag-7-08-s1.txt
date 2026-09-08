@@ -1,0 +1,19 @@
+**Verdict: block.** The change logs only the happy path; the failure path the task is about is silent.
+
+1. **`Sender.java`, `catch (IOException error) { last=error; }` — failed attempts are not logged at all.**
+   The task is "log connection attempts during send retries". The only log call is on successful `connect()`. A `connect()` failure, or a `send()` failure after connect, produces nothing. With the reviewer's stated scenario (connect succeeds, send fails), the log for a fully failing run reads `connected / connected / connected` — indistinguishable from three successful sends. Require: log each failure with the attempt index and the exception (`"attempt " + (i+1) + "/3 failed: " + error`), and split `connect()` and `send()` into separately observable steps (or at least log which stage threw) so a connect failure and a send failure aren't the same silent event.
+
+2. **`Sender.java`, `throw last;` — final exhaustion is not logged.**
+   Reviewer notes are explicit: the caller maps the exception to a 502 without logging, so this method is the last place the failure is observable. Right now retries exhaust with zero log output. Require a log line before the throw, e.g. `"giving up after 3 attempts: " + last`, so a 502 can be traced back to this path.
+
+3. **`Sender.java`, `log.accept("connected")` — the success message carries no attempt number.**
+   Even the message that is emitted doesn't say which of the three attempts it was, so the log cannot be correlated with the retry loop. Require the attempt index in every log line (success and failure).
+
+4. **`Sender.java`, `last=error` — earlier exceptions are discarded.**
+   Only the third exception escapes; the first two are lost, and since (per notes) the caller doesn't log the final one either, no record of them survives anywhere. Once per-attempt failures are logged (finding 1) this is less critical, but attaching them via `error.addSuppressed(last)` is cheap and preserves the full history on the thrown exception. Would flag, not necessarily block on its own.
+
+5. **No test.** The behaviour being added is purely observable through `log`, and the `Consumer<String>` injection makes it trivial to assert. Require a test with a `Transport` whose `send()` always throws, asserting the log contains three attempt entries plus an exhaustion entry, and that the original `IOException` is rethrown.
+
+Not flagging: `throw last` cannot actually be null (every non-returning iteration assigns it), bound of three matches the notes, and the interface has no `close()` so reconnecting each iteration is out of scope here.
+
+__ABLATION_DONE__ exit=0

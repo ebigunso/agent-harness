@@ -1,0 +1,15 @@
+**Findings**
+
+1. **`client.go`, `DisplayCache()` — unrelated behavioral change bundled with the timeout fix.**
+   - What: `DisplayCache()` changed from returning the shared package-level `shared` instance to returning a fresh `&Cache{}` on every call. This is out of scope for "bound outbound HTTP requests to two seconds."
+   - Why it matters: This is not a refactor; it changes semantics. Any caller that writes `DisplayCache().Last = x` and later reads `DisplayCache().Last` will now always see `""` — the memoization is silently disabled. Even if the reviewer notes say both lifetimes are individually valid, this one is (a) not mentioned in the commit message, (b) not justified in the diff or description, and (c) leaves `var shared = &Cache{}` as dead code, which suggests the change wasn't fully thought through. Bundling it with the timeout change also makes the commit misleading — anyone bisecting a cache regression will land on a commit titled "bound outbound http requests."
+   - Require: Revert the `DisplayCache()` change from this commit. If the per-call cache lifetime is actually desired, submit it as a separate change with its own rationale, remove or repurpose `shared`, and update/add tests that pin the intended lifetime.
+
+2. **`client.go`, `Client()` — timeout change is correct but has no test.**
+   - What: `Timeout: 2*time.Second` correctly satisfies the stated requirement (`http.Client.Timeout` covers the whole request including body read, which is what "outbound HTTP request bounded" typically means).
+   - Why it matters: This is a minor flag, not a block. The value is a magic constant that's already been changed once (1s → 2s); nothing prevents it from drifting again.
+   - Require (non-blocking): Either a trivial test asserting `Client().Timeout == 2*time.Second`, or extract a named constant (e.g., `const outboundTimeout = 2 * time.Second`) so the requirement is documented at the definition site.
+
+**Verdict:** Not acceptable as-is. The `Client()` change alone would be approvable; the `DisplayCache()` change must be split out or reverted before merge.
+
+__ABLATION_DONE__ exit=0

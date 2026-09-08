@@ -1,0 +1,53 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b0-0bb1-7e80-81df-4717cd196768
+--------
+user
+Reference material loaded for this review:
+
+State invariants/assumptions. Validate/normalize at entry. Fail actionably; make checks/failure modes explicit.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Accept scheduling timestamps at ingress.
+
+```diff
+--- a/Ingress.java
++++ b/Ingress.java
+@@ -0,0 +1,11 @@
++import java.time.LocalDateTime;
++import java.time.OffsetDateTime;
++import java.time.format.DateTimeFormatter;
++import java.time.temporal.TemporalAccessor;
++import java.util.List;
++final class Ingress {
++    static void schedule(String input, List<String> queue) {
++        TemporalAccessor parsed = DateTimeFormatter.ISO_DATE_TIME.parseBest(input, OffsetDateTime::from, LocalDateTime::from);
++        queue.add(parsed.toString());
++    }
++}
+```
+Commit message: "accept scheduling timestamps at ingress"
+
+Reviewer notes: Java 17. queue stores ISO UTC instants and downstream interprets each string as UTC. Offset-aware ISO input should denote the same instant; naive input is ambiguous and must be rejected. Parsing syntax errors already return 400 in transport.
+
+codex
+- **Ingress.java:8 — Accepts ambiguous timestamps without an offset.** The `LocalDateTime::from` fallback accepts inputs such as `2026-09-09T10:00:00`, although naive input must be rejected. Remove that fallback and require an explicit offset, with rejection routed through the existing transport 400 handling.
+
+- **Ingress.java:9 — Does not normalize to UTC instants.** `OffsetDateTime.toString()` preserves the supplied offset, violating the queue’s UTC contract and risking incorrect scheduling downstream. Convert to `Instant` before serialization: `parsed.toInstant().toString()` with `parsed` typed as `OffsetDateTime`. For example, `2026-09-09T10:00:00+02:00` must enqueue `2026-09-09T08:00:00Z`.
+tokens used
+3,403
+- **Ingress.java:8 — Accepts ambiguous timestamps without an offset.** The `LocalDateTime::from` fallback accepts inputs such as `2026-09-09T10:00:00`, although naive input must be rejected. Remove that fallback and require an explicit offset, with rejection routed through the existing transport 400 handling.
+
+- **Ingress.java:9 — Does not normalize to UTC instants.** `OffsetDateTime.toString()` preserves the supplied offset, violating the queue’s UTC contract and risking incorrect scheduling downstream. Convert to `Instant` before serialization: `parsed.toInstant().toString()` with `parsed` typed as `OffsetDateTime`. For example, `2026-09-09T10:00:00+02:00` must enqueue `2026-09-09T08:00:00Z`.
+
+__ABLATION_DONE__ exit=0

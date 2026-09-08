@@ -1,0 +1,48 @@
+2026-09-08T15:14:23.863893Z ERROR codex_models_manager::manager: failed to load models cache: trailing characters at line 823 column 2
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08195-b093-7e71-995e-c696ee720aef
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Rename persisted customer field to client.
+
+```diff
+--- a/store.go
++++ b/store.go
+@@ -1,3 +1,3 @@
+ package store
+ import "encoding/json"
+-func Encode(name string) ([]byte,error) { return json.Marshal(map[string]string{"customer":name}) }
++func Encode(name string) ([]byte,error) { return json.Marshal(map[string]string{"client":name}) }
+--- a/Reader.java
++++ b/Reader.java
+@@ -0,0 +1,8 @@
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.ObjectMapper;
++final class Reader {
++    static String customer(String json) throws Exception {
++        JsonNode document = new ObjectMapper().readTree(json);
++        return document.path("customer").asText();
++    }
++}
+```
+Commit message: "rename persisted customer field to client"
+
+Reviewer notes: Go writer and Java reader share persisted JSON records. Jackson databind already installed; reader is unchanged. Existing customer documents remain; all new writes use the writer below.
+
+codex
+- **`Reader.java:6` — Reader still reads `customer`, but `store.go` now writes `client`.** New records therefore return an empty string from `document.path("customer").asText()`, silently losing the stored name on read. Update the reader to prefer `client` and fall back to `customer` for existing persisted documents. Require coverage for both legacy `customer` records and new `client` records.
+tokens used
+3,167
+- **`Reader.java:6` — Reader still reads `customer`, but `store.go` now writes `client`.** New records therefore return an empty string from `document.path("customer").asText()`, silently losing the stored name on read. Update the reader to prefer `client` and fall back to `customer` for existing persisted documents. Require coverage for both legacy `customer` records and new `client` records.
+
+__ABLATION_DONE__ exit=0

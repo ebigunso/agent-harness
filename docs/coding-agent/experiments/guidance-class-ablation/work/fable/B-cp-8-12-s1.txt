@@ -1,0 +1,26 @@
+**Verdict: block.** The change adds a service-locator abstraction for a single, already-wired dependency. Net behavior is identical to the pre-diff code; the only delta is complexity and a loss of type safety.
+
+### Findings
+
+**1. `Root.scala` — `class Container` + `Root.service`: unjustified abstraction for one binding (blocking)**
+
+- **What's wrong:** The task was "wire one mail adapter." The pre-diff `object Root { def service = new Service(new LocalMail) }` already does exactly that. The diff replaces it with a hand-rolled DI container: a mutable `Map[String, () => Any]`, string keys, `bind`/`resolve`, and an `asInstanceOf[Mail]` cast — all to construct the same `new Service(new LocalMail)`.
+- **Why it matters:**
+  - There is one `Mail` implementation, no lifecycle variation, and the container is instantiated fresh inside every `service` call, so it provides no sharing, no substitution point, and no configuration surface. It is abstraction with zero concrete uses justifying it.
+  - It regresses type safety. The original wiring is checked by the compiler; the new path goes through `String` → `Any` → `asInstanceOf`. A key typo, a wrong binding type, or a missing `bind` becomes a runtime `NoSuchElementException`/`ClassCastException` instead of a compile error. The reviewer notes say lookup "succeeds" today, but the design choice is what's wrong, not the current outcome.
+  - Cognitive load goes up: a reader must now trace `bind` → `resolve` → cast to learn what a one-line constructor call said directly. This is the accidental complexity the guideline says to remove before abstracting, not after.
+- **What I'd require:** Drop `Container` and restore the direct constructor wiring:
+  ```scala
+  object Root { def service: Service = new Service(new LocalMail) }
+  ```
+  If a container is genuinely needed later (multiple adapters, scoped lifecycles, config-driven selection), introduce it then, typed (e.g. keyed by `ClassTag`/type, or just a plain `Config`-driven factory), and with the concrete second use in the same PR.
+
+**2. `Root.scala:1` — `import scala.collection.mutable.Map` (minor; moot if #1 is addressed)**
+
+- **What's wrong:** Top-level import shadows `Predef.Map` for the whole file with the mutable variant.
+- **Why it matters:** Any later `Map(...)` in this file silently becomes mutable; this is a well-known Scala footgun. Idiomatic form is `import scala.collection.mutable` and `mutable.Map`.
+- **What I'd require:** Remove along with `Container`. If the container somehow survives, use the qualified `mutable.Map` form.
+
+Nothing else. The `Mail`/`LocalMail`/`Service` lines are unchanged and fine.
+
+__ABLATION_DONE__ exit=0

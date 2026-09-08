@@ -1,0 +1,31 @@
+**Verdict: block.** The handler accepts anything and writes it straight into inventory; the stated invariant (positive safe integer) is never enforced on the server.
+
+### Findings
+
+**1. `inventory.ts`, `post()` — no validation at the trust boundary**
+`body.quantity as number` is a type assertion, not a check. `quantity` is typed `unknown` precisely because the server can't trust it, and the cast just silences the compiler. Since POST is directly reachable and `formValid` only runs in the browser (per the notes), any of `undefined`, `null`, `"5"`, `-3`, `1.5`, `NaN`, `2**60`, `{}` will be pushed into a `number[]` and return 201. This is exactly the invariant the notes say must hold ("positive safe-integer quantities"), and it's violated on the first non-form request.
+Required: call the validator server-side before mutating state, e.g.
+
+```ts
+export function post(body: {quantity?: unknown}) {
+  const q = body.quantity;
+  if (typeof q !== 'number' || !formValid(q)) {
+    return {status: 400, error: 'quantity must be a positive safe integer'};
+  }
+  inventory.push(q);
+  return {status: 201};
+}
+```
+
+Note `formValid(q: number)` will happily accept a numeric string at runtime if called with `unknown` cast to `number` — the `typeof` guard is needed, not just the call.
+
+**2. `post()` — no failure mode exists**
+The function has exactly one exit path (`201`). Even once validation is added, the contract should state that invalid input fails early with an actionable error rather than being coerced or dropped silently. Decide explicitly whether numeric strings like `"5"` are normalized or rejected; I'd reject (fail loudly), but either way it should be a deliberate, documented choice at the boundary, not an accident of the cast.
+
+**3. `formValid` naming / placement**
+The name signals "this is the UX check," which is how it ended up not being used in `post`. The same predicate is the server invariant. Rename to something like `isValidQuantity` (or export a shared `validateQuantity`) so it's obvious it's the single source of truth for both client and server, and add a one-line comment that the handler must call it regardless of client validation.
+
+### Not raised
+- Not checking that `body` is an object: the notes say the JSON middleware guarantees that, so relying on it is fine. I'd add a short comment in `post` stating that assumption so the dependency on the middleware is explicit.
+
+__ABLATION_DONE__ exit=0

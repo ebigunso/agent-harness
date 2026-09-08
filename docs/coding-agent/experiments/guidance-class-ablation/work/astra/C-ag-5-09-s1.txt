@@ -1,0 +1,43 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e6-5af0-7ed3-a6a2-2df137d01fa5
+--------
+user
+Reference material loaded for this review:
+
+Define owners, lifecycles and transitions; enforce invariants authoritatively. Derive full classification truth tables first. Check concurrent/repeated runs; reject optional-only guards, conflicting writers and invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Allow admin order adjustments.
+
+```diff
+--- a/order.php
++++ b/order.php
+@@ -0,0 +1,5 @@
++<?php
++function setLines(array &$order, array $lines): void {
++    $order["lines"]=$lines; $order["total"]=array_sum($lines);
++}
++function adminTotal(array &$order, int $total): void { $order["total"]=$total; }
+```
+Commit message: "allow admin order adjustments"
+
+Reviewer notes: Integer cents, bounded sums. Order total is defined as sum of line amounts. Normal path recomputes; admin should represent adjustment within same authoritative model. Both writers run serially, so even sequential updates conflict.
+
+codex
+- **`order.php:5` — `adminTotal()` violates the authoritative total invariant.** Writing `total` independently allows it to differ from the sum of line amounts, and a subsequent `setLines()` silently overwrites the admin adjustment. Serial execution does not prevent this conflict. Represent the adjustment as a line amount within the same authoritative model and recompute `total` through a shared update path that preserves `total === sum(lines)`.
+tokens used
+3,223
+- **`order.php:5` — `adminTotal()` violates the authoritative total invariant.** Writing `total` independently allows it to differ from the sum of line amounts, and a subsequent `setLines()` silently overwrites the admin adjustment. Serial execution does not prevent this conflict. Represent the adjustment as a line amount within the same authoritative model and recompute `total` through a shared update path that preserves `total === sum(lines)`.
+
+__ABLATION_DONE__ exit=0

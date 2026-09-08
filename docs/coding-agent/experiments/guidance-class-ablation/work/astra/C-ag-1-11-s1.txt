@@ -1,0 +1,53 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e2-aa7e-75d3-8feb-f1655abff7eb
+--------
+user
+Reference material loaded for this review:
+
+Keep layer responsibilities clear; business rules in domain/app. Map affected owners in plan; verify correct placement and explain moves. No UI policy, policy in data access, or catch-all utilities.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record approval audit events.
+
+```diff
+--- a/ApprovalDao.scala
++++ b/ApprovalDao.scala
+@@ -0,0 +1,11 @@
++import java.sql.Connection
++object ApprovalDao {
++ def update(db: Connection, id: Long, status: String, audit: String => Unit): Unit = {
++  val q = db.prepareStatement("UPDATE orders SET status=? WHERE id=?")
++  try {
++   q.setString(1,status); q.setLong(2,id)
++   val changed = q.executeUpdate()
++   if (changed == 1 && status == "approved") audit(s"Approved:$id")
++  } finally q.close()
++ }
++}
+```
+Commit message: "record approval audit events"
+
+Reviewer notes: Scala 2.13/JDBC. Caller owns a transaction with autoCommit=false and may roll back after DAO update. audit is an independent event sink; an Approved event means committed business approval.
+
+codex
+- **`ApprovalDao.scala:8` — Audit emission precedes transaction commit.** `executeUpdate()` confirms an update within the caller’s transaction, not a committed approval. The independent sink can record `Approved` even if the caller subsequently rolls back or commit fails. Require transactionally coordinated event recording, such as an outbox entry written in the same transaction and published only after commit.
+
+- **`ApprovalDao.scala:3,8` — Business approval policy is embedded in data access.** The DAO interprets `"approved"` and decides when to emit a business event. This makes generic persistence responsible for approval semantics. Require the domain/application approval flow to decide when an approval event is warranted and coordinate its persistence; the DAO should execute the update and return its result. Identify the application/domain owner and persistence owner in the change plan and explain the placement.
+tokens used
+3,366
+- **`ApprovalDao.scala:8` — Audit emission precedes transaction commit.** `executeUpdate()` confirms an update within the caller’s transaction, not a committed approval. The independent sink can record `Approved` even if the caller subsequently rolls back or commit fails. Require transactionally coordinated event recording, such as an outbox entry written in the same transaction and published only after commit.
+
+- **`ApprovalDao.scala:3,8` — Business approval policy is embedded in data access.** The DAO interprets `"approved"` and decides when to emit a business event. This makes generic persistence responsible for approval semantics. Require the domain/application approval flow to decide when an approval event is warranted and coordinate its persistence; the DAO should execute the update and return its result. Identify the application/domain owner and persistence owner in the change plan and explain the placement.
+
+__ABLATION_DONE__ exit=0

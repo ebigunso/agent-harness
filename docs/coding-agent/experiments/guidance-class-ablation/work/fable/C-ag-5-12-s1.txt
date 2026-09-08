@@ -1,0 +1,46 @@
+**Verdict: block.** The change does not accomplish the task; after `expire(owner)` every capability that owner holds is still accepted by `valid`.
+
+## Findings
+
+### 1. `Sessions.scala` — `expire` orphans capabilities; `valid` never consults owner existence (blocking)
+
+Classification of `valid(token)` as written:
+
+| token in `capabilities` | `active` | `cap.owner ∈ owners` | current result | required result |
+|---|---|---|---|---|
+| no | — | — | false | false |
+| yes | false | any | false | false |
+| yes | true | yes | true | true |
+| yes | true | **no** | **true** | **false** |
+
+Row 4 is exactly the state `expire` produces: it removes the owner from `owners` and touches nothing in `capabilities`, so `active` stays `true` and `valid` keeps returning `true`. The stated invariant ("capability is valid only while its owner session exists") is violated by the one operation this commit adds. Repeated `expire` calls don't help — `owners -= owner` is idempotent but never reaches the capabilities.
+
+Require: make `valid` authoritative by deriving validity from owner presence, and cascade the cleanup so the orphaned records don't accumulate:
+
+```scala
+def expire(owner: String): Unit = {
+  capabilities.filterInPlace((_, c) => c.owner != owner)
+  owners -= owner
+}
+def valid(token: String): Boolean =
+  capabilities.get(token).exists(c => c.active && owners.contains(c.owner))
+```
+
+Either half alone is insufficient: cascade-only leaves `valid` trusting a flag that any other writer can leave stale; check-only leaves dead records growing unbounded. Do both.
+
+### 2. `Sessions.scala` — two independent, unordered writers of "validity" with a representable invalid state
+
+`owners` and `Capability.active` both encode "is this usable," but nothing ties them together: no constructor/`grant` path requires the owner to exist, no transition sets `active = false` when the owner goes away, and both collections are public `val`s of mutable containers, so any caller can put the store into row 4 directly without going through `expire`. The invariant lives in a reviewer note, not in the code.
+
+Require: make `owners` and `capabilities` `private`, expose the lifecycle as methods (`open(owner)`, `grant(owner, token)` that rejects unknown owners, `revoke(token)`, `expire(owner)`), and decide what `active` means. If it is a per-capability revocation axis independent of session lifetime, keep it and document that validity = `active && ownerPresent`. If it was only ever meant to mirror session state, delete it — a flag that duplicates the owner set is a second source of truth that will drift again.
+
+### 3. No test for the transition the commit is about
+
+There is no test asserting `grant → expire → valid == false`, nor `valid` on a capability whose owner never existed. Given finding 1 is precisely the case the task named, a test is the minimum bar. Require at least: expire invalidates all of that owner's tokens; expire of unknown owner is a no-op; other owners' tokens are unaffected; second `expire` of the same owner is a no-op.
+
+## Not flagged
+
+- Concurrency: store is single-threaded per the notes, so no locking is required; the cascade order in `expire` doesn't matter for atomicity here. If that assumption changes, `expire` and `valid` need a shared lock, but that's out of scope.
+- `expire` on a non-existent owner silently succeeding is acceptable for a cleanup routine.
+
+__ABLATION_DONE__ exit=0

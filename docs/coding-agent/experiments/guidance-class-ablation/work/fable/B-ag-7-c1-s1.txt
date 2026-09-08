@@ -1,0 +1,27 @@
+**Verdict: the core behavior is correct (only `LoginEvent` identifiers reach the sink), but I would not approve as-is. Three findings, one of which I'd block on.**
+
+---
+
+**1. `Login.java`, `Login.success(...)` — unused `Credentials` parameter (block)**
+
+- **What:** `success` accepts `Credentials credentials` and never reads it. Only `event` is passed to `sink`.
+- **Why it matters:** A telemetry/logging entry point that receives plaintext password and bearer token is a standing footgun. The task is "log identifiers only"; the safest way to guarantee that is to make it impossible for the logging path to see secrets at all. Today it's a dead parameter; the next edit that adds "context" to the sink is one keystroke from `sink.accept(...)` with credentials in scope. Reviewer notes say "never passed to sink" — true now, but the code doesn't enforce it, the signature actively invites it, and it also drags secrets into any stack trace/debugger frame for this method.
+- **Require:** Remove the `Credentials` parameter from `success`. If a future caller genuinely needs both, keep credential handling in the auth layer and hand the logger only the `LoginEvent`.
+
+**2. `Login.java`, `record Credentials(String password, String bearerToken)` — default `toString()` exposes secrets (flag, should fix in this change)**
+
+- **What:** Java records auto-generate `toString()` that prints every component: `Credentials[password=hunter2, bearerToken=eyJ...]`.
+- **Why it matters:** Gate 7 explicitly calls out sensitive-data exposure in logs/telemetry. Any incidental `log.debug("{}", creds)`, string concatenation in an exception message, or framework that `toString()`s method args will dump both secrets verbatim. The record is introduced in this diff, so this is in scope.
+- **Require:** Override `toString()` to redact (e.g. `Credentials[password=***, bearerToken=***]`), or don't model raw secrets as a record with public accessors at all.
+
+**3. `Login.java` — only the success path is instrumented; no failure signal (flag / question)**
+
+- **What:** There is a `success(...)` hook and nothing for failed login.
+- **Why it matters:** Gate 7 anti-pattern: "silent failure paths with no diagnosable signal." For a login flow, failures (bad credentials, locked account, expired token) are the more operationally and security-relevant events — brute-force detection, lockout diagnosis, and incident response all depend on them. If failure logging is handled elsewhere, the plan/PR should say so; if not, this change leaves the changed flow half-observable.
+- **Require:** Either add a `failure(LoginEvent, FailureReason)` sink call with the same identifier-only payload (reason as an enum, not a free-text message that could echo input), or document in the PR where failure events are emitted.
+
+---
+
+**Not raised:** `eventId`/`requestId`/`accountId` in the sink payload are fine given the stated allowlist and that they're opaque server-generated IDs. Null-safety on `sink` is a nit I wouldn't block on here.
+
+__ABLATION_DONE__ exit=0

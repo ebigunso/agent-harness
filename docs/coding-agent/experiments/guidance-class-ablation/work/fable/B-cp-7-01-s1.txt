@@ -1,0 +1,18 @@
+**Verdict: block.** The core function has the right shape but is built directly on the wall clock, and the only validation is a test that literally waits for midnight.
+
+**1. `expiry.py:3-4` — `expired()` reads `datetime.now()` internally; no clock seam.**
+The decision (`today >= expires_on`) is trivial, but it's welded to hidden global state (system clock + process TZ), so it can't be tested at the boundary without controlling real time. Require a `today`/`now` parameter (or an injectable clock), e.g. `def expired(expires_on, today=None): today = today or date.today(); return today >= expires_on`. This makes the midnight edge a one-line assertion: `assert not expired(d, today=d - timedelta(days=1))` / `assert expired(d, today=d)`.
+
+**2. `expiry.py:5-10` — `test_midnight` busy-waits until the real calendar date rolls over.**
+Worst case it sleeps ~24 hours; it will hang or time out in CI and pass only if someone happens to run it seconds before midnight. That's not boundary validation, it's a wall-clock lottery. Delete it and replace with deterministic tests using the seam from (1) — cover the day before (not expired), the day itself (expired), and a past date (expired). Evidence for a one-line comparison should be a handful of instant assertions, not a multi-hour wait.
+
+**3. `expiry.py:4` — timezone is implicit (whatever `TZ` the process happens to have).**
+"Local midnight" is a property of the pass/venue, not of the server process. If the service ever runs with a different `TZ`, or serves passes from more than one zone, expiry silently shifts by hours. At minimum pass an explicit `tzinfo` (`datetime.now(tz).date()`) or make the `today` parameter the caller's responsibility with the zone resolved from the pass. The reviewer note that "the test runs in that same zone" is exactly the coupling I'd want removed.
+
+**4. `expiry.py:3` — semantics of `expires_on` are ambiguous and undocumented.**
+With `>=`, a pass with `expires_on = D` is already expired at 00:00 on D. If callers store the *last valid day* (a natural reading of "daily pass for D"), every pass expires a day early. The test's use of `tomorrow` suggests "date on which it becomes invalid," but nothing says so. Require a docstring (and ideally a name like `valid_through` vs `expires_on`) pinning down which convention is meant, plus a test asserting the `expires_on == today` case explicitly.
+
+**5. `expiry.py:2,5` — test code and its `time` import live in the production module.**
+Move the test to `test_expiry.py`; drop the `time` import from `expiry.py` once (2) is fixed.
+
+__ABLATION_DONE__ exit=0

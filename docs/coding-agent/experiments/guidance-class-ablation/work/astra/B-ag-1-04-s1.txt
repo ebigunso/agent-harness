@@ -1,0 +1,60 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d5-82f3-7062-82dc-50ce40828625
+--------
+user
+Reference material loaded for this review:
+
+### Gate 1: Clear Responsibility Boundaries
+
+**Expectation**
+- Each layer/module has a clear responsibility and does not absorb unrelated concerns.
+- Business rules remain in domain/application logic, not scattered into presentation or persistence details.
+
+**Evidence expectations**
+- Planning notes identify impacted boundaries and owned responsibilities.
+- Review confirms behavior changes are implemented in the correct layer.
+- No unexplained cross-layer logic movement.
+
+**Anti-patterns**
+- UI or transport handlers embedding business invariants.
+- Data access layer deciding domain policy.
+- “Utility” modules accumulating unrelated logic as a shortcut.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Read refund eligibility for purchases.
+
+```diff
+--- a/refund.py
++++ b/refund.py
+@@ -0,0 +1,8 @@
++class RefundPolicy:
++    @staticmethod
++    def eligible(age_days): return age_days <= 30
++class PurchaseRepository:
++    def refundable(self, db, purchase_id, age_days):
++        row = db.execute("SELECT id FROM purchases WHERE id = ?", (purchase_id,)).fetchone()
++        if row is None: raise LookupError("purchase missing")
++        return age_days <= 30
+```
+Commit message: "read refund eligibility for purchases"
+
+Reviewer notes: SQLite connection supplied by caller. Age is nonnegative whole days supplied by application clock. Existing RefundPolicy owns 30-day eligibility; repository should retrieve purchase facts.
+
+codex
+- **`refund.py:5–8`, `PurchaseRepository.refundable`** — The repository decides refund eligibility by hard-coding `age_days <= 30`, duplicating the rule owned by `RefundPolicy`. This mixes persistence with domain policy and allows the two implementations to diverge when eligibility rules change. Require the repository to retrieve purchase facts and leave eligibility evaluation to application logic through `RefundPolicy.eligible(age_days)`.
+tokens used
+3,242
+- **`refund.py:5–8`, `PurchaseRepository.refundable`** — The repository decides refund eligibility by hard-coding `age_days <= 30`, duplicating the rule owned by `RefundPolicy`. This mixes persistence with domain policy and allows the two implementations to diverge when eligibility rules change. Require the repository to retrieve purchase facts and leave eligibility evaluation to application logic through `RefundPolicy.eligible(age_days)`.
+
+__ABLATION_DONE__ exit=0

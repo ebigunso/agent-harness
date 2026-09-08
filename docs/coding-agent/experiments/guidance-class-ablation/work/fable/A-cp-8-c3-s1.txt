@@ -1,0 +1,14 @@
+**Findings**
+
+1. **store.go, `Label` — the change does not do what the task/commit message says, and does something else instead.**
+   The task was "use current stores through existing reader port." Before this diff, `Memory` and `Config` already implement `Reader`, and `Label` already consumes `Reader` — the wiring the task asks for was already in place and is untouched here. The only actual change is a new behavior: `Label` now returns `strings.TrimSpace(reader.Name())`. That is an unrelated semantic change hidden under a commit message that describes no behavior change. Reviewers and `git blame` readers will be misled. **Require:** either drop the `TrimSpace` change and submit a no-op/explanatory note that the stores already go through the port, or split the trimming into its own commit with a message that says what it does and why.
+
+2. **store.go, `Label` — silent output change for existing callers, no tests, no justification.**
+   Any caller that uses `Label` output as a key, for equality comparison, or for round-tripping back into a store will now see different values for names with leading/trailing whitespace. Nothing in the diff or notes explains why trimming is desired, whether either store can actually produce padded names, or whether callers tolerate the change. There is also no test covering the new behavior. **Require:** a stated reason for the trimming, a check of `Label` callers, and a unit test (e.g., `Memory{Value: " x "}` → `"x"`, plus the unchanged case). If the real concern is dirty data in a specific store, consider normalizing at that store's `Name()` rather than in the port consumer, so the `Reader` contract stays "returns the name" rather than "returns something the caller must clean."
+
+3. **store.go, line 2 — `import "strings"` immediately after `package store` with no blank line.**
+   Not `gofmt`-clean; CI with a format check will fail, and it will be reformatted on the next touch, producing noise. **Require:** run `gofmt`.
+
+**Verdict:** Not acceptable as-is. The diff is mislabeled — it contains a behavior change the commit message doesn't mention and does nothing toward the stated task. Fix the scope/message mismatch first; if the trimming is genuinely wanted, justify and test it separately.
+
+__ABLATION_DONE__ exit=0

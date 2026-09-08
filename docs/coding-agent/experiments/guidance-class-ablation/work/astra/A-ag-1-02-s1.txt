@@ -1,0 +1,40 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081bd-bd05-7d82-be4a-f4c248986206
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Show loyalty checkout price.
+
+```diff
+--- a/Checkout.tsx
++++ b/Checkout.tsx
+@@ -1,3 +1,7 @@
+ import * as React from "react";
+ export function applicationPrice(days: number, cents: number) { return cents - (days >= 365 ? 100 : 0); }
+-export function Checkout({price}: {price: number}) { return <output>{price}</output>; }
++export function Checkout({days,cents}: {days: number; cents: number}) {
++ const eligible = days >= 365;
++ const price = cents - (eligible ? 100 : 0);
++ return <output>{price}</output>;
++}
+```
+Commit message: "show loyalty checkout price"
+
+Reviewer notes: React installed. Whole account age is validated days, cents >= 100. Shared application pricing owns discount policy; API and mobile call that policy. React now copies the rule instead of receiving its result; upcoming policy changes must apply to every channel.
+
+codex
+- **`Checkout.tsx`, `Checkout` price calculation:** The component duplicates the loyalty discount policy instead of using `applicationPrice`. Although the results match today, future policy changes would update API and mobile while leaving checkout with stale pricing. Require calling `applicationPrice(days, cents)`, or retain the `price` prop and have the caller supply the shared policy’s result.
+tokens used
+3,148
+- **`Checkout.tsx`, `Checkout` price calculation:** The component duplicates the loyalty discount policy instead of using `applicationPrice`. Although the results match today, future policy changes would update API and mobile while leaving checkout with stale pricing. Require calling `applicationPrice(days, cents)`, or retain the `price` prop and have the caller supply the shared policy’s result.
+
+__ABLATION_DONE__ exit=0

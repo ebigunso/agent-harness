@@ -1,0 +1,13 @@
+**Verdict:** The adjustment path itself is correct, and I would not block on it. `with_lock` reloads the row under `SELECT … FOR UPDATE` before yielding, so `quantity + delta` operates on the fresh value, the read‑modify‑write is serialized, and `update!` runs the nonnegative validation inside the same transaction — a failed validation raises and rolls back with the lock released. Both callers route through the single command method, so there is one write path with clear ownership. That satisfies the task as stated ("every adjustment").
+
+One finding I would still raise:
+
+**1. `inventory.rb` — invariant is enforced only at the model‑validation layer; no database CHECK constraint.**
+
+- **What's wrong:** The reviewer note frames the only bypass as "raw SQL," but that is not accurate for Rails. The nonnegative invariant is skipped by ordinary, supported ActiveRecord APIs: `update_column`/`update_columns`, `update_all`, `increment!`/`decrement!` (which use `update_columns`), `update_counters`, `insert_all`/`upsert_all`, and `save(validate: false)`. `decrement!` in particular is a very common thing for someone to reach for on an inventory row.
+- **Why it matters:** Gate 5 requires the invariant to be protected at the authoritative boundary and lists "invariants enforced only in optional caller paths" as an anti‑pattern. Model validations are exactly that in Rails — they hold only when every writer cooperates. For a data invariant like `quantity >= 0`, the database is the authoritative boundary; today nothing there prevents a negative value.
+- **What I'd require:** A migration adding `add_check_constraint :inventories, "quantity >= 0", name: "inventories_quantity_nonnegative"` (Rails 6.1+). Keep the model validation for friendly errors; the constraint is the enforcement point. With that in place, `adjust!` becomes belt‑and‑braces rather than the sole guard. I'd treat this as should‑fix before merge; I'd escalate to blocking if any existing code already calls the validation‑skipping APIs on `Inventory`.
+
+No other findings. (Minor caveat, not a defect: in Rails 7.1+ `with_lock` raises if the passed record has unpersisted changes, so callers must hand `adjust!` a clean instance — that's a caller contract, not something this diff needs to change.)
+
+__ABLATION_DONE__ exit=0

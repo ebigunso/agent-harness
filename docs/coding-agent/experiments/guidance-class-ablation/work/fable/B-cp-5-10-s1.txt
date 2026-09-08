@@ -1,0 +1,20 @@
+**Verdict: not acceptable as-is. One blocking defect, two invariant-protection issues.**
+
+**1. `Search.kt`, `ingress` — raw input is stored without NFC normalization (blocking)**
+`ingress` is the trust boundary where unnormalized Unicode enters, yet it forwards `raw` directly to `addCanonical`. Two submissions of the same text in different forms (e.g. `"é"` as U+00E9 vs `"e"` + U+0301) will produce two distinct entries in the set, violating the stated requirement that distinct normalization forms share one key. The commit does exactly what the reviewer notes say must not happen.
+Require: normalize at the boundary before handing off, e.g.
+```kotlin
+fun ingress(raw: String, store: KeyStore) =
+    store.addCanonical(Normalizer.normalize(raw, Normalizer.Form.NFC))
+```
+Do **not** case-fold — case sensitivity is intentional.
+
+**2. `KeyStore.addCanonical` — precondition is asserted by name only, never checked**
+The method name promises "this key is canonical," but nothing enforces it; a caller passing unnormalized input silently corrupts the set (as `ingress` does today). Invariants that are relied upon should fail early when violated.
+Require: either have `addCanonical` verify its precondition (`require(Normalizer.isNormalized(key, Normalizer.Form.NFC)) { "key must be NFC" }`) or rename/restructure so the store normalizes internally and the name doesn't overclaim. My preference: normalize at `ingress` (fix 1) *and* keep the `require` in `addCanonical` so future call sites can't reintroduce the bug.
+
+**3. `KeyStore.keys` — public mutable set bypasses the invariant entirely**
+`val keys = mutableSetOf<String>()` lets any caller do `store.keys.add(anything)` with no normalization or check, so the "store owns a set of canonical NFC keys" invariant isn't actually owned by the store.
+Require: make the backing set `private` and expose a read-only view (`val keys: Set<String> get() = _keys`), so `addCanonical` is the only write path.
+
+__ABLATION_DONE__ exit=0

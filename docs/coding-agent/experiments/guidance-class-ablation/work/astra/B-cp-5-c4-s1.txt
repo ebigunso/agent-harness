@@ -1,0 +1,63 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a1-dee1-76e0-87e6-c29c30ef153b
+--------
+user
+Reference material loaded for this review:
+
+### 5) Define and Protect Invariants
+
+- Make assumptions explicit at module boundaries.
+- Validate inputs at trust boundaries and normalize internal state early.
+- Fail early with actionable errors when invariants are violated.
+
+Review checks:
+- Which invariants are introduced or relied upon?
+- Are boundary checks and failure modes explicit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Validate upload configuration at startup.
+
+```diff
+--- a/buffer.go
++++ b/buffer.go
+@@ -0,0 +1,8 @@
++package buffer
++import "fmt"
++type Buffer struct { size int }
++func New(size int) (*Buffer, error) {
++ if size < 1 || size > 8*1024*1024 { return nil, fmt.Errorf("buffer size must be 1..8388608") }
++ return &Buffer{size:size}, nil
++}
++func (b *Buffer) Allocate() []byte { return make([]byte,b.size) }
+--- a/buffer_test.go
++++ b/buffer_test.go
+@@ -0,0 +1,6 @@
++package buffer
++import "testing"
++func TestConfig(t *testing.T) {
++ for _, n := range []int{-1,0,8388609} { if _,err:=New(n); err==nil { t.Fatal(n) } }
++ b,err:=New(1); if err!=nil || len(b.Allocate())!=1 { t.Fatal("valid") }
++}
+```
+Commit message: "validate upload configuration at startup"
+
+Reviewer notes: Go package exposes only constructor and method; immutable private field is used by a validated value object. Zero-value Buffer intentionally returns empty bytes and is not a configured instance; New rejects all invalid config.
+
+codex
+Acceptable as-is. `New` explicitly enforces the configured size range before allocation, and the private field preserves that invariant. The documented zero-value behavior is intentional, so it is not a defect. No findings I would raise.
+tokens used
+3,348
+Acceptable as-is. `New` explicitly enforces the configured size range before allocation, and the private field preserves that invariant. The documented zero-value behavior is intentional, so it is not a defect. No findings I would raise.
+
+__ABLATION_DONE__ exit=0

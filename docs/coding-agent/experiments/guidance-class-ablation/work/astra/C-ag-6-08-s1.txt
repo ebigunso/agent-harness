@@ -1,0 +1,46 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e7-8092-7c31-8e2e-2d0ac22fadb6
+--------
+user
+Reference material loaded for this review:
+
+Contain failures locally. Plan failure modes/containment; make timeouts/retries/idempotency/degradation intentional. Verify propagation/fallback; avoid unbounded waits/retries, broad suppression and cascades.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Retry remote lookup through service layers.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,8 @@
++fn retry(mut call: impl FnMut() -> Result<(),String>) -> Result<(),String> {
++ let mut last=String::new();
++ for _ in 0..3 { match call() { Ok(())=>return Ok(()), Err(error)=>last=error } }
++ Err(last)
++}
++pub fn request(mut remote: impl FnMut() -> Result<(),String>) -> Result<(),String> {
++ retry(|| retry(|| retry(|| retry(|| retry(&mut remote)))))
++}
+```
+Commit message: "retry remote lookup through service layers"
+
+Reviewer notes: Overall allowed remote attempt budget is three per request. Each attempt fails promptly; timeouts are not the issue. Five wrappers each retry up to three, producing 243 remote attempts on persistent failure.
+
+codex
+- **`lib.rs:7` — Nested retries exceed the request’s attempt budget.** Five retry wrappers each allow three attempts, so persistent failure triggers **3⁵ = 243 remote calls**, instead of the allowed three. This amplifies downstream load and request latency despite each attempt failing promptly. Require one request-wide retry budget: retry at a single layer or share an attempt counter across layers. Verify that persistent failure makes exactly three remote calls and returns the error, and that success stops further attempts.
+tokens used
+3,265
+- **`lib.rs:7` — Nested retries exceed the request’s attempt budget.** Five retry wrappers each allow three attempts, so persistent failure triggers **3⁵ = 243 remote calls**, instead of the allowed three. This amplifies downstream load and request latency despite each attempt failing promptly. Require one request-wide retry budget: retry at a single layer or share an attempt counter across layers. Verify that persistent failure makes exactly three remote calls and returns the error, and that success stops further attempts.
+
+__ABLATION_DONE__ exit=0

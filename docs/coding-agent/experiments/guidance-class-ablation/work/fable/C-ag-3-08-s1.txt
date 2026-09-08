@@ -1,0 +1,15 @@
+**Finding 1 — `scope.rb`, `listed`: the refactor reorders filter and truncation, which changes behavior.**
+
+- **What's wrong:** The original computed `select(active).first(2)` — filter first, then take the first two survivors. The new code computes `active(rows.first(2))` — take the first two rows of the *unfiltered* input, then filter. These are not equivalent whenever an inactive row appears among the first two positions.
+- **Why it matters:** The stated contract is "first two active rows in input order, even when inactive rows precede them." With input `[{active: false}, {active: true}, {active: true}]`, the old code returns two rows; the new code returns one. With `[{active: false}, {active: false}, {active: true}]`, the old code returns one row; the new code returns zero. The commit message and task both promise "without behavior change," so this is a hidden behavioral regression shipped under a pure-refactor label — exactly the kind of thing a refactor-only commit must not contain.
+- **What I'd require:** Keep the operation order and only extract the predicate:
+  ```ruby
+  def listed(rows)
+    active(rows).first(2)
+  end
+  ```
+  And add a regression test covering the "inactive rows precede active ones" case from the contract, since the absence of such a test is what let this slip.
+
+No other findings. The `active` extraction itself (`rows.select { |row| row[:active] }`) is a faithful lift of the original predicate; the only defect is where it's called relative to `first(2)`. The change is **not acceptable as-is** — block until the order is restored.
+
+__ABLATION_DONE__ exit=0

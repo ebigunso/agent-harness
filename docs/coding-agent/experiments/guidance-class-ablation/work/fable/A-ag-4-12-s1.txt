@@ -1,0 +1,20 @@
+**Verdict: block.** The change is not a refactor — it alters observable ordering and violates the documented contract.
+
+## Findings
+
+### 1. `Pages.scala` — `ordered`: tie-breaker `-index` reverses original tie order
+- **What's wrong:** `sortBy { case (row, index) => (row.score, -index) }` orders equal scores by *descending* original index, i.e. ties come out in reverse insertion order. The documented behaviour is ascending score with *original* tie order retained.
+- **Why it matters:** `page` does offset pagination over this ordering. Any dataset with duplicate scores will now yield different rows per page than before (and than documented), so clients paging by offset will see rows reorder/shift across the boundary between old and new deployments, and any consumer relying on the documented stable tie order gets wrong results. The "IDs are unique / negation is safe" notes address overflow and uniqueness, not this — the sign is simply the wrong direction.
+- **Require:** If an explicit tiebreak is wanted, it must be `(row.score, index)` (ascending index). Add a unit test with duplicate scores asserting original tie order is preserved, and one asserting `page` output across an offset that straddles a tie group.
+
+### 2. `Pages.scala` — the added `zipWithIndex`/`map` is unnecessary
+- **What's wrong:** In Scala 2.13, `Vector.sortBy` is already stable (delegates to `java.util.Arrays.sort` on `Object[]`, which is a stable merge sort), so `rows.sortBy(_.score)` already preserved original tie order. The rewrite adds an allocation of a tuple per row, a second traversal, and a cheap-to-misread comparison key — while gaining nothing.
+- **Why it matters:** Extra complexity introduced the bug in finding 1. A "refactor" that adds a hand-rolled stability mechanism on top of an already-stable sort is a maintenance liability.
+- **Require:** Either leave the original one-liner, or if the intent is to make stability explicit against future changes, do it via a comment/test rather than a redundant key — and if a key is kept, use `index`, not `-index`.
+
+### 3. Commit message / task framing mismatch
+- **What's wrong:** The commit is labelled "refactor" but changes output ordering for ties.
+- **Why it matters:** Reviewers and bisecting engineers will skip a "refactor" commit when hunting an ordering regression in pagination.
+- **Require:** If a behaviour change were actually intended, the message and docs must say so and the pagination contract must be updated; otherwise fix per finding 1 so it is genuinely behaviour-preserving.
+
+__ABLATION_DONE__ exit=0

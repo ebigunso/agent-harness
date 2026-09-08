@@ -1,0 +1,27 @@
+**Verdict: block.** One substantive defect, plus a smaller follow-on.
+
+**1. `Eligibility.kt` lines 2–5 — threshold duplicated four times instead of delegating to `eligible`.**
+
+Each new function re-encodes `age >= 18` rather than calling the existing authoritative `eligible(age)`. This is the exact "fast debt" the review guidance says to avoid, and the reviewer notes make the cost concrete: the 18→21 policy change is already scheduled for next month. With this diff, that change becomes five edits instead of one, and any missed site silently shows the wrong eligibility on one screen. The author's "quick copy for this release" note doesn't reduce the risk — it just moves the bug to the next release, when the person doing the threshold bump may not know these copies exist.
+
+There's also a boundary problem: the file now has five things that *look* like independent policies but are meant to be one. A future reader can't tell whether `exportBadge` diverging from `eligible` is intentional or a drift bug.
+
+Required instead: every entry point must derive from `eligible`:
+
+```kotlin
+fun eligible(age: Int) = age >= 18
+fun homeBadge(age: Int) = eligible(age)
+fun settingsBadge(age: Int) = eligible(age)
+fun exportBadge(age: Int) = eligible(age)
+fun profileBadge(age: Int) = eligible(age)
+```
+
+Or, more honestly: if the four badges have no behavior of their own, don't introduce the wrappers at all — have the four entry points call `eligible` directly. Only keep a per-entry-point function if there's a real reason for one screen to diverge, and in that case the divergence should be explicit in the code, not hidden in a copied literal.
+
+**2. Same file — threshold is a bare literal with no name.**
+
+Pre-existing, but this diff is the moment it starts to matter: the value is about to change and it's referenced from (currently) five places. Extract it once, e.g. `private const val MIN_ELIGIBLE_AGE = 18`, so the policy change next month is a single, greppable edit and the intent is legible. I'd accept this as a follow-up if the delegation fix in (1) lands, since with delegation there's only one literal left.
+
+**Not flagged:** no test coverage in the diff. With delegation the wrappers are trivial and the existing `eligible` behavior is unchanged, so I wouldn't require new tests for this change; I would want a test on `eligible` itself before the 18→21 change, but that belongs with that ticket.
+
+__ABLATION_DONE__ exit=0

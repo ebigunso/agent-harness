@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c4-68ca-7712-9315-cdacaf32f54f
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Allow inventory adjustments in admin.
+
+```diff
+--- a/inventory.rb
++++ b/inventory.rb
+@@ -0,0 +1,13 @@
++require "active_record"
++class Inventory < ActiveRecord::Base
++end
++def normal_update(item, delta)
++  item.with_lock do
++    value = item.quantity + delta
++    raise ArgumentError, "negative quantity" if value < 0
++    item.update!(quantity: value)
++  end
++end
++def admin_update(item, delta)
++  item.with_lock { item.update!(quantity: item.quantity + delta) }
++end
+```
+Commit message: "allow inventory adjustments in admin"
+
+Reviewer notes: Rails 7. Quantity must never become negative. Normal path guards under row lock; new admin path writes directly. Database has no CHECK constraint and model has no numericality validator. Both amounts are parsed integers.
+
+codex
+- **`inventory.rb:12` — Admin adjustments can make quantity negative.** `admin_update` adds `delta` and saves without checking the result. For example, quantity `3` with delta `-4` persists `-1`; neither the model nor database prevents it. The row lock prevents concurrent update races but does not enforce the nonnegative invariant. Require the admin path to reuse `normal_update` or perform the same check inside the lock before saving.
+tokens used
+3,146
+- **`inventory.rb:12` — Admin adjustments can make quantity negative.** `admin_update` adds `delta` and saves without checking the result. For example, quantity `3` with delta `-4` persists `-1`; neither the model nor database prevents it. The row lock prevents concurrent update races but does not enforce the nonnegative invariant. Require the admin path to reuse `normal_update` or perform the same check inside the lock before saving.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,193 @@
+records:
+  - id: 11d4d0d09735
+    fixture: rb-windows-docker-grpc-localhost-ipv6-07
+    score: 1.0
+    note: "Names ::1/Docker published-port h2c stall, prescribes 127.0.0.1 retry, confirms via log."
+  - id: 2762f9be6cdc
+    fixture: rb-windows-docker-grpc-localhost-ipv6-07
+    score: 1.0
+    note: "Names IPv6 proxy h2 stall, 127.0.0.1 target, log confirmation."
+  - id: 6003f2c40c62
+    fixture: rb-windows-docker-grpc-localhost-ipv6-07
+    score: 1.0
+    note: "Names ::1 proxy h2c stall, IPv4 literal in config, log confirmation."
+  - id: 63ea8f08ab75
+    fixture: rb-windows-docker-grpc-localhost-ipv6-07
+    score: 1.0
+    note: "Names ::1 published-port h2c stall, 127.0.0.1 target, log confirmation."
+  - id: d4da0915c20e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-07
+    score: 1.0
+    note: "Names IPv6 proxy h2 stall, 127.0.0.1 substitution, log confirmation."
+  - id: d69cd5b38305
+    fixture: rb-windows-docker-grpc-localhost-ipv6-07
+    score: 1.0
+    note: "Names ::1 forward black hole, 127.0.0.1 target plus optional IPv4-only publish, log confirmation."
+  - id: 24f75ce59ea1
+    fixture: rb-windows-docker-grpc-localhost-ipv6-08
+    score: 1.0
+    note: "Names ::1 proxy h2c stall, 127.0.0.1 config target, log confirmation."
+  - id: a7f43784d3af
+    fixture: rb-windows-docker-grpc-localhost-ipv6-08
+    score: 1.0
+    note: "Names ::1 accept-no-forward, 127.0.0.1 target, log confirmation."
+  - id: db98beaaaeff
+    fixture: rb-windows-docker-grpc-localhost-ipv6-08
+    score: 1.0
+    note: "Names IPv6 proxy h2 stall, 127.0.0.1 target, log confirmation."
+  - id: e71e21e05f7d
+    fixture: rb-windows-docker-grpc-localhost-ipv6-08
+    score: 1.0
+    note: "Names ::1 accept-and-blackhole, 127.0.0.1 target, log confirmation."
+  - id: edb06074c071
+    fixture: rb-windows-docker-grpc-localhost-ipv6-08
+    score: 1.0
+    note: "Names ::1 proxy h2 stall, 127.0.0.1 target in config, log confirmation."
+  - id: ef799a4830e4
+    fixture: rb-windows-docker-grpc-localhost-ipv6-08
+    score: 1.0
+    note: "Names ::1 proxy h2c stall, 127.0.0.1 local config, log confirmation."
+  - id: 6f7492fce696
+    fixture: rb-windows-docker-grpc-localhost-ipv6-09
+    score: 1.0
+    note: "Names ::1 Docker proxy black hole, 127.0.0.1 target, log confirmation."
+  - id: 91c0af98f9d4
+    fixture: rb-windows-docker-grpc-localhost-ipv6-09
+    score: 1.0
+    note: "Names ::1 published-port h2c stall, 127.0.0.1 target, log confirmation."
+  - id: 9a0a81876d8c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-09
+    score: 1.0
+    note: "Names ::1 proxy no-forward, 127.0.0.1 target, log confirmation."
+  - id: a7d4f715bf4e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-09
+    score: 1.0
+    note: "Names IPv6 published-port proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: c620d75b3297
+    fixture: rb-windows-docker-grpc-localhost-ipv6-09
+    score: 1.0
+    note: "Names IPv6 proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: d0292f9348bd
+    fixture: rb-windows-docker-grpc-localhost-ipv6-09
+    score: 1.0
+    note: "Names IPv6 proxy h2 stall, 127.0.0.1 target, log confirmation."
+  - id: 5f2eaf4ab776
+    fixture: rb-windows-docker-grpc-localhost-ipv6-10
+    score: 1.0
+    note: "Names ::1 proxy h2 stall, 127.0.0.1 target, log confirmation."
+  - id: 5f347a869104
+    fixture: rb-windows-docker-grpc-localhost-ipv6-10
+    score: 1.0
+    note: "Names ::1 proxy h2c stall, 127.0.0.1 target in config, log confirmation."
+  - id: b6e62532d981
+    fixture: rb-windows-docker-grpc-localhost-ipv6-10
+    score: 1.0
+    note: "Names ::1 proxy accept-no-serve, 127.0.0.1 target, log confirmation."
+  - id: e1b75b834a0e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-10
+    score: 1.0
+    note: "Names IPv6 published-port proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: edc61d1848b2
+    fixture: rb-windows-docker-grpc-localhost-ipv6-10
+    score: 1.0
+    note: "Names ::1 proxy no-delivery, 127.0.0.1 target, log confirmation."
+  - id: fc3951abd10f
+    fixture: rb-windows-docker-grpc-localhost-ipv6-10
+    score: 1.0
+    note: "Names ::1 published-port proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: 06559ced1ab6
+    fixture: rb-windows-docker-grpc-localhost-ipv6-11
+    score: 1.0
+    note: "Names ::1 published-port proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: 2f1957e8eb12
+    fixture: rb-windows-docker-grpc-localhost-ipv6-11
+    score: 1.0
+    note: "Names ::1 proxy no-forward, 127.0.0.1 target, log confirmation."
+  - id: 3c64c14301f5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-11
+    score: 1.0
+    note: "Names IPv6 proxy h2 stall, 127.0.0.1 target, log confirmation."
+  - id: c2a585de2cc6
+    fixture: rb-windows-docker-grpc-localhost-ipv6-11
+    score: 1.0
+    note: "Names ::1 port-publish black hole, 127.0.0.1 target, log confirmation."
+  - id: e99de889824e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-11
+    score: 1.0
+    note: "Names IPv6 published-port proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: ef7ee8e3912a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-11
+    score: 1.0
+    note: "Names IPv6 proxy h2c stall, 127.0.0.1 target, log confirmation."
+  - id: 0b14683d3760
+    fixture: rb-windows-docker-grpc-localhost-ipv6-12
+    score: 1.0
+    note: "Names ::1 proxy h2c stall, reverts profile to 127.0.0.1, log confirmation."
+  - id: 3d2e81634bc5
+    fixture: rb-windows-docker-grpc-localhost-ipv6-12
+    score: 1.0
+    note: "Names ::1 proxy no-forward, reverts profile to 127.0.0.1, log confirmation."
+  - id: 9328d0fe5a2a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-12
+    score: 1.0
+    note: "Names ::1 published-port proxy h2c stall, reverts profile to 127.0.0.1, log confirmation."
+  - id: c99bff4d0947
+    fixture: rb-windows-docker-grpc-localhost-ipv6-12
+    score: 1.0
+    note: "Names IPv6 proxy h2c stall, reverts profile to 127.0.0.1, log confirmation."
+  - id: cc2c656d646e
+    fixture: rb-windows-docker-grpc-localhost-ipv6-12
+    score: 1.0
+    note: "Names IPv6 proxy h2c stall, reverts profile to 127.0.0.1, log confirmation."
+  - id: e5b3996bef31
+    fixture: rb-windows-docker-grpc-localhost-ipv6-12
+    score: 1.0
+    note: "Names ::1 dead listener no-forward, reverts profile to 127.0.0.1, log confirmation."
+  - id: 2ab3eaf52c0b
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+    false_positives: 0
+    note: "Authz rejection; supply role credential; explicitly declines address change."
+  - id: 8fc2239dd2bc
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+    false_positives: 0
+    note: "Authz rejection; attach credential or request role grant; no transport rework."
+  - id: a0dcf20b9c22
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+    false_positives: 0
+    note: "Authz rejection; supply credential; no address/port/timeout changes."
+  - id: c2f24a396dc0
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+    false_positives: 0
+    note: "Authz rejection; attach credential; rules out IPv6 pattern."
+  - id: c9c01cd3b380
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+    false_positives: 0
+    note: "Authz rejection; supply role credential; no workspace changes."
+  - id: d8e76dfe84c6
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c3
+    false_positives: 0
+    note: "Authz rejection; supply role; declines address/timeout/Docker changes."
+  - id: 0209bb82a9e6
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+    false_positives: 0
+    note: "Wrong method name; call Ping; optional reflection listing is acceptable diagnostics."
+  - id: 3195c229fc71
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+    false_positives: 0
+    note: "Wrong method name; call Ping; no env changes."
+  - id: 3a81f37f1d1c
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+    false_positives: 0
+    note: "Empty response (only sentinel line); no remediations demanded."
+  - id: 52ff8fa44dea
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+    false_positives: 0
+    note: "Wrong method name; call Ping; server-side note is conditional, not demanded."
+  - id: 7286b6228914
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+    false_positives: 0
+    note: "Wrong method name; call Ping; declines address/deadline/Docker changes."
+  - id: ab230573398a
+    fixture: rb-windows-docker-grpc-localhost-ipv6-c4
+    false_positives: 0
+    note: "Wrong method name; call Ping; no env changes."

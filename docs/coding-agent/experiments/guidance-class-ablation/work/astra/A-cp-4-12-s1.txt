@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08193-37ef-7c80-996f-b1d7d2f669aa
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Render fallback profile name.
+
+```diff
+--- a/Profile.scala
++++ b/Profile.scala
+@@ -1,5 +1,8 @@
+ import scala.collection.mutable.ArrayBuffer
+ object Profile {
+   val outbox = ArrayBuffer.empty[String]
+-  def render(name: Option[String]): String = name.getOrElse("Guest")
++  def render(name: Option[String]): String = name.getOrElse {
++    outbox += "Complete your profile"
++    "Guest"
++  }
+ }
+```
+Commit message: "render fallback profile name"
+
+Reviewer notes: Scala 2.13. outbox records intended mail delivery for the separate notification workflow. Rendering may be repeated without user action and is a read-only API.
+
+codex
+- **`Profile.scala`, `render` fallback block:** Rendering `None` now appends `"Complete your profile"` to the mail outbox. This violates the read-only API contract and can enqueue duplicate notifications whenever rendering repeats without user action. Require rendering to remain side-effect-free (`name.getOrElse("Guest")`), with mail enqueueing handled by the separate notification workflow.
+tokens used
+3,115
+- **`Profile.scala`, `render` fallback block:** Rendering `None` now appends `"Complete your profile"` to the mail outbox. This violates the read-only API contract and can enqueue duplicate notifications whenever rendering repeats without user action. Require rendering to remain side-effect-free (`name.getOrElse("Guest")`), with mail enqueueing handled by the separate notification workflow.
+
+__ABLATION_DONE__ exit=0

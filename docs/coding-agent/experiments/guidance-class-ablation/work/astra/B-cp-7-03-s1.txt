@@ -1,0 +1,57 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a3-a5b1-7483-b846-c49e3aecbd10
+--------
+user
+Reference material loaded for this review:
+
+### 7) Build for Testability and Verifiability
+
+- Structure logic so important decisions are easy to test.
+- Prefer deterministic seams over hidden global state.
+- Match validation depth to risk and change surface.
+
+Review checks:
+- Can critical behavior be validated without fragile setup?
+- Is evidence proportional to risk?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Convert invoice amounts using current rates.
+
+```diff
+--- a/Invoice.java
++++ b/Invoice.java
+@@ -0,0 +1,2 @@
++final class Rates { static double current = 1.0; }
++final class Invoice { static double total(double base) { return base * Rates.current; } }
+--- a/InvoiceTest.java
++++ b/InvoiceTest.java
+@@ -0,0 +1,6 @@
++import org.junit.jupiter.api.Test;
++import static org.junit.jupiter.api.Assertions.assertEquals;
++class InvoiceTest {
++    @Test void euros() { Rates.current = 0.9; assertEquals(9.0, Invoice.total(10)); }
++    @Test void dollars() { assertEquals(10.0, Invoice.total(10)); }
++}
+```
+Commit message: "convert invoice amounts using current rates"
+
+Reviewer notes: Single-threaded JUnit suite changes Rates.current in multiple test classes, including before these tests. Every test is supposed to run independently; Rate snapshot is stable during an invoice calculation. Amounts are toy exact doubles.
+
+codex
+- **`InvoiceTest.java:4–5` — Tests depend on and leak shared mutable state.** `euros()` leaves `Rates.current` at `0.9`, while `dollars()` assumes it is `1.0`. Thus `dollars()` can fail depending on earlier tests, including tests in other classes, even in a single-threaded suite. Require independent rate setup for every test and reliable restoration afterward across all tests touching this global. Prefer passing a rate snapshot or injecting a rate source into the calculation so each test can supply its own deterministic input.
+tokens used
+3,443
+- **`InvoiceTest.java:4–5` — Tests depend on and leak shared mutable state.** `euros()` leaves `Rates.current` at `0.9`, while `dollars()` assumes it is `1.0`. Thus `dollars()` can fail depending on earlier tests, including tests in other classes, even in a single-threaded suite. Require independent rate setup for every test and reliable restoration afterward across all tests touching this global. Prefer passing a rate snapshot or injecting a rate source into the calculation so each test can supply its own deterministic input.
+
+__ABLATION_DONE__ exit=0

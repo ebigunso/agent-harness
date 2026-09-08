@@ -1,0 +1,193 @@
+records:
+  - id: 01f2d72f9e59
+    fixture: ag-7-01
+    score: 1.0
+    note: "Names record toString leaking password/bearer token at Login.java:3; requires identifier allowlist."
+  - id: 7f6d5b05ab1b
+    fixture: ag-7-01
+    score: 1.0
+    note: "Names password/bearer token in login telemetry; requires logging only event/account/request IDs."
+  - id: ba3d751717f8
+    fixture: ag-7-01
+    score: 1.0
+    note: "Names credential DTO serialization at telemetry site; requires allowlist of safe identifiers."
+  - id: 1fd6263847ad
+    fixture: ag-7-02
+    score: 1.0
+    note: "Names dropped cause, operation identity, and requestID at both branches; requires wrapped errors with operation and correlation."
+  - id: 2b05c0ca4632
+    fixture: ag-7-02
+    score: 1.0
+    note: "Two findings covering dropped cause and missing operation/requestID context; requires preserving both."
+  - id: 69428379d42f
+    fixture: ag-7-02
+    score: 1.0
+    note: "Names lost operation/correlation context and cause; requires requestID, operation name, and %w wrapping."
+  - id: 4095619ce2d9
+    fixture: ag-7-03
+    score: 1.0
+    note: "Names 64KiB/10ms debug flood evicting fatal events from shared sink; requires rate-limit/sampling with protected retention."
+  - id: 7359e956dc2e
+    fixture: ag-7-03
+    score: 1.0
+    note: "Names full-payload debug volume burying fatal records; requires bounded rate-limited debug and preserved failure retention."
+  - id: f9b65fbd1f9c
+    fixture: ag-7-03
+    score: 1.0
+    note: "Names unbounded debug payload noise evicting fatal diagnostics; requires bounded output or separate sink."
+  - id: 5f50ef447177
+    fixture: ag-7-04
+    score: 1.0
+    note: "Names Authorization/Cookie capture at Middleware.cs:6; requires allowlist/redaction. Secondary success-gating finding is extra."
+  - id: b4f3fe44b948
+    fixture: ag-7-04
+    score: 1.0
+    note: "Names Authorization/Cookie credential exposure; requires allowlist and redaction. Success-gating finding listed first is secondary."
+  - id: d39f85a75695
+    fixture: ag-7-04
+    score: 1.0
+    note: "Names live Authorization/Cookie credentials in telemetry; requires allowlist/redaction. Secondary success-gating finding is extra."
+  - id: c7835f1dd966
+    fixture: ag-7-05
+    score: 1.0
+    note: "Names dropped JoinHandle losing job Result; requires observable completion/error with job ID. Spawn-panic finding is secondary."
+  - id: f046a698c05f
+    fixture: ag-7-05
+    score: 1.0
+    note: "Names launch-only signal with discarded Result; requires completion/failure handler correlated by job ID."
+  - id: f9201f0ccb61
+    fixture: ag-7-05
+    score: 1.0
+    note: "Names unobservable queued-work failure from dropped handle; requires observed completion/failure with safe job ID."
+  - id: 270c2112d85b
+    fixture: ag-7-06
+    score: 1.0
+    note: "Names silently omitted rejected rows; requires rejected count plus safe row indices alongside accepted count."
+  - id: 71d6a881690d
+    fixture: ag-7-06
+    score: 1.0
+    note: "Names accepted-only signal hiding rejections; requires rejected count and batch-relative locations without row contents."
+  - id: da25f4fded12
+    fixture: ag-7-06
+    score: 1.0
+    note: "Names missing rejected count/locations; requires tracking empty rows and reporting count and positions safely."
+  - id: 0478224ba2c6
+    fixture: ag-7-07
+    score: 1.0
+    note: "Names gateway discarding incomingTrace with no parent link; requires forwarding or recording the ID mapping."
+  - id: 5d76b0867af7
+    fixture: ag-7-07
+    score: 1.0
+    note: "Names broken correlation at gateway hop; requires passing incomingTrace or recording incoming-to-new relationship."
+  - id: 6f29525e2c59
+    fixture: ag-7-07
+    score: 1.0
+    note: "Names gateway overwriting trace without link; requires forwarding or explicitly linking safe trace IDs."
+  - id: 614ed6cb8b33
+    fixture: ag-7-08
+    score: 1.0
+    note: "Names missing exhaustion event leaving only connected logs; requires explicit exhaustion signal with attempt/phase context. Failed-connect finding is secondary."
+  - id: 7aece69f2ab9
+    fixture: ag-7-08
+    score: 1.0
+    note: "Names retry exhaustion without diagnostic signal; requires exhaustion event with attempt count, phase, and sanitized cause."
+  - id: dece686ea9ed
+    fixture: ag-7-08
+    score: 1.0
+    note: "Names unlogged final exhaustion after connected-only logs; requires exhaustion log with attempt count and cause before rethrow."
+  - id: 43eacae0ba35
+    fixture: ag-7-09
+    score: 1.0
+    note: "Names data-class toString leaking homeAddress/recoveryAnswer to external analytics; requires allowlisted minimal context."
+  - id: 6d0a2913a386
+    fixture: ag-7-09
+    score: 1.0
+    note: "Names unnecessary private fields in crash telemetry; requires allowlisted identifier-only context plus regression check."
+  - id: f4e4077e4355
+    fixture: ag-7-09
+    score: 1.0
+    note: "Names homeAddress/recoveryAnswer exposure via toString; requires explicit allowlist and regression test."
+  - id: 551fe3c75f67
+    fixture: ag-7-10
+    score: 1.0
+    note: "Names silent overflow drop in write(); requires overflow policy with dropped-event count and critical-event preservation."
+  - id: b617cfe32508
+    fixture: ag-7-10
+    score: 1.0
+    note: "Names silent overflow loss of critical failures; requires bounded dropped-event count outside queue and critical-event path."
+  - id: d86dff189188
+    fixture: ag-7-10
+    score: 1.0
+    note: "Names unobservable overflow loss; requires inspectable dropped counter or alternate loss signal independent of full queue."
+  - id: cb648821db3e
+    fixture: ag-7-11
+    score: 1.0
+    note: "Names per-item INFO stack traces exhausting shared quota and failure retention; requires sampling/rate-limit and failure-retention isolation."
+  - id: e7f2274ea617
+    fixture: ag-7-11
+    score: 1.0
+    note: "Names routine success stacks consuming quota; requires compact success signal and opt-in rate-limited stacks preserving failure retention."
+  - id: f041779b8625
+    fixture: ag-7-11
+    score: 1.0
+    note: "Names success stack noise hiding failure evidence; requires compact sampled success event and protected failure capacity."
+  - id: 1fce95b9610d
+    fixture: ag-7-12
+    score: 1.0
+    note: "Names raw resetToken in failure log; requires removing token and logging non-secret context while preserving exception propagation."
+  - id: 66a15c3ad71a
+    fixture: ag-7-12
+    score: 1.0
+    note: "Names raw reset token exposure; requires safe operation identifier and error code/SQLState instead of secret."
+  - id: cc3b1e2c7102
+    fixture: ag-7-12
+    score: 1.0
+    note: "Names secret bearer token in telemetry; requires operation/correlation ID and non-sensitive error metadata."
+  - id: 3bbb301cfa29
+    fixture: ag-7-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 550cfb765a3e
+    fixture: ag-7-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 8ad4f949ea60
+    fixture: ag-7-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 0eb7c65e7824
+    fixture: ag-7-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 447a28f11101
+    fixture: ag-7-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: fb8783b04545
+    fixture: ag-7-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 2515c8421d46
+    fixture: ag-7-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 4a843ec9f41d
+    fixture: ag-7-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: d97ba8a8e206
+    fixture: ag-7-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 734b2f5e9cf1
+    fixture: ag-7-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 9a0c4819250f
+    fixture: ag-7-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: c8d32d22b99a
+    fixture: ag-7-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."

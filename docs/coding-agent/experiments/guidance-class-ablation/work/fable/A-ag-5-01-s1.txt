@@ -1,0 +1,17 @@
+**Verdict: block.**
+
+1. **`inventory.rb`, `admin_update` — missing negative-quantity guard.**
+   `admin_update` writes `item.quantity + delta` unconditionally. With a negative `delta` larger than the current quantity it persists a negative value. The reviewer notes state quantity must never be negative and confirm there is no CHECK constraint and no numericality validator, so nothing downstream catches this — the admin path is the only line of defense and it doesn't have one. Holding the row lock doesn't help; it only serializes the bad write.
+   Require: the same `raise ArgumentError, "negative quantity" if value < 0` check inside the lock before `update!`. "Allow admin adjustments" means admin may apply arbitrary signed deltas, not that admin may violate the invariant.
+
+2. **`inventory.rb` — guard is duplicated per call site instead of enforced once.**
+   The bug in (1) exists precisely because the invariant lives in `normal_update`'s body rather than in the model. Any future third path will repeat the mistake.
+   Require: fold both functions into one (`adjust(item, delta)` / `Inventory#adjust!(delta)` — the only difference is the missing check), and add the invariant at the model boundary: `validates :quantity, numericality: { greater_than_or_equal_to: 0 }` so `update!` raises `ActiveRecord::RecordInvalid` on a negative value. Ideally also a migration adding a `CHECK (quantity >= 0)` constraint so raw SQL and other writers can't bypass it either. If a real admin-only behavioral difference is intended (e.g. audit logging), it should be additive, not a removal of the guard.
+
+3. **`inventory.rb` — no test for the boundary.**
+   The diff adds a write path with a stated hard invariant and no spec. A test that `admin_update(item, -(item.quantity + 1))` raises and leaves the row unchanged would have caught (1).
+   Require: specs for both paths covering `delta` that lands exactly at 0 (allowed) and below 0 (rejected, no persisted change).
+
+Minor, non-blocking: the two helpers are top-level `def`s in the model file rather than instance methods on `Inventory`; move them onto the model when consolidating per (2).
+
+__ABLATION_DONE__ exit=0

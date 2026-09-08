@@ -1,0 +1,23 @@
+**Verdict: not acceptable as-is — one blocking defect.**
+
+1. **`Upload.cs`, line 7 — `Guid.NewGuid().ToString()` inside the retry loop (BLOCKING).**
+   This defeats the purpose of the change. `TimeoutException` here means *unknown outcome*: the first `Create` may have succeeded server-side. Retrying with a fresh key then stores a second (and possibly third) copy of the same payload under different keys — orphaned objects nobody can find or delete. The reviewer note already states `Create` is idempotent only for a stable key, so the retry is only safe if the key is fixed before the first attempt. Require: compute the key once, outside the loop, and reuse it on every attempt:
+   ```csharp
+   var key = Guid.NewGuid().ToString();
+   for (...) { try { await storage.Create(key, data); return; } catch (TimeoutException) when (attempt < 2) {} }
+   ```
+
+2. **`Upload.cs`, `Send` signature — key is generated internally and discarded.**
+   `Send` returns `Task`, so after a successful upload the caller has no way to know what key the object was stored under, i.e. no way to reference or clean it up. Once the key is stable (fix #1), either accept it as a parameter (`Send(IStorage, string key, byte[] data)`) or return it (`Task<string>`). Accepting it is preferable — it also lets a caller that gets the final `TimeoutException` retry later with the same key, preserving idempotency across the process boundary.
+
+3. **`Upload.cs`, line 8 — no delay between attempts (should fix, non-blocking).**
+   A timeout followed by an immediate re-issue will usually hit the same condition. Add a short backoff (even a fixed `await Task.Delay(...)`) between retries. Keep it simple; no need for jitter/exponential here unless the client is used at high volume.
+
+4. **`Upload.cs`, lines 6/8 — retry bound duplicated as two magic numbers (nit).**
+   `attempt<3` and `when(attempt<2)` must stay in sync; if someone bumps the loop to 5 the filter still throws on attempt 2. Use a single constant: `const int MaxAttempts = 3;` … `when (attempt < MaxAttempts - 1)`.
+
+5. **Formatting (nit).** Missing namespace, single-space indentation, `byte[] data` with no space after the comma. Run the project formatter before merge.
+
+Things I'm *not* flagging: catching only `TimeoutException` is correct given the client contract in the notes (that is the unknown-outcome signal; other exceptions are definite failures and should propagate). Not adding a `CancellationToken` is fine since the notes say the client handles timeout/cancellation internally. Letting the third timeout propagate is correct — the caller must know the final outcome is unknown.
+
+__ABLATION_DONE__ exit=0

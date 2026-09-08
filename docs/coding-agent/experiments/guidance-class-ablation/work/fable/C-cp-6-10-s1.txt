@@ -1,0 +1,32 @@
+**Verdict: block.** The rename is applied to the writer only; the shared reader is not aligned and there is no migration for existing records.
+
+## Findings
+
+### 1. `Reader.java` — reader still reads `"customer"`, writer now emits `"client"`
+- **What's wrong:** `Reader.customer()` does `document.path("customer").asText()`. Every record written by the new `Encode` has key `"client"`, so `path("customer")` returns a `MissingNode`, and `MissingNode.asText()` returns `""`. No exception, no log — every new record's name reads back as an empty string.
+- **Why it matters:** This is a silent data-loss bug across a wire/persistence contract. Nothing in the reader, tests, or runtime will flag it; downstream code just sees blank customer names.
+- **Require:** Update the reader in the same change to read `"client"`. Also stop using `path(...).asText()` for a required field — use `get(...)`/`hasNonNull(...)` and throw (or return an explicit absent value) when the field is missing, so contract drift fails loudly instead of coercing to `""`.
+
+### 2. No handling for existing persisted `"customer"` documents
+- **What's wrong:** Reviewer notes say existing `customer` documents remain. The change provides neither a data migration nor a reader fallback. If the reader is simply switched to `"client"` (fix for #1), all legacy records then silently read as `""` — same failure, opposite population.
+- **Why it matters:** A persisted-field rename is a schema change on data you don't control the lifetime of; the store is mixed-shape for as long as old records exist.
+- **Require:** One of:
+  - **Dual-read** in `Reader`: prefer `"client"`, fall back to `"customer"`, error if neither present. Document when the fallback can be removed (after a backfill or TTL).
+  - **Explicit migration/backfill** that rewrites existing documents from `"customer"` to `"client"`, ordered before the reader drops `"customer"` support.
+  
+  Either way, the rollout order (reader tolerates both → writer switches → backfill → reader drops old key) should be stated in the commit/PR, not left implicit.
+
+### 3. No versioning of the record shape
+- **What's wrong:** The JSON record has no schema/version marker, so neither side can tell which shape it's holding; the only signal is key presence.
+- **Why it matters:** Key-presence sniffing works for one rename but doesn't scale and can't distinguish "old shape" from "corrupt/missing field."
+- **Require (recommend, not strictly blocking):** Add a `"v"`/`"schema"` field to the record (writer sets it; reader branches on it and rejects unknown versions). If that's out of scope, at minimum document this rename in the schema/contract notes so the next change has something to version against.
+
+### 4. `Reader.java` diff hunk shows a new file, but notes say the reader is unchanged
+- **What's wrong:** The hunk header `@@ -0,0 +1,8 @@` indicates `Reader.java` is being added, while the reviewer note says the reader is pre-existing and untouched.
+- **Why it matters:** Either the diff is misrepresenting the change, or a new reader is being introduced that's already wrong against the writer.
+- **Require:** Reconcile the diff with the description before merge; if the file is new, it must ship with the correct key (and fallback) per #1/#2.
+
+## Summary
+The commit does half of a contract change. Minimum to unblock: align `Reader` to `"client"`, add a `"customer"` fallback (or migration) for existing documents, and make a missing field fail rather than coerce to `""`.
+
+__ABLATION_DONE__ exit=0

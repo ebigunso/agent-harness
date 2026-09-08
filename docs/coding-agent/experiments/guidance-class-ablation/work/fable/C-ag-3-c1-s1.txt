@@ -1,0 +1,17 @@
+**Verdict: acceptable in substance; one item to fix before merge.**
+
+The core change is coherent with the stated intent. `total`, `save`, and `api` are the three touched areas, and each maps directly onto the requirement (expose gross total / retain tax in the stored record / thread the input through). Making `tax` a required positional argument rather than defaulting it to `0` is the right call — a default would silently mask callers that haven't been updated, and the reviewer notes confirm there are no legacy records to migrate. The commit message matches the diff. No hidden behavior in the production path.
+
+**Findings**
+
+1. **`billing.py` — `check()` is a test embedded in the production module.**
+   - *What's wrong:* `check()` is not part of the invoice feature; it's a self-test living in the shipping module. It is never called, so it's dead code from the module's point of view, and it isn't discovered by any test runner either. It also relies on bare `assert`, which is stripped under `python -O`, so even if someone did call it in an optimized build it would pass vacuously.
+   - *Why it matters:* It's a drive-by addition that widens the module's public surface (`billing.check` is now importable), gives a false impression of coverage, and sets a precedent for tests living next to logic instead of in the test suite. The reference material's "no unrelated/drive-by edits" applies here.
+   - *Require instead:* Move the two assertions to a real test (e.g. `test_billing.py::test_api_persists_tax_and_returns_gross`) so they run under the normal test command. The assertions themselves are good — they check both the returned total and the stored record — keep them as-is, just relocate them. Remove `check()` from `billing.py`.
+
+**Not raised (for the record)**
+
+- The signature change is a breaking API change for any external caller of `api`/`save`/`total`. Per the reviewer notes, API, domain, and persistence are changing together in this bounded change, so I'm treating that as in-scope and intentional. If there are callers outside `billing.py` that aren't in this diff, that would be a blocker — worth a quick grep before merging.
+- `total(net,tax)` spacing is a formatting nit only; not worth a round-trip.
+
+__ABLATION_DONE__ exit=0

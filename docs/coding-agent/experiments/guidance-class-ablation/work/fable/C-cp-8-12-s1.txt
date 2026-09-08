@@ -1,0 +1,23 @@
+Findings
+
+1. **Root.scala, `class Container` (lines 5–9) — speculative DI container with no second user.**
+   The task is to wire one adapter. The existing `Root` already did that with direct constructor wiring, and the reviewer notes confirm there's exactly one `Mail` implementation, no lifecycle variation, and a fixed trusted lookup that always succeeds. `Container` is an abstraction with a single call site and a single binding; it earns nothing. This is pure accidental complexity: more code to read, more code to maintain, and a new concept ("bindings") for anyone touching `Root`. Abstract when there are multiple real uses — there aren't.
+   **Require:** delete `Container`; restore `object Root { def service = new Service(new LocalMail) }` (or `def service: Service = new Service(new LocalMail)` if the explicit type is wanted).
+
+2. **Root.scala, `Container` — string keys + `() => Any` + `asInstanceOf[Mail]` throw away static typing.**
+   The original wiring was checked by the compiler: `new Service(new LocalMail)` fails to compile if the types don't line up. The new version converts that into three runtime failure modes — a typo in `"mail"` (`NoSuchElementException` from `Map.apply`), a binding that returns the wrong type (`ClassCastException` on the cast), and an ordering bug where `resolve` is called before `bind`. None of these existed before. Even if a container were justified, `Any` + string keys + casts would be the wrong shape for Scala (typed keys / `ClassTag`, `Option` from `get`, etc.).
+   **Require:** covered by finding 1 — remove the container. If a container is ever genuinely needed, design it type-safe; don't introduce `asInstanceOf` into wiring code.
+
+3. **Root.scala, `def service` — builds a fresh `Container` and re-registers the binding on every call.**
+   `service` is a `def`, so each invocation allocates a new `Container`, a new mutable map, a new closure, and a new `LocalMail`. The container therefore never even provides the sharing/lookup a container is nominally for; it's construction overhead wrapping what is still, semantically, `new Service(new LocalMail)`. This is a symptom of the same problem as finding 1, but worth calling out because it shows the abstraction doesn't do anything even on its own terms.
+   **Require:** covered by finding 1.
+
+4. **Root.scala line 1 — `import scala.collection.mutable.Map` shadows the default immutable `Map`.**
+   Importing `mutable.Map` at file scope unqualified means any later `Map(...)` in this file silently becomes mutable, which is a well-known Scala footgun. Idiomatic form is `import scala.collection.mutable` and then `mutable.Map`. Moot if the container is removed, but I would block on this pattern independently.
+   **Require:** remove with the container; if any mutable collection survives, import the package and qualify the type.
+
+Minor: commit message "wire one mail adapter" describes a one-line change; the diff adds a DI framework. The message should match what was actually done — or better, the diff should match the message.
+
+**Verdict:** Not acceptable as-is. The change replaces working, compiler-checked, one-line wiring with an untyped, single-use container and a runtime cast, for a task that required no structural change. Revert to direct constructor wiring.
+
+__ABLATION_DONE__ exit=0

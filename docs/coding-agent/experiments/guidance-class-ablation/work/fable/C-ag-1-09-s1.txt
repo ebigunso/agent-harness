@@ -1,0 +1,23 @@
+**Verdict: block.** The task was to enable eligible closure; the diff enables it only for one caller and leaves the actual rule in the wrong layer.
+
+## Findings
+
+**1. `Closure.kt` — `CloseScreen`, `enabled = ageDays >= 30 && balance == 0L`: domain rule encoded as UI policy**
+The eligibility rule ("age ≥ 30 days and balance == 0") is a business rule, and it lives only in a Compose `enabled` expression. The UI is now the sole owner of a domain invariant, and it owns it as a *rendering hint* (a disabled button), not as enforcement. Anything that isn't this button — a recomposition race, a test harness, a second screen, a deep link — can invoke `service.close` on an ineligible account.
+*Require:* move the rule into the domain — e.g. `Closure.isEligible(ageDays, balance)` / an `Eligibility` value — and have the screen call that predicate for `enabled`. The screen should not know the numbers 30 or 0.
+
+**2. `Closure.kt` — `Closure.close(...)` accepts any request; `nightly(...)` calls it unguarded**
+Reviewer notes confirm the service "currently accepts any requested closure" and that the nightly worker is a second caller. This diff does nothing for that path: the nightly job will close ineligible accounts. Putting the check in the button doesn't fix this; the service is the only place both callers converge, so it is the only place the rule can be enforced once.
+*Require:* `Closure.close` must evaluate eligibility itself (fail-closed — reject/return a result, don't just append `"closed"`). The nightly worker then gets correct behaviour with no change of its own. If the author intends the check to stay caller-side, they need to say so explicitly and guard `nightly` too — but that's the wrong design given two callers already exist.
+
+**3. `Closure.kt` — domain service, Compose screen, and worker entry point in one root-level file**
+Three layers with three different owners are in a single file next to `androidx.compose` imports. The domain type now transitively depends on Material3, the worker depends on a UI module, and nobody can tell from the tree which owner is responsible for the rule. The plan should have mapped the affected owners (domain/service, UI, scheduler) and the diff should reflect that.
+*Require:* split into their layers — `Closure` (+ eligibility) under domain/app, `CloseScreen` under UI, `nightly` under the worker/scheduler package — and state in the PR description why each piece lands where it does.
+
+**4. `Closure.kt` — `events: MutableList<String>` threaded through the UI signature**
+Minor, but `CloseScreen` takes a raw mutable event sink and hands it to the service. That's an infrastructure detail leaking into the UI contract and it makes the screen impossible to preview or test without a mutable list. Not a blocker on its own, but if the file is being restructured anyway, the screen should receive a `onClose: () -> Unit` (or the service only) and the event sink should be owned by the service/app layer.
+
+## What I would not flag
+Nothing else. The Compose usage itself is fine given Material3 is installed; the commit message accurately describes what was done (which is part of the problem — "in screen" is exactly where the rule shouldn't be).
+
+__ABLATION_DONE__ exit=0

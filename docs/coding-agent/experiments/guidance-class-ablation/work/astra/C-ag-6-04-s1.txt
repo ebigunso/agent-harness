@@ -1,0 +1,47 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e7-19f2-7350-bbc5-9c8b7ce06ef6
+--------
+user
+Reference material loaded for this review:
+
+Contain failures locally. Plan failure modes/containment; make timeouts/retries/idempotency/degradation intentional. Verify propagation/fallback; avoid unbounded waits/retries, broad suppression and cascades.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Retry partner response failures.
+
+```diff
+--- a/partner.py
++++ b/partner.py
+@@ -0,0 +1,5 @@
++import requests
++def read(url):
++    while True:
++        response=requests.get(url,timeout=1)
++        if response.status_code==200: return response.text
+```
+Commit message: "retry partner response failures"
+
+Reviewer notes: requests installed; request bytes immutable and timeouts per attempt are 1s. Partner permanent 400 cannot succeed on retry. Loop currently retries every non-200 response forever without delay or overall budget.
+
+codex
+- **`partner.py:3–5` — Retries every non-200 response indefinitely.** Permanent failures such as 400 can never succeed, and persistent transient failures never return control to the caller. The per-request timeout does not bound the operation. Require explicit retryable-status classification, a finite attempt limit or overall deadline, and a clear error on permanent failure or exhaustion.
+
+- **`partner.py:3–4` — Retries have no delay.** Fast failure responses can cause a tight request loop, increasing partner load and worsening an outage. Require bounded exponential backoff with jitter and respect applicable `Retry-After` guidance within the overall retry budget.
+tokens used
+3,304
+- **`partner.py:3–5` — Retries every non-200 response indefinitely.** Permanent failures such as 400 can never succeed, and persistent transient failures never return control to the caller. The per-request timeout does not bound the operation. Require explicit retryable-status classification, a finite attempt limit or overall deadline, and a clear error on permanent failure or exhaustion.
+
+- **`partner.py:3–4` — Retries have no delay.** Fast failure responses can cause a tight request loop, increasing partner load and worsening an outage. Require bounded exponential backoff with jitter and respect applicable `Retry-After` guidance within the overall retry budget.
+
+__ABLATION_DONE__ exit=0

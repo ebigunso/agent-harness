@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`invoice.rb`, `audit(wire)` — consumer not updated; double conversion (blocking).**
+   `audit` was written against the old wire contract where `:amount` was cents, and it converts to dollars with `* 0.01`. The diff changes the producer so `:amount` is now already in dollars, but leaves `audit` unchanged. With the stated value (1250 cents): before, `1250 * 0.01 = 12.5` dollars persisted (correct); after, `serialize` emits `12.5`, and `audit` persists `12.5 * 0.01 = 0.125` dollars — a 100× understatement written to durable storage. This is a silent semantic drift between producer and consumer in the same file, and it corrupts financial records rather than raising an error.
+   Required: change `audit` to treat `:amount` as major units in the same commit (i.e., drop the `* 0.01`, or make the unit explicit — e.g. `wire.fetch(:amount)` is dollars, persist as-is). The producer and consumer of `:amount` must land together; do not merge the serializer change on its own.
+
+2. **`invoice.rb`, `serialize` — unit change on an unchanged field name with no versioning (flag).**
+   The key `amount` keeps its name and type-shape but changes meaning from cents to dollars. Any other consumer of this JSON (`render json` output, clients, other internal readers besides `audit`) will misinterpret the value with no signal that the contract changed. This is exactly the kind of coercion/shape drift that should be made explicit.
+   Required: either rename the field to make the unit unambiguous (e.g. `amount_major` / `amount_dollars`, or keep `amount_cents` alongside during a migration window), or version the serializer/API and document the cutover. At minimum, audit all readers of `:amount` before merging.
+
+The change is not acceptable as-is; finding 1 must be fixed before merge.
+
+__ABLATION_DONE__ exit=0

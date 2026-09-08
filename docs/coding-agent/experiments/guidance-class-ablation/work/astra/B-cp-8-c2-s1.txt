@@ -1,0 +1,54 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a5-987f-7142-9b98-34b3d6115479
+--------
+user
+Reference material loaded for this review:
+
+### 8) Control Complexity and Duplication
+
+- Remove accidental complexity before introducing abstraction.
+- Abstract only when multiple concrete uses justify it.
+- Keep dependency direction intentional and acyclic where practical.
+
+Review checks:
+- Does abstraction reduce or increase cognitive load?
+- Is new complexity justified by measurable maintenance benefit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Replace sole command registry with direct call.
+
+```diff
+--- a/cli.py
++++ b/cli.py
+@@ -1,5 +1,6 @@
+ def status():
+     return "ready"
+-REGISTRY = {"status": status}
+ def main():
+-    return REGISTRY["status"]()
++    return status()
++def check():
++    assert main() == "ready"
+```
+Commit message: "replace sole command registry with direct call"
+
+Reviewer notes: Only internal main calls the handler. Removed key and registry are not persisted or public. Equivalent output is asserted by executable check.
+
+codex
+Acceptable as-is. The direct call removes an unnecessary registry while preserving behavior. The registry has no public or persisted contract, and the executable check asserts the expected output. No findings.
+tokens used
+3,132
+Acceptable as-is. The direct call removes an unnecessary registry while preserving behavior. The registry has no public or persisted contract, and the executable check asserts the expected output. No findings.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,56 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a3-50fd-7b40-8335-0ada541b353e
+--------
+user
+Reference material loaded for this review:
+
+### 7) Build for Testability and Verifiability
+
+- Structure logic so important decisions are easy to test.
+- Prefer deterministic seams over hidden global state.
+- Match validation depth to risk and change surface.
+
+Review checks:
+- Can critical behavior be validated without fragile setup?
+- Is evidence proportional to risk?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Retry failed jobs within three attempts.
+
+```diff
+--- a/retry.go
++++ b/retry.go
+@@ -0,0 +1,10 @@
++package retry
++import "time"
++func Retry(attempts int, job func() bool) bool {
++ for i:=0; i<attempts; i++ {
++  if job() { return true }
++  if i+1<attempts { time.Sleep(time.Minute) }
++ }
++ return false
++}
++func Sibling(sleep func(time.Duration)) { sleep(time.Minute) }
+```
+Commit message: "retry failed jobs within three attempts"
+
+Reviewer notes: Attempt budget is a validated positive integer <= 3; delay must stay 60 seconds in production. A sibling worker already accepts the sleeper seam shown. Exhaustion test calls Retry with a callback that always returns false, taking two minutes.
+
+codex
+- **`retry.go:6` — The hard-coded `time.Sleep` makes retry exhaustion unnecessarily slow to test.** The three-attempt exhaustion test takes two minutes, and the sibling’s injected sleeper does not help validate `Retry`. Require an injectable sleeper in the retry implementation, with production defaulting to `time.Sleep` and retaining the 60-second delay. Use a recording fake to verify the attempt limit, stopping on success, and delays only between attempts without waiting in real time.
+tokens used
+3,278
+- **`retry.go:6` — The hard-coded `time.Sleep` makes retry exhaustion unnecessarily slow to test.** The three-attempt exhaustion test takes two minutes, and the sibling’s injected sleeper does not help validate `Retry`. Require an injectable sleeper in the retry implementation, with production defaulting to `time.Sleep` and retaining the 60-second delay. Use a recording fake to verify the attempt limit, stopping on success, and delays only between attempts without waiting in real time.
+
+__ABLATION_DONE__ exit=0

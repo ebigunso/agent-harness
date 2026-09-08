@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`classify.py`, lines 2–3 — the "both" case is silently collapsed to `"A"`.**
+   The task's truth table has four valid states (none, A only, B only, both), and the reviewer notes say no precedence between valid owners is intended. `if a: return "A"` short-circuits before `b` is examined, so `(True, True)` is stored indistinguishably from `(True, False)`. That is an invented precedence and it is lossy: once stored, the "both" attribution can never be recovered, and any downstream consumer that later asks "was B also a source?" gets a wrong answer with no signal that data was dropped. This is exactly the kind of bug that surfaces months later in a report and can't be backfilled.
+   Required: the "both" case must be represented explicitly and non-ambiguously. Given the storage constraint is one nullable string, the honest options are (a) a distinct sentinel value for the both case (e.g. `"AB"`/`"both"`), agreed with whoever consumes the column, or (b) if a single-owner string genuinely cannot express "both", stop and raise the mismatch between the truth table and the storage model rather than resolving it in code — either way the choice needs to be deliberate and documented, not an artifact of statement order.
+
+2. **`classify.py` — no tests for the four-row truth table.**
+   The task hands you an explicit, tiny truth table. Four assertions would have caught finding #1 immediately. Required: a test covering all four `(a, b)` combinations asserting the exact stored value, including `None` for `(False, False)`.
+
+Minor / non-blocking: the function has no type hints or docstring, and the commit message "store source attribution" describes the feature, not what this commit actually does (adds a classifier). I'd mention these but wouldn't block on them.
+
+**Verdict:** Not acceptable as-is. Finding #1 is a correctness defect against the stated requirements, not a style issue.
+
+__ABLATION_DONE__ exit=0

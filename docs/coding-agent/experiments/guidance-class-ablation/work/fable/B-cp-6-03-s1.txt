@@ -1,0 +1,40 @@
+**Verdict: block.** The change does not satisfy the task — the two identifiers the reviewer notes say must remain distinct will be merged on the TypeScript side.
+
+## Findings
+
+### 1. `ids.go` / `ids.ts` — int64 IDs sent as JSON numbers are silently corrupted above 2^53
+
+**What's wrong:** `Response()` marshals `[]int64{9007199254740992, 9007199254740993}` as bare JSON numbers. `parse()` runs `JSON.parse`, which decodes every JSON number into an IEEE-754 double. `9007199254740993` (2^53 + 1) is not representable as a double and rounds to `9007199254740992`. The result is `Set { 9007199254740992 }` — one element, not two. No error is raised anywhere; the wire format is valid JSON and the parse succeeds.
+
+**Why it matters:** These are account identifiers. Two distinct accounts now resolve to the same key on the consumer side. That is exactly the "silent field loss / implicit coercion" the contract-fidelity guideline forbids, and it is the worst kind: it only manifests for IDs ≥ 2^53, so it will pass every small-number test and fail in production when large IDs appear. Any downstream lookup, dedup, or authorization keyed on this set is wrong.
+
+Note that the `as number[]` cast in `parse` is not a check — it just asserts the already-lossy value is fine.
+
+**What I'd require:**
+
+- Change the wire contract so large integers are never JSON numbers. In Go, emit them as strings:
+  ```go
+  type ID int64
+  func Response() ([]byte, error) {
+      ids := []ID{9007199254740992, 9007199254740993}
+      return json.Marshal(ids)
+  }
+  func (id ID) MarshalJSON() ([]byte, error) { return json.Marshal(strconv.FormatInt(int64(id), 10)) }
+  ```
+  (or `[]string` directly, or a struct field with `json:",string"` — whichever matches the existing conventions).
+- On the TypeScript side, keep them as strings (they are never arithmetic operands per the notes), or convert to `bigint` — but only from the string form:
+  ```ts
+  export function parse(raw: string): Set<string> {
+    const arr: unknown = JSON.parse(raw);
+    if (!Array.isArray(arr) || !arr.every(x => typeof x === "string" && /^-?\d+$/.test(x))) {
+      throw new Error("expected array of integer strings");
+    }
+    return new Set(arr);
+  }
+  ```
+  A `JSON.parse` reviver with `BigInt` does **not** fix this — the reviver receives the already-rounded double.
+- Add a test that round-trips `9007199254740992` and `9007199254740993` and asserts `size === 2`. That's the regression this diff currently fails.
+
+No other findings; the cast and lack of validation in `parse` are subsumed by the fix above.
+
+__ABLATION_DONE__ exit=0

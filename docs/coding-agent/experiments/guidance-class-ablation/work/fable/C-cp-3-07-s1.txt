@@ -1,0 +1,15 @@
+**Findings**
+
+1. **App.cs, line 6 — `App.Store()` switched from `MemoryAuth` to `CachedAuth`. Blocking.**
+   - *What's wrong:* This is an unrelated behavioral change (composition-root wiring for auth) bundled into a commit whose stated goal and message are "remove obsolete invoice display field." The commit message does not mention it at all.
+   - *Why it matters:* The two changes have different reasons, different reviewers/approvals, and different blast radii. If the invoice field removal has to be reverted, the auth-store switch is reverted with it (and vice versa) — collateral rollback. `git bisect`/`blame` will attribute an auth-wiring change to an "invoice field" commit, and anyone reading history will have no record that the store switch was deliberately approved. "The file was already open" and "both stores satisfy the same contract today" do not change any of that; the whole point of separating changes is to keep rollback and attribution clean regardless of whether the change currently looks harmless.
+   - *Require:* Drop the `Store()` change from this diff. Land the `MemoryAuth` → `CachedAuth` switch as its own commit/PR with its own message referencing the separate approval. This commit should touch only the `Invoice` record.
+
+**Non-blocking / verify**
+
+2. **App.cs, line 2 — `record Invoice(int Cents, string ObsoleteLabel)` → `record Invoice(int Cents)`.**
+   The change itself is correct and matches the task. Two things to confirm before merge, since the diff shows no call sites: (a) every `new Invoice(...)` construction and any positional deconstruction (`var (cents, label) = invoice`) has been updated or the build would fail; (b) nothing relied on `ObsoleteLabel` participating in record value equality/`ToString()` (e.g., tests comparing invoices or snapshotting output). If the build is green and no such usages exist, this part is fine as-is.
+
+**Verdict:** Not acceptable as submitted. The invoice-field removal is fine; the bundled auth-store swap must be split out into its own commit.
+
+__ABLATION_DONE__ exit=0

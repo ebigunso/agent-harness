@@ -1,0 +1,37 @@
+## Findings
+
+### 1. `pool.go` — `Enrich` and `Payment` share one bulkhead; stalled optional work starves critical work (blocking)
+
+**What's wrong:** Both `Enrich` and `Payment` route through the same 4-slot `Pool`. `Run` blocks unconditionally on `p <- struct{}{}`. Since callbacks represent external work that may stall, four stalled enrichment callbacks occupy every slot and every subsequent `Payment` call blocks indefinitely — even though enrichment is optional and payment correctness does not depend on it.
+
+**Why it matters:** This is a classic head-of-line / priority-inversion failure. The pool's purpose is to bound concurrency, but coupling two independent workloads means the *least* important one can deny service to the *most* important one. An enrichment dependency outage becomes a payments outage. The commit message and task framing ("share pool") describe the mechanism, not the requirement; sharing is the defect, not the goal.
+
+**What I'd require:** Isolate the failure domains. Either:
+- Separate pools per workload (`New()` for payments, `New()` for enrichment), with enrichment callers using a non-blocking/timeout acquire so a saturated enrichment pool sheds load rather than queueing; or
+- If a single pool is genuinely required, reserve capacity for payments (e.g. enrichment may use at most N−k slots) so it can never fully occupy the pool.
+
+Enrichment should also be able to fail open (skip/drop) when no slot is available, since it is optional.
+
+### 2. `pool.go` — `Run` has no cancellation or bound on acquire/execution
+
+**What's wrong:** `Run(job func())` blocks forever waiting for a slot and then runs `job()` with no context, deadline, or way for the caller to give up. Given that jobs are external calls that may stall, there is no mechanism for a stalled slot to ever be reclaimed.
+
+**Why it matters:** Even with separate pools (finding 1), a pool with no acquire timeout and no way to bound job duration will eventually fill with stuck goroutines and deadlock its own workload permanently.
+
+**What I'd require:** `Run(ctx context.Context, job func(ctx context.Context) error) error` (or equivalent): acquire the slot via `select` on `ctx.Done()`, propagate the context into the job so external calls can be cancelled, and return an error when a slot cannot be obtained. Callers for enrichment should pass a short deadline; payment callers pass whatever their transaction budget is.
+
+### 3. `pool.go` — `Enrich`/`Payment` are identical wrappers with no differentiated policy
+
+**What's wrong:** The two functions are byte-for-byte the same aside from the name. They exist only to signal intent, but encode no difference in behaviour (priority, capacity, timeout, shedding).
+
+**Why it matters:** They give a false impression that the two workloads are treated differently. Once findings 1–2 are addressed the distinction should be real (different pools and/or different acquire policy); otherwise remove them and expose `Pool.Run` directly.
+
+**What I'd require:** Either delete the wrappers or make them carry the workload-specific policy (separate pool instance, timeout/shed semantics for enrichment).
+
+---
+
+Minor / non-blocking: `New()` hard-codes capacity 4; take it as a parameter so payment and enrichment pools can be sized independently. The `defer` release is correctly placed after the acquire and will release on panic, which is fine.
+
+**Verdict:** Not acceptable as-is. Finding 1 is a correctness/availability defect in the core design; the change should be reworked to isolate payments from enrichment before merging.
+
+__ABLATION_DONE__ exit=0

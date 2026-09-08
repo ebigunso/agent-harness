@@ -1,0 +1,38 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08198-53eb-7f11-b91d-1332c52c3908
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Share numeric formatting across active exporters.
+
+```diff
+--- a/Export.cs
++++ b/Export.cs
+@@ -0,0 +1,6 @@
++using System.Globalization;
++public static class Export {
++    static string Amount(decimal amount) => amount.ToString("0.00", CultureInfo.InvariantCulture);
++    public static string Csv(decimal amount) => "amount\n" + Amount(amount);
++    public static string Text(decimal amount) => "Total: " + Amount(amount);
++}
+```
+Commit message: "share numeric formatting across active exporters"
+
+Reviewer notes: Both CSV numeric column and plain-text invoice exporter are currently used. Only decimal amount formatting is shared; CSV header and text wording remain format-specific. Invariant culture prevents localized delimiters.
+
+codex
+Acceptable as-is. Both active exporters share decimal formatting through `Amount`, use invariant culture, and retain their format-specific header and wording. No findings.
+tokens used
+3,080
+Acceptable as-is. Both active exporters share decimal formatting through `Amount`, use invariant culture, and retain their format-specific header and wording. No findings.
+
+__ABLATION_DONE__ exit=0

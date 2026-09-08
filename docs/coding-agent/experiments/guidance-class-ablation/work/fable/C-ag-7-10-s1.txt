@@ -1,0 +1,15 @@
+**Blocking**
+
+1. **`telemetry.php`, `write()` — silent overflow drop.** `if (count($this->queue) >= 2) return;` discards the event with no return value, exception, log line, or counter. Since the buffer may hold critical failure events, this is exactly the failure mode that hides actionable signal: under load (when failures are most likely), the events that would tell you something is wrong are the ones that vanish, and nothing tells you they vanished. Required: track a `$dropped` count (and ideally the timestamp of the first/last drop), expose it — e.g. `drain()` returns `['events' => ..., 'dropped' => N]` or a separate `droppedCount()` the scheduler reports — and emit a rate-limited warning on the first drop after a successful drain. The drop count itself must never be lost to overflow; it is a scalar, not a queued event.
+
+2. **`write()` — drop-newest is the wrong policy for failure telemetry, and it's undifferentiated.** Dropping the incoming event means once the buffer fills, everything that happens afterward is invisible until the next drain; the most recent state (typically the failure you care about) is exactly what's lost. Required: decide the policy deliberately and document it. At minimum, either (a) drop-oldest for the general case, and/or (b) give critical/failure-severity events a bypass (reserved capacity, or write-through) so they can't be shed by ordinary volume. Whichever is chosen, the constant `2` should be a named, injected capacity, not a magic number.
+
+**Flag**
+
+3. **`drain()` — no boundary signal.** Nothing indicates how full the buffer got between drains, so operators can't tell whether capacity is adequate until data is already being lost. Required: surface high-water mark (or at least count drained) alongside the drop count so the scheduler can log/metric it. This is cheap and turns a silent failure into a tunable one.
+
+4. **Commit message / task framing — "asynchronously" is not what the diff does.** This is a synchronous bounded array; the async part is the external scheduler calling `drain()`. That's acceptable design, but the class should say so (docblock: single-writer, drain must be called by scheduler; not safe across concurrent PHP processes/threads), and the commit message should describe what actually changed. Not blocking on its own, but the mismatch is how someone later assumes this is safe to call from multiple workers.
+
+Not raised: sensitive-data handling — the buffer stores whatever `$event` it's given and does not itself log or serialize, so field minimization belongs at the producer/sink, not here. No findings in the diff on that axis.
+
+__ABLATION_DONE__ exit=0

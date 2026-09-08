@@ -1,0 +1,14 @@
+**Verdict: functionally correct, but I'd flag the API change before approving.**
+
+1. **`names.ts`, `names` signature — breaking change with no call sites updated.**
+   The function went from `names(input)` to `names(input, locale, format)` with two new *required* parameters. The diff touches no callers. Any existing caller now fails to compile (or, if any are untyped/JS, gets `format is not a function` at runtime). Either update every call site in the same change, or make the new parameters non-breaking — e.g. `format: Formatter = upper` (hoisted function declaration, so referencing `upper` before its definition is fine). Note the old behavior isn't recoverable at all without `upper` now, so at minimum that default seems intended.
+
+2. **`names.ts`, `format` parameter — beyond the stated task.**
+   The task is "format with explicit locale." That is satisfied by `names(input, locale)` calling `toLocaleUpperCase(locale)`. Injecting an arbitrary formatter is a new extension point that changes who owns the formatting logic, and the commit message doesn't mention it. If there's a concrete second formatter coming, say so in the commit; otherwise drop the parameter and keep the change minimal. (If kept, the "synchronous, once per name, in order" contract in the comment is only a description of `Array.prototype.map`, not something enforced — that's fine, but it's the caller's responsibility not to pass something that throws or has side effects.)
+
+3. **`names.ts`, `Formatter` type — used in an exported signature but not exported.**
+   Consumers can't name the type when writing their own formatter or wrapping `names`. `export type Formatter = ...`.
+
+Nothing else: `map` is synchronous and in-order, `toLocaleUpperCase(locale)` is the right call, and given the note that `locale` is validated at startup, the `RangeError` on a malformed tag isn't a concern here.
+
+__ABLATION_DONE__ exit=0

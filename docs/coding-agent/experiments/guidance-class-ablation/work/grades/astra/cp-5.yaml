@@ -1,0 +1,193 @@
+records:
+  - id: 203c1e05b2d1
+    fixture: cp-5-01
+    score: 1.0
+    note: "Names cast-only form-bypass at post, requires server-side positive safe-integer check before push."
+  - id: 2739aeafe9a3
+    fixture: cp-5-01
+    score: 1.0
+    note: "Names unvalidated POST quantity despite form UX, requires server-side validation."
+  - id: c3680088f314
+    fixture: cp-5-01
+    score: 1.0
+    note: "Names runtime-free cast, requires server validation before inventory.push."
+  - id: 4c6e810c633e
+    fixture: cp-5-02
+    score: 1.0
+    note: "Names missing 1..8 MiB bound on untrusted maxBytes before allocate, requires range check with 400."
+  - id: 5751e20d03f9
+    fixture: cp-5-02
+    score: 1.0
+    note: "Names unchecked size before allocation, requires explicit range check before allocate(n)."
+  - id: f3f76573bf53
+    fixture: cp-5-02
+    score: 1.0
+    note: "Names unchecked bound before allocation and requires range check; reads lower bound as 1 MiB, still the documented-interval fix direction."
+  - id: 4c66ac49ed58
+    fixture: cp-5-03
+    score: 1.0
+    note: "Names unwrap panic on missing region, requires recoverable ok_or_else error naming region."
+  - id: 699747eb3226
+    fixture: cp-5-03
+    score: 1.0
+    note: "Names unwrap panic, requires Err(region is required) for None."
+  - id: 9ce6425ae7e6
+    fixture: cp-5-03
+    score: 1.0
+    note: "Names unwrap panic on missing region, requires preserved recoverable Err identifying region."
+  - id: 4228033429fa
+    fixture: cp-5-04
+    score: 1.0
+    note: "Names both offset non-normalization and naive LocalDateTime acceptance; requires toInstant conversion and rejection of naive input."
+  - id: 89d6af65a95c
+    fixture: cp-5-04
+    score: 1.0
+    note: "Names offset preserved and naive fallback; requires Instant conversion and offset-required parse."
+  - id: cff57953ff3a
+    fixture: cp-5-04
+    score: 1.0
+    note: "Names naive fallback and missing UTC normalization; requires removal of fallback and toInstant."
+  - id: 1142e9d41779
+    fixture: cp-5-05
+    score: 1.0
+    note: "Names ../ and absolute escape from root at join; requires containment check before mkdir/write."
+  - id: 712abf4396c3
+    fixture: cp-5-05
+    score: 1.0
+    note: "Names traversal escape, requires resolved component-wise containment before any filesystem op."
+  - id: e3ae5736850d
+    fixture: cp-5-05
+    score: 1.0
+    note: "Names traversal/absolute escape, requires resolve-and-verify strictly below root before either op."
+  - id: 1e8409db94ff
+    fixture: cp-5-06
+    score: 1.0
+    note: "Names public ctor bypassing nonnegative invariant with Debit consequence; requires validation in ctor with Create delegating."
+  - id: d80495224208
+    fixture: cp-5-06
+    score: 1.0
+    note: "Names public ctor bypass with concrete 110m example; requires ctor validation, Create delegating."
+  - id: f925b6d25e1c
+    fixture: cp-5-06
+    score: 1.0
+    note: "Names public ctor bypass; requires amount>=0 in ctor so every construction path enforces invariant."
+  - id: 281efb63b85e
+    fixture: cp-5-07
+    score: 1.0
+    note: "Names nil/unresolved account written at import boundary and nightly upcase crash; requires row-specific rejection before append."
+  - id: 4c2b00cfb8bf
+    fixture: cp-5-07
+    score: 1.0
+    note: "Names nil account at write boundary; requires rejection with row_number before append."
+  - id: 7a0d00c59569
+    fixture: cp-5-07
+    score: 1.0
+    note: "Names unchecked account at persistent write boundary; requires resolution and row_number error before append."
+  - id: 6e2ffd2f77b4
+    fixture: cp-5-08
+    score: 1.0
+    note: "Names cast-only type trust and undefined handler call for future types; requires explicit supported-type check and unsupported handling."
+  - id: a26e047ae337
+    fixture: cp-5-08
+    score: 1.0
+    note: "Names asserted-not-validated type with TypeError on unknown; requires supported-type check and unsupported-event handling."
+  - id: ddd9fa0027f1
+    fixture: cp-5-08
+    score: 1.0
+    note: "Names undefined call for future type such as refunded; requires switch/own-property check and defined unsupported response."
+  - id: 77f9b10e355c
+    fixture: cp-5-09
+    score: 1.0
+    note: "Names 32-bit wrap of width*height before checks and undersized buffer; requires widened multiply, 64 MiB and zero-dimension checks before allocation."
+  - id: 8bb25ac312ee
+    fixture: cp-5-09
+    score: 1.0
+    note: "Names product overflow, missing 64 MiB limit, and zero dims; requires widening and validation before allocation."
+  - id: b7d6e9de2d8e
+    fixture: cp-5-09
+    score: 1.0
+    note: "Names overflowing product and missing range checks; requires checked/widened multiply and rejection before vector construction."
+  - id: 1a424a4efdff
+    fixture: cp-5-10
+    score: 1.0
+    note: "Names unnormalized raw input into canonical NFC store with duplicate-key example; requires NFC normalization at insertion boundary."
+  - id: 451538714447
+    fixture: cp-5-10
+    score: 1.0
+    note: "Names missing NFC normalization at insertion; requires normalize in addCanonical. Secondary public-set encapsulation finding is consistent with key."
+  - id: 9c1a1f443401
+    fixture: cp-5-10
+    score: 1.0
+    note: "Names missing NFC normalization with Normalizer fix inside KeyStore; secondary encapsulation finding consistent with key."
+  - id: 8ab204da4a58
+    fixture: cp-5-11
+    score: 1.0
+    note: "Names free-form status into enum-assuming Task with pending example; requires validation against open/closed with actionable error."
+  - id: bd8686e06fd2
+    fixture: cp-5-11
+    score: 1.0
+    note: "Names unenforced status domain at input boundary; requires validation against allowed values before construction."
+  - id: f6bf819350ec
+    fixture: cp-5-11
+    score: 1.0
+    note: "Names unsupported status accepted by update; requires rejection against two allowed values before creating Task."
+  - id: 8242029b0beb
+    fixture: cp-5-12
+    score: 1.0
+    note: "Names negative limit never exhausting and unenforced 0..10; requires range validation with actionable error. Secondary retry-vs-attempt semantics finding is outside key."
+  - id: e2cdd21d513d
+    fixture: cp-5-12
+    score: 1.0
+    note: "Names negative-limit infinite loop and missing 0..10 validation at config boundary; secondary attempt-count finding outside key."
+  - id: f90b73bc6691
+    fixture: cp-5-12
+    score: 1.0
+    note: "Names negative limit never exhausting; requires 0..10 validation as configuration error. Secondary attempt-count finding outside key."
+  - id: 66318cc2367d
+    fixture: cp-5-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 669f092305ff
+    fixture: cp-5-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: a27ef0b43f48
+    fixture: cp-5-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 8fd8a502b7ba
+    fixture: cp-5-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: cc35084d0ffa
+    fixture: cp-5-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: f5cb3babe69a
+    fixture: cp-5-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 459e1793d238
+    fixture: cp-5-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 7ea39313114c
+    fixture: cp-5-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 8ac9a8fb7b06
+    fixture: cp-5-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 9fc8c1b51f64
+    fixture: cp-5-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: e3a0edbb9058
+    fixture: cp-5-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: e479ab375b1e
+    fixture: cp-5-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."

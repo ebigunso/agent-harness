@@ -1,0 +1,15 @@
+**Findings**
+
+1. **`customer.cpp`, `decode()` — undisclosed business rule embedded in a representation converter.**
+   `row.suspended || row.debt > 10000` makes `decode` do two things: convert a row, and *decide* that any customer over 10,000 cents is suspended. The task was "decode customer debt from rows"; the reviewer notes state the converter owns representation only and suspension is an explicit domain action. This is a behavior change smuggled into a decoder: loading a row now silently flips account status, the stored `suspended` flag is no longer round-trippable (a row with `suspended=false, debt=10001` decodes as suspended, and re-encoding would persist that), and the `10000` threshold is a magic number with no source or units comment. Neither the diff nor the commit message ("decode customer debt from rows") mentions any of this.
+   **Require:** `Customer decode(Row row) { return {row.debt, row.suspended}; }`. If an auto-suspend-over-threshold rule is genuinely wanted, it belongs in the domain layer as an explicit action (e.g. `suspendIfOverLimit(Customer&)`, or wherever suspension is applied today), with the threshold as a named constant, its own tests, and a commit message that says what it does.
+
+2. **Commit message misrepresents the change.**
+   "decode customer debt from rows" describes a pure mapping; the diff also changes suspension semantics. A reader of history would not learn that this commit is where accounts started auto-suspending on load.
+   **Require:** Message that matches the diff. After fixing (1) the current message is accurate.
+
+No other issues: the struct shapes and aggregate-init are fine for C++17, and with `debt` validated upstream there's no range/overflow concern in the plain copy.
+
+**Verdict:** Block until the suspension rule is removed from `decode` (or moved to an explicit domain action and disclosed).
+
+__ABLATION_DONE__ exit=0

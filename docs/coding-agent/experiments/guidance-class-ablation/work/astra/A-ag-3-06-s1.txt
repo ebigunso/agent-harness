@@ -1,0 +1,38 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c1-576f-7390-a35a-4774289eea99
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Rename log request key consistently.
+
+```diff
+--- a/logs.py
++++ b/logs.py
+@@ -1 +1 @@
+-def event(request_id): return {"request": request_id}
++def event(request_id): return {"request_id": request_id}
+--- a/migration.sql
++++ b/migration.sql
+@@ -0,0 +1 @@
++CREATE INDEX account_name_idx ON accounts(name);
+```
+Commit message: "rename log request key consistently"
+
+Reviewer notes: Index is non-unique, table exists; migration is valid but unrelated to logging. Author included it because test DB was reset, not because the logging requirement depends on it.
+
+codex
+- **`migration.sql:1` — Unrelated schema change.** Creating `account_name_idx` does not support the log-key rename; resetting the test database does not justify adding it to this migration. It introduces a production schema change with storage and write-maintenance costs outside the stated task. Remove it from this change; if independently needed, submit it separately with its own rationale.
+tokens used
+3,143
+- **`migration.sql:1` — Unrelated schema change.** Creating `account_name_idx` does not support the log-key rename; resetting the test database does not justify adding it to this migration. It introduces a production schema change with storage and write-maintenance costs outside the stated task. Remove it from this change; if independently needed, submit it separately with its own rationale.
+
+__ABLATION_DONE__ exit=0

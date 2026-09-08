@@ -1,0 +1,14 @@
+**Verdict: functionally correct, but I'd request two small changes before merging. Nothing here is a blocker on the logic itself.**
+
+1. **`lib.rs`, `unicode` test — the fixture literal `"éa"` depends on source-file normalization.**
+   The assertions only hold if `é` is the precomposed scalar U+00E9. If an editor, formatter, or copy/paste ever emits it as NFD (`e` + U+0301), the string becomes 3 scalars and both assertions silently change meaning (index 1 → `'\u{301}'`, index 2 → `'a'`). Write the scalar explicitly: `"\u{e9}a"`. This matters more than usual here because the whole point of the change is to pin down what a unit is.
+
+2. **`lib.rs`, `unicode` test — the test proves "scalar, not byte" but not "scalar, not grapheme".**
+   Byte index 1 would land mid-codepoint, so `Some('a')` does rule out byte indexing. But the other ambiguity the field name is trying to kill — grapheme cluster vs. scalar — is untested. Add a decomposed case, e.g. `select(CharacterAt { text: "e\u{301}a", scalar_index: 1 }).value == Some('\u{301}')`, which fails under grapheme semantics and passes under scalar semantics. That's the case a future refactor to a grapheme library would need to break loudly.
+
+3. **`lib.rs`, `scalar_index` field / `select` — the unit is explicit in the name but not documented.**
+   A one-line doc comment on the field (`/// 0-based index in Unicode scalar values (`char`s), not bytes or grapheme clusters.`) costs nothing and is what "explicit" should mean for the public API. Minor, but it's the stated intent of the task. Optionally, the type names `CharacterAt` / `CharacterResult` still say "character", which is the ambiguous word the field name is working around; not worth blocking on, but `ScalarAt` or similar would be consistent.
+
+Not flagged: `chars().nth()` is O(n) but that's inherent to UTF-8 scalar indexing; the `Option<char>` result for out-of-range is the right shape; `#[test]` without `#[cfg(test)]` is fine for a bare test fn.
+
+__ABLATION_DONE__ exit=0

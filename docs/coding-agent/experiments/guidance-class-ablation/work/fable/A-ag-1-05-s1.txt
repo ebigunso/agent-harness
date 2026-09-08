@@ -1,0 +1,21 @@
+**Verdict: block.** The change does not implement the stated task, and what it does add is a duplicate of existing concern owners.
+
+## Findings
+
+**1. `Utilities.cs` — the diff contains no invoice status helper**
+The task is "Add invoice status helpers." Nothing in the diff models or manipulates invoice status (no enum, no transition/predicate helpers, no formatting of status). The only invoice-related code is `Tax(decimal net)`, which is a tax calculation, not status. The commit message "add invoice status helpers" describes work that isn't here. Require: either implement the actual invoice status helpers (in an invoice-owned type, e.g. alongside `InvoiceTax`), or retitle the commit to what it really does — and per finding 2, what it really does shouldn't merge either.
+
+**2. `Utilities.cs`, `public static class Utilities` — catch-all duplicates four existing concern owners**
+`Utilities.Jwt`/`Tax`/`Email`/`Css` are byte-for-byte re-implementations of `AuthTokens.Inspect`, `InvoiceTax.Calculate`, `MailDelivery.Send`, and `Theme.Color`. This creates two sources of truth for each concern; the obvious drift case is the tax rate (`0.1m` now lives in two places — a rate change that updates `InvoiceTax` silently leaves `Utilities.Tax` wrong). A grab-bag `Utilities` class also invites every future unrelated helper to land there instead of with its owner. Require: delete the `Utilities` class entirely and have callers use the owning types directly. If a genuinely new helper is needed, put it in the relevant owner.
+
+**3. `Utilities.Jwt(byte[] verifiedPayload)` — the "already verified" contract is lost by relocation**
+Per the notes, JWT decoding here is display-only inspection of a verified token, so I'm not flagging it as an auth defect. But `AuthTokens.Inspect` at least sits under a name that signals the token-handling context; `Utilities.Jwt` reads as a generic "decode a JWT" helper, and the only thing preserving the precondition is a parameter name. A future caller reaching for `Utilities.Jwt` on raw input has no type-level hint that verification is expected. This is another reason to remove the duplicate rather than a separate fix; if the owner method is retained, a doc comment stating the verified-input precondition would be worthwhile.
+
+**4. `Utilities.cs` — five public top-level types in one file, one-line class bodies**
+Minor, and moot if finding 2 is applied to the four owners too. If `AuthTokens`, `InvoiceTax`, `MailDelivery`, and `Theme` are the sanctioned owners (as the notes say), they belong in their own files (`AuthTokens.cs`, `InvoiceTax.cs`, …), not stacked in a file named after the catch-all they're supposed to supersede. Single-line class declarations also make diffs and blame useless. Require: one type per file, conventional formatting.
+
+## Not flagged
+- `MailDelivery.Send` / `Utilities.Email` not disposing or configuring the `SmtpClient` — notes state connection/credential lifecycle is caller-owned, so the thin wrapper is acceptable as designed.
+- JWT payload decoding without signature check — display-only per notes; see finding 3 for the residual concern about discoverability, not correctness.
+
+__ABLATION_DONE__ exit=0

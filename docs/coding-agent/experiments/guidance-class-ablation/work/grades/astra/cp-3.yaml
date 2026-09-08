@@ -1,0 +1,193 @@
+records:
+  - id: 4d8a5700f57c
+    fixture: cp-3-01
+    score: 1.0
+    note: "Names unrelated metrics sink replacement in metrics.go, requires separate independently revertible change"
+  - id: 7d68211ed94b
+    fixture: cp-3-01
+    score: 1.0
+    note: "Names metricsold->metricsnew coupling, requires separate metrics change under its own ticket"
+  - id: ec92ba33d24a
+    fixture: cp-3-01
+    score: 1.0
+    note: "Names unrelated metrics replacement, requires separate commit for independent auth rollback"
+  - id: 6fa37dc98ab9
+    fixture: cp-3-02
+    score: 1.0
+    note: "Names unrelated scheduler interval change, requires removal and separate submission"
+  - id: 7c450fdb138b
+    fixture: cp-3-02
+    score: 1.0
+    note: "Names unrelated interval 60->5 change, requires restoring 60 and handling in separate ticket"
+  - id: 97b324af5a60
+    fixture: cp-3-02
+    score: 1.0
+    note: "Names unrelated scheduler edit, requires removal and separate ticket"
+  - id: 36142cbd9256
+    fixture: cp-3-03
+    score: 1.0
+    note: "Names Entities.java formatting-only rewrite widening rollback, requires separate commit"
+  - id: df3cf86b6b2f
+    fixture: cp-3-03
+    score: 1.0
+    note: "Names unrelated ORM formatting coupled to urgent rollback, requires separate commit"
+  - id: f7ab241b4521
+    fixture: cp-3-03
+    score: 1.0
+    note: "Names unrelated entity formatting bundled with status fix, requires separation"
+  - id: 0f5505c77228
+    fixture: cp-3-04
+    score: 1.0
+    note: "Names presentation->display rename coupled to parser rollback and consumer import, requires separate commit"
+  - id: f7c64ee69050
+    fixture: cp-3-04
+    score: 1.0
+    note: "Names module rename coupling with queued consumer, requires separate commit"
+  - id: f890d8140226
+    fixture: cp-3-04
+    score: 1.0
+    note: "Names rename/parser rollback coupling via display::label consumer, requires separate commit"
+  - id: 363085dc2718
+    fixture: cp-3-05
+    score: 1.0
+    note: "Names unrelated defaultConsent flip under spacing label, requires revert and separate change"
+  - id: 5f21f6675c13
+    fixture: cp-3-05
+    score: 1.0
+    note: "Names consent default behavior change outside spacing task, requires separate product-proposal change"
+  - id: 7663539637c8
+    fixture: cp-3-05
+    score: 1.0
+    note: "Names unrelated consent behavior change, requires removal and separate review"
+  - id: 080a33ad3ab1
+    fixture: cp-3-06
+    score: 1.0
+    note: "Names logging migration bundled with TTL fix and whole-commit rollback, requires separate commit"
+  - id: a261b207125f
+    fixture: cp-3-06
+    score: 1.0
+    note: "Names logging migration collateral rollback, requires separate commit with own rollback"
+  - id: fe649b3f9d54
+    fixture: cp-3-06
+    score: 1.0
+    note: "Names unrelated logging migration widening rollback, requires separate commit"
+  - id: 2b1cb4e44b8b
+    fixture: cp-3-07
+    score: 1.0
+    note: "Names MemoryAuth->CachedAuth switch unrelated to invoice field removal, requires separate change"
+  - id: bd92ece819ce
+    fixture: cp-3-07
+    score: 1.0
+    note: "Names auth store switch bundled with invoice change, requires separate commit"
+  - id: c5ba6eb61df6
+    fixture: cp-3-07
+    score: 0.0
+    note: "Accepts as-is; acknowledges auth switch is unrelated but raises no finding and no split"
+  - id: 16daace1c912
+    fixture: cp-3-08
+    score: 1.0
+    note: "Names irreversible legacy column drops coupled to reversible backfill, requires removal and separate retirement change"
+  - id: 196bb9acf7a0
+    fixture: cp-3-08
+    score: 1.0
+    note: "Names remove_column drops not restored by down, requires removal and separate retirement"
+  - id: c46c67812f0c
+    fixture: cp-3-08
+    score: 1.0
+    note: "Names destructive drops and independent retirement decision, requires removal and separate change"
+  - id: 753c324b2dd0
+    fixture: cp-3-09
+    score: 1.0
+    note: "Names unrelated admin major-version upgrades, requires separate PR"
+  - id: 7f11952b438c
+    fixture: cp-3-09
+    score: 1.0
+    note: "Names unrelated admin upgrades with own release requirements, requires separate change"
+  - id: b011edc21cbf
+    fixture: cp-3-09
+    score: 1.0
+    note: "Names unrelated admin upgrades, requires revert here and separate submission"
+  - id: 3ddc28d96670
+    fixture: cp-3-10
+    score: 0.0
+    note: "Accepts as-is; treats router migration as fine because behavior-equivalent, no split required"
+  - id: d87cabb2f7ea
+    fixture: cp-3-10
+    score: 1.0
+    note: "Names OldRouter->NewRouter migration unrelated to inbox fix, requires separate change"
+  - id: dc92987945f6
+    fixture: cp-3-10
+    score: 1.0
+    note: "Names unrelated navigation migration, requires separate commit"
+  - id: 21151df14dae
+    fixture: cp-3-11
+    score: 1.0
+    note: "Names both SSE2 compressor rewrite and benchmark deletion as separate objectives, requires separate commits"
+  - id: 756236033441
+    fixture: cp-3-11
+    score: 1.0
+    note: "Names compressor optimization and benchmark removal as unrelated, requires separate commits"
+  - id: b5b5c337f15b
+    fixture: cp-3-11
+    score: 1.0
+    note: "Names SSE2 rewrite and benchmark retirement as separate, requires restoring and submitting separately"
+  - id: 3d87f2cb1d62
+    fixture: cp-3-12
+    score: 0.5
+    note: "Flags locale currency hardcoding only; misses scope coupling and does not require separating currency feature"
+  - id: 54e48b8f22f0
+    fixture: cp-3-12
+    score: 1.0
+    note: "Names unrelated currency model/migration/locale bundle, requires separate change"
+  - id: 58babd513480
+    fixture: cp-3-12
+    score: 1.0
+    note: "Names unrelated currency schema/UI edits, requires moving to separate change"
+  - id: 3d8da9727cdb
+    fixture: cp-3-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 51ce6e664a79
+    fixture: cp-3-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: cf7833544ad1
+    fixture: cp-3-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 0c6d120548e0
+    fixture: cp-3-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 5e63969ddac9
+    fixture: cp-3-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: c6b6950224ff
+    fixture: cp-3-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 4b604e8145e6
+    fixture: cp-3-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: b21bc3c6b01d
+    fixture: cp-3-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: c69928d45bc0
+    fixture: cp-3-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 22e5e1f19b76
+    fixture: cp-3-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 4be8d73c9ee0
+    fixture: cp-3-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings"
+  - id: 6818cbe7d4ba
+    fixture: cp-3-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings"

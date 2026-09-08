@@ -1,0 +1,15 @@
+**Finding 1 — `codes.cpp`, the entire replacement (template `Entry`/`TypeList`/`Find` machinery)**
+
+**What's wrong:** A six-line, self-evidently correct linear scan over a `constexpr std::array` has been replaced with a variadic template metaprogram (a type-level list, a primary template, a base-case specialization, and a recursive partial specialization) to look up three integers. The runtime behavior is identical — it is still a sequential compare at runtime, since `code` is a runtime value; nothing has moved to compile time except the shape of the code.
+
+**Why it matters:** This is accidental complexity with no offsetting benefit:
+- Cognitive load goes up sharply. A reader must understand partial specialization, parameter-pack peeling, and recursive template instantiation to verify what the old version made obvious at a glance. The reviewer notes confirm there is no measured performance constraint and only three entries, so there is no maintenance or performance justification.
+- Extending or debugging it is harder: adding an entry means editing a nested template argument list; a mistake yields a template instantiation error wall instead of a one-line fix. Stepping through it in a debugger walks through several instantiated static functions.
+- It abstracts for a single concrete use. There is one lookup table with three fixed entries; nothing else consumes `Entry`, `TypeList`, or `Find`, so the abstraction has no second user to justify it.
+- It also adds a small structural risk for free: the index is now duplicated in the source (`Entry<10,0>`, `Entry<20,1>`, …) rather than derived from position, so a future edit can silently desynchronize value and index — a class of bug the original `array` scan could not have.
+
+**What I'd require:** Reject the rewrite and keep the original `std::array` scan (or an equivalent `switch`/`std::find` over the array). If the author's motivation was to make the table `constexpr`-evaluable, that is already true of the original and can be made explicit by marking `lookup` `constexpr` — no template machinery needed. If a genuinely larger, shared, compile-time-checked table appears later, an abstraction can be introduced then, with multiple call sites to justify it.
+
+No other defects: the new code compiles under C++17, handles any `int` input, and returns `-1` on a miss, matching the prior behavior. The sole issue is that the change is a net increase in complexity for the same result, which is exactly what the review guideline says to block.
+
+__ABLATION_DONE__ exit=0

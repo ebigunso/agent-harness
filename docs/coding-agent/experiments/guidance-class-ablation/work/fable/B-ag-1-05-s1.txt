@@ -1,0 +1,21 @@
+## Findings
+
+**1. `Utilities.cs` — `Utilities` class: catch-all that duplicates four unrelated concern owners (blocking, Gate 1)**
+
+The diff introduces `AuthTokens`, `InvoiceTax`, `MailDelivery`, and `Theme` as the owners of their respective concerns, then immediately adds a `Utilities` static class that re-implements each of them (`Jwt`, `Tax`, `Email`, `Css`) with identical bodies. This is the exact "utility module accumulating unrelated logic as a shortcut" anti-pattern: token inspection, tax policy, mail transport, and presentation styling have nothing in common and now have two entry points each. Callers will drift to whichever one they find first, and any future change (e.g., tax rate, theme colors) has to be made twice or silently diverges.
+
+Required: delete the `Utilities` class entirely. Callers should use `AuthTokens.Inspect`, `InvoiceTax.Calculate`, `MailDelivery.Send`, and `Theme.Color` directly. If a shorter alias is genuinely wanted somewhere, it should be a `using static` at the call site, not a second owner.
+
+**2. `Utilities.cs` — `Utilities.Tax` / `InvoiceTax.Calculate`: business rule (10% rate) duplicated as a hardcoded literal in two places (flag; falls out of #1)**
+
+The tax rate is a domain rule. Duplicating `0.1m` across two classes guarantees a future drift bug when one is updated. Even with #1 resolved, the rate should live in one named constant on `InvoiceTax` rather than an inline literal, so the policy has a single, discoverable home.
+
+**3. Scope/commit mismatch: nothing here is an "invoice status helper" (flag)**
+
+The task and commit message say "add invoice status helpers," but the diff contains no status-related code — it adds tax calculation, token inspection, mail sending, and CSS color selection. Either the change is mislabeled or the actual status helpers are missing. Required: reconcile the change with the task (add the status helpers, or retitle and justify the actual scope), and split the unrelated concern owners into their own files/commits rather than landing them all under one misleading message.
+
+**Not raised** (per reviewer notes): `Jwt`/`Inspect` decoding is display-only on an already-verified payload, and SMTP credential/connection lifecycle is the caller's responsibility, so I am not flagging those as security defects — only as boundary duplication under #1.
+
+**Verdict:** Not acceptable as-is. Remove the `Utilities` catch-all and align the change with its stated task.
+
+__ABLATION_DONE__ exit=0

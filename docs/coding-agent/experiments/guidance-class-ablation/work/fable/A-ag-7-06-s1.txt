@@ -1,0 +1,14 @@
+**Verdict: block.** The change records the accepted count only; the task and reviewer notes require partial-success metrics that operators can act on, which this does not provide.
+
+1. **`importer.rb`, `signal.call("accepted", count)` — rejected count is never reported.**
+   The loop `next`s on empty rows silently. The notes say operators must inspect the rejected count; with only `accepted` emitted, an operator cannot distinguish "10 rows in, 10 accepted" from "50 rows in, 10 accepted". Require tracking a `rejected` counter (or computing `rows.size - count`) and emitting it via the same signal, e.g. `signal.call("rejected", rejected)`.
+
+2. **`importer.rb`, loop body — row locations are not captured.**
+   Iteration uses `rows.each`, so the index of any accepted or rejected row is lost. The notes explicitly call for "safe row locations" so operators can find which rows landed and which were dropped. Require `rows.each_with_index` and either emitting the rejected indices (`signal.call("rejected_rows", [i, ...])`) or returning them in a summary so the caller can act on a partial import.
+
+3. **`importer.rb`, method return value — returns whatever `signal.call` returns.**
+   Callers of a partial-import routine typically need the outcome (accepted count, rejected count, indices) programmatically, not only via the side-channel signal. Require an explicit return of a summary (e.g. `{ accepted: n, rejected: m, rejected_rows: [...] }`) rather than relying on the implicit last-expression value.
+
+Not raised: append-failure handling (notes state it cannot fail in this bounded in-memory batch), and the empty-row policy itself (matches the stated import policy).
+
+__ABLATION_DONE__ exit=0

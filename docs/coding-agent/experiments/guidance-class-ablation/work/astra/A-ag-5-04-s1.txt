@@ -1,0 +1,36 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c4-89b5-7482-a738-702b93451de3
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Store source attribution.
+
+```diff
+--- a/classify.py
++++ b/classify.py
+@@ -0,0 +1,4 @@
++def classify(a, b):
++    if a: return "A"
++    if b: return "B"
++    return None
+```
+Commit message: "store source attribution"
+
+Reviewer notes: Task truth table permits no owner, A only, B only, and both. Signals are independent booleans. Storage model is one nullable owner string; no precedence between valid owners is intended.
+
+codex
+- **`classify.py:2–3`** — When both signals are true, the function returns `"A"` and discards B’s attribution, introducing an unintended precedence. This conflates “A only” with “both,” so attribution cannot be stored faithfully. Require a representation that preserves both sources and distinguishes all four valid states, updating the single-owner storage model accordingly and verifying all four boolean combinations.
+tokens used
+14,401
+- **`classify.py:2–3`** — When both signals are true, the function returns `"A"` and discards B’s attribution, introducing an unintended precedence. This conflates “A only” with “both,” so attribution cannot be stored faithfully. Require a representation that preserves both sources and distinguishes all four valid states, updating the single-owner storage model accordingly and verifying all four boolean combinations.
+
+__ABLATION_DONE__ exit=0

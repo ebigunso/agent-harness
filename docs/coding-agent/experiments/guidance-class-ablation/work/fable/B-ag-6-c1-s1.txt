@@ -1,0 +1,33 @@
+**Verdict: not acceptable as-is — one blocking defect, one test gap that hides it, two minor notes.**
+
+### 1. `charge.js` L4–5 — the timeout the code imposes is not classified as retriable (blocking)
+
+`charge` creates `AbortSignal.timeout(1000)` and hands it to `send`. When that timer fires, Node aborts the signal with `signal.reason` = a `DOMException` whose `name` is `"TimeoutError"`. An adapter that "honors its AbortSignal" will reject with that reason (or an `AbortError`) — neither is an `instanceof Timeout`, where `Timeout` is a class defined only in this module. So on the very failure mode this function exists to handle, the `catch` takes the `!(error instanceof Timeout)` branch and rethrows on attempt 0. The retry loop is dead code for real timeouts; it only fires if the adapter happens to `import { Timeout }` from here and throw it, which nothing in the diff or notes establishes.
+
+Why it matters: the whole Gate‑6 story ("uncertain charge → bounded retry on stable key") collapses to a single 1s attempt with no retry, and the failure is silent — you'd only see it as a spike in timeout errors in production.
+
+Require: classify on the signal, not on a class the adapter may never see:
+
+```js
+const signal = AbortSignal.timeout(1000);
+try { return await send(key, signal); }
+catch (error) { if (!signal.aborted || attempt === 2) throw error; }
+```
+
+(`signal.aborted` is the authoritative "our budget expired" check; it also correctly excludes adapter-side errors.) If you keep the `Timeout` class as the adapter contract instead, document it and add the test in #2 that proves the adapter actually throws it when the signal fires.
+
+### 2. `check()` L9–15 — the test never exercises the signal, so it cannot catch #1 (blocking, same root)
+
+Both mock `send`s ignore their second argument and throw `new Timeout()` directly. The test therefore proves "retry happens if the adapter throws this module's own class," not "retry happens when the 1s timeout fires." Neither the "total adapter wait bounded to 3s" claim in the notes nor the signal being passed at all is verified.
+
+Require: at least one mock that behaves like the real adapter — returns a pending promise and rejects with `signal.reason` on `signal.addEventListener('abort', …)` — and assert (a) a retry occurs and the same key is reused, (b) the signal argument is an `AbortSignal`. Under fake timers, also assert elapsed ≈ 3×1000ms for the all-timeouts case. As written, the test would pass against a `charge` that never retries real timeouts.
+
+### 3. `charge.js` L3 — no delay between attempts (minor, non‑blocking)
+
+Three back-to-back 1s attempts against a payment adapter that is already slow enough to time out adds load exactly when the dependency is struggling. Given the small fixed budget this is tolerable, but a short fixed/jittered pause (e.g. 100–250ms) between attempts is cheap and is the usual containment default. Flag, not block.
+
+### 4. `charge.js` L3/L5 — attempt budget duplicated as literals (nit)
+
+`attempt<3` and `attempt===2` encode the same budget in two places; changing one without the other silently either drops the last retry or swallows the final error into an `undefined` return. Hoist to a single `const MAX_ATTEMPTS = 3` and test `attempt === MAX_ATTEMPTS - 1`.
+
+__ABLATION_DONE__ exit=0

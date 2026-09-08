@@ -1,0 +1,37 @@
+**Findings**
+
+1. **`Source.kt` — `data class Source(val isInternal: Boolean)`: the model cannot represent the classification the task requires.**
+   Two independent Boolean inputs produce four outcomes. Truth table of the proposed `classify`:
+
+   | internalEvidence | externalEvidence | actual meaning | `isInternal` |
+   |---|---|---|---|
+   | true | false | trusted-internal | true |
+   | false | true | trusted-external | false |
+   | false | false | unknown (no evidence) | false |
+   | true | true | conflicting | false |
+
+   Three distinct states — trusted-external, unknown, conflicting — collapse to `isInternal = false`. Any consumer that reads `!isInternal` as "external" will treat records with no evidence, or with contradictory evidence, as trusted-external. That is a trust-boundary error: the only two states that must *not* be trusted are the ones being laundered into a trusted bucket. A single Boolean has two values; the domain has four; no choice of expression on the right-hand side fixes that.
+
+   **Required:** replace the Boolean with an exhaustive type, e.g.
+   ```kotlin
+   enum class SourceTrust { TRUSTED_INTERNAL, TRUSTED_EXTERNAL, UNKNOWN, CONFLICTING }
+   data class Source(val trust: SourceTrust)
+
+   fun classify(internalEvidence: Boolean, externalEvidence: Boolean): Source = Source(
+       when {
+           internalEvidence && externalEvidence  -> SourceTrust.CONFLICTING
+           internalEvidence                      -> SourceTrust.TRUSTED_INTERNAL
+           externalEvidence                      -> SourceTrust.TRUSTED_EXTERNAL
+           else                                  -> SourceTrust.UNKNOWN
+       }
+   )
+   ```
+   A `when` over a `sealed`/`enum` type forces downstream callers to handle all four cases exhaustively, so `UNKNOWN` and `CONFLICTING` can't silently fall into a trusted branch.
+
+2. **`Source.kt` — no tests.** The commit adds classification logic with zero coverage. Given the collapse above would be caught immediately by a four-row table test, that's exactly the test that should exist. **Required:** a parameterized test asserting the full truth table (all four input combinations → four distinct outputs).
+
+3. **Minor — naming.** `Source` with a single `isInternal` flag reads as a source *identity* rather than a trust *classification*. Once the type is fixed per (1), name it for what it is (`SourceTrust` / `TrustClassification`) so callers don't conflate "where the record came from" with "how much we trust it."
+
+**Verdict:** Block. Finding 1 is a correctness defect in the core of the requested change, not a style issue — the current shape makes it impossible to distinguish "no evidence" and "contradictory evidence" from "trusted external."
+
+__ABLATION_DONE__ exit=0

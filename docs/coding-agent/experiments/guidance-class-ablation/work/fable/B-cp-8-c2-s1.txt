@@ -1,0 +1,16 @@
+**Verdict: the core change is fine; one item I'd flag.**
+
+The registry removal itself is correct. `REGISTRY` had a single entry, a single internal caller, and per the notes is neither persisted nor public. A dict indirection with one key is accidental complexity, and `return status()` is strictly simpler with identical behavior. Nothing to require there.
+
+**Finding — `cli.py`, added `check()` function**
+
+- **What's wrong:** The diff adds a new function `check()` containing `assert main() == "ready"` to the production module. This is outside the stated task (replace registry with direct call), is not called by anything in the module, and is a test written as production code.
+- **Why it matters:**
+  - It's dead code in `cli.py` — a change whose whole justification is removing unnecessary structure shouldn't add an unreferenced function in the same diff.
+  - `assert` is stripped under `python -O`, so if anyone ever does wire `check()` into a runtime path, it silently becomes a no-op.
+  - Verification logic belongs in the test suite where it runs automatically. A function nobody calls doesn't verify anything on an ongoing basis; the "executable check" in the reviewer notes only holds if someone remembers to invoke it manually.
+- **What I'd require:** Either move the assertion to a test file (e.g. `test_cli.py` with `def test_main_returns_ready(): assert main() == "ready"`) so it runs under the normal test runner, or drop it from the diff entirely. Keep `cli.py` limited to the two-line registry-to-direct-call change.
+
+No other findings.
+
+__ABLATION_DONE__ exit=0

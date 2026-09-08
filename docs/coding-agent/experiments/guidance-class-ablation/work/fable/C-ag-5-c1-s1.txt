@@ -1,0 +1,55 @@
+**Verdict: not acceptable as-is.** The happy path is right (`with_lock` reloads under `FOR UPDATE`, so the read-modify-write is serialized, and `update!` runs the validation), but the invariant is not enforced *authoritatively*, and the failure path leaves an invalid in-memory state that breaks retries.
+
+Classification of `adjust!` outcomes before getting to the findings:
+
+| Record state on entry | `quantity + delta` | Result |
+|---|---|---|
+| clean | ≥ 0 | locked, reloaded, saved — correct |
+| clean | < 0 | `RecordInvalid`, txn rolled back, DB unchanged — but in-memory `quantity` is now negative and dirty |
+| dirty (e.g. after the row above, or caller mutated it) | any | `lock!` raises `RuntimeError` ("Locking a record with unpersisted changes is not supported") before any lock is taken |
+| any | `delta` nil / non-numeric | `TypeError` after acquiring the lock |
+
+---
+
+### 1. `inventory.rb` — invariant is only a model validation; no database constraint
+
+**What's wrong:** `validates :quantity, numericality: { greater_than_or_equal_to: 0 }` only runs on validated saves. Inside the application, ActiveRecord itself provides many first-class write paths that skip it: `update_column(s)`, `increment!`/`decrement!`, `update_all`, `update_counters`, `save(validate: false)`, `update_attribute`. The reviewer note that "raw SQL mutation is not an application API" doesn't cover these — they are the ORM's own API and appear routinely in "quick fix" code, jobs, and console sessions.
+
+**Why it matters:** The task is "enforce for *every* adjustment." A guard that any future caller can bypass by picking a different AR method is an optional guard, not an enforced invariant. Nothing in the schema stops `quantity` from going negative; the model validation is documentation of intent, not authority. Relatedly, `adjust!` is not actually the sole writer — any `item.update!(quantity: n)` from a stale instance elsewhere bypasses the lock and can clobber a concurrent adjustment (last-writer-wins), so the "single owner/single writer" claim in the commit message isn't enforced by anything either.
+
+**Require:** A migration adding a DB check constraint (Rails 7: `add_check_constraint :inventories, "quantity >= 0", name: "inventory_quantity_nonnegative"`). Keep the model validation for friendly errors, but the DB is the authority. Optionally, also make `adjust!` the only sanctioned write path (e.g. a validation/guard on direct `quantity` assignment outside `adjust!`, or at minimum a comment + test) so concurrent unlocked writers are rejected rather than silently racing.
+
+### 2. `Inventory#adjust!` — failed adjustment leaves the record dirty with an invalid value, and any retry on the same object fails
+
+**What's wrong:** `update!` assigns `quantity` *before* validating. When validation fails, the transaction rolls back but the in-memory object keeps the negative `quantity` with `quantity_changed? == true`. On the next `adjust!` call, `with_lock` → `lock!` sees unpersisted changes and raises a `RuntimeError` ("Locking a record with unpersisted changes is not supported") — before acquiring any lock — instead of either succeeding or raising `RecordInvalid` again.
+
+**Why it matters:** This is exactly the "invalid intermediate state" / "repeated run" case. A caller that rescues `RecordInvalid` (to show "insufficient stock") and then legitimately retries with a different delta, or reuses the object for another operation, gets an unrelated, confusing error. Worse, the object now carries a value that violates the invariant; anything that reads `item.quantity` after the rescue sees a negative number.
+
+**Require:** Don't mutate the record until the new value is known-valid, and restore state on failure. E.g.:
+
+```ruby
+def adjust!(delta)
+  with_lock do
+    update!(quantity: quantity + delta)
+  rescue ActiveRecord::RecordInvalid
+    restore_attributes
+    raise
+  end
+end
+```
+
+or compute `new_qty = quantity + delta`, raise a domain error if `new_qty < 0`, and only then `update!`. Also consider a `reload` (or an explicit guard) at the top so a caller passing a dirty instance gets a meaningful error rather than the `lock!` RuntimeError.
+
+### 3. No tests for the invariant
+
+**What's wrong:** The diff adds enforcement logic with no tests.
+
+**Why it matters:** The claims in the commit message (serialized under lock, rejects negative, both paths covered) are the kind that regress silently.
+
+**Require:** At minimum: (a) `adjust!(-n)` past zero raises and leaves the row unchanged; (b) two concurrent `adjust!` calls on the same row (threads + separate connections) produce the correct sum, not a lost update; (c) after a rejected `adjust!`, a subsequent valid `adjust!` on the same instance succeeds (guards against #2); (d) once the check constraint exists, `update_column(:quantity, -1)` raises `ActiveRecord::StatementInvalid` (guards against #1).
+
+---
+
+Minor / non-blocking: `delta` is not type-checked, so `nil` or a string raises `TypeError` after the row lock has been taken. Cheap to guard with `Integer(delta)` before `with_lock`, but I wouldn't block on it.
+
+__ABLATION_DONE__ exit=0

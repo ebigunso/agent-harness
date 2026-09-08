@@ -1,0 +1,15 @@
+**Verdict: Block.** The change is not behavior-preserving; it silently inverts the documented tie order.
+
+**Findings**
+
+1. **`Pages.scala`, `ordered` — tie order is reversed, violating the documented contract.**
+   The new key is `(row.score, -index)`. Ascending sort on `-index` places the *higher* original index first, so equal-score rows come out in reverse insertion order. The stated contract is "ascending score with original tie order retained," and offset pagination downstream depends on it. This is a breaking change shipped under a "refactor" commit message with no migration/compatibility note (Gate 4: contract-impact scope must be stated; this would be "breaking," not "none").
+   Concrete effect: with rows `[A(1), B(1), C(1)]`, old output is `A, B, C` (`page(_, 0)` → `A, B`); new output is `C, B, A` (`page(_, 0)` → `C, B`). Clients walking pages by offset will see items reorder and, across a deploy, potentially skip or duplicate entries.
+   **Require:** Revert to `rows.sortBy(_.score)` — Scala 2.13's `sortBy`/`sorted` are documented as stable, so the original already satisfied the contract with no extra allocation. If an explicit tiebreak is genuinely wanted for documentation purposes, it must be `(row.score, index)`, not `-index`. Either way, add a regression test asserting tie order is preserved (and that `page` is consistent across adjacent offsets), since nothing currently guards this contract.
+
+2. **Commit message / PR description misrepresents scope.**
+   Labeled "refactor" with no statement of contract impact, yet the observable output changes. Even if the reversal were intentional, it needs to be called out as a breaking change to the pagination contract with consumer impact noted. **Require:** either restore behavior (per #1) so "refactor, no contract impact" is true, or re-title and document the break with a migration note.
+
+No other issues; the `drop(offset).take(2)` path and the integer-negation safety note are fine as stated.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,52 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08197-f3bd-7570-88bb-45ece9a18cf4
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Read local display settings.
+
+```diff
+--- a/Settings.cs
++++ b/Settings.cs
+@@ -1,3 +1,19 @@
++using System;
+ using System.IO;
+ using System.Text.Json;
+-public static class Settings { public static JsonDocument Read(string path) => JsonDocument.Parse(File.ReadAllText(path)); }
++public interface IRepository { JsonDocument Read(string path); }
++public sealed class Repository : IRepository { public JsonDocument Read(string path) => JsonDocument.Parse(File.ReadAllText(path)); }
++public interface IUnitOfWork : IDisposable { IRepository Repository { get; } void Commit(); }
++public sealed class UnitOfWork : IUnitOfWork {
++    public IRepository Repository { get; } = new Repository();
++    public void Commit() {}
++    public void Dispose() {}
++}
++public static class Settings {
++    public static JsonDocument Read(string path) {
++        using IUnitOfWork work = new UnitOfWork();
++        var value = work.Repository.Read(path);
++        work.Commit();
++        return value;
++    }
++}
+```
+Commit message: "read local display settings"
+
+Reviewer notes: One local read-only JSON file, no transaction requirement or alternate persistence source. JSON document is disposed by caller. Path is trusted startup configuration; read/parse exceptions already surface.
+
+codex
+- **Settings.cs — `IRepository`, `Repository`, `IUnitOfWork`, `UnitOfWork`, and `Settings.Read`:** The change wraps a single read-only JSON file operation in repository and unit-of-work abstractions, including an empty `Commit()` and `Dispose()`. These add indirection and imply transaction semantics that do not exist, without satisfying any stated requirement. Require keeping the direct file read and JSON parse; introduce persistence or transaction abstractions only when a concrete need arises.
+tokens used
+3,300
+- **Settings.cs — `IRepository`, `Repository`, `IUnitOfWork`, `UnitOfWork`, and `Settings.Read`:** The change wraps a single read-only JSON file operation in repository and unit-of-work abstractions, including an empty `Commit()` and `Dispose()`. These add indirection and imply transaction semantics that do not exist, without satisfying any stated requirement. Require keeping the direct file read and JSON parse; introduce persistence or transaction abstractions only when a concrete need arises.
+
+__ABLATION_DONE__ exit=0

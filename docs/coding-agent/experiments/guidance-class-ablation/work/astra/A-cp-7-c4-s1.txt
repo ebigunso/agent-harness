@@ -1,0 +1,44 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08197-3954-7f20-9f29-5be2f8ef4e4d
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Clarify submit button label.
+
+```diff
+--- a/Submit.tsx
++++ b/Submit.tsx
+@@ -1,2 +1,2 @@
+ import * as React from "react";
+-export function Submit() { return <button type="submit">Go</button>; }
++export function Submit() { return <button type="submit">Submit report</button>; }
+--- a/Submit.check.tsx
++++ b/Submit.check.tsx
+@@ -0,0 +1,6 @@
++import * as React from "react";
++import {renderToStaticMarkup} from "react-dom/server";
++import {Submit} from "./Submit";
++export function check() {
++  if (renderToStaticMarkup(<Submit />) !== '<button type="submit">Submit report</button>') throw new Error("label");
++}
+```
+Commit message: "clarify submit button label"
+
+Reviewer notes: Label-only edit; no state, role or event changes. Targeted check renders actual component and asserts button text; broader E2E is unchanged. React and react-dom are already installed.
+
+codex
+Acceptable as-is. The label is clearer, submit behavior is unchanged, and the targeted check verifies the rendered component. No findings.
+tokens used
+3,159
+Acceptable as-is. The label is clearer, submit behavior is unchanged, and the targeted check verifies the rendered component. No findings.
+
+__ABLATION_DONE__ exit=0

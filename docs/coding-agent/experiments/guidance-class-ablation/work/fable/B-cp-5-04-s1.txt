@@ -1,0 +1,16 @@
+**Verdict: block.** The change does the opposite of the stated contract on both of its requirements.
+
+**1. `Ingress.schedule` — naive (offset-less) input is accepted, not rejected.**
+`parseBest(input, OffsetDateTime::from, LocalDateTime::from)` explicitly falls back to `LocalDateTime` when the string has no offset. `"2026-09-09T10:00:00"` therefore parses successfully and is enqueued as `"2026-09-09T10:00"`, which downstream will read as UTC. That is exactly the ambiguous case the notes say must be rejected — a client in UTC+9 sending local wall-clock time gets its job scheduled 9 hours off, silently. The invariant "every queue entry is an unambiguous instant" is broken at the boundary and there is no failure signal.
+Require: drop the `LocalDateTime::from` fallback. Parse with `OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME)` (or `ISO_DATE_TIME.parse(input, OffsetDateTime::from)`). Missing offset then throws `DateTimeParseException`, which the transport layer already maps to 400. Add a test for offset-less input asserting rejection.
+
+**2. `Ingress.schedule` — offset-aware input is not normalized to UTC before enqueueing.**
+`OffsetDateTime.toString()` preserves the original offset: `"2026-09-09T10:00:00+02:00"` is stored verbatim. The contract says the queue holds ISO **UTC instants** and downstream interprets each string as UTC. If downstream honors the offset the string is merely non-canonical; if it does what the notes say (treat as UTC), the job runs two hours late. Either way the "same instant" requirement is not enforced here, and the ambiguity is pushed to the consumer.
+Require: convert to the instant and serialize that — `odt.toInstant().toString()` (always `...Z`, always includes seconds, unlike `OffsetDateTime.toString()` which drops `:00` seconds and would give downstream two shapes to parse). Add a test that `+02:00` and the equivalent `Z` input produce identical queue entries.
+
+**3. Minor — `null` input.**
+`parseBest(null, ...)` throws `NullPointerException`, not `DateTimeParseException`, so it will bypass the transport's 400 mapping and surface as a 500. If `input` can be absent at this boundary, fail explicitly with the same error class the transport handles (e.g. `Objects.requireNonNull` is not enough — reject with a validation error).
+
+Items 1 and 2 are required before merge; 3 is a should-fix.
+
+__ABLATION_DONE__ exit=0

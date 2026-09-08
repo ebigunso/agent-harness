@@ -1,0 +1,37 @@
+## Findings
+
+### 1. `job.cpp` — `finish()` persists the completion flag before the result (blocking)
+
+**What's wrong:** The order is `markCompleted(id)` then `writeResult(id, result)`. Per the notes, the two calls persist independently, `writeResult` can fail, and the process can stop between the calls. That leaves a durable state of `completed = true, result = absent`.
+
+**Why it matters:** Enumerating the reachable persisted states after a `finish` attempt:
+
+| completed | result | reachable? | retry outcome |
+|---|---|---|---|
+| no | no | yes (fails on first call) | worker retries, re-runs `finish` → fine |
+| **yes** | **no** | **yes** (stops/fails between the calls) | **retry checks persisted completion, sees `completed`, skips → result is never written** |
+| no | yes | not reachable with this order | — |
+| yes | yes | yes | fine |
+
+Row 2 violates the stated invariant "complete flag implies retrievable durable result", and the retry policy makes it permanent rather than transient: the exception propagates to the worker, the worker retries, the retry sees `completed` and stops. The job is marked done with no retrievable output, and nothing in the system will ever correct it. This is a silent data loss on precisely the failure path the notes say we must tolerate.
+
+**What I'd require:** Invert the ordering so the flag is the last thing written and only ever asserts something already durable:
+
+```cpp
+void finish(Store& store, const std::string& id, const std::string& result) {
+    store.writeResult(id, result);   // durable result first
+    store.markCompleted(id);         // flag only after result exists
+}
+```
+
+With this order the only intermediate state is `completed = no, result = yes`; a retry sees "not completed", re-runs `finish`, overwrites the result, and marks completion. Every reachable state either satisfies the invariant or is repaired by the existing retry path. If `Store` can offer an atomic write of both (single transaction), that's preferable and removes the intermediate state entirely; but in the absence of that, result-then-flag is the minimum acceptable ordering.
+
+### 2. `job.cpp` — `writeResult` must be safe to re-execute (flag, dependent on #1)
+
+Once the ordering is fixed, the `result = yes, completed = no` state is repaired by re-invoking `finish`, which calls `writeResult` a second time for the same `id` (and, with concurrent workers on the same job, possibly from two callers). The interface doesn't state whether `writeResult` overwrites, appends, or rejects an existing result. If it rejects duplicates, the repair path throws forever and the job is stuck; if it appends, you get duplicated/corrupted output.
+
+**What I'd require:** Document on `Store::writeResult` that it is idempotent / last-writer-wins for a given `id` (and have implementations honor that), or have `finish` treat "result already present" as success before proceeding to `markCompleted`. The fix in #1 is only correct if this holds, so it should be stated rather than assumed.
+
+No other findings; the interface shape and C++17 usage are otherwise fine.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,66 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819e-2556-7640-b03c-a834fada8f5f
+--------
+user
+Reference material loaded for this review:
+
+### 3) Keep Changes Small, Cohesive, and Reversible
+
+- Group related edits into a single coherent unit.
+- Avoid coupling unrelated refactors with functional changes.
+- Make rollback straightforward by limiting blast radius.
+
+Review checks:
+- Is the diff focused on one clear goal?
+- Can this change be safely reverted without collateral edits?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Reject inactive authentication accounts.
+
+```diff
+--- a/auth.go
++++ b/auth.go
+@@ -1,2 +1,2 @@
+ package auth
+-func Allowed(active bool) bool { return true }
++func Allowed(active bool) bool { return active }
+--- a/metrics.go
++++ b/metrics.go
+@@ -1,3 +1,3 @@
+ package auth
+-import m "example.test/app/metricsold"
++import m "example.test/app/metricsnew"
+ func LoginCount() int { return m.Counter() }
+--- a/metricsold/counter.go
++++ b/metricsold/counter.go
+@@ -0,0 +1,2 @@
++package metricsold
++func Counter() int { return 0 }
+--- a/metricsnew/counter.go
++++ b/metricsnew/counter.go
+@@ -0,0 +1,2 @@
++package metricsnew
++func Counter() int { return 0 }
+```
+Commit message: "reject inactive authentication accounts"
+
+Reviewer notes: Single proposed commit. The two local metrics packages expose the same Counter API, use independent sinks, and both are already installed. Metrics replacement has its own release ticket; auth rollback must be independent.
+
+codex
+- **`metrics.go` import change and accompanying metrics package edits:** This commit also switches login metrics to an independent sink, which is unrelated to rejecting inactive accounts and has its own release ticket. Bundling these changes couples their release and rollback: reverting the authentication fix would also revert the metrics migration. Require the metrics replacement and its supporting edits in a separate commit so authentication can be rolled back independently. The `auth.go` change itself correctly implements the requested behavior.
+tokens used
+3,344
+- **`metrics.go` import change and accompanying metrics package edits:** This commit also switches login metrics to an independent sink, which is unrelated to rejecting inactive accounts and has its own release ticket. Bundling these changes couples their release and rollback: reverting the authentication fix would also revert the metrics migration. Require the metrics replacement and its supporting edits in a separate commit so authentication can be rolled back independently. The `auth.go` change itself correctly implements the requested behavior.
+
+__ABLATION_DONE__ exit=0

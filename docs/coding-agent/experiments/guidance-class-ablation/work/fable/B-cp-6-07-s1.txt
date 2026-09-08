@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`Wire.cs` — `CreatedAt` drops the UTC designator from the wire format.**
+   The old `"O"` format on a `Kind.Utc` value emitted `2026-09-09T03:15:42.0000000Z`. The new `"yyyy-MM-ddTHH:mm:ss"` emits `2026-09-09T03:15:42` — a naive local-looking timestamp with no `Z`/offset. The published contract says `createdAt` denotes a UTC instant, but the serialized form no longer carries that information; it's now only true by out-of-band convention. That is silent shape/semantics drift at the boundary. Dropping fractional seconds is fine per the notes; dropping the zone is not.
+   **Require:** keep the designator, e.g. `utc.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture)` (or `"...ssK"`, which yields `Z` for `Kind.Utc`). Since the method now hard-codes `Z`, also guard the precondition — `if (utc.Kind != DateTimeKind.Utc) throw` or call `ToUniversalTime()` — rather than relying on the parameter name.
+
+2. **`client.py` — `created_at` silently reinterprets naive input as local time, producing a 9‑hour skew with the new producer output.**
+   `datetime.fromisoformat("2026-09-09T03:15:42")` returns a naive datetime; `.astimezone(timezone.utc)` on a naive datetime assumes the process's local zone (UTC+09:00 here) and converts, so every parsed instant comes out 9 hours early (03:15Z becomes 18:15Z the previous day). No error is raised — this is exactly the "implicit coercion" the fidelity rule warns about, and it will ship wrong timestamps as if valid.
+   **Require:** with fix #1 the string is aware and `astimezone(timezone.utc)` is correct on Python ≥ 3.11 (`fromisoformat` accepts `Z`); for older runtimes normalize `Z` → `+00:00` first. Independently, the consumer should refuse to guess: after parsing, `if dt.tzinfo is None: raise ValueError(...)` (or, if the contract is explicitly "naive means UTC", `dt.replace(tzinfo=timezone.utc)` — but that should be a deliberate documented choice, not a fallback to local). Add a test that round-trips a known UTC instant through both sides and asserts equality; the current diff has no test that would have caught the 9h shift.
+
+Not acceptable as-is: as written, producer and consumer disagree on the meaning of the string and the mismatch is undetectable at runtime.
+
+__ABLATION_DONE__ exit=0

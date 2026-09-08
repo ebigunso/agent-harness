@@ -1,0 +1,21 @@
+**Verdict: not acceptable as-is.** Three findings, one of which is a correctness question about the chosen normalization and two about how the intent is (not) captured in the code.
+
+---
+
+**1. `report.py`, `display_name` — `str.title()` is lossy for real names.**
+`title()` lowercases every character after the first letter of each word, so it corrupts names that are already correctly cased: `"McDonald"` → `"Mcdonald"`, `"DeVito"` → `"Devito"`, `"van der Berg"` → `"Van Der Berg"`, `"O'NEIL"`/`"o'neil"` happen to work but `"d'Arcy"` → `"D'Arcy"` only by luck. If these are person names (the fixtures `"ada"`, `"LIN"` suggest so), the function trades one inconsistency for silent data damage that the user can't undo from the output. "Consistent" formatting doesn't require destroying correct capitalization.
+*Require:* decide the policy explicitly. Either (a) normalize whitespace only (`" ".join(name.split())`) and leave casing to the source of truth, or (b) if forcing case is genuinely required, say so in a docstring and accept the known failure cases in a test. Don't leave the reader to discover the `McDonald` problem in production.
+
+**2. `report.py`, `check()` — a test embedded in the module, never run.**
+`check()` is a test function, but it lives in `report.py`, isn't invoked anywhere, isn't named `test_*` so pytest won't collect it, and uses bare `assert` which vanishes under `python -O`. As written it provides no protection and confuses the module's responsibilities (the reference material's "obvious boundaries" point). The `names == [" ada ", "LIN"]` non-mutation assertion is also asserting something the implementation can't violate (it's a generator over an unchanged list) — fine to keep, but only if it actually runs.
+*Require:* move these to `test_report.py` as `test_report_formats_names`, `test_report_empty`, etc., and drop `check()` from the module.
+
+**3. `report.py`, `report` / `display_name` — blank-name behavior is undocumented and untested.**
+`report(["", "Lin"])` and `report(["  ", "Lin"])` both return `", Lin"` — a leading separator with nothing before it. The reviewer note says this is intentional, but nothing in the diff says so: no comment, no test, and the name `display_name` gives no hint that an empty result is a supported output. A future reader will reasonably treat `", Lin"` as a bug and "fix" it, or the reverse. Intent that only exists in the PR discussion is exactly the hidden context the review checklist warns about.
+*Require:* either filter blanks in `report` (`if display_name(n)`) — which is what most callers would expect — or, if empties must be preserved, add a test asserting `report(["", "Lin"]) == ", Lin"` plus a one-line comment explaining why the separator artifact is acceptable.
+
+---
+
+Minor / not blocking: internal runs of whitespace (`"ada   lovelace"`) aren't collapsed, so the output is still not fully "consistent" — folding that into finding 1's policy decision is enough.
+
+__ABLATION_DONE__ exit=0

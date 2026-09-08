@@ -1,0 +1,18 @@
+**Verdict: block.** The suite is order- and thread-dependent and will fail intermittently.
+
+**1. `test_limit.rb` — `CustomLimitTest#setup` mutates process-global `ENV["LIMIT"]` and never restores it (no `teardown`).**
+`ENV` is shared across the whole process. Minitest shuffles test order by default, so whenever `CustomLimitTest` runs before `DefaultLimitTest`, `permitted?(5)` evaluates `5 < 2` and `test_default` fails. This is a genuine flake, not a theoretical one — roughly half of runs. Require: capture the prior value in `setup` and restore/delete it in `teardown` (`@old = ENV["LIMIT"]; ... ENV["LIMIT"] = @old` / `ENV.delete("LIMIT")`), or better, see #3.
+
+**2. `test_limit.rb` — `parallelize_me!` on both classes while tests mutate `ENV`.**
+Even with a correct `teardown`, `parallelize_me!` runs tests concurrently in threads; `DefaultLimitTest#test_default` can execute between `CustomLimitTest#setup` and its `teardown`, reading `"2"`. Restoring in `teardown` does not make this safe. Require: remove `parallelize_me!` from any class that touches `ENV` (and from `DefaultLimitTest`, since it reads what the other writes), or eliminate the shared state entirely (#3).
+
+**3. `limit.rb` — `permitted?` reads `ENV` directly, forcing tests to mutate global state.**
+This is the root cause of #1 and #2. Require: make the limit injectable, e.g. `def permitted?(count, limit: Integer(ENV.fetch("LIMIT", "10")))`, and have the custom-limit test pass `limit: 2` explicitly. Then no test needs to write `ENV`, and `parallelize_me!` becomes safe. Behaviour for callers is unchanged.
+
+**4. `test_limit.rb` — `DefaultLimitTest` assumes `LIMIT` is unset in the ambient environment.**
+If a developer's shell or CI job exports `LIMIT`, `test_default` silently tests the wrong thing or fails. Require: the test must explicitly establish the default condition (delete `ENV["LIMIT"]` with restore, or with #3, simply assert on the default `limit:` value).
+
+**5. `test_limit.rb` — no boundary coverage (minor, would flag not block).**
+`test_custom` only checks `2` is rejected; nothing checks `1` is permitted under `LIMIT=2`, and the default test only checks `5`, not `9`/`10`. The task is "test configurable request limits" — a single off-by-one in `<` vs `<=` would pass this suite. Require: add the `limit - 1` / `limit` pair for at least one configuration.
+
+__ABLATION_DONE__ exit=0

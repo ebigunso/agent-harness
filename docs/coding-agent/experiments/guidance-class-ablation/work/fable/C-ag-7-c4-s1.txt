@@ -1,0 +1,14 @@
+**Verdict: acceptable as-is. No blocking or flag-worthy findings.**
+
+What I checked, against the review criteria:
+
+- **Success/failure signals are meaningful and complete.** `outcome` fires on every poll — `"success"` after `read()` resolves, `"failure"` in the catch — and is never sampled. Every boundary event at the `read()` call is recorded.
+- **No silent failure.** The catch records the failure and rethrows the original error; the caller still sees it. Nothing is swallowed.
+- **Noise is controlled.** The `debug` signal fires once per 100 polls (`polls` wraps to 0 on the 100th call), so routine polling doesn't flood the debug sink, while the actionable outcome counters remain exact.
+- **No sensitive-data exposure.** Neither sink receives the read value or the error object — only the correlation `trace` ID, which per the notes is a safe identifier. Logged fields are already minimal.
+- **Counter growth is bounded** via the `%100` wrap.
+- **The `check()` harness verifies the contract**: 100 successes → exactly one debug sample; the subsequent failing poll increments `failures` to 1 and does not trigger another sample (`samples!==1` would fail if it did).
+
+The only assumption the correctness rests on is that `outcome`/`debug` are non-throwing (a throwing `outcome` inside the catch would mask the original error), and the reviewer notes state that as an explicit invariant of the adapters, so I'm not raising it.
+
+__ABLATION_DONE__ exit=0

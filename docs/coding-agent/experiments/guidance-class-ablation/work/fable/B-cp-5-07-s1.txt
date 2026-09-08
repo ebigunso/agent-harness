@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`importer.rb`, `import_row` — nil account is written past the persistence boundary.**
+   `row[:account_id]` is operator-supplied and may be nil, but it is appended to `entries` unchecked. The stated invariant (every entry has one existing account) is violated at the exact point where it should be enforced. The failure instead surfaces later in `nightly` as `NoMethodError: undefined method 'upcase' for nil`, with no indication of which row caused it — and by then the bad entry is already persisted. `row_number` is accepted but unused, which shows the actionable-error path was intended and dropped. `fetch(:account_id)` in `nightly` gives no protection either, since the key is always present; only the value is nil.
+   Require: in `import_row`, reject nil/blank `account_id` before the `<<`, raising an error that includes `row_number` (e.g. `raise ArgumentError, "row #{row_number}: missing account_id"`).
+
+2. **`importer.rb`, `import_row` — no check that the account exists.**
+   The schema requires the account to exist; the importer never looks it up. A misspelled or unknown account id is persisted and either breaks downstream or silently creates a phantom account bucket in `nightly`.
+   Require: validate the (normalized) account id against the account set at import time and fail with the row number if it is unknown.
+
+3. **`importer.rb`, `nightly` — normalization done at read time instead of at the write boundary.**
+   `.upcase` in `nightly` means entries are stored with whatever casing the operator typed. Any other consumer of `entries` that doesn't replicate the `.upcase` will split one account into several, and the existence check in (2) can't be done reliably against un-normalized input.
+   Require: normalize (`strip`/`upcase`) in `import_row` before validation and before the append; `nightly` should group on the stored value as-is.
+
+The change is not acceptable as-is; all three need to be addressed before merge.
+
+__ABLATION_DONE__ exit=0

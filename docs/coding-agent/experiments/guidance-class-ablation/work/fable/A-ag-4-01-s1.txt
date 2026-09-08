@@ -1,0 +1,15 @@
+**Verdict: block.** The rename is only half done — the producer changed but the named consumer still reads the old field.
+
+## Findings
+
+1. **`client.ts` lines 2–3 — consumer still uses `user_id` after the API renamed it to `account_id`.**
+   `api.py` now emits `{"account_id": "a"}`, but `id()` does `JSON.parse(json) as {user_id: string}` and returns `row.user_id`. Since the `as` assertion only asserts a type and does not validate the parsed object, TypeScript will compile cleanly and `id()` will return `undefined` at runtime for every response. Nothing fails loudly; every caller of `id()` silently gets `undefined`. This is exactly the contract break the task ("rename internal account identifier field", both ends in reach) was meant to include.
+   **Require:** update `client.ts` in the same change to `{account_id: string}` / `row.account_id`. Given the assertion gives no runtime protection, I'd also require a minimal guard (e.g. `if (typeof row.account_id !== "string") throw new Error("missing account_id")`) so a future field mismatch fails fast instead of leaking `undefined`.
+
+2. **No test covering the producer→consumer contract.**
+   The only reason this defect is catchable in review is that both files happen to be in the diff. There is nothing that would have caught it in CI, and nothing that will catch the next rename.
+   **Require:** a test that feeds the serialized output of `response()` (or a fixture matching it) through `id()` and asserts the expected value — a single round‑trip test is enough.
+
+Minor / non-blocking: the `client.ts` hunk header (`@@ -0,0 +1,4 @@`) indicates this is a newly added file, yet it's written against the pre-rename field name. If it was copied from an older consumer, make sure the original wasn't left behind elsewhere; the reviewer note says there are no out-of-scope consumers, so I'll take that as confirmed, but worth a quick `grep user_id` before merge.
+
+__ABLATION_DONE__ exit=0

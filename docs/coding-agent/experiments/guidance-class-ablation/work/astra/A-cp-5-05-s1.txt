@@ -1,0 +1,37 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08193-b46f-7241-9da5-29e542aca2ba
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Write uploaded archive members.
+
+```diff
+--- a/archive.py
++++ b/archive.py
+@@ -0,0 +1,5 @@
++from pathlib import Path
++def extract(root, member, data):
++    target = Path(root) / member
++    target.parent.mkdir(parents=True, exist_ok=True)
++    target.write_bytes(data)
+```
+Commit message: "write uploaded archive members"
+
+Reviewer notes: Fresh private destination directory, no symlinks or concurrent filesystem writers. Member names are untrusted; directories are permitted but writes must stay below root. Individual byte payload limits are already enforced.
+
+codex
+- **`archive.py:3–5` — Untrusted member names can escape `root`.** A name such as `../outside.txt` traverses upward, and an absolute path can override the root when joined. The subsequent calls can create directories and overwrite files outside the destination. A private directory without symlinks does not prevent this. Require validation before either filesystem operation: reject absolute or drive-qualified names, resolve the candidate path, and verify it is strictly below the resolved root; reject any member that fails this check.
+tokens used
+3,164
+- **`archive.py:3–5` — Untrusted member names can escape `root`.** A name such as `../outside.txt` traverses upward, and an absolute path can override the root when joined. The subsequent calls can create directories and overwrite files outside the destination. A private directory without symlinks does not prevent this. Require validation before either filesystem operation: reject absolute or drive-qualified names, resolve the candidate path, and verify it is strictly below the resolved root; reject any member that fails this check.
+
+__ABLATION_DONE__ exit=0

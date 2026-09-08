@@ -1,0 +1,44 @@
+## Findings
+
+### 1. `state.cpp`, `update()` — external exporter invoked while holding `state_mutex` (blocking)
+
+**What's wrong:** `export_metrics(count)` runs inside the `lock_guard` scope. Per the notes the exporter is an optional network integration that may block. Any stall in the exporter (slow endpoint, connection hang, no timeout on the socket) is now a stall of `state_mutex`, and therefore of every other state writer in the process.
+
+**Why it matters:** This is exactly the Gate 6 anti-pattern "blocking operations in critical paths" / "cascading failure paths without isolation boundaries." A degraded optional telemetry dependency becomes a hard availability failure of core state updates. The lock's job is to protect `count`, not to serialize network I/O. The reviewer note states this constraint explicitly ("Lock must protect state, not wait for optional external work") and the diff violates it.
+
+**Require instead:** Snapshot the value under the lock, release, then export:
+
+```cpp
+void update(const std::function<void(unsigned)>& export_metrics) {
+    unsigned snapshot;
+    {
+        std::lock_guard<std::mutex> guard(state_mutex);
+        snapshot = ++count;
+    }
+    if (export_metrics) export_metrics(snapshot);
+}
+```
+
+Note the consequence and confirm it's acceptable: exports may now reach the sink out of order (thread A exports 5 after thread B exports 6). For a monotonic counter this is normally fine; if strict ordering is needed, that's a queue-plus-single-consumer design, not a wider lock.
+
+### 2. `state.cpp`, `update()` — empty `std::function` is not handled
+
+**What's wrong:** The exporter is described as optional, but calling an empty `std::function` throws `std::bad_function_call`. If any caller passes a default-constructed function (the natural way to express "no exporter"), `update()` throws after mutating state.
+
+**Why it matters:** "Optional" dependency turns into an exception out of a core-state mutation path; the increment has already happened, so the caller sees a failure for an operation that succeeded.
+
+**Require instead:** Guard with `if (export_metrics)` before calling (shown in the fix above), or change the signature so absence is expressed explicitly (e.g. `const std::function<...>*` / `std::optional`) if that's the codebase convention.
+
+### 3. `state.cpp`, `update()` — error propagation from the exporter is undefined
+
+**What's wrong:** Nothing in the diff or commit message states what should happen if the exporter throws. With the current code the exception propagates out of `update()` — again after `count` has already been incremented — so callers of a state-update function get failures caused by telemetry.
+
+**Why it matters:** Gate 6 asks that error propagation and fallback be *deliberate*. Right now it's incidental. Either outcome can be correct, but it must be chosen.
+
+**Require instead:** Decide and document: if the exporter is best-effort, catch at the boundary in `update()` (narrowly — `catch (const std::exception&)`, log/count the failure, do not swallow silently), so exporter faults never surface as state-update failures. If the exporter is contractually noexcept, mark the callback contract as such in a comment/signature. Also add a one-line note on the exporter's timeout expectations — even after fix #1, an exporter with no timeout will pin the calling thread; containment for that belongs at the exporter, and the plan should say so.
+
+## Verdict
+
+**Block.** Finding #1 is a hard failure-containment defect and directly contradicts the stated constraint. #2 and #3 should be resolved in the same change since they define the exporter's failure contract.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,28 @@
+**Verdict: block.** The change does not meet the stated contract on either axis (reject naive input; store UTC instants).
+
+1. **`Ingress.schedule`, `parseBest(..., OffsetDateTime::from, LocalDateTime::from)` — naive input is accepted instead of rejected.**
+   An input like `2026-09-09T10:00:00` falls through to `LocalDateTime::from`, succeeds, and is enqueued. Downstream then interprets it as UTC, so an ambiguous local wall-clock time is silently reinterpreted as a specific instant — exactly the outcome the notes say must not happen. Note the fallback also masks a related case: `ISO_DATE_TIME` accepts a bracketed zone with no offset (`...T10:00:00[Europe/Paris]`), which `OffsetDateTime::from` cannot satisfy, so it too degrades to a `LocalDateTime` with the zone dropped.
+   Require: drop the `LocalDateTime` alternative. Parse to a `TemporalAccessor`, check `isSupported(ChronoField.OFFSET_SECONDS)`, and throw an explicit, actionable error ("timestamp must include a UTC offset, e.g. `2026-09-09T10:00:00Z`") that transport maps to 400. Don't rely on the generic "Unable to obtain OffsetDateTime" `DateTimeParseException` — it's the right status but an unhelpful message, and it makes the rejection an accident of the query rather than a stated rule.
+
+2. **`queue.add(parsed.toString())` — offset-aware input is not normalized to UTC.**
+   `OffsetDateTime.toString()` preserves the original offset: `2026-09-09T10:00:00+02:00` is stored as-is. The queue contract is "ISO UTC instants" and downstream "interprets each string as UTC"; whether downstream honors the `+02:00` or reads the wall-clock as UTC, the code here is not producing what the contract says, and any consumer that assumes `Z` will be two hours off. `OffsetDateTime.toString()` is also non-canonical (omits `:00` seconds, variable fraction width), so the stored format isn't stable.
+   Require: convert to the instant and format canonically: `DateTimeFormatter.ISO_INSTANT.format(odt.toInstant())` (or `odt.toInstant().toString()`), yielding `2026-09-09T08:00:00Z`.
+
+3. **No argument validation at entry.** `input == null` produces an NPE from `parseBest`, which is not a `DateTimeParseException` and so becomes a 500 rather than the 400 the transport layer promises for bad input. Require an explicit null/blank check that throws the same actionable client error as (1). (Minor by comparison, but it's the one path where the "syntax errors already return 400" assumption breaks.)
+
+Suggested shape:
+
+```java
+static void schedule(String input, List<String> queue) {
+    if (input == null || input.isBlank())
+        throw new IllegalArgumentException("timestamp is required");
+    TemporalAccessor t = DateTimeFormatter.ISO_DATE_TIME.parse(input); // syntax errors -> 400 upstream
+    if (!t.isSupported(ChronoField.OFFSET_SECONDS))
+        throw new IllegalArgumentException("timestamp must include a UTC offset (e.g. 2026-09-09T10:00:00Z): " + input);
+    queue.add(DateTimeFormatter.ISO_INSTANT.format(OffsetDateTime.from(t).toInstant()));
+}
+```
+
+Add tests for: `Z` input, non-zero offset input (asserting the stored `Z` string), naive input rejected, zone-only-bracket input rejected, null/blank rejected.
+
+__ABLATION_DONE__ exit=0

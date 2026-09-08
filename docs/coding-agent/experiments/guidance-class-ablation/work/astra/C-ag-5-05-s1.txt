@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e6-14f9-7940-b9d8-52560cd72482
+--------
+user
+Reference material loaded for this review:
+
+Define owners, lifecycles and transitions; enforce invariants authoritatively. Derive full classification truth tables first. Check concurrent/repeated runs; reject optional-only guards, conflicting writers and invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Update customer balances through API and import.
+
+```diff
+--- a/balance.ts
++++ b/balance.ts
+@@ -0,0 +1,3 @@
++type Customer = {balanceCents: number};
++export function api(customer: Customer, dollars: number) { customer.balanceCents = Math.round(dollars*100); }
++export function imported(customer: Customer, dollars: number) { customer.balanceCents = Math.trunc(dollars*100); }
+```
+Commit message: "update customer balances through api and import"
+
+Reviewer notes: Single-process serialized writes, so concurrency is not the issue. Raw dollars are validated finite nonnegative values <= 1000, including 1.239. Stored integer cents must follow one agreed rule; API rounds nearest while importer truncates.
+
+codex
+- **`balance.ts:2–3` — Inconsistent dollar-to-cent conversion.** API updates round to the nearest cent, while imports truncate: `1.239` becomes `124` cents through the API and `123` cents through import. The same balance therefore depends on its entry path. Require one agreed conversion rule, implemented in a shared function used by both paths, with tests confirming identical results for fractional-cent inputs such as `1.239`.
+tokens used
+3,171
+- **`balance.ts:2–3` — Inconsistent dollar-to-cent conversion.** API updates round to the nearest cent, while imports truncate: `1.239` becomes `124` cents through the API and `123` cents through import. The same balance therefore depends on its entry path. Require one agreed conversion rule, implemented in a shared function used by both paths, with tests confirming identical results for fractional-cent inputs such as `1.239`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,59 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a3-385f-7220-86a8-1d06569d7c0b
+--------
+user
+Reference material loaded for this review:
+
+### 6) Maintain Contract Fidelity Across Layers
+
+- Keep data models, service contracts, and adapters aligned.
+- Avoid silent field loss, implicit coercions, or shape drift.
+- Version and migrate interfaces deliberately when needed.
+
+Review checks:
+- Do upstream/downstream boundaries agree on schema and semantics?
+- Is contract drift prevented or merely tolerated?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Map required invoice fields losslessly.
+
+```diff
+--- a/invoice.py
++++ b/invoice.py
+@@ -0,0 +1,13 @@
++from dataclasses import dataclass
++@dataclass(frozen=True)
++class InvoiceProto:
++    id: str
++    amount: int
++    tax_amount: int
++def to_view(proto):
++    return {"id": proto.id, "amount": proto.amount, "taxAmount": proto.tax_amount}
++def to_proto(view):
++    return InvoiceProto(view["id"], view["amount"], view["taxAmount"])
++def check():
++    for proto in [InvoiceProto("a", 100, 20), InvoiceProto("b", 0, 0)]:
++        assert to_proto(to_view(proto)) == proto
+```
+Commit message: "map required invoice fields losslessly"
+
+Reviewer notes: Dataclass is the complete local facade for required protobuf fields; all three are required by the upstream schema. Optional/unknown protobuf fields are outside this client view contract. Round-trip check below exercises every required field, including zero tax.
+
+codex
+Acceptable as-is. All three required fields map losslessly in both directions, including zero values. The `tax_amount` ↔ `taxAmount` rename is consistent. No findings.
+tokens used
+3,252
+Acceptable as-is. All three required fields map losslessly in both directions, including zero values. The `tax_amount` ↔ `taxAmount` rename is consistent. No findings.
+
+__ABLATION_DONE__ exit=0

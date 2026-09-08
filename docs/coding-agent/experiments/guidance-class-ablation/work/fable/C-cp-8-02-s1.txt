@@ -1,0 +1,24 @@
+**Verdict: not acceptable as-is.** The `status.py` addition is fine; the `cli.py` rewrite should be reverted.
+
+## Findings
+
+### 1. `cli.py` — dynamic provider registry is accidental complexity with no consumer (blocking)
+
+**What's wrong:** A working one-line static import (`from status import handle` / `return handle()`) was replaced with a string-keyed `PROVIDERS` table, an `importlib.import_module` + `getattr` resolver, and a `discover()` call that rebuilds the whole map on every `main()` invocation, only to immediately index `["status"]`.
+
+**Why it matters:**
+- There is exactly one command, it is only invoked locally, and there are no extension consumers (per the reviewer notes). An abstraction earns its keep when it serves multiple real uses; this one serves a single hard-coded entry, so it's speculative generality.
+- It degrades the code on every axis the direct import was good at: the dependency `cli → status` is no longer visible to static analysis, linters, IDE navigation, or refactoring tools; a typo in `"status"`/`"handle"` now surfaces as a runtime `ImportError`/`AttributeError` inside `main()` instead of an import-time failure; and a reader must trace a dict → tuple → importlib → getattr chain to learn that `main` calls `status.handle`.
+- The dependency graph was already directed and acyclic with the plain import — the indirection buys nothing there either.
+
+**What I'd require:** Revert `cli.py` to the original two lines. The only necessary change in this diff is creating `status.py` so the existing import resolves. If a real second command with a genuine need for name-based dispatch appears later, introduce a registry then, sized to that need (and likely a plain dict of callables rather than string module/symbol pairs).
+
+### 2. Task says "print", nothing prints (flag, verify)
+
+**What's wrong:** The task framing and commit message are "print the status command," but `main()` still returns `"ready"`; no call site printing the result is shown.
+
+**Why it matters:** If the entrypoint that calls `main()` doesn't print its return value, the stated task isn't actually accomplished. This predates the diff (the original also returned), so it may be intentional — but the commit claims to do it.
+
+**What I'd require:** Confirm the caller prints `main()`'s result; if not, add the `print` at the entrypoint (not inside `handle()`, so it stays testable). If the return-based design is deliberate, reword the commit message so it doesn't claim printing.
+
+__ABLATION_DONE__ exit=0

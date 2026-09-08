@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`status.php` — `update()` / `Task::__construct`: no validation of the status value.**
+   The route's JSON shape check only guarantees a string; it does not constrain the value. `update("done")`, `update("Closed")`, `update("")` all succeed and produce a `Task`. Per the notes, the only legal values are `open` and `closed`, and lower-level code assumes anything non-open *is* closed. This change lets arbitrary client input reach that code, so an invalid status is silently treated as closed (see #2) rather than rejected. This is the core defect: the task was to "accept task status updates", and accepting means validating against the domain, not just constructing.
+   **Require:** reject anything outside the allowed set at the boundary — either an `enum TaskStatus: string { case Open = 'open'; case Closed = 'closed'; }` with `TaskStatus::from($status)` (throws `ValueError` on unknown input, which the route maps to a 400), or an explicit `in_array($status, ['open','closed'], true)` check that throws/returns an error. Add a test that an unknown status is rejected.
+
+2. **`status.php` — `terminal()` uses a negative comparison (`!== "open"`).**
+   This bakes the same fragile "non-open means closed" assumption into the new code, and combined with #1 it is what turns garbage input into a terminal task. Even once validation exists, a future third status would silently become terminal.
+   **Require:** compare positively against the terminal state (`$this->status === TaskStatus::Closed` / `=== 'closed'`).
+
+3. **`status.php` — `public string $status` is publicly writable.**
+   Even with validation in the constructor, any caller can do `$task->status = 'whatever'` afterward and bypass it, reintroducing #1.
+   **Require:** `public readonly` (or typed as the enum), so the invariant established at construction cannot be broken later.
+
+Not acceptable as-is; #1 is blocking, #2 and #3 should be fixed in the same change since they fall out of the same design choice.
+
+__ABLATION_DONE__ exit=0

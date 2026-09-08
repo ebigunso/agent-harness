@@ -1,0 +1,54 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819f-a443-7f61-ab46-c7782dc97290
+--------
+user
+Reference material loaded for this review:
+
+### 4) Optimize for Readability and Local Reasoning
+
+- Favor clear names, explicit boundaries, and straightforward control flow.
+- Keep functions/components at a single level of abstraction.
+- Reduce hidden coupling and surprising side effects.
+
+Review checks:
+- Can a reader understand intent without reconstructing hidden context?
+- Are responsibilities and boundaries obvious?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add French configuration preset.
+
+```diff
+--- a/locale.ts
++++ b/locale.ts
+@@ -0,0 +1,2 @@
++export const locale = {current: "en-US"};
++export function format(n: number) { return new Intl.NumberFormat(locale.current).format(n); }
+--- a/config.ts
++++ b/config.ts
+@@ -1 +1,3 @@
++import {locale} from "./locale";
++locale.current = "fr-FR";
+ export const theme = "light";
+```
+Commit message: "add french configuration preset"
+
+Reviewer notes: Intl supports both locales. Formatter is reused before and after dynamically importing the preset; importing settings is expected to expose values only.
+
+codex
+- **`config.ts:2` / `locale.ts:1–2` — Importing configuration silently changes shared formatter behavior.** Assigning `locale.current = "fr-FR"` makes the reused `format()` function produce different output before and after the dynamic import. This violates the expectation that settings imports only expose values and creates hidden coupling through import order. Require an exported French preset value and explicit locale selection when creating or calling the formatter, rather than mutating shared state during import.
+tokens used
+3,257
+- **`config.ts:2` / `locale.ts:1–2` — Importing configuration silently changes shared formatter behavior.** Assigning `locale.current = "fr-FR"` makes the reused `format()` function produce different output before and after the dynamic import. This violates the expectation that settings imports only expose values and creates hidden coupling through import order. Require an exported French preset value and explicit locale selection when creating or calling the formatter, rather than mutating shared state during import.
+
+__ABLATION_DONE__ exit=0

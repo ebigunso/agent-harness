@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+Reasoning I checked before signing off:
+
+- **Wire/Client compatibility (`Invoice.cs`):** `Wire` gains `Memo` but `Client` does not, and `Adapter.Parse` deserializes into `Client`. This is safe because `System.Text.Json` defaults to `JsonUnmappedMemberHandling.Skip`, so an extra `"Memo"` property (whether `null` or a string) is silently dropped. The reviewer note about consumer policy is accurate, not just asserted.
+- **Existing property names:** `Id` and `Total` are unchanged on both records, so the case-sensitive default matching still binds correctly to `Client`'s positional constructor.
+- **Optional parameter on the record:** `string? Memo = null` works with STJ's parameterized-constructor deserialization — if `Memo` is absent from incoming JSON, the default is applied rather than throwing. So this is also backward-compatible for anyone deserializing older payloads into `Wire`.
+- **Null serialization:** With default options, `Wire` serializes `"Memo": null` when unset. That's harmless for the consumer (skipped) and doesn't change the required fields. If the team later wants a leaner payload, `DefaultIgnoreCondition = WhenWritingNull` is a separate, non-blocking choice.
+- **Scope:** The task was to include the memo on the invoice wire format; the consumer explicitly only needs `Id` and `Total`, so not surfacing `Memo` on `Client` is consistent with the stated requirement rather than an omission.
+
+Non-blocking suggestion only: a one-line test asserting `Adapter.Parse(JsonSerializer.Serialize(new Wire("a", 1, "note")))` yields `Client("a", 1)` would lock in the compatibility guarantee the reviewer notes rely on, but I would not hold the change for it.
+
+__ABLATION_DONE__ exit=0

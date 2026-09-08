@@ -1,0 +1,193 @@
+records:
+  - id: 5b1c9ccd7cc3
+    fixture: ag-4-01
+    score: 1.0
+    note: "Names account_id/user_id mismatch at client.ts and requires consumer updated in same change; also flags JSON.parse on decoded input."
+  - id: 5f922b309571
+    fixture: ag-4-01
+    score: 1.0
+    note: "Names field mismatch, requires consumer type/access to account_id alongside producer, calls it breaking; also flags decoded-input parse."
+  - id: be839141ef8a
+    fixture: ag-4-01
+    score: 1.0
+    note: "Names user_id/account_id mismatch and requires consumer migration; also flags JSON.parse on decoded object."
+  - id: 6c850b8136d3
+    fixture: ag-4-02
+    score: 1.0
+    note: "Names nil conflation of error and empty in Fetch/HasWork; requires explicit error return distinguishing empty success."
+  - id: a826612e36ec
+    fixture: ag-4-02
+    score: 1.0
+    note: "Names error/empty conflation and requires error-carrying signatures for Fetch and HasWork."
+  - id: b30835ad56d4
+    fixture: ag-4-02
+    score: 1.0
+    note: "Names nil conflation, requires explicit error propagation with empty success as zero items and nil error."
+  - id: 0a3368062723
+    fixture: ag-4-03
+    score: 1.0
+    note: "Names missing timezone contract on LocalDateTime input at schedule; requires Instant/offset-bearing input or explicit ZoneId."
+  - id: 3d8ab4d06a0a
+    fixture: ag-4-03
+    score: 1.0
+    note: "Names silent UTC assumption on zone-free input; requires Instant/OffsetDateTime/ZonedDateTime or explicit ZoneId."
+  - id: cd5daf5955ae
+    fixture: ag-4-03
+    score: 1.0
+    note: "Names UTC assumption not encoded in public input; requires zone-bearing type or explicit ZoneId."
+  - id: 1d481b699e07
+    fixture: ag-4-04
+    score: 1.0
+    note: "Names tuple-to-dict breaking change with positional callers silently corrupted; requires caller migration and correcting no-migration report."
+  - id: 5d347b093925
+    fixture: ag-4-04
+    score: 1.0
+    note: "Names breaking return-shape change and caller corruption; requires declared migration of both callers or NamedTuple."
+  - id: ed203cfb4e71
+    fixture: ag-4-04
+    score: 1.0
+    note: "Names dict return breaking positional callers; requires NamedTuple or explicit caller migration with declaration."
+  - id: 2262e463b543
+    fixture: ag-4-05
+    score: 1.0
+    note: "Names any bag leaking connection and view across boundary; requires typed id-in account-out lookup API with rendering in screen()."
+  - id: 29359e4ab5b8
+    fixture: ag-4-05
+    score: 1.0
+    note: "Names untyped contract exposing DB and UI internals; requires narrow typed lookup with account source behind it."
+  - id: 95056fa17d49
+    fixture: ag-4-05
+    score: 1.0
+    note: "Names implicit UI/DB-coupled any contract; requires query(id): Account with rendering moved out."
+  - id: 2d01744b9900
+    fixture: ag-4-06
+    score: 1.0
+    note: "Names ignored Enqueue false with unconditional 204; requires retryable error status on rejection."
+  - id: 2ea1a9ac3c7d
+    fixture: ag-4-06
+    score: 1.0
+    note: "Names 204 returned on capacity rejection; requires 204 only on true and retryable error on false."
+  - id: a876420a3905
+    fixture: ag-4-06
+    score: 1.0
+    note: "Names rejection acknowledged as success at Post; requires checking result and returning retryable error."
+  - id: 0cda2a67e51b
+    fixture: ag-4-07
+    score: 1.0
+    note: "Names prefix.len() bytes passed as scalar index in after_prefix; requires chars().count() or strip_prefix with non-ASCII coverage."
+  - id: 1b3912d385d8
+    fixture: ag-4-07
+    score: 1.0
+    note: "Names byte length vs scalar index mismatch with non-ASCII example; requires scalar count and regression coverage."
+  - id: cb9350516d13
+    fixture: ag-4-07
+    score: 1.0
+    note: "Names byte/scalar unit mismatch at lib.rs:2; requires chars().count() or strip_prefix plus non-ASCII test."
+  - id: 41aaf1467a42
+    fixture: ag-4-08
+    score: 0.5
+    note: "Flags unmigrated serializer, schema and client and requires updating them, but never names the incorrect none impact classification or additive/breaking rationale."
+  - id: aadfaa63b78f
+    fixture: ag-4-08
+    score: 1.0
+    note: "Flags serializer/schema/client drift and explicitly calls the none impact classification incorrect with breaking rationale against closed schema."
+  - id: c68a626e26c5
+    fixture: ag-4-08
+    score: 1.0
+    note: "Flags serializer/schema/client drift, requires migration notes, and requires correcting impact classification from none."
+  - id: 3f57f4e0c554
+    fixture: ag-4-09
+    score: 1.0
+    note: "Names VendorFailure escaping past caller that catches only Unavailable; requires restoring translation."
+  - id: 5916e620152c
+    fixture: ag-4-09
+    score: 1.0
+    note: "Names removed VendorFailure to Unavailable translation breaking stable contract; requires restoration and verification."
+  - id: 9d9f4d3f0af0
+    fixture: ag-4-09
+    score: 1.0
+    note: "Names vendor exception leaking past declared Unavailable category; requires restoring the catch/translate."
+  - id: 112132b722d3
+    fixture: ag-4-10
+    score: 1.0
+    note: "Names false conflating missing and rejected with nextAction routing rejection to create; requires distinct updated/missing/rejected outcomes."
+  - id: 5fadc5c283b5
+    fixture: ag-4-10
+    score: 1.0
+    note: "Names boolean conflation of missing vs rejected; requires explicit tri-state outcomes mapped to done/create/retry."
+  - id: bfb2d1317458
+    fixture: ag-4-10
+    score: 1.0
+    note: "Names rejection routed to creation via shared false; requires distinct outcomes for updated/missing/rejected."
+  - id: 2c82747e252b
+    fixture: ag-4-11
+    score: 1.0
+    note: "Names borrowed pointer to caller-owned output dangling under documented contract; requires owned snapshot instead of hidden retention."
+  - id: 6e9dce012ca9
+    fixture: ag-4-11
+    score: 1.0
+    note: "Names dangling last_output against caller-owns-output contract; requires owned copy retained by parser."
+  - id: ce3463d815b1
+    fixture: ag-4-11
+    score: 1.0
+    note: "Names pointer to caller-owned storage violating ownership contract; requires owned std::string cache."
+  - id: 1e143681cba6
+    fixture: ag-4-12
+    score: 1.0
+    note: "Names -index reversing tie order against documented stability and breaking offset pagination; requires preserving original tie order."
+  - id: 722fa5ac5d91
+    fixture: ag-4-12
+    score: 1.0
+    note: "Names reversed tie order as breaking stability contract affecting pagination; requires stable sortBy or (score,index)."
+  - id: ffa08ce15219
+    fixture: ag-4-12
+    score: 1.0
+    note: "Names tie-order reversal violating documented stability and page boundaries; requires preserving original order with regression test."
+  - id: 206d2b3259c2
+    fixture: ag-4-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 30b08c3b607c
+    fixture: ag-4-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 4caf6d7ac8bf
+    fixture: ag-4-c1
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 70834b334ba8
+    fixture: ag-4-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 9d053765e897
+    fixture: ag-4-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: b6d6b89f5900
+    fixture: ag-4-c2
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 5fbebbee6560
+    fixture: ag-4-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: 80c8a2fece60
+    fixture: ag-4-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: ae9f0ce976f2
+    fixture: ag-4-c3
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: a4f4fc1b0510
+    fixture: ag-4-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: b8224698212b
+    fixture: ag-4-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."
+  - id: bd28ded7825c
+    fixture: ag-4-c4
+    false_positives: 0
+    note: "Acceptable as-is, no findings."

@@ -1,0 +1,65 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a4-2d3a-7563-b104-493e603247bd
+--------
+user
+Reference material loaded for this review:
+
+### 7) Build for Testability and Verifiability
+
+- Structure logic so important decisions are easy to test.
+- Prefer deterministic seams over hidden global state.
+- Match validation depth to risk and change surface.
+
+Review checks:
+- Can critical behavior be validated without fragile setup?
+- Is evidence proportional to risk?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add paused event transition.
+
+```diff
+--- a/ClusterReducer.scala
++++ b/ClusterReducer.scala
+@@ -0,0 +1,19 @@
++import java.net.Socket
++import java.io.{BufferedReader, InputStreamReader}
++import java.nio.charset.StandardCharsets
++object ClusterReducer {
++  def run(): Unit = {
++    val socket = new Socket("127.0.0.1", 5080)
++    try {
++      val input = new BufferedReader(new InputStreamReader(socket.getInputStream, StandardCharsets.UTF_8))
++      var state = input.readLine()
++      val event = input.readLine()
++      state = (state, event) match {
++        case ("running", "pause") => "paused"
++        case ("paused", "resume") => "running"
++        case _ => state
++      }
++      println(state)
++    } finally socket.close()
++  }
++}
+```
+Commit message: "add paused event transition"
+
+Reviewer notes: Scala 2.13. The cluster harness boots a real localhost cluster server on port 5080; each connection emits current state and next event as two UTF-8 lines. Closed protocol guarantees running/paused state and pause/resume/other event. Existing validation boots that cluster and searches stdout for paused. The reducer has no callable state/event seam.
+
+codex
+- **`ClusterReducer.scala:5–16` — Transition logic is only callable through a real server on fixed port 5080 and observed through stdout.** This makes a simple state transition depend on fragile integration setup. The existing “stdout contains `paused`” check also passes when the initial state is already paused, so it does not prove the new transition works or protect resume and unchanged-state behavior. Extract a pure, callable `transition(state, event)` function and add deterministic tests asserting exact results for the two states across the three event categories. Keep the cluster check for integration coverage.
+tokens used
+3,507
+- **`ClusterReducer.scala:5–16` — Transition logic is only callable through a real server on fixed port 5080 and observed through stdout.** This makes a simple state transition depend on fragile integration setup. The existing “stdout contains `paused`” check also passes when the initial state is already paused, so it does not prove the new transition works or protect resume and unchanged-state behavior. Extract a pure, callable `transition(state, event)` function and add deterministic tests asserting exact results for the two states across the three event categories. Keep the cluster check for integration coverage.
+
+__ABLATION_DONE__ exit=0

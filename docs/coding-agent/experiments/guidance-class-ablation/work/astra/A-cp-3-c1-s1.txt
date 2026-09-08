@@ -1,0 +1,48 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08191-f7da-73e2-aa10-5da0efab1e45
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Require active verified accounts for authentication.
+
+```diff
+--- a/auth.go
++++ b/auth.go
+@@ -1,4 +1,4 @@
+ package auth
+-type User struct { Active bool }
+-func Allowed(u User) bool { return u.Active }
++type User struct { Active, Verified bool }
++func Allowed(u User) bool { return u.Active && u.Verified }
+ func Login(u User) bool { return Allowed(u) }
+--- a/auth_test.go
++++ b/auth_test.go
+@@ -0,0 +1,7 @@
++package auth
++import "testing"
++func TestAllowed(t *testing.T) {
++ for _, a := range []bool{false,true} { for _, v := range []bool{false,true} {
++  if Login(User{a,v}) != (a && v) { t.Fatal(a,v) }
++ } }
++}
+```
+Commit message: "require active verified accounts for authentication"
+
+Reviewer notes: One atomic requirement; all callers and fields migrate together. Internal field has no serialized consumers. Table checks cover all four boolean combinations.
+
+codex
+Acceptable as-is. `Login` requires both `Active` and `Verified`, and the tests cover all four combinations. Given the stated migration and serialization constraints, I have no findings to raise.
+tokens used
+3,162
+Acceptable as-is. `Login` requires both `Active` and `Verified`, and the tests cover all four combinations. Given the stated migration and serialization constraints, I have no findings to raise.
+
+__ABLATION_DONE__ exit=0

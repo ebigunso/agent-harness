@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`Upload.cs`, `Send` loop body — new key on every attempt defeats the idempotency the retry depends on.** `Guid.NewGuid()` is evaluated inside the `for` loop, so each retry calls `Create` with a different key. The client throws `TimeoutException` specifically when the outcome is *unknown*; if the first attempt actually succeeded server-side, the retry stores a second (and possibly third) copy under a different key. Per the notes, `Create` is idempotent only for a stable key, so this is exactly the case the retry is supposed to make safe and instead it makes it worse — the failure is not contained, it's amplified into orphaned objects and storage/cost leakage. **Require:** compute the key once before the loop (`var key = Guid.NewGuid().ToString();`) and reuse it on every attempt so a retry after an unknown outcome is a no-op against an already-stored object. This is a blocker.
+
+2. **`Upload.cs`, `Send` — retries fire back-to-back with no delay.** A timeout typically signals a slow or overloaded dependency; three immediate re-sends of the same payload add load to the thing that is already struggling and reduce the chance the retry succeeds. **Require:** a short, bounded backoff (ideally with jitter) between attempts, e.g. `await Task.Delay(...)` in the catch filter path, still capped at the existing three attempts.
+
+3. **`Upload.cs`, `catch(TimeoutException) when(attempt<2) {}` — silent suppression of intermediate failures.** The empty catch discards the exception entirely; when the final attempt succeeds, nobody learns that two uncertain writes preceded it, which is exactly the signal you need to detect duplicate/orphaned objects or a degrading backend. **Require:** at minimum log/record the attempt number and exception before retrying (or expose an attempt count/telemetry hook). Keep the final-attempt propagation as-is — that part is correct.
+
+4. **`Upload.cs`, `IStorage.Create` / `Send` — no cancellation plumbing.** `Send` cannot be cancelled by a caller; the only bound on total wait is 3 × the client's internal timeout, and a caller shutting down has no way to stop the loop from launching attempt 2 or 3. **Require:** accept a `CancellationToken` in `Send` (and pass it through `Create`), and check it before each retry so a cancelled caller does not trigger further uploads.
+
+The bounded attempt count and letting the last `TimeoutException` propagate are correct and should be kept. The change is **not acceptable as-is** because of finding 1.
+
+__ABLATION_DONE__ exit=0

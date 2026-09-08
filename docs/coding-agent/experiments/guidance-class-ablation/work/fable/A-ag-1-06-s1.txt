@@ -1,0 +1,15 @@
+**Verdict: acceptable as-is.**
+
+Checked against the stated contract:
+
+- `[8, score]` — tag 8 = field 1, wire type 0 (varint); for 0..100 the varint is a single byte with the high bit clear, so the two-byte frame is exactly the encoding. Correct.
+- `*score <= 100` — enforces the range; 101..127 would still be valid single-byte varints but are out of contract, so rejecting them is right. Values ≥128 can't appear as a single byte, so multi-byte varints, extra fields, empty input, and trailing bytes all fall to `Err`, matching "other frames explicitly rejected."
+- No length prefix handling — correct, transport owns framing.
+- `score >= 80` returned as a bool — matches "domain owns review policy"; the decoder isn't inventing thresholds.
+- Return type `(u8, bool)` is safe since the guard bounds `score` before the `Ok`.
+
+No blocking or flag-worthy defects.
+
+One non-blocking confirmation I'd leave as a comment rather than a block: a standard proto3 serializer omits a field whose value is the default (0), so a sender using stock proto3 would emit an empty frame for score 0, which this rejects. The reviewer notes assert the contract is "tag 8 plus one byte" for the whole range, which implies explicit presence (proto2 `required`, proto3 `optional`, or a hand-rolled encoder). If that's confirmed, nothing to change.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,26 @@
+**Verdict: Block.** The change does not implement the task and misplaces the rule.
+
+**Findings**
+
+1. **`Invoice.java`, `Invoice.jsonDue` — business rule moved out of the domain into the response mapper.**
+   The due period is a billing policy that lives in `Billing.due`. The diff bypasses it and hardcodes `plusDays(45)` inside the JSON mapper. That puts policy in a presentation/serialization layer, which the layering rules explicitly forbid, and it's done without any stated rationale for the relocation. Required: leave `jsonDue` delegating to `Billing.due`; change the number in `Billing.due` only.
+
+2. **`Invoice.java`, `Billing.due` — the actual policy is untouched and still says 30 days.**
+   The task was "change invoice due period to 45 days." The one place that defines the period was not changed. As landed, the system's due period is still 30 days by definition; only one caller disagrees with it. Required: `return issued.plusDays(45);` in `Billing.due`.
+
+3. **`Invoice.java`, `Invoice.batchDue` — batch exporter still produces 30-day due dates.**
+   Because it still delegates to the unchanged `Billing.due`, the batch export now disagrees with the API response for the same invoice. Two consumers of the same invoice will compute different due dates — a correctness bug, not just a style issue. This is a direct consequence of (1)/(2): fixing the rule at the source fixes both callers at once, which is exactly why the rule belongs there. Required: no edit to `batchDue` once `Billing.due` is corrected; verify both paths return the 45-day date.
+
+4. **Commit message / plan does not map affected owners.**
+   The reviewer notes call out two affected consumers (response mapper, batch exporter). The change touched one and the commit message claims the full task is done. Required: the description should name `Billing.due` as the single change point and note that both `jsonDue` and `batchDue` are covered by it; if there's a test for either path, update/add an assertion for the 45-day result.
+
+**What the diff should be**
+
+```diff
+-final class Billing { static LocalDate due(LocalDate issued) { return issued.plusDays(30); } }
++final class Billing { static LocalDate due(LocalDate issued) { return issued.plusDays(45); } }
+```
+
+with `jsonDue` and `batchDue` left as they were.
+
+__ABLATION_DONE__ exit=0

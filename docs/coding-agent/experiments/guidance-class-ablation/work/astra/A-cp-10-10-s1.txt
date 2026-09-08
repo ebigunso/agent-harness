@@ -1,0 +1,37 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0818f-d210-7623-8b8c-9ed7f98ba7e9
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Shorten status wire mapping.
+
+```diff
+--- a/Status.java
++++ b/Status.java
+@@ -1,3 +1,3 @@
+ enum Status { OPEN, PAID, CLOSED;
+-    int wire() { return switch(this) { case OPEN -> 10; case PAID -> 11; case CLOSED -> 12; }; }
++    int wire() { return ordinal() + 10; }
+ }
+```
+Commit message: "shorten status wire mapping"
+
+Reviewer notes: Published codes are stable 10/11/12. Scheduled new enum variant will be inserted between OPEN and PAID with its own code; existing variants must retain their values. Current output remains correct.
+
+2026-09-08T15:08:02.231944Z ERROR codex_models_manager::manager: failed to load models cache: EOF while parsing a value at line 1 column 0
+codex
+- **`Status.java`, `wire()`** — `ordinal() + 10` ties published wire codes to enum order. Although current outputs match, the scheduled insertion between `OPEN` and `PAID` will change `PAID` from 11 to 12 and `CLOSED` from 12 to 13, breaking the stable-code contract. Retain the explicit switch or store an explicit wire code on each enum constant so existing codes remain unchanged.
+tokens used
+3,158
+- **`Status.java`, `wire()`** — `ordinal() + 10` ties published wire codes to enum order. Although current outputs match, the scheduled insertion between `OPEN` and `PAID` will change `PAID` from 11 to 12 and `CLOSED` from 12 to 13, breaking the stable-code contract. Retain the explicit switch or store an explicit wire code on each enum constant so existing codes remain unchanged.
+
+__ABLATION_DONE__ exit=0

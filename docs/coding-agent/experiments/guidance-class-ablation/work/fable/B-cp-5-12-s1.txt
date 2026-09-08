@@ -1,0 +1,27 @@
+**Findings**
+
+1. **`Jobs.parse` — contract range (0..10) is never enforced.**
+   `raw.toInt` only guarantees "is an integer." The stated operator invariant is `0 <= retryLimit <= 10`, and nothing in this change checks it. `"-1"` and `"99999"` both parse successfully. This is the one invariant the task actually introduces, and it's left implicit. Combined with finding 2, an out-of-contract negative value doesn't fail — it changes the program's termination behavior.
+   *Require:* validate the range in `parse` (or a `parseLimit`) and fail with an actionable message, e.g. `require(0 <= n && n <= 10, s"retryLimit must be in 0..10, got $n")`. Don't rely on the CLI boundary catching format errors as if that covered domain errors.
+
+2. **`Jobs.exhausted` — negative limit silently means "retry forever".**
+   `limit >= 0 && attempt >= limit` makes any negative limit non-exhausting, so `run(-1, job)` is an unbounded loop. The reviewer note describes this as intended, but the contract has no "infinite" mode; a negative limit can only reach this code if the invariant in (1) was violated. Encoding "invalid input → infinite retry" is the opposite of failing early; it turns a config typo into a hang. If unbounded retry is genuinely a requirement, it should be an explicit type/sentinel documented at the boundary, not a side effect of a guard clause.
+   *Require:* either reject negatives at the boundary (preferred) or make `exhausted` `require(limit >= 0)`. Remove the `limit >= 0 &&` special-case unless "infinite" is a documented feature.
+
+3. **`Jobs.run` — off-by-one against "retry" semantics; `limit = 0` never runs the job.**
+   Loop runs while `attempt < limit`, so `limit = 0` executes zero attempts and `limit = 3` executes three attempts (two retries). For a value named `retryLimit` with a contract that includes 0, the natural reading is "0 retries = run once." As written, the minimum valid config causes the job to never execute, silently. If the intended meaning is "max total attempts," the name and contract (which allows 0) are wrong.
+   *Require:* pin down the semantics and encode it: either loop for `limit + 1` attempts (retries), or rename to `maxAttempts` and make the contract `1..10`. Add a test for the boundary values 0 and 10.
+
+4. **`Jobs.run` returns `Unit` — exhaustion is indistinguishable from success.**
+   When all attempts fail the loop just ends. The caller cannot tell whether the job succeeded or was abandoned after N failures, so the failure mode of the retry policy is invisible. This is exactly the "explicit failure mode" check.
+   *Require:* return `Boolean` (or `Either`/throw a `RetriesExhausted` error with the attempt count) so callers can act on exhaustion.
+
+5. **Minor / question — exceptions from `attemptJob` bypass the retry policy.**
+   Only a `false` return is retried; a thrown exception aborts `run` on the first attempt with no retry. That may be intentional, but it should be stated, since "retry limit" implies failures are retried and most real failures in such jobs are exceptions.
+   *Require:* a one-line doc comment on `run` stating that exceptions are not retried, or wrap the call if they should be.
+
+Not raising: `Long`/`Int` comparison in `exhausted` (Int widens correctly), counter overflow (not reachable with a bounded limit).
+
+**Verdict:** Not acceptable as-is. Items 1–3 are blocking: the change's only real invariant is unenforced, and the two boundary values of that invariant (below 0, exactly 0) produce a hang and a no-op respectively.
+
+__ABLATION_DONE__ exit=0

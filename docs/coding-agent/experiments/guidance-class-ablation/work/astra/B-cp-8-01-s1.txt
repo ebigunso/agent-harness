@@ -1,0 +1,64 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a4-9d1b-7283-af97-7c2f43f14274
+--------
+user
+Reference material loaded for this review:
+
+### 8) Control Complexity and Duplication
+
+- Remove accidental complexity before introducing abstraction.
+- Abstract only when multiple concrete uses justify it.
+- Keep dependency direction intentional and acyclic where practical.
+
+Review checks:
+- Does abstraction reduce or increase cognitive load?
+- Is new complexity justified by measurable maintenance benefit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Export one numeric CSV row.
+
+```diff
+--- a/Export.cs
++++ b/Export.cs
+@@ -1,2 +1,13 @@
++using System;
++using System.Collections.Generic;
+ using System.Globalization;
+-public static class Export { public static string Row(decimal value) => value.ToString(CultureInfo.InvariantCulture); }
++public sealed record Options(bool Cache=false, bool Stream=false, bool Async=false, bool Compress=false, bool Discover=false, bool Pool=false);
++public interface IProvider { string Row(decimal value); }
++public sealed class Csv : IProvider { public string Row(decimal value) => value.ToString(CultureInfo.InvariantCulture); }
++public static class Export {
++    static readonly Dictionary<string, Type> providers = new() { ["csv"] = typeof(Csv) };
++    public static string Row(decimal value, Options options) {
++        var provider = (IProvider)Activator.CreateInstance(providers["csv"])!;
++        return provider.Row(value);
++    }
++}
+```
+Commit message: "export one numeric csv row"
+
+Reviewer notes: Only local numeric CSV export exists; six knobs have no current callers or effects. Reflection resolves only the fixed local Csv class; user input never selects types. Existing invariant decimal format is sufficient.
+
+codex
+- **`Export.cs` — `Options` and `Export.Row(decimal, Options)`:** Six unused switches advertise behavior the implementation does not provide, and the mandatory parameter breaks the existing `Row(decimal)` API. This adds caller burden and maintenance surface without serving the task. Remove `Options` and preserve `Row(decimal)` until concrete requirements justify additional controls.
+
+- **`Export.cs` — `IProvider`, `Csv`, `providers`, and `Activator.CreateInstance`:** A single fixed implementation now requires an interface, registry, reflection, and allocation on every call. This increases cognitive load and moves construction checks to runtime without providing a current benefit. Retain the direct invariant-culture formatting implementation; introduce provider selection only when concrete uses require it.
+tokens used
+3,427
+- **`Export.cs` — `Options` and `Export.Row(decimal, Options)`:** Six unused switches advertise behavior the implementation does not provide, and the mandatory parameter breaks the existing `Row(decimal)` API. This adds caller burden and maintenance surface without serving the task. Remove `Options` and preserve `Row(decimal)` until concrete requirements justify additional controls.
+
+- **`Export.cs` — `IProvider`, `Csv`, `providers`, and `Activator.CreateInstance`:** A single fixed implementation now requires an interface, registry, reflection, and allocation on every call. This increases cognitive load and moves construction checks to runtime without providing a current benefit. Retain the direct invariant-culture formatting implementation; introduce provider selection only when concrete uses require it.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,31 @@
+**Verdict: block.** The task was "export one numeric CSV row"; the original one-liner already did that. The diff replaces it with speculative infrastructure and, in doing so, breaks the public signature. Nothing in the change adds behavior.
+
+## Findings
+
+**1. `Export.cs` — `Options` record with six unused knobs**
+`Cache`, `Stream`, `Async`, `Compress`, `Discover`, `Pool` are accepted and never read. They have no callers and no effect. This is pure accidental complexity: every future reader has to work out that all six are dead, and every future caller has to construct an `Options` for no reason. Abstractions should be introduced when there are multiple real uses; here there are zero. **Require:** delete `Options` entirely. If a specific knob becomes necessary later, add that one knob then.
+
+**2. `Export.cs` — `Export.Row(decimal)` signature changed to `Row(decimal, Options)` with no default**
+This is a breaking API change to the one public entry point, made solely to thread an unused parameter through. Any existing call to `Export.Row(v)` no longer compiles. **Require:** keep `public static string Row(decimal value)` unchanged.
+
+**3. `Export.cs` — `IProvider` interface and `Csv` class with a single implementation**
+One interface, one implementer, one consumer, all in the same file. The interface adds an indirection layer that buys nothing and invites the reader to look for other providers that don't exist. **Require:** remove `IProvider` and `Csv`; inline the formatting in `Export.Row`.
+
+**4. `Export.cs` — `providers` dictionary + `Activator.CreateInstance` for a fixed local type**
+The registry has one hardcoded entry and the lookup key is the literal `"csv"`, so this is `new Csv()` written as a reflective dictionary lookup with an unchecked cast, a null-forgiving `!`, and a per-call allocation. It is slower, loses compile-time type safety, and cannot fail in any way the direct constructor couldn't — it's just harder to read and to step through. (Per the notes, user input never reaches the lookup, so this isn't a security finding, only a clarity/maintenance one.) **Require:** remove the dictionary and reflection.
+
+**5. Commit message vs. diff**
+"export one numeric csv row" describes the pre-existing behavior, not what this diff does. If the change were kept, the message would need to explain why an options record, provider interface, and reflection registry were introduced — and since there's no justification available, that's another signal the change shouldn't land.
+
+## What I'd accept
+
+The original line, unchanged:
+
+```csharp
+using System.Globalization;
+public static class Export { public static string Row(decimal value) => value.ToString(CultureInfo.InvariantCulture); }
+```
+
+Invariant-culture decimal formatting is correct for a numeric CSV cell and already satisfies the task.
+
+__ABLATION_DONE__ exit=0

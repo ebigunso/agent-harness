@@ -1,0 +1,33 @@
+**Verdict: block.** The core design puts a business event emission inside the persistence layer, before the transaction commits, which makes the audit trail wrong.
+
+## Findings
+
+### 1. `ApprovalDao.update` — "Approved" event fires before commit; rollback produces phantom audit records
+- **Where:** `ApprovalDao.scala`, line `if (changed == 1 && status == "approved") audit(s"Approved:$id")`
+- **What's wrong:** The caller owns the transaction (`autoCommit=false`) and may roll back after this method returns. The audit sink is independent of the DB, so once `audit(...)` runs it cannot be undone. Any rollback after `update` leaves an `Approved:<id>` event in the log for an order that was never approved.
+- **Why it matters:** The notes define an Approved event as *committed* business approval. This code emits it on an uncommitted write, so the audit trail—the one artifact that's supposed to be trustworthy—will contain false positives. This is the exact failure the feature exists to prevent.
+- **Require:** Remove the emission from the DAO. Emit at the layer that owns the transaction boundary, strictly after `commit()` succeeds (or via a transactional outbox row written in the same transaction and drained by a separate publisher, if you need exactly-once semantics). The DAO must not know about the audit sink at all.
+
+### 2. DAO is deciding domain policy (Gate 1 violation)
+- **Where:** same line, plus the `audit: String => Unit` parameter
+- **What's wrong:** "Transition to status `approved` constitutes a business approval, and it's recorded as `Approved:<id>`" is a domain rule. It's encoded as a raw string comparison and message format inside a JDBC wrapper, and the DAO's signature now carries a presentation/integration concern (the event sink callback).
+- **Why it matters:** This is the anti-pattern the gate calls out—data access layer deciding domain policy. Any future rule change (other statuses that audit, richer event payloads, who approved) forces edits to SQL code; any other write path that sets `status='approved'` (batch job, admin tool, a second DAO method) silently bypasses auditing. The rule has no single owner.
+- **Require:** `ApprovalDao.update(db, id, status)` does the `UPDATE` and nothing else. The approval service decides that an approval occurred and what event to emit. Drop the callback parameter.
+
+### 3. `Unit` return hides the outcome; zero-row update is a silent no-op
+- **Where:** method signature `: Unit` and the `changed == 1` check
+- **What's wrong:** `executeUpdate()` returns the row count, but it's consumed internally only to gate the audit call. If `id` doesn't exist (0 rows) or the predicate is wrong (>1 rows), the caller gets no signal and will commit as if the approval succeeded—now with no audit event either.
+- **Why it matters:** Once the emission moves to the caller (findings 1–2), the caller *needs* this value to decide whether an approval actually happened. As written, the caller can't distinguish "approved" from "order not found."
+- **Require:** Return the affected row count (`Int`) or a `Boolean`, and let the service treat `0` as not-found / conflict and `>1` as an invariant violation.
+
+### 4. Minor: not idempotent — re-approving an already-approved order re-emits the event
+- **Where:** `UPDATE orders SET status=? WHERE id=?`
+- **What's wrong:** No guard on current status, so a duplicate approve call updates 1 row (on most drivers) and would emit a second `Approved` event.
+- **Why it matters:** Duplicate audit events are a lesser version of the same trust problem as finding 1.
+- **Require:** Either `WHERE id=? AND status<>?` (and rely on the returned count), or have the service check current state before transitioning. Not blocking on its own once the emission is moved out of the DAO, but worth fixing in the same change.
+
+## Not raised
+- Statement handling (`try/finally q.close()`) is fine.
+- `status: String` rather than an enum is a pre-existing style question; I'd leave it unless the module is being reshaped anyway.
+
+__ABLATION_DONE__ exit=0

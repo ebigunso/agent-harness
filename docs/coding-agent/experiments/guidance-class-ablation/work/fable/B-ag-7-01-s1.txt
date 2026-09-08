@@ -1,0 +1,29 @@
+**Verdict: Block.** One blocking defect, one secondary issue.
+
+## Findings
+
+### 1. `Login.java` — `Login.success` logs the full `Credentials` record, including `password` and `bearerToken` (BLOCK)
+
+**What's wrong:** `"login_success " + credentials` invokes the record's auto-generated `toString()`, which emits every component: `Credentials[accountId=..., password=..., bearerToken=...]`. The plaintext password and a live bearer token are written to the log sink on every successful login.
+
+**Why it matters:** Per the reviewer notes, the sink is long-retained telemetry readable by people beyond auth operators. This is a credential leak, not a formatting nit: every successful login persists a reusable secret (the token is valid *right now*; the password is reusable indefinitely and likely elsewhere) into a store with broad read access and long retention. This is the Gate 7 anti-pattern "logging sensitive payloads as a convenience" in its purest form. Retained logs would need to be purged and issued tokens rotated if this shipped.
+
+**What I'd require:**
+- Log only the fields the task actually needs — account/event/request identifiers — explicitly, e.g. `log.accept("login_success accountId=" + credentials.accountId())` (plus a request/correlation ID once one is plumbed through). Never pass the whole DTO to a string sink.
+- Make the DTO safe by construction so the next caller can't repeat this: override `toString()` on `Credentials` to redact secrets (`Credentials[accountId=..., password=<redacted>, bearerToken=<redacted>]`), or better, don't put `password`/`bearerToken` on a record at all — wrap them in a dedicated secret type whose `toString()` never reveals the value.
+- Add a test asserting the emitted log line does not contain the password or token value.
+
+### 2. `Login.java` — `Credentials` carries secrets past the point they're needed (secondary; would flag, not block on its own)
+
+**What's wrong:** By the reviewer's note, `Login` is already authenticated at this point, yet the "context" object handed to the success path still carries the raw password and bearer token.
+
+**Why it matters:** Keeping secrets alive in a general-purpose context object after authentication completes is what made finding #1 easy to write. Any future log, exception message, debug dump, or serialization of this object has the same failure mode.
+
+**What I'd require:** Separate the post-auth context (`accountId`, event ID, request ID) from the pre-auth credential material. `success(...)` should accept the former, so the secrets are structurally unreachable from logging code.
+
+## Not raised
+
+- The `Consumer<String>` sink injection is fine for testability.
+- Gate 7's "silent failure" and "noisy instrumentation" concerns don't apply — one line per successful login with an account identifier is an appropriate signal level once the secrets are removed.
+
+__ABLATION_DONE__ exit=0

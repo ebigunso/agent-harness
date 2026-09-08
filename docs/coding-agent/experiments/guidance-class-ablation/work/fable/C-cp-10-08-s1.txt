@@ -1,0 +1,33 @@
+**Verdict: block.** The behavior change itself is low‑risk (no wire consumers beyond internal views), but the shape of the change creates exactly the kind of debt the codebase already has infrastructure to prevent.
+
+### Findings
+
+**1. `serializers.rb` L5–19 — bypasses the `FLAGS` registry; temporary flag has no owner or retirement date**
+Each function reads `ENV["COMPACT_NAMES"] == "1"` directly instead of going through `flag(:compact_names)`. The registry exists precisely so temporary flags carry `owner` and `retire_after`; owner is required for temporary flags per project convention. As written, nothing records who owns this, when it should be removed, or even that it *is* a flag — it's invisible to any tooling that walks `FLAGS`. "Temporary" without a retirement record is permanent.
+*Require:* add `FLAGS[:compact_names] = { enabled: ..., owner: "kotaebi@gmail.com" (or team), retire_after: <date> }` and gate on `flag(:compact_names)`. If the value genuinely needs to come from ENV, resolve it once when populating the registry entry, not at every call site.
+
+**2. `serializers.rb` L5–19 — five byte‑identical functions**
+`serialize_1` … `serialize_5` have the same body. This multiplies the cleanup burden (five removals instead of one), guarantees drift when someone edits one and not the others, and the numeric suffixes convey nothing about which view each serves. It also repeats the magic string `"1"` five times.
+*Require:* one function, e.g. `serialize_name(name)`. If there are five distinct call sites that need distinct entry points for some reason not visible here, they should each delegate to the single helper — and the reason should be stated in the PR.
+
+**3. Commit message / task framing vs. diff — nothing is actually enabled**
+The commit says "temporarily enable compact serializer names," but the diff adds code that is *off* unless `COMPACT_NAMES=1` is set somewhere outside this change. Either the enabling step is missing (deploy config, `.env`, registry `enabled: true`) or the message is wrong. Reviewers and future readers of `git log` can't tell which.
+*Require:* make the enabling explicit in the registry entry (`enabled: true`) so the change is self‑contained, and have the commit message match what the diff does.
+
+**4. No diagnostics or test for the gated path**
+There is no test asserting the strip‑vs‑passthrough behavior under each flag state, and no way at runtime to confirm which state is active other than reading ENV by hand. Given this must be removed later, a test tied to `flag(:compact_names)` also serves as the tripwire that fails when the flag is deleted, forcing the dead branch to be cleaned up.
+*Require:* one small test covering both states via the registry; optionally log flag state at boot if that's the existing pattern for `FLAGS`.
+
+**5. Minor — `name.strip` on a nil `name` raises `NoMethodError`**
+The original (unflagged) path returns `name` unchanged, so a `nil` that previously passed through will now crash only when the flag is on. Low risk given internal‑only consumers, but it's a flag‑dependent failure mode that's easy to miss.
+*Require:* `name&.strip` or an explicit guard, whichever matches surrounding conventions. Not blocking on its own.
+
+### Summary of what an acceptable version looks like
+- One registry entry with `enabled`, `owner`, `retire_after`.
+- One `serialize_name` function gated on `flag(:compact_names)`.
+- One test covering both branches.
+- Commit message that states the flag was registered and enabled, with the retirement date.
+
+That's roughly the same line count as the current diff and removes five of the six things that would otherwise have to be undone at rollout end.
+
+__ABLATION_DONE__ exit=0

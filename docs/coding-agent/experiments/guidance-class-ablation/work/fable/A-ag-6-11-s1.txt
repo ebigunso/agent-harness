@@ -1,0 +1,26 @@
+**Findings**
+
+1. **`state.cpp`, `update()` — `export_metrics(count)` is invoked while `state_mutex` is held.**
+   The exporter is an optional, possibly-blocking network call. Holding the state lock across it means every other writer to `count` stalls for the duration of a network round-trip (or indefinitely on a hung connection). This contradicts the stated invariant "lock must protect state, not wait for optional external work." It also creates a latent deadlock/reentrancy hazard: if any exporter implementation ever calls back into `update()` (or anything else that takes `state_mutex`), `std::mutex` is non-recursive and the thread self-deadlocks.
+   **Require:** copy the value under the lock, release the lock, then call the exporter:
+   ```cpp
+   void update(const std::function<void(unsigned)>& export_metrics) {
+       unsigned snapshot;
+       {
+           std::lock_guard<std::mutex> guard(state_mutex);
+           snapshot = ++count;
+       }
+       export_metrics(snapshot);
+   }
+   ```
+   This preserves the per-update snapshot semantics (each call exports the value it produced) while confining the critical section to the state mutation. If strict in-order delivery of snapshots to the exporter is a requirement, that should be handled by the exporter side (e.g., a queue), not by serializing state writes behind network I/O.
+
+2. **`state.cpp`, `update()` — no null check on the `std::function`.**
+   The exporter is described as optional. If a caller passes an empty `std::function` (default-constructed or `nullptr`), `operator()` throws `std::bad_function_call`. With the current code that exception escapes while the lock is held (RAII releases it, so no leak, but the state update has already happened and the caller sees a throw for a "no-op" configuration). This is a correctness bug for the documented "optional" use case.
+   **Require:** guard the call: `if (export_metrics) export_metrics(snapshot);` — or, if "optional" is meant to be expressed only at the wiring layer, document that `update()` requires a non-empty callable and make callers pass a no-op lambda. Either way the contract must be explicit.
+
+**Not raised:** overflow of `count` (stated as out of scope), the file-scope non-`static` globals (no header/ODR context given), and the `#include` set (adequate for what's used).
+
+**Verdict:** Not acceptable as-is. Finding 1 is blocking — the change directly violates the stated locking invariant and introduces a real stall/deadlock path. Finding 2 should be fixed in the same change.
+
+__ABLATION_DONE__ exit=0

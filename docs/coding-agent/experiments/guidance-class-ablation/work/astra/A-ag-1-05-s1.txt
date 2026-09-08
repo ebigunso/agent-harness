@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081bd-d468-7850-8965-8b878cf99779
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add invoice status helpers.
+
+```diff
+--- a/Utilities.cs
++++ b/Utilities.cs
+@@ -0,0 +1,13 @@
++using System;
++using System.Net.Mail;
++using System.Text;
++public static class AuthTokens { public static string Inspect(byte[] verifiedPayload) => Encoding.UTF8.GetString(verifiedPayload); }
++public static class InvoiceTax { public static decimal Calculate(decimal net) => net * 0.1m; }
++public static class MailDelivery { public static void Send(SmtpClient smtp, MailMessage mail) => smtp.Send(mail); }
++public static class Theme { public static string Color(bool failed) => failed ? "red" : "green"; }
++public static class Utilities {
++ public static string Jwt(byte[] verifiedPayload) => Encoding.UTF8.GetString(verifiedPayload);
++ public static decimal Tax(decimal net) => net * 0.1m;
++ public static void Email(SmtpClient smtp, MailMessage mail) => smtp.Send(mail);
++ public static string Css(bool failed) => failed ? "red" : "green";
++}
+```
+Commit message: "add invoice status helpers"
+
+Reviewer notes: C# existing concern owners are AuthTokens, InvoiceTax, MailDelivery and Theme. JWT decoding here is only display inspection of an already verified token, never authentication. SMTP connection/credential lifecycle is owned by caller. New catch-all bypasses those owners for unrelated concerns.
+
+codex
+- **`Utilities.cs:8–13` — Catch-all duplicates existing concern owners.** `Jwt`, `Tax`, `Email`, and `Css` reimplement behavior owned by `AuthTokens`, `InvoiceTax`, `MailDelivery`, and `Theme`. This creates competing APIs that can diverge and bypass owner-specific changes. Remove these unrelated helpers and keep callers using the established owners.
+
+- **`Utilities.cs` — Requested invoice status helpers are missing.** None of the added methods represents or operates on invoice status; calculating tax does not satisfy that requirement. Require an implementation of the intended invoice status behavior, with its contract clarified if necessary, before accepting this as completion of the task.
+tokens used
+3,393
+- **`Utilities.cs:8–13` — Catch-all duplicates existing concern owners.** `Jwt`, `Tax`, `Email`, and `Css` reimplement behavior owned by `AuthTokens`, `InvoiceTax`, `MailDelivery`, and `Theme`. This creates competing APIs that can diverge and bypass owner-specific changes. Remove these unrelated helpers and keep callers using the established owners.
+
+- **`Utilities.cs` — Requested invoice status helpers are missing.** None of the added methods represents or operates on invoice status; calculating tax does not satisfy that requirement. Require an implementation of the intended invoice status behavior, with its contract clarified if necessary, before accepting this as completion of the task.
+
+__ABLATION_DONE__ exit=0

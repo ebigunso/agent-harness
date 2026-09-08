@@ -1,0 +1,63 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d5-7694-7003-a2c2-854ed3423ba4
+--------
+user
+Reference material loaded for this review:
+
+### Gate 1: Clear Responsibility Boundaries
+
+**Expectation**
+- Each layer/module has a clear responsibility and does not absorb unrelated concerns.
+- Business rules remain in domain/application logic, not scattered into presentation or persistence details.
+
+**Evidence expectations**
+- Planning notes identify impacted boundaries and owned responsibilities.
+- Review confirms behavior changes are implemented in the correct layer.
+- No unexplained cross-layer logic movement.
+
+**Anti-patterns**
+- UI or transport handlers embedding business invariants.
+- Data access layer deciding domain policy.
+- “Utility” modules accumulating unrelated logic as a shortcut.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Add loyalty pricing to stored accounts.
+
+```diff
+--- a/Pricing.java
++++ b/Pricing.java
+@@ -1,9 +1,9 @@
+ import java.sql.*;
+ final class Pricing { static int discount(int years) { return years >= 2 ? 10 : 0; } }
+ final class Accounts {
+- static int years(Connection db, long id) throws SQLException {
+-  try (var q=db.prepareStatement("SELECT years FROM accounts WHERE id=?")) {
++ static int discount(Connection db, long id) throws SQLException {
++  try (var q=db.prepareStatement("SELECT CASE WHEN years >= 2 THEN 10 ELSE 0 END FROM accounts WHERE id=?")) {
+    q.setLong(1,id); try(var r=q.executeQuery()) { if(!r.next()) throw new SQLException("account missing"); return r.getInt(1); }
+   }
+  }
+ }
+```
+Commit message: "add loyalty pricing to stored accounts"
+
+Reviewer notes: Java 17, account ID is validated. Repository owns SQL facts; Pricing is the established policy owner. Single returned row required; not-found is explicit. New SQL decides the tier independently.
+
+codex
+- **`Pricing.java` — `Accounts.discount`, SQL `CASE` expression:** The repository independently implements the loyalty policy (`years >= 2 → 10`), although `Pricing.discount` is the established policy owner. This duplicates the rule across layers and lets stored-account pricing diverge when the policy changes. Require `Accounts` to retrieve the account’s years and application logic to pass that value to `Pricing.discount`, keeping SQL responsible for stored facts.
+tokens used
+3,356
+- **`Pricing.java` — `Accounts.discount`, SQL `CASE` expression:** The repository independently implements the loyalty policy (`years >= 2 → 10`), although `Pricing.discount` is the established policy owner. This duplicates the rule across layers and lets stored-account pricing diverge when the policy changes. Require `Accounts` to retrieve the account’s years and application logic to pass that value to `Pricing.discount`, keeping SQL responsible for stored facts.
+
+__ABLATION_DONE__ exit=0

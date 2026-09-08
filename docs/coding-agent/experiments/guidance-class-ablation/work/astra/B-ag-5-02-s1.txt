@@ -1,0 +1,66 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d9-a773-7e33-8e35-290f4c696b40
+--------
+user
+Reference material loaded for this review:
+
+### Gate 5: Data and State Integrity
+
+**Expectation**
+- Data ownership, lifecycle, and state transitions are consistent and enforceable.
+- Invariants are protected at authoritative boundaries.
+- For classification or attribution features, derive the full truth table before selecting the data model.
+
+**Evidence expectations**
+- Plan identifies impacted invariants and lifecycle transitions.
+- Review verifies invariant checks remain at reliable enforcement points.
+- Concurrent or repeated execution behavior is considered where relevant.
+
+**Anti-patterns**
+- Invariants enforced only in optional caller paths.
+- Conflicting write paths without ownership clarity.
+- State transitions that allow invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Reserve a seat when capacity remains.
+
+```diff
+--- a/Booking.java
++++ b/Booking.java
+@@ -0,0 +1,13 @@
++import java.sql.*;
++final class Booking {
++ static boolean reserve(Connection db,long flight,long reservation) throws SQLException {
++  int remaining;
++  try(var q=db.prepareStatement("SELECT capacity-(SELECT COUNT(*) FROM reservations WHERE flight_id=?) FROM flights WHERE id=?")) {
++   q.setLong(1,flight); q.setLong(2,flight);
++   try(var r=q.executeQuery()) { if(!r.next()) throw new SQLException("flight missing"); remaining=r.getInt(1); }
++  }
++  if(remaining<=0) return false;
++  try(var q=db.prepareStatement("INSERT INTO reservations(id,flight_id) VALUES (?,?)")) { q.setLong(1,reservation); q.setLong(2,flight); q.executeUpdate(); }
++  return true;
++ }
++}
+```
+Commit message: "reserve a seat when capacity remains"
+
+Reviewer notes: Java/JDBC; db autoCommit=true. Flight row capacity is fixed; reservations have distinct IDs and no enforcing capacity constraint. Concurrent calls can see final remaining seat before either inserts.
+
+codex
+- **`Booking.java:5–10` — Capacity check and reservation insert are not atomic.** With `autoCommit=true`, two concurrent calls with distinct reservation IDs can both observe one remaining seat and both insert, exceeding capacity. Require the check and insert to run in one transaction with per-flight serialization, such as locking the flight row before counting and holding that lock through insertion and commit. Every reservation creation path must follow the same protocol, or capacity must be enforced by the database. Verify with a concurrent test that exactly one of two attempts succeeds when one seat remains.
+tokens used
+3,400
+- **`Booking.java:5–10` — Capacity check and reservation insert are not atomic.** With `autoCommit=true`, two concurrent calls with distinct reservation IDs can both observe one remaining seat and both insert, exceeding capacity. Require the check and insert to run in one transaction with per-flight serialization, such as locking the flight row before counting and holding that lock through insertion and commit. Every reservation creation path must follow the same protocol, or capacity must be enforced by the database. Verify with a concurrent test that exactly one of two attempts succeeds when one seat remains.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`auth.py` — unrelated change bundled into the billing commit (Gate 3 violation; blocking).**
+   - *What's wrong:* The commit is scoped and titled "include tax in billing display", but it also switches `allowed()` from the `legacy` session backend to the `modern` one. That is an auth migration with no coupling to billing display; the reviewer notes themselves state it is independently approved and unrelated.
+   - *Why it matters:* This is exactly the "mixing feature work and incidental changes without rationale" anti-pattern. The auth switch is invisible under this commit message, so it won't be found by `git log --grep`/bisect when someone investigates an auth regression, it can't be reverted independently of the billing fix (or vice versa), and a reviewer approving "tax in billing" is implicitly signing off on an auth backend swap they may not have examined. The fact that `legacy` and `modern` are currently behaviorally identical doesn't change the review verdict — the point of the migration is that they will diverge, and that divergence should be traceable to its own commit.
+   - *Require instead:* Split into two commits/PRs: (a) `billing.py` only, with this message; (b) `auth.py` only, with a message referencing the approved auth migration. If the author insists on one PR, the message must at minimum call out both changes, but separate commits are the correct fix here.
+
+2. **`billing.py` — change is correct but has no test.** (Flag, not block, given the fixture size.)
+   - *What's wrong:* `total(net, tax)` previously ignored `tax` entirely; the fix adds it. There's no test asserting `total(100, 8) == 108`, so the original bug (a parameter silently discarded) could regress the same way it was introduced.
+   - *Require instead:* Add a minimal unit test for `total` covering nonzero tax.
+
+**Verdict:** Not acceptable as-is. The `billing.py` line is fine on its own merits; the block is on scope — the `auth.py` edit must be removed from this commit and landed separately.
+
+__ABLATION_DONE__ exit=0

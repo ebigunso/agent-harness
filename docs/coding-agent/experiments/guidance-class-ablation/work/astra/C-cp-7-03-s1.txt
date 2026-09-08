@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b3-ad3d-7991-9eb8-f16613e53e77
+--------
+user
+Reference material loaded for this review:
+
+Test decisions via deterministic seams, not globals. Avoid fragile setup; match evidence to risk/surface.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Convert invoice amounts using current rates.
+
+```diff
+--- a/Invoice.java
++++ b/Invoice.java
+@@ -0,0 +1,2 @@
++final class Rates { static double current = 1.0; }
++final class Invoice { static double total(double base) { return base * Rates.current; } }
+--- a/InvoiceTest.java
++++ b/InvoiceTest.java
+@@ -0,0 +1,6 @@
++import org.junit.jupiter.api.Test;
++import static org.junit.jupiter.api.Assertions.assertEquals;
++class InvoiceTest {
++    @Test void euros() { Rates.current = 0.9; assertEquals(9.0, Invoice.total(10)); }
++    @Test void dollars() { assertEquals(10.0, Invoice.total(10)); }
++}
+```
+Commit message: "convert invoice amounts using current rates"
+
+Reviewer notes: Single-threaded JUnit suite changes Rates.current in multiple test classes, including before these tests. Every test is supposed to run independently; Rate snapshot is stable during an invoice calculation. Amounts are toy exact doubles.
+
+codex
+- **`InvoiceTest.java:4–5` (shared state in `Invoice.java:1–2`)** — `euros()` leaves `Rates.current` at `0.9`, while `dollars()` assumes it is `1.0`. Thus `dollars()` fails after `euros()` or another class that changes the rate; single-threaded execution does not prevent this order dependence. Require a deterministic rate seam, such as an injected rate provider returning a fixed snapshot per calculation, and give each test its own explicit rate without reading or mutating shared global state.
+tokens used
+3,310
+- **`InvoiceTest.java:4–5` (shared state in `Invoice.java:1–2`)** — `euros()` leaves `Rates.current` at `0.9`, while `dollars()` assumes it is `1.0`. Thus `dollars()` fails after `euros()` or another class that changes the rate; single-threaded execution does not prevent this order dependence. Require a deterministic rate seam, such as an injected rate provider returning a fixed snapshot per calculation, and give each test its own explicit rate without reading or mutating shared global state.
+
+__ABLATION_DONE__ exit=0

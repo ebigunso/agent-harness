@@ -1,0 +1,50 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819d-017f-7f01-b8c6-81bce93caf2f
+--------
+user
+Reference material loaded for this review:
+
+### 10) Leave the System Easier to Change
+
+- Improve clarity, boundaries, or diagnostics when touching code.
+- Avoid debt amplification in the name of short-term speed.
+- Prefer incremental improvement aligned with existing architecture.
+
+Review checks:
+- Is maintainability improved, neutral, or degraded?
+- Did the change reduce future risk at reasonable cost?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Shorten status wire mapping.
+
+```diff
+--- a/Status.java
++++ b/Status.java
+@@ -1,3 +1,3 @@
+ enum Status { OPEN, PAID, CLOSED;
+-    int wire() { return switch(this) { case OPEN -> 10; case PAID -> 11; case CLOSED -> 12; }; }
++    int wire() { return ordinal() + 10; }
+ }
+```
+Commit message: "shorten status wire mapping"
+
+Reviewer notes: Published codes are stable 10/11/12. Scheduled new enum variant will be inserted between OPEN and PAID with its own code; existing variants must retain their values. Current output remains correct.
+
+codex
+- **`Status.java`, `wire()`**: `ordinal() + 10` couples published wire codes to enum declaration order. Inserting the scheduled variant between `OPEN` and `PAID` would change `PAID` from 11 to 12 and `CLOSED` from 12 to 13, breaking the stable wire contract. Require explicit codes independent of position: retain the switch or store a code in each enum constant. Add a regression test asserting the published values remain 10/11/12.
+tokens used
+3,196
+- **`Status.java`, `wire()`**: `ordinal() + 10` couples published wire codes to enum declaration order. Inserting the scheduled variant between `OPEN` and `PAID` would change `PAID` from 11 to 12 and `CLOSED` from 12 to 13, breaking the stable wire contract. Require explicit codes independent of position: retain the switch or store a code in each enum constant. Add a regression test asserting the published values remain 10/11/12.
+
+__ABLATION_DONE__ exit=0

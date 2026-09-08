@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is. No blocking findings.**
+
+What I checked and why it passes:
+
+- **Underflow (`Pricing.java`, `order.cents -= 10`)** — Given the stated invariant `cents >= 10`, the subtraction cannot drive `cents` negative; worst case is exactly 0. Not enforced in the `Order` constructor, but that's a preexisting type and the invariant is documented, so I would not block on it.
+- **Side effects** — `eligible(member)` is pure; `applyDiscount` mutates only the `Order` passed in. No static/global state introduced, consistent with "no singleton state."
+- **Correctness of branching** — Members lose exactly 10 cents; non‑members are untouched (no `else` path, no fall‑through). Matches the stated semantics.
+- **Idempotency** — Calling `applyDiscount` twice on the same order would subtract 20, but the reviewer notes fix the contract as "one command per order," so this is a caller invariant, not a defect in the diff.
+- **Null `order`** — Would NPE; that's the conventional Java contract for a required reference argument and doesn't need explicit handling here.
+
+Optional (non‑blocking) nit, only if you want it: the literal `10` could be lifted to a named constant (e.g., `MEMBER_DISCOUNT_CENTS`) so the discount amount is self‑documenting. I would not hold the change for this.
+
+__ABLATION_DONE__ exit=0

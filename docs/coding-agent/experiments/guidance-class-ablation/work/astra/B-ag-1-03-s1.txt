@@ -1,0 +1,61 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d5-80e2-77a3-aba2-2f3710b78742
+--------
+user
+Reference material loaded for this review:
+
+### Gate 1: Clear Responsibility Boundaries
+
+**Expectation**
+- Each layer/module has a clear responsibility and does not absorb unrelated concerns.
+- Business rules remain in domain/application logic, not scattered into presentation or persistence details.
+
+**Evidence expectations**
+- Planning notes identify impacted boundaries and owned responsibilities.
+- Review confirms behavior changes are implemented in the correct layer.
+- No unexplained cross-layer logic movement.
+
+**Anti-patterns**
+- UI or transport handlers embedding business invariants.
+- Data access layer deciding domain policy.
+- “Utility” modules accumulating unrelated logic as a shortcut.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Support subscription activation and cancellation.
+
+```diff
+--- a/subscription.go
++++ b/subscription.go
+@@ -0,0 +1,9 @@
++package subscription
++import "fmt"
++type Service struct { State string }
++func (s *Service) Save(next string) { s.State=next }
++func Handle(s *Service,next string) error {
++ allowed:=map[string]map[string]bool{"trial":{"active":true,"cancelled":true},"active":{"cancelled":true},"cancelled":{}}
++ if !allowed[s.State][next] { return fmt.Errorf("invalid transition") }; s.Save(next); return nil
++}
++func Scheduled(s *Service,next string) { s.Save(next) }
+```
+Commit message: "support subscription activation and cancellation"
+
+Reviewer notes: Service is also called by a scheduler. Closed status set is trial/active/cancelled. Handler validates transitions; Save accepts any status in that set. No concurrent writes in this bounded example.
+
+codex
+- **`subscription.go:4–9` — Transition rules live in `Handle`, while `Service.Save` and `Scheduled` bypass them.** A scheduler can reactivate a cancelled subscription or move an active subscription back to trial, despite the handler rejecting those transitions. This makes business policy depend on the caller. Require a domain/application service method that validates transitions before changing state, with both the handler and scheduler calling it and handling its error. Direct state mutation should not remain an unrestricted bypass.
+tokens used
+3,374
+- **`subscription.go:4–9` — Transition rules live in `Handle`, while `Service.Save` and `Scheduled` bypass them.** A scheduler can reactivate a cancelled subscription or move an active subscription back to trial, despite the handler rejecting those transitions. This makes business policy depend on the caller. Require a domain/application service method that validates transitions before changing state, with both the handler and scheduler calling it and handling its error. Direct state mutation should not remain an unrestricted bypass.
+
+__ABLATION_DONE__ exit=0

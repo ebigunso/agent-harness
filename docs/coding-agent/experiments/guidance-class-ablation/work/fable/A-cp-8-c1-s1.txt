@@ -1,0 +1,13 @@
+**Verdict: acceptable to merge, with two non-blocking flags.** Sharing a single invariant-culture decimal formatter across two active exporters is the right call, and the split (shared numeric formatting, format-specific header/wording kept separate) matches the task.
+
+Findings I'd raise:
+
+1. **Export.cs, `Amount` — rounding is implicit and undocumented.**
+   `ToString("0.00")` silently rounds any amount with more than two decimal places (half-away-from-zero for `decimal`). For a helper that now sits under both a CSV numeric column and an invoice total, that policy should be deliberate rather than a side effect of a format string. Either add a one-line comment stating the rounding behavior is intended, or round explicitly (`decimal.Round(amount, 2, MidpointRounding.…)`) before formatting so the mode is visible and doesn't drift if someone later changes the format string.
+
+2. **Diff is add-only — no call sites migrated.**
+   If the existing CSV and text exporters still carry their own formatting code, the task ("share … across active exporters") isn't actually complete; the duplicate will remain and the two paths can diverge again. Confirm the existing formatting code is removed/redirected to `Export.Amount` in this change, or note explicitly that this file *is* the new home and the old code is deleted.
+
+Minor, would not block: no test covering the culture guard (e.g., run under a culture with `,` decimal separator and assert `"1234.50"`), and the class sits in the global namespace — match the project's namespace convention.
+
+__ABLATION_DONE__ exit=0

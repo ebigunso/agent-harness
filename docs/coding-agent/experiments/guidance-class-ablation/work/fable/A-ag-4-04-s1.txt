@@ -1,0 +1,15 @@
+**Verdict: block.** The change breaks both known callers silently.
+
+**Findings**
+
+1. **`package.py`, `cli()` and `service()` — callers not migrated to the new return shape.**
+   `result()` now returns a dict, but both callers still do `ident, total = result()`. Unpacking a dict iterates its *keys*, and since there are exactly two, this does not raise — it assigns `ident = "id"` and `total = "total"`. So `cli()` returns the literal string `"id:total"` and `service()` returns `{"id": "id", "total": "total"}` instead of `"a:100"` / `{"id": "a", "total": 100}`. This is the worst failure mode: no exception, no type error, just wrong data flowing downstream (and `total` is now a `str`, not integer cents). Both callers are explicitly in scope for this change.
+   **Require:** update both call sites in the same commit — e.g. `r = result(); return f"{r['id']}:{r['total']}"` and `service()` can simply `return result()` (or `dict(result())` if a fresh object is desired). Alternatively, if the goal is only to *name* the fields while preserving unpacking, return a `NamedTuple`/`dataclass` so `ident, total = result()` keeps working and `.id` / `.total` become available — that would make "no migration" true. Either way, add a test asserting `cli() == "a:100"` and `service() == {"id": "a", "total": 100}`; the current diff would fail it.
+
+2. **Change report / commit message — "no migration" claim is false.**
+   The report states no migration is needed while the diff changes a public return type from tuple to dict. A tuple→dict switch is a breaking API change for every unpacking caller, in-scope or not. Reviewers and downstream consumers rely on that declaration.
+   **Require:** correct the report to state the return type changed and enumerate the updated callers (per finding 1), or adopt the NamedTuple approach so the claim actually holds. If there may be callers outside this file, note that too.
+
+No other issues; the field names (`id`, `total`) and types are consistent with what `service()` already exposes, which is the right target shape once the callers are fixed.
+
+__ABLATION_DONE__ exit=0

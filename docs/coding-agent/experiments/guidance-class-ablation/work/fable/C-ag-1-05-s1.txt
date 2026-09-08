@@ -1,0 +1,34 @@
+## Review: "add invoice status helpers"
+
+**Verdict: block.** The change does not do what the task asks, and what it does do violates the layering guidance in two ways (catch-all utility, business/UI policy mixed into one bag).
+
+### Findings
+
+**1. `Utilities.cs` — `Utilities` class is a catch-all that re-implements four unrelated concern owners**
+- *What:* `Utilities.Jwt`, `.Tax`, `.Email`, `.Css` are byte-for-byte duplicates of `AuthTokens.Inspect`, `InvoiceTax.Calculate`, `MailDelivery.Send`, `Theme.Color`.
+- *Why it matters:* The guidance explicitly forbids catch-all utilities. Every rule now has two homes, so the next change to the tax rate (or the theme colours) will drift. Callers get a second, less-descriptive entry point (`Utilities.Css(bool)` says nothing about invoice failure state) that bypasses the owner. The class name and the method names (`Jwt`, `Css`) describe mechanisms, not concerns.
+- *Require:* Delete the `Utilities` class entirely. Callers use `InvoiceTax`, `AuthTokens`, `MailDelivery`, `Theme` directly. If a call site genuinely needs a convenience façade, it belongs in that call site's layer with a name that states the use case, not a global grab-bag.
+
+**2. `Utilities.cs` — scope mismatch with the task ("Add invoice status helpers")**
+- *What:* Nothing in the diff models invoice *status*. It adds tax calculation, JWT payload inspection, SMTP send, and a colour picker. Only `InvoiceTax` is invoice-related at all.
+- *Why it matters:* The commit message and PR title are misleading, which will mislead reviewers, `git blame`, and anyone bisecting later. Three of the four concerns are unrelated to invoices and shouldn't be touched by this change.
+- *Require:* Either scope down to actual invoice status helpers (in the invoice domain type/namespace) or retitle honestly and split the unrelated concerns into their own changes. Per the guidance, the plan should map which owners are affected and explain each move; that mapping is absent here.
+
+**3. `Utilities.cs` — domain rule (tax) and UI policy (colour) co-located in one file at global scope**
+- *What:* `InvoiceTax` (business rule, `0.1m` hard-coded) sits in the same file as `Theme` (presentation policy) and `MailDelivery` (infrastructure), all without a namespace.
+- *Why it matters:* "Keep layer responsibilities clear; business rules in domain/app" — a file literally named `Utilities.cs` holding the tax rate is the opposite of that. UI colour policy in the same compilation unit as the tax rule means a presentation change forces a rebuild/review of domain code and vice-versa. Global namespace also guarantees name collisions as the codebase grows.
+- *Require:* Each owner lives in its own layer/namespace (`Invoicing.Domain.InvoiceTax`, `Presentation.Theme`, `Infrastructure.MailDelivery`, `Security.AuthTokens`), one type per file. Tax rate should be a named constant or injected configuration, not an inline magic number.
+
+**4. `Utilities.cs` — the four "owner" types are declared here, but the notes say they already exist**
+- *What:* The diff is a whole-file add (`@@ -0,0 +1,13 @@`) that declares `AuthTokens`, `InvoiceTax`, `MailDelivery`, `Theme`. Reviewer notes describe these as *existing* concern owners.
+- *Why it matters:* If they already exist in the global namespace this won't compile (CS0101 duplicate type). If they exist under other namespaces, this creates shadow copies — the same drift problem as finding 1, one level up.
+- *Require:* Remove the redeclarations and reference the existing owners. If they don't actually exist yet, say so in the PR and place them per finding 3.
+
+### Not raised (deliberately)
+- JWT decode without signature verification — per notes, `verifiedPayload` is post-verification display-only; not an auth concern.
+- SMTP client disposal/credentials — per notes, caller owns lifecycle.
+
+### Minimal acceptable shape
+A change titled "add invoice status helpers" should touch the invoice domain type only, add whatever status predicates/transitions are needed there, and not introduce or duplicate tax/auth/mail/theme code. The current diff should be closed and reopened with that scope.
+
+__ABLATION_DONE__ exit=0

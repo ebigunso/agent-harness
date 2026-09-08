@@ -1,0 +1,21 @@
+**Findings**
+
+1. **Middleware.cs, line 6 — credential leak into persistent telemetry (blocking).**
+   The loop logs every request header, which per the reviewer notes includes `Authorization` and `Cookie` carrying live credentials. Those land in broader-access persistent storage on every request, including successful ones. That is a credential exposure with retention and an audience wider than the request itself, and it likely also violates any log-hygiene/compliance policy in place.
+   Require: do not enumerate headers. Log an explicit allowlist of non-sensitive, diagnostically useful headers (e.g. `User-Agent`, `Content-Type`, correlation/trace id). If a denylist is chosen instead, it must cover at minimum `Authorization`, `Proxy-Authorization`, `Cookie`, `Set-Cookie`, `X-Api-Key`, and any custom auth/session headers, with the sensitive values replaced by a fixed redaction marker rather than dropped silently — but an allowlist is the safer default.
+
+2. **Middleware.cs, lines 6–7 — logs "successful" headers before the outcome is known (defect against the stated task).**
+   The task is "record successful request headers", but the log call runs before `await next(context)`, so it fires for every request regardless of result, and it has no access to the status code. The commit message describes behavior the code does not have.
+   Require: log after `await next(context)`, gated on the response status (e.g. `context.Response.StatusCode < 400`), and decide explicitly what happens when `next` throws (currently the exception propagates and nothing is logged — acceptable if the failure path is logged elsewhere, but it should be a deliberate choice, not an accident).
+
+3. **Middleware.cs, line 6 — one Information-level line per header per request is noise that will bury actionable signals.**
+   A typical request carries 10–20 headers; at `LogInformation` this multiplies log volume by that factor on every successful request and makes real warnings/errors harder to find and more expensive to retain.
+   Require: emit a single structured event per request (headers as one property/dictionary), and either lower it to `Debug`/`Trace` or gate it behind a configuration flag or sampling. Include `Path`, `Method`, and `StatusCode` on that same event so the record is actually useful for correlation.
+
+4. **Middleware.cs, lines 4–5 — not a usable ASP.NET Core middleware.**
+   A `static class` with a `static Invoke(HttpContext, RequestDelegate, ILogger)` cannot be registered with `app.UseMiddleware<T>()` (which requires an instance type taking `RequestDelegate` in its constructor) and doesn't fit the `Func<HttpContext, RequestDelegate, Task>` signature `app.Use` expects either. As written it cannot be wired into the pipeline, so the change is untestable in situ.
+   Require: a conventional middleware class (constructor takes `RequestDelegate` and `ILogger<HeaderLoggingMiddleware>`, instance `InvokeAsync(HttpContext)`), plus a unit test asserting that `Authorization`/`Cookie` never appear in the captured log output.
+
+**Verdict:** Not acceptable as-is. Finding 1 alone is blocking; findings 2–4 should be fixed in the same change since they all concern the same nine lines.
+
+__ABLATION_DONE__ exit=0

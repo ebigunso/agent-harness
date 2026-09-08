@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08195-3179-7290-a9a3-4818d8b0f650
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Serialize invoice amount in major units.
+
+```diff
+--- a/invoice.rb
++++ b/invoice.rb
+@@ -1,6 +1,6 @@
+ def serialize(cents)
+-  { amount: cents }
++  { amount: cents / 100.0 }
+ end
+ def audit(wire)
+   wire.fetch(:amount) * 0.01
+ end
+```
+Commit message: "serialize invoice amount in major units"
+
+Reviewer notes: Rails serializer is a Ruby function called by render json. Audit function persists its returned number as dollars. Amount here is exactly 1250 cents; rounding beyond two decimals is not involved.
+
+codex
+- **`invoice.rb`, `audit` (`wire.fetch(:amount) * 0.01`)**: Serialization now converts 1250 cents to 12.50 dollars, but `audit` converts it again and persists **0.125 dollars**. This understates the audited amount by a factor of 100. Require `audit` to use the already-dollar-denominated amount directly, with a regression test confirming that `audit(serialize(1250))` returns 12.50 dollars.
+tokens used
+3,150
+- **`invoice.rb`, `audit` (`wire.fetch(:amount) * 0.01`)**: Serialization now converts 1250 cents to 12.50 dollars, but `audit` converts it again and persists **0.125 dollars**. This understates the audited amount by a factor of 100. Require `audit` to use the already-dollar-denominated amount directly, with a regression test confirming that `audit(serialize(1250))` returns 12.50 dollars.
+
+__ABLATION_DONE__ exit=0

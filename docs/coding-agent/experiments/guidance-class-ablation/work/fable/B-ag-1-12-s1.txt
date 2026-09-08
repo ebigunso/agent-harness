@@ -1,0 +1,9 @@
+**Findings**
+
+1. **`customer.cpp`, `decode()` — business rule embedded in the row converter (blocking).**
+   `row.suspended || row.debt > 10000` introduces a suspension policy inside a representation-mapping function. Per the reviewer notes, the row converter owns representation only, and suspension is an explicit domain action. The effect is that merely loading a row silently flips an account's status: a customer with `suspended == false` in storage comes out of `decode` as suspended, with no domain event, no audit trail, and no way to distinguish "actually suspended" from "decoder decided so." It also makes the mapping non-round-trippable (`decode` is no longer a faithful mirror of the row) and hides a policy constant (`10000` cents) in a place nobody will look for it. This is exactly the Gate 1 anti-pattern of a data-access/conversion layer deciding domain policy.
+   **Require:** `decode` must be a pure field copy: `return {row.debt, row.suspended};`. If a debt-threshold suspension rule is genuinely wanted, it belongs in the domain/application layer as an explicit action (e.g., a `suspendForDebt`/policy evaluation invoked by a use case), with the threshold named and owned there. That is also out of scope for "decode customer debt from rows" and should be a separate change with its own justification.
+
+No other issues. The `Row`/`Customer` struct definitions and the copy of `debt` are fine given the stated preconditions (validated integer cents, C++17).
+
+__ABLATION_DONE__ exit=0

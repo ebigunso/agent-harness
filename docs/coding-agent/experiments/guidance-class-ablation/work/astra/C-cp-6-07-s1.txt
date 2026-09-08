@@ -1,0 +1,48 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b2-961a-77b0-b1ec-b2bd24fe5706
+--------
+user
+Reference material loaded for this review:
+
+Align models/contracts/adapters, schema/semantics. Prevent loss/coercion/shape drift; version/migrate explicitly.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Serialize creation timestamps.
+
+```diff
+--- a/Wire.cs
++++ b/Wire.cs
+@@ -1,3 +1,3 @@
+ using System;
+ using System.Globalization;
+-public static class Wire { public static string CreatedAt(DateTime utc) => utc.ToString("O", CultureInfo.InvariantCulture); }
++public static class Wire { public static string CreatedAt(DateTime utc) => utc.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture); }
+--- a/client.py
++++ b/client.py
+@@ -0,0 +1,3 @@
++from datetime import datetime, timezone
++def created_at(text):
++    return datetime.fromisoformat(text).astimezone(timezone.utc)
+```
+Commit message: "serialize creation timestamps"
+
+Reviewer notes: Producer DateTime has Kind.Utc. Consumer process runs with local zone UTC+09:00; naive datetime.astimezone uses that zone. Published createdAt field denotes a UTC instant, with second precision sufficient for this API.
+
+codex
+- **`Wire.cs:3` and `client.py:3` — UTC timezone information is lost and the instant changes.** The new format omits the UTC marker, so Python parses the timestamp as naive. On the stated UTC+09:00 host, `astimezone(timezone.utc)` interprets it as local time: `2026-09-09T12:00:00` becomes `03:00:00Z`, nine hours earlier than intended. Require an explicit UTC marker in the wire format, such as `yyyy-MM-ddTHH:mm:ss'Z'` for the guaranteed `Kind.Utc` input, and require the client to parse it as timezone-aware. Verify a round trip under UTC+09:00 preserves the instant. Second precision is sufficient here; removing timezone information is the defect.
+tokens used
+3,361
+- **`Wire.cs:3` and `client.py:3` — UTC timezone information is lost and the instant changes.** The new format omits the UTC marker, so Python parses the timestamp as naive. On the stated UTC+09:00 host, `astimezone(timezone.utc)` interprets it as local time: `2026-09-09T12:00:00` becomes `03:00:00Z`, nine hours earlier than intended. Require an explicit UTC marker in the wire format, such as `yyyy-MM-ddTHH:mm:ss'Z'` for the guaranteed `Kind.Utc` input, and require the client to parse it as timezone-aware. Verify a round trip under UTC+09:00 preserves the instant. Second precision is sufficient here; removing timezone information is the defect.
+
+__ABLATION_DONE__ exit=0

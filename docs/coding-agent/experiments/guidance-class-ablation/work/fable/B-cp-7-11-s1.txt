@@ -1,0 +1,20 @@
+**Verdict: not acceptable as-is.** The function is fine; the test doesn't verify it and can't be made reliable in its current shape.
+
+### Findings
+
+**1. `schedule.cpp:5` — `due()` reads the wall clock internally; no seam for time.**
+`Clock::now()` is hidden global state. The only way to test the boundary is to race real time, which is exactly what the test does. The `>=` threshold — the thing the task is about — is never actually tested at the boundary (`now == deadline`), because the test cannot produce that instant.
+*Require:* pass the current time in, e.g. `bool due(Clock::time_point now, Clock::time_point deadline) { return now >= deadline; }` (or a templated/injected clock). Then the test is three deterministic asserts: `due(t - 1ns, t) == false`, `due(t, t) == true`, `due(t + 1ns, t) == true`. No sleeping, no yielding, exact boundary coverage.
+
+**2. `schedule.cpp:7–8` — `assert(!due(deadline))` is timing-dependent and will flake.**
+`deadline` is `now + 20ms` computed on line 7; line 8 calls `now()` again. Per the reviewer note, CI can pause the process between those two lines; any pause ≥20ms makes the assertion fail with no code defect. A 20ms window on a loaded CI runner is not a safe margin. This is a false-negative generator, and its inverse (the loop + second assert) is a tautology — it only asserts after spinning until the condition is already true.
+*Require:* remove the real-time dependency entirely via finding 1. If any real-clock smoke test is kept, it must only assert monotone facts (e.g. a deadline in the far past is due, far future is not), never a tight window.
+
+**3. `schedule.cpp:3, 6–11` — test uses `assert` and is never invoked.**
+`assert` is compiled out under `NDEBUG`, so a release/CI build produces a test that passes vacuously. `test_due()` is also not called from anything (no `main`, no framework registration), so even in debug it provides no evidence unless someone wires it up by hand. Evidence here is not proportional to a scheduling-threshold change.
+*Require:* register it with the project's test harness (or at minimum a `main` that runs it) and use the harness's assertions rather than `<cassert>`. Also move the test out of the production TU so `<thread>` and the busy-wait aren't linked into the scheduler.
+
+**4. (Minor) `schedule.cpp:9` — busy-wait with `yield()`.**
+A spin loop for ~20ms is CPU waste and slows the suite; it disappears once finding 1 is applied, so no separate action beyond that.
+
+__ABLATION_DONE__ exit=0

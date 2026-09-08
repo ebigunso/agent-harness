@@ -1,0 +1,17 @@
+**Verdict: block.** The change makes pricing correctness depend on hidden call ordering, and the reviewer notes confirm the problematic call pattern exists.
+
+**1. `Pricing.isEligible` — a predicate now has a hidden write side effect.**
+`isEligible` reads as a pure query but now mutates `discount`. Anyone calling it for its answer (e.g. UI deciding whether to show a "member price" badge, or calling `isEligible(false)` to render a "join now" prompt) silently reprograms subsequent `price()` results. Command/query separation is violated in the one place a reader would least expect it. Require: no state mutation in a method named `is…`. Either pass membership into pricing (`price(int cents, boolean member)`) or, if session state is genuinely wanted, add an explicit `setMember(boolean)` / `applyMemberDiscount()` whose name declares the mutation.
+
+**2. `Pricing.price` — temporal coupling with direct callers.**
+The notes state "other callers use `price` directly." For those callers the result depends on whether `isEligible` happened to run earlier in the same session, and with what argument: before any call, `discount` is 0 (no discount, even for a member); after the UI calls it, they get whatever the UI last passed. Same input, different output, no way to tell from the call site. This is a latent pricing bug, not a style issue. Require: `price` must be deterministic given its arguments (see fix in #1), or every non-UI caller must be audited and updated in this change.
+
+**3. `discount = member ? 10 : 0` — unit/semantics of "10" is unspecified.**
+This subtracts a flat 10 *cents*. If the intended member discount is 10%, this is wrong for every amount other than 100. If it really is a flat 10¢, a 10¢ item becomes free, which is probably not intended either. The task ("support member discounts") doesn't say. Require: state the intended discount rule in the commit/PR, name the constant (`MEMBER_DISCOUNT_CENTS` or `MEMBER_DISCOUNT_PERCENT`), and implement accordingly. Percentage would also need a rounding decision.
+
+**4. No tests.**
+None of the above behaviors (member vs non-member price, price before eligibility check, eligibility re-check with a different value) is covered. Require: unit tests for member/non-member pricing and, if session state survives, for the call-order cases in #2.
+
+Not raising: static mutable state / thread safety — notes explicitly scope that out and the session is single-threaded.
+
+__ABLATION_DONE__ exit=0

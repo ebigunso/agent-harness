@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081af-8887-72e2-8fbe-c73e14ebad2c
+--------
+user
+Reference material loaded for this review:
+
+Clear names/boundaries/flow; one abstraction level. Avoid hidden coupling/effects. Are intent and roles locally clear?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Format selected names with explicit locale.
+
+```diff
+--- a/names.ts
++++ b/names.ts
+@@ -1 +1,6 @@
+-export function names(input: readonly string[]): string[] { return input.map(x => x.toUpperCase()); }
++type Formatter = (name: string, locale: string) => string;
++// Calls format synchronously in input order, once per name.
++export function names(input: readonly string[], locale: string, format: Formatter): string[] {
++  return input.map(name => format(name, locale));
++}
++export function upper(name: string, locale: string) { return name.toLocaleUpperCase(locale); }
+```
+Commit message: "format selected names with explicit locale"
+
+Reviewer notes: Callback runs synchronously once per item in input order. It receives locale explicitly and returns a value; no ambient state or mutation. Locale is a validated supported locale from startup.
+
+codex
+The change is acceptable as-is. Formatting and locale are explicit dependencies, the callback’s execution contract is documented, and `upper` applies locale-aware casing. No findings I would raise.
+tokens used
+3,160
+The change is acceptable as-is. Formatting and locale are explicit dependencies, the callback’s execution contract is documented, and `upper` applies locale-aware casing. No findings I would raise.
+
+__ABLATION_DONE__ exit=0

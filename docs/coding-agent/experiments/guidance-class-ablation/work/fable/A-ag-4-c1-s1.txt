@@ -1,0 +1,19 @@
+**Verdict: not acceptable as-is.** The rename itself is fine; the problem is the added `check()` function and the unsubstantiated compatibility claims around it.
+
+**Findings**
+
+1. **`client.ts` — `check()` is a tautology, never called, and doesn't validate anything real.**
+   It feeds a hardcoded literal `{account_id:"a"}` into `id()` and throws if the result isn't `"a"`. That can't fail regardless of what the server sends, and nothing invokes it. The reviewer note says "required `account_id` shape is validated before consumption" — this function is the only thing in the diff that could be that validation, and it isn't. Net effect: dead exported code in a production module plus a misleading review claim.
+   *Require:* delete it. If runtime validation is actually wanted, put it at the boundary where the API payload is consumed (e.g. reject if `typeof payload.account_id !== "string"`) so a stale/mismatched server fails loudly instead of yielding `undefined`. If a test is wanted, put it in a test file under the test runner, not as an exported production function.
+
+2. **`api.py` / `client.ts` — hard cutover with no compatibility window.**
+   The server stops emitting `user_id` and the client stops reading it in the same commit. That's only safe if the two are deployed atomically. If they ship separately (or a rollback of one side happens), every request in the skew window silently returns `undefined` from `id()` — the TS type says `string`, so nothing catches it.
+   *Require:* either confirm atomic deploy of both artifacts, or make the server emit both keys for one release and have the client prefer `account_id` with fallback, then remove `user_id` in a follow-up.
+
+3. **Completeness of the migration is asserted, not shown.**
+   "Every locatable consumer migrated" — the diff touches one Python function and one TS function. The TypeScript compiler will catch typed callers of `id()`, but it won't catch string-keyed access (`row["user_id"]`), fixtures, mocks, tests, serialization schemas, logging/analytics field names, or other Python consumers of `response()`.
+   *Require:* include the repo-wide search result for `user_id` (code, tests, fixtures, schemas) in the PR, or note the remaining hits and why they're out of scope.
+
+Nothing else to raise; the rename itself is minimal and correct.
+
+__ABLATION_DONE__ exit=0

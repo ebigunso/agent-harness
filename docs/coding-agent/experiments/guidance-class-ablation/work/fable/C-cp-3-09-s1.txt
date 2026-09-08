@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`admin/package.json` — unrelated major-version bump bundled into a paginator bug fix.**
+   - *What's wrong:* The commit is framed and titled "correct paginator next-page boundary," but it also bumps `@internal/admin-ui` and `@internal/admin-theme` from 1.0.0 → 2.0.0. Per the reviewer notes, this is a major-version rollout with its own release requirements and no dependency on the PHP change.
+   - *Why it matters:* The two changes have completely different risk profiles and blast radii. If the admin 2.0 rollout needs to be reverted (breaking UI/theme changes, release gating not yet satisfied), the revert would also pull out a correct backend bug fix — and vice versa. The commit message does not mention the bump at all, so anyone bisecting or auditing history for the admin upgrade won't find it, and a reviewer approving a one-line boundary fix would be unknowingly signing off on a major dependency upgrade. This is exactly the "collateral on revert" case the review criteria call out.
+   - *Required instead:* Drop the `admin/package.json` hunk from this change. Land the admin-ui/admin-theme 2.0 bump as its own commit/PR with its own description, its generated lockfile, and whatever release/QA gating that rollout requires. This PR should contain only `page.php`.
+
+**Not flagged**
+
+- `page.php`: the change from `$page <= $pages` to `$page < $pages` is correct for a 1-indexed `page` / total-`pages` model — the old condition reported a next page when already on the last page. No issue with the fix itself.
+
+**Verdict:** Not acceptable as-is. The paginator fix is fine; block on the unrelated dependency bump and require it be split out.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,15 @@
+**Finding 1 — lib.rs, `label()` / commit message: the change does not do what it claims.**
+
+- What's wrong: The commit and task say "display all job states," but the pre-change `match` was already exhaustive over `Ready`, `Running`, `Done` — every state already had a label. Nothing about the set of displayed states changed. The only actual change is renaming the `Running` label from `"Busy"` to `"Running"`.
+- Why it matters: The commit message misdescribes the diff, so anyone bisecting or reading history will be misled about what changed. It also suggests the author either misread the codebase (thought a state was missing) or attached an unrelated rename to a task that required no code change. Either way, the stated goal was already met and this patch introduces an unrequested behavioral change under a misleading label.
+- What I'd require: If the task was "make sure all states are displayed," close it with no code change (or add a test asserting each variant maps to a non-empty label, if that's what's actually wanted). If the `"Busy"` → `"Running"` rename is desired on its own merits, submit it separately with a commit message that says that and gives the rationale.
+
+**Finding 2 — lib.rs, `State::Running` arm: user-visible string changed with no rationale and no test/consumer update.**
+
+- What's wrong: `"Busy"` → `"Running"` changes output visible to whoever calls `label()` (UI text, logs, etc.). The diff carries no explanation and touches no tests, docs, or callers.
+- Why it matters: Even with the reviewer's note that there's no external serialization, a display string can still be asserted in tests, referenced in documentation/screenshots, or grepped for in logs. Silently changing it risks breaking those without anyone noticing at review time. This is minor on its own but compounds Finding 1: an unexplained change hidden under an inaccurate description.
+- What I'd require: State why the label is changing (e.g., "align label with variant name for consistency"), and confirm/update any tests or docs that reference `"Busy"`. If nothing references it and the rename is wanted, that's fine — but it needs to be an intentional, described change.
+
+**Verdict:** Not acceptable as-is. The code compiles and the match remains exhaustive, so there's no correctness bug in the function body; the block is on the mismatch between the stated purpose and the actual change, plus the unjustified string rename.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,18 @@
+**Findings**
+
+1. **`totals.py`, `calculate_total` — line `items[:] = [x for x in items if x >= 0]` — BLOCK.**
+   The change mutates the caller's list in place via slice assignment. Per the notes, the caller owns that list and reuses it for the adjustment table, and the requirement only changes the *displayed sum*. After this call, the negative adjustments are gone from the caller's data, so the adjustment table will silently lose rows. That is a hidden side effect crossing a function boundary: nothing in the name, signature, or return value tells the caller its input was destroyed, and the bug will surface somewhere far from this line. Required instead: filter without mutating the input, e.g.
+
+   ```python
+   def calculate_total(items):
+       return sum(x for x in items if x >= 0)
+   ```
+
+   This satisfies the stated requirement (display excludes negatives) with no change to the caller's list.
+
+2. **`totals.py`, `calculate_total` — naming/intent (minor, would flag, not block).**
+   The function is now no longer a plain total; it applies a business rule (drop negatives) that a reader can't infer from the name. Since the notes say this rule is specific to the *displayed* value, consider a name or a one-line docstring that says so (e.g. `displayed_total` / "Sum for display; negative adjustments are excluded per <requirement>"), so a future caller doesn't reach for this function expecting an actual arithmetic sum.
+
+The change is not acceptable as-is because of finding 1.
+
+__ABLATION_DONE__ exit=0

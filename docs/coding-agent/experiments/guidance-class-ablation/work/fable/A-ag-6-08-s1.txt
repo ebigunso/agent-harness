@@ -1,0 +1,44 @@
+**Verdict: block.**
+
+## Findings
+
+### 1. `lib.rs`, `request` — retry multiplication blows the attempt budget by 81×
+
+`request` nests `retry` five deep. Each level runs its inner closure up to 3 times, and every one of those inner runs is itself a `retry`, so the number of calls to `remote` on persistent failure is 3⁵ = **243**, not 3. The stated budget is three remote attempts per request.
+
+Why it matters: this is not a gradual degradation — it is an 81× overshoot that turns a single failing request into a burst of 243 calls against the remote. Under a partial outage every client does this simultaneously (a retry storm), the remote's recovery is delayed, and any upstream rate limit / quota / billing tied to attempts is consumed 81× faster. It also lengthens the failure path: even with "prompt" failures, 243 round-trips is far slower to surface an error than 3.
+
+Required instead: enforce the budget in exactly one place. Either
+
+```rust
+pub fn request(remote: impl FnMut() -> Result<(), String>) -> Result<(), String> {
+    retry(remote)
+}
+```
+
+or, if the layering is genuinely required, only the outermost layer retries and every inner layer is pass-through (or the retry helper takes an attempt budget that is shared/decremented across layers). Add a test that counts invocations of `remote` on persistent failure and asserts it is `3`.
+
+### 2. `lib.rs`, `request` — the nesting has no functional purpose
+
+Even setting the budget aside, `retry(|| retry(|| ... retry(&mut remote)))` is semantically identical to a flat `retry` with a larger count; the intermediate wrappers add no backoff, no different error handling, no distinct failure classes. It reads as an accident of composing "each layer retries" without anyone owning the total.
+
+Required instead: delete the wrappers. If the intent was "retry at each service layer," document which single layer owns retry policy so the next author doesn't re-add it.
+
+### 3. `lib.rs`, `retry` — attempt count is hard-coded and untestable against the budget
+
+`3` is a magic literal inside `retry`, and the function is private with no parameter, so the budget can't be asserted by callers or tests, and the only way to see the real attempt count is to read every call site (which is exactly how finding #1 slipped in).
+
+Required instead: `retry(attempts: usize, call: ...)` or a named constant `MAX_REMOTE_ATTEMPTS: usize = 3`, referenced once, with a test pinning the observed call count.
+
+### 4. `lib.rs`, `retry` — zero-iteration edge and unhelpful default error
+
+If the loop count were ever `0`, `retry` returns `Err(String::new())` — an empty, meaningless error. Not reachable today with the literal `3`, but it becomes reachable once the count is parameterised (per #3), and it's a silent failure mode.
+
+Required instead: guard `attempts >= 1` (assert/`NonZeroUsize`) or return a descriptive error rather than an empty string.
+
+### Minor (would flag, not block on its own)
+
+- No unit tests accompany the change. Given the whole point of the task is an attempt budget, a test that counts calls is the minimum bar.
+- Formatting is not `rustfmt`-clean (`Ok(())=>`, `last=error`, single-line loop body). Run `cargo fmt`.
+
+__ABLATION_DONE__ exit=0

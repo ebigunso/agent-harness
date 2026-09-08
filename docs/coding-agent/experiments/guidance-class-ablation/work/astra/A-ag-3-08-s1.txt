@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c1-629c-7e10-8c01-2f33690f6aa5
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Extract active-record selection without behavior change.
+
+```diff
+--- a/scope.rb
++++ b/scope.rb
+@@ -1,3 +1,6 @@
++def active(rows)
++  rows.select { |row| row[:active] }
++end
+ def listed(rows)
+-  rows.select { |row| row[:active] }.first(2)
++  active(rows.first(2))
+ end
+```
+Commit message: "extract active-record selection without behavior change"
+
+Reviewer notes: The array stands for the ordered query result; each row has boolean active. Contract returns first two active rows in input order, even when inactive rows precede them.
+
+codex
+- **`scope.rb`, `listed`:** `active(rows.first(2))` limits the input before filtering, changing the contract. For `[inactive, active A, active B]`, it returns only A instead of A and B. Require `active(rows).first(2)` to preserve the first two active rows in input order.
+tokens used
+3,073
+- **`scope.rb`, `listed`:** `active(rows.first(2))` limits the input before filtering, changing the contract. For `[inactive, active A, active B]`, it returns only A instead of A and B. Require `active(rows).first(2)` to preserve the first two active rows in input order.
+
+__ABLATION_DONE__ exit=0

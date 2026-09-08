@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is. No blocking or flag-worthy findings.**
+
+Checked against the task ("include row and field in invalid age error") and the reviewer notes:
+
+- **importer.py, `parse_age` except clause** — the new message `f"row {row}, field age: expected integer, got {raw!r}"` names the row, names the field, states what was expected, and shows the offending value with `!r` (so whitespace/empty strings are visible, e.g. `''` or `' 42'`). That is exactly the scope requested.
+- `from exc` is retained, so the original `ValueError` remains as `__cause__` for debugging — matches the note.
+- Exception type is unchanged (`ValueError`), so existing callers catching it are unaffected.
+- Only `ValueError` is caught; since input is stated to be a string, `TypeError` from a non-string `raw` is out of scope and correctly not swallowed.
+- `display_name` is untouched, as intended.
+
+Nothing else I would raise in review.
+
+__ABLATION_DONE__ exit=0

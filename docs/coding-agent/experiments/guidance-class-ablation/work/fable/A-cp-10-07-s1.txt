@@ -1,0 +1,9 @@
+**Verdict: block.** The diff does the opposite of the task and the reviewer notes' constraint.
+
+1. **`Services.cs`, `Orders.Ready` / `Reports.Ready`** — Both signatures changed from `IAvailability port` to `Vendor.Client client`, and the bodies now call `client.Ping()` directly. This couples both domain services to the concrete vendor SDK type and to the specific method name `Ping`. The notes state the vendor upgrade will rename `Ping` and that domain services must stay independent of SDK shapes; after this change, that rename breaks `Orders` and `Reports` (not just the adapter), and every caller constructing these services now has to supply a real `Vendor.Client` instead of a test double. The existing `IAvailability` port + `VendorAdapter` already delivered availability to the domain — there was nothing to add. Require: revert both signatures to `IAvailability` and keep the calls as `port.IsAvailable()`. If the actual intent is to *wire* the adapter to the services (DI registration, factory, etc.), do that at the composition root, not by leaking the SDK into the domain.
+
+2. **`Services.cs`, `VendorAdapter`** — Left in place but now has no consumers, so the diff creates a dead abstraction that looks like the port is still honored while the real path bypasses it. This is a consequence of (1); reverting (1) resolves it. If the author intended to remove the port, that would need to be argued explicitly and it contradicts the stated architecture, so it should not be accepted.
+
+3. **Commit message vs. change** — "expose vendor availability to domain services" describes something already true before the diff; the diff instead removes the port boundary. The mismatch suggests a misunderstanding of the task. Require the author to confirm what concrete gap they were trying to fill; as written, the correct change to the domain classes is no change.
+
+__ABLATION_DONE__ exit=0

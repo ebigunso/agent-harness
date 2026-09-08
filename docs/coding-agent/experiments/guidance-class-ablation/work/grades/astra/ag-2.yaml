@@ -1,0 +1,193 @@
+records:
+  - id: 882f8c7b4a1a
+    fixture: ag-2-01
+    score: 1.0
+    note: "Names domain-to-vendorcloud coupling in domain/price.go, requires retaining Quote port with client injected from outer layer."
+  - id: db370c68009e
+    fixture: ag-2-01
+    score: 1.0
+    note: "Names domain constructing vendor client bypassing Quote port; requires Price(q Quote) with vendor supplied by outer composition."
+  - id: fa99604799f1
+    fixture: ag-2-01
+    score: 1.0
+    note: "Names vendor import in domain bypassing Quote port; requires retaining Price(q Quote) and injecting client from outer layer."
+  - id: 195525e5083a
+    fixture: ag-2-02
+    score: 1.0
+    note: "Names servlet dependency in Order.java; requires tenant extraction in controller/adapter and passing String to domain."
+  - id: 7ce420ce40d6
+    fixture: ag-2-02
+    score: 1.0
+    note: "Names domain-to-Servlet coupling; requires controller/adapter to extract tenant and call new Order(tenant)."
+  - id: ea6625ed2d56
+    fixture: ag-2-02
+    score: 1.0
+    note: "Names HTTP transport dependency in domain Order; requires extraction in controller/HTTP adapter, domain stays transport-independent."
+  - id: 0a78fb07f8a4
+    fixture: ag-2-03
+    score: 1.0
+    note: "Names domain owning requests/vendor URL bypassing QuoteProvider; requires outer adapter implementing seam and price(provider)."
+  - id: 41fded7a71d2
+    fixture: ag-2-03
+    score: 1.0
+    note: "Names hard-coded vendor URL and requests in domain; requires price(provider) with HTTP in QuoteProvider adapter."
+  - id: 53b379c69a2e
+    fixture: ag-2-03
+    score: 1.0
+    note: "Names bypass of QuoteProvider seam with direct HTTP; requires outer adapter and stable price(provider)."
+  - id: 0efed7f87f68
+    fixture: ag-2-04
+    score: 1.0
+    note: "Names Prisma-generated Invoice type and PrismaClient in domain.ts; requires domain-owned input and outer persistence adapter."
+  - id: 44b1425c7d4b
+    fixture: ag-2-04
+    score: 1.0
+    note: "Names schema-generated type controlling domain contract plus DB query in domain; requires stable value input and lookup in adapter."
+  - id: c59f464e7fe0
+    fixture: ag-2-04
+    score: 1.0
+    note: "Names generated Invoice type and PrismaClient lookup inverting boundary; requires domain-owned input and outer adapter/repository interface."
+  - id: 9987d9b9a6f6
+    fixture: ag-2-05
+    score: 1.0
+    note: "Names axum StatusCode replacing RuleError in core.rs; requires Result<(), RuleError> with HTTP mapping in outer adapter."
+  - id: b7aa9984d332
+    fixture: ag-2-05
+    score: 1.0
+    note: "Names axum import and StatusCode return in core; requires keeping RuleError and translating to 403 in HTTP handler."
+  - id: d1751e425718
+    fixture: ag-2-05
+    score: 1.0
+    note: "Names HTTP semantics in core via axum StatusCode; requires RuleError retained and mapped to 403 at HTTP boundary."
+  - id: 96f6766d4f12
+    fixture: ag-2-06
+    score: 1.0
+    note: "Names Feature bypassing IAccounts via InternalConnection; requires Feature.Status(IAccounts) delegating to accounts.Status."
+  - id: ba7ea8779c84
+    fixture: ag-2-06
+    score: 1.0
+    note: "Names bypass of public repository abstraction via internal connection; requires accepting IAccounts and delegating."
+  - id: cc5234eaec97
+    fixture: ag-2-06
+    score: 1.0
+    note: "Names InternalConnection bypass of IAccounts seam; requires Feature to accept IAccounts and delegate to repo.Status."
+  - id: 77ba3ee0dc25
+    fixture: ag-2-07
+    score: 1.0
+    note: "Names Android Context/SharedPreferences read in domain eligible; requires outer app to read setting and pass minimumAge Int."
+  - id: d27e8d31f276
+    fixture: ag-2-07
+    score: 1.0
+    note: "Names domain dependency on Android Context blocking CLI reuse; requires outer app to read/default/validate and pass minimumAge."
+  - id: edb9e67c406b
+    fixture: ag-2-07
+    score: 1.0
+    note: "Names Android SDK coupling in domain eligibility; requires platform-independent eligible(age, minimumAge) fed by Android adapter."
+  - id: 1043f816fb58
+    fixture: ag-2-08
+    score: 1.0
+    note: "Identifies both cache->service and service->cache edges as Go import cycle; requires moving key policy to lower-level package."
+  - id: 3e16940f3aff
+    fixture: ag-2-08
+    score: 1.0
+    note: "Identifies both import edges forming cycle; requires shared key convention in independent inner package."
+  - id: 5db8e7c57105
+    fixture: ag-2-08
+    score: 1.0
+    note: "Identifies both edges of import cycle; requires stable inner package owning key policy imported by both."
+  - id: 33abd9b382bf
+    fixture: ag-2-09
+    score: 1.0
+    note: "Names Stripe-shaped input replacing PaymentResult in billing policy; requires outer adapter translating succeeded to PaymentResult.paid."
+  - id: 85f52ccb3ca8
+    fixture: ag-2-09
+    score: 1.0
+    note: "Names vendor status vocabulary in core policy bypassing PaymentResult; requires Stripe adapter translation and fulfilled? on result.paid."
+  - id: 866581936d8f
+    fixture: ag-2-09
+    score: 1.0
+    note: "Names Stripe status shape replacing stable PaymentResult contract; requires outer adapter translation, policy uses result.paid."
+  - id: 15c4ba4fbb30
+    fixture: ag-2-10
+    score: 1.0
+    note: "Names Laravel DB facade in Rule.php bypassing Accounts port; requires eligible(int, Accounts) with query in outer Accounts implementation."
+  - id: c50c5183c1bd
+    fixture: ag-2-10
+    score: 1.0
+    note: "Names DB facade coupling replacing injected Accounts port; requires restoring port and outer adapter implementing Accounts."
+  - id: db6ce7930cb6
+    fixture: ag-2-10
+    score: 1.0
+    note: "Names removal of Accounts dependency for DB facade; requires keeping eligible(int, Accounts) with infrastructure Accounts implementation."
+  - id: 10862f9066d4
+    fixture: ag-2-11
+    score: 1.0
+    note: "Names geometry.cpp include of ui/widget.hpp inverting dependency; requires UI caller to pass currentZoom() into scaled(length, zoom)."
+  - id: 43e70b2a9fe3
+    fixture: ag-2-11
+    score: 1.0
+    note: "Names inner geometry depending on volatile UI widget; requires keeping numeric zoom parameter with UI passing widget.currentZoom()."
+  - id: 62553c9e5e85
+    fixture: ag-2-11
+    score: 1.0
+    note: "Names geometry dependence on ui::Widget violating UI-independent design; requires scaled(length, zoom) with zoom read at UI call site."
+  - id: 3ba067b5b730
+    fixture: ag-2-12
+    score: 1.0
+    note: "Names reflection into private retryClient bypassing VendorGateway; requires adding refresh() to gateway backed by public sdk.refresh()."
+  - id: 480fbd00723c
+    fixture: ag-2-12
+    score: 1.0
+    note: "Names unsupported private SDK field access bypassing gateway; requires refresh() on VendorGateway implemented via sdk.refresh()."
+  - id: 5124a47f3f5f
+    fixture: ag-2-12
+    score: 1.0
+    note: "Names gateway bypass via reflective private-field access; requires extending VendorGateway with refresh() and Feature depending on it."
+  - id: 7f452f4638a9
+    fixture: ag-2-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: dabc68d456d9
+    fixture: ag-2-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: f4774b9ee83b
+    fixture: ag-2-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 485e2a671a3c
+    fixture: ag-2-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: a5d1ef4b3a73
+    fixture: ag-2-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: da274ba49da5
+    fixture: ag-2-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 1a7c8778d146
+    fixture: ag-2-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 9b39565e3c7f
+    fixture: ag-2-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: d2568dc91435
+    fixture: ag-2-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 3009a401ee6f
+    fixture: ag-2-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 7cb81b7baec4
+    fixture: ag-2-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: badb1dad1663
+    fixture: ag-2-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."

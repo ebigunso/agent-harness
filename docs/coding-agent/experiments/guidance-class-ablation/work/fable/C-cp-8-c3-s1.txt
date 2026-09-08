@@ -1,0 +1,16 @@
+**Findings**
+
+1. **`store.go`, `Label` — unrequested, undocumented behavior change.**
+   The task is "use current stores through existing reader port," and the commit message repeats that. But before this diff, `Label` already took the `Reader` port and both `Memory` and `Config` already implemented it — the requested state was already true. The only substantive thing this diff does is add `strings.TrimSpace`, which changes `Label`'s output for any name with leading/trailing whitespace. That's a semantic change hiding under a commit message that describes a no-op refactor. Anyone reading history later will not find where trimming was introduced or why.
+   *Require:* Either drop the `TrimSpace` (in which case there is nothing to merge — close the change and note the task was already satisfied), or, if trimming is actually wanted, say so in the commit message, state the motivation, and add a test that pins the behavior (`Label(Memory{Value: "  x "}) == "x"`).
+
+2. **`store.go`, `Label` — normalization applied at the wrong layer.**
+   If whitespace-trimming is a real requirement, doing it in `Label` means `reader.Name()` and `Label(reader)` now disagree for the same store, and any other consumer of `Name()` still sees untrimmed values. The `Reader` contract becomes "returns a name that may or may not be clean depending on which helper you go through." That is accidental complexity: callers now need to know which entry point normalizes.
+   *Require:* Normalize where the value enters the system (constructor / `Name()` on the concrete stores, or at config load), or explicitly document that `Name()` is raw and `Label()` is presentation-normalized — and only if there are real callers that need both.
+
+3. **Minor: `strings` dependency added to the package for a single call whose necessity is unestablished.**
+   Trivial on its own, but it's a new import justified only by the change in (1). It goes away if (1) is resolved by dropping the trim.
+
+**Verdict:** Not acceptable as-is. The diff either should not exist (task already satisfied) or should be re-cut as an explicit "trim store names" change with rationale, correct layer, and a test.
+
+__ABLATION_DONE__ exit=0

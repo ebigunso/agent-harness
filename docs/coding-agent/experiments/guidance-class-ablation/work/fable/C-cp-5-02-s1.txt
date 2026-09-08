@@ -1,0 +1,34 @@
+**Verdict: block.** The change ships the untrusted `maxBytes` value straight into the allocator with no validation, which is exactly the check the task and the allocator's stated contract require.
+
+## Findings
+
+### 1. `upload.go` `Handler` — no bounds check on `n` before `allocate(n)` (blocking, security)
+`strconv.Atoi` accepts any value in `int` range; the only check is "is it an integer." Consequences for an unauthenticated-to-values attacker (per the notes, the endpoint is reachable with arbitrary query values):
+- **Negative `n`** → `make([]byte, n)` panics (`makeslice: len out of range`). `net/http` recovers per-connection, but it's an attacker-triggerable panic path that logs a stack trace and returns a connection reset instead of a 400.
+- **`n == 0`** → violates the allocator's documented precondition (`1..8 MiB`).
+- **Large `n`** (e.g. `?maxBytes=8000000000`) → multi-GiB allocation per request. On 64-bit this either succeeds and pins memory until GC, or OOM-kills the process. Trivial memory-exhaustion DoS; concurrent requests make it worse. Note that the buffer is allocated and immediately discarded (`buffer[:0]`), so as merged the handler *only* does this — it is purely a "burn memory on demand" endpoint.
+
+**Require:** validate at entry, before allocation:
+```go
+const (
+    minUploadBuffer = 1
+    maxUploadBuffer = 8 << 20 // 8 MiB, allocator contract
+)
+if n < minUploadBuffer || n > maxUploadBuffer {
+    http.Error(w, fmt.Sprintf("maxBytes must be between %d and %d", minUploadBuffer, maxUploadBuffer), http.StatusBadRequest)
+    return
+}
+```
+Additionally, `allocate` should not silently trust callers: either document the precondition on it and panic/return an error on violation, or have it return `([]byte, error)`. The invariant currently exists only in a reviewer's head, not in code.
+
+### 2. `Handler` — missing parameter is reported as "must be an integer" (flag)
+`r.URL.Query().Get("maxBytes")` returns `""` when absent; `Atoi("")` fails, so a client that omits the parameter gets a misleading message. Either apply a sane default (e.g. the max, or a documented default) when absent, or return a message that says the parameter is required and states the range. The error should tell the caller what to do, not just what went wrong.
+
+### 3. No tests (blocking)
+This is a validation change on an exposed endpoint; it needs table-driven handler tests covering: missing, non-integer, negative, zero, `1`, `8<<20`, `8<<20 + 1`, and an absurdly large value — asserting a 400 (not a panic/500) for the invalid cases and that no allocation occurs for them.
+
+### 4. Nits (would not block alone)
+- File is not `gofmt`-formatted (`import ("net/http"; "strconv")`, one-line funcs). CI will likely reject it.
+- Use `http.StatusBadRequest` rather than the literal `400`, consistent with `http.StatusOK` two lines later.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,10 @@
+**Findings**
+
+1. **`DiscountAdapter.cs` — `DiscountView` / `DiscountAdapter.Map` collapse proto3 presence into a value.**
+   - What's wrong: The wire type carries presence (`HasCents`), matching `optional int32 cents` in the proto and the Java `Discount(hasCents, cents)` facsimile. The C# client model `DiscountView(int Cents)` has no presence slot, and `Map` does `wire.HasCents ? wire.Cents : 0`. An absent/unknown discount and an explicitly-set zero discount both become `Cents == 0` on the client.
+   - Why it matters: The proto author deliberately marked the field `optional` to distinguish "not provided / unknown" from "known to be 0". This adapter silently coerces the unknown state into a concrete number, so any client logic that needs to render "discount not available", withhold a total, re-fetch, or audit whether a discount was actually applied cannot do so. The Java side preserves the distinction and the C# side drops it, so the two clients now disagree on the semantics of the same message — exactly the shape/semantic drift the contract guidance says to prevent. This is a lossy, non-reversible mapping and it is the core of the task ("map *optional* discount"), so it is a blocking defect, not a nit.
+   - Require instead: Make the client model carry presence, e.g. `public record DiscountView(int? Cents);` (or an explicit `HasCents`/`Optional`-style shape consistent with the Java model), and map as `new(wire.HasCents ? wire.Cents : null)`. If a default-to-zero view is genuinely needed somewhere, it must be a separate, explicitly named projection at the call site (e.g. `CentsOrZero`), not the adapter's default behaviour. Add a test asserting `Map(new(false, 0))` and `Map(new(true, 0))` produce distinguishable results.
+
+No other issues: the proto addition (new file, field 1, `optional` on proto3) is fine and needs no migration; the Java record faithfully mirrors the presence API and `unknown()` is the right factory for the absent case.
+
+__ABLATION_DONE__ exit=0

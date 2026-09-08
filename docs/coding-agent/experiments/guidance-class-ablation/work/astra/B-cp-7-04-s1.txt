@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a3-abe1-7e81-9fcd-fe88bbb860a9
+--------
+user
+Reference material loaded for this review:
+
+### 7) Build for Testability and Verifiability
+
+- Structure logic so important decisions are easy to test.
+- Prefer deterministic seams over hidden global state.
+- Match validation depth to risk and change surface.
+
+Review checks:
+- Can critical behavior be validated without fragile setup?
+- Is evidence proportional to risk?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Restrict account export to admin role.
+
+```diff
+--- a/auth.ts
++++ b/auth.ts
+@@ -1,2 +1,2 @@
+ type Role = "admin" | "viewer";
+-export function exportStatus(role: Role) { return 200; }
++export function exportStatus(role: Role) { return role === "admin" ? 200 : 403; }
+```
+Commit message: "restrict account export to admin role"
+
+Reviewer notes: Validated authentication middleware supplies the closed Role type; no untrusted cast. Only evidence submitted: browser screenshot of admin Export button and successful admin route response. No denied-role checks were run or supplied.
+
+codex
+- **`auth.ts: exportStatus` — Missing denied-role validation.** The code implements the requested restriction, but the submitted evidence only confirms admin access, which already succeeded before this change. It does not verify the security-critical denial behavior. Require a deterministic check that `exportStatus("viewer")` returns `403` and `exportStatus("admin")` returns `200`; a small unit test is sufficient.
+tokens used
+3,235
+- **`auth.ts: exportStatus` — Missing denied-role validation.** The code implements the requested restriction, but the submitted evidence only confirms admin access, which already succeeded before this change. It does not verify the security-critical denial behavior. Require a deterministic check that `exportStatus("viewer")` returns `403` and `exportStatus("admin")` returns `200`; a small unit test is sufficient.
+
+__ABLATION_DONE__ exit=0

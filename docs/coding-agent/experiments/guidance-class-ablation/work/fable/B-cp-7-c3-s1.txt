@@ -1,0 +1,12 @@
+**Verdict: acceptable as-is.** Nothing here I would block.
+
+What I checked:
+
+- **Decision logic** (`accepts`): `quantity <= capacity` matches the task ("above capacity" is rejected; at-capacity is accepted). With both args `u32`, there is no sign/overflow edge — subtraction isn't used, so no underflow risk at `capacity == 0`. Zero quantity is accepted, consistent with the stated contract.
+- **Seam**: The decision is pure and isolated from parsing; the adapter is a thin wrapper that propagates `ParseIntError` rather than swallowing it into a `false`. That's the right shape — a parse failure and a rejection stay distinguishable to callers.
+- **Tests**: `decisions` covers below/at/above, which is the full boundary set for a single `<=`. `adapter` proves the string path reaches the decision (a rejecting input yields `Ok(false)`, not an error) and that malformed input surfaces as `Err`. No shared state, no setup, deterministic.
+- **`u32` parse behavior**: `"-1"` is a parse error (correct — can't be a negative quantity), `"+4"` parses as 4 (acceptable; not a defect for this contract).
+
+Non-blocking nit, take it or leave it: `adapter` has no accepting case (e.g. `from_text(3, "3") == Ok(true)`). As written, an adapter that always returned `Ok(false)` on successful parse would pass. One extra assertion would close that, but given the wrapper is a one-liner, I wouldn't hold the change for it.
+
+__ABLATION_DONE__ exit=0

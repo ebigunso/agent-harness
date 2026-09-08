@@ -1,0 +1,57 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a4-b01b-7f50-9385-a941878973bb
+--------
+user
+Reference material loaded for this review:
+
+### 8) Control Complexity and Duplication
+
+- Remove accidental complexity before introducing abstraction.
+- Abstract only when multiple concrete uses justify it.
+- Keep dependency direction intentional and acyclic where practical.
+
+Review checks:
+- Does abstraction reduce or increase cognitive load?
+- Is new complexity justified by measurable maintenance benefit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Use a fixed retry delay.
+
+```diff
+--- a/Retry.java
++++ b/Retry.java
+@@ -1 +1,10 @@
+-final class Retry { static long delayMillis() { return 1000L; } }
++import org.yaml.snakeyaml.Yaml;
++interface Delay { long millis(); }
++class FixedDelay implements Delay { public long millis() { return 1000L; } }
++final class Retry {
++    static long delayMillis() throws ReflectiveOperationException {
++        String type = (String) new Yaml().load("FixedDelay");
++        Delay delay = (Delay) Class.forName(type).getDeclaredConstructor().newInstance();
++        return delay.millis();
++    }
++}
+```
+Commit message: "use a fixed retry delay"
+
+Reviewer notes: One service and one 1000ms policy; no variation requested. SnakeYAML already installed and config is trusted checked-in text. Factory exceptions are surfaced as startup errors by caller. Existing direct delay value was sufficient.
+
+codex
+- **`Retry.java:2–8` — Unnecessary abstraction and runtime indirection for a fixed constant.** The interface, implementation class, YAML parsing, and reflective construction all serve one hard-coded 1000 ms policy. They increase cognitive load and replace a compile-time-checked value with runtime class lookup and failure paths, without any maintenance benefit. SnakeYAML’s availability and startup exception handling do not justify this complexity. Require retaining the direct `return 1000L;`; introduce a strategy or configuration mechanism only when concrete variation requires it.
+tokens used
+3,316
+- **`Retry.java:2–8` — Unnecessary abstraction and runtime indirection for a fixed constant.** The interface, implementation class, YAML parsing, and reflective construction all serve one hard-coded 1000 ms policy. They increase cognitive load and replace a compile-time-checked value with runtime class lookup and failure paths, without any maintenance benefit. SnakeYAML’s availability and startup exception handling do not justify this complexity. Require retaining the direct `return 1000L;`; introduce a strategy or configuration mechanism only when concrete variation requires it.
+
+__ABLATION_DONE__ exit=0

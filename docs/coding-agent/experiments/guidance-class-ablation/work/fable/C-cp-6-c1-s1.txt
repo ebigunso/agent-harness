@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.**
+
+Checked against the contract and the reviewer notes:
+
+- **Field name alignment** — Java record component `timeoutSeconds` → JSON key `timeoutSeconds` → TS type `{timeoutSeconds: number}`. No rename, no shape drift, and the unit is encoded in the name on both sides so a future reader can't mistake it for ms.
+- **Type width** — Java `int` (primitive, so the server can never emit `null`) with a validated range of 0..3600 → TS `number`. Max converted value is 3,600,000 ms, comfortably inside `setTimeout`'s 2³¹−1 ceiling, so no truncation/overflow path exists. No coercion: `* 1000` on a number is exact for this range.
+- **Adapter is the only conversion point** — `schedule` calls `milliseconds`, so there's a single place where seconds become ms; nothing else in the diff carries a raw seconds value into the timer.
+- **Assertion exercises the real path** — `check()` drives `schedule` with an injected timer and asserts on the value that reaches it (3 → 3000), plus the boundary 0 → 0. Since the conversion is a single linear multiplication, two points are sufficient to catch a wrong factor or an off-by-unit bug; testing 3600 would add nothing.
+- **No versioning needed** — the wire contract is unchanged (still seconds); the conversion is client-local, so there is no schema migration to declare.
+
+Nothing here I would block or flag.
+
+__ABLATION_DONE__ exit=0

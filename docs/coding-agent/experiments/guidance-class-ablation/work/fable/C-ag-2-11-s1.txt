@@ -1,0 +1,17 @@
+**Findings**
+
+1. **`geometry.cpp` — inner library now depends on the volatile UI edge (dependency inversion violation).**
+   `#include "ui/widget.hpp"` and the new `const ui::Widget&` parameter make the reusable geometry core depend outward on the GUI facade. The reviewer notes state geometry has *no UI linkage by design*; this diff breaks that invariant. Consequences: geometry can no longer be built, tested, or reused without the UI module; any change to `ui::Widget` (a volatile GUI type) forces recompilation/retest of the core; it creates the seed of a UI ↔ geometry cycle as soon as UI includes geometry (which it must, to use `scaled`). This is a block.
+   **Require:** keep geometry primitive-only. The original `double scaled(double length, double zoom)` was already correct — the caller in the UI layer should pass `widget.currentZoom()`. If a "current zoom" seam is genuinely needed inside geometry, define it in geometry's own terms (e.g. a `ZoomProvider` interface or a `std::function<double()>`/template parameter owned by geometry) and have `ui::Widget` adapt to it — never the reverse.
+
+2. **`geometry.cpp` — API narrowed to one consumer, breaking existing/other callers.**
+   Replacing the `double zoom` parameter with `const ui::Widget&` removes the general-purpose overload. Every non-UI caller (tests, batch/export paths, anything computing geometry off-screen) now has to fabricate a `Widget` just to scale a length. The task, "scale geometry with current zoom," is a *caller-side* concern and did not require changing geometry's signature at all.
+   **Require:** restore the `(double, double)` signature; make the change at the call site in the UI code (which is absent from this diff and should be included so the task is actually completed).
+
+3. **`ui/widget.hpp` — new public type with no documentation of its role as the UI edge/facade.**
+   The header introduces `ui::Widget` with a public mutable `double zoom` and no comment explaining that this is the facade over the volatile GUI widget, what `currentZoom()` guarantees (finite, positive per the notes), or that inner libraries must not include it. Given the seam it represents, the boundary should be self-describing so the next contributor doesn't repeat finding #1. Also, if `zoom` is validated "finite positive" that invariant is not enforced or stated anywhere in this type — a public bare `double` field makes it trivially violable.
+   **Require:** brief header comment stating this is the UI-side facade and must not be depended on by core/geometry; either make `zoom` private with a constructor/setter that enforces the invariant, or document the precondition on `currentZoom()`.
+
+**Verdict:** Not acceptable as-is. Revert the geometry signature change and remove the `ui/` include from `geometry.cpp`; apply the zoom at the UI call site (and include that call-site change in the diff so the stated task is delivered).
+
+__ABLATION_DONE__ exit=0

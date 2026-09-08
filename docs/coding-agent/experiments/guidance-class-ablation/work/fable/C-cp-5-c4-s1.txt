@@ -1,0 +1,19 @@
+**Verdict: not mergeable as-is.** The core check is correct, but the failure path and the tests don't meet the bar for "validate at startup," and the invariant the package depends on is neither stated nor enforced.
+
+1. **`buffer.go` — `New`: error is not actionable and the limit is duplicated as two literals.**
+   The message says `must be 1..8388608` but omits the value that was actually supplied, so an operator seeing this at startup can't tell whether the config was `0`, `-1`, `9000000`, or unset. The bound is also written twice (`8*1024*1024` in the check, `8388608` in the string); the next person who changes one will not change the other and the message will lie.
+   Require: a named constant (e.g. `MaxSize = 8 << 20`) used in both the comparison and the message, and include the offending value: `fmt.Errorf("buffer: size %d out of range [1, %d]", size, MaxSize)`. Optionally wrap a sentinel (`ErrInvalidSize`) so callers can `errors.Is` it.
+
+2. **`buffer.go` — `Buffer` zero value silently violates the invariant `New` enforces.**
+   `Buffer` is exported, so `var b buffer.Buffer` (or `buffer.Buffer{}`) is constructible outside the package and `Allocate()` returns a zero-length slice with no error. A zero-length read buffer fed to `io.Reader`/`io.Copy`-style loops yields `0, nil` and can spin forever or short-read uploads — this is exactly the class of bug the validation is meant to prevent, and it bypasses `New`. The reviewer note says this is intentional, but nothing in the code says so; the invariant "size is 1..MaxSize, obtain via `New`" exists only in the author's head.
+   Require, at minimum: doc comments on `Buffer`, `New`, and `Allocate` stating that instances must come from `New` and what the zero value does. Preferably make the failure explicit rather than silent — e.g. `Allocate` panics (or the type is unexported behind an interface) when `size == 0`, so misuse fails loudly at first use instead of corrupting uploads.
+
+3. **`buffer_test.go` — upper boundary is not covered; an off-by-one in the check would pass.**
+   The test rejects `8388609` and accepts `1`, but never asserts that `8388608` (the documented max) is accepted. If the condition were mistakenly `size >= 8*1024*1024`, this test still goes green. Failure messages (`t.Fatal(n)`, `t.Fatal("valid")`) also give no context about what was expected.
+   Require: table-driven cases covering both boundaries on both sides (`0`, `1`, `MaxSize`, `MaxSize+1`), use `t.Errorf`/`t.Run` so all cases report, assert `Allocate()` length equals the configured size for the max case too, and give messages like `"New(%d): expected error, got nil"`.
+
+4. **Both files — not gofmt'd.** `size:size`, `b,err:=New(1); if ...`, missing blank line after `package`, etc. This will fail a standard `gofmt -l`/CI lint step. Require: run `gofmt`/`goimports` before resubmitting.
+
+Nothing else I'd block on: rejecting `nil`-return-on-error is correct, the range itself is reasonable, and `Allocate` returning a fresh slice per call is the right choice for concurrent uploads.
+
+__ABLATION_DONE__ exit=0

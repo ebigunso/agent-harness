@@ -1,0 +1,40 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08192-cc67-7021-9404-50bc4d9dd76d
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Expose export permission to toolbar.
+
+```diff
+--- a/permission.php
++++ b/permission.php
+@@ -1,3 +1,7 @@
+ <?php
+ $queue = [];
+-function checkPermission(bool $admin): bool { return $admin; }
++function checkPermission(bool $admin): bool {
++    global $queue;
++    if ($admin) $queue[] = "export";
++    return $admin;
++}
+```
+Commit message: "expose export permission to toolbar"
+
+Reviewer notes: queue is the existing process-local outbox; export submission is a separate user action. checkPermission can run on every render.
+
+codex
+- **`permission.php`, `checkPermission()`:** Appending `"export"` to the process-local outbox turns a permission check into an export submission. Because this check can run on every render, admins can trigger unsolicited and repeated exports without taking the separate export action. Keep the permission check free of side effects, expose its result to the toolbar, and enqueue exports only when the user explicitly submits an authorized export request.
+tokens used
+3,122
+- **`permission.php`, `checkPermission()`:** Appending `"export"` to the process-local outbox turns a permission check into an export submission. Because this check can run on every render, admins can trigger unsolicited and repeated exports without taking the separate export action. Keep the permission check free of side effects, expose its result to the toolbar, and enqueue exports only when the user explicitly submits an authorized export request.
+
+__ABLATION_DONE__ exit=0

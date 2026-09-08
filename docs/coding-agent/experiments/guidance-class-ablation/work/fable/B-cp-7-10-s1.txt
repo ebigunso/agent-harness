@@ -1,0 +1,23 @@
+**Verdict: the guard logic is correct, but I would not approve as submitted — the change's actual behavior (rejection) has zero test evidence, and the one test that exists isn't executed.**
+
+### Findings
+
+**1. `reset.php` — no tests for the two rejection paths that are the entire point of the change.**
+The commit is "reject expired or replayed reset tokens." The only test (`testValid`) exercises the valid/unused path, which already worked before this diff. Nothing verifies that a `used => true` token returns `false`, that an expired token returns `false`, or that a rejected token is **not** mutated (`used` stays `false`, so a legitimate later diagnosis/audit isn't corrupted). For a password-reset lifecycle helper, evidence is not proportional to risk: a typo like `$now <= $token["expires"]` or `!$token["used"]` would pass the submitted test and silently reopen replay/expiry. Require at minimum:
+- `used => true, expires => 200, now => 100` → `false`
+- `used => false, expires => 200, now => 300` → `false`, and `$token["used"]` still `false`
+- boundary: `now === expires` → `false` (see #2)
+
+**2. `reset.php` line 4 — the `>=` boundary is an untested, undocumented policy decision.**
+Treating `now == expires` as expired is a reasonable choice, but it's exactly the kind of off-by-one that gets "fixed" in the wrong direction later. Require a boundary test pinning the intended semantics (expires is exclusive) and a one-line comment stating it.
+
+**3. `reset.php` `testValid()` — the test is defined but never invoked, and lives in the production file.**
+There is no call site, no runner, and no exit code, so a reviewer cannot tell it ever ran; "throw on failure" in an uncalled function is not evidence. Shipping test code inside `reset.php` also puts a `RuntimeException`-throwing function on the production include path. Require the tests be moved to a test file wired to whatever runner the project uses (or at least a script that executes them and reports), with the run output included in the PR.
+
+**4. `reset.php` line 4 — fail-open on a malformed token array (minor).**
+`$token["used"]` on a missing key emits a warning and evaluates to `null`, which is falsy, so a token record without a `used` field is treated as unused and consumed. Since the caller loads this from the DB it's unlikely in practice, but this is a security check and should fail closed. Require either strict checks (`($token["used"] ?? true) === true` → reject, or validate the shape up front and return `false` on missing keys) plus a test for the malformed case, or an explicit note that the caller guarantees the shape.
+
+### Not raised
+- Replay protection ultimately depends on the caller persisting `used = true` under the row lock before releasing it; the reviewer notes state that is unchanged and handled, so I'm not blocking on it here — but the rejection tests in #1 are what let us trust this helper's half of that contract.
+
+__ABLATION_DONE__ exit=0

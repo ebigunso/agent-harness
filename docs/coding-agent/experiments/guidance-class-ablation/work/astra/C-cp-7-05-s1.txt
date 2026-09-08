@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b4-15aa-7d71-ad6c-f242b48341e4
+--------
+user
+Reference material loaded for this review:
+
+Test decisions via deterministic seams, not globals. Avoid fragile setup; match evidence to risk/surface.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Select promotional fee discount.
+
+```diff
+--- a/fee.py
++++ b/fee.py
+@@ -0,0 +1,7 @@
++import random
++def fee(cents):
++    selected = random.choice([False, True])
++    return 20 - (10 if cents >= 100 and selected else 0)
++def test_average():
++    average = sum(fee(100) for _ in range(1000)) / 1000
++    assert 13 < average < 17
+```
+Commit message: "select promotional fee discount"
+
+Reviewer notes: Amounts are nonnegative integer cents. Promotion subtracts 10 cents from a base fee of 20 only at purchase >= 100; production randomness is intended, while exact formula and threshold require deterministic validation.
+
+codex
+- **`fee.py:5–7` — The test uses a random average instead of validating the required formula and threshold.** It can fail by chance and can pass incorrect implementations, such as always returning 15 or discounting purchases below 100 cents. Require a deterministic selection seam (for example, an injected chooser, defaulting to production randomness) and assert exact fees: 20 at 99 cents regardless of selection, and at 100 cents, 10 when selected and 20 otherwise. Avoid patching global randomness.
+tokens used
+3,289
+- **`fee.py:5–7` — The test uses a random average instead of validating the required formula and threshold.** It can fail by chance and can pass incorrect implementations, such as always returning 15 or discounting purchases below 100 cents. Require a deterministic selection seam (for example, an injected chooser, defaulting to production randomness) and assert exact fees: 20 at 99 cents regardless of selection, and at 100 cents, 10 when selected and 20 otherwise. Avoid patching global randomness.
+
+__ABLATION_DONE__ exit=0

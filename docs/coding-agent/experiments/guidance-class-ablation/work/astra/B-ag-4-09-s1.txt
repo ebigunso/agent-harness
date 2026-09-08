@@ -1,0 +1,59 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d8-fc01-7981-9b1b-45c659c8eaf2
+--------
+user
+Reference material loaded for this review:
+
+### Gate 4: Explicit Interface Contracts
+
+**Expectation**
+- Boundaries between components are explicit, minimal, and stable.
+- Inputs, outputs, and failure semantics are intentionally modeled.
+
+**Evidence expectations**
+- Plan states contract-impact scope (none/additive/breaking).
+- Review verifies contract updates are synchronized across producers/consumers.
+- Failure modes are explicit and not silently swallowed.
+
+**Anti-patterns**
+- Implicit contracts communicated only by call-site assumptions.
+- Breaking contract changes shipped without migration or compatibility notes.
+- Returning ambiguous success/failure signals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Translate failed network lookup.
+
+```diff
+--- a/Lookup.kt
++++ b/Lookup.kt
+@@ -1,6 +1,4 @@
+ class VendorFailure : Exception()
+ class Unavailable : Exception()
+-fun lookup(call: () -> String): String {
+- try { return call() } catch (e: VendorFailure) { throw Unavailable() }
+-}
++fun lookup(call: () -> String): String = call()
+ fun caller(call: () -> String): String = try { lookup(call) } catch (e: Unavailable) { "retry" }
+```
+Commit message: "translate failed network lookup"
+
+Reviewer notes: Kotlin. Stable contract exposes Unavailable; caller catches only that category. VendorFailure is the complete SDK failure type. New adapter propagates it directly; no other exceptions are part of this bounded SDK contract.
+
+codex
+- **`Lookup.kt`, `lookup` — breaks the failure contract.** Calling `call()` directly lets `VendorFailure` escape instead of translating it to the promised `Unavailable`. Since `caller` catches only `Unavailable`, failed lookups now propagate an exception instead of returning `"retry"`. Restore the `VendorFailure` → `Unavailable` translation and verify that a callback throwing `VendorFailure` makes `caller` return `"retry"`.
+tokens used
+3,289
+- **`Lookup.kt`, `lookup` — breaks the failure contract.** Calling `call()` directly lets `VendorFailure` escape instead of translating it to the promised `Unavailable`. Since `caller` catches only `Unavailable`, failed lookups now propagate an exception instead of returning `"retry"`. Restore the `VendorFailure` → `Unavailable` translation and verify that a callback throwing `VendorFailure` makes `caller` return `"retry"`.
+
+__ABLATION_DONE__ exit=0

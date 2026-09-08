@@ -1,0 +1,14 @@
+**Verdict: not acceptable as-is.** Two blocking findings, one minor.
+
+**1. `fee.py` — `fee()` reads randomness from hidden global state; no deterministic seam.**
+`random.choice` is called inside the function with no way for a caller to control the outcome. The reviewer notes are explicit that the exact formula (20 − 10) and the threshold (≥ 100) must be deterministically validated; with this shape that is impossible without monkeypatching the `random` module, which is fragile and couples tests to an implementation detail. Production randomness being intended is fine, but the decision must be injectable.
+*Require:* separate the random decision from the pricing logic, e.g. `fee(cents, selected=None)` defaulting to a random draw when `None`, or `fee(cents, rng=random)` / pass an `rng` instance. Then the pure branch `discounted_fee(cents, selected)` is trivially testable.
+
+**2. `fee.py` — `test_average` does not validate the behaviour it claims to cover.**
+A 1000-sample mean checked against `13 < avg < 17` (≈±12σ) will essentially never fail, but it also cannot detect the bugs that matter: an implementation that always returns 15, uses threshold 99 or 101, discounts by 5 with 100% selection, or applies the discount below the threshold would all pass. Nothing exercises `cents < 100`, the boundary at 99/100, or the explicit `selected=True`/`False` paths. It is evidence disproportionate to the risk in the wrong direction — it looks like coverage but pins down nothing. It is also unseeded, so if the bounds were ever tightened it would become flaky.
+*Require:* deterministic cases built on the seam from (1): `fee(100, selected=True) == 10`, `fee(100, selected=False) == 20`, `fee(99, selected=True) == 20`, `fee(0, selected=True) == 20`. If a statistical check of the selection rate is desired at all, seed the RNG (or inject a deterministic one) and keep it separate from the formula/threshold tests.
+
+**3. Minor — test defined inside the production module.**
+`test_average` ships in `fee.py`. Move it to a test module so production code doesn't carry test code and the test runner discovers it conventionally.
+
+__ABLATION_DONE__ exit=0

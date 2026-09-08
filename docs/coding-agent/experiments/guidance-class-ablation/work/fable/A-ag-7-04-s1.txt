@@ -1,0 +1,26 @@
+## Findings
+
+**1. `Middleware.cs`, header logging loop — sensitive credentials leaked to persistent telemetry (blocking)**
+The loop logs *every* request header, including `Authorization` and `Cookie`, which the reviewer notes carry live credentials. `LogInformation` sinks to telemetry, which is described as broader-access persistent storage. This writes live secrets, in cleartext, to a store with a wider access audience than the credentials themselves — a credential-exposure/compliance defect (and the secrets persist even after rotation). This runs on every successful request, so it is not an incidental edge case. **Require:** an allow-list of non-sensitive headers to log, or explicit redaction/omission of `Authorization`, `Cookie`, and any `Proxy-Authorization` / `Set-Cookie`-style headers. Do not log header values by default.
+
+**2. `Middleware.cs`, log severity/volume — Information level per-header, per-request (flag)**
+Emitting one Information-level record per header on every request is high-cardinality, high-volume noise that inflates telemetry cost and bit-rots signal. **Require:** log at Debug/Trace, or aggregate to a single record per request, and gate it behind configuration so it can be disabled in production.
+
+**3. `Middleware.cs`, "successful" is not honored — mismatch with task/commit (flag)**
+The task and commit say "successful request headers," but headers are logged *before* `await next(context)` runs, so they are recorded regardless of outcome (including exceptions and 4xx/5xx). The code does not implement what it claims. **Require:** either move logging after `next` and condition it on a success status (e.g. `context.Response.StatusCode < 400`), or correct the task/commit wording to reflect that it logs all requests. Note this also interacts with #1: logging after the response is written may be too late if the status is what gates it — capture headers first, decide to emit after.
+
+**4. `Middleware.cs`, no exception safety around `next` (flag)**
+If `next(context)` throws, and logging is later moved after it (per #3), the log call is skipped silently. Even as written, there's no try/finally, so any future "post" logging would be lost on the failure path. **Require:** decide the intended behavior explicitly and structure with try/finally if post-request logging is desired.
+
+**5. `Middleware.cs`, `header.Value.ToString()` on `StringValues` (minor)**
+`header.Value` is `StringValues`; `.ToString()` joins multi-value headers with commas and is fine functionally, but combined with structured logging the `{Value}` template already accepts `StringValues` directly — the explicit `.ToString()` defeats structured capture. **Require:** pass `header.Value` and let the logger format it, or intentionally join if a flat string is wanted.
+
+**6. `Middleware.cs`, not a conventional middleware / no registration or DI wiring (minor)**
+A static `Invoke(HttpContext, RequestDelegate, ILogger)` is not a standard ASP.NET Core middleware shape (convention-based middleware is an instantiated class with `RequestDelegate` injected via constructor and `InvokeAsync(HttpContext)`; `IMiddleware` is the alternative). As written it won't be picked up by `UseMiddleware<>` without adaptation, and there's no registration shown. **Require:** conform to a supported middleware pattern and include/confirm the pipeline registration, or clarify how it's invoked.
+
+**7. Style — no namespace, cramped formatting (minor)**
+No namespace declaration and dense single-line formatting (missing spaces after commas, inline `foreach` body). Not blocking, but **require** alignment with the repo's conventions (namespace, braces, spacing).
+
+The change is **not acceptable as-is**; finding #1 alone blocks it.
+
+__ABLATION_DONE__ exit=0

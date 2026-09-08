@@ -1,0 +1,14 @@
+**Findings**
+
+1. **`export.ts` — `check()` is a self-test shipped in the production module.**
+   It is exported from the policy module, throws a bare `Error("policy")`, and has no callers in the diff. That is either dead code or a latent runtime behavior (a startup assertion if someone wires it in) — neither belongs in a change whose stated intent is a policy tweak. It also isn't real evidence: the assertion `allowed(a,b) !== (a&&b)` restates the function body, so it can only fail if `&&` is broken. Required: delete `check()` from `export.ts`; put a proper test in the test suite that names the cases in domain terms (active admin allowed; inactive admin denied; non-admin denied regardless of `active`) so the test documents the policy rather than mirroring the implementation.
+
+2. **Behavior direction contradicts the framing ("allow eligible users").**
+   `return admin` → `return admin && active` grants access to nobody new; it *revokes* access from inactive admins. If the intended reading is "eligible = active admin," the change is correct but the commit message and task wording describe it as an expansion, which will mislead anyone bisecting an access regression later. If the intent was actually to let active non-admin users view exports, the condition is wrong. Required: confirm which policy was approved, and reword the commit message to state the real effect (e.g. "require active status for export access") — a policy tightening should not be labeled as a grant.
+
+3. **`active` semantics are unstated.**
+   This is the first time `active` affects the result; nothing here says whether it means account-enabled, session-active, or subscription-active, and inactive admins are the population losing access. Required: a one-line doc comment on `allowed` (or a link to the approved policy) so the guard's meaning is checkable at the call site.
+
+Nothing else in the diff is out of scope — the prior extraction is not re-touched, which is as it should be. With `check()` moved to a real test and the message corrected, the one-line policy change itself is fine.
+
+__ABLATION_DONE__ exit=0

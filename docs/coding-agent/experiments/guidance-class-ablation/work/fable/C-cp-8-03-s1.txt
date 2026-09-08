@@ -1,0 +1,43 @@
+**Verdict: block.** The change does not compile and does not achieve the stated goal; the proposed build-tag fix should be rejected.
+
+## Findings
+
+**1. `reader/read.go`, `writer/write.go`, `facade/facade.go` — import cycle (blocking)**
+`reader → facade → writer → reader`. Go rejects this outright (`import cycle not allowed`); nothing in this diff builds. The root cause is that `writer` reaches into `reader` for the `ID` type while `reader` reaches back through `facade` for the value. A shared type must live below both consumers, not in one of them.
+*Require:* delete `reader.ID`; have both `reader` and `writer` import `model` and use `model.ID`. Dependency graph becomes `reader → writer → model` (or `reader → model`, `writer → model` if `reader` doesn't actually need `writer`), which is directed and acyclic.
+
+**2. `reader/read.go` — second `ID` type instead of the shared one**
+`type ID string` in `reader` is a distinct named type from `model.ID`. The task is "share account identity," but the diff introduces a duplicate and leaves `model.ID` unused. Callers holding a `reader.ID` can't pass it to anything typed `model.ID` without a conversion, which is exactly the fragmentation the task was meant to remove.
+*Require:* remove `reader.ID`; `Read()` returns `model.ID`.
+
+**3. `facade/facade.go` — package exists only to launder a type through `string`**
+`facade.Latest()` converts `writer.Latest()` to `string`, and `reader` immediately converts back to `ID`. That round-trip erases the very identity being shared and adds a package with one caller and no independent reason to exist. It was introduced to dodge the cycle, not to serve a second real use.
+*Require:* delete `facade`. If `reader` needs the latest value, `reader` imports `writer` directly and receives a `model.ID` with no conversions.
+
+**4. Reviewer note: build tags to "select one direction" — reject**
+Build tags would make the package graph differ per build configuration to paper over a design cycle. Consequences: one direction is silently missing in every build, `go vet`/tests/IDE tooling only see one half, and the next reader has to reconstruct which tag set is "real." This is accidental complexity substituted for fixing the dependency direction. The fix in (1) removes the cycle outright and needs no tags.
+
+## What the corrected diff should look like
+
+```go
+// model/id.go        (unchanged)
+package model
+type ID string
+
+// writer/write.go
+package writer
+import "example.test/app/model"
+func Latest() model.ID { return model.ID("a") }
+
+// reader/read.go
+package reader
+import (
+    "example.test/app/model"
+    "example.test/app/writer"
+)
+func Read() model.ID { return writer.Latest() }
+```
+
+No `facade`, no `reader.ID`, no build tags. `go.mod` is fine as-is.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,20 @@
+**Verdict: not acceptable as-is.** The change accepts anything as a status and then makes a safety-relevant decision (`terminal()`) based on an unvalidated value.
+
+## Findings
+
+**1. `status.php` — `update()` / `Task::__construct` accept an arbitrary string with no domain validation.**
+The allowed values are `open` and `closed`, but nothing enforces that. Any string that survives the route's JSON *shape* check (`"Closed"`, `"open "`, `"done"`, `"opne"`, `""`) becomes a valid `Task`. Since the notes say lower-level code assumes `closed` is the only non-`open` value, every one of those inputs will be treated downstream as a closed task. That's a silent, fail-unsafe path: a typo closes a task.
+*Require:* validate at entry, before constructing the object. Either a backed enum (`enum TaskStatus: string { case Open = 'open'; case Closed = 'closed'; }`, using `TaskStatus::tryFrom($status)`) or an explicit allow-list in the constructor. On rejection, fail actionably — throw `InvalidArgumentException("Invalid status '$status'; expected one of: open, closed")` (or map to a 4xx at the route), not a generic error and not a silent coercion. Also make an explicit decision about normalization (trim / lowercase) rather than leaving `"Open"` to fall through as terminal; if you normalize, do it in one place at entry, and if you don't, reject those values.
+
+**2. `status.php` — `terminal()` is defined as `!== "open"`, which encodes the invariant backwards.**
+This makes "terminal" the default for every unknown value, so any gap in validation (now or after someone adds a third status like `blocked`) resolves to "closed". The invariant "closed is the only non-open value" is an assumption the code should assert, not rely on.
+*Require:* `return $this->status === "closed";` (or `$this->status === TaskStatus::Closed`). With an enum, a `match` with no default will additionally make the compiler/runtime surface a new case instead of silently misclassifying it.
+
+**3. `status.php` — `public string $status` is publicly mutable, so any constructor validation can be bypassed.**
+Even after fixing (1), `$task->status = "whatever"` reinstates the bug from outside the class.
+*Require:* `public readonly string $status` (or private with a getter), so the validated-at-construction invariant actually holds for the object's lifetime.
+
+**4. No tests for the boundary.**
+Given this is the input boundary for a state transition, I'd want tests for: `open` → not terminal, `closed` → terminal, and each of `"Closed"`, `""`, `"done"` → rejected (or normalized, per the decision in finding 1). Right now the first two pass and the last three would all incorrectly return `terminal() === true`.
+
+__ABLATION_DONE__ exit=0

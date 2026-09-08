@@ -1,0 +1,60 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d9-59ed-7191-b981-4291927f432e
+--------
+user
+Reference material loaded for this review:
+
+### Gate 4: Explicit Interface Contracts
+
+**Expectation**
+- Boundaries between components are explicit, minimal, and stable.
+- Inputs, outputs, and failure semantics are intentionally modeled.
+
+**Evidence expectations**
+- Plan states contract-impact scope (none/additive/breaking).
+- Review verifies contract updates are synchronized across producers/consumers.
+- Failure modes are explicit and not silently swallowed.
+
+**Anti-patterns**
+- Implicit contracts communicated only by call-site assumptions.
+- Breaking contract changes shipped without migration or compatibility notes.
+- Returning ambiguous success/failure signals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Migrate both ends of internal account rename.
+
+```diff
+--- a/api.py
++++ b/api.py
+@@ -1 +1 @@
+-def response(): return {"user_id":"a"}
++def response(): return {"account_id":"a"}
+--- a/client.ts
++++ b/client.ts
+@@ -1 +1,2 @@
+-export function id(row: {user_id: string}) { return row.user_id; }
++export function id(row: {account_id: string}) { return row.account_id; }
++export function check() { if(id({account_id:"a"})!=="a") throw new Error("rename"); }
+```
+Commit message: "migrate both ends of internal account rename"
+
+Reviewer notes: Breaking internal field rename is deliberate; every locatable consumer migrated in the same change. No persisted data or external clients. Required account_id shape is validated before consumption.
+
+codex
+Acceptable as-is. The deliberate breaking rename is synchronized across producer and consumers, with no persisted data or external clients requiring migration. The required `account_id` shape is validated before consumption. No blocking or flag-worthy defects.
+tokens used
+3,245
+Acceptable as-is. The deliberate breaking rename is synchronized across producer and consumers, with no persisted data or external clients requiring migration. The required `account_id` shape is validated before consumption. No blocking or flag-worthy defects.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,28 @@
+**Findings**
+
+1. **`cli.py` — `PROVIDERS` / `discover()` / `importlib` registry replacing a direct import (blocking)**
+
+   - **What's wrong:** A one-line static import (`from status import handle`) has been replaced with a string-keyed registry, a dynamic `importlib.import_module` + `getattr` resolver, and a dict lookup by string key at call time — all to reach the same single function.
+   - **Why it matters:** Per your own reviewer notes, this is the sole locally invoked command with no extension consumers, so there is exactly one concrete use and nothing to justify the abstraction. The change strictly increases cognitive load and reduces maintainability with no measurable benefit:
+     - Static tooling loses the reference: IDE go-to-definition, rename refactors, linters, and type checkers can no longer see that `cli.main` depends on `status.handle`. A typo in `"status"` or `"handle"` is now a runtime `ModuleNotFoundError`/`AttributeError`/`KeyError` instead of an import-time failure.
+     - `discover()` re-imports and re-resolves every provider on each `main()` call, and the result is immediately indexed with the same hard-coded string that's already in `PROVIDERS` — the indirection is fully circular.
+     - The dependency direction is now hidden in data rather than expressed in code, which is the opposite of "keep dependency direction intentional."
+     - This is speculative generality: it's building a plugin mechanism in anticipation of consumers that the notes explicitly say don't exist.
+   - **Require instead:** Revert `cli.py` to the direct import:
+     ```python
+     from status import handle
+
+     def main():
+         return handle()
+     ```
+     If a multi-command dispatch is genuinely needed later, introduce it when the second command exists, and prefer a plain dict of *function objects* (`{"status": handle}`) over string-based dynamic import unless out-of-tree loading is actually a requirement.
+
+2. **`cli.py` / task framing — nothing prints (verify, likely non-blocking)**
+
+   - The task and commit message both say "print the status command," but `main()` returns the string and nothing in the diff writes to stdout. The pre-existing code also returned rather than printed, so this may be intentional with the caller doing the printing — but confirm that, since as submitted the change doesn't actually accomplish the stated task on its own.
+
+**`status.py`** — `handle()` returning `"ready"` is fine as-is; no issues.
+
+**Verdict:** Not acceptable as-is. Finding 1 is a block: the diff should reduce to adding `status.py` and leaving the direct import in `cli.py` untouched.
+
+__ABLATION_DONE__ exit=0

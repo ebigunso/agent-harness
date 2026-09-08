@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08192-c611-7ae3-ac40-e8a8ce51af07
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Show tenant label in report header.
+
+```diff
+--- a/report.rb
++++ b/report.rb
+@@ -1,6 +1,7 @@
+ def scope(rows)
+   rows.select { |row| row[:tenant] == Thread.current[:tenant] }
+ end
+ def heading(label)
++  Thread.current[:tenant] = nil
+   "Report: #{label}"
+ end
+```
+Commit message: "show tenant label in report header"
+
+Reviewer notes: Thread tenant is set by request middleware and should remain fixed until its ensure cleanup. Rows shown are request-local test data; query behavior depends on tenant.
+
+codex
+- **`report.rb`, `heading`: `Thread.current[:tenant] = nil` clears the request’s tenant context.** Middleware owns this value and must keep it fixed until its `ensure` cleanup. Calling `heading` now changes subsequent scoping and tenant-dependent query behavior: `scope` can exclude the intended tenant’s rows and select rows with a `nil` tenant. Remove the assignment and render the tenant label without modifying request context. Require a regression test confirming that generating the heading preserves the tenant and subsequent scoping behavior.
+tokens used
+3,092
+- **`report.rb`, `heading`: `Thread.current[:tenant] = nil` clears the request’s tenant context.** Middleware owns this value and must keep it fixed until its `ensure` cleanup. Calling `heading` now changes subsequent scoping and tenant-dependent query behavior: `scope` can exclude the intended tenant’s rows and select rows with a `nil` tenant. Remove the assignment and render the tenant label without modifying request context. Require a regression test confirming that generating the heading preserves the tenant and subsequent scoping behavior.
+
+__ABLATION_DONE__ exit=0

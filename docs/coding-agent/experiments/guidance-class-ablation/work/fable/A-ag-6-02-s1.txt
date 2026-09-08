@@ -1,0 +1,20 @@
+**Verdict: not acceptable as-is.** Findings, in order of severity:
+
+1. **`Recommendations.java:6` — no connect timeout and no request timeout.**
+   `HttpClient.newHttpClient()` uses no connect timeout, and the request is built without `.timeout(...)`. A recommendation backend that accepts the TCP connection but stalls on headers pins the calling checkout thread indefinitely. Since this sits on the checkout path, a degraded recommendation service becomes a checkout outage — the opposite of "optional." Require `HttpClient.newBuilder().connectTimeout(Duration...)` and `HttpRequest.newBuilder(endpoint).timeout(Duration...)` with short budgets (hundreds of ms, tuned to checkout's latency SLO), and catch `HttpTimeoutException`.
+
+2. **`Recommendations.java:4,7` — method contract contradicts "optional."**
+   The signature is `throws Exception` and non-200 throws `IllegalStateException`. Every caller must remember to wrap this in try/catch or a recommendation hiccup fails checkout. Optionality should be enforced here, not hoped for at each call site. Require a return type of `Optional<String>` (or equivalent), returning empty on non-2xx, `IOException`, and timeout, with the failure logged/metered. On `InterruptedException`, restore the interrupt flag (`Thread.currentThread().interrupt()`) before returning empty rather than swallowing it.
+
+3. **`Recommendations.java:6` — new `HttpClient` per call.**
+   Each `newHttpClient()` allocates its own executor and connection pool and is never closed; under checkout traffic that's thread and socket churn and no connection reuse. Require a single shared client (static final or injected) with the timeouts from (1) configured once.
+
+4. **`Recommendations.java:4` — `throws Exception`.**
+   Even if the method kept a throwing contract, declaring `Exception` hides which failures are expected (`IOException`, `InterruptedException`) and forces callers into catch-all handling. Subsumed by (2) if that's adopted; otherwise narrow the clause.
+
+5. **No tests.**
+   A new network-facing class with none. Require at least: non-200 → empty/no-throw, timeout → empty within the configured budget, 200 → body. A stub server (e.g., `com.sun.net.httpserver.HttpServer`) is enough.
+
+Not raising: strict `!= 200` (vs. 2xx range) and the missing `package` declaration — minor, and fixing (2) makes the status check a returns-empty branch anyway.
+
+__ABLATION_DONE__ exit=0

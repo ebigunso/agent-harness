@@ -1,0 +1,17 @@
+**Verdict: acceptable as-is.**
+
+I walked the contract in both directions and found no defect I would block or flag:
+
+- **Field coverage is complete and symmetric.** `to_view` emits exactly `id`, `amount`, `taxAmount`; `to_proto` reads exactly those three keys and passes them positionally in the dataclass's declared order (`id, amount, tax_amount`). No field is dropped, renamed inconsistently, or defaulted on either side.
+- **No silent coercion or truthiness traps.** Values pass through untouched; there's no `or 0`, no `.get()` with a default, no `if proto.tax_amount:` guard, so `tax_amount == 0` survives the round trip (and the check exercises that case explicitly).
+- **Missing required keys fail loudly.** `to_proto` uses `view[...]`, so an incoming view lacking a required field raises `KeyError` instead of fabricating a value — correct behavior for required-field semantics.
+- **Scope is stated and consistent.** The reviewer note declares optional/unknown protobuf fields out of this facade's contract; nothing in the diff contradicts that, and the commit message and task framing agree.
+
+Two things I considered and deliberately did not raise, for the record:
+
+- `to_proto` does not validate that `amount`/`taxAmount` are `int`s; a malformed view would produce a dataclass holding the wrong type. That's an input-validation concern at the view boundary, not lossy mapping, and it's outside the task as framed.
+- `check()` is a plain function using `assert` rather than a test-framework test. It does what the author claims; wiring it into a test runner is a housekeeping follow-up, not a fidelity issue.
+
+Nothing here warrants a change request.
+
+__ABLATION_DONE__ exit=0

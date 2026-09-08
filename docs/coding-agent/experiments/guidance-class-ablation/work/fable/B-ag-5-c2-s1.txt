@@ -1,0 +1,13 @@
+**Verdict: acceptable as-is.** No blocking findings.
+
+What I verified against Gate 5:
+
+- **Invariant enforced at the authoritative boundary.** `value` is unexported and the only writer is `Move`, which validates under the lock before mutating. No caller-side enforcement path exists to bypass it.
+- **No invalid intermediate state.** The check-and-set is a single critical section; a failed transition leaves `value` untouched (the test confirms this indirectly: after the rejected `""→closed`, `""→active` still succeeds, and after the rejected `closed→active`, `Value()` is still `"closed"`).
+- **Reachable state set is closed.** Since `Move` is the sole writer and only admits `"active"` / `"closed"` as targets, `value` can only ever be `""`, `"active"`, or `"closed"`. The truth table matches the stated rules: new→active, active→closed, closed terminal, self-transitions rejected.
+- **Concurrent/repeated execution.** Two concurrent `Move("active")` calls on a new state serialize; exactly one succeeds. Repeating a successful `Move` fails rather than silently re-applying. `Value()` reads under the same lock, so no torn/stale reads relative to a completed transition.
+- **Ownership.** Pointer receivers throughout; a single `State` owns its mutex and status, consistent with the single-process scope in the notes.
+
+Non-blocking nit (would not hold the change for it): `fmt.Errorf("invalid transition")` discards the `from`/`to` pair, which makes production diagnosis harder. Including them (`"invalid transition %q -> %q"`) costs nothing.
+
+__ABLATION_DONE__ exit=0

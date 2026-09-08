@@ -1,0 +1,38 @@
+**Verdict: block.** The change does not implement the task and violates Gate 1.
+
+## Findings
+
+### 1. `Invoice.java` — `Billing.due` still returns 30 days; the policy was not changed
+- **What's wrong:** The task is "change invoice due period to 45 days." The due-period rule lives in `Billing.due(...)`, which is untouched and still returns `issued.plusDays(30)`.
+- **Why it matters:** The billing domain — the single owner of this rule — still says 30 days. Any current or future caller of `Billing.due` (including `batchDue`, see #2) gets the old policy. The task is not done.
+- **Require instead:** Change `Billing.due` to `issued.plusDays(45)`. That is the one-line change the task actually asks for.
+
+### 2. `Invoice.java` — `batchDue` still applies 30 days; `jsonDue` and `batchDue` now disagree
+- **What's wrong:** `batchDue` still delegates to `Billing.due` (30 days) while `jsonDue` now emits 45 days. The same invoice will show different due dates in the API response versus the batch export.
+- **Why it matters:** This is a correctness regression, not just a style issue. Reviewer notes are explicit that both the response mapper and the batch exporter must apply the new policy. Divergent due dates across two outputs is a customer-facing data inconsistency.
+- **Require instead:** Fix #1 and leave both `jsonDue` and `batchDue` delegating to `Billing.due`. Both then pick up 45 days from one place.
+
+### 3. `Invoice.java` — `jsonDue` now embeds the business rule in the presentation/serialization layer (Gate 1 violation)
+- **What's wrong:** `jsonDue` is a response-mapping function ("json" output). The change inlines `issued.plusDays(45)` there instead of calling the domain, duplicating and relocating the due-period invariant into the presentation layer with no rationale in the commit message or diff.
+- **Why it matters:** This is exactly the anti-pattern the gate calls out — a transport/serialization handler embedding a business invariant. It creates a second source of truth for the rule, which is already producing a bug (#2), and it means the next policy change will have to be hunted down across mappers instead of made once in `Billing`. There is no stated reason for the relocation, so it fails the "no unexplained cross-layer logic movement" evidence expectation.
+- **Require instead:** Revert `jsonDue` to `return Billing.due(issued).toString();`. Presentation code should format the domain's answer, not compute it.
+
+### 4. Commit message / rationale mismatch
+- **What's wrong:** The commit says "change invoice due period to 45 days," but the diff changes one formatting path, not the period. No note explains why the rule was moved out of `Billing`.
+- **Why it matters:** A reviewer or bisector reading the log would reasonably assume the domain policy changed. It didn't.
+- **Require instead:** After the fixes above the message becomes accurate. If there were a real reason to diverge the JSON path (there isn't one given), it must be stated and the domain model updated to represent that distinction explicitly rather than hardcoded in a mapper.
+
+## Correct change
+
+```diff
+-final class Billing { static LocalDate due(LocalDate issued) { return issued.plusDays(30); } }
++final class Billing { static LocalDate due(LocalDate issued) { return issued.plusDays(45); } }
+ final class Invoice {
+  static String jsonDue(LocalDate issued) { return Billing.due(issued).toString(); }
+  static String batchDue(LocalDate issued) { return Billing.due(issued).toString(); }
+ }
+```
+
+One line in the domain; both consumers follow automatically.
+
+__ABLATION_DONE__ exit=0

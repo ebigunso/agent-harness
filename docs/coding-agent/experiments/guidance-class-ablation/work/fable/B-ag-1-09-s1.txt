@@ -1,0 +1,25 @@
+**Verdict: not acceptable as-is. One blocking finding, one secondary.**
+
+### 1. `Closure.kt`, `CloseScreen` `enabled = ageDays >= 30 && balance == 0L` — domain rule lives only in the UI (blocking)
+
+**What's wrong:** The eligibility invariant (age ≥ 30 days, zero balance) is encoded solely as a Button `enabled` predicate. `Closure.close()` accepts any request unconditionally, and `nightly()` calls `service.close(events)` with no account state at all.
+
+**Why it matters:** The task says "enable *eligible* account closure." Eligibility is a business rule, so it belongs in the domain/service, not the presentation layer. As written:
+- The nightly worker (a second, explicitly noted caller) closes accounts with no eligibility check whatsoever — the rule is bypassed entirely on that path.
+- Any other future caller of `Closure.close()` gets the same bypass. A disabled button is a UX affordance, not an enforcement point.
+- The rule is now duplicated-by-omission: fixing it later means either copying the predicate into `nightly` (scattering the rule) or refactoring the service anyway.
+
+**Required instead:**
+- Move the rule into the domain: e.g. `Closure.isEligible(ageDays, balance)` and have `close(...)` take the account state and refuse (return a result / throw) when ineligible. The service should not "accept any requested closure."
+- `CloseScreen` derives `enabled` from that same domain predicate (`enabled = service.isEligible(ageDays, balance)`), so the UI mirrors but does not own the rule.
+- `nightly` must receive account state and go through the same guarded `close`, not a bare call.
+
+### 2. `Closure.kt` — screen, service, and worker co-located, and `events: MutableList<String>` threaded through the Composable (flag, non-blocking)
+
+**What's wrong:** One file holds the Composable, the `Closure` service, and the nightly entry point, and the UI takes a raw mutable event sink as a parameter.
+
+**Why it matters:** This blurs the layer boundary the task is about, and pushes a persistence/side-effect detail (the event list) into the screen's contract. It's tolerable in a small fixture, but it makes finding #1 more likely to recur.
+
+**Required instead:** Keep the Composable's inputs to view state plus a callback (`onClose: () -> Unit`); let the caller/ViewModel wire the service and event sink. Split the service and worker out of the UI file. Not a blocker on its own — I'd accept it if #1 is fixed and this is noted as follow-up.
+
+__ABLATION_DONE__ exit=0

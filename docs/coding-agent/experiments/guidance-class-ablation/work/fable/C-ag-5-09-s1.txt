@@ -1,0 +1,49 @@
+**Verdict: block.** The change introduces a second writer of a derived field and breaks the stated invariant (`total == sum(lines)`).
+
+## Findings
+
+**1. `order.php`, `adminTotal()` — writes the derived `total` directly, violating the model invariant.**
+`total` is defined as the sum of line amounts. `adminTotal` sets it to an arbitrary value with no corresponding change to `lines`, so after any call the order is in an invalid state: `total != array_sum($order["lines"])`. Nothing in the model records *why* the numbers disagree, so downstream code (invoicing, refunds, reconciliation) cannot tell an admin adjustment from corruption.
+State table for the two writers, in the order they can run serially:
+- `setLines` only → invariant holds.
+- `adminTotal` only → invariant broken, adjustment invisible in data.
+- `adminTotal` then `setLines` → adjustment silently discarded (recompute overwrites it).
+- `setLines` then `adminTotal` → invariant broken.
+- Repeated `adminTotal` → last write wins, prior adjustments unrecoverable.
+Three of five paths are wrong; the only correct path is the one that didn't use the new function.
+**Require:** represent the adjustment as data inside the same model, not as an override of the derivative. E.g. `$order["adjustments"][] = ["amount" => $delta, "reason" => $reason]` (or an explicit adjustment line), and `total` is always `array_sum($lines) + array_sum(adjustment amounts)`.
+
+**2. `order.php` — two independent writers of `total` (`setLines`, `adminTotal`).**
+Even without concurrency, the two functions conflict: each assumes it owns `total`, and neither knows about the other. This is exactly the "conflicting writers" pattern — any sequence including both leaves the field owned by whichever ran last.
+**Require:** exactly one place computes `total`. Factor a `recalcTotal(array &$order): void` that both `setLines` and the new adjustment function call after mutating their respective inputs. `total` should never be assigned anywhere else.
+
+**3. `order.php`, `adminTotal()` — API shape is an absolute set, not an adjustment.**
+The task is "admin order *adjustments*." Taking an absolute `int $total` erases the delta and makes the operation non-composable and non-auditable (two admins adjusting the same order clobber each other; there is no way to reverse one adjustment). It also means the admin must know the current computed total to produce a correct value, which is a race against `setLines`.
+**Require:** signature takes a signed delta in cents plus a reason (`applyAdminAdjustment(array &$order, int $deltaCents, string $reason)`), appends to the adjustments list, and recomputes.
+
+**4. `order.php` — no validation on either writer.**
+`setLines` accepts any array (`array_sum` on floats/strings silently yields a float total, breaking "integer cents"); `adminTotal` accepts any int including negative. Given the reviewer note that sums are bounded integer cents, the new admin path at minimum must enforce int cents and whatever bound applies to a single adjustment.
+**Require:** validate that each line / adjustment amount is `int`, and reject out-of-bound values with an exception rather than storing them. (Fixing `setLines` validation can be a follow-up if it predates this change, but the new adjustment function must not ship without it.)
+
+## Summary of what an acceptable version looks like
+
+```php
+function recalcTotal(array &$order): void {
+    $order["total"] = array_sum($order["lines"])
+                    + array_sum(array_column($order["adjustments"] ?? [], "amount"));
+}
+function setLines(array &$order, array $lines): void {
+    // validate ints
+    $order["lines"] = $lines;
+    recalcTotal($order);
+}
+function applyAdminAdjustment(array &$order, int $deltaCents, string $reason): void {
+    // validate bounds
+    $order["adjustments"][] = ["amount" => $deltaCents, "reason" => $reason];
+    recalcTotal($order);
+}
+```
+
+One owner of `total`, adjustments are first-class data, invariant holds after every transition in any order.
+
+__ABLATION_DONE__ exit=0

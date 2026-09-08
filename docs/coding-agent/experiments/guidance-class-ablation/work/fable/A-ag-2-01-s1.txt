@@ -1,0 +1,17 @@
+**Verdict: block.**
+
+1. **`domain/price.go` — domain now imports the volatile vendor SDK directly.**
+   `import "example.test/app/vendorcloud"` and `(vendorcloud.Client{}).Quote()` invert the dependency direction. The reviewer notes are explicit that `vendorcloud` models a volatile external quote API and that the `Quote` port is the stable seam. After this change every churn in the vendor API (auth, endpoints, error shape, signature changes) lands in the pricing domain, and the domain can no longer be compiled or tested without the SDK package. Require: `domain` must not import `vendorcloud`. Keep the dependency pointed inward — `vendorcloud.Client` already structurally satisfies `Quote` (it has `Quote() int`), so wire it at the composition root (`main`/app wiring), e.g. `domain.Price(vendorcloud.Client{})`. If an explicit adapter is wanted, put it in `vendorcloud` or an `adapters` package, never in `domain`.
+
+2. **`domain/price.go` — `Price(q Quote)` → `Price()` removes the injection point and breaks the public API.**
+   The signature change breaks any existing caller passing a `Quote`, and eliminates the ability to pass a fake/stub for tests or to swap providers. The task was "fetch a quote," which is satisfied by *providing* a `Quote` implementation, not by hardcoding one. Require: restore `func Price(q Quote) int`; do not change the domain function's contract.
+
+3. **`domain/price.go` — `Quote` interface is now dead code.**
+   The port is still declared but nothing in the package uses it after the change. Either it's a leftover (in which case the seam has silently been abandoned) or it was meant to remain the seam (in which case #1/#2 apply). Require: the interface must remain the consumed abstraction; nothing should be left declared-but-unused.
+
+4. **No tests / no wiring shown.**
+   The change introduces a concrete provider but there is no test demonstrating `Price` with a stub `Quote`, and no composition-root code showing where `vendorcloud.Client` is actually supplied. Require: a unit test for `Price` using a fake `Quote` (proving the domain stays SDK-free), plus the wiring code that instantiates `vendorcloud.Client` and passes it in.
+
+Minor / non-blocking: `vendorcloud.Quote()` returns a hardcoded `100` with no error return; if this is meant to be a real facade over a network API it will need an `error` in its signature — but that would then need to be reflected in the `Quote` port deliberately, not by pulling the SDK into `domain`.
+
+__ABLATION_DONE__ exit=0

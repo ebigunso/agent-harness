@@ -1,0 +1,60 @@
+**Verdict: block.** The change implements "retry" as an unbounded loop with no containment; it is the cascade the guidance warns against.
+
+## Findings
+
+### 1. `partner.py:3-5` — Unbounded retry loop: no attempt cap, no overall deadline
+`while True` retries every non-200 forever. Each attempt has a 1s `timeout`, but there is no ceiling on the number of attempts, so `read()` can never return to its caller if the partner is degraded. A single outage in the partner turns into an indefinitely hung caller (and, if callers are threads/workers, a pile-up that starves the service).
+**Require:** a bounded attempt count (e.g. 3–5) *and* an overall wall-clock budget; on exhaustion raise a clear exception (e.g. `PartnerUnavailable`) so the caller can degrade intentionally instead of waiting forever.
+
+### 2. `partner.py:5` — Permanent failures (4xx, notably 400) are retried
+The notes state the partner's 400 cannot succeed on retry, and the request bytes are immutable, so every retry of a 4xx is guaranteed identical. Retrying it forever is pure load on the partner with zero chance of recovery, and it masks a bug in our request as a hang.
+**Require:** classify responses — retry only transient statuses (timeouts/connection errors, 429, 5xx such as 502/503/504); fail fast on 4xx (other than 429) with an exception carrying status/body. Non-200 success codes (2xx) should also not be treated as failures.
+
+### 3. `partner.py:4` — Timeout / connection exceptions are not handled at all
+`requests.get(url, timeout=1)` raises `requests.Timeout` / `requests.ConnectionError` on the very failure modes retrying is meant to cover. Those exceptions propagate out of the loop immediately, so the "retry" never actually retries the transient cases — it only retries the ones that *shouldn't* be retried (see #2). The change therefore doesn't fulfil the task as stated.
+**Require:** catch `requests.RequestException` (narrowly: `Timeout`, `ConnectionError`, and the retryable statuses) inside the bounded loop; re-raise after budget exhaustion with the last error attached.
+
+### 4. `partner.py:3-5` — No delay/backoff between attempts
+Retries fire back-to-back. If the partner returns a fast 503 (or 400), this becomes a tight loop hammering the partner at maximum rate — precisely the behaviour that turns a partner brownout into an outage, and it may trip their rate limiting for us.
+**Require:** exponential backoff with jitter between attempts (e.g. base 0.2s, cap ~2s), and honour `Retry-After` on 429/503 if present. The backoff sleeps must be counted against the overall budget from #1.
+
+### 5. `partner.py:2` — No observability of the retry behaviour
+Nothing logs or counts attempts, status codes, or final outcome. Combined with #1, an operator would see a hung process and no explanation.
+**Require:** log each retried failure at warning (attempt n/N, status or exception) and the terminal failure at error; ideally emit a retry counter metric.
+
+### 6. Minor — style/hygiene
+- `response.status_code==200` / `requests.get(url,timeout=1)`: PEP 8 spacing; a return on the same line as the `if`. Not blocking on its own, but fix while rewriting.
+- 1s timeout should be a named constant/parameter (`timeout=PARTNER_TIMEOUT_S`) alongside the new max-attempts and budget values so they're tunable together.
+
+## Sketch of what I'd accept
+
+```python
+import logging, random, time
+import requests
+
+log = logging.getLogger(__name__)
+RETRYABLE_STATUS = {429, 502, 503, 504}
+
+def read(url, *, attempts=4, timeout_s=1.0, budget_s=6.0):
+    deadline = time.monotonic() + budget_s
+    last_err = None
+    for n in range(1, attempts + 1):
+        try:
+            r = requests.get(url, timeout=timeout_s)
+            if r.ok:
+                return r.text
+            if r.status_code not in RETRYABLE_STATUS:
+                raise PartnerError(f"permanent failure {r.status_code}", r)
+            last_err = PartnerError(f"transient failure {r.status_code}", r)
+        except (requests.Timeout, requests.ConnectionError) as e:
+            last_err = e
+        log.warning("partner read failed attempt %d/%d: %s", n, attempts, last_err)
+        if n == attempts or time.monotonic() >= deadline:
+            break
+        time.sleep(min(2.0, 0.2 * 2 ** (n - 1)) * random.uniform(0.5, 1.5))
+    raise PartnerUnavailable(url) from last_err
+```
+
+(Exact numbers are negotiable; the shape — bounded, classified, backed-off, observable, raising on exhaustion — is not.)
+
+__ABLATION_DONE__ exit=0

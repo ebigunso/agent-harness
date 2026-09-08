@@ -1,0 +1,22 @@
+**Verdict: not acceptable as-is.** The change is functionally a synchronous, unbounded, fail-loud call on the checkout path for a feature the task defines as optional. Findings:
+
+1. **`Recommendations.java:6` — no connect or request timeout.**
+   `HttpClient.newHttpClient()` has no `connectTimeout`, and the request has no `.timeout(...)`. `send()` will block for as long as the remote takes to accept the connection or emit headers (and, on a stalled body, indefinitely). Because this is invoked from checkout, a slow or hung recommendation service ties up checkout threads and can exhaust the pool — an optional feature becomes a cascading outage for the core flow.
+   *Require:* `HttpClient.newBuilder().connectTimeout(Duration.ofMillis(...))` and `HttpRequest.newBuilder(endpoint).timeout(Duration.ofMillis(...))`, with values sized as a small fraction of the checkout latency budget (hundreds of ms, not seconds). Treat `HttpTimeoutException` as the degraded case below.
+
+2. **`Recommendations.java:4,7` — failures propagate instead of degrading.**
+   The method is declared `throws Exception` and explicitly throws on any non-200. Every failure mode — timeout, connection refused, DNS, 5xx, interrupt — escapes to the caller. Nothing in the diff shows a caller catching it, so checkout will fail because recommendations failed. That directly contradicts "optional."
+   *Require:* Contain the failure inside this class. Return `Optional<String>` (or empty list/null per house style), catch `IOException` and non-200 responses, log at warn with the status/exception, and return the empty value. Handle `InterruptedException` separately: restore the interrupt flag (`Thread.currentThread().interrupt()`) and return empty rather than swallowing it. Do not declare `throws Exception`. Add a unit test showing checkout proceeds when the endpoint times out / returns 503.
+
+3. **`Recommendations.java:6` — new `HttpClient` per call.**
+   Each invocation constructs a new client with its own executor and connection pool. Under load this leaks threads/sockets, defeats connection reuse, and adds latency to exactly the path we're trying to protect.
+   *Require:* A single shared `HttpClient` instance (static or injected), built once with the timeouts from finding 1.
+
+4. **No load-shedding when the dependency is degraded (design gap, would flag, not necessarily block).**
+   Even with timeouts, if the recommendation service is consistently slow, every checkout pays the full timeout. For an optional call, consider a circuit breaker or a simple "skip if the last N calls failed" guard so a degraded dependency stops being consulted rather than taxing every request. At minimum, document that the timeout is the only bound and that it must stay small.
+
+Minor: the thrown message discards the status code and body; if any exception path is retained for internal logging, include `response.statusCode()`.
+
+No retry logic is present, which is correct for this feature — adding retries here would multiply the latency cost on the checkout path; if one is ever added it must be bounded and fit inside the same overall budget.
+
+__ABLATION_DONE__ exit=0

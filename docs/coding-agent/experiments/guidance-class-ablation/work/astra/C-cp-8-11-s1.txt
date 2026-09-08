@@ -1,0 +1,53 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b5-de46-79c1-b12b-1f5502fd8d95
+--------
+user
+Reference material loaded for this review:
+
+Cut accidental complexity. Abstract for multiple real uses. Keep deps directed/acyclic; weigh clarity/maintenance gains.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Look up three fixed display codes.
+
+```diff
+--- a/codes.cpp
++++ b/codes.cpp
+@@ -1,6 +1,9 @@
+-#include <array>
+-int lookup(int code) {
+-    constexpr std::array<int,3> values{10,20,30};
+-    for (int i=0;i<3;++i) if (values[i]==code) return i;
+-    return -1;
+-}
++template<int Value, int Index> struct Entry {};
++template<typename... Entries> struct TypeList {};
++template<typename List> struct Find;
++template<> struct Find<TypeList<>> { static int get(int) { return -1; } };
++template<int V, int I, typename... Rest>
++struct Find<TypeList<Entry<V,I>, Rest...>> {
++    static int get(int value) { return value == V ? I : Find<TypeList<Rest...>>::get(value); }
++};
++int lookup(int code) { return Find<TypeList<Entry<10,0>,Entry<20,1>,Entry<30,2>>>::get(code); }
+```
+Commit message: "look up three fixed display codes"
+
+Reviewer notes: C++17. Input is any integer; -1 denotes missing. Only three entries exist, with no measured performance constraint. Same behavior as the existing array scan.
+
+codex
+- **`codes.cpp`, added templates and `lookup`:** A type list and recursive template dispatch replace a simple three-element scan without changing behavior or addressing a measured performance need. This adds machinery readers must understand and makes each index manually maintained alongside its value, with no demonstrated reuse to justify the abstraction. Keep the existing array scan, or use a direct `switch` if explicit mappings are preferred.
+tokens used
+3,303
+- **`codes.cpp`, added templates and `lookup`:** A type list and recursive template dispatch replace a simple three-element scan without changing behavior or addressing a measured performance need. This adds machinery readers must understand and makes each index manually maintained alongside its value, with no demonstrated reuse to justify the abstraction. Keep the existing array scan, or use a direct `switch` if explicit mappings are preferred.
+
+__ABLATION_DONE__ exit=0

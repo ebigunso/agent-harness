@@ -1,0 +1,11 @@
+**Verdict: acceptable to merge as-is; no blocking defects.** The validation guard is correct (`isSafeInteger` rejects NaN/Infinity/floats/negatives, `> 0` rejects zero), the redundant `if(valid)` inside `onClick` is fine as defense against programmatic clicks on a disabled button, and given the notes (server authoritative, adapter revalidates), the component is not overreaching. Two things I'd flag, neither blocking:
+
+1. **`Checkout.tsx:4` — `<output>{quote}</output>` renders a raw `number`.**
+   A checkout quote displayed as `1234.5` or `0.30000000000000004` is not a presentable price. Nothing in this component or its props carries currency/locale, so either the parent must already be passing display-ready data (in which case the prop should be `string`, not `number`), or this component should format it (`Intl.NumberFormat(locale, { style: "currency", currency })` with a `currency` prop). Pick one; the current `number` type with unformatted rendering is the worst of both. Not blocking if there is a parent/wrapper that formats before this renders, but the diff doesn't show one.
+
+2. **`Checkout.tsx:3–4` — Order button is enabled regardless of whether a valid quote is shown.**
+   `valid` only checks `quantity`. If `quote` is `NaN` (e.g. a failed fetch coerced upstream), the user sees "NaN" and can still click Order. Server revalidates the order, but the UX contract of "render *authoritative* quote, then let them order against it" is broken when the quote shown is garbage. Suggest `const valid = Number.isSafeInteger(quantity) && quantity > 0 && Number.isFinite(quote)` (or model absent quote explicitly as `quote?: number`). Cheap, UX-only, consistent with the stated scope.
+
+Not raising: double-submit (adapter returns `void`, so this component can't track pending state; idempotency belongs in the adapter/server per the notes), lack of tests (5-line presentational component; would ask for one only if the formatting in #1 lands here), formatting nits.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,50 @@
+**Verdict: block.** The change does not do what the task asks (refresh *through* the existing vendor integration); it tunnels around it.
+
+## Findings
+
+### 1. `Feature.scala` — `Feature.refresh` reaches into `Sdk`'s private `retryClient` field via reflection
+```scala
+val field = classOf[Sdk].getDeclaredField("retryClient")
+field.setAccessible(true)
+field.get(sdk).asInstanceOf[Sdk.RetryClient].refresh()
+```
+**What's wrong:** Feature (domain/feature layer) bypasses both the owned `VendorGateway` seam and the SDK's public API to grab a private internal and call it directly. This is the exact Gate 2 anti-pattern: "feature code bypassing interfaces to reach lower-level internals."
+
+**Why it matters:**
+- It's not a supported SDK contract. A field rename, a change to `RetryClient`'s visibility, or making it lazy/pooled breaks this at **runtime**, not compile time, with no test signal until production.
+- `setAccessible(true)` on a private field is exactly what the JPMS strong encapsulation / `--illegal-access=deny` defaults are designed to reject; this can start throwing `InaccessibleObjectException` on a JDK or packaging change with no code change.
+- It's unnecessary: `Sdk.refresh()` is already public and does precisely this. The reflection buys nothing.
+
+**Require:** Delete the reflection. Route through the public API and the owned seam (see #2).
+
+### 2. `Feature.scala` — `VendorGateway`/`Gateway` are defined but `Feature.refresh` doesn't use them; it takes the concrete `Sdk`
+**What's wrong:** The abstraction seam exists (`trait VendorGateway`) but the feature depends directly on the vendor client type. `Gateway` only exposes `fetch()`, so the seam is incomplete for the operation the task actually needs, and the author worked around that instead of extending it.
+
+**Why it matters:** Dependency direction is inverted — domain depends on the volatile vendor type instead of the stable owned interface. `Feature.refresh` can't be tested without a real `Sdk`, and any SDK swap requires touching feature code.
+
+**Require:**
+```scala
+trait VendorGateway {
+  def fetch(): String
+  def refresh(): String
+}
+class Gateway(sdk: Sdk) extends VendorGateway {
+  def fetch(): String   = sdk.fetch()
+  def refresh(): String = sdk.refresh()
+}
+object Feature {
+  def refresh(gateway: VendorGateway): String = gateway.refresh()
+}
+```
+Feature depends only on `VendorGateway`; the SDK's public `refresh()` is the single point of contact with the vendor.
+
+### 3. No test coverage for the new refresh path
+**What's wrong:** Nothing exercises `Feature.refresh`. With the reflection version this is especially bad (see #1 — failures are runtime-only), but even with the fix, the seam should have a test using a stub `VendorGateway` to lock in that Feature routes through the interface.
+
+**Require:** A unit test with a fake `VendorGateway` asserting `Feature.refresh` returns the gateway's `refresh()` result, plus (optionally) a `Gateway` test against the `Sdk` facsimile.
+
+---
+
+Findings #1 and #2 are blocking; #3 I'd ask for before merge. Nothing else in the diff (the `Sdk.java` facsimile itself, `Gateway.fetch`) is problematic.
+
+__ABLATION_DONE__ exit=0

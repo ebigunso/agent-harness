@@ -1,0 +1,11 @@
+**Verdict: not acceptable as-is — one blocking finding.**
+
+**1. `Invoice.cs` — `Client` / `Adapter.Parse`: `Memo` is added to the wire shape but silently dropped at the consumer boundary.**
+
+- **What's wrong:** `Wire` now carries `Memo`, but `Client` (the only type this file ever deserializes into) does not. `Adapter.Parse` therefore reads `{"Id":..,"Total":..,"Memo":".."}` and discards `Memo` without error or trace. `Wire` and `Client` were shape-identical before this change; the diff introduces drift between them and relies on `JsonSerializer`'s default unknown-member tolerance to hide it.
+- **Why it matters:** The task is "include optional invoice memo." After this change the memo exists on the producer side only; nothing on the consumer side can ever observe it, so the feature is not actually delivered end-to-end. The reviewer note "consumer only needs Id and Total" is an assertion, not something the code encodes — a future reader sees two near-identical records and an adapter that quietly loses data, with no signal that this is intentional. This is exactly the "silent field loss / shape drift tolerated rather than prevented" pattern: the contract change is absorbed by a permissive deserializer rather than by a deliberate decision in the model.
+- **What I'd require:** Add `string? Memo = null` to `Client` as well. It is nullable with a default, so old payloads without `Memo` still deserialize, and new payloads carry the memo through — no compatibility cost. If the consumer genuinely must *not* receive the memo, that needs to be made explicit rather than incidental: a comment on `Client` stating the omission is intentional, and ideally a test that fixes the behaviour. Either way, add a test that parses a payload containing `Memo` so the chosen behaviour (preserved vs. dropped) is asserted rather than left to serializer defaults.
+
+**2. (Minor, would flag but not block on its own) No test accompanies the contract change.** A one-line round-trip test (`Wire` with memo → JSON → `Client`) would have surfaced finding #1 immediately and would guard the `Memo` property name against future renames.
+
+__ABLATION_DONE__ exit=0

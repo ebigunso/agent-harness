@@ -1,0 +1,17 @@
+**Verdict: not acceptable as-is.** The change exposes a lookup, but the shape of what it exposes is wrong.
+
+1. **`query.ts:3` — `query(options: any)` erases the contract of the one thing this change is supposed to expose.**
+   The public API of an "account lookup query" is its signature. With `any`, callers get no type for `id`, no type for the return, and no compile error when the bag is missing `connection` or `view`. The reviewer note that "inputs are trusted" describes today's callers, not the API; the point of exporting it is that future callers aren't visible here. Require explicit parameters and a return type, e.g. `export function query(connection: Connection, id: string): { id: string }`, or a named options interface — not `any`.
+
+2. **`query.ts:3` — the "query" does rendering; it reaches into both the database connection and a `BrowserView`.**
+   A lookup query should return the account row. This function instead takes a UI object and returns rendered output, so the query layer now depends on UI internals and the UI layer's shape is fixed by the query signature. That's the "any bag crossing UI/database internals" the note calls out. Require `query` to only call `connection.lookup(id)` and return the row; `render` belongs in the caller (`screen`), not in the query.
+
+3. **`query.ts:1` — `Connection.lookup` is a stub that echoes its input, defined locally in the same file as the exported query.**
+   `lookup(id) { return {id}; }` doesn't look anything up. The note says the existing account source is meant to sit behind this API; instead the file defines its own fake source, so the exported `query` returns fabricated rows and shadows whatever the real connection type is. Require importing/injecting the real account source (or its interface) rather than defining a placeholder class here; if a stub is needed for tests, it goes in a test file.
+
+4. **`query.ts:4` — `screen()` hardcodes `id: "a"` and constructs a fresh `Connection` and `BrowserView` on every call, and is exported from the query module.**
+   This is scaffolding, not an API: a fixed account id, no injection, and a UI entry point living in `query.ts`. Either drop it from this change (the task is "expose one query", not a screen) or move it to the UI module, take `id` as a parameter, and receive the connection/view from the caller.
+
+Nothing else to raise; `BrowserView` itself is fine once it is moved out of the query's dependency path per (2).
+
+__ABLATION_DONE__ exit=0

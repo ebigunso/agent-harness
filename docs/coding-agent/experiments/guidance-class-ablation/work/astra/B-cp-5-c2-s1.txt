@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a1-d529-7d90-a1b6-87b953a9bbbf
+--------
+user
+Reference material loaded for this review:
+
+### 5) Define and Protect Invariants
+
+- Make assumptions explicit at module boundaries.
+- Validate inputs at trust boundaries and normalize internal state early.
+- Fail early with actionable errors when invariants are violated.
+
+Review checks:
+- Which invariants are introduced or relied upon?
+- Are boundary checks and failure modes explicit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Introduce validated nonempty account IDs.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,12 @@
++pub struct AccountId(String);
++impl AccountId {
++    pub fn new(raw: String) -> Result<Self, &'static str> {
++        if raw.is_empty() { Err("account id must be nonempty") } else { Ok(Self(raw)) }
++    }
++    pub fn len(&self) -> usize { self.0.len() }
++}
++#[test]
++fn boundary() {
++    assert!(AccountId::new(String::new()).is_err());
++    assert_eq!(AccountId::new("a".into()).ok().unwrap().len(), 1);
++}
+```
+Commit message: "introduce validated nonempty account ids"
+
+Reviewer notes: Contract requires nonempty bytes, not nonblank human names. Private field prevents arbitrary construction outside this module. Internal length needs no repeat validation.
+
+codex
+Acceptable as-is. The constructor rejects empty strings with a clear error, the private field protects construction outside the module, and the tests cover empty and minimally nonempty inputs. Whitespace is valid under the nonempty-bytes contract; `len()` needs no repeat validation.
+tokens used
+3,231
+Acceptable as-is. The constructor rejects empty strings with a clear error, the private field protects construction outside the module, and the tests cover empty and minimally nonempty inputs. Whitespace is valid under the nonempty-bytes contract; `len()` needs no repeat validation.
+
+__ABLATION_DONE__ exit=0

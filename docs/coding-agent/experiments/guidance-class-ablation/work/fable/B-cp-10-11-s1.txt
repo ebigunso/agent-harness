@@ -1,0 +1,25 @@
+**Verdict: not acceptable as-is. One blocking finding, one minor.**
+
+### 1. `Request.kt`, `step1`–`step8` signatures — `compact` is threaded as tramp data through seven functions that don't use it (blocking)
+
+**What's wrong:** The new `compact` flag is added to every intermediate signature purely so it can reach `step8`. Steps 1–7 don't read it; they just forward it. Meanwhile `RequestContext` already flows through the exact same path and, per the reviewer notes, is owned by the same party that owns request options and is already populated by the single external caller.
+
+**Why it matters:** This is the "debt amplification" pattern the review guideline calls out. The change touches 8 signatures to add one option, and establishes the precedent that every future request option (the notes say more are expected) costs another 8-signature ripple. Maintainability is degraded, not neutral: the call chain now carries two parallel "request state" channels (a context object *and* loose flags), and the boundary between "what is request context" and "what is a per-call argument" gets blurred. It also makes each intermediate function's contract lie slightly — `step3(ctx, compact)` implies `step3` cares about compactness.
+
+**What I'd require instead:** Put the option on the context, which is the object designed to carry per-request state, and leave the intermediate signatures untouched:
+
+```kotlin
+data class RequestContext(val tenant: String, val compact: Boolean = false)
+
+fun step1(ctx: RequestContext): String = step2(ctx)
+// ... step2–step7 unchanged ...
+fun step8(ctx: RequestContext): String = if (ctx.compact) ctx.tenant.trim() else ctx.tenant
+```
+
+The adapter that already builds the validated context sets `compact` there. Net diff: two lines instead of eight, no signature churn, and the next option lands the same way. The default keeps any existing construction of `RequestContext` compiling.
+
+### 2. Behavior/naming — "compact presentation" reduces to `trim()` on `tenant` (minor, flag only)
+
+`compact` is a broad name for what is currently "strip whitespace from tenant." If that's genuinely the full intended scope, fine, but I'd want either a one-line KDoc on the field/branch stating what compact means today, or a narrower name, so the next person extending it knows whether to widen this branch or add a new option. I'd also expect a small test pair (`compact = true` trims; `compact = false` preserves whitespace) — none is included in the change.
+
+__ABLATION_DONE__ exit=0

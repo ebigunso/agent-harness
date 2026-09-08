@@ -1,0 +1,21 @@
+**Findings**
+
+1. **`billing.rb`, `fulfilled?(stripe_intent)` — core policy now depends on a vendor shape.**
+   The domain predicate was rewritten to take a `Stripe::PaymentIntent` and compare against the vendor string `"succeeded"`. That inverts the dependency direction: the stable inner seam (`fulfilled?`) now points outward at Stripe's data model and status vocabulary. Any change in Stripe's status enum, or a second payment provider, forces edits to billing policy instead of to an adapter. The task ("apply payment success to billing policy") does not require this — it requires that a successful Stripe payment be *translated into* the existing policy input.
+   **Require:** keep `fulfilled?(result)` consuming `PaymentResult` (`result.paid`). Put the Stripe→domain mapping in an outer adapter, e.g. `def to_payment_result(intent) = PaymentResult.new(paid: intent.status == "succeeded")`, and have callers pass the translated result. Vendor literals like `"succeeded"` must live only in that adapter.
+
+2. **`billing.rb` — `PaymentResult` left as dead, orphaned seam.**
+   The diff keeps `PaymentResult` but nothing consumes it anymore. Either the stable seam is the contract (then it must remain the input to `fulfilled?`), or it's dead code. As written it's misleading: readers will assume `PaymentResult` is the interface while the real interface is now the Stripe struct.
+   **Require:** resolve per finding 1 — `PaymentResult` remains the policy's input; do not leave two competing representations.
+
+3. **`billing.rb` — `module Stripe` / `Stripe::PaymentIntent` defined inside the billing file.**
+   Even accepting these as a local SDK facade, declaring a vendor namespace in the core file couples the module's load order and namespace to Stripe and makes it impossible to swap or stub the vendor without touching domain code. It also silently reopens/shadows the real `Stripe` gem's namespace if it's ever loaded.
+   **Require:** move the facade to an adapter/infrastructure file (e.g. `adapters/stripe_payments.rb`) that `require`s billing, not the reverse. The billing file should have zero references to `Stripe`.
+
+4. **Signature change is a breaking interface change with no call-site updates or tests.**
+   `fulfilled?` changed its parameter contract (`PaymentResult` → `Stripe::PaymentIntent`) but the diff shows no updated callers or specs. Any existing caller passing a `PaymentResult` will now raise `NoMethodError` on `.status`. The commit message ("apply payment success") doesn't disclose the breaking rename.
+   **Require:** with the fix in finding 1 the public signature is unchanged, so no call-site churn is needed. Add a unit test for the adapter mapping (`"succeeded"` → `paid: true`, anything else → `paid: false`) and a test that `fulfilled?` still works on `PaymentResult`.
+
+**Verdict:** Not acceptable as-is. The change achieves the feature by pointing the core policy at a vendor type rather than adapting the vendor into the existing stable seam. Reverse it: leave `fulfilled?`/`PaymentResult` untouched and add an outer Stripe adapter that produces `PaymentResult`.
+
+__ABLATION_DONE__ exit=0

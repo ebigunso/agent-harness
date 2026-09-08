@@ -1,0 +1,49 @@
+**Verdict: block.** The change violates the one invariant the notes call out, and it does so on the exact path (fallible cleanup) the task framing highlights.
+
+**Classification (registry has id / resources has id / cleanup result → end state):**
+
+| reg | res | cleanup | end state | acceptable? |
+|---|---|---|---|---|
+| Y | Y | Ok | both removed | yes (but see #2) |
+| Y | Y | Err | resource gone, **id still advertised** | **no — invariant broken, permanently** |
+| Y | N | any | already-broken input, cleanup runs anyway, returns Ok | no — corruption silently laundered |
+| N | Y | any | orphan resource removed, cleanup runs | tolerable, but unreported |
+| N | N | Ok | nothing to do, cleanup still runs | no — spurious cleanup on repeat call |
+
+## Findings
+
+**1. `lib.rs` `remove` — release/unregister order is inverted; cleanup failure leaves a dangling advertised ID.**
+`resources.remove(&id)` runs first, `cleanup()?` can bail, and `registry.remove(&id)` never executes. The registry then advertises `id` while no resource exists — exactly the "every advertised ID must resolve to a live resource" invariant, violated, and not transient: the state persists until someone calls `remove` again (which will run cleanup a second time — see #4). Because the resource is gone but the ID is still discoverable, any consumer that trusts the registry will look up `id` and get `None` — the logical-dangling-reference the notes describe.
+Require: unregister *before* releasing, so the invariant holds at every step: `registry.remove(&id)` → `resources.remove(&id)` → `cleanup()`. If the author needs a rollback on cleanup failure, keep the removed `Vec<u8>` (`let bytes = resources.remove(&id)`) and reinsert bytes + registry entry on `Err`; either way the post-condition on the error path must be stated and consistent (both present or both absent — never one without the other).
+
+**2. `lib.rs` `remove` — even on the success path there is an intermediate state where the ID is advertised with no resource.**
+Between line 3 and line 5 the maps disagree. Within this call that's unobservable because both are `&mut`, but the signature says nothing about how callers obtain those borrows. If `resources` and `registry` live behind separate locks (which "advertises IDs only; bytes live in a separate map" strongly suggests), a caller that locks them independently for the lookup will observe the gap. The reorder in #1 eliminates this: an unadvertised ID with a lingering resource is harmless; the reverse is not.
+
+**3. `lib.rs` `remove` — return values of both `remove` calls are discarded, so mismatched inputs are silently "repaired" and misses are indistinguishable from hits.**
+`HashMap::remove` / `HashSet::remove` tell you whether anything was there; the code ignores both. A registry entry with no resource (pre-existing corruption, or the fallout of #1) is quietly swallowed and reported as `Ok(())`. Require: capture both results and either return an error for the inconsistent combinations (registered but no resource) or at minimum surface them; the function should not convert a broken invariant into a success.
+
+**4. `lib.rs` `remove` — not idempotent-safe: repeated/concurrent-retry calls re-run `cleanup` for an ID that no longer exists.**
+On the `N/N` row `cleanup()` still executes. Combined with #1, the natural recovery ("cleanup failed, call `remove` again") runs cleanup twice against an already-released resource. Require: gate `cleanup` on actually having removed something (or return an explicit "not found" result and skip cleanup). Decide and document which: `remove` of an unknown ID is an error, or a no-op that does *not* invoke cleanup.
+
+**5. `lib.rs` `remove` — no owner/lifecycle contract in the signature or docs.**
+The task is "release shared resource and unregister owner", but nothing says who owns `id` after the call, what state the pair is in when `Err` is returned, or whether `cleanup` may itself touch `resources`/`registry` (it can't — both are mutably borrowed — which is fine but should be intentional). Require a doc comment stating the post-conditions for `Ok` and `Err`, and that the function is the sole writer of these two containers for `id` during the call. This isn't cosmetic: #1 exists precisely because the error-path post-condition was never written down.
+
+Minimal acceptable shape:
+
+```rust
+pub fn remove(id: u32, resources: &mut HashMap<u32, Vec<u8>>, registry: &mut HashSet<u32>,
+              cleanup: impl FnOnce() -> Result<(), String>) -> Result<(), String> {
+    let was_registered = registry.remove(&id);      // stop advertising first
+    let bytes = resources.remove(&id);              // then release
+    match (was_registered, bytes) {
+        (false, None) => return Ok(()),             // or Err("unknown id") — pick one, no cleanup
+        (true, None)  => return Err(format!("id {id} registered without resource")),
+        _ => {}
+    }
+    cleanup()                                        // state already consistent regardless of result
+}
+```
+
+Adjust the `(false, None)` and rollback policy to whatever the owner semantics actually are, but the ordering and the checked results are non-negotiable.
+
+__ABLATION_DONE__ exit=0

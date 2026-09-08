@@ -1,0 +1,13 @@
+**Findings**
+
+1. **`lib.rs`, `migrate` — migration keys off `"customer"`, but the task/commit say the persisted label being renamed is `"owner"`.**
+   `migrate` only accepts records whose key is `"customer"`; anything else (including `"owner"`) returns `Err("unexpected old field")`, and because the result is collected into `Result<Vec<_>>`, the first such record aborts the whole migration. If the store actually holds `("owner", value)` records as the task states, this migration fails on the very first record and nothing is migrated — the "new reader" (`client`) never gets activated against usable data. Nothing in the diff or notes shows the on-disk key being `"customer"`; the only evidence of the old name is the removed `owner()` accessor and the task text.
+   The test doesn't catch this because it constructs its own input with `"customer"` — it is self-consistent with the bug rather than with the persisted data.
+   **Require:** match on the real persisted key (`"owner"` per the task, or show evidence that the stored label is `"customer"` and fix the task/commit wording), and make the test fixture reflect the actual pre-migration record shape (ideally sourced from a real sample of the store, not hand-typed in the test).
+
+2. **`lib.rs`, `migrate` — not idempotent; a re-run after a successful migration rejects the whole store.** (Minor, flag not block.)
+   Once records are `"client"`, running `migrate` again errors on every record. The notes say this is a one-shot offline migration with the original retained until success, so this is acceptable operationally, but it should be explicit: either document that `migrate` must be run exactly once on pre-migration data, or accept `"client"` as a passthrough so a repeat/resume is safe. Either is fine; silently failing on already-migrated data is the worst option.
+
+Everything else (removing `owner()` with no other consumers, all-or-nothing `collect`, leaving the input immutable, `display` routed through `client`) is consistent with the stated constraints. The change is **not acceptable as-is** because of finding 1.
+
+__ABLATION_DONE__ exit=0

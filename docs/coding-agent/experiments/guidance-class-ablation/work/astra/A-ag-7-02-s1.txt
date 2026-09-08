@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c8-2fbe-7450-9635-00067e6ce38a
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Report downstream fan-out failures.
+
+```diff
+--- a/fanout.go
++++ b/fanout.go
+@@ -0,0 +1,7 @@
++package fanout
++import "errors"
++func Run(requestID string, first func()error, second func()error) error {
++ if first()!=nil { return errors.New("request failed") }
++ if second()!=nil { return errors.New("request failed") }
++ return nil
++}
+```
+Commit message: "report downstream fan-out failures"
+
+Reviewer notes: Go. Existing request/operation IDs are non-sensitive. Two downstream calls run sequentially in this bounded excerpt; either can fail. Only returned error is logged by caller, so dropped cause and operation/correlation cannot be recovered.
+
+codex
+- **`fanout.go:4–5` — Downstream causes are discarded.** Both branches replace the actual error with `"request failed"`. Since the caller logs only the returned error, the underlying failure becomes unrecoverable. Capture each error and wrap it with `%w` to preserve its message and identity.
+- **`fanout.go:3–5` — Failure context is missing.** The identical messages do not identify which downstream operation failed, and `requestID` is unused. This prevents operation attribution and request correlation in the logs. Include the failing operation’s name or ID and the existing non-sensitive request ID in each returned error.
+tokens used
+3,288
+- **`fanout.go:4–5` — Downstream causes are discarded.** Both branches replace the actual error with `"request failed"`. Since the caller logs only the returned error, the underlying failure becomes unrecoverable. Capture each error and wrap it with `%w` to preserve its message and identity.
+- **`fanout.go:3–5` — Failure context is missing.** The identical messages do not identify which downstream operation failed, and `requestID` is unused. This prevents operation attribution and request correlation in the logs. Include the failing operation’s name or ID and the existing non-sensitive request ID in each returned error.
+
+__ABLATION_DONE__ exit=0

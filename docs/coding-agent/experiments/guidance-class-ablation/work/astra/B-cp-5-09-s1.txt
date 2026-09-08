@@ -1,0 +1,56 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a1-45a9-7693-8423-ad50f17f97af
+--------
+user
+Reference material loaded for this review:
+
+### 5) Define and Protect Invariants
+
+- Make assumptions explicit at module boundaries.
+- Validate inputs at trust boundaries and normalize internal state early.
+- Fail early with actionable errors when invariants are violated.
+
+Review checks:
+- Which invariants are introduced or relied upon?
+- Are boundary checks and failure modes explicit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Allocate decoded image pixels.
+
+```diff
+--- a/image.cpp
++++ b/image.cpp
+@@ -0,0 +1,6 @@
++#include <cstdint>
++#include <vector>
++std::vector<unsigned char> allocate_image(std::uint32_t width, std::uint32_t height) {
++    std::uint32_t pixels = width * height;
++    return std::vector<unsigned char>(pixels);
++}
+```
+Commit message: "allocate decoded image pixels"
+
+Reviewer notes: Wire dimensions are unsigned 32-bit values. One byte per pixel; reject zero dimensions or products above 64 MiB before allocation. Caller trusts returned vector size to represent the declared image dimensions; pixel writes are outside this change.
+
+codex
+- **`image.cpp:4–5` — Unchecked multiplication and missing allocation limit.** Multiplication occurs in 32-bit unsigned arithmetic and can wrap: `65536 × 65536` produces zero, returning an undersized buffer that the caller trusts and potentially enabling out-of-bounds writes. Nonoverflowing products above 64 MiB are also accepted. Require widening **before** multiplication (`std::uint64_t(width) * height`), rejecting products above `64 * 1024 * 1024` bytes with an actionable error before allocation, and allocating only the validated size.
+
+- **`image.cpp:3–4` — Zero dimensions are accepted.** Either dimension being zero returns an empty vector despite the explicit rejection requirement, presenting invalid image dimensions as a successful allocation. Require checking both dimensions at entry and reporting a clear invalid-dimension error before allocation.
+tokens used
+3,377
+- **`image.cpp:4–5` — Unchecked multiplication and missing allocation limit.** Multiplication occurs in 32-bit unsigned arithmetic and can wrap: `65536 × 65536` produces zero, returning an undersized buffer that the caller trusts and potentially enabling out-of-bounds writes. Nonoverflowing products above 64 MiB are also accepted. Require widening **before** multiplication (`std::uint64_t(width) * height`), rejecting products above `64 * 1024 * 1024` bytes with an actionable error before allocation, and allocating only the validated size.
+
+- **`image.cpp:3–4` — Zero dimensions are accepted.** Either dimension being zero returns an empty vector despite the explicit rejection requirement, presenting invalid image dimensions as a successful allocation. Require checking both dimensions at entry and reporting a clear invalid-dimension error before allocation.
+
+__ABLATION_DONE__ exit=0

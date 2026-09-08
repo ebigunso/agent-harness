@@ -1,0 +1,19 @@
+**Findings**
+
+1. **`gateway.ts`, `gateway()` — incoming trace is discarded, breaking end-to-end correlation.**
+   `gateway` accepts `incomingTrace` but never uses it; it mints a fresh `randomUUID()` and forwards only that. The frontend logs trace A, the gateway logs trace B, the backend logs trace B. Nothing ties A to B, so a failure reported by a user (holding A) cannot be followed through the gateway to the backend, and a backend error (holding B) cannot be traced back to the originating frontend request. This is exactly the Gate 7 anti-pattern of a boundary whose behavior is not diagnosable: the hop was added, but the signal that would let you understand what happened across it was severed.
+   **Require:** either propagate the incoming trace unchanged (`return await backend(incomingTrace)`), or if a per-hop span ID is genuinely wanted, keep it as a child and preserve the parent link — log both (`log(\`${incomingTrace} -> ${trace}\`)` or a structured `{ parent: incomingTrace, span: trace }`) and forward the parent-bearing identifier. As written the `incomingTrace` parameter is dead, which should also trip a lint rule.
+
+2. **`gateway.ts`, both functions — failures on the hop produce no signal.**
+   The only log call fires before the downstream call. If `send`/`backend` rejects, the promise propagates the error but nothing records that the hop failed, for which trace, or why. The log line tells you a request *started*; it never tells you it *failed*. That is a silent failure path at the boundary.
+   **Require:** wrap the await so the rejection is logged with the trace id before re-throwing (e.g. `try { return await backend(trace) } catch (e) { log(\`${trace} failed: ${e instanceof Error ? e.message : String(e)}\`); throw e }`). Logging the message rather than the whole error object also keeps stack/payload contents out of the telemetry line, which addresses the sensitive-data concern under Gate 7.
+
+3. **`gateway.ts`, both functions — log sink typed as `(trace: string) => void` with a bare UUID as the only content.**
+   A log line that is just `3f9c…` with no field name, hop name, or event type is not actionable; once the fix for (1) lands and two IDs are involved it becomes ambiguous which is which. This is minor but worth fixing while the file is new and the signature is cheap to change.
+   **Require:** emit a minimal structured/labelled line (`gateway: trace=… parent=…`), or accept a structured logger. Not blocking on its own.
+
+**Non-issues confirmed:** the IDs are `crypto.randomUUID()` output, not user-controlled, so logging them carries no injection or PII risk; formatting on one line is a style matter for the repo's formatter.
+
+**Verdict:** Not acceptable as-is. Block on (1) — it defeats the stated purpose of adding a traceable gateway hop — and on (2). (3) can be folded into the same fix.
+
+__ABLATION_DONE__ exit=0

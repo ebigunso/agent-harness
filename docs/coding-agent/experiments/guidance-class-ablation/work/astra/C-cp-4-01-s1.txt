@@ -1,0 +1,44 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081ae-0f09-7711-8aba-d1bee1e02850
+--------
+user
+Reference material loaded for this review:
+
+Clear names/boundaries/flow; one abstraction level. Avoid hidden coupling/effects. Are intent and roles locally clear?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Support member discounts.
+
+```diff
+--- a/Pricing.java
++++ b/Pricing.java
+@@ -1,5 +1,5 @@
+ final class Pricing {
+     private static int discount;
+-    static boolean isEligible(boolean member) { return member; }
++    static boolean isEligible(boolean member) { discount = member ? 10 : 0; return member; }
+     static int price(int cents) { return cents - discount; }
+ }
+```
+Commit message: "support member discounts"
+
+Reviewer notes: Single-threaded pricing session; amounts are integer cents >= 10. UI calls isEligible before price but other callers use price directly. Session is reset per order; no concurrency or cross-order issue is part of this change.
+
+codex
+- **`Pricing.java`: `isEligible` and `price`** — `isEligible` now silently changes the discount consumed by `price`, making pricing depend on whether—and with what argument—an eligibility query ran first. The UI follows that sequence, but existing direct callers of `price` bypass discount selection and can miss a member’s discount. Resetting each order does not fix this within-order dependency. Keep `isEligible` side-effect free and make membership or the applicable discount an explicit input to pricing; update callers accordingly.
+tokens used
+3,267
+- **`Pricing.java`: `isEligible` and `price`** — `isEligible` now silently changes the discount consumed by `price`, making pricing depend on whether—and with what argument—an eligibility query ran first. The UI follows that sequence, but existing direct callers of `price` bypass discount selection and can miss a member’s discount. Resetting each order does not fix this within-order dependency. Keep `isEligible` side-effect free and make membership or the applicable discount an explicit input to pricing; update callers accordingly.
+
+__ABLATION_DONE__ exit=0

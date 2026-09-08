@@ -1,0 +1,193 @@
+records:
+  - id: 1dd8e0daeb24
+    fixture: ag-6-01
+    score: 1.0
+    note: "Names fresh idempotency key -> duplicate charge and unbounded retry; requires stable key plus finite budget/deadline."
+  - id: 3076b94c2a11
+    fixture: ag-6-01
+    score: 0.5
+    note: "Names fresh-key duplicate charge and stable-key fix, but omits the unbounded retry loop and bounded attempts/time entirely."
+  - id: 894c4e2f49be
+    fixture: ag-6-01
+    score: 1.0
+    note: "Names fresh idempotency key duplicate-charge risk and unbounded retries; requires stable key and bounded attempts."
+  - id: 0090f0c69cff
+    fixture: ag-6-02
+    score: 1.0
+    note: "Names missing connect/request timeout stalling checkout threads; requires deadline and degrade-without-recommendation."
+  - id: 353087ac27ee
+    fixture: ag-6-02
+    score: 1.0
+    note: "Names unbounded wait on optional dependency; requires timeouts and explicit unavailable result so checkout continues."
+  - id: a87fbe6feecf
+    fixture: ag-6-02
+    score: 1.0
+    note: "Names unbounded blocking in checkout with no timeouts; requires bounded latency budget and isolated degradation."
+  - id: 7261e539a565
+    fixture: ag-6-03
+    score: 1.0
+    note: "Names shared 4-slot pool letting stalled enrichment block payments; requires reserved/separate capacity."
+  - id: 8cc09911d98d
+    fixture: ag-6-03
+    score: 1.0
+    note: "Names shared-pool cascade; requires isolated payment capacity plus bounded, cancellable admission."
+  - id: fba244872d68
+    fixture: ag-6-03
+    score: 1.0
+    note: "Names shared-pool exhaustion cascade; requires payment capacity isolation and enrichment cap with explicit failure."
+  - id: bcd4540b0d32
+    fixture: ag-6-04
+    score: 1.0
+    note: "Names retrying permanent 400 forever; requires retryable classification, finite budget, explicit failure propagation."
+  - id: d66ceb8540d7
+    fixture: ag-6-04
+    score: 1.0
+    note: "Names unbounded retry and non-retryable 400; requires classification, budget/deadline, and error with context."
+  - id: e556a92ee809
+    fixture: ag-6-04
+    score: 1.0
+    note: "Names indefinite retry of permanent failures; requires classification, attempt limit/deadline, clear error."
+  - id: 7db110f1d6a2
+    fixture: ag-6-05
+    score: 1.0
+    note: "Names fresh GUID key after unknown outcome creating duplicate objects; requires stable key reused across attempts."
+  - id: 919e5b22b58d
+    fixture: ag-6-05
+    score: 1.0
+    note: "Names fresh key defeating Create idempotency after lost ack; requires generating key once before loop."
+  - id: bef3d06524c0
+    fixture: ag-6-05
+    score: 1.0
+    note: "Names duplicate-create on timeout with fresh GUID; requires stable key and a lost-ack test."
+  - id: bc2790073a02
+    fixture: ag-6-06
+    score: 1.0
+    note: "Names swallowed vendor exception returning booked:true; requires propagation or explicit unbooked failure."
+  - id: ebacf0f300f0
+    fixture: ag-6-06
+    score: 1.0
+    note: "Names rescue hiding unbooked shipment; requires propagate or explicit failure, booked only on success."
+  - id: ebc7a56cf935
+    fixture: ag-6-06
+    score: 1.0
+    note: "Names suppressed booking failure reported as success; requires preserving cause and explicit failure state."
+  - id: 021939375fbe
+    fixture: ag-6-07
+    score: 1.0
+    note: "Names detached AbortSignal leaving orphaned query holding connection; requires passing callerSignal."
+  - id: 549507aa0ee5
+    fixture: ag-6-07
+    score: 1.0
+    note: "Names detached signal so cancellation never reaches db; requires callerSignal propagation and tests."
+  - id: 964fe66e7d27
+    fixture: ag-6-07
+    score: 1.0
+    note: "Names detached AbortController leaving queries running post-disconnect; requires passing callerSignal."
+  - id: bbb5b71d4c4f
+    fixture: ag-6-08
+    score: 1.0
+    note: "Names 3^5=243 retry amplification across nested layers; requires single shared request-wide budget of three."
+  - id: c4ee7a36d6e4
+    fixture: ag-6-08
+    score: 1.0
+    note: "Names nested retry amplification to 243 calls; requires one retry owner or shared budget, error propagation."
+  - id: dbb389523509
+    fixture: ag-6-08
+    score: 1.0
+    note: "Names 243-call amplification from five wrappers; requires one retry boundary or shared attempt budget."
+  - id: 125a514b6329
+    fixture: ag-6-09
+    score: 1.0
+    note: "Names coroutineScope cancelling siblings on one user failure; requires supervision with per-user outcomes."
+  - id: 9e7976c70f13
+    fixture: ag-6-09
+    score: 1.0
+    note: "Names sibling cancellation by coroutineScope; requires supervisorScope plus per-user captured outcomes."
+  - id: e1435b137600
+    fixture: ag-6-09
+    score: 1.0
+    note: "Names one user's failure cancelling batch; requires per-user isolation and explicit per-user results."
+  - id: 2ce352bb60d7
+    fixture: ag-6-10
+    score: 1.0
+    note: "Names unlimited cURL timeout stalling critical worker and unbounded buffering; requires time and size limits."
+  - id: 8b803a558597
+    fixture: ag-6-10
+    score: 1.0
+    note: "Names missing deadline and unbounded response buffering; requires total timeout and enforced size cap."
+  - id: ff1a161e54d8
+    fixture: ag-6-10
+    score: 1.0
+    note: "Names unlimited timeout and unbounded buffering; requires timeouts within budget and size limit with cleanup."
+  - id: 84fdf538ccd4
+    fixture: ag-6-11
+    score: 1.0
+    note: "Names exporter called under state_mutex blocking all writers; requires snapshot under lock, export outside, bounded."
+  - id: e4d5e7aa5f5c
+    fixture: ag-6-11
+    score: 1.0
+    note: "Names network exporter under global lock; requires release before export with bounded timeout or queue."
+  - id: fe7eace64f83
+    fixture: ag-6-11
+    score: 1.0
+    note: "Names optional exporter blocking under state_mutex; requires releasing lock before export_metrics(snapshot)."
+  - id: 48507d1aa941
+    fixture: ag-6-12
+    score: 1.0
+    note: "Names correlated mirror fan-out amplifying outage load; requires bounded fallback policy and degraded response. Also flags firstCompletedOf first-failure-wins (key-errata candidate)."
+  - id: 98e66e7659a9
+    fixture: ag-6-12
+    score: 1.0
+    note: "Names unbounded same-domain fan-out amplification; requires concurrency limits and terminal degraded response. Also flags first-failure-wins (key-errata candidate)."
+  - id: cb7e03f404d1
+    fixture: ag-6-12
+    score: 1.0
+    note: "Names eager per-request mirror fan-out against shared outage domain; requires bounded attempts and admission limits with degradation. Also flags first-failure-wins (key-errata candidate)."
+  - id: 32aad2722e18
+    fixture: ag-6-c1
+    false_positives: 0
+    note: "Accepts as-is under stated adapter guarantees; no findings."
+  - id: 3a74dde9545b
+    fixture: ag-6-c1
+    false_positives: 2
+    note: "Demands TimeoutError normalization contrary to adapter notes and rework of the dedupe test the notes describe as verifying one charge."
+  - id: 67a64f0c3b80
+    fixture: ag-6-c1
+    false_positives: 3
+    note: "Same two rework demands as 3a74 plus requiring the exhaustion test assert rejection; last is a real test gap (key-errata candidate) but graded as FP per key."
+  - id: 17ccdf43002c
+    fixture: ag-6-c2
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: 94a3753642f6
+    fixture: ag-6-c2
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: c7522fe7d785
+    fixture: ag-6-c2
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: 1a7a05642731
+    fixture: ag-6-c3
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: 4174c9940b3c
+    fixture: ag-6-c3
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: f5096b737d83
+    fixture: ag-6-c3
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: 10fcbb2b34c7
+    fixture: ag-6-c4
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: 114c1484dda9
+    fixture: ag-6-c4
+    false_positives: 0
+    note: "Accepts as-is; no findings."
+  - id: 13d45134c79b
+    fixture: ag-6-c4
+    false_positives: 0
+    note: "Accepts as-is; no findings."

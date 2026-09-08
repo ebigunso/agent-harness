@@ -1,0 +1,17 @@
+**Verdict: the validation itself is correct; one real defect in the self-check, plus a couple of minor notes.**
+
+**1. `inventory.ts`, `check()` — self-test mutates live module state (would block)**
+`check()` calls `post({quantity: 1})`, which appends `1` to the module-level `inventory`. Since `check` is exported from the production module, any caller (startup smoke test, health endpoint, another module "just verifying") silently inserts a phantom inventory record. This directly undermines the invariant the change is establishing: "everything in `inventory` came from a real validated POST." Either move `check` into a test file that gets a fresh module instance, have `post` accept the store as a parameter so the test can pass a throwaway array, or at minimum not export it from the runtime module.
+
+**2. `check()` — the most likely real-world invalid input is untested (minor)**
+`quantity` is declared optional, so `{}` / `undefined` is the primary failure mode at this boundary, yet the loop covers `null` but not `undefined` or a body with the field absent. It happens to work (`typeof undefined !== "number"`), but the check should pin it since that's the case a future refactor of `formValid` is most likely to break. Add `undefined` and `post({})` to the rejected set.
+
+**3. `post` — 400 carries no reason (non-blocking)**
+Reference material asks for actionable errors on invariant violation. The response is a bare `{status: 400}`; the note says the form repeats the rule client-side, which covers browser users but not any other client hitting this endpoint. If this is form-only, fine; if it's a general API, return a field/reason (`{status: 400, error: "quantity must be a positive safe integer"}`).
+
+**What's fine:**
+- `formValid` correctly covers the domain: `typeof === "number"` rejects strings/null/objects, `Number.isSafeInteger` rejects NaN/±Infinity/non-integers/overflow, `> 0` rejects 0, -0, negatives. No gaps for JSON-sourced input.
+- `inventory` is not exported, so `post` is the only write path — the invariant is actually enforced, not just documented.
+- The `{quantity?: unknown}` parameter type makes the middleware assumption ("body is an object, contents untrusted") explicit rather than assuming `quantity` is already a number.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,24 @@
+**Verdict: block.** The change implements "retry" as an unbounded, undelayed loop that retries responses which can never succeed. Findings:
+
+1. **`partner.py`, `while True` — no attempt cap or overall time budget.**
+   Each attempt has a 1 s timeout, but there is no limit on attempts, so a partner that is down or persistently returning non-200 pins the caller forever. This is a hang, not a retry policy. Require a bounded number of attempts (e.g. 3–5) and/or a total deadline, then raise a clear exception (e.g. `PartnerError` carrying the last status/body) so the caller can decide what to do.
+
+2. **`partner.py`, `if response.status_code==200` — retries every non-200, including permanent client errors.**
+   The reviewer notes explicitly say the partner's 400 cannot succeed on retry, and the request bytes are immutable, so re-sending an identical request on 400 (or 401/403/404/422, etc.) is guaranteed wasted work — and with finding 1, an infinite loop. Require: retry only on retryable conditions (5xx, 429, network/timeout errors); for other non-200 statuses fail fast, e.g. `response.raise_for_status()` or an explicit raise. Also consider treating any 2xx as success rather than exactly 200, unless the partner contract is known to be strict.
+
+3. **`partner.py` — no delay/backoff between attempts.**
+   Failed attempts are issued back-to-back, so a partner under load gets hammered at whatever rate the timeout allows. Require a sleep between retries with exponential backoff and jitter, honoring `Retry-After` on 429/503 if the partner sends it.
+
+4. **`partner.py`, `requests.get(url,timeout=1)` — transport exceptions are not handled.**
+   `requests.get` raises `Timeout`, `ConnectionError`, etc.; these propagate out on the first occurrence and are never retried. Timeouts and connection resets are precisely the failures a retry loop should absorb. Require catching `requests.RequestException` (or the specific retryable subclasses) inside the loop and counting them as failed attempts subject to the same cap/backoff.
+
+5. **`partner.py` — no observability of retries.**
+   When this loops or eventually fails, nothing records how many attempts were made or why. Require at least a log line per retry (status/exception, attempt number, delay) so production hangs are diagnosable.
+
+6. **Style / mechanics (minor, would flag but not block alone):** missing blank line after the import, no spaces around `=`/`==`/after the comma, no docstring or type hints, and the function name `read` is vague for a network call (`fetch_partner` or similar). Run the project formatter/linter.
+
+7. **No tests accompany the change.** Retry logic is exactly the kind of code that silently regresses. Require tests covering: success on first try, success after a retryable failure, fail-fast on 400, exhaustion after N retryable failures, and that backoff is invoked (mock `time.sleep`). Alternatively, if the project already uses `urllib3.Retry` via a `requests.Session` + `HTTPAdapter`, prefer that over a hand-rolled loop and test the configuration instead.
+
+The cleanest fix is a bounded loop with an explicit set of retryable statuses/exceptions, exponential backoff with jitter, and a raised exception after the final attempt — or a `Session` with `Retry(total=N, backoff_factor=..., status_forcelist=[429, 500, 502, 503, 504], allowed_methods=["GET"])`.
+
+__ABLATION_DONE__ exit=0

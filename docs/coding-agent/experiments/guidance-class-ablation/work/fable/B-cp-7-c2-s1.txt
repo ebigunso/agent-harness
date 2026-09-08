@@ -1,0 +1,18 @@
+**Verdict: acceptable in substance; one non-blocking flag on test evidence.**
+
+The implementation does what the task asks: exactly one retry, same `key` passed to both calls, no state outside the call, serial only. Given the reviewer note that the `charge` callback owns persistent idempotency, passing the unchanged key twice is the correct seam — the function has no dedupe logic of its own to get wrong. The test does prove the key is stable (a different key on the second call would bump `charges` to 2 and fail the assertion) and that the lost-response path resolves to success with a single effective charge.
+
+**Finding (flag, not block)**
+
+- **payment_test.go — retry bound is not locked in.** The only scenario exercised is "fail once, then succeed." Nothing asserts that a second failure stops at two calls and surfaces the error, and nothing asserts that a first-call success makes exactly one call. The word "once" is the safety property of this change for a payments path — an accidental loop or an off-by-one would not be caught by the current test. The setup is already trivial (a closure counting calls), so the two additional cases are cheap: 
+  - both calls return an error → `err != nil`, `calls == 2`
+  - first call succeeds → `err == nil`, `calls == 1`
+  
+  I'd want those added before merge; proportional to payment risk and near-zero cost.
+
+**Not raised as defects, noted for the record**
+
+- Retry is unconditional on error type (a hard decline is re-sent). With downstream idempotency this is wasteful but not unsafe, and the task didn't ask for error classification — fine as scoped.
+- Code isn't `gofmt`'d; run it before merge.
+
+__ABLATION_DONE__ exit=0

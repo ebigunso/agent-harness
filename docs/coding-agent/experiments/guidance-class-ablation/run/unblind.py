@@ -2,7 +2,8 @@
 Usage: python run/unblind.py astra|fable
 
 Carry-forward: a section with no grade file in work/grades/<model>/ takes its rows verbatim from
-work/results-<model>-v1.yaml (round-1 results), and the run prints which sections were carried.
+work/results-<model>-pilot.yaml (the approved pilot results, round 2 plus adjudication; falls back to
+results-<model>-v1.yaml), and the run prints which sections were carried.
 Adjudications: work/adjudications.yaml lists {model, cell, score|false_positives, reason} overrides
 applied after merging; the grader's original value stays in its grade file.
 """
@@ -35,7 +36,9 @@ for g in sorted((HERE / "work" / "grades" / model).glob("*.yaml")):
         records.append(rec)
 graded_sections = {mapping[b]["section"] for b in seen}
 carried = []
-v1 = HERE / "work" / f"results-{model}-v1.yaml"
+v1 = HERE / "work" / f"results-{model}-pilot.yaml"
+if not v1.exists():
+    v1 = HERE / "work" / f"results-{model}-v1.yaml"
 if v1.exists():
     for r in (yaml.safe_load(v1.read_text(encoding="utf-8")) or {}).get("records") or []:
         if r["section"] not in graded_sections:

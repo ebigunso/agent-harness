@@ -1,0 +1,18 @@
+**Verdict: acceptable as-is against Gate 2. No blocking findings.**
+
+Dependency direction check on the diff:
+
+- `Outcome` — depends on nothing.
+- `Rule.apply` — depends only on `Outcome`. It returns a domain result and has no knowledge of `HttpResponse`, status codes, or any transport concern.
+- `HttpResponse` — a pure outer DTO; depends on nothing domain-side.
+- `Controller.handle` — depends inward on `Rule`/`Outcome` and outward on `HttpResponse`. It is the only place that knows `REJECTED` ⇒ `403`, which is exactly where the task said the translation should live.
+
+No arrow points from the domain toward the transport layer, there are no cycles, and nothing bypasses `Rule` to compute the outcome directly in the controller. That matches the commit message and the task framing.
+
+One non-blocking note I'd leave as a comment rather than a required change:
+
+- **`Controller.java`, layout** — `Outcome` and `Rule` are declared package-private in the same source file as the controller. The direction is correct, but the seam is implicit: the domain types are physically owned by the delivery layer's file/package, so a second adapter (CLI, message consumer) would have to import from the controller's package to reach them, which is the kind of thing that later gets rationalised into the controller becoming the "real" home of the rule. If this is a fixture/minimal example, fine; in a real change I'd ask for `Outcome`/`Rule` to move to their own domain package so the boundary is visible in the tree, not just in the call graph.
+
+That's the only thing I'd raise, and I wouldn't hold the change on it.
+
+__ABLATION_DONE__ exit=0

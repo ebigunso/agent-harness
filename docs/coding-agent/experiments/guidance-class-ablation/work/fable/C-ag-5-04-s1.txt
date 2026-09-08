@@ -1,0 +1,28 @@
+**Verdict: block.**
+
+Truth table the task requires (a, b independent):
+
+| a | b | required outcome | what the diff does |
+|---|---|---|---|
+| F | F | no owner | `None` ✓ |
+| T | F | A | `"A"` ✓ |
+| F | T | B | `"B"` ✓ |
+| T | T | both | `"A"` ✗ — B silently dropped |
+
+**Findings**
+
+1. **`classify.py`, lines 2–3 — the `a and b` row is silently collapsed to `"A"`.**
+   The reviewer notes state no precedence between valid owners is intended, but the ordered `if` chain *is* a precedence rule: A wins, B's attribution is discarded, and nothing signals that this happened. That is a silent loss of a valid state and will surface as "we sometimes lose B attribution" with no trace of why. Required: handle the both-true row explicitly. Either (a) return a representation that carries both (e.g. `("A", "B")` / a set / two fields), or (b) if "both" is genuinely not representable and must not occur, raise/reject on `a and b` rather than pick one. Picking one by clause order is not acceptable in either case.
+
+2. **Storage model vs. truth table mismatch is unaddressed.**
+   The task defines four valid owner states; a single nullable owner string can represent only three. The diff doesn't change the model, doesn't document that "both" is out of scope, and doesn't reject it — it just fits four states into three slots. This has to be resolved authoritatively before merge: either widen the storage (two nullable columns, or a multi-valued field), or state and enforce the invariant that a and b are mutually exclusive at the point they're set. The classifier cannot be the place where this ambiguity is quietly absorbed.
+
+3. **Nothing is stored.**
+   Task and commit message say "store source attribution"; the diff adds a pure function that returns a string and no persistence, no owner type, no lifecycle/transition handling. If the write happens elsewhere, that code is where concurrent/repeated-run behavior (idempotent re-classification, two writers disagreeing on the both-true row) actually lives and it isn't in this change. Required: include the write path, or retitle the change to what it is and note the persistence follow-up.
+
+4. **No tests for the four rows.**
+   The defect in (1) would have been caught by a table-driven test over `(a, b)`. Required: parametrized test covering all four combinations, asserting whatever behavior is decided for the both-true row (including the raise, if that's the choice).
+
+Minor, not blocking: `if a:` uses truthiness on inputs that are specified as booleans; fine as long as callers pass bools, but worth `is True` or a type hint if anything upstream can hand in `None`/strings.
+
+__ABLATION_DONE__ exit=0

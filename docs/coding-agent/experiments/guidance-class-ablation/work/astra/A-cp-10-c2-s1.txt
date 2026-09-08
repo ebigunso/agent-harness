@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08190-2423-7b12-8e1b-86bbad132ca3
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Include row and field in invalid age error.
+
+```diff
+--- a/importer.py
++++ b/importer.py
+@@ -1,7 +1,7 @@
+ def parse_age(raw, row):
+     try:
+         return int(raw)
+     except ValueError as exc:
+-        raise ValueError("invalid age") from exc
++        raise ValueError(f"row {row}, field age: expected integer, got {raw!r}") from exc
+ def display_name(name):
+     return name.strip()
+```
+Commit message: "include row and field in invalid age error"
+
+Reviewer notes: Input is string; integer syntax errors must identify the source field/row. Unrelated display code is already clear. Exception cause preserved for debugging.
+
+2026-09-08T15:08:23.439843Z ERROR codex_models_manager::manager: failed to load models cache: EOF while parsing a value at line 1 column 0
+codex
+Acceptable as-is. The error identifies the row and `age` field, preserves the exception cause, and leaves unrelated display code unchanged. No findings.
+tokens used
+3,079
+Acceptable as-is. The error identifies the row and `age` field, preserves the exception cause, and leaves unrelated display code unchanged. No findings.
+
+__ABLATION_DONE__ exit=0

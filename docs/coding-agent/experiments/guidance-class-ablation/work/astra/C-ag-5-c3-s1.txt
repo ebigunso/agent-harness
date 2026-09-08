@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e6-bc2f-7431-b1fe-891d695ac652
+--------
+user
+Reference material loaded for this review:
+
+Define owners, lifecycles and transitions; enforce invariants authoritatively. Derive full classification truth tables first. Check concurrent/repeated runs; reject optional-only guards, conflicting writers and invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Model all source attribution cases.
+
+```diff
+--- a/Source.java
++++ b/Source.java
+@@ -0,0 +1,11 @@
++enum Source { UNKNOWN, INTERNAL, EXTERNAL, CONFLICT;
++ static Source classify(boolean internal,boolean external) {
++  if(internal && external) return CONFLICT;
++  if(internal) return INTERNAL;
++  if(external) return EXTERNAL;
++  return UNKNOWN;
++ }
++ static void check() {
++  if(classify(false,false)!=UNKNOWN || classify(true,false)!=INTERNAL || classify(false,true)!=EXTERNAL || classify(true,true)!=CONFLICT) throw new AssertionError();
++ }
++}
+```
+Commit message: "model all source attribution cases"
+
+Reviewer notes: Java 17. Truth table is neither→UNKNOWN, internal only→INTERNAL, external only→EXTERNAL, both→CONFLICT. Every state is distinct in model and executable checks.
+
+codex
+Acceptable as-is. `Source.classify` correctly maps all four input combinations to distinct states, and `check()` covers the complete truth table. No defects to flag.
+tokens used
+3,181
+Acceptable as-is. `Source.classify` correctly maps all four input combinations to distinct states, and `check()` covers the complete truth table. No defects to flag.
+
+__ABLATION_DONE__ exit=0

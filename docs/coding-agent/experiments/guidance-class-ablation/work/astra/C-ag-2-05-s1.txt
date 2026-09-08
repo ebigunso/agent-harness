@@ -1,0 +1,42 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e3-533c-7f92-b8cd-8504cd302a98
+--------
+user
+Reference material loaded for this review:
+
+Direct outer dependencies toward stable inner seams; keep core free of volatile details. Document edges; check imports and external seams. No framework/vendor calls in domain, cycles or interface bypasses.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Return rule rejection to HTTP caller.
+
+```diff
+--- a/core.rs
++++ b/core.rs
+@@ -1,2 +1,3 @@
++use axum::http::StatusCode;
+ pub enum RuleError { Rejected }
+-pub fn allow(active: bool) -> Result<(), RuleError> { if active { Ok(()) } else { Err(RuleError::Rejected) } }
++pub fn allow(active: bool) -> Result<(), StatusCode> { if active { Ok(()) } else { Err(StatusCode::FORBIDDEN) } }
+```
+Commit message: "return rule rejection to http caller"
+
+Reviewer notes: axum 0.8 installed in outer HTTP crate. Core is also used by CLI, with existing RuleError enum. No HTTP semantics belong in core.
+
+codex
+- **`core.rs:1–3` — Core now depends on Axum and returns an HTTP status instead of `RuleError`.** This violates the core/HTTP boundary and changes the shared API for CLI callers, forcing them to handle transport-specific errors. Axum being installed in the outer HTTP crate also does not make it available to a separate core crate. Keep `allow` returning `Result<(), RuleError>` and map `RuleError::Rejected` to `StatusCode::FORBIDDEN` in the outer HTTP adapter.
+tokens used
+3,181
+- **`core.rs:1–3` — Core now depends on Axum and returns an HTTP status instead of `RuleError`.** This violates the core/HTTP boundary and changes the shared API for CLI callers, forcing them to handle transport-specific errors. Axum being installed in the outer HTTP crate also does not make it available to a separate core crate. Keep `allow` returning `Result<(), RuleError>` and map `RuleError::Rejected` to `StatusCode::FORBIDDEN` in the outer HTTP adapter.
+
+__ABLATION_DONE__ exit=0

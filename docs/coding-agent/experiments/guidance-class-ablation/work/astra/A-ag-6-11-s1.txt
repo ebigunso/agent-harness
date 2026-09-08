@@ -1,0 +1,41 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c7-7533-7153-a37b-92b273dfec4c
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Export metrics when state updates.
+
+```diff
+--- a/state.cpp
++++ b/state.cpp
+@@ -0,0 +1,9 @@
++#include <mutex>
++#include <functional>
++std::mutex state_mutex;
++unsigned count=0;
++void update(const std::function<void(unsigned)>& export_metrics) {
++ std::lock_guard<std::mutex> guard(state_mutex);
++ ++count;
++ export_metrics(count);
++}
+```
+Commit message: "export metrics when state updates"
+
+Reviewer notes: C++17. Exporter is optional network integration and may block. All state writes use mutex below; count remains within unsigned range. Lock must protect state, not wait for optional external work.
+
+codex
+- **`state.cpp:6–8` — Exporter runs while holding `state_mutex`.** The optional network exporter may block, preventing all other state updates for its entire duration. This violates the requirement that the lock protect state without waiting for external work. Require incrementing `count` and capturing its value under the mutex, then releasing the lock before calling `export_metrics(snapshot)`.
+tokens used
+3,150
+- **`state.cpp:6–8` — Exporter runs while holding `state_mutex`.** The optional network exporter may block, preventing all other state updates for its entire duration. This violates the requirement that the lock protect state without waiting for external work. Require incrementing `count` and capturing its value under the mutex, then releasing the lock before calling `export_metrics(snapshot)`.
+
+__ABLATION_DONE__ exit=0

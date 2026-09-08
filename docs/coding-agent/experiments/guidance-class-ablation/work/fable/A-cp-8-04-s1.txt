@@ -1,0 +1,26 @@
+**Verdict: block.** The change should be reverted to the original one-liner. The task ("use a fixed retry delay") was already satisfied by the pre-diff code; the diff adds machinery that provides no value and introduces several concrete defects.
+
+**Findings**
+
+1. **`Retry.java`, whole diff – unnecessary indirection for a constant.**
+   The original `return 1000L;` already is a fixed retry delay. The diff replaces it with a strategy interface, a concrete class, a YAML parse, and reflective instantiation, all to produce the same `1000L`. Reviewer notes confirm there is one service, one policy, no variation requested. This is speculative generality that every future reader has to trace through to learn the delay is 1000 ms.
+   *Require:* revert to `static long delayMillis() { return 1000L; }` (a named constant is fine). No `Delay` interface, no SnakeYAML usage.
+
+2. **`Retry.delayMillis()` – YAML parse of a hard-coded literal is a no-op round trip.**
+   `new Yaml().load("FixedDelay")` parses the string `"FixedDelay"` and returns the string `"FixedDelay"`. Nothing is read from a file or config; the YAML library contributes nothing except a dependency and a cast. "Config is trusted checked-in text" doesn't apply — there is no config here, just an inline literal.
+   *Require:* remove the SnakeYAML import and call.
+
+3. **`Retry.delayMillis()` – `Class.forName(type).newInstance()` from a string selects a class by name for no reason and is fragile.**
+   Reflection by simple name `"FixedDelay"` only resolves if the class lives in the default package; the moment these files are placed in a package (which real code will be), this fails at runtime with `ClassNotFoundException` rather than at compile time. It also establishes a "class name from parsed text → instantiate" pattern that is exactly the shape that becomes an arbitrary-class-instantiation hole the first time someone makes the string externally sourced. Even if the input is trusted today, there is no benefit to offset that risk.
+   *Require:* no reflection. If a `Delay` abstraction were ever justified, it would be `new FixedDelay()` — but per finding 1 it isn't.
+
+4. **`Retry.delayMillis()` signature – new checked `throws ReflectiveOperationException` is a source-incompatible API change.**
+   The method previously could not fail; it now declares a checked exception, forcing every caller to catch or propagate it. The notes say the caller surfaces it as a startup error, but that means callers had to be modified (not shown in the diff) to accommodate a failure mode that exists only because of the unnecessary reflection. A method returning a constant should not be able to throw.
+   *Require:* restore the non-throwing signature.
+
+5. **`Retry.delayMillis()` – per-call YAML parse + `Class.forName` + reflective construction on the retry path.** (Minor, subsumed by the above.)
+   If this is invoked on every retry, each call allocates a `Yaml` instance, parses text, and reflectively constructs an object to return a literal. Even if kept, it would need to be computed once. Not worth fixing in place — resolved by reverting.
+
+**Summary:** Nothing in this diff moves toward the stated task; the original code was already correct and simpler. Revert to the direct constant.
+
+__ABLATION_DONE__ exit=0

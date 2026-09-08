@@ -1,0 +1,11 @@
+**Verdict: acceptable as-is for the stated task.** The containment shape is right: a child context with its own deadline (parent cancellation still propagates), `cancel` deferred so the timer is released, no shared pool, and both timeout and downstream error collapse to the same safe degraded result (`""`) with a signal rather than an error return, so the required checkout path can't be failed by this call. Nothing here I'd block.
+
+Non-blocking notes I'd leave on the PR:
+
+1. **`optional.go`, `Recommendation` — the bound is contractual, not enforced.** `WithTimeout` only bounds the wait if `call` actually observes `ctx`. The reviewer notes acknowledge this, but nothing in the code carries that requirement forward. I'd want a doc comment on the `call` parameter stating it must return promptly on `ctx.Done()`, and a unit test where `call` blocks on `<-ctx.Done()` and the test asserts `Recommendation` returns `""` and emits `recommendation_unavailable` in roughly 100ms. That's the test that proves the "bound" in the commit message exists. (I would *not* ask for a goroutine+select wrapper — that trades an unbounded wait for a leaked goroutine and hides callee bugs.)
+
+2. **`optional.go`, error branch — timeout and downstream failure are indistinguishable in the signal.** Both `context.DeadlineExceeded` and a real error from the recommender produce the same `"recommendation_unavailable"`. Degrading identically is correct; signaling identically means you can't tell later whether 100ms is too tight or the service is unhealthy. Consider passing a distinct signal (e.g. `"recommendation_timeout"` when `errors.Is(err, context.DeadlineExceeded)`), or extending `signal` to take the error. Small, but it's the difference between being able to tune the deadline and guessing.
+
+3. **Formatting.** The single-line `import ("context"; "time")` and semicolon-joined statements aren't gofmt output. Run `gofmt` before merge.
+
+__ABLATION_DONE__ exit=0

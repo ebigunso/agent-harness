@@ -1,0 +1,49 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0819d-5328-7293-bf13-afd694df14b4
+--------
+user
+Reference material loaded for this review:
+
+### 10) Leave the System Easier to Change
+
+- Improve clarity, boundaries, or diagnostics when touching code.
+- Avoid debt amplification in the name of short-term speed.
+- Prefer incremental improvement aligned with existing architecture.
+
+Review checks:
+- Is maintainability improved, neutral, or degraded?
+- Did the change reduce future risk at reasonable cost?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Format report amounts with existing formatter.
+
+```diff
+--- a/Reports.cs
++++ b/Reports.cs
+@@ -1,2 +1,3 @@
+ using System.Globalization;
+ public static class Amounts { public static string Format(decimal amount) => amount.ToString("0.00", CultureInfo.InvariantCulture); }
++public static class Reports { public static string Total(decimal amount) => "Total: " + Amounts.Format(amount); }
+```
+Commit message: "format report amounts with existing formatter"
+
+Reviewer notes: Existing invariant formatter already defines report output semantics. New consumer reuses it; no other architecture changes needed.
+
+codex
+Acceptable as-is. `Reports.Total` reuses the existing formatter, preserving invariant two-decimal output and keeping formatting rules centralized. No findings.
+tokens used
+3,116
+Acceptable as-is. `Reports.Total` reuses the existing formatter, preserving invariant two-decimal output and keeping formatting rules centralized. No findings.
+
+__ABLATION_DONE__ exit=0

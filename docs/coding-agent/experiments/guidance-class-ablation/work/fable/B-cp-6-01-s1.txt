@@ -1,0 +1,12 @@
+**Findings**
+
+1. **`timeout.ts`, `schedule()` — unit mismatch between contract and adapter (blocking).**
+   The wire field is `timeoutSeconds` (documented and named as seconds, matching the Java record), but the browser adapter passes it straight into `setTimeout`, whose delay argument is milliseconds. A server-supplied timeout of `30` fires after 30 ms instead of 30 s; the maximum allowed value (`3600`) fires after 3.6 s instead of an hour. This is exactly the silent implicit-coercion/shape-drift problem: both layers agree on the field name and type, so nothing fails at compile time or in serialization, yet the semantics disagree by a factor of 1000. Every timer driven by this adapter is effectively broken.
+   Required: convert explicitly at the boundary — `setTimeout(done, config.timeoutSeconds * 1000)` — and add a unit test asserting that `schedule({timeoutSeconds: 30}, …)` schedules a 30 000 ms delay. Keep the wire field named in seconds (do not rename to `timeoutMs`, since the Java record and JSON contract already fix the name); the conversion belongs in the adapter, ideally in a named helper (`secondsToMillis`) so the intent is unmistakable.
+
+2. **`timeout.ts` — `Timeout` type is not exported (minor, non-blocking but should be fixed in the same change).**
+   `schedule` is exported but its parameter type is a module-private alias, so callers cannot name or construct a typed `Timeout` value without duplicating the shape. That invites local re-declarations that will drift from the Java record. Export the type (or better, derive it from the shared API type definitions if the project generates TS types from the Java contract).
+
+Not flagging: the Java record and the Jackson field name (`timeoutSeconds`) are consistent with the stated wire contract; `int` comfortably covers the 0–3600 range. Runtime range validation on the TS side would be defensible but the reviewer notes state the wire value is already constrained, so I would not block on it.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,17 @@
+**Verdict: block.** The change does not implement the task so much as relocate infrastructure into the domain and break the existing seam.
+
+1. **`pricing.py`, `price()` signature — breaking API change not asked for.** `price(provider: QuoteProvider)` became `price()`. Every caller and test that injects a provider now fails, and the task ("calculate domain price from vendor quote") did not require changing the signature. Require: keep `price(provider: QuoteProvider) -> int` unchanged.
+
+2. **`pricing.py` — domain function now performs network I/O; `QuoteProvider` becomes dead code.** The Protocol exists precisely so the domain doesn't know about HTTP. After this diff `QuoteProvider` is still declared but nothing implements or consumes it, and `price()` can't be unit-tested without mocking `requests`. The reviewer note "domain now owns volatile URL and requests behavior" describes the defect, not a justification. Require: implement the vendor call as an adapter that satisfies the seam — e.g. `class HttpQuoteProvider: def __init__(self, url: str, session=None): ...; def quote(self) -> int: ...` — in an infrastructure module (or at minimum outside `price`), and have the composition root pass it into `price(provider)`.
+
+3. **`pricing.py` line 6 — hard-coded URL, including a `.example.test` placeholder host.** The vendor endpoint is baked into the domain module with no way to point at staging/prod or to change vendors, and the value in the diff isn't even a real endpoint. Require: URL supplied via constructor/config to the adapter; no literal endpoint in domain code.
+
+4. **`pricing.py` line 8 — `response.json()["cents"]` is not validated, contrary to the reviewer notes.** If the body is not an object, lacks `"cents"`, or has a non-integer value, this raises `KeyError`/`TypeError`, or silently does `"12" + 10` → `TypeError` / a float + 10 → float. The note claims "validated numeric JSON quote"; nothing in the code does that. Require: in the adapter, extract and check the value (`isinstance(cents, int)` and non-negative, or a schema) and raise a clear domain-level error otherwise; keep the `-> int` contract.
+
+5. **`pricing.py` — return type annotation dropped.** `price` previously returned `int` (Protocol-backed); now it's unannotated and, per (4), not guaranteed to be `int`. Require: `-> int` on both `price` and the adapter's `quote`.
+
+6. **No tests.** The original design made `price` trivially testable with a stub provider; the new one can't be tested without network mocking, and the diff adds none. Require: a stub-provider test for `price` and an adapter test (mocked `requests`/`Session`) covering success, non-2xx, timeout, and malformed JSON.
+
+Minimal acceptable shape: leave `price(provider)` as-is, add `HttpQuoteProvider(url)` implementing `QuoteProvider` with the `requests` call, timeout, `raise_for_status`, and JSON validation, and wire it up where the app is composed.
+
+__ABLATION_DONE__ exit=0

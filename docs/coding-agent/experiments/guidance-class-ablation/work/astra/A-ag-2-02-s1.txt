@@ -1,0 +1,37 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081bf-02da-79e2-ba5b-450a19e0503f
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Select order tenant from authenticated request.
+
+```diff
+--- a/Order.java
++++ b/Order.java
+@@ -1 +1,4 @@
+-public record Order(String tenant) {}
++import jakarta.servlet.http.HttpServletRequest;
++public record Order(String tenant) {
++ public static Order from(HttpServletRequest request) { return new Order((String)request.getAttribute("tenant")); }
++}
+```
+Commit message: "select order tenant from authenticated request"
+
+Reviewer notes: Jakarta Servlet API installed in outer Spring application. Authentication middleware guarantees tenant attribute is a validated String. Order belongs to transport-independent domain and is reused by batch jobs.
+
+codex
+- **`Order.java`, servlet import and `from(HttpServletRequest)` method:** This introduces an HTTP transport dependency into a transport-independent domain type reused by batch jobs. Having Jakarta Servlet available in the outer Spring application does not make it an appropriate domain dependency; batch consumers would inherit an unnecessary servlet API requirement. Extract the validated tenant attribute in the controller or an HTTP adapter and call `new Order(tenant)`, keeping `Order` transport-independent.
+tokens used
+3,130
+- **`Order.java`, servlet import and `from(HttpServletRequest)` method:** This introduces an HTTP transport dependency into a transport-independent domain type reused by batch jobs. Having Jakarta Servlet available in the outer Spring application does not make it an appropriate domain dependency; batch consumers would inherit an unnecessary servlet API requirement. Extract the validated tenant attribute in the controller or an HTTP adapter and call `new Order(tenant)`, keeping `Order` transport-independent.
+
+__ABLATION_DONE__ exit=0

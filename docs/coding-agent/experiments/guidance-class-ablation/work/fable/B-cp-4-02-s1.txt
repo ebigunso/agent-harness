@@ -1,0 +1,18 @@
+**Finding 1 — `totals.py`, `calculate_total`, line 2: in-place mutation of the caller's list**
+
+`items[:] = [x for x in items if x >= 0]` rewrites the caller's list rather than computing a filtered value locally. Per the reviewer notes, the caller owns that list and reuses it for the adjustment table. After this call, the negative adjustments are silently gone from the table too — a data-loss side effect that the task did not ask for ("only changes the displayed sum") and that no reader of the call site could anticipate from a function named `calculate_total`. This is exactly the hidden coupling / surprising side effect the readability guideline warns against: the function's contract becomes "returns a sum *and* destructively edits your input," which cannot be understood without reconstructing what the caller does with the list afterwards.
+
+Required change: compute the filtered sum without touching the input.
+
+```python
+def calculate_total(items):
+    return sum(x for x in items if x >= 0)
+```
+
+(Or `sum(x for x in items if x > 0)` — functionally identical for the sum since zero contributes nothing; `>= 0` is fine.)
+
+Beyond correctness, the slice-assignment idiom is an unusual choice that draws attention for the wrong reason; a plain generator expression states the intent directly.
+
+I would block on this. Nothing else in the diff to flag.
+
+__ABLATION_DONE__ exit=0

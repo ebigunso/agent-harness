@@ -1,0 +1,11 @@
+**Finding 1 — `logging.go` (entire hunk): unrelated logging migration bundled into the TTL change.**
+
+- **What's wrong:** The commit is titled and scoped as "honor one minute cache lifetime," and the `cache.go` change (`time.Second` → `time.Minute`) fully accomplishes that. The `logging.go` hunk replaces the standard `log` output configuration with a `slog` JSON handler. That is a separate behavioral change (log format switches to JSON, default logger becomes slog) with no relationship to cache TTL, and the commit message does not mention it.
+- **Why it matters:** Rollback reverts the whole commit. If the one-minute TTL turns out to be wrong (e.g., stale reads, memory pressure) and someone reverts "honor one minute cache lifetime," they will also silently revert the logging migration — flipping log output back to plaintext and possibly breaking whatever downstream consumers (log shippers, dashboards) were updated to expect JSON. Conversely, if the JSON handler causes a problem, the only revert path also undoes the TTL fix. The two changes have independent risk profiles and independent owners/tasks; coupling them means neither can be reverted cleanly. The fact that the logging migration is separately approved doesn't fix this — it makes it *more* obviously a distinct unit that should land on its own.
+- **What I'd require:** Drop the `logging.go` hunk from this commit and land it separately with its own message ("migrate default logger to slog JSON handler"). This commit should contain only the `cache.go` change, so the message, diff, and rollback unit all agree.
+
+**`cache.go`:** The TTL change itself is correct and minimal — `time.Second` → `time.Minute` matches the stated task. No issue there.
+
+**Not raised:** The `slog.SetDefault` call is functionally reasonable in isolation (it also redirects the legacy `log` package to the new handler, so existing `log.Printf` callers keep writing to `w`), and the reviewer notes confirm either writer is acceptable. I would not block on the logging code itself — only on its inclusion in this commit.
+
+__ABLATION_DONE__ exit=0

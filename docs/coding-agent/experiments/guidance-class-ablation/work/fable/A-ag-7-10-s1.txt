@@ -1,0 +1,33 @@
+**Verdict: block.** The overflow path loses data silently, and for a buffer that can hold critical failure events that's disqualifying on its own.
+
+## Findings
+
+### 1. `telemetry.php:5` — overflow silently discards events, with no signal of any kind
+`if (count($this->queue) >= 2) return;` drops the incoming event and tells nobody: `write()` returns `void`, nothing is counted, nothing is logged, and `drain()` returns a queue that looks complete. The reviewer notes confirm the payload includes critical failure events, so the exact records you most need during an incident are the ones most likely to arrive during a burst and be thrown away — and the downstream consumer has no way to know the picture is incomplete.
+
+Required: overflow must be observable. At minimum, maintain a `$dropped` counter and surface it — either as a return value from `write()` (`bool`), a `droppedCount()`/`drainStats()` accessor, or a synthetic `telemetry.dropped` event injected on `drain()` so the loss propagates to wherever the events go. Ideally severity-aware handling too: critical events should not be subject to the same best-effort drop as debug noise (reserve capacity, or evict a lower-severity queued event instead).
+
+### 2. `telemetry.php:5` — drop policy is undocumented and arguably backwards
+The current behavior is "drop newest." For failure telemetry the newest events are usually the ones that describe the failure; dropping them in favor of whatever happened to land in the buffer first is the wrong tradeoff. Whatever policy is chosen (drop-newest, drop-oldest, evict-by-severity), it needs to be a deliberate, documented decision, not an artifact of the early-return placement.
+
+Required: state the policy in a docblock and justify it; default to drop-oldest or severity-based eviction unless there's a reason not to.
+
+### 3. `telemetry.php:5` — capacity is a hard-coded literal
+`2` is a magic number baked into the method body. The notes say production capacity differs, which means either this line gets hand-edited on the way to production (a diff you'll never see in review) or there's a second copy of this class. Either way it's untestable at boundary conditions without editing source.
+
+Required: constructor parameter (`public function __construct(private int $capacity = ...)`) with validation that it's `>= 1`.
+
+### 4. Whole file — nothing here is asynchronous, and there is no shutdown flush
+The task and commit message say "buffer asynchronously," but this is a synchronous in-memory array whose only exit is an external scheduler calling `drain()`. That creates a second silent-loss path independent of overflow: any events written after the last scheduled drain and before process exit (normal request end, fatal, signal) evaporate. For failure telemetry that's the common case — the process is often dying precisely when it emits the event.
+
+Required: either a `__destruct`/`register_shutdown_function` flush hook with a documented contract for what happens if the sink isn't available, or an explicit statement in the class docblock that the caller owns final-drain responsibility and how. Also fix the commit message/naming to describe what this actually is (a bounded in-memory buffer).
+
+### 5. No tests
+A bounded buffer with a drop rule and a drain-and-reset is exactly the kind of thing whose edge cases (write at capacity, drain empties, drain twice, write after drain) should be pinned down in a few lines of unit tests. None are included.
+
+Required: tests covering fill-to-capacity, overflow behavior (including whatever signal Finding 1 introduces), and drain resetting state.
+
+### Nit (would not block alone)
+Lines 3, 6, 9: missing spaces around `=`, and multiple statements on one line in `drain()`. Run the project formatter.
+
+__ABLATION_DONE__ exit=0

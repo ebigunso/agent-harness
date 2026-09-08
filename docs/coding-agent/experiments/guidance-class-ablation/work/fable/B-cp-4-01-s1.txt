@@ -1,0 +1,16 @@
+**Verdict: block.** The change works only by accident of call order and hides the pricing input inside a static side effect.
+
+**Findings**
+
+1. **`Pricing.java`, `isEligible` — a boolean predicate now mutates static state.**
+   `isEligible(member)` reads as a pure query, but it now writes `discount`. Nothing in the name or signature signals that calling it changes what `price()` returns afterward. A reader of `price(int cents)` cannot understand its result without reconstructing "did someone call `isEligible`, with what argument, since the last reset?" — exactly the hidden context the readability guideline says to avoid. Require: keep `isEligible` pure (or delete it if it's just an identity function) and pass membership explicitly to pricing, e.g. `static int price(int cents, boolean member) { return cents - (member ? MEMBER_DISCOUNT_CENTS : 0); }`. No static mutable field.
+
+2. **`Pricing.java`, `price` — correctness depends on caller sequencing that the class doesn't enforce.**
+   Per the notes, the UI calls `isEligible` before `price`, but other callers call `price` directly. Those callers get whatever `discount` happens to hold: `0` if `isEligible` hasn't run this session, `10` if the UI probed a member earlier in the same session, and the *last* probed value if `isEligible` was called more than once (e.g. checking eligibility for one member, then pricing a non-member line). Same input to `price`, different output depending on unrelated prior calls. This is a real bug path, not a style concern. Require: the fix in (1) — membership as an explicit parameter eliminates the ordering dependency entirely.
+
+3. **`Pricing.java`, magic `10` — discount semantics are unstated.**
+   `10` is subtracted directly from cents, so this is a flat 10-cent discount. The task says "member discounts" with no amount or basis; a flat 10¢ is unusual enough that it looks like a stand-in for 10%. Require: confirm the intended rule with the author, and either way name the constant (`MEMBER_DISCOUNT_CENTS` or a percentage) so the unit is obvious at the call site.
+
+**Not raised (per reviewer notes):** concurrency on the static field, cross-order leakage of `discount` (though note the diff itself contains no reset — the class relies on something external to clear it), and negative-price handling (amounts ≥ 10 cents make `cents - 10 ≥ 0`). If the explicit-parameter refactor in (1) is adopted, the reset concern disappears anyway since there is no state to reset.
+
+__ABLATION_DONE__ exit=0

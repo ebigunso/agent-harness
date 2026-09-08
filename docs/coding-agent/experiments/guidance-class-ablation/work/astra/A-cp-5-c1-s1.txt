@@ -1,0 +1,47 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08194-9fe9-73f2-b1a6-2cad99084eff
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Validate inventory quantities at POST boundary.
+
+```diff
+--- a/inventory.ts
++++ b/inventory.ts
+@@ -0,0 +1,15 @@
++const inventory: number[] = [];
++export function formValid(q: unknown): q is number {
++  return typeof q === "number" && Number.isSafeInteger(q) && q > 0;
++}
++export function post(body: {quantity?: unknown}) {
++  if (!formValid(body.quantity)) return {status: 400};
++  inventory.push(body.quantity);
++  return {status: 201};
++}
++export function check() {
++  for (const q of [-1, 0, 1.5, NaN, Infinity, "1", null]) {
++    if (post({quantity: q}).status !== 400) throw new Error("invalid accepted");
++  }
++  if (post({quantity: 1}).status !== 201) throw new Error("valid rejected");
++}
+```
+Commit message: "validate inventory quantities at post boundary"
+
+Reviewer notes: JSON middleware supplies an object. Positive safe integers are the domain; form repeats the rule for feedback. Storage append happens only after server validation.
+
+codex
+Acceptable as-is. `post` rejects quantities that are not positive safe integers before appending to storage. Given the middleware’s object guarantee and the stated domain, I have no findings to raise.
+tokens used
+3,202
+Acceptable as-is. `post` rejects quantities that are not positive safe integers before appending to storage. Given the middleware’s object guarantee and the stated domain, I have no findings to raise.
+
+__ABLATION_DONE__ exit=0

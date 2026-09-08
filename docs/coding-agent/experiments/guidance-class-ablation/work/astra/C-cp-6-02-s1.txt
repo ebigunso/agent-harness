@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b2-0b36-70a1-b781-2067287a1834
+--------
+user
+Reference material loaded for this review:
+
+Align models/contracts/adapters, schema/semantics. Prevent loss/coercion/shape drift; version/migrate explicitly.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Display invoice total with tax.
+
+```diff
+--- a/invoice.py
++++ b/invoice.py
+@@ -0,0 +1,2 @@
++def response():
++    return {"amount": 1000, "taxAmount": 100}
+--- a/invoice.js
++++ b/invoice.js
+@@ -0,0 +1,2 @@
++export function mapInvoice(wire) { return {amount: wire.amount}; }
++export function total(invoice) { return invoice.amount + (invoice.taxAmount ?? 0); }
+```
+Commit message: "display invoice total with tax"
+
+Reviewer notes: All numbers are bounded integer cents. Python response and JavaScript adapter are the full contract. Client display treats missing tax as zero for legacy untaxed records, but new responses always carry taxAmount.
+
+codex
+- **`invoice.js:1` — `mapInvoice` drops `taxAmount`.** The response contains `{amount: 1000, taxAmount: 100}`, but the adapter retains only `amount`, so `total()` uses the legacy zero-tax fallback and displays **1000 cents instead of 1100 cents**. Preserve `taxAmount` through the adapter while retaining the fallback for legacy records where it is absent. Require a regression test covering the response → adapter → total path.
+tokens used
+3,197
+- **`invoice.js:1` — `mapInvoice` drops `taxAmount`.** The response contains `{amount: 1000, taxAmount: 100}`, but the adapter retains only `amount`, so `total()` uses the legacy zero-tax fallback and displays **1000 cents instead of 1100 cents**. Preserve `taxAmount` through the adapter while retaining the fallback for legacy records where it is absent. Require a regression test covering the response → adapter → total path.
+
+__ABLATION_DONE__ exit=0

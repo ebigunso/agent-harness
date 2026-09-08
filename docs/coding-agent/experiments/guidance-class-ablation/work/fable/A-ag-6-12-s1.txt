@@ -1,0 +1,23 @@
+**Verdict: block.** The change implements "call all mirrors at once and take whatever finishes first," which is neither a correct fallback nor bounded degradation. Findings:
+
+1. **`Fallback.scala:4` — `firstCompletedOf` returns the first *completed* future, including failures.**
+   If mirror A fails fast (connection refused, 503) while mirror B would have succeeded 50 ms later, the read fails. During an outage the fast failure is the most likely outcome, so this fallback will mostly return the outage error rather than degrade around it. Required: first-*successful* semantics — succeed on the first mirror that succeeds, fail only after all attempted mirrors have failed (and surface the last/aggregated error).
+
+2. **`Fallback.scala:4` — unbounded fan-out to every mirror on every request.**
+   Every open-circuit request invokes all three mirrors immediately. The circuit is open precisely because this dependency domain is unhealthy, and the reviewer note says the mirrors share that domain, so this triples load on an already-degraded target and works against the circuit breaker's purpose. Required: sequential (or hedged-with-delay) fallback — try one mirror, move to the next only on failure/timeout — with an explicit cap on total attempts per request. If parallel hedging is truly wanted, it needs a concurrency limit shared across requests, not per-request fan-out.
+
+3. **`Fallback.scala:4` — no per-call or aggregate deadline.**
+   Gateway futures may never complete. If the mirrors hang, `firstCompletedOf` hangs forever and the caller's request is stuck; with fan-out, three hung calls are leaked per request. Required: a per-mirror timeout and an overall fallback budget (e.g., race each call against a scheduled timeout `Promise`, and cap the total elapsed time across the sequential attempts). Losing/late futures should be observed (logged/metricated) and, where the client supports it, cancelled.
+
+4. **`Fallback.scala:4` — empty `mirrors` produces a future that never completes.**
+   In Scala 2.13, `Future.firstCompletedOf` on an empty collection returns a promise that is never completed. A misconfigured deployment with zero mirrors turns every open-circuit read into an infinite hang instead of an error. Required: fail fast with a clear exception (or return a defined degraded value) when no mirrors are configured; cover this in a test.
+
+5. **`Fallback.scala:4` — losing futures' outcomes are discarded silently.**
+   Once the race is decided, the other mirrors' results and failures are dropped with no logging or metrics, so you cannot see that mirrors are failing/hanging or that the fallback is under strain. Required: at minimum `onComplete` logging + counters per mirror; this matters more once fan-out exists.
+
+6. **No tests.**
+   The behaviors above (fast failure shadowing a success, hang without deadline, empty mirrors, all-mirrors-fail) are exactly the cases that bite in production and none are exercised. Required: unit tests using controllable `Promise`s for each case, plus one asserting the request stays within the aggregate deadline.
+
+Minor, non-blocking: consider whether "bounded degradation" here should include a last-resort behavior after all mirrors fail/time out (stale cache, empty result, or an explicit `ServiceUnavailable`) rather than propagating whatever the last gateway error was — the task framing suggests the caller expects a defined degraded response, not a raw upstream failure.
+
+__ABLATION_DONE__ exit=0

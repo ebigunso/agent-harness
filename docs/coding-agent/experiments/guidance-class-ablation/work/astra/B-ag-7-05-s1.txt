@@ -1,0 +1,61 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081db-ffe9-7b01-88c6-b1dc4ebba801
+--------
+user
+Reference material loaded for this review:
+
+### Gate 7: Observability of Architectural Behavior
+
+**Expectation**
+- Meaningful signals exist to understand critical behavior and failures at boundaries.
+- Observability supports diagnosis without exposing sensitive internals.
+
+**Evidence expectations**
+- Plan identifies what success/failure signals are needed for changed flows.
+- Review confirms key boundary events and failures are inspectable.
+- Sensitive data exposure risk in logs/telemetry is assessed.
+
+**Anti-patterns**
+- Silent failure paths with no diagnosable signal.
+- Overly noisy instrumentation that hides actionable indicators.
+- Logging sensitive payloads as a convenience.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Track queued task launch.
+
+```diff
+--- a/lib.rs
++++ b/lib.rs
+@@ -0,0 +1,5 @@
++use std::thread;
++pub fn start(id: String, job: impl FnOnce() -> Result<(),String> + Send + 'static, signal: impl FnOnce(String)) {
++ signal(format!("spawned:{id}"));
++ let _ = thread::spawn(job);
++}
+```
+Commit message: "track queued task launch"
+
+Reviewer notes: Job returns Result; an Err represents failed queued work and must be inspectable. Caller only sees launch signal; detached thread result is dropped. Job ID is safe to log, no payload needed.
+
+codex
+- **`lib.rs:4` — Queued-work failures are unobservable.** Dropping the `JoinHandle` discards the job’s `Result`, so an `Err` produces no inspectable failure signal. Require a retained and observed handle or a worker wrapper that reports completion/failure correlated with the safe job ID. Avoid logging payloads or arbitrary error strings that may contain sensitive data.
+
+- **`lib.rs:3–4` — Launch is reported before it succeeds.** `spawned:{id}` is emitted before `thread::spawn`, which can fail by panicking, leaving a misleading success event. Require the launch-success signal only after successful thread creation, and an inspectable launch-failure path, for example using `thread::Builder::spawn` and handling its `Result`.
+tokens used
+3,412
+- **`lib.rs:4` — Queued-work failures are unobservable.** Dropping the `JoinHandle` discards the job’s `Result`, so an `Err` produces no inspectable failure signal. Require a retained and observed handle or a worker wrapper that reports completion/failure correlated with the safe job ID. Avoid logging payloads or arbitrary error strings that may contain sensitive data.
+
+- **`lib.rs:3–4` — Launch is reported before it succeeds.** `spawned:{id}` is emitted before `thread::spawn`, which can fail by panicking, leaving a misleading success event. Require the launch-success signal only after successful thread creation, and an inspectable launch-failure path, for example using `thread::Builder::spawn` and handling its `Result`.
+
+__ABLATION_DONE__ exit=0

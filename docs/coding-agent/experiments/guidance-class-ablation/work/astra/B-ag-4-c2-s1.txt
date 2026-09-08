@@ -1,0 +1,67 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d9-5c38-7f83-81fd-bc891c6be0d9
+--------
+user
+Reference material loaded for this review:
+
+### Gate 4: Explicit Interface Contracts
+
+**Expectation**
+- Boundaries between components are explicit, minimal, and stable.
+- Inputs, outputs, and failure semantics are intentionally modeled.
+
+**Evidence expectations**
+- Plan states contract-impact scope (none/additive/breaking).
+- Review verifies contract updates are synchronized across producers/consumers.
+- Failure modes are explicit and not silently swallowed.
+
+**Anti-patterns**
+- Implicit contracts communicated only by call-site assumptions.
+- Breaking contract changes shipped without migration or compatibility notes.
+- Returning ambiguous success/failure signals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Keep RPC success and failure distinct.
+
+```diff
+--- a/rpc.go
++++ b/rpc.go
+@@ -0,0 +1,5 @@
++package rpc
++func Fetch(call func() ([]string,error)) ([]string,error) { return call() }
++func Next(call func() ([]string,error)) (string,error) {
++ rows,err:=Fetch(call); if err!=nil { return "",err }; if len(rows)==0 { return "idle",nil }; return "work",nil
++}
+--- a/rpc_test.go
++++ b/rpc_test.go
+@@ -0,0 +1,7 @@
++package rpc
++import ("testing"; "errors")
++func TestOutcomes(t *testing.T) {
++ if state,err:=Next(func()([]string,error){return nil,nil}); err!=nil || state!="idle" { t.Fatal(state,err) }
++ cause:=errors.New("unavailable")
++ if _,err:=Next(func()([]string,error){return nil,cause}); !errors.Is(err,cause) { t.Fatal(err) }
++}
+```
+Commit message: "keep rpc success and failure distinct"
+
+Reviewer notes: Go normal error contract: nil error means successful empty or populated result. Non-nil error remains an actionable unavailable result; caller handles it before examining collection.
+
+codex
+Acceptable as-is. `Fetch` preserves the RPC error, and `Next` checks it before examining rows. Empty success returns `"idle", nil`; populated success returns `"work", nil`; failure returns `"", err`. Tests verify empty success and error identity. No findings.
+tokens used
+3,360
+Acceptable as-is. `Fetch` preserves the RPC error, and `Next` checks it before examining rows. Empty success returns `"idle", nil`; populated success returns `"work", nil`; failure returns `"", err`. Tests verify empty success and error identity. No findings.
+
+__ABLATION_DONE__ exit=0

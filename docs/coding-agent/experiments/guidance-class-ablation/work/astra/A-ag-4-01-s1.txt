@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081c2-a771-7900-a4ff-eaea32373bde
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Rename internal account identifier field.
+
+```diff
+--- a/api.py
++++ b/api.py
+@@ -1 +1 @@
+-def response(): return {"user_id":"a"}
++def response(): return {"account_id":"a"}
+--- a/client.ts
++++ b/client.ts
+@@ -0,0 +1,4 @@
++export function id(json: string) {
++ const row=JSON.parse(json) as {user_id: string};
++ return row.user_id;
++}
+```
+Commit message: "rename internal account identifier field"
+
+Reviewer notes: Python response feeds this named TS consumer. Internal API rename is intended; both ends are in reach and there are no out-of-scope consumers. Receiver gets decoded JSON and old type assertion does not validate it.
+
+codex
+- **`client.ts:2–3` — Consumer still uses `user_id`.** The producer now emits `account_id`, so reading `row.user_id` returns `undefined`. The type assertion neither validates nor renames the field. Require the consumer’s type and property access to use `account_id`.
+
+- **`client.ts:1–2` — Consumer parses an already-decoded value.** The notes specify that the receiver gets decoded JSON, but this function expects a string and calls `JSON.parse`, which fails when passed the response object. Require it to accept the decoded object and remove the parsing step.
+tokens used
+3,320
+- **`client.ts:2–3` — Consumer still uses `user_id`.** The producer now emits `account_id`, so reading `row.user_id` returns `undefined`. The type assertion neither validates nor renames the field. Require the consumer’s type and property access to use `account_id`.
+
+- **`client.ts:1–2` — Consumer parses an already-decoded value.** The notes specify that the receiver gets decoded JSON, but this function expects a string and calls `JSON.parse`, which fails when passed the response object. Require it to accept the decoded object and remove the parsing step.
+
+__ABLATION_DONE__ exit=0

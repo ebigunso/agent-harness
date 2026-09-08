@@ -1,0 +1,39 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08193-3bfa-7af3-b191-9375f4935085
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Apply member discounts explicitly.
+
+```diff
+--- a/Pricing.java
++++ b/Pricing.java
+@@ -1,4 +1,7 @@
+ final class Pricing {
+     static final class Order { int cents; Order(int cents) { this.cents = cents; } }
+     static boolean eligible(boolean member) { return member; }
++    static void applyDiscount(Order order, boolean member) {
++        if (eligible(member)) order.cents -= 10;
++    }
+ }
+```
+Commit message: "apply member discounts explicitly"
+
+Reviewer notes: Integer cents >= 10. Predicate has no effects; named command updates only its supplied order. One command per order: members lose 10 cents, nonmembers stay unchanged; no singleton state.
+
+codex
+Acceptable as-is. No findings: the explicit command subtracts 10 cents for members, leaves nonmembers unchanged, and modifies only the supplied order.
+tokens used
+3,087
+Acceptable as-is. No findings: the explicit command subtracts 10 cents for members, leaves nonmembers unchanged, and modifies only the supplied order.
+
+__ABLATION_DONE__ exit=0

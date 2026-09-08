@@ -1,0 +1,39 @@
+## Findings
+
+### 1. BLOCKER — `Booking.java`, `reserve()`: capacity invariant is check‑then‑act with no atomicity, so it does not actually hold
+
+**What's wrong.** The method reads `capacity - COUNT(*)` in one statement and inserts in a second, on an autocommit connection, with no transaction, no row lock, and (per the notes) no database constraint. Two concurrent callers for the last seat both observe `remaining == 1`, both pass the `<= 0` check, both insert. The flight is oversold. Even wrapping the two statements in a transaction at READ COMMITTED doesn't fix it — a plain `SELECT` takes no lock, so both transactions still see the stale count.
+
+**Why it matters.** "Never exceed capacity" is the only invariant this feature exists to protect, and it is enforced solely in an optional caller path (this method). Any other writer — a retry loop, an admin script, a second service — can breach it, and this method itself breaches it under ordinary contention. The `boolean` return is therefore misleading: `true` does not mean "a seat was legitimately reserved."
+
+**Required instead.** Move enforcement to an authoritative point where the DB serializes it. Any of:
+
+- **Guarded counter + CHECK (preferred).** Add `reserved_count` to `flights` with `CHECK (reserved_count <= capacity)`. Then, in one transaction:
+  ```sql
+  UPDATE flights SET reserved_count = reserved_count + 1
+   WHERE id = ? AND reserved_count < capacity;   -- affected rows == 1 ⇒ seat won
+  INSERT INTO reservations(id, flight_id) VALUES (?, ?);
+  ```
+  Return `false` when the update affects 0 rows. The row‑level write lock serializes competitors at READ COMMITTED, and the CHECK makes the invariant hold regardless of which code path writes.
+- **Lock the parent row.** `SELECT capacity FROM flights WHERE id = ? FOR UPDATE`, then count, then insert, all in one transaction with autocommit off. Simpler schema change, but the invariant still lives only in code.
+- **Seat‑slot uniqueness.** Model seats as rows (`flight_id, seat_no`) with a unique constraint and insert into a free slot; the constraint is the invariant.
+
+Whichever is chosen, the diff must also handle `setAutoCommit(false)`/commit/rollback (restoring the connection's prior state), and the review should include a concurrent test (two threads racing for one seat) demonstrating exactly one succeeds.
+
+### 2. FLAG — `reserve()`: repeated execution is not defined
+
+**What's wrong.** `reservation` is a caller‑supplied ID with a uniqueness guarantee, but a retry after a lost response (insert committed, client never saw it) throws a duplicate‑key `SQLException` — indistinguishable from any other DB failure — instead of reporting the reservation as already made. Conversely, if the same ID is reused for a *different* flight, the behavior is whatever the PK does, which the method doesn't specify.
+
+**Why it matters.** The task is a state transition with an externally supplied identity; callers will retry. Without defined idempotency they either double‑book by minting a new ID or treat a success as a failure.
+
+**Required instead.** Define the contract: on duplicate key, look up the existing row; return `true` if it matches `(reservation, flight)`, otherwise raise a distinct domain error. Note this interacts with fix #1 — with the counter approach, a duplicate insert must roll back the counter increment, which is another reason the two statements need to be in one transaction.
+
+### 3. MINOR — `reserve()`: domain outcomes leak through `SQLException`
+
+"Flight missing" is a caller error, not a database fault, yet it's thrown as `SQLException`, forcing callers to parse messages to distinguish it from connection failures. Also, if `capacity` is `NULL`, `getInt` returns `0` and the method silently returns `false`. Require a dedicated exception (or a result enum: `RESERVED / FULL / NO_SUCH_FLIGHT`) and treat null capacity as an error rather than "full."
+
+---
+
+**Verdict:** Not acceptable as‑is. Finding #1 is disqualifying — the change does not deliver the one invariant the task requires. #2 should be resolved in the same change since the fix shape depends on it; #3 can be folded in or deferred.
+
+__ABLATION_DONE__ exit=0

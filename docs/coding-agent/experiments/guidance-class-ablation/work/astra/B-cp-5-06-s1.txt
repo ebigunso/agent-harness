@@ -1,0 +1,58 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a1-3328-7992-89a9-35281765e07c
+--------
+user
+Reference material loaded for this review:
+
+### 5) Define and Protect Invariants
+
+- Make assumptions explicit at module boundaries.
+- Validate inputs at trust boundaries and normalize internal state early.
+- Fail early with actionable errors when invariants are violated.
+
+Review checks:
+- Which invariants are introduced or relied upon?
+- Are boundary checks and failure modes explicit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Expose reusable debit amounts.
+
+```diff
+--- a/Money.cs
++++ b/Money.cs
+@@ -0,0 +1,12 @@
++using System;
++public sealed class Money {
++    public decimal Amount { get; }
++    public Money(decimal amount) { Amount = amount; }
++    public static Money Create(decimal amount) {
++        if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount));
++        return new Money(amount);
++    }
++}
++public static class Ledger {
++    public static decimal Debit(decimal balance, Money money) => balance - money.Amount;
++}
+```
+Commit message: "expose reusable debit amounts"
+
+Reviewer notes: C# decimal. Money represents a nonnegative debit magnitude; overdraft is permitted by account policy, so balance bounds are separate. Public constructor is callable by import and API adapters.
+
+codex
+- **`Money.cs:4` — Public constructor bypasses the nonnegative invariant.** `new Money(-10m)` succeeds, including through import and API adapters. Passing it to `Ledger.Debit` increases the balance instead of debiting it. Validate `amount >= 0` in the constructor and throw `ArgumentOutOfRangeException` for negative values; have `Create` delegate to that validated constructor so every construction path enforces the invariant.
+tokens used
+3,306
+- **`Money.cs:4` — Public constructor bypasses the nonnegative invariant.** `new Money(-10m)` succeeds, including through import and API adapters. Passing it to `Ledger.Debit` increases the balance instead of debiting it. Validate `amount >= 0` in the constructor and throw `ArgumentOutOfRangeException` for negative values; have `Create` delegate to that validated constructor so every construction path enforces the invariant.
+
+__ABLATION_DONE__ exit=0

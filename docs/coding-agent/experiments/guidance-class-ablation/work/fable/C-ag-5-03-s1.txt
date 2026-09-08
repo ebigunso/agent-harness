@@ -1,0 +1,49 @@
+## Review: `delete.go` — Delete account and recurring jobs
+
+Not acceptable as-is. The core defect is that the change violates the stated invariant under the failure mode the reviewer notes explicitly call out.
+
+### Findings
+
+**1. `delete.go:4` — Non-atomic two-phase write leaves a deleted account with live billable jobs (blocking)**
+
+`MarkDeleted` commits, then `CancelJobs` runs. The stores persist independently, so the outcome table is:
+
+| MarkDeleted | CancelJobs | Persisted state | Invariant ("deleted ⇒ no billable jobs") |
+|---|---|---|---|
+| ok | ok | deleted, no jobs | holds |
+| err | not run | active, jobs | holds |
+| ok | **err** | **deleted, jobs still billing** | **violated** |
+| ok | crash/timeout before call | **deleted, jobs still billing** | **violated** |
+
+The function returns an error in row 3, but the damage is already committed; the caller cannot undo `MarkDeleted` and has no way to tell from the bare error which step failed. Deleted accounts continue to be billed — that's the exact bad state the task exists to prevent.
+
+Require one of:
+- A single atomic store operation (`store.DeleteAccountAndJobs(id)` inside one transaction), or a transaction handle passed to both calls, so both commit or neither does.
+- If cross-store atomicity is genuinely unavailable: **invert the order** — cancel jobs first, then mark deleted. The failure state then becomes "active account with jobs cancelled," which is recoverable and does not bill anyone. Pair this with the idempotency requirement in (2) so a retry completes the deletion.
+
+Either way, the error should be wrapped with which phase failed (`fmt.Errorf("cancel jobs for %s: %w", id, err)`) so callers/operators can act on the partial state.
+
+**2. `delete.go:3-4` — No idempotency guarantee; retries after partial failure may be impossible or unsafe (blocking)**
+
+Nothing in the `Store` contract says `MarkDeleted` or `CancelJobs` tolerates being called on an already-deleted account or already-cancelled jobs. After row 3 above, the natural remediation is "call `Delete` again" — but if `MarkDeleted` returns an error for an already-deleted id, the retry short-circuits on line 4 and never reaches `CancelJobs`, permanently stranding the jobs. Repeated/concurrent invocations (double-click, duplicate queue message, two API replicas) hit the same path.
+
+Require: document and enforce that both store methods are idempotent (already-deleted / already-cancelled is success, not error), and that `Delete` as a whole is safe to re-run until it succeeds. Add tests for: second call after full success, second call after `CancelJobs` failure, two concurrent calls.
+
+**3. `delete.go` — Ordering alone doesn't close the race with job creation (flag, needs owner decision)**
+
+With either ordering there is a window where a job can be created for an account mid-deletion (cancel → *new job created* → mark deleted; or mark deleted → *new job created* → cancel misses it depending on snapshot semantics). The invariant is only authoritatively enforced if the job writer refuses to create jobs for an account that is deleted or deleting, or if both operations run under a lock/transaction covering the account row. This change doesn't establish that, and the PR doesn't say where it's enforced.
+
+Require: either the transactional approach from (1), or an explicit statement of which component rejects job creation for deleted/deleting accounts, with a test. If it's "nowhere," that's a gap this PR should close (e.g. a `deleting` status set first, checked by the job creator).
+
+**4. `delete.go:2,4` — Not gofmt'd (nit)**
+
+Semicolon-joined statements on one line won't survive `gofmt` and fail most CI lint gates. Run `gofmt`.
+
+### What I'd want to see before approving
+
+- Atomic store op **or** cancel-before-mark with documented idempotent store methods.
+- Wrapped errors identifying the failed phase.
+- Tests covering the partial-failure row and repeated/concurrent calls.
+- A clear answer on who blocks job creation during/after deletion.
+
+__ABLATION_DONE__ exit=0

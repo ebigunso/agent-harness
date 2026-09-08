@@ -1,0 +1,53 @@
+## Review findings
+
+**Verdict: block.** The change works for the `Handle` path but places the core business rule in the wrong layer, and the second caller demonstrates the consequence immediately.
+
+---
+
+### 1. `subscription.go` — `Handle`: transition invariant lives in the handler, not the domain
+
+**What's wrong:** The allowed-transition table (`trial→active|cancelled`, `active→cancelled`, `cancelled→∅`) is defined inside `Handle`, the entry-point function. `Service` — the thing that actually owns subscription state — has no knowledge of which transitions are legal. `Service.Save` is a bare setter.
+
+**Why it matters:** This is the Gate 1 anti-pattern verbatim ("transport handlers embedding business invariants"). The rule "a cancelled subscription cannot be reactivated" is a domain fact about subscriptions, not a fact about how one particular caller reaches the service. Anything that holds a `*Service` can violate it, and the reviewer notes already tell us something else does (see #2). The invariant is only as strong as the discipline of every future caller.
+
+**Require:** Move the transition rule onto the domain type and make the raw setter non-public:
+
+```go
+type Status string
+const (Trial Status = "trial"; Active Status = "active"; Cancelled Status = "cancelled")
+
+var transitions = map[Status]map[Status]bool{
+    Trial:     {Active: true, Cancelled: true},
+    Active:    {Cancelled: true},
+    Cancelled: {},
+}
+
+func (s *Service) Transition(next Status) error {
+    if !transitions[s.State][next] {
+        return fmt.Errorf("invalid transition %s -> %s", s.State, next)
+    }
+    s.State = next
+    return nil
+}
+```
+
+`Handle` then becomes a thin adapter: `return s.Transition(next)`. (Typed `Status` also closes the gap where `Save` currently accepts *any* string — the notes say "any status in that set," but nothing in the code enforces the set.)
+
+---
+
+### 2. `subscription.go` — `Scheduled`: bypasses validation entirely
+
+**What's wrong:** `Scheduled(s, next)` calls `s.Save(next)` directly, skipping the transition check. The scheduler can move `cancelled → active`, `active → trial`, or set `State` to an arbitrary string like `"banana"`.
+
+**Why it matters:** This is not hypothetical — the reviewer notes confirm the scheduler is a live caller. The task is "support activation and cancellation," and this path allows an unsupported, silently-invalid transition with no error surfaced. It's the direct, concrete consequence of #1: because the rule is in the handler rather than the domain, the second entry point simply doesn't have it. Two callers with different invariants on the same state is a correctness bug, not a style issue.
+
+**Require:** `Scheduled` must go through the same domain method as `Handle` (`return s.Transition(next)`) and return the error rather than swallowing it. If the scheduler genuinely needs a transition that interactive users don't (e.g. system-driven expiry), that should be an explicit, named domain operation with its own rule — not an unguarded write.
+
+---
+
+### Not raised
+
+- Rebuilding the `allowed` map on every call: negligible here, and it disappears naturally once the table becomes a package-level var per #1.
+- No concurrency guard on `State`: notes explicitly scope this out.
+
+__ABLATION_DONE__ exit=0

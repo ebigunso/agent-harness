@@ -1,0 +1,48 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081aa-fdf2-7733-95ab-3c18c5aa92ec
+--------
+user
+Reference material loaded for this review:
+
+Improve clarity/boundaries/diagnostics in existing design; avoid fast debt. Assess maintainability and risk/cost.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Expose vendor availability to domain services.
+
+```diff
+--- a/Services.cs
++++ b/Services.cs
+@@ -1,8 +1,8 @@
+ namespace Vendor { public class Client { public bool Ping() => true; } }
+ public interface IAvailability { bool IsAvailable(); }
+ public class VendorAdapter : IAvailability {
+     private readonly Vendor.Client client = new();
+     public bool IsAvailable() => client.Ping();
+ }
+-public class Orders { public bool Ready(IAvailability port) => port.IsAvailable(); }
+-public class Reports { public bool Ready(IAvailability port) => port.IsAvailable(); }
++public class Orders { public bool Ready(Vendor.Client client) => client.Ping(); }
++public class Reports { public bool Ready(Vendor.Client client) => client.Ping(); }
+```
+Commit message: "expose vendor availability to domain services"
+
+Reviewer notes: C# .NET 8. Existing port/adapter already supports IsAvailable. Local SDK facsimile captures actual vendor boundary; current behavior is correct. Vendor upgrade will rename Ping, and domain services are supposed to stay independent of SDK shapes.
+
+codex
+- **Services.cs — `Orders.Ready` and `Reports.Ready`:** Both methods replace `IAvailability` with `Vendor.Client`, bypassing the existing adapter and coupling domain services to the SDK’s `Ping()` method. Current behavior is correct, but the planned vendor rename will require changes in both domain services, violating their intended independence from SDK shapes and spreading upgrade maintenance beyond the adapter. Require both methods to retain `IAvailability` and call `IsAvailable()`, with vendor-specific changes confined to `VendorAdapter`.
+tokens used
+3,286
+- **Services.cs — `Orders.Ready` and `Reports.Ready`:** Both methods replace `IAvailability` with `Vendor.Client`, bypassing the existing adapter and coupling domain services to the SDK’s `Ping()` method. Current behavior is correct, but the planned vendor rename will require changes in both domain services, violating their intended independence from SDK shapes and spreading upgrade maintenance beyond the adapter. Require both methods to retain `IAvailability` and call `IsAvailable()`, with vendor-specific changes confined to `VendorAdapter`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,37 @@
+**Verdict: block.** The one line that accomplishes the task (adding `west` in `region.Root`) is fine; the rest of the diff undoes existing structure and should be reverted.
+
+## Findings
+
+### 1. `logs/root.go`, `jobs/root.go`, `cache/root.go` — delegation to `region.Root` removed and replaced with copy-pasted mapping
+
+**What's wrong:** Before this change, all three packages had a single line: `return region.Root(name)`. The diff deletes the import and inlines an identical copy of the east/west mapping into each package. The repo now has four copies of the same table (`region`, `logs`, `jobs`, `cache`).
+
+**Why it matters:** This is exactly the debt amplification the guideline warns against, and it's not required by the task. The reviewer notes confirm the resolver already owns this mapping, all three packages can call it, and there's no import cycle — so there was no technical reason to inline. The notes also say `north` is the next rollout; with this change, that rollout has to touch four files instead of one, and the failure mode when someone misses one is silent (the fallthrough returns `/srv/east` for a path that should be `/srv/north`). Maintainability is strictly degraded. The commit message also doesn't mention this removal, so the structural regression is hidden behind a "add west" description.
+
+**Required:** Drop the changes to `logs/`, `jobs/`, and `cache/` entirely. Keep them as `return region.Root(name)`. The only functional change needed is in `region/root.go`.
+
+### 2. `region/root.go` — `if west else east` shape with silent default
+
+**What's wrong:** `if name=="west" { return "/srv/west" }; return "/srv/east"` treats every non-`west` value as east.
+
+**Why it matters:** Startup validation currently makes this safe, but the notes say `north` is next. An `if/else` chain with an implicit default is the wrong extension point: adding a region is a two-step edit (add branch, remember the default is still east), and a validation gap or a typo in a config produces east paths with no diagnostic. A `switch` with explicit cases and a hard failure (panic or error) on unknown makes the next rollout a one-line addition and turns a silent misroute into a loud one.
+
+**Required (non-blocking on its own, but do it while you're here since it's the only file that should change):**
+```go
+func Root(name string) string {
+	switch name {
+	case "east":
+		return "/srv/east"
+	case "west":
+		return "/srv/west"
+	}
+	panic("region.Root: unknown region " + name) // or return error
+}
+```
+Also run `gofmt`; the `};` single-line form isn't formatted.
+
+### 3. Diff consistency question (not a code defect, but needs an answer before merge)
+
+`go.mod` and `region/root.go` are shown as new files (`@@ -0,0 ...`), yet the pre-change `logs/jobs/cache` already imported `example.test/deploy/region`. Either the diff was generated against the wrong base or the prior tree didn't build. Please confirm which — if the module and `region` package genuinely didn't exist, the commit description and the "already owns the mapping" note don't match the diff, and that should be reconciled.
+
+__ABLATION_DONE__ exit=0

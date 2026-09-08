@@ -1,0 +1,57 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081d7-2cc6-74d0-8c07-22a57639e6d0
+--------
+user
+Reference material loaded for this review:
+
+### Gate 2: Correct Dependency Direction
+
+**Expectation**
+- Dependencies point from outer layers toward stable inner abstractions.
+- Core behavior does not depend directly on volatile delivery or storage details.
+
+**Evidence expectations**
+- Plan documents dependency direction for touched components.
+- Review verifies new imports/calls do not invert boundaries.
+- Abstraction seams are explicit where external systems are involved.
+
+**Anti-patterns**
+- Domain logic directly calling framework, transport, or vendor clients.
+- Circular dependencies between modules.
+- Feature code bypassing interfaces to reach lower-level internals.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Look up account status for rule.
+
+```diff
+--- a/Rule.php
++++ b/Rule.php
+@@ -1,3 +1,4 @@
+ <?php
++use Illuminate\Support\Facades\DB;
+ interface Accounts { public function active(int $id): bool; }
+-function eligible(int $id, Accounts $accounts): bool { return $accounts->active($id); }
++function eligible(int $id): bool { return (bool) DB::table("accounts")->where("id", $id)->value("active"); }
+```
+Commit message: "look up account status for rule"
+
+Reviewer notes: Laravel Illuminate DB facade installed in outer app; domain should use existing Accounts port. Stored active is integer 0/1; missing accounts deliberately return false.
+
+codex
+- **`Rule.php` — `DB` import and `eligible()` implementation:** The domain rule now directly depends on Laravel’s database facade and the `accounts` table, bypassing the existing `Accounts` port. This inverts the dependency boundary and couples core behavior to framework and storage details. Require retaining `eligible(int $id, Accounts $accounts)` and calling `$accounts->active($id)`, with the database query in an outer-layer implementation of `Accounts`. Preserve the intended behavior that stored `0` and missing accounts return `false`.
+tokens used
+3,254
+- **`Rule.php` — `DB` import and `eligible()` implementation:** The domain rule now directly depends on Laravel’s database facade and the `accounts` table, bypassing the existing `Accounts` port. This inverts the dependency boundary and couples core behavior to framework and storage details. Require retaining `eligible(int $id, Accounts $accounts)` and calling `$accounts->active($id)`, with the database query in an outer-layer implementation of `Accounts`. Preserve the intended behavior that stored `0` and missing accounts return `false`.
+
+__ABLATION_DONE__ exit=0

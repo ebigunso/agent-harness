@@ -1,0 +1,51 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081a1-3516-7fd1-8526-b1c18a282b62
+--------
+user
+Reference material loaded for this review:
+
+### 5) Define and Protect Invariants
+
+- Make assumptions explicit at module boundaries.
+- Validate inputs at trust boundaries and normalize internal state early.
+- Fail early with actionable errors when invariants are violated.
+
+Review checks:
+- Which invariants are introduced or relied upon?
+- Are boundary checks and failure modes explicit?
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Dispatch webhook event types.
+
+```diff
+--- a/hook.ts
++++ b/hook.ts
+@@ -0,0 +1,5 @@
++const handlers = {paid: () => "paid", cancelled: () => "cancelled"};
++export function webhook(event: {type: string}) {
++  const type = event.type as keyof typeof handlers;
++  return handlers[type]();
++}
+```
+Commit message: "dispatch webhook event types"
+
+Reviewer notes: Transport has parsed an object and validated type is a string. Remote service can send future event types; supported local types are paid and cancelled. These local handlers return acknowledgement strings only.
+
+codex
+- **`hook.ts:3–4` — Event types are asserted, not validated.** The cast does not restrict the remote string to `paid` or `cancelled`. A future event type causes a `TypeError` when an undefined handler is called; inherited names such as `toString` can invoke unintended functions. Require an explicit supported-type check or own-property lookup before dispatch, plus deliberate handling of unsupported types—for example, an ignored-event acknowledgement or an actionable error consistent with the webhook contract.
+tokens used
+3,241
+- **`hook.ts:3–4` — Event types are asserted, not validated.** The cast does not restrict the remote string to `paid` or `cancelled`. A future event type causes a `TypeError` when an undefined handler is called; inherited names such as `toString` can invoke unintended functions. Require an explicit supported-type check or own-property lookup before dispatch, plus deliberate handling of unsupported types—for example, an ignored-event acknowledgement or an actionable error consistent with the webhook contract.
+
+__ABLATION_DONE__ exit=0

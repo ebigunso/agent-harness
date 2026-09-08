@@ -1,0 +1,53 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a08196-7835-71c2-9ec1-75230afb92ff
+--------
+user
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Calculate destination tax during checkout.
+
+```diff
+--- a/Checkout.cs
++++ b/Checkout.cs
+@@ -0,0 +1,21 @@
++using System;
++using System.Net.Http;
++public sealed class VendorSession : IDisposable {
++    private readonly HttpClient client;
++    private VendorSession(HttpClient client) { this.client = client; }
++    public static VendorSession Open() {
++        var client = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:5080/") };
++        try {
++            using var response = client.PostAsync("session", null).GetAwaiter().GetResult();
++            response.EnsureSuccessStatusCode();
++            return new VendorSession(client);
++        } catch { client.Dispose(); throw; }
++    }
++    public void Dispose() { client.Dispose(); }
++}
++public sealed class Checkout {
++    public decimal CalculateTax(decimal subtotal, bool domestic) {
++        using var session = VendorSession.Open();
++        return domestic ? subtotal * 0.10m : 0m;
++    }
++}
+```
+Commit message: "calculate destination tax during checkout"
+
+Reviewer notes: Vendor endpoint is a configured private network sidecar; opening /session creates a billed vendor session. Session disposal and HTTP errors are handled below. The tax branch is pure 10% of nonnegative decimal subtotal for domestic shipments and zero otherwise, but currently requires opening that session. No transport replacement hook exists.
+
+codex
+- **`Checkout.cs:18` — Tax calculation unnecessarily opens a billed vendor session.** The session contributes nothing to the tax result, yet every call—including foreign shipments with zero tax—incurs a vendor charge and depends on the sidecar being available. A connection or HTTP failure prevents an otherwise pure calculation from completing. Remove `VendorSession.Open()` from `CalculateTax` and compute the tax directly; reserve session creation for operations that actually require the vendor.
+tokens used
+3,370
+- **`Checkout.cs:18` — Tax calculation unnecessarily opens a billed vendor session.** The session contributes nothing to the tax result, yet every call—including foreign shipments with zero tax—incurs a vendor charge and depends on the sidecar being available. A connection or HTTP failure prevents an otherwise pure calculation from completing. Remove `VendorSession.Open()` from `CalculateTax` and compute the tax directly; reserve session creation for operations that actually require the vendor.
+
+__ABLATION_DONE__ exit=0

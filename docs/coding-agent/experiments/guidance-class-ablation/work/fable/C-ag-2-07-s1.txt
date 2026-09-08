@@ -1,0 +1,21 @@
+**Findings**
+
+1. **`Eligibility.kt:1` — `import android.content.Context` in a domain file.**
+   The reviewer notes say this module is reused by a CLI. Importing the Android SDK into `Eligibility.kt` means the domain no longer compiles (or even type-checks) without the Android SDK on the classpath; the CLI consumer breaks outright. This is exactly the volatile-outer-dependency-pointed-at-the-core inversion the reference material forbids: the platform now leaks into the seam instead of the seam being supplied by the platform.
+   *Require:* no `android.*` imports in the domain. The domain must build against the JVM stdlib only.
+
+2. **`Eligibility.kt:2` — signature changed from `eligible(age: Int, minimumAge: Int)` to `eligible(age: Int, context: Context)`.**
+   The function used to accept a validated settings value; it now accepts an Android `Context` and does the lookup itself. That (a) turns a pure, trivially testable function into one that requires an Android runtime or a `Context` mock; (b) couples every caller — including the CLI — to Android; (c) is a breaking API change the commit message doesn't call out. The task was to *use* the minimum-age setting, not to move settings resolution into the domain.
+   *Require:* keep the domain signature as `eligible(age: Int, minimumAge: Int)` (or a small `Policy`/`EligibilityRules` value type). The Android app reads the preference at its edge and passes the value in.
+
+3. **`Eligibility.kt:3` — `getSharedPreferences("policy", MODE_PRIVATE).getInt("minimum_age", 18)` embedded in domain logic.**
+   Preference file name, key name, storage mechanism, and the default `18` are now hard-coded in the core. Storage-format details are the most volatile thing here (renaming a key, migrating to DataStore, moving to remote config all require touching domain code). The reviewer notes explicitly say the domain should "accept validated settings values"; this bypasses that seam and does unvalidated raw reads instead — a stored `0` or negative value would silently make everyone eligible.
+   *Require:* the "missing preference → 18" default and any validation live in the outer adapter (e.g. `AndroidPolicySettings.minimumAge(): Int`), which the app wires to the domain call. If a default belongs in the domain, express it as a named constant/default parameter, not a magic literal buried inside an SDK call.
+
+4. **Commit / diff scope — no evidence of the seam being documented or callers updated.**
+   The diff changes a public signature but includes no caller updates, no adapter, and no note in the edge documentation describing where policy settings are read. Per the reference guidance, edges should be documented and import boundaries checked; this change introduces a new (and wrong-direction) edge with nothing recording it.
+   *Require:* the change ships with the outer-layer adapter, updated call sites, and a one-line note in the module boundary docs stating that settings are supplied to the domain, never read by it.
+
+**Verdict:** Block. The intent (drive eligibility from a configurable minimum age) is fine, but the implementation inverts the dependency direction, breaks the CLI consumer, and removes the domain's testability. Revert `Eligibility.kt` to the pure signature and implement the SharedPreferences read as an Android-side adapter that passes the resolved value in.
+
+__ABLATION_DONE__ exit=0

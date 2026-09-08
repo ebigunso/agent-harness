@@ -1,0 +1,37 @@
+## Findings
+
+### 1. `workflow.py`, `run()` — non-`OSError` exceptions leave no outcome signal
+
+**What's wrong:** Only `OSError` is caught and signaled as `"failure"`. Any other exception raised by `work()` (`ValueError`, `KeyError`, `RuntimeError`, `TimeoutError` is fine but `asyncio.CancelledError`, etc.) propagates with **no signal at all**. The run then contributes neither a success nor a failure to the count.
+
+**Why it matters:** The task is "count workflow outcomes." The invariant that makes a count meaningful is *exactly one signal per run*. This implementation makes that invariant depend on an unenforced contract ("work exposes only OSError") that lives in the reviewer notes, not in the code. If that contract is ever violated — a bug in `work`, a new dependency, a refactor — failures silently disappear from the count and the success/failure ratio drifts upward with no indication anything is missing. That is precisely Gate 7's "silent failure path with no diagnosable signal." Under-counting failures is the worst failure mode for an outcome counter because it looks like health.
+
+The test in `check()` reinforces the gap: it only exercises `OSError`, so it would pass even if the unsignaled path were hit in production.
+
+**What I'd require instead:** Signal on any exception and re-raise, e.g.
+
+```python
+def run(trace_id, work, signal):
+    try:
+        result = work()
+    except BaseException:
+        signal("failure", trace_id)
+        raise
+    signal("success", trace_id)
+    return result
+```
+
+(If there is a deliberate reason to treat certain exceptions as non-outcomes — e.g. cancellation — that should be explicit in code with a comment, not implicit via a narrow `except`.) Add a test case where `work` raises a non-`OSError` and assert a `"failure"` event is still recorded before the exception propagates.
+
+If the team insists the `OSError`-only contract is intentional, then at minimum the code must enforce it (e.g. a distinct `"unexpected"` signal for other exception types) so the count still sums to one signal per run.
+
+---
+
+Everything else is acceptable as-is:
+
+- Failure is signaled before the original exception re-propagates, and `raise` preserves the original traceback.
+- Success signal sits outside the `try`, so a fault in `signal` can't be misreported as a work failure.
+- Signals carry only outcome + trace ID; no input payload or exception message is emitted, so no sensitive-data exposure in telemetry given the stated opaque-ID contract.
+- `check()` correctly verifies the failure path re-raises (`else: raise AssertionError`) and asserts exact event ordering.
+
+__ABLATION_DONE__ exit=0

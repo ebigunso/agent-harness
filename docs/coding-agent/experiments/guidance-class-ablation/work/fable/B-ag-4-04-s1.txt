@@ -1,0 +1,42 @@
+**Verdict: Block.** The change breaks both known consumers and does so silently.
+
+## Findings
+
+### 1. `package.py` — `cli()` and `service()` still tuple-unpack the new dict
+`ident,total=result()` against a two-key dict succeeds without error and binds the **keys**, not the values. After this diff:
+- `cli()` returns `"id:total"` instead of `"a:100"`.
+- `service()` returns `{"id": "id", "total": "total"}` instead of `{"id": "a", "total": 100}`.
+
+Why it matters: this is the Gate 4 anti-pattern in its worst form — a breaking producer change with consumers untouched, and Python's unpacking semantics turn the mismatch into ambiguous-looking "success" rather than a failure. The service payload even keeps the right shape and key names, so downstream systems will receive garbage that passes structural checks. Nothing in this diff raises; a smoke test that only checks "returns a dict with `id` and `total`" would go green.
+
+Required: update both call sites in the same change, e.g.
+```python
+def cli():
+    r = result()
+    return f"{r['id']}:{r['total']}"
+def service():
+    r = result()
+    return {"id": r["id"], "total": r["total"]}   # or simply `return dict(r)` / `return r`
+```
+and add a test asserting the concrete values (`"a:100"`, `{"id":"a","total":100}`), not just the shape — that's the test that would have caught this.
+
+### 2. Change report — contract impact declared as "no migration" when the change is breaking
+Switching the return type from `tuple[str, int]` to `dict` is a breaking contract change for every consumer that positional-unpacks. The report should state **breaking**, list the two in-scope consumers as migrated, and note that any out-of-tree caller doing `a, b = result()` will silently get `("id", "total")`.
+
+Why it matters: the reviewer notes say both callers are in scope, so the *intent* was clearly to migrate them; the report's "no migration" claim is what let the diff ship with the callers untouched. The declaration must match what the diff actually does.
+
+Required: either (a) fix the callers per finding 1 and relabel the change as breaking with the migration described, or (b) make it genuinely additive by returning a `NamedTuple`:
+```python
+from typing import NamedTuple
+class PackageResult(NamedTuple):
+    id: str
+    total: int   # cents
+def result(): return PackageResult(id="a", total=100)
+```
+This satisfies the task ("name the fields"), keeps `ident, total = result()` working unchanged, and gives `.id` / `.total` access — so "no migration" would actually be true. Given the stated task, (b) is the option I'd recommend; it's the smaller, safer contract change and preserves the `total: int` cents typing explicitly.
+
+## Not flagged
+- Naming (`id`/`total`) is consistent with the existing `service()` payload — fine.
+- No concern about unknown callers beyond the two stated, per the reviewer notes; but if option (a) is taken, the compatibility note in finding 2 still needs to exist for the record.
+
+__ABLATION_DONE__ exit=0

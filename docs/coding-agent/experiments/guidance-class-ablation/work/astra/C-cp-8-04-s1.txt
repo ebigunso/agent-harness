@@ -1,0 +1,51 @@
+2026-09-08T15:49:03.867917Z ERROR codex_models_manager::manager: failed to load models cache: EOF while parsing a value at line 1 column 0
+2026-09-08T15:49:06.095731Z ERROR codex_models_manager::manager: failed to write models cache: 要求された操作はユーザー マップ セクションで開いたファイルでは実行できません。 (os error 1224)
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081b5-6db0-76c3-b5b4-034f36ebcb12
+--------
+user
+Reference material loaded for this review:
+
+Cut accidental complexity. Abstract for multiple real uses. Keep deps directed/acyclic; weigh clarity/maintenance gains.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Use a fixed retry delay.
+
+```diff
+--- a/Retry.java
++++ b/Retry.java
+@@ -1 +1,10 @@
+-final class Retry { static long delayMillis() { return 1000L; } }
++import org.yaml.snakeyaml.Yaml;
++interface Delay { long millis(); }
++class FixedDelay implements Delay { public long millis() { return 1000L; } }
++final class Retry {
++    static long delayMillis() throws ReflectiveOperationException {
++        String type = (String) new Yaml().load("FixedDelay");
++        Delay delay = (Delay) Class.forName(type).getDeclaredConstructor().newInstance();
++        return delay.millis();
++    }
++}
+```
+Commit message: "use a fixed retry delay"
+
+Reviewer notes: One service and one 1000ms policy; no variation requested. SnakeYAML already installed and config is trusted checked-in text. Factory exceptions are surfaced as startup errors by caller. Existing direct delay value was sufficient.
+
+codex
+- **`Retry.java:2–8` — Unnecessary abstraction and runtime construction for a single constant.** The interface, implementation class, YAML parsing, and reflection add maintenance burden and runtime failure paths without supporting any requested variation. The existing `return 1000L;` already satisfies the task. Require retaining the direct constant return and removing the added machinery and `throws ReflectiveOperationException`.
+tokens used
+3,261
+- **`Retry.java:2–8` — Unnecessary abstraction and runtime construction for a single constant.** The interface, implementation class, YAML parsing, and reflection add maintenance burden and runtime failure paths without supporting any requested variation. The existing `return 1000L;` already satisfies the task. Require retaining the direct constant return and removing the added machinery and `throws ReflectiveOperationException`.
+
+__ABLATION_DONE__ exit=0

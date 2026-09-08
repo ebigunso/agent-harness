@@ -1,0 +1,17 @@
+**Verdict: not acceptable as-is.** The change writes unvalidated operator input past the persistent boundary and defers the failure to a later job with no context.
+
+**Findings**
+
+1. **`importer.rb`, `import_row` — nil/blank `account_id` is accepted and persisted.**
+   Reviewer notes say the account field is operator-supplied and may be nil, and the schema requires exactly one existing account per entry. `import_row` does no check; a nil `account_id` goes straight into `entries` (the persistent write boundary). The invariant is violated at the write, but nothing fails there. Require: validate at entry — reject nil/empty `account_id` before the `<<`, so bad rows never reach the store.
+
+2. **`importer.rb`, `import_row` — no existence check for the account.**
+   "One existing account per entry" is a stated schema requirement, and the function only checks nothing — it copies the value through. Require: look the (normalized) id up against the account set and reject rows whose account doesn't exist. If the lookup isn't available in this function's signature, it needs to be passed in; the requirement can't be met as written.
+
+3. **`importer.rb`, `nightly` / `import_row` — the failure mode is implicit, late, and unactionable.**
+   With the current code, a nil account surfaces as `NoMethodError: undefined method 'upcase' for nil` in `nightly`, after the row has already been written, with no indication of which row or file caused it. `row_number` is passed into `import_row` and never used. Require: raise an explicit error in `import_row` that includes `row_number` and the offending value (e.g. `raise ImportError, "row #{row_number}: account_id is missing"` / `"... unknown account #{id.inspect}"`), so the operator can find and fix the input.
+
+4. **`importer.rb`, `nightly` — normalization happens at read time instead of at entry.**
+   `upcase` in `nightly` means mixed-case ids are stored, and any existence check done in `import_row` would compare the raw value while grouping compares the upcased value — the two can disagree on what "the same account" is. It also assumes `account_id` is a String; any other type would blow up at the same late point. Require: normalize once in `import_row` (e.g. `String(row[:account_id]).strip.upcase`, after the nil check), validate the normalized value, store the canonical form, and have `nightly` group on the stored value directly.
+
+__ABLATION_DONE__ exit=0

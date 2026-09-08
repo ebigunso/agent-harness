@@ -1,0 +1,37 @@
+**Verdict: block.** One defect, and it's the whole point of the change.
+
+## Findings
+
+### 1. `Queue.cs`, `Endpoint.Post` — `Enqueue`'s return value is discarded; 204 is returned unconditionally
+
+**What's wrong**
+```csharp
+queue.Enqueue(id);   // bool result dropped
+return 204;
+```
+`IQueue.Enqueue` is explicitly modeled to signal failure via `false` (capacity rejection). `Post` ignores that signal and returns 204 on every path.
+
+**Why it matters**
+- The stated contract is "204 ⇒ accepted into a durable queue." With this code, a caller receives 204 for a report that was never queued. That is a silent data-loss path, not a cosmetic bug: the client has no reason to retry, so the report is gone.
+- This is exactly the Gate 4 anti-pattern "returning ambiguous success/failure signals" — worse, it's an unambiguous *wrong* success signal. The failure mode exists in the producer (`IQueue`) but is swallowed at the consumer (`Endpoint`), so the contract is not synchronized across the boundary.
+- It also masks capacity problems operationally: no 5xx/429s will appear in metrics while the queue is dropping work.
+
+**What I'd require**
+Branch on the result and translate `false` into a retryable HTTP status. 503 (Service Unavailable, optionally with `Retry-After`) or 429 are the standard choices for "backpressure, try again"; 500 would be wrong because it implies a server fault rather than a transient rejection. Something like:
+
+```csharp
+public static int Post(IQueue queue, string id)
+{
+    return queue.Enqueue(id) ? 204 : 503;
+}
+```
+
+Add a test that uses a stub `IQueue` returning `false` and asserts the non-204 status, so the mapping can't regress silently.
+
+## Not flagging (noted for completeness)
+
+- **No null/empty check on `id`** — worth a guard eventually, but the task is about acknowledgement semantics and the reviewer notes don't define a 400 contract. I'd mention it in passing, not block on it.
+- **Magic ints for status codes** — a style nit; not a contract issue.
+- **`bool` as the failure channel** — a richer result type would be nicer, but the reviewer notes state the boolean is the intended model, so it's in scope as-is.
+
+__ABLATION_DONE__ exit=0

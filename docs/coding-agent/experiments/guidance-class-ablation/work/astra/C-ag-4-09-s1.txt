@@ -1,0 +1,45 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081e5-89dd-7811-a45f-09e41f972c58
+--------
+user
+Reference material loaded for this review:
+
+Keep boundaries explicit/minimal/stable; model inputs, outputs, failures. State none/additive/breaking impact; sync producers/consumers and migrations. No implicit or ambiguous success/failure contracts.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Translate failed network lookup.
+
+```diff
+--- a/Lookup.kt
++++ b/Lookup.kt
+@@ -1,6 +1,4 @@
+ class VendorFailure : Exception()
+ class Unavailable : Exception()
+-fun lookup(call: () -> String): String {
+- try { return call() } catch (e: VendorFailure) { throw Unavailable() }
+-}
++fun lookup(call: () -> String): String = call()
+ fun caller(call: () -> String): String = try { lookup(call) } catch (e: Unavailable) { "retry" }
+```
+Commit message: "translate failed network lookup"
+
+Reviewer notes: Kotlin. Stable contract exposes Unavailable; caller catches only that category. VendorFailure is the complete SDK failure type. New adapter propagates it directly; no other exceptions are part of this bounded SDK contract.
+
+codex
+- **`Lookup.kt`, `lookup`**: Calling `call()` directly removes the required translation from `VendorFailure` to `Unavailable`, breaking the stable failure contract. SDK failures now escape `caller` instead of triggering its `"retry"` result, because it catches only `Unavailable`. Restore the `VendorFailure` → `Unavailable` translation and verify that a failing SDK call produces `"retry"` through `caller`.
+tokens used
+3,167
+- **`Lookup.kt`, `lookup`**: Calling `call()` directly removes the required translation from `VendorFailure` to `Unavailable`, breaking the stable failure contract. SDK failures now escape `caller` instead of triggering its `"retry"` result, because it catches only `Unavailable`. Restore the `VendorFailure` → `Unavailable` translation and verify that a failing SDK call produces `"retry"` through `caller`.
+
+__ABLATION_DONE__ exit=0

@@ -1,0 +1,193 @@
+records:
+  - id: 09082d439e09
+    fixture: ag-5-01
+    score: 1.0
+    note: "Names admin path bypass of nonnegative guard; requires shared guarded adjustment plus DB CHECK."
+  - id: 7b02282b45d6
+    fixture: ag-5-01
+    score: 1.0
+    note: "Names admin path skipping guard; requires enforcement at shared persistence boundary for both paths."
+  - id: da48d7835c1f
+    fixture: ag-5-01
+    score: 1.0
+    note: "Names unguarded admin write; requires reuse of normal_update guard under lock."
+  - id: 991c25a52d9c
+    fixture: ag-5-02
+    score: 1.0
+    note: "Names check/insert race under autocommit; requires atomic locked reservation and concurrent test."
+  - id: 9f9a8e583e96
+    fixture: ag-5-02
+    score: 1.0
+    note: "Names check/insert race; requires locked atomic reservation protocol; no explicit concurrent test asked."
+  - id: ad3a69cdbd29
+    fixture: ag-5-02
+    score: 1.0
+    note: "Names race at lines 5-10; requires row lock before count through commit plus concurrency test."
+  - id: a396c6352c6a
+    fixture: ag-5-03
+    score: 1.0
+    note: "Names deleted-but-billable state after CancelJobs failure; requires atomic or staged lifecycle."
+  - id: d9c7cee2825a
+    fixture: ag-5-03
+    score: 1.0
+    note: "Names deletion committing before cancellation; requires atomic store op or enforced lifecycle."
+  - id: e775cb354639
+    fixture: ag-5-03
+    score: 1.0
+    note: "Names invalid intermediate state even on success; requires atomic commit or cancel-before-delete lifecycle."
+  - id: 1a55f59ead45
+    fixture: ag-5-04
+    score: 1.0
+    note: "Names both-true collapsing to A; enumerates four states; requires set/four-state representation."
+  - id: 927fc4d30455
+    fixture: ag-5-04
+    score: 1.0
+    note: "Names unintended precedence conflating A-only with both; requires representation preserving all four states."
+  - id: cbbd1c1d7140
+    fixture: ag-5-04
+    score: 1.0
+    note: "Names lost both-attribution; spells out full truth table; requires set or enum representation."
+  - id: 2b3b9a96d0ab
+    fixture: ag-5-05
+    score: 1.0
+    note: "Names round-vs-trunc divergence with 1.239 example; requires one shared conversion rule for both paths."
+  - id: 9237cdb3d834
+    fixture: ag-5-05
+    score: 1.0
+    note: "Names path-dependent balance; requires shared balance-update boundary enforcing one rule."
+  - id: 9d19b64021a0
+    fixture: ag-5-05
+    score: 1.0
+    note: "Names inconsistent conversion; requires one rule via shared helper with regression test."
+  - id: afd4f9732d3a
+    fixture: ag-5-06
+    score: 1.0
+    note: "Names redelivery double-apply; requires applied-ID tracking so each delta applies once."
+  - id: ce97f85f083b
+    fixture: ag-5-06
+    score: 1.0
+    note: "Names duplicate delivery re-increment; requires ID dedupe with regression test."
+  - id: d151d19d1898
+    fixture: ag-5-06
+    score: 1.0
+    note: "Names replay corruption; requires dedupe by Id atomically with value update."
+  - id: 9f048a34871c
+    fixture: ag-5-07
+    score: 1.0
+    note: "Names approved-without-approver visible between saves; requires single atomic update of both fields."
+  - id: da2a3aafbb8a
+    fixture: ag-5-07
+    score: 1.0
+    note: "Names committed approved state with null approver; requires one atomic update!."
+  - id: ed07206db55a
+    fixture: ag-5-07
+    score: 1.0
+    note: "Names separate saves exposing invalid state; requires single atomic save."
+  - id: bff92f6e353e
+    fixture: ag-5-08
+    score: 1.0
+    note: "Names stale registry entry after resource removal and cleanup failure; requires unregister before release."
+  - id: c8767f3d3aa2
+    fixture: ag-5-08
+    score: 1.0
+    note: "Names advertised-ID-without-resource including transient case; requires reorder before fallible cleanup."
+  - id: fc4254afaabd
+    fixture: ag-5-08
+    score: 1.0
+    note: "Names registry/resource inconsistency on cleanup Err; requires reorder or transactional restore."
+  - id: 31376105b275
+    fixture: ag-5-09
+    score: 1.0
+    note: "Names adminTotal breaking total=sum(lines) and setLines overwrite; requires adjustment line via shared path."
+  - id: 385cc466704d
+    fixture: ag-5-09
+    score: 1.0
+    note: "Names independent total writer conflict; requires adjustment in line model with shared derivation."
+  - id: d17dbae416b7
+    fixture: ag-5-09
+    score: 1.0
+    note: "Names two writers overwriting total; requires adjustment as line and recompute through shared path."
+  - id: 1db34f60083b
+    fixture: ag-5-10
+    score: 1.0
+    note: "Names Boolean collapsing unknown/conflicting into external; requires explicit four-state model with tests."
+  - id: 81d32a91febf
+    fixture: ag-5-10
+    score: 1.0
+    note: "Names lost unknown/conflicting states; requires four-state model with explicit mapping."
+  - id: bc3bf823dca1
+    fixture: ag-5-10
+    score: 1.0
+    note: "Names collapsed states; provides full evidence-to-classification table; requires four-state model."
+  - id: 2255a0438815
+    fixture: ag-5-11
+    score: 1.0
+    note: "Names completed-before-durable-result and retry skip; requires result-first ordering or atomic publish."
+  - id: 4c127901d596
+    fixture: ag-5-11
+    score: 1.0
+    note: "Names completion-implies-result violation; requires atomic store publication with idempotent retry."
+  - id: cdfe13f0eb77
+    fixture: ag-5-11
+    score: 1.0
+    note: "Names premature completion flag with retry skipping recovery; requires atomic store-enforced publication."
+  - id: 72c42842eae9
+    fixture: ag-5-12
+    score: 1.0
+    note: "Names owner expiry leaving capabilities valid; requires verifier to check owner existence plus test."
+  - id: 9484d83a5e9e
+    fixture: ag-5-12
+    score: 1.0
+    note: "Names revocation invariant gap; requires authoritative verifier to check owner and active."
+  - id: 9a98dcc3e29b
+    fixture: ag-5-12
+    score: 1.0
+    note: "Names expire leaving tokens usable; requires owner-aware validity check with regression test."
+  - id: 03cf312e4cab
+    fixture: ag-5-c1
+    false_positives: 0
+    note: "Acceptable as-is; correctly notes shared adjust! under lock with validation."
+  - id: 5b9f6e1ce6f5
+    fixture: ag-5-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: a2f7afc46fb2
+    fixture: ag-5-c1
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 38f154903bcb
+    fixture: ag-5-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: c7bf3fc8c549
+    fixture: ag-5-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: d117517f37e9
+    fixture: ag-5-c2
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 08b3b64fe073
+    fixture: ag-5-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 204663f4bed8
+    fixture: ag-5-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 9ba9eff344d6
+    fixture: ag-5-c3
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 1d1a909d3143
+    fixture: ag-5-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 53867a90ce59
+    fixture: ag-5-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."
+  - id: 7ea25247d2cf
+    fixture: ag-5-c4
+    false_positives: 0
+    note: "Acceptable as-is; no findings."

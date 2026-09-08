@@ -1,0 +1,40 @@
+## Findings
+
+### 1. BLOCK — `Booking.reserve`, lines 4–11: check-then-insert is not atomic; overbooking under concurrency
+
+**What's wrong.** The remaining-seat computation and the `INSERT` are two separate autocommit statements with no transaction, no lock, and no database constraint backing the invariant `COUNT(reservations) <= capacity`. Classification of two concurrent callers on the last seat:
+
+| A reads | B reads | A inserts | B inserts | Result |
+|---|---|---|---|---|
+| 1 | 1 | ✓ | ✓ | 2 reservations, capacity exceeded, both return `true` |
+
+Any interleaving where both reads happen before either insert produces this. The reviewer notes confirm this is reachable. Because nothing in the DB enforces the bound, the second insert cannot fail — the invariant lives only in a non-authoritative application-side guard, which is exactly the "optional-only guard" pattern that must be rejected. Any other writer to `reservations` (admin tool, migration, another service) bypasses it entirely.
+
+**Why it matters.** The one thing the task asks for — "reserve a seat *when capacity remains*" — is not guaranteed. Overbooking is silent: the function reports success to every caller and there is no error to alert on.
+
+**Required instead.** Make the check and the write a single serialized operation with the database as the authority. Acceptable shapes, in order of preference:
+
+- **Counter column with conditional update.** Add `flights.seats_remaining` (maintained by the DB, `CHECK (seats_remaining >= 0)`), then in one transaction: `UPDATE flights SET seats_remaining = seats_remaining - 1 WHERE id = ? AND seats_remaining > 0`; if `executeUpdate() == 0` return `false`; else `INSERT` the reservation and commit. Row-level locking on the `UPDATE` serializes contenders, and the `CHECK` makes the bound enforced even for writers that skip this code.
+- **Row lock on the flight.** `setAutoCommit(false)`, `SELECT capacity ... FROM flights WHERE id = ? FOR UPDATE`, then count, then insert, then commit; rollback and restore autocommit in `finally`. This serializes all reservations for a flight through the flight row lock. Still add a DB-level constraint (trigger or counter+CHECK) so the invariant does not depend on every writer remembering to take the lock.
+
+Note that a single `INSERT … SELECT … WHERE (SELECT COUNT(*) …) < capacity` is **not** sufficient on its own: under READ COMMITTED on PostgreSQL (and similar), two concurrent statements each evaluate the subquery against a snapshot that excludes the other's uncommitted row, and both insert. Do not accept that as the fix without a lock or constraint.
+
+Whichever shape is chosen, the reviewer should require a concurrency test (two threads, capacity 1, assert exactly one `true` and one `false` and exactly one row).
+
+### 2. FLAG — `Booking.reserve`, line 10: repeated call with the same `reservation` id is not handled
+
+**What's wrong.** The reservation id is caller-supplied and (per notes) distinct, so there is presumably a primary key. If a caller retries after a lost response — or a client double-submits — the second call performs the full remaining-seat check again and then hits a PK violation, surfacing as a raw `SQLException` indistinguishable from a connection failure. If there is in fact no PK, the retry inserts a duplicate row and consumes a second seat for the same reservation. Neither is a valid outcome; the function should have a defined result for "already reserved".
+
+**Why it matters.** Retries are routine; a transport failure after a successful insert leaves the caller unable to distinguish "reserved" from "failed" and unable to safely retry. Combined with finding 1, a duplicate can also decrement a counter twice if the counter approach is adopted without an existence check.
+
+**Required instead.** Inside the same transaction/lock used to fix finding 1, check for an existing row with this `reservation` id: if it exists for the same `flight`, return `true` without consuming capacity; if it exists for a different flight, raise a specific conflict error (not a generic `SQLException`). Alternatively, use the DB's idempotent-insert form (`INSERT … ON CONFLICT DO NOTHING` / `MERGE`) and branch on the update count — but in that case the capacity decrement must be conditional on the insert actually happening. Confirm in the diff that `reservations.id` is a primary key or unique index; if it is not, that constraint must be added.
+
+### 3. MINOR — `Booking.reserve`, line 7: "flight missing" is reported as `SQLException`
+
+A missing flight is a domain condition (bad input), not a database failure. Throwing `SQLException` for it forces callers to string-match the message to distinguish it from infrastructure errors. Use a dedicated exception type (e.g. `NoSuchFlightException`) or document a distinct return. Not blocking on its own; fix while restructuring for finding 1.
+
+---
+
+**Verdict:** Not acceptable as-is. Finding 1 means the change does not implement the stated task under concurrent load, and there is no authoritative enforcement of the capacity invariant anywhere in the system.
+
+__ABLATION_DONE__ exit=0

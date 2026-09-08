@@ -1,0 +1,193 @@
+records:
+  - id: 19e2c7b4d642
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "Names cp1252 pipe-fallback at print(rendered); -X utf8/PYTHONIOENCODING rerun, verifies Zhe and exit 0."
+  - id: 370acfbae1e5
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 stdout codec at templates.py:27; command-scoped PYTHONIOENCODING, reconfigure as durable; confirms User Zhe."
+  - id: 7a14797d117b
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 ANSI fallback on pipe named; PYTHONIOENCODING rerun plus reconfigure; verifies Zhe preserved."
+  - id: c9cb0dc973f5
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 no mapping for U+0416; PYTHONUTF8/-X utf8 rerun; confirms User Zhe and exit 0 with byte check."
+  - id: cc98dacde070
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 at print(rendered) line 27; PYTHONIOENCODING rerun, reconfigure for owned code; byte-level verify."
+  - id: da3c294a29fe
+    fixture: rb-windows-python-console-encoding-07
+    score: 1.0
+    note: "cp1252 output mismatch named; command-scoped PYTHONIOENCODING; no partial effects; confirms Zhe."
+  - id: 035b4a1f4439
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 stdout at db_report.py:34 named; cmd /c PYTHONIOENCODING or -X utf8; confirms Launch rocket bytes."
+  - id: 370dfe5a6b52
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 cannot encode U+1F680 at print; PYTHONIOENCODING rerun plus reconfigure; verifies output and exit 0."
+  - id: 41cd5de35b23
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 ANSI fallback on pipe; PYTHONUTF8/-X utf8; reconfigure alternative; byte check F0 9F 9A 80."
+  - id: 6cc47491d6f7
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 stdout named, data path fine; PYTHONIOENCODING rerun; durable reconfigure; confirms Launch rocket intact."
+  - id: 8e6a3412a39a
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 at line 34 named; PYTHONIOENCODING with env restore or -X utf8; byte verification and exit 0."
+  - id: e0819046f36f
+    fixture: rb-windows-python-console-encoding-08
+    score: 1.0
+    note: "cp932 pipe fallback; -X utf8 rerun; rejects errors=replace; confirms rocket bytes and exit 0."
+  - id: 12b335983078
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 no U+2713 at check.py:15; -X utf8 or scoped PYTHONIOENCODING; confirms PASS check mark bytes."
+  - id: 21a3b3b0ca52
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 pipe fallback named; -X utf8/PYTHONUTF8 rerun; reconfigure durable; expects PASS check mark exit 0 (byte listing typo, harmless)."
+  - id: 7ee71e068614
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 at print line 15; PYTHONIOENCODING rerun; reconfigure durable; confirms glyph intact."
+  - id: 97e49bc8bc6f
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 pipe path named; PYTHONIOENCODING rerun plus reconfigure; confirms PASS check mark and exit 0."
+  - id: df67136c5d1a
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 no mapping for U+2713; PYTHONUTF8/-X utf8; warns against errors=replace; byte check E2 9C 93."
+  - id: e866ec634f46
+    fixture: rb-windows-python-console-encoding-09
+    score: 1.0
+    note: "cp1252 fallback at final print; -X utf8 or cmd /c PYTHONIOENCODING; confirms PASS check mark exit 0."
+  - id: 462ccb7e3db0
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 ANSI fallback named, flush irrelevant; PYTHONIOENCODING rerun; reconfigure durable; confirms Working test tube."
+  - id: 82f12e183f87
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 no U+1F9EA, flush before-encode explained; PYTHONIOENCODING rerun; byte check F0 9F A7 AA."
+  - id: 976970f89a66
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 pipe fallback; PYTHONIOENCODING chosen over utf8 mode deliberately; confirms output via UTF-8 file read."
+  - id: bffe0aed71e2
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 at position 8 named; scoped PYTHONIOENCODING or -X utf8; reconfigure durable; confirms Working test tube."
+  - id: c2b1c876b570
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 locale fallback; PYTHONUTF8 or reconfigure; negative check included; confirms output and exit 0."
+  - id: f77f0cd0ca89
+    fixture: rb-windows-python-console-encoding-10
+    score: 1.0
+    note: "cp932 cannot encode U+1F9EA, flush irrelevant; PYTHONIOENCODING rerun; reconfigure durable; verifies bytes."
+  - id: 09dcc1a9a1d9
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "Locale-default cp932 file handle at line 25 named, stdout ruled out, truncation noted; encoding=utf-8 on open; verifies regenerated report."
+  - id: 46543a4e239a
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 open() default named, PYTHONIOENCODING rejected, truncation noted; encoding=utf-8 fix; size and em dash checks."
+  - id: 5cf46c9596df
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "File handle not stdout, locale cp932; truncation to 0 bytes noted; encoding=utf-8 fix; confirms UTF-8 round trip."
+  - id: bbbbe8aa5fdd
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 file handle at line 25, data loss noted; encoding=utf-8 with context manager; regenerate and verify."
+  - id: ca613f9c9a03
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "File handle locale default cp932 named, PYTHONIOENCODING would not fix; encoding=utf-8; confirms handle encoding and content."
+  - id: cad4d3b3044b
+    fixture: rb-windows-python-console-encoding-11
+    score: 1.0
+    note: "cp932 owned file handle named, truncation noted; encoding=utf-8 fix plus PYTHONUTF8 as no-code rerun; verifies em dash bytes."
+  - id: 0cd96aa8eff7
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "Confirms manifest already replaced and idempotent; cp932 print failure; scoped PYTHONIOENCODING; hash unchanged check."
+  - id: 19b17bac0a0b
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "Manifest replacement verified complete, rerun idempotent; cp932 named; PYTHONIOENCODING with env restore; hash and exit 0 checks."
+  - id: ced0f0b64245
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "Work completed before print, no rollback; cp932 pipe fallback; PYTHONIOENCODING rerun; hash unchanged verification."
+  - id: ead0b36e7bc6
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "Artifact confirmed complete, rerun safe; cp932 named; PYTHONIOENCODING; confirms built rocket, hash unchanged."
+  - id: f8fe07c98ef2
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "Manifest landed, exit code false negative; cp932 named; -X utf8 rerun; Get-FileHash unchanged check."
+  - id: f9a8881d93ad
+    fixture: rb-windows-python-console-encoding-12
+    score: 1.0
+    note: "os.replace completed before failure noted; cp932 pipe path; -X utf8/PYTHONUTF8; hash and exit 0 confirmation."
+  - id: 48c5f020fb36
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Correctly rejects encoding fix; Decimal default hook to str; no unwarranted demands."
+  - id: 5e7339822130
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal serialization identified, encoding observations called red herring; default hook fix only."
+  - id: 9bcbd74b36df
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal default hook; explicitly declines PYTHONIOENCODING/reconfigure; no extra demands."
+  - id: a7b1feac8aa7
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal default hook fix; reference material explicitly not applied."
+  - id: d113a26d2dea
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal default hook; encoding remediation ruled out; regression test optional only."
+  - id: d47346c8ec16
+    fixture: rb-windows-python-console-encoding-c3
+    false_positives: 0
+    note: "Decimal default hook; environment declared irrelevant; nothing unwarranted demanded."
+  - id: 13dc3ee39dd3
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "ZeroDivision input/guard fix; encoding fix explicitly rejected; reconfigure mentioned only as optional separate follow-up."
+  - id: 42f5ad3a4e9f
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "Guard or fix denominator source; environment changes explicitly declined."
+  - id: 5bbefaab3ce8
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "Guard division / correct input; encoding remediations called irrelevant, only optional aside."
+  - id: 7df91f1833c7
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "Fix denominator source or guard; encoding flagged as latent, address only if it surfaces."
+  - id: c58958f4e2f2
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "Input or guard fix; encoding explicitly not the cause, optional follow-up only."
+  - id: eb35be16150e
+    fixture: rb-windows-python-console-encoding-c4
+    false_positives: 0
+    note: "Guard/fix zero denominator; refuses to touch encoding settings; no unwarranted demands."

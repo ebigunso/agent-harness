@@ -1,0 +1,68 @@
+OpenAI Codex v0.153.4
+--------
+workdir: C:\Users\Kohta\GitLocal\agent-harness-ablation\docs\coding-agent\experiments\guidance-class-ablation\work\empty
+model: gpt-6-astra
+provider: openai
+approval: on-request
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a081da-05b8-7c72-aa34-fecde3151bd3
+--------
+user
+Reference material loaded for this review:
+
+### Gate 5: Data and State Integrity
+
+**Expectation**
+- Data ownership, lifecycle, and state transitions are consistent and enforceable.
+- Invariants are protected at authoritative boundaries.
+- For classification or attribution features, derive the full truth table before selecting the data model.
+
+**Evidence expectations**
+- Plan identifies impacted invariants and lifecycle transitions.
+- Review verifies invariant checks remain at reliable enforcement points.
+- Concurrent or repeated execution behavior is considered where relevant.
+
+**Anti-patterns**
+- Invariants enforced only in optional caller paths.
+- Conflicting write paths without ownership clarity.
+- State transitions that allow invalid intermediate states.
+
+---
+
+You are reviewing a proposed change. The task the author was given is stated at the top of the fixture, followed by the diff. Report every defect you would block or flag in review, as a list. For each finding give: file/location, what is wrong, why it matters, and what you would require instead. If the change is acceptable as-is, say so explicitly. Do not pad the list; report only findings you would actually raise.
+
+Task framing: Record approvals with approver identity.
+
+```diff
+--- a/approval.rb
++++ b/approval.rb
+@@ -0,0 +1,7 @@
++require "active_record"
++class Approval < ActiveRecord::Base
++  def approve!(approver)
++    update!(status: "approved")
++    update!(approver_id: approver)
++  end
++end
+```
+Commit message: "record approvals with approver identity"
+
+Reviewer notes: Rails 7, no wrapping transaction at caller. Approved state requires non-null approver; observers can read committed updates between saves. Required approver ID is already validated.
+
+codex
+- **`approval.rb:4–5` — Approval status and approver identity are saved separately.** Without a transaction, observers can see `"approved"` with a missing or stale approver, and failure of the second save leaves that state committed. If validation rejects the first save because the approver is missing, approval cannot complete. Require one atomic update containing both fields:
+  ```ruby
+  update!(status: "approved", approver_id: approver)
+  ```
+  Keep the approved-state approver invariant enforced at the authoritative persistence boundary.
+tokens used
+3,373
+- **`approval.rb:4–5` — Approval status and approver identity are saved separately.** Without a transaction, observers can see `"approved"` with a missing or stale approver, and failure of the second save leaves that state committed. If validation rejects the first save because the approver is missing, approval cannot complete. Require one atomic update containing both fields:
+  ```ruby
+  update!(status: "approved", approver_id: approver)
+  ```
+  Keep the approved-state approver invariant enforced at the authoritative persistence boundary.
+
+__ABLATION_DONE__ exit=0

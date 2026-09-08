@@ -1,0 +1,21 @@
+**Findings**
+
+1. **`Upload.cs`, `Send` — fresh `Guid.NewGuid()` key on every attempt (blocking).**
+   The reviewer notes are explicit: `TimeoutException` means *unknown outcome*, and `Create` is idempotent only for a stable key. Generating a new key per attempt means a timeout after a successful server-side write produces a second (and possibly third) stored object. The retry loop therefore turns "uncertain" into "duplicate," which is worse than the failure it is meant to handle — orphaned objects with no caller-visible reference, storage cost, and no way to reconcile. This is the exact anti-pattern Gate 6 calls out: retry without idempotency.
+   *Require:* compute the key once before the loop (or accept it as a parameter) and reuse it on every attempt, so a retry after unknown success is a no-op rather than a new object.
+
+2. **`Upload.cs`, `Send` — swallows all failures after the third attempt (blocking).**
+   `catch (TimeoutException) when (attempt < 2) {}` correctly rethrows the final timeout, but if all three attempts throw and the last one propagates, fine — however if the caller cares whether the upload happened, it also has no key to check. Worse, the method returns `void`-equivalent `Task`, so a successful upload gives the caller no handle to the stored object either. Combined with (1), the caller can neither verify nor reference what was written.
+   *Require:* return the key (or an upload result) so callers can verify/reconcile, and ensure the terminal exception carries enough context (key, attempt count) to diagnose.
+
+3. **`Upload.cs`, `Send` — no backoff between retries (flag).**
+   Three immediate retries against a dependency that just timed out is the pattern most likely to pile on during an outage. Bounded count is good; zero delay is not intentional degradation.
+   *Require:* a small delay/backoff between attempts (with cancellation support) or a note explaining why immediate retry is safe for this client.
+
+4. **`Upload.cs`, `Send` — no `CancellationToken` parameter (flag).**
+   The storage client honors cancellation internally, but this wrapper cannot pass one through, so a caller cannot abort a multi-attempt upload. Minor on its own; becomes material once a backoff delay is added.
+   *Require:* accept and forward a `CancellationToken`.
+
+**Verdict:** Not acceptable as-is. Finding 1 is the core defect — the change does not implement "retry uncertain uploads" safely; it implements "duplicate uncertain uploads."
+
+__ABLATION_DONE__ exit=0
