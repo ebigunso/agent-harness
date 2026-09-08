@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: implementation
 date: 2026-05-09
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-I-0007-validators-enforce-contracts-never-prose-or-strategy.md
 ---
 
 # ADR-I-0003: Use Contract-First Validation With Balanced Strictness
+
+Retired on 2026-09-08. Replaced by ADR-I-0007.
 
 ## Context and Problem Statement
 

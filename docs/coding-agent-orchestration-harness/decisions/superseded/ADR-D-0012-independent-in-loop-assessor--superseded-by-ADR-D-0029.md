@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-07-16
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md
 ---
 
 # ADR-D-0012: Independent In-Loop Assessor As A Reviewer Dispatch Profile
+
+Retired on 2026-09-08. Replaced by ADR-D-0029 and ADR-D-0030.
 
 ## Context and Problem Statement
 

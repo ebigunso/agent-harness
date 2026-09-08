@@ -19,7 +19,7 @@
 
 ## Scope / Non-goals
 - Scope:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0007-repo-rules-vs-harness-migration-candidates.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0007-repo-rules-vs-harness-migration-candidates--superseded-by-ADR-D-0026.md`
 - Non-goals:
   - Do not update bundled skill behavior in this plan.
   - Do not update validators in this plan.
@@ -27,7 +27,7 @@
 
 ## Context (workspace)
 - Related files/areas:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle--superseded-by-ADR-D-0024.md`
   - `plugins/coding-agent-orchestration-harness/skills/subagent-report-contract/SKILL.md`
   - `plugins/coding-agent-orchestration-harness/skills/rulebook/SKILL.md`
   - `plugins/coding-agent-orchestration-harness/skills/rulebook/references/rules-files.md`
@@ -53,7 +53,7 @@
 ### Task_1: Add ADR-D-0007
 - type: docs
 - owns:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0007-repo-rules-vs-harness-migration-candidates.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0007-repo-rules-vs-harness-migration-candidates--superseded-by-ADR-D-0026.md`
 - depends_on: []
 - description: |
   Create an ADR documenting the clean split between repo-local rule candidates and staged cross-repo harness migration candidates.
@@ -71,7 +71,7 @@
   - kind: command
     required: true
     owner: worker
-    detail: "git diff --check -- docs/coding-agent-orchestration-harness/decisions/ADR-D-0007-repo-rules-vs-harness-migration-candidates.md"
+    detail: "git diff --check -- docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0007-repo-rules-vs-harness-migration-candidates--superseded-by-ADR-D-0026.md"
   - kind: review
     required: true
     owner: reviewer
@@ -125,7 +125,7 @@ Interpretation:
 
 - 2026-05-16 00:00 Wave 1 completed: [Task_1]
   - Summary: Added ADR-D-0007 documenting the repo-local rule candidate vs harness migration candidate boundary, rejected legacy shapes, and explicit harness-maintenance exception.
-  - Validation evidence: `git diff --check -- docs/coding-agent-orchestration-harness/decisions/ADR-D-0007-repo-rules-vs-harness-migration-candidates.md` passed.
+  - Validation evidence: `git diff --check -- docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0007-repo-rules-vs-harness-migration-candidates--superseded-by-ADR-D-0026.md` passed.
   - Notes: No UI/E2E validation required.
 
 - 2026-05-16 00:00 Wave 2 completed: [Task_2]

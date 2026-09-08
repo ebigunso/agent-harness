@@ -120,12 +120,12 @@
       "notes": "Records the completed implementation plan and validation evidence for rule-suite lifecycle support."
     },
     {
-      "path": "docs/coding-agent-orchestration-harness/decisions/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md",
+      "path": "docs/coding-agent-orchestration-harness/decisions/ADR-D-0024-rule-suite-lifecycle-metadata-lives-in-a-sidecar.md",
       "supports": [
         "orchestrator.repo_policies",
         "reviewer.review_risk_hotspots"
       ],
-      "notes": "Defines the full rule suite, low-token index, lifecycle sidecar, and derived validity model."
+      "notes": "Lifecycle metadata placement (ADR-D-0024); derived validity and fact-triggered refresh are ADR-D-0025 (docs/coding-agent-orchestration-harness/decisions/ADR-D-0025-rule-suite-freshness-is-derived-from-repository-facts.md)."
     }
   ]
 }

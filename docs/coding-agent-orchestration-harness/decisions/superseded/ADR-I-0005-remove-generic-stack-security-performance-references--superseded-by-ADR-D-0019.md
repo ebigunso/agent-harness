@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: implementation
 date: 2026-09-01
 deciders: ["ebigunso"]
@@ -11,12 +11,14 @@ warrant:
   cost_of_wrong_preservation: "a future fleet regression on cross-cutting review quality would go uncompensated until noticed downstream"
   cost_of_over_extension: "treating the review-latent-risk report contract, the remaining latent-risk defect-class docs, or testing-validation evidence rules as covered by this removal — they were explicitly retained"
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md
 supersession_scope: null
 implements: ["superseded/ADR-D-0015-remove-obsolete-guidance-as-models-improve--superseded-by-ADR-D-0019.md"]
 ---
 
 # ADR-I-0005: Remove generic stack, security, web-framework, and latent-risk-performance references
+
+Retired on 2026-09-07. Replaced by ADR-D-0019, which carries the class-matched-evidence rule and the reintroduction invariant; the removal ledger below is history and no longer binds.
 
 ## Context and Problem Statement
 

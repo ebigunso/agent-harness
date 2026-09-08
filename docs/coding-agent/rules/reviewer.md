@@ -51,7 +51,3 @@ last_updated: "2026-09-05"
 
 - Add or preserve package validation for required rulebook lifecycle references, Reviewer adapter `reviewer.md` references, Worker report reviewer-audience support, and latent-risk reference existence.
 - Consider future validation for the repository rule suite itself once schema v2 settles enough to validate front matter and sidecar shape mechanically.
-
-## Global Migration Candidates
-
-- None.

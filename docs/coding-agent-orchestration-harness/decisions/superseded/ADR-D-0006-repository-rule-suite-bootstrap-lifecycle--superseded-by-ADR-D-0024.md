@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-05-12
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0024-rule-suite-lifecycle-metadata-lives-in-a-sidecar.md
 ---
 
 # ADR-D-0006: Use a Full Repository Rule Suite With a Low-Token Index and Lifecycle Sidecar
+
+Retired on 2026-09-08. Replaced by ADR-D-0024 and ADR-D-0025.
 
 ## Context and Problem Statement
 

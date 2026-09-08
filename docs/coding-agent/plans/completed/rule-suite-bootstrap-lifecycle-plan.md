@@ -34,7 +34,7 @@
   - `plugins/coding-agent-orchestration-harness/tests/fixtures/`
   - `docs/coding-agent-orchestration-harness/decisions/`
 - Existing patterns or references:
-  - ADR front matter in `docs/coding-agent-orchestration-harness/decisions/ADR-D-0005-runtime-prompt-budgeting.md`.
+  - ADR front matter in `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md`.
   - Validator commands documented in `plugins/coding-agent-orchestration-harness/README.md`.
   - Current repo rules are the older `index.md`, `common.md`, `worker.md`, `orchestrator.md` shape.
 - Repo reference docs consulted:
@@ -44,7 +44,7 @@
   - `plugins/coding-agent-orchestration-harness/README.md`
   - `plugins/coding-agent-orchestration-harness/skills/rulebook/SKILL.md`
   - `plugins/coding-agent-orchestration-harness/skills/rulebook/references/rules-files.md`
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0005-runtime-prompt-budgeting.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md`
 
 ## Plan Validity Check
 - The provided implementation plan is valid against the current repository structure.
@@ -302,7 +302,7 @@
 ### Task_11: Add ADR-D-0006
 - type: docs
 - owns:
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle--superseded-by-ADR-D-0024.md`
 - depends_on: [Task_1, Task_2, Task_3, Task_4, Task_5, Task_6, Task_7, Task_8, Task_9, Task_10]
 - description: |
   Add the durable ADR for the full rule suite, low-token index, lifecycle sidecar, and derived freshness model.

@@ -5,14 +5,8 @@ date: 2026-09-01
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5"]
 informed: []
-warrant:
-  warranted_by: "without this record, future edits to harness guidance would likely soften the evidence requirement for protective artifacts back toward industry defaults, reading the strict formulation as an oversight to fix rather than a decision to keep"
-  detected_signals: "a decider's ruling setting a durable governance default; rejected alternatives likely to be re-proposed (both the softer industry-default wording and the stronger per-report enforcement)"
-  cost_of_violation: "protective artifacts re-accumulate without owners — compatibility surfaces nobody consumes and assertions nobody depends on — each individually defensible, collectively freezing designs against change; the erosion arrives as one justified-looking edit at a time and is invisible in any single diff"
-  cost_of_over_extension: "read as a license to strip protection wherever evidence is not already in hand, the decision would silently break surfaces whose consumers are real but unverifiable; the routing clause exists precisely to prevent that reading"
 supersedes: []
 superseded_by: null
-supersession_scope: null
 ---
 
 # ADR-D-0016: Protection requires demonstrable consumers

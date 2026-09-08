@@ -5,14 +5,8 @@ date: 2026-09-06
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
-warrant:
-  warranted_by: "without this record, future work would likely turn record-and-surface back into pause-and-ask on every discovery, because a pause reads as the safer default"
-  detected_signals: "rejected alternative likely to be re-proposed; premises tied to Claude Fable 5.1 and GPT-6 Astra as checked on 2026-09-06"
-  cost_of_violation: "pause mandates stack on a model that already pauses when input could change the result, and the surplus asking looks like caution"
-  cost_of_over_extension: "dropping the three pause cases or the surfacing obligation; the cases are consent contracts and the surfacing is the part Claude Fable 5.1 and GPT-6 Astra do not do unprompted"
 supersedes: []
 superseded_by: null
-supersession_scope: null
 depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md"]
 ---
 

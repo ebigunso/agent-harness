@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-05-09
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0022-workflow-mechanics-have-one-home.md
 ---
 
 # ADR-D-0005: Let Runtime Adapters Diverge For Prompt Budget
+
+Retired on 2026-09-08. Replaced by ADR-D-0022.
 
 ## Context and Problem Statement
 

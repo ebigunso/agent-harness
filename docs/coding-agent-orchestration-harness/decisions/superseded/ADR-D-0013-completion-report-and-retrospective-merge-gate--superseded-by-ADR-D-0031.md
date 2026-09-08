@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-07-16
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0031-goal-completion-never-authorizes-merge.md
 ---
 
 # ADR-D-0013: Self-Asserted Completion Report Behind A Human Retrospective Merge Gate
+
+Retired on 2026-09-08. Replaced by ADR-D-0031.
 
 ## Context and Problem Statement
 

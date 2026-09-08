@@ -5,14 +5,8 @@ date: 2026-09-06
 deciders: ["ebigunso"]
 consulted: ["GPT-5.5 Pro", "Claude Fable 5.1"]
 informed: []
-warrant:
-  warranted_by: "without this record, future work would likely treat a loader-routed Codex session as a plain assistant that happens to have read a skill, skipping the Orchestrator's repository rules and gates because no physical Orchestrator agent was selected"
-  detected_signals: "cross-boundary identity shape (which role a session holds); rejected alternative likely to be re-proposed (loader carrying the workflow)"
-  cost_of_violation: "a session that does not know it is the Orchestrator plans and dispatches without the Orchestrator rules, and the miss is invisible until review"
-  cost_of_over_extension: "loading the full rule-suite lifecycle on every task; only the three rule files are loaded here"
 supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
 superseded_by: null
-supersession_scope: full
 ---
 
 # ADR-D-0020: Loader-routed sessions assume the Orchestrator role
