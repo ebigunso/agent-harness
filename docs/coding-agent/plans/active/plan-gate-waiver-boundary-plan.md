@@ -160,6 +160,14 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Codex Worker edited exactly the five inventoried lines (SKILL.md Plan Gate approval bullet and draft-review bullet; lifecycle-gates.md approval paragraph; the one restating line in agents/Orchestrator.md and claude/agents/harness-orchestrator.md). Self-waiver and request-as-approval readings removed; tripwires, draft review, and goal-mode bullets verbatim. Remaining adapter differences classified as presentation only (indentation under Copilot's numbered gates; "plan plus" versus "plan +"); no Codex adapter created.
   - Validation evidence: Worker: validate_harness_package.py pass, run_validation_smoke_tests.py exit 0, git diff --check clean; Orchestrator reran all three on the checkout with the same result. Reviewer review dispatched.
   - Notes: Worker lesson candidate (sandbox could not resolve python; used the installed interpreter path) held for closeout.
+- 2026-09-10 Wave 3 Task_3 done: [Task_3]
+  - Summary: as above, at 6df8211.
+  - Validation evidence: Codex Reviewer Task_3 APPROVED, no findings (three cases and prior-authorization preservation implemented consistently; package and smoke checks independently pass).
+  - Notes: Task_4 runner and prompts committed at 7369d35; cells launched against 6df8211.
+- 2026-09-10 Wave 4 Task_4 cells run, review pending: [Task_4]
+  - Summary: both cells ran under the harness-on control in disposable clones at 6df8211, skill hash aa4db779… quoted by both sessions. Cell A: plan drafted, Reviewer dispatched for the draft, "Do you approve this plan?", turn ended, clone diff empty, one plan file created. Cell B: explicit waiver honored as the user's, proceeded past the gate, both subagent spawns failed in the headless runtime, self-implemented and reported done. Containment: the artifacts worktree identical; the authoritative checkout differs only on the runner's own evidence files, disclosed in results-2026-09-live-loader.md (Containment), and the runner now excludes its output directory from the manifest.
+  - Validation evidence: `run_boundary_probes.sh` exit 3 (the self-output containment difference), codex exit 0 for both cells, loader restored with matching hash; evidence files under live-loader/boundary/. Reviewer judgment dispatched.
+  - Notes: cell B's post-gate self-waiver of implementation review after spawn failures is recorded as out of scope (subagent-dispatch gate; runtime limitation).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

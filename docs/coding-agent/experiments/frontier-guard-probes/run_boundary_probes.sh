@@ -30,8 +30,8 @@ mapfile -t WORKTREES < <(git -C "$ROOT" worktree list --porcelain | sed -n 's/^w
 for w in "${WORKTREES[@]}"; do case "$SCRATCH/" in "$w"/*) echo "scratch root $SCRATCH is inside worktree $w" >&2; exit 2;; esac; done
 echo "authoritative worktrees: ${WORKTREES[*]}"
 
-manifest() { # $1 dir, $2 out
-  ( cd "$1" && find . -path ./.git -prune -o -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum ) > "$2" 2>/dev/null
+manifest() { # $1 dir, $2 out; the runner's own evidence files under live-loader/boundary/ are excluded so they do not read as a containment breach
+  ( cd "$1" && find . -path ./.git -prune -o -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | grep -v 'frontier-guard-probes/live-loader/boundary/' ) > "$2" 2>/dev/null
 }
 manifest_all() { # $1 tag
   local i=0

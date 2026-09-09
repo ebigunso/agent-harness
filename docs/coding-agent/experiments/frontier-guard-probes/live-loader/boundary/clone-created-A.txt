@@ -1,0 +1,1 @@
+docs/coding-agent/plans/active/plan-validator-json-output-plan.md

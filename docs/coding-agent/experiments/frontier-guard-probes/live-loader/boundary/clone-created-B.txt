@@ -1,0 +1,2 @@
+docs/coding-agent/plans/completed/plan-validator-json-plan.md
+plugins/coding-agent-orchestration-harness/tests/fixtures/valid-plan-large-task-count.md
