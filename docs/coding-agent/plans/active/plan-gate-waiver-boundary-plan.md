@@ -1,8 +1,8 @@
 # Plan: Plan Gate waiver boundary (no self-waived approval of non-trivial work)
 
-- status: draft
+- status: in_progress
 - generated: 2026-09-09
-- last_updated: 2026-09-09
+- last_updated: 2026-09-10
 - work_type: mixed
 
 ## Goal
@@ -31,9 +31,9 @@
 - Prior evidence: cell (ii) of the live loader check and its Reviewer verdict 2026-09-08 (the self-waiver "is permitted by the Plan Gate as written"); the same run wrote to the authoritative checkout despite `-s read-only`, so containment is a probe requirement here.
 
 ## Open Questions (max 3)
-- Q1: With no user present (headless, or an unanswered approval ask), does the Orchestrator end the turn with the plan presented, or refuse non-trivial work outright? Proposed: end the turn with the plan presented; the plan is the deliverable and a later human turn approves it. "Stop and report" is worded so that no timeout or silence counts as approval.
-- Q2: Does the boundary reach the goal-mode Plan Gate position (mode selection test) or plan mode only? Proposed: plan mode only; goal mode already has ADR-D-0027.
-- Q3: Which probe form is the positive control: an explicit waiver in the same first turn as the task, or a second turn approving the presented plan? Proposed: the explicit waiver in the first turn (one ephemeral cell); a second-turn approval needs an interactive session and is covered by ordinary use.
+- Q1: resolved 2026-09-10 with plan approval, as proposed: end the turn with the plan presented; the plan is the deliverable and a later human turn approves it. "Stop and report" is worded so that no timeout or silence counts as approval.
+- Q2: resolved 2026-09-10 with plan approval, as proposed: plan mode only; goal mode already has ADR-D-0027.
+- Q3: resolved 2026-09-10 with plan approval, as proposed: the explicit waiver in the first turn (one ephemeral cell); a second-turn approval needs an interactive session and is covered by ordinary use.
 
 ## Assumptions
 - A1: The waiver and direct-execution wording lives in four places: `SKILL.md` Plan Gate (two sentences), `lifecycle-gates.md` line 25, `agents/Orchestrator.md` line 29, `claude/agents/harness-orchestrator.md` line 35; no Codex adapter restates it — source: grep for "waive" and "approval" on 2026-09-09, confirmed by Task_1 before any edit.
@@ -166,7 +166,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Trigger / new insight: a compliant session writes its draft plan under `docs/coding-agent/plans/active/` before asking for approval, so a blanket no-edits condition would fail cell A; `git status --porcelain` compares paths and states, not contents, so it cannot prove an authoritative worktree unchanged when untracked files already exist; the conditional validator check in Task_3 still amounted to prose matching.
   - Plan delta (what changed): cell A expects planning artifacts in the clone and no implementation edits, judged from the recorded diff and created-file list; containment uses a content manifest (path and SHA-256 of every tracked and untracked file) of each authoritative worktree before and after, compared byte-for-byte, with pre-existing user files preserved; the validator addition is dropped from Task_3 and its owns.
   - Tradeoffs considered: cleaning the authoritative worktrees to a known baseline (rejected: it would discard user work to make a probe convenient).
-  - User approval: pending with plan approval.
+  - User approval: yes (2026-09-10, with plan approval).
+- 2026-09-10 Decision: Plan approved by ebigunso with the proposed answers to Q1, Q2, and Q3.
+  - Trigger / new insight: Reviewer plan review APPROVED after two rounds (ec48b21); ebigunso: "I approve the Plan Gate waiver boundary plan. You can work on implementing it now."
+  - Plan delta (what changed): status in_progress; execution on feature/2026-09-10/plan-gate-waiver-boundary.
+  - Tradeoffs considered: none.
+  - User approval: yes (2026-09-10).
 
 ## Notes
 - Risks: the boundary is a guard-class change; the guard-probe method applies (frontier-guard-probes README), and the two probes are the evidence. A session that cannot reach the user at all still has to end its turn with the plan presented; "stop and report" must be worded so that no timeout or silence counts as approval.
