@@ -18,7 +18,7 @@ A session that assumes the Orchestrator role (ADR-D-0020) plans non-trivial work
 
 ## Decision
 
-In plan mode, execution of non-trivial work is authorized only by the user: either an explicit approval of the plan that was presented, or an explicit waiver from the user that names the approval step. The Orchestrator never waives that approval on its own authority; it may reclassify work as trivial under the Plan Gate's tripwires, and that classification is reviewable. A task request authorizes planning, not execution: it is not approval of the plan it produces. When no user can answer, the Orchestrator presents the plan and ends the turn; elapsed time, silence, and the absence of a human channel confer no authorization.
+In plan mode, execution of non-trivial work is authorized only by the user: either an explicit approval of the plan that was presented, or an explicit waiver from the user that names the approval step. The Orchestrator never waives that approval on its own authority; it may reclassify work as trivial under the Plan Gate's tripwires, and that classification is reviewable. A task request authorizes planning, not execution: it is not approval of the plan it produces. When no applicable approval or waiver from the user exists and no user can answer, the Orchestrator presents the plan and ends the turn; elapsed time, silence, and the absence of a human channel confer no new authorization and revoke none already given.
 
 ## Why
 
@@ -26,7 +26,7 @@ The party that would benefit from skipping approval cannot grant it to itself, a
 
 ## Rejected Alternatives
 
-- Orchestrator self-waiver with a recorded reason and evidence: rejected outright; the record is written by the party the waiver benefits, and the 2026-09-08 session showed that a reason is always available.
+- Orchestrator self-waiver with a recorded reason and evidence: rejected outright; the record is written by the party the waiver benefits, so it constrains nothing.
 - A task request counts as approval of the resulting plan: reopen only if plan review moves entirely to a runtime mechanism that shows the plan to the user before any execution step in every runtime the harness supports.
 - A headless fallback that proceeds after a timeout: rejected outright; silence carries no authority.
 
@@ -44,7 +44,7 @@ Not covered: the trivial/non-trivial tripwires and who applies them; the wording
 ## Revisit When
 
 - A supported runtime gains a native plan-approval step that the harness can bind to, so that the request-as-approval alternative can be re-examined.
-- Checked on 2026-09-10 against Claude Fable 5.1 and GPT-6 Astra; replacing either model with another reopens the probe, not the decision.
+- The premise that a session under the installed loader will take a self-waiver or request-as-approval path when the text allows it was observed in a GPT-6 Astra session on 2026-09-08; the decision does not rest on that premise, so a model change reopens the probe, not the decision.
 
 ## More Information
 
