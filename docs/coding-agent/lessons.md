@@ -591,3 +591,57 @@ Prevention:
 
 Evidence:
 - User corrections 2026-09-06; ADR review rounds on PR #57; Task_1 review of the standard revision plan.
+
+## 2026-09-10 - Merge Authorization Is Per Pull Request, Never A Standing Condition  [tags: git, orchestration, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-guidance-follow-ups-plan.md` and `docs/coding-agent/plans/completed/adr-corpus-audit-plan.md`
+- Task/Wave: pull requests #61 and #62
+- Roles involved: Orchestrator
+
+Symptom:
+- The user authorized a merge of one open pull request on a condition (merge once Copilot review passes, its clock objection being a false positive). The Orchestrator carried that condition forward and merged later pull requests #61 and #62 on it without a fresh instruction.
+
+Root cause:
+- A per-PR authorization was read as a standing rule because the condition (Copilot approval) recurred; the scope of the authorization was never restated when the next PR opened.
+
+Fix applied:
+- Recorded here; rule added to `docs/coding-agent/rules/orchestrator.md`. The merged pull requests stand as the user's call to keep or revert.
+
+Prevention:
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Merge a pull request only on an explicit instruction from the user that names that pull request; a conditional or standing authorization given for one pull request does not extend to any other, and the Orchestrator asks again for each one.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- User correction 2026-09-10; merge log for #61 (2026-09-08) and #62 (2026-09-09).
+
+## 2026-09-10 - Implementation-Time Artifacts Must Not Ship Inside Skill Contents  [tags: skill-maintenance, packaging, correction]
+
+Context:
+- Plan: none (user observation across recent pull requests)
+- Task/Wave: plugin contents under `plugins/coding-agent-orchestration-harness/skills/`
+- Roles involved: Orchestrator, Worker, Reviewer
+
+Symptom:
+- A self-test script for the PR comment watcher (`skills/git-workflow/scripts/pr-comment-watch-selfcheck.sh`, added in #53) lives inside the skill directory, is referenced by nothing at runtime, and ships with the skill.
+
+Root cause:
+- Scripts written to check an implementation during a task were committed next to the runtime script they tested; no review step asked whether a file inside `skills/` is read or run by a session.
+
+Fix applied:
+- Recorded here; removal scope confirmed with the user before deleting (see the plan or PR that carries the removal).
+
+Prevention:
+- Repo rule candidate:
+  - audience: common
+  - proposed rule: A file under `skills/` must be one a session reads or runs at runtime (SKILL.md, references, runtime scripts the skill text invokes); self-tests, fixtures, dry checks, and other implementation-time artifacts live outside the skill tree or are deleted when the task closes.
+- Dispatch/plan guardrail (optional):
+  - Reviewer packets for skill changes ask, for every added non-Markdown file under `skills/`, what runtime text invokes it.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- User correction 2026-09-10; reference scan of `skills/` on 2026-09-10 found the self-check script as the only unreferenced tracked file.

@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "orchestrator"
-last_updated: "2026-09-06"
+last_updated: "2026-09-10"
 ---
 
 # Orchestrator Repository Rules
@@ -17,6 +17,7 @@ last_updated: "2026-09-06"
 - Use `rulebook` for full rule-suite bootstrap, schema migration, targeted refresh, and repair. Do not run full bootstrap as a per-task ritual.
 - Route agmsg dispatch only to the registered `agent-harness-*` peers; never spawn new peers or run headless Codex for dispatch. If a registered peer is silent, tell the user. Ephemeral headless `codex exec` is allowed only as a measurement instrument for ablation probes.
 - Propose a decision record only after the admission test in `durable-docs-authoring/references/adr.md` passes, present it for acceptance on its own, and never count plan approval or a merge as acceptance.
+- Keep implementation-time artifacts (self-tests, fixtures, dry checks) out of `skills/`; every file there is one a session reads or runs at runtime, and a Reviewer packet for a skill change asks what runtime text invokes each added non-Markdown file.
 
 ## Repo-Specific Integration / Git Policy
 
@@ -24,4 +25,5 @@ last_updated: "2026-09-06"
 - Prefer `feature/YYYY-MM-DD/<feature-name>` branch names in this repository unless the user requests another convention.
 - If nested branch creation fails with `unable to create directory for .git/refs/heads/...`, verify there is no conflicting loose or packed ref, then rerun the Git branch/switch command with filesystem approval; do not change naming conventions or edit `.git` internals as a workaround.
 - Stage only intended files when the worktree is mixed; never include unrelated untracked files silently.
+- Merge a pull request only on an explicit user instruction that names that pull request; a conditional or standing authorization given for one pull request never extends to another, ask again for each one.
 - PR titles describe the change; plugin version numbers stay in the manifests and the PR body, never in the title.
