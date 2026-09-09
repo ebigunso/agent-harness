@@ -9,12 +9,12 @@
 # manifest (path + SHA-256 of every file outside .git/) every authoritative worktree, run one codex exec session
 # with the cell prompt on stdin, manifest again, and record the clone's status, diff, and created files.
 # Moves $CODEX_HOME/AGENTS.md aside for the run window and restores it with a hash check (run_baseline.sh discipline).
-# Outputs: live-loader/boundary/{transcript,clone-status,clone-diff,clone-created,containment,skill}-<cell>.txt;
+# Outputs: written under <scratch-root>/out/ during measurement and copied to live-loader/boundary/ after each cell's after-snapshot;
 # manifests under <scratch-root>/manifests/. Exit: 0 ran; 2 setup refused; 3 a cell failed or containment differs; 4 restore failed.
 set -u
 ROOT="$(cd "${1:?usage: run_boundary_probes.sh <repo-root> <revision> <scratch-root>}" && pwd)" || exit 2
 REV="${2:?revision required}"; SCRATCH="${3:?scratch-root required}"
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; OUT="$HERE/live-loader/boundary"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; PUB="$HERE/live-loader/boundary"
 PLUGIN="plugins/coding-agent-orchestration-harness"
 CODEX_DIR="${CODEX_HOME:-$HOME/.codex}"; LOADER="$CODEX_DIR/AGENTS.md"; BACKUP="$CODEX_DIR/AGENTS.md.boundary-aside"
 hash_file() { sha256sum "$1" | cut -c1-64; }
@@ -23,15 +23,15 @@ hash_file() { sha256sum "$1" | cut -c1-64; }
 [ -e "$BACKUP" ] && { echo "refusing: $BACKUP exists" >&2; exit 2; }
 for t in codex timeout sha256sum git; do command -v "$t" >/dev/null || { echo "$t not on PATH" >&2; exit 2; }; done
 git -C "$ROOT" rev-parse --verify -q "$REV^{commit}" >/dev/null || { echo "unknown revision $REV" >&2; exit 2; }
-[ -f "$OUT/prompt-A.txt" ] && [ -f "$OUT/prompt-B.txt" ] || { echo "missing $OUT/prompt-{A,B}.txt" >&2; exit 2; }
-mkdir -p "$SCRATCH/manifests" || exit 2
-SCRATCH="$(cd "$SCRATCH" && pwd)"
+[ -f "$PUB/prompt-A.txt" ] && [ -f "$PUB/prompt-B.txt" ] || { echo "missing $PUB/prompt-{A,B}.txt" >&2; exit 2; }
+mkdir -p "$SCRATCH/manifests" "$SCRATCH/out" || exit 2
+SCRATCH="$(cd "$SCRATCH" && pwd)"; OUT="$SCRATCH/out"   # cell output stays here during measurement
 mapfile -t WORKTREES < <(git -C "$ROOT" worktree list --porcelain | sed -n 's/^worktree //p')
 for w in "${WORKTREES[@]}"; do case "$SCRATCH/" in "$w"/*) echo "scratch root $SCRATCH is inside worktree $w" >&2; exit 2;; esac; done
 echo "authoritative worktrees: ${WORKTREES[*]}"
 
-manifest() { # $1 dir, $2 out; the runner's own evidence files under live-loader/boundary/ are excluded so they do not read as a containment breach
-  ( cd "$1" && find . -path ./.git -prune -o -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | grep -v 'frontier-guard-probes/live-loader/boundary/' ) > "$2" 2>/dev/null
+manifest() { # $1 dir, $2 out; nothing is excluded: cell output is written under the scratch root and published only after the after-snapshot
+  ( cd "$1" && find . -path ./.git -prune -o -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum ) > "$2" 2>/dev/null
 }
 manifest_all() { # $1 tag
   local i=0
@@ -57,7 +57,7 @@ for CELL in A B; do
     echo "skill_sha256_at_revision_lf: $(git -C "$ROOT" show "$REV:$PLUGIN/skills/orchestration-harness/SKILL.md" | sha256sum | cut -c1-64)"
     echo "setup_files: AGENTS.md .agents/skills/**"; } > "$OUT/skill-$CELL.txt"
   manifest_all "before-$CELL"
-  ( cd "$C" && timeout 1500 codex exec --ephemeral --disable plugins --disable hooks -c 'web_search="disabled"' -s workspace-write - < "$OUT/prompt-$CELL.txt" > "$OUT/transcript-$CELL.txt" 2>&1 )
+  ( cd "$C" && timeout 1500 codex exec --ephemeral --disable plugins --disable hooks -c 'web_search="disabled"' -s workspace-write - < "$PUB/prompt-$CELL.txt" > "$OUT/transcript-$CELL.txt" 2>&1 )
   st=$?; echo "cell $CELL codex exit $st" | tee -a "$OUT/skill-$CELL.txt"
   manifest_all "after-$CELL"
   git -C "$C" status --porcelain --untracked-files=all > "$OUT/clone-status-$CELL.txt"
@@ -73,5 +73,7 @@ for CELL in A B; do
   if grep -qi "$h" "$OUT/transcript-$CELL.txt"; then echo "skill hash quoted in transcript: yes" >> "$OUT/skill-$CELL.txt"; else echo "skill hash quoted in transcript: NO" >> "$OUT/skill-$CELL.txt"; fi
   [ "$st" -eq 0 ] && [ -s "$OUT/transcript-$CELL.txt" ] || rc=3
   cat "$OUT/containment-$CELL.txt"
+  # Publish this cell's evidence into the checkout only now, after its after-snapshot; the next cell's before-snapshot includes it.
+  cp "$OUT"/*-"$CELL".txt "$PUB/" || rc=3
 done
 exit $rc
