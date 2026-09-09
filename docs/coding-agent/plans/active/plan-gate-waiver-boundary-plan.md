@@ -187,5 +187,6 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - User approval: pending; the revised draft replaces the one presented and goes back to ebigunso for standalone acceptance.
 
 ## Notes
-- Risks: the boundary is a guard-class change; the guard-probe method applies (frontier-guard-probes README), and the two probes are the evidence. A session that cannot reach the user at all still has to end its turn with the plan presented; "stop and report" must be worded so that no timeout or silence counts as approval.
+- Risks: the boundary is a guard-class change; the guard-probe method applies (frontier-guard-probes README), and the two probes are the evidence. A session that cannot reach the user at all, and holds no applicable prior approval or waiver from the user, ends its turn with the plan presented; "stop and report" must be worded so that no timeout or silence counts as approval, and an approval or waiver already given is not revoked by silence.
 - Edge cases: an ordinary request that the Orchestrator classifies as trivial under the existing tripwires is executed without a plan, as today; the boundary only governs non-trivial work.
+- Precedent scope: ADR-D-0027 governs goal-mode envelopes and does not decide the plan-mode boundary; the Decision Log entry for Task_2 round 1 reads its Not covered section as an inference from scope, not a directive to write another record.
