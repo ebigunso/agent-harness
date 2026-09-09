@@ -1,6 +1,6 @@
 # Plan: Plan Gate waiver boundary (no self-waived approval of non-trivial work)
 
-- status: in_progress
+- status: completed
 - generated: 2026-09-09
 - last_updated: 2026-09-10
 - work_type: mixed
@@ -180,6 +180,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Codex Reviewer found the substantive objectives met (boundary, accepted record, adapter parity, run 2 behavior and containment) and two closeout blockers: the two runner logs the results record cites were ignored by `*.log` and not in the tree; `git diff --check 7331383...HEAD` reported 733 diagnostics, all in captured probe evidence (transcripts and clone diffs) plus one blank line at the inventory's end. Fixed: logs tracked as `runner-log.txt` in both run directories with the references updated; inventory end-of-file fixed; `.gitattributes` marks `frontier-guard-probes/live-loader/**` as `-whitespace` so captured evidence bytes stay raw and the check excludes them by declaration, not by rewriting.
   - Validation evidence: `git diff --check 7331383` after the fix: 0 diagnostics (recorded scope: the full range against the merge base, with the evidence exemption declared in `.gitattributes`).
   - Notes: no probe rerun; the logs were independently checked by the Reviewer on disk.
+- 2026-09-10 Wave 5 Task_5 done; plan closed: [Task_5]
+  - Summary: Codex Reviewer Task_5 APPROVED on the delta (0a661a9). Definition of Done met: three-case boundary in the Plan Gate and its reference; ADR-D-0032 accepted on its own; entry points equivalent with classified differences; probes at the Task_3 revision with hash provenance and identical manifests; no other Plan Gate behavior changed.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check 7331383 clean with the evidence exemption declared; Reviewer APPROVED for Task_1 through Task_5.
+  - Notes: closeout lessons appended to docs/coding-agent/lessons.md (measurement runners publish after the snapshot; ADR derivability versus proposal logging; sandbox interpreter resolution). Post-merge: ebigunso refreshes installed copies per the Compatibility stance. Plan moved to completed/.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

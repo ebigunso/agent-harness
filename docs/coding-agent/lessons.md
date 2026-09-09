@@ -645,3 +645,81 @@ Prevention:
 
 Evidence:
 - User correction 2026-09-10; reference scan of `skills/` on 2026-09-10 found the self-check script as the only unreferenced tracked file.
+
+## 2026-09-10 - A Measurement Runner Publishes Its Evidence Only After The Containment Snapshot  [tags: validation, tooling, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/plan-gate-waiver-boundary-plan.md`
+- Task/Wave: Task_4, run 1
+- Roles involved: Orchestrator (runner author), Codex Reviewer
+
+Symptom:
+- The probe runner wrote its per-cell evidence files into the authoritative checkout while the cell ran, so the before/after content manifests of that checkout differed on exactly those files and the plan's identical-manifest criterion failed. A follow-up edit excluded the whole output directory from the manifest, which the Reviewer rejected as a blind spot for future edits there.
+
+Root cause:
+- Output location was chosen for convenience (next to the prompts) without asking whether the runner itself was inside the measured set.
+
+Fix applied:
+- Cell output stays under the scratch root until the cell's after-snapshot, then is copied into the checkout; nothing is excluded from the manifest. Run 1 preserved as a containment FAIL; run 2 accepted.
+
+Prevention:
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: A runner that measures a worktree writes nothing into that worktree until its after-snapshot is taken; exclusions from a containment manifest are never used to make the runner's own writes disappear.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Codex Reviewer Task_4 round 1 (2026-09-10); `frontier-guard-probes/live-loader/boundary/run1/` versus run 2.
+
+## 2026-09-10 - Proposal Logging In A Plan Is Not ADR Derivability  [tags: documentation, review, adr]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/plan-gate-waiver-boundary-plan.md`
+- Task/Wave: Task_2
+- Roles involved: Orchestrator, Codex Reviewer
+
+Symptom:
+- The Reviewer's first round rejected ADR-D-0032 as re-derivable because the plan and the Task_1 research already stated the boundary and its rationale.
+
+Root cause:
+- The admission test's negative ("re-derivable from git history or from a plan") was read against the proposal's own drafting history, which adr.md's acceptance step 1 requires the plan to carry; every record proposed through a plan would fail that reading.
+
+Fix applied:
+- Admission re-run with the distinction recorded in the Decision Log; the Reviewer withdrew the finding and stated the corrected test: judge whether the substance merely reconstructs existing facts or carries an independent future constraint.
+
+Prevention:
+- Dispatch/plan guardrail (optional):
+  - Reviewer packets for a proposed record say that the plan's Decision Log entry and the research it cites are the proposal's own drafting history; derivability is judged against the artifact the record constrains and against history whose substance is history (ledgers, evidence tables, investigation summaries).
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Codex Reviewer Task_2 rounds 1 and 2 (2026-09-10), the second carrying the corrected rule as a lesson candidate.
+
+## 2026-09-10 - Codex Worker Sandbox May Not Resolve The Installed Python  [tags: troubleshooting, environment, worker]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/plan-gate-waiver-boundary-plan.md`
+- Task/Wave: Task_3
+- Roles involved: Codex Worker
+
+Symptom:
+- `python scripts/validate_harness_package.py` failed in the Worker's sandbox because the interpreter was not on the sandbox PATH; the same command passed with the installed executable's full path under approved escalation.
+
+Root cause:
+- The restricted sandbox environment does not expose the user-installed Python alias.
+
+Fix applied:
+- The Worker reran with `C:/Users/Kohta/AppData/Local/Programs/Python/Python312/python.exe` and reported both attempts.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: `python` not found inside a Codex Worker sandbox on this machine
+  - cause: sandbox PATH lacks the user-level Python install
+  - safe steps: rerun the required check with the installed interpreter's full path; report both the failed and the passing invocation, never mark the check skipped.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Codex Worker Task_3 report (2026-09-10), commands_run.
