@@ -42,13 +42,13 @@ Canonical reference: `skills/orchestration-harness/references/runtime-role-map.m
 
 ## Validators
 
-Run these commands from this plugin directory (`plugins/coding-agent-orchestration-harness/` in the repository checkout):
+Run these commands from this plugin directory (`plugins/coding-agent-orchestration-harness/` in the repository checkout). Test fixtures and the watcher self-check live outside the distributed plugin, under the repository's `tests/coding-agent-orchestration-harness/`:
 
 ```bash
 python scripts/validate_harness_package.py
 python scripts/run_validation_smoke_tests.py
-python skills/plan-format/scripts/validate_plan.py --file tests/fixtures/valid-plan.md --mode balanced
-python skills/subagent-report-contract/scripts/validate_worker_report.py --file tests/fixtures/valid-worker-report.yaml
+python skills/plan-format/scripts/validate_plan.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-plan.md --mode balanced
+python skills/subagent-report-contract/scripts/validate_worker_report.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-worker-report.yaml
 ```
 
 Validation is contract-first: hard for structure and required evidence, flexible for exact prose and strategy.

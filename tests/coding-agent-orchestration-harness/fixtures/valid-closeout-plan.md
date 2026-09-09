@@ -16,7 +16,7 @@
 ### Task_1: Fixture Task
 - type: docs
 - owns:
-  - `tests/fixtures/valid-closeout-plan.md`
+  - `tests/coding-agent-orchestration-harness/fixtures/valid-closeout-plan.md`
 - depends_on: []
 - description: |
   Minimal task used only for closeout validation fixtures.

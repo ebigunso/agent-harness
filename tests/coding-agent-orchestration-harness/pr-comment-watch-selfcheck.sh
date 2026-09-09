@@ -4,7 +4,7 @@ set -u
 
 command -v timeout >/dev/null 2>&1 || { echo 'error: this self-check needs the timeout(1) command on PATH' >&2; exit 1; }
 
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../plugins/coding-agent-orchestration-harness/skills/git-workflow/scripts" && pwd)
 TEST_DIR=$(mktemp -d)
 trap 'rm -rf -- "$TEST_DIR"' EXIT
 export TEST_DIR

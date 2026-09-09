@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TESTS = ROOT.parents[1] / "tests" / ROOT.name  # fixtures live outside the distributed plugin
 PY = sys.executable
 MANIFEST_FILENAME = ".coding-agent-orchestration-harness-install.json"
 EXPECTED_INSTALL_FILES = [
@@ -111,7 +112,7 @@ def run_bootstrap_smoke() -> bool:
 
 def run_adr_supersession_smoke() -> bool:
     """The validator must reject a live ADR with supersession_scope: partial and accept it once archived."""
-    fixture = ROOT / "tests" / "fixtures" / "invalid-adr-partial-supersession.md"
+    fixture = TESTS / "fixtures" / "invalid-adr-partial-supersession.md"
     validator = ROOT / "scripts" / "validate_harness_package.py"
     ok = True
     with tempfile.TemporaryDirectory() as tmp:
@@ -131,7 +132,7 @@ def run_adr_supersession_smoke() -> bool:
 
 
 def main() -> int:
-    fixtures = ROOT / "tests" / "fixtures"
+    fixtures = TESTS / "fixtures"
     checks: list[tuple[list[str], int]] = [
         ([PY, "-m", "py_compile", str(ROOT / "scripts" / "validate_harness_package.py")], 0),
         ([PY, "-m", "py_compile", str(ROOT / "scripts" / "run_validation_smoke_tests.py")], 0),
