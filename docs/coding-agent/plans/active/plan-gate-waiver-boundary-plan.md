@@ -148,7 +148,10 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-10 Wave 1 Task_1 done: [Task_1]
+  - Summary: Codex Researcher inventory (197 matching lines in 49 files; 5 must change, 169 stay, 23 pointer only) kept at `docs/coding-agent/experiments/frontier-guard-probes/plan-gate-inventory-2026-09-10.md`. A1 confirmed: SKILL.md:37 and :39, lifecycle-gates.md:25, agents/Orchestrator.md:29, claude/agents/harness-orchestrator.md:35; no Codex adapter restates it. No headless or silence rule exists today. Fork paragraph delivered.
+  - Validation evidence: Codex Reviewer Task_1 APPROVED (fresh searches reproduce all 197 rows; the five must-change lines are the complete set; fork actionable and neutral).
+  - Notes: Task_2 opened.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -172,6 +175,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): status in_progress; execution on feature/2026-09-10/plan-gate-waiver-boundary.
   - Tradeoffs considered: none.
   - User approval: yes (2026-09-10).
+- 2026-09-10 Decision: Admission test passed for the Plan Gate approval boundary; ADR-D-0032 proposed.
+  - Trigger / new insight: Q1 and Q2 are resolved (end the turn with the plan presented; plan mode only). The candidate statement passes all five criteria: load-bearing (without it a Plan Gate, an adapter, or a headless fallback would be written with a self-waiver or request-as-approval path); severe if ignored (the miss shows only at runtime in an unwatched session, as on 2026-09-08, not on a diff); not derivable from the skill text, which states the rule but not the fork; the why fits two sentences; only active content. Neither negative applies: the decision is not re-derivable from git or the plan and the constraint is not a file list. This repository's product is the development process, so governance is in its domain, and the record remediates rather than ratifies the existing path. The criterion that decided it: severe if ignored, because a reviewer cannot catch a self-waiver on the next diff.
+  - Plan delta (what changed): proposal, per adr.md Acceptance step 1. Title: "Approval of a non-trivial plan comes only from the user, never from the Orchestrator or from the request that produced the plan". Decision: in plan mode, execution of non-trivial work is authorized only by the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator never self-waives; a task request authorizes planning, not execution; with no user to answer, the plan is presented and the turn ends. Constraint on future work: no Plan Gate wording, adapter, or headless fallback may make the Orchestrator or the originating request a source of approval. Why: the party that benefits from skipping approval cannot grant it to itself, and a request cannot approve a plan that did not exist when it was made. Drafted as `decisions/ADR-D-0032-plan-approval-is-never-self-granted.md`, status proposed.
+  - Tradeoffs considered: carrying the boundary in skill text only (rejected: the why is not derivable from the text and the miss is invisible on a diff).
+  - User approval: pending; standalone acceptance ask sent to ebigunso, Task_3 does not start before the yes or a recorded decline.
 
 ## Notes
 - Risks: the boundary is a guard-class change; the guard-probe method applies (frontier-guard-probes README), and the two probes are the evidence. A session that cannot reach the user at all still has to end its turn with the plan presented; "stop and report" must be worded so that no timeout or silence counts as approval.
