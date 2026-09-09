@@ -26,7 +26,7 @@ Logical role names in plans and skills remain Orchestrator, Researcher, Worker, 
 ## Hard Gates
 
 1. Plan Gate
-   - Non-trivial work requires a plan plus user approval unless explicitly waived.
+   - In plan mode, non-trivial work requires a plan plus the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval.
    - Use `plan-format`; active plans live under `docs/coding-agent/plans/active/`. Create that directory if it is missing.
 
 2. Research Dispatch Gate

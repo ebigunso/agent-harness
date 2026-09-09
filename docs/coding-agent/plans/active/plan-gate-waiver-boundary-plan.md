@@ -152,6 +152,14 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Codex Researcher inventory (197 matching lines in 49 files; 5 must change, 169 stay, 23 pointer only) kept at `docs/coding-agent/experiments/frontier-guard-probes/plan-gate-inventory-2026-09-10.md`. A1 confirmed: SKILL.md:37 and :39, lifecycle-gates.md:25, agents/Orchestrator.md:29, claude/agents/harness-orchestrator.md:35; no Codex adapter restates it. No headless or silence rule exists today. Fork paragraph delivered.
   - Validation evidence: Codex Reviewer Task_1 APPROVED (fresh searches reproduce all 197 rows; the five must-change lines are the complete set; fork actionable and neutral).
   - Notes: Task_2 opened.
+- 2026-09-10 Wave 2 Task_2 done: [Task_2]
+  - Summary: admission test passed (Decision Log 2026-09-10, two entries); ADR-D-0032 drafted, revised after Codex Reviewer round 1, accepted by ebigunso on its own ("ADR accepted."), status accepted at 41e7506.
+  - Validation evidence: Codex Reviewer Task_2 NEEDS_REVISION (5aae8e8) then APPROVED on the delta (513c163), derivability finding withdrawn; nonblocking plan wording applied at 9cf2bfa.
+  - Notes: Task_3 dispatched to the Codex Worker on acceptance.
+- 2026-09-10 Wave 3 Task_3 implemented, review pending: [Task_3]
+  - Summary: Codex Worker edited exactly the five inventoried lines (SKILL.md Plan Gate approval bullet and draft-review bullet; lifecycle-gates.md approval paragraph; the one restating line in agents/Orchestrator.md and claude/agents/harness-orchestrator.md). Self-waiver and request-as-approval readings removed; tripwires, draft review, and goal-mode bullets verbatim. Remaining adapter differences classified as presentation only (indentation under Copilot's numbered gates; "plan plus" versus "plan +"); no Codex adapter created.
+  - Validation evidence: Worker: validate_harness_package.py pass, run_validation_smoke_tests.py exit 0, git diff --check clean; Orchestrator reran all three on the checkout with the same result. Reviewer review dispatched.
+  - Notes: Worker lesson candidate (sandbox could not resolve python; used the installed interpreter path) held for closeout.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
