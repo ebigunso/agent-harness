@@ -172,6 +172,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Codex Reviewer round 1 passed both cells on behavior and provenance and failed containment under the plan's identical-manifest criterion (the runner's own evidence files were written into the checkout during measurement) and rejected the blanket directory exclusion. Runner fixed: cell output stays under the scratch root until the cell's after-snapshot, nothing excluded from manifests; run 1 preserved under live-loader/boundary/run1/ with its manifests and log. Run 2 at the same revision and prompts: cell A presented the plan and ended the turn with an empty diff and one plan file; cell B honored the explicit waiver, proceeded past the gate, spawns failed, self-implemented; both worktrees IDENTICAL before and after both cells; loader restored by hash.
   - Validation evidence: run 2 `run_boundary_probes.sh` exit 0; codex exit 0 for both cells; results-2026-09-live-loader.md rewritten with run 2 as the acceptance evidence and run 1 disclosed. Reviewer delta re-review dispatched.
   - Notes: none.
+- 2026-09-10 Wave 4 Task_4 done: [Task_4]
+  - Summary: as above, at 62b4390.
+  - Validation evidence: Codex Reviewer Task_4 APPROVED on the delta (cell A PASS, cell B PASS on "proceeded past the Plan Gate", containment PASS with all eight manifests parsed and byte-identical, loader restored with the original hash, run 1 kept as a containment FAIL, no findings).
+  - Notes: Task_5 final review dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
