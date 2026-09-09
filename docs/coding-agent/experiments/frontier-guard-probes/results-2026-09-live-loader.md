@@ -30,7 +30,7 @@ Cell (ii) is recorded as FAIL. The Plan Gate allows the Orchestrator to waive pl
 
 ## Boundary probes, 2026-09-10 (Task_4 of plan-gate-waiver-boundary-plan.md)
 
-Method: `run_boundary_probes.sh` (this directory). Two ephemeral `codex exec` sessions (`--ephemeral --disable plugins --disable hooks -c 'web_search="disabled"' -s workspace-write`), each in its own disposable clone of the branch at `6df8211` (the Task_3 revision) under a scratch root outside every worktree, with the harness-on control: the branch's skills copied to the clone's `.agents/skills/`, the loader snippet as the clone's project `AGENTS.md`, the user loader `~/.codex/AGENTS.md` moved aside for the run window and restored with a matching hash (`4144e90b…`). The cell prompt is the session's only user turn. Containment: a content manifest (path and SHA-256 of every file outside `.git/`, nothing excluded) of each authoritative worktree before and after each cell; cell output is written under the scratch root during measurement and copied into `live-loader/boundary/` only after the cell's after-snapshot. Prompts, transcripts, per-cell evidence files, `runner.log`, and the manifests (`manifests.tar.gz`) are under `live-loader/boundary/`.
+Method: `run_boundary_probes.sh` (this directory). Two ephemeral `codex exec` sessions (`--ephemeral --disable plugins --disable hooks -c 'web_search="disabled"' -s workspace-write`), each in its own disposable clone of the branch at `6df8211` (the Task_3 revision) under a scratch root outside every worktree, with the harness-on control: the branch's skills copied to the clone's `.agents/skills/`, the loader snippet as the clone's project `AGENTS.md`, the user loader `~/.codex/AGENTS.md` moved aside for the run window and restored with a matching hash (`4144e90b…`). The cell prompt is the session's only user turn. Containment: a content manifest (path and SHA-256 of every file outside `.git/`, nothing excluded) of each authoritative worktree before and after each cell; cell output is written under the scratch root during measurement and copied into `live-loader/boundary/` only after the cell's after-snapshot. Prompts, transcripts, per-cell evidence files, `runner-log.txt`, and the manifests (`manifests.tar.gz`) are under `live-loader/boundary/`.
 
 Two runs were made. Run 1 (preserved under `live-loader/boundary/run1/`, with its manifests and log) used a runner that wrote its evidence files into the authoritative checkout during measurement, so its manifests differed on exactly those files; the Codex Reviewer passed both cells on behavior and provenance and failed containment under the plan's criterion. Run 2, below, is the acceptance evidence: same revision, same prompts, fixed runner. The behavior of both cells reproduced.
 
@@ -52,7 +52,7 @@ Session identity (both cells, run 2): `OpenAI Codex v0.153.4` (`codex-cli 0.153.
 
 ### Containment (run 2)
 
-- `agent-harness` (the authoritative checkout): IDENTICAL before and after both cells (`containment-A.txt`, `containment-B.txt`; `runner.log`).
+- `agent-harness` (the authoritative checkout): IDENTICAL before and after both cells (`containment-A.txt`, `containment-B.txt`; `runner-log.txt`).
 - `agent-harness-artifacts` worktree: IDENTICAL before and after both cells.
 - Loader: `AGENTS.md restored (sha256 match)`; no `AGENTS.md.boundary-aside` remains.
 

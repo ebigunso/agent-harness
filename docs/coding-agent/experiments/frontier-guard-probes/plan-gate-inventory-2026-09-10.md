@@ -270,4 +270,3 @@ The scope column distinguishes the dispatch's exact terms (**requested**) from t
 - Supplementary absence/context searches covered headless/unattended operation, user response/availability, silence, timeout, end-of-turn, confirmation, ratification, and authorization-related adjacent text.
 - A fresh search and source-line readback are used to check completeness and quotation fidelity; all surveyed source text remains unchanged from 4813470. No package validators are run because this is read-only research and some validators can write bytecode.
 - The independent Reviewer spot-check required by Task_1 remains the Orchestrator/Reviewer responsibility; this report is Researcher evidence, not its own independent approval.
-

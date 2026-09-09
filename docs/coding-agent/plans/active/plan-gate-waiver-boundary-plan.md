@@ -176,6 +176,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: as above, at 62b4390.
   - Validation evidence: Codex Reviewer Task_4 APPROVED on the delta (cell A PASS, cell B PASS on "proceeded past the Plan Gate", containment PASS with all eight manifests parsed and byte-identical, loader restored with the original hash, run 1 kept as a containment FAIL, no findings).
   - Notes: Task_5 final review dispatched.
+- 2026-09-10 Wave 5 Task_5 round 1 applied, re-review pending: [Task_5]
+  - Summary: Codex Reviewer found the substantive objectives met (boundary, accepted record, adapter parity, run 2 behavior and containment) and two closeout blockers: the two runner logs the results record cites were ignored by `*.log` and not in the tree; `git diff --check 7331383...HEAD` reported 733 diagnostics, all in captured probe evidence (transcripts and clone diffs) plus one blank line at the inventory's end. Fixed: logs tracked as `runner-log.txt` in both run directories with the references updated; inventory end-of-file fixed; `.gitattributes` marks `frontier-guard-probes/live-loader/**` as `-whitespace` so captured evidence bytes stay raw and the check excludes them by declaration, not by rewriting.
+  - Validation evidence: `git diff --check 7331383` after the fix: 0 diagnostics (recorded scope: the full range against the merge base, with the evidence exemption declared in `.gitattributes`).
+  - Notes: no probe rerun; the logs were independently checked by the Reviewer on disk.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

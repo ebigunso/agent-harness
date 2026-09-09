@@ -10,7 +10,7 @@
 # with the cell prompt on stdin, manifest again, and record the clone's status, diff, and created files.
 # Moves $CODEX_HOME/AGENTS.md aside for the run window and restores it with a hash check (run_baseline.sh discipline).
 # Outputs: written under <scratch-root>/out/ during measurement and copied to live-loader/boundary/ after each cell's after-snapshot;
-# manifests under <scratch-root>/manifests/. Exit: 0 ran; 2 setup refused; 3 a cell failed or containment differs; 4 restore failed.
+# manifests under <scratch-root>/manifests/; the caller captures stdout as runner-log.txt next to the published files. Exit: 0 ran; 2 setup refused; 3 a cell failed or containment differs; 4 restore failed.
 set -u
 ROOT="$(cd "${1:?usage: run_boundary_probes.sh <repo-root> <revision> <scratch-root>}" && pwd)" || exit 2
 REV="${2:?revision required}"; SCRATCH="${3:?scratch-root required}"

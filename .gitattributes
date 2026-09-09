@@ -1,0 +1,2 @@
+# Captured probe transcripts and diffs are raw evidence; whitespace is not linted there.
+docs/coding-agent/experiments/frontier-guard-probes/live-loader/** -whitespace
