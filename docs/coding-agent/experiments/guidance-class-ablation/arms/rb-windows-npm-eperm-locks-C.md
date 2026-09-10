@@ -1,1 +1,0 @@
-Windows npm EPERM/EBUSY unlink of .node: a repo dev/test/editor process may hold it. Stop holders gracefully; find with tasklist /m <module>.node (pwsh/powershell). Last resort: taskkill /PID <confirmed-pid> /F. Retry original install. If it fails, inspect the new module and tasklist | findstr node. Record original command/error, module, tasklist, killed PIDs and retry.

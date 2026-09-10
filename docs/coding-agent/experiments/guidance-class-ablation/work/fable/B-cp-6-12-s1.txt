@@ -1,9 +1,0 @@
-**Findings**
-
-1. **Next.tsx, onClick handler — cursor is mangled before being passed to `load`.**
-   `load(String(Number.parseInt(nextCursor, 10) + 1))` treats the cursor as a decimal integer and increments it. The reviewer notes state the cursor is an opaque token (e.g. `k:af31`) and that `load` accepts it verbatim. For any real token, `Number.parseInt("k:af31", 10)` is `NaN`, so `load` is called with the string `"NaN"` on every click; the next page is never fetched and the server receives a garbage cursor. Even for a cursor that happens to look numeric (`"12"`), the `+1` silently invents a token the server never issued, so the component would skip or corrupt pagination whenever the server's cursor scheme isn't "current page + 1". This is a contract violation across the boundary: the UI is re-interpreting and rewriting a value it was told to treat as opaque, which is exactly the kind of implicit coercion / shape drift that breaks upstream/downstream agreement.
-   **Require:** pass the token through unchanged — `onClick={() => { if (nextCursor !== null) load(nextCursor); }}`. No parsing, no arithmetic, no `String()` wrapping. Add a test that asserts `load` is called with the exact cursor value from props (e.g. `"k:af31"`).
-
-Everything else — the `string | null` prop type matching the Java record's nullable `String`, disabling the button when `nextCursor === null`, and the null guard inside the handler — is consistent with the stated contract and is fine as-is. The Java record is acceptable; an explicit `@Nullable` on `nextCursor` would be a nice-to-have for documentation but I would not block on it.
-
-__ABLATION_DONE__ exit=0

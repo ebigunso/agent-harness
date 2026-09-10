@@ -1,1 +1,0 @@
-Direct outer dependencies toward stable inner seams; keep core free of volatile details. Document edges; check imports and external seams. No framework/vendor calls in domain, cycles or interface bypasses.

@@ -1,6 +1,0 @@
-# Orchestrator adjudications applied on top of grader files (grader originals preserved in work/grades/).
-adjudications:
-  - model: astra
-    cell: A-rb-windows-python-console-encoding-02-s1
-    score: 1.0
-    reason: "Round-2 grader scored 0.5 because the primary fix (default JSON ASCII escaping, value preserved and round-trip confirmed) differs from the key's UTF-8 stdout route; the fixture does not require a literal emoji, so under the 2026-09-08 ruling (correct mechanism plus any working remediation) this is a hit. Flagged by the Task_5 delta review as an application error; adjudicated 2026-09-08."

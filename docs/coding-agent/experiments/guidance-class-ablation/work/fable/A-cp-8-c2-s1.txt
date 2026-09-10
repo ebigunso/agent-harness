@@ -1,9 +1,0 @@
-**Verdict: core change acceptable; one item I'd require changed before merge.**
-
-1. **cli.py, added `check()` function** — This is a test masquerading as production code. It's defined in the CLI module, is never invoked by anything in the diff (so it doesn't actually run as part of anything), uses a bare `assert` (silently stripped under `python -O`), and is outside the stated task scope ("replace sole command registry with direct call"). The reviewer note "equivalent output is asserted by executable check" overstates what this provides: nothing executes it. It also becomes a new public-looking symbol in the module that later readers will wonder about. **Require:** remove `check()` from `cli.py`; if you want the equivalence covered, put `assert main() == "ready"` in the test suite (e.g., `test_cli.py::test_main_returns_ready`) where it will actually run under the test runner, or drop it if the existing tests already cover `main()`.
-
-2. **cli.py, removal of module-level `REGISTRY`** — Not a defect, but a merge condition. Deleting a module-level name is an interface change regardless of intent; the notes assert it's not public/persisted, but the diff can't show that. **Require:** confirmation (grep across the repo, including tests, scripts, and any plugin/entry-point config) that nothing references `cli.REGISTRY` or the `"status"` key. If that's already been done, say so in the PR and this is fine.
-
-The `main()` change itself (`REGISTRY["status"]()` → `status()`) is behaviorally identical and correct.
-
-__ABLATION_DONE__ exit=0

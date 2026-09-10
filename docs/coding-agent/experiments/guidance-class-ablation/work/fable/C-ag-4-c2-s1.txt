@@ -1,9 +1,0 @@
-**Verdict: acceptable as-is.** The change does what the task asks and matches the stated Go contract: a non-nil error is returned before the collection is inspected (with the zero-value state, so a caller that forgets to check `err` gets `""`, which matches neither success state); nil error with nil/empty rows is a legitimate successful empty result mapped to `"idle"`; nil error with rows maps to `"work"`. There is no sentinel error for "empty", no magic state standing in for failure, and `errors.Is` confirms the cause is propagated unwrapped. Boundary impact is additive (new package, no existing consumers).
-
-One non-blocking flag I'd raise in the review comment rather than as a blocker:
-
-- **rpc_test.go, `TestOutcomes`** — The test exercises only two of the three outcomes (empty-success → `"idle"`, failure → propagated error). The populated-success path (`rows` non-empty → `"work"`) is untested, and it is the branch a regression in the `len(rows)==0` check would silently break. Add a third case, e.g. `Next(func()([]string,error){return []string{"job"},nil})` asserting `state=="work"` and `err==nil`.
-
-Things I considered and would *not* raise: `Fetch` is a trivial pass-through, but it's harmless and gives a seam for later instrumentation; state being an untyped `string` rather than a named type is a style preference at this size, not a contract defect; a `call` that returns both rows and an error is correctly treated as failure per the notes.
-
-__ABLATION_DONE__ exit=0

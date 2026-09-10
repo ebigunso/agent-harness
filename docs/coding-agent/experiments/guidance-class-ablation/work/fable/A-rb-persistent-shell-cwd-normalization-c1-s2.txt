@@ -1,7 +1,0 @@
-**Cause:** Not a workspace problem. The cwd, package root, config, and source all resolved correctly (`pwd` matches, all four files exist, `tsc` ran and found `tsconfig.json`). The build failed on a genuine TypeScript type error: `src/index.ts` line 3, column 7 assigns a `string` to a variable declared as `number` (TS2322). The diagnostic appears on stdout because that's where `tsc` writes compiler errors; empty stderr is expected.
-
-**Smallest safe remediation:** Fix the type mismatch at `src/index.ts:3:7` in source — either change the assigned value to a number or correct the declared type to `string`, whichever matches intent. Do not change directories, reinstall, or edit `tsconfig.json`; those aren't implicated. Avoid suppressing the error (`// @ts-ignore`, `any`, or loosening `strict`), which would hide a real defect.
-
-**Confirmation:** From `C:/work/shop/web`, rerun `npm run build`. Expect exit code 0 with no `error TS` lines in stdout. Optionally run `npx tsc --noEmit` first as a quick check, and verify the emitted output (per `tsconfig.json`'s `outDir`) was produced.
-
-__ABLATION_DONE__ exit=0

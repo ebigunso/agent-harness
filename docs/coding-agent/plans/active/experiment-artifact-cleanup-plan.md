@@ -1,6 +1,6 @@
 # Plan: Remove the experiment artifacts from the docs tree
 
-- status: draft
+- status: in_progress
 - generated: 2026-09-10
 - last_updated: 2026-09-10
 - work_type: docs
@@ -31,7 +31,7 @@
 - Prior evidence: reference grep on 2026-09-10 (this plan's Decision Log).
 
 ## Open Questions (max 3)
-- Q1: the Orchestrator performs the deletion and the three pointer edits directly rather than dispatching a Worker (a `git rm -r` of one tree plus three one-line edits, all shared-state Git work the Orchestrator controls anyway); the Reviewer reviews the diff. Proposed: yes, with the Worker-dispatch waiver recorded in the Decision Log per lessons.md 2026-05-17.
+- Q1: resolved 2026-09-10 by ebigunso ("Q1 OK."): the Orchestrator performs the deletion and the three pointer edits directly; Worker dispatch waived for this task with that ruling as the record; the Reviewer reviews the diff.
 
 ## Assumptions
 - A1: The only files outside `docs/coding-agent/experiments/` that mention the tree (any of `experiments/`, `frontier-guard-probes`, `guidance-class-ablation`) are: the three accepted records (repaired here); `.gitattributes` (removed here); the two frozen superseded records ADR-I-0004 and ADR-I-0005 (already cite git history; untouched); the four completed plans and `lessons.md` (dated history; untouched); and this plan — source: repository-wide grep on 2026-09-10, confirmed by the Reviewer's plan review with `rg --hidden --no-ignore` (12 files, no other consumer).
@@ -77,7 +77,10 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-10 Wave 1 Task_1 executed, review pending: [Task_1]
+  - Summary: `git rm -r docs/coding-agent/experiments` (4,660 files) and `.gitattributes`; pointer repairs in ADR-D-0019, ADR-D-0022, ADR-D-0032 qualifying the frontier-guard-probes path with "in git history at `2a5ebf9`" (the main tip and merge base at execution, which holds both subtrees). No other word changed.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check clean; three-term search returns exactly the allowed set (three repaired records, ADR-I-0004, ADR-I-0005, four completed plans, lessons.md, this plan) and nothing else.
+  - Notes: Reviewer review dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -91,6 +94,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): A1 lists every citing file and its disposition; the Task_1 command check names all three terms and the exact allowed set; pointers keep the specific evidence path qualified with the commit; `.gitattributes` is deleted as a whole file; the Reviewer check verifies the commit contains each cited path.
   - Tradeoffs considered: none.
   - User approval: pending with plan approval, including Q1.
+- 2026-09-10 Decision: Plan approved by ebigunso with Q1 as proposed.
+  - Trigger / new insight: Codex Reviewer Plan_Review APPROVED at ecae8c7; ebigunso: "Q1 OK. I approve of the plan. Get to work."
+  - Plan delta (what changed): status in_progress; Worker dispatch waived for Task_1 by ebigunso's ruling; pointer target fixed at 2a5ebf9.
+  - Tradeoffs considered: none.
+  - User approval: yes (2026-09-10).
 
 ## Notes
 - The removal commit's parent on main is the pointer target; it is known only at execution time and is filled in then.

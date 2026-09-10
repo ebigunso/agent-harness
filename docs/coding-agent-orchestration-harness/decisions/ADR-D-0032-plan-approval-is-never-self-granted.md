@@ -48,4 +48,4 @@ Not covered: the trivial/non-trivial tripwires and who applies them; the wording
 
 ## More Information
 
-Probe method and evidence: `docs/coding-agent/experiments/frontier-guard-probes/`. Related records: ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (loader-routed sessions assume the Orchestrator role), ADR-D-0027 (goal-mode envelope ratification).
+Probe method and evidence: `docs/coding-agent/experiments/frontier-guard-probes/` in git history at `2a5ebf9`. Related records: ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (loader-routed sessions assume the Orchestrator role), ADR-D-0027 (goal-mode envelope ratification).

@@ -1,4 +1,0 @@
-Do not load the harness for this; it is a bounded task.
-Before anything else, print four evidence lines: (1) the output of `codex --version`; (2) the SHA-256 of the file ~/.codex/agents/.coding-agent-orchestration-harness-install.json computed with `sha256sum` (or `certutil -hashfile <path> SHA256` on Windows); (3) the checkout commit from `git rev-parse HEAD`; (4) a line starting with "loaded instructions:" naming exactly which instruction files and skills were loaded into this session so far.
-Task: count the Markdown files directly under docs/coding-agent/rules/ and list their names with the first heading of each. Make no edits.
-End with one line: "harness skill loaded: yes|no".
