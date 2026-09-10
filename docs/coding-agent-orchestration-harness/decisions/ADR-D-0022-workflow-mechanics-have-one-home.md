@@ -44,7 +44,7 @@ Not covered: adapter length, kernel wording, which references an adapter names, 
 ## Revisit When
 
 - A runtime gains a first-class way to declare a dependency on shared instructions without loader text (none of Copilot, Claude Code, or Codex had one on 2026-09-07).
-- Agents stop loading or applying the orchestration skill from loader-only routing; the live loader check recorded under `docs/coding-agent/experiments/frontier-guard-probes/` is the evidence to consult.
+- Agents stop loading or applying the orchestration skill from loader-only routing; the live loader check recorded under `docs/coding-agent/experiments/frontier-guard-probes/` in git history at `2a5ebf9` is the evidence to consult.
 
 ## More Information
 

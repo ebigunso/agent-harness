@@ -1,2 +1,0 @@
-docs/coding-agent/plans/completed/validate-plan-json-plan.md
-plugins/coding-agent-orchestration-harness/tests/fixtures/invalid-plan-json-large.md

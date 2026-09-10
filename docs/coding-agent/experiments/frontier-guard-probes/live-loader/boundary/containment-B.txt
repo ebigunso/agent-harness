@@ -1,2 +1,0 @@
-C:/Users/Kohta/GitLocal/agent-harness: IDENTICAL
-C:/Users/Kohta/GitLocal/agent-harness-artifacts: IDENTICAL
