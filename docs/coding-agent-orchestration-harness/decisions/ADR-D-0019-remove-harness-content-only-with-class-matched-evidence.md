@@ -54,4 +54,4 @@ Guidance ablations were run on 2026-08-29 against Claude Fable 5, GPT-5.6 Sol, a
 
 ## More Information
 
-Replaces ADR-D-0015 in full. Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004 and ADR-I-0005, retired into this record on 2026-09-07 and kept under `superseded/`); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/` in git history at `2a5ebf9` (the tree was removed from the working tree afterwards). Guard relaxations made under the guard class: ADR-D-0018.
+Replaces ADR-D-0015 in full. Records: guidance ablations under `docs/coding-agent/experiments/language-guide-ablation/` in git history (ADR-I-0004 and ADR-I-0005, retired into this record on 2026-09-07 and kept under `superseded/`); guard probes and the PR #57 removal ledger under `docs/coding-agent/experiments/frontier-guard-probes/` in git history at `2a5ebf9`. Guard relaxations made under the guard class: ADR-D-0018.

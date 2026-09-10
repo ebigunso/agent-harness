@@ -1,6 +1,6 @@
 # Plan: Remove the experiment artifacts from the docs tree
 
-- status: in_progress
+- status: completed
 - generated: 2026-09-10
 - last_updated: 2026-09-10
 - work_type: docs
@@ -81,6 +81,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: `git rm -r docs/coding-agent/experiments` (4,660 files) and `.gitattributes`; pointer repairs in ADR-D-0019, ADR-D-0022, ADR-D-0032 qualifying the frontier-guard-probes path with "in git history at `2a5ebf9`" (the main tip and merge base at execution, which holds both subtrees). No other word changed.
   - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check clean; three-term search returns exactly the allowed set (three repaired records, ADR-I-0004, ADR-I-0005, four completed plans, lessons.md, this plan) and nothing else.
   - Notes: Reviewer review dispatched.
+- 2026-09-10 Wave 1 Task_1 done; plan closed: [Task_1]
+  - Summary: as above, at c9aa484.
+  - Validation evidence: Codex Reviewer Task_1 APPROVED (diff is the removal, the .gitattributes deletion, and three pointer-only edits; 2a5ebf9 holds both subtrees; search set exact; package and smoke checks pass).
+  - Notes: no lessons; the precedent (ADR-I-0004/0005) was followed. Plan moved to completed/.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
