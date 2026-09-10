@@ -34,7 +34,7 @@
 - Q1: the Orchestrator performs the deletion and the three pointer edits directly rather than dispatching a Worker (a `git rm -r` of one tree plus three one-line edits, all shared-state Git work the Orchestrator controls anyway); the Reviewer reviews the diff. Proposed: yes, with the Worker-dispatch waiver recorded in the Decision Log per lessons.md 2026-05-17.
 
 ## Assumptions
-- A1: No file outside `docs/coding-agent/experiments/`, the three records, `.gitattributes`, completed plans, and `lessons.md` references the tree — source: `grep -rn "experiments/"` and `grep -rn "frontier-guard-probes\|guidance-class-ablation"` over the repository on 2026-09-10.
+- A1: The only files outside `docs/coding-agent/experiments/` that mention the tree (any of `experiments/`, `frontier-guard-probes`, `guidance-class-ablation`) are: the three accepted records (repaired here); `.gitattributes` (removed here); the two frozen superseded records ADR-I-0004 and ADR-I-0005 (already cite git history; untouched); the four completed plans and `lessons.md` (dated history; untouched); and this plan — source: repository-wide grep on 2026-09-10, confirmed by the Reviewer's plan review with `rg --hidden --no-ignore` (12 files, no other consumer).
 
 ## Tasks
 
@@ -48,18 +48,18 @@
   - docs/coding-agent-orchestration-harness/decisions/ADR-D-0032-plan-approval-is-never-self-granted.md
 - depends_on: []
 - description: |
-  `git rm -r docs/coding-agent/experiments`; remove the `.gitattributes` entry; in each of the three records replace the tree path with "in git history at `<commit>`" where `<commit>` is the main commit immediately before the removal, changing no other word.
+  `git rm -r docs/coding-agent/experiments`; delete `.gitattributes` (its only content is the evidence exemption and its comment); in each of the three records keep the specific evidence path and qualify it with "in git history at `<commit>`" where `<commit>` is the main commit immediately before the removal, changing no other word (ADR-D-0019's separate language-guide-ablation pointer already reads that way and stays).
 - acceptance:
   - The tree is gone; `git ls-files docs/coding-agent/experiments` is empty; the three records differ from main only on the pointer line.
 - validation:
   - kind: command
     required: true
     owner: orchestrator
-    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check; grep -rn 'experiments/' outside completed plans and lessons returns only the repaired pointers."
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check; a repository-wide search for 'experiments/', 'frontier-guard-probes', and 'guidance-class-ablation' (excluding .git) returns only: the three repaired records with their commit-qualified pointers, the two superseded records, the four completed plans, lessons.md, and this plan; any other hit is a missed consumer and blocks."
   - kind: review
     required: true
     owner: reviewer
-    detail: "Confirm the diff is the tree removal, the attribute line, and three pointer-only edits; confirm each pointer names a commit that contains the removed path; confirm no decision text changed."
+    detail: "Confirm the diff is the tree removal, the .gitattributes deletion, and three pointer-only edits; confirm the named commit is the main commit immediately before the removal and contains each cited path (git ls-tree); confirm no decision, boundary, reason, or reopen condition changed; rerun the three-term search."
 
 ## Task Waves (explicit parallel dispatch sets)
 
@@ -86,6 +86,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): this plan exists; draft pending Reviewer plan review and ebigunso's approval. Research waived: the Orchestrator ran the reference grep directly (a read is cheaper than a dispatch and the result is reproduced here).
   - Tradeoffs considered: keeping the summary records (`outcome.md`, the results files) and deleting only raw transcripts and fixtures (rejected: ebigunso asked for the artifacts to go, the closing plans already carry the outcomes, and partial trees invite the same question again).
   - User approval: pending.
+- 2026-09-10 Decision: Plan review round 1 (Codex Reviewer) findings applied.
+  - Trigger / new insight: the required reference check was unsatisfiable as written (the two frozen superseded records and this plan itself carry the path text and must stay); A1 omitted the same exceptions and named only one of the three search terms; Q1 is a proposal until ebigunso rules on it.
+  - Plan delta (what changed): A1 lists every citing file and its disposition; the Task_1 command check names all three terms and the exact allowed set; pointers keep the specific evidence path qualified with the commit; `.gitattributes` is deleted as a whole file; the Reviewer check verifies the commit contains each cited path.
+  - Tradeoffs considered: none.
+  - User approval: pending with plan approval, including Q1.
 
 ## Notes
 - The removal commit's parent on main is the pointer target; it is known only at execution time and is filled in then.
