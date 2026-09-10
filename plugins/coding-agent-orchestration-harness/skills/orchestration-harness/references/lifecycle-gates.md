@@ -22,7 +22,7 @@ Trivial/non-trivial criteria, requirement challenge, plan and approval requireme
 
 Follow-up non-trivial work re-enters the Plan Gate (`SKILL.md`): chain it through a new or updated plan, never by extending the approved scope in place.
 
-Clarifications, follow-up requirements, and plan refinements are NOT plan approval. In plan mode, execution of non-trivial work requires the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver. A task request or direct execution instruction that merely states the task is not plan approval. When in doubt, ask; without applicable user approval or waiver and with no user to ask, present the plan and end the turn.
+Clarifications, follow-up requirements, and plan refinements are NOT plan approval. In plan mode, execution of non-trivial work requires the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver. Neither a task request nor a direct instruction to do the work is plan approval unless it explicitly approves the presented plan or explicitly waives the approval step. When in doubt, ask; without applicable user approval or waiver and with no user to ask, present the plan and end the turn.
 
 Plan review loop: the Orchestrator triages each Reviewer finding as fix, research-and-rewrite, or dispute; re-review scopes to the delta only when the delta re-review condition in `skills/wave-integration/references/integration-checklist.md` holds, otherwise it is full; a third round on the same seam applies that file's third-bounce detector; a finding that needs a ruling follows Escalation Ruling below.
 

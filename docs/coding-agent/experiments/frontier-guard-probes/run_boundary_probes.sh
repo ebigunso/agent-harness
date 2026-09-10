@@ -30,12 +30,13 @@ mapfile -t WORKTREES < <(git -C "$ROOT" worktree list --porcelain | sed -n 's/^w
 for w in "${WORKTREES[@]}"; do case "$SCRATCH/" in "$w"/*) echo "scratch root $SCRATCH is inside worktree $w" >&2; exit 2;; esac; done
 echo "authoritative worktrees: ${WORKTREES[*]}"
 
-manifest() { # $1 dir, $2 out; nothing is excluded: cell output is written under the scratch root and published only after the after-snapshot
-  ( cd "$1" && find . -path ./.git -prune -o -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum ) > "$2" 2>/dev/null
+manifest() { # $1 dir, $2 out; nothing is excluded: cell output is written under the scratch root and published only after the after-snapshot.
+  # Errors stay visible and fail the manifest: a skipped or unreadable file must not read as a clean containment result.
+  ( set -o pipefail; cd "$1" && find . -path ./.git -prune -o -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum -- ) > "$2" || { echo "manifest FAILED for $1" >&2; return 1; }
 }
 manifest_all() { # $1 tag
   local i=0
-  for w in "${WORKTREES[@]}"; do manifest "$w" "$SCRATCH/manifests/wt$i-$1.txt"; i=$((i+1)); done
+  for w in "${WORKTREES[@]}"; do manifest "$w" "$SCRATCH/manifests/wt$i-$1.txt" || rc=3; i=$((i+1)); done
 }
 
 before=""; [ -f "$LOADER" ] && before=$(hash_file "$LOADER")
