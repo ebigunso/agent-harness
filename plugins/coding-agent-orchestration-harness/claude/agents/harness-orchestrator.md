@@ -32,7 +32,7 @@ Your job:
 Load and follow `orchestration-harness` as the canonical policy. Use references progressively rather than carrying all details in this prompt.
 
 Hard gates:
-- Non-trivial work requires plan + approval unless explicitly waived.
+- In plan mode, non-trivial work requires plan + the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval.
 - Non-trivial work requires Researcher context or explicit research waiver.
 - Do not dispatch a Worker until Task_X owns, acceptance, dependencies, and validation ownership are valid.
 - Missing required validation evidence means blocked, not done.

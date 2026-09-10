@@ -1,0 +1,102 @@
+diff --git a/plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py b/plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py
+index 4a2dbac..3d352a9 100644
+--- a/plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py
++++ b/plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py
+@@ -47,6 +47,45 @@ def assert_condition(condition: bool, message: str) -> bool:
+     return False
+ 
+ 
++def run_plan_json_smoke() -> bool:
++    script = ROOT / "skills" / "plan-format" / "scripts" / "validate_plan.py"
++    fixtures = ROOT / "tests" / "fixtures"
++    cases = [
++        ("valid-plan.md", "balanced", 0, []),
++        ("invalid-plan-missing-validation-owner.md", "balanced", 3, [
++            {"severity": "error", "line": None, "message": "Task_1: validation item missing fields ['owner']"},
++            {"severity": "error", "line": None, "message": "Task_1: validation.owner is invalid or missing"},
++        ]),
++    ]
++    for mode in ("strict", "balanced", "relaxed"):
++        findings = []
++        if mode != "relaxed":
++            message = (
++                "strict mode: large task count; consider reviewing decomposition manually"
++                if mode == "strict" else
++                "balanced mode: large task count may need decomposition review"
++            )
++            findings.append({"severity": "warning", "line": None, "message": message})
++        findings.append({"severity": "error", "line": None, "message": "missing required section: ## Goal"})
++        cases.append(("invalid-plan-json-large.md", mode, 0 if mode == "relaxed" else 3, findings))
++
++    ok = True
++    for filename, mode, expected_exit, expected_findings in cases:
++        cmd = [PY, str(script), "--file", str(fixtures / filename), "--mode", mode, "--json"]
++        print("+ " + " ".join(cmd))
++        result = subprocess.run(cmd, cwd=ROOT.parent.parent, capture_output=True, text=True)
++        ok &= assert_condition(result.returncode == expected_exit, f"{filename} ({mode}): expected exit {expected_exit}, got {result.returncode}")
++        ok &= assert_condition(not result.stderr, f"{filename} ({mode}): unexpected stderr: {result.stderr}")
++        try:
++            findings = json.loads(result.stdout)
++        except json.JSONDecodeError as exc:
++            print(f"{filename} ({mode}): invalid JSON stdout: {exc}", file=sys.stderr)
++            ok = False
++            continue
++        ok &= assert_condition(findings == expected_findings, f"{filename} ({mode}): unexpected findings: {findings!r}")
++    return ok
++
++
+ def run_bootstrap_smoke() -> bool:
+     script = ROOT / "skills" / "codex-harness-bootstrap" / "scripts" / "install_codex_harness.py"
+     ok = True
+@@ -163,6 +202,7 @@ def main() -> int:
+     ok = True
+     for cmd, expected in checks:
+         ok &= run(cmd, expected)
++    ok &= run_plan_json_smoke()
+     ok &= run_bootstrap_smoke()
+     ok &= run_adr_supersession_smoke()
+     return 0 if ok else 3
+diff --git a/plugins/coding-agent-orchestration-harness/skills/plan-format/SKILL.md b/plugins/coding-agent-orchestration-harness/skills/plan-format/SKILL.md
+index 96564f0..88efb4d 100644
+--- a/plugins/coding-agent-orchestration-harness/skills/plan-format/SKILL.md
++++ b/plugins/coding-agent-orchestration-harness/skills/plan-format/SKILL.md
+@@ -74,6 +74,8 @@ Design assumptions:
+ 
+ ## Progressive disclosure (read only what you need)
+ 
++Validate a plan with `python scripts/validate_plan.py --file <plan.md> --mode balanced` from this skill directory. Add `--json` to emit every finding as a JSON array of `{severity, line, message}` on stdout, without text diagnostics or a summary. `severity` is `error` or `warning`; `line` is `null` because the validator does not track source locations. A clean plan emits `[]`. Exit codes are unchanged: errors return `3` in strict/balanced mode and `0` in relaxed mode; otherwise the exit code is `0`.
++
+ If you are writing or updating a plan:
+ - Read `references/plan-template.md`
+ 
+diff --git a/plugins/coding-agent-orchestration-harness/skills/plan-format/scripts/validate_plan.py b/plugins/coding-agent-orchestration-harness/skills/plan-format/scripts/validate_plan.py
+index f6eb45f..483ca20 100644
+--- a/plugins/coding-agent-orchestration-harness/skills/plan-format/scripts/validate_plan.py
++++ b/plugins/coding-agent-orchestration-harness/skills/plan-format/scripts/validate_plan.py
+@@ -4,6 +4,7 @@
+ from __future__ import annotations
+ 
+ import argparse
++import json
+ import re
+ import sys
+ from pathlib import Path
+@@ -239,9 +240,18 @@ def main() -> int:
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--file", required=True, type=Path)
+     parser.add_argument("--mode", choices=["strict", "balanced", "relaxed"], default="balanced")
++    parser.add_argument("--json", action="store_true", help="Print findings as a JSON array on stdout")
+     args = parser.parse_args()
+     text = args.file.read_text(encoding="utf-8")
+     errors, warnings = validate(text, args.mode)
++    if args.json:
++        findings = [
++            {"severity": severity, "line": None, "message": message}
++            for severity, messages in (("warning", warnings), ("error", errors))
++            for message in messages
++        ]
++        print(json.dumps(findings))
++        return 3 if errors and args.mode != "relaxed" else 0
+     for message in warnings:
+         print(f"WARNING: {message}", file=sys.stderr)
+     for message in errors:

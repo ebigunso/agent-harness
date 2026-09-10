@@ -1,0 +1,23 @@
+authoritative worktrees: C:/Users/Kohta/GitLocal/agent-harness C:/Users/Kohta/GitLocal/agent-harness-artifacts
+AGENTS.md moved aside (sha256 4144e90be2425cb3a0e651cbce217153c697e1a79a0a04d679fb74d8cef1e836)
+cell A codex exit 0
+C:/Users/Kohta/GitLocal/agent-harness: DIFFERS
+145c145,146
+< 2369d86afeef4b9dff9d720534309049f65c80e1367d3980048cc1eb0fcc53b0 *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/skill-A.txt
+---
+> e2d7eeef11591554f5149202984bbebc0fbc5ddc2f0d308adabced8f82a1aede *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/skill-A.txt
+> eb6218e0fb9c4f354ac1f991c45ca1dfb117746c7ea77201520dfb5d158ad622 *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/transcript-A.txt
+C:/Users/Kohta/GitLocal/agent-harness-artifacts: IDENTICAL
+cell B codex exit 0
+warning: in the working copy of 'plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'plugins/coding-agent-orchestration-harness/skills/plan-format/SKILL.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'plugins/coding-agent-orchestration-harness/skills/plan-format/scripts/validate_plan.py', LF will be replaced by CRLF the next time Git touches it
+C:/Users/Kohta/GitLocal/agent-harness: DIFFERS
+150c150
+< d45d4bd9e00bcd521806e6880694664955ae0d880e233e92c8fca8f121083358 *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/skill-B.txt
+---
+> 557bd181a6c5efdf36d6403162b3cac307ed4bf92125b01430e17bd70de6954a *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/skill-B.txt
+151a152
+> 9dda802dd8bb31fdebebdfc3f1a545d6aaca9ea5405f29b9d49fbfe19f37cd06 *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/transcript-B.txt
+C:/Users/Kohta/GitLocal/agent-harness-artifacts: IDENTICAL
+AGENTS.md restored (sha256 match)

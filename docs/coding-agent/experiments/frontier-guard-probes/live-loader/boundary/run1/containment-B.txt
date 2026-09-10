@@ -1,0 +1,8 @@
+C:/Users/Kohta/GitLocal/agent-harness: DIFFERS
+150c150
+< d45d4bd9e00bcd521806e6880694664955ae0d880e233e92c8fca8f121083358 *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/skill-B.txt
+---
+> 557bd181a6c5efdf36d6403162b3cac307ed4bf92125b01430e17bd70de6954a *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/skill-B.txt
+151a152
+> 9dda802dd8bb31fdebebdfc3f1a545d6aaca9ea5405f29b9d49fbfe19f37cd06 *./docs/coding-agent/experiments/frontier-guard-probes/live-loader/boundary/transcript-B.txt
+C:/Users/Kohta/GitLocal/agent-harness-artifacts: IDENTICAL
