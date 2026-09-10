@@ -21,12 +21,13 @@ hash_file() { sha256sum "$1" | cut -c1-64; }
 
 # Prerequisites (no mutation yet).
 [ -e "$BACKUP" ] && { echo "refusing: $BACKUP exists" >&2; exit 2; }
-for t in codex timeout sha256sum git; do command -v "$t" >/dev/null || { echo "$t not on PATH" >&2; exit 2; }; done
+for t in codex timeout sha256sum git sed find sort xargs cmp diff grep tee cp; do command -v "$t" >/dev/null || { echo "$t not on PATH" >&2; exit 2; }; done
 git -C "$ROOT" rev-parse --verify -q "$REV^{commit}" >/dev/null || { echo "unknown revision $REV" >&2; exit 2; }
 [ -f "$PUB/prompt-A.txt" ] && [ -f "$PUB/prompt-B.txt" ] || { echo "missing $PUB/prompt-{A,B}.txt" >&2; exit 2; }
 mkdir -p "$SCRATCH/manifests" "$SCRATCH/out" || exit 2
 SCRATCH="$(cd "$SCRATCH" && pwd)"; OUT="$SCRATCH/out"   # cell output stays here during measurement
 mapfile -t WORKTREES < <(git -C "$ROOT" worktree list --porcelain | sed -n 's/^worktree //p')
+[ "${#WORKTREES[@]}" -ge 1 ] || { echo "no worktrees discovered for $ROOT; refusing to run without containment targets" >&2; exit 2; }
 for w in "${WORKTREES[@]}"; do case "$SCRATCH/" in "$w"/*) echo "scratch root $SCRATCH is inside worktree $w" >&2; exit 2;; esac; done
 echo "authoritative worktrees: ${WORKTREES[*]}"
 
