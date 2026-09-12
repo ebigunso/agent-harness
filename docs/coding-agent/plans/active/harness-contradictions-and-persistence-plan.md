@@ -98,7 +98,7 @@
   - kind: command
     required: true
     owner: orchestrator
-    detail: "grep -rn 'ADR-[DI]-00[0-9][0-9]' plugins/ --exclude-dir=durable-docs-authoring returns nothing (that skill's ADR readme carries filename-shape examples, not citations); grep -rn 'ADR-D-0012\\|ADR-D-0013' docs/coding-agent/rules/ returns nothing; git diff --check"
+    detail: "grep -rn 'ADR-[DI]-[0-9][0-9][0-9][0-9]' plugins/ --exclude=adr-repo-readme.md returns nothing (that readme carries filename-shape examples, not citations); grep -rn 'ADR-D-0012\\|ADR-D-0013' docs/coding-agent/rules/ returns nothing; git diff --check"
   - kind: review
     required: true
     owner: reviewer
