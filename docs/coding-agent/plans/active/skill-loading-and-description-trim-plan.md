@@ -34,7 +34,7 @@
 - Prior evidence: the Codex Researcher audit delivered over agmsg on 2026-09-12 16:30Z (four parts) and the Orchestrator's own reads of the router skill, the three largest roots, two adapters, and the rules; the article's points are the rubric recorded in the Decision Log.
 
 ## Open Questions (max 3)
-- Q1: Which skills stay preloaded in the Claude Orchestrator adapter? Proposed: `orchestration-harness`, `plan-format`, `subagent-strategy` (needed on every non-trivial task); everything else is routed. Worker keeps `subagent-report-contract` and `engineering-quality-baselines`; `git-workflow` loads only on delegated Git work. Reviewer keeps `engineering-quality-baselines`; `playwright-e2e-evidence` loads only for UI acceptance.
+- Q1: resolved 2026-09-13 by ebigunso as proposed: the Claude Orchestrator preloads `orchestration-harness`, `plan-format`, `subagent-strategy`; Worker keeps `subagent-report-contract` and `engineering-quality-baselines` with `git-workflow` loading only on delegated Git work; Reviewer keeps `engineering-quality-baselines` with `playwright-e2e-evidence` loading only for UI acceptance.
 
 ## Assumptions
 - A1: Claude loads a skill named in adapter frontmatter at agent start regardless of task; removing a name from the list only changes when the skill loads, since the body's routes still name it — source: Claude Code plugin agent frontmatter semantics; the Reviewer confirms the routes exist for every removed name.
@@ -225,6 +225,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): the field table decides pointers by quoted equivalents; the fallback applies whenever the output lacks the field; the surviving-copy requirement is limited to obligations and duplicated passages in the Goal and DoD.
   - Tradeoffs considered: none.
   - User approval: pending with plan approval.
+
+- 2026-09-13 Decision: Q1 resolved by ebigunso as proposed.
+  - Trigger / new insight: ebigunso: "All questions in the three plans are otherwise settled as accepting your given recommendations."
+  - Plan delta (what changed): Q1 marked resolved; Task_6 applies the named preload sets.
+  - Tradeoffs considered: none.
+  - User approval: yes for Q1 (2026-09-13); plan approval pending.
 
 ## Notes
 - Word counts in the audit are static whitespace counts of file text, not measured context; the plan does not claim a token saving, only that each rule has one home and each load a condition.

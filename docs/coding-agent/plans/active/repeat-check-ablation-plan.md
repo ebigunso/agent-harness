@@ -30,9 +30,9 @@
 - Prior evidence: the Codex Researcher audit (agmsg, 2026-09-12 16:30Z) item 11 marks these rules Astra-only in motivation and says a static audit justifies no weakening; the cost of the 2026-09-09 runs (about $0.07 per Fable cell through the headless CLI, Astra cells through ephemeral `codex exec`) bounds this plan at 3 rules x 3 arms x 16 fixtures x 2 models = 288 cells plus six blinded graders.
 
 ## Open Questions (max 3)
-- Q1: Grading rule. Proposed: a hit requires the response to detect the specific evidence gap the section names and to require obtaining that evidence by any adequate means (a targeted rerun, an executed-test count from the log, a gate check, a baseline comparison); a prescribed command sequence is not required. A false positive on a decoy is a blocking demand for further verification when the shown evidence already settles the question. This is the grading rule for this protocol; the 2026-09-08 runbook ruling is neither reused nor extended.
-- Q2: Runners. Proposed: recover `run_fable.sh` and `run_astra.sh` from `2a5ebf9` with one correction to `run_fable.sh`: a cell counts as complete only when the CLI JSON has `is_error` false and a non-empty result, never on the done marker alone; the marker is written only on that condition. Everything else unchanged (web search disabled, loader aside and restored by hash, restricted Claude CLI), relaunched detached as before.
-- Q3: Spend and retry cap. Proposed: 288 initial calls plus at most 96 retries in aggregate, no more than two per cell, for a maximum of 384 model calls, whichever limit is reached first stops the run; the six grader dispatches are accounted separately; at a stop the affected section stays INCOMPLETE and ebigunso decides. At the 2026-09-09 rates the Fable half is about $10 before retries; Astra runs on the ephemeral CLI.
+- Q1: resolved 2026-09-13 by ebigunso as proposed. Grading rule: a hit requires the response to detect the specific evidence gap the section names and to require obtaining that evidence by any adequate means (a targeted rerun, an executed-test count from the log, a gate check, a baseline comparison); a prescribed command sequence is not required. A false positive on a decoy is a blocking demand for further verification when the shown evidence already settles the question. This is the grading rule for this protocol; the 2026-09-08 runbook ruling is neither reused nor extended.
+- Q2: resolved 2026-09-13 by ebigunso as proposed: recover `run_fable.sh` and `run_astra.sh` from `2a5ebf9` with one correction to `run_fable.sh`: a cell counts as complete only when the CLI JSON has `is_error` false and a non-empty result, never on the done marker alone; the marker is written only on that condition. Everything else unchanged (web search disabled, loader aside and restored by hash, restricted Claude CLI), relaunched detached as before.
+- Q3: resolved 2026-09-13 by ebigunso as proposed: 288 initial calls plus at most 96 retries in aggregate, no more than two per cell, for a maximum of 384 model calls, whichever limit is reached first stops the run; the six grader dispatches are accounted separately; at a stop the affected section stays INCOMPLETE and ebigunso decides. At the 2026-09-09 rates the Fable half is about $10 before retries; Astra runs on the ephemeral CLI.
 
 ## Assumptions
 - A1: The two lines separate into three sections (tv-1 skip confirmation; tv-2 gated live test; tv-3 baseline classification), each with one invariant obligation and one prescribed mechanic — source: the lines' structure at `testing-validation.md:74,77`; Task_1 writes the obligation and mechanic per section into the protocol and the fixture author confirms each fixture targets exactly one.
@@ -180,6 +180,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): arm A files exist and the generator reads them; the validator maps tv sections to testing-validation.md and takes counts from the manifest; the pre-spend check asserts generated prompt contents; Q3 is 288 plus at most 96 retries, two per cell, 384 maximum, graders separate; the evidence commit is tagged and pushed.
   - Tradeoffs considered: none.
   - User approval: pending with plan approval.
+
+- 2026-09-13 Decision: Q1, Q2, and Q3 resolved by ebigunso as proposed.
+  - Trigger / new insight: ebigunso: "All questions in the three plans are otherwise settled as accepting your given recommendations."
+  - Plan delta (what changed): the grading rule, the runner correction, and the call cap are registered as decided.
+  - Tradeoffs considered: none.
+  - User approval: yes for the three questions (2026-09-13); plan approval pending.
 
 ## Notes
 - Planned calls: 288 cells and six graders, about a fifth of the 2026-09-09 remaining-sections run (1,344 cells); the spend cap and stop rule are Q3.
