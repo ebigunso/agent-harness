@@ -1,0 +1,227 @@
+# Plan: Trim skill loading, descriptions, and duplicated procedure (Astra guide, part 1 of 3)
+
+- status: draft
+- generated: 2026-09-13
+- last_updated: 2026-09-13
+- work_type: docs
+
+## Goal
+- Apply the structural findings of the 2026-09-13 audit of the harness against OpenAI's "Rethinking skills and prompts for GPT-6 Astra" (items 1 through 9 of the audit list ebigunso accepted on 2026-09-13): skills load on relevance instead of on presence, descriptions say when to use a skill and nothing else, and each rule has one surviving copy. Every change here is the redundancy class of ADR-D-0019: a consumer check and a named surviving canonical copy, no behavior change, no guard relaxed. The harness serves Claude Fable 5.1 and GPT-6 Astra alike; nothing here is model-specific tuning.
+
+## Definition of Done
+- Claude adapter frontmatter preloads only the skills a role needs on every task; every other skill the role may need is reachable through the routing table or a conditional route in the body, and the adapter maintenance checklist confirms the three runtimes still agree on role semantics.
+- At the start of a non-trivial task the Orchestrator reads the three rule files (`index.md`, `common.md`, `orchestrator.md`, per ADR-D-0020) and nothing else unconditionally; lessons, plans, and the repository reference documents listed in `common.md` are named with the condition under which each is read, in the "use X for Y" form; the create-missing-rules instruction in `lifecycle-gates.md` and the continue-and-record fallback in the skill root say the same thing; `rule-suite-fast-path.md` no longer contradicts itself about when `index.md` is read. The Researcher adapters carry the same conditional form.
+- The dispatch checklist is read on first use per role in a session, not before every dispatch; `wave-integration` has one integration procedure, and its Reviewer-packet instruction distinguishes post-Worker packets from draft-plan review.
+- Descriptions of `git-workflow`, `durable-docs-authoring`, `playwright-cli`, `playwright-e2e-evidence`, `workspace-troubleshooting`, and `subagent-report-contract` name the scenarios that need the skill and contain no execution mechanics, taxonomy, or promises the references do not keep; every trigger removed from a description still exists in the body it pointed to.
+- `subagent-report-contract/SKILL.md` carries the schema once and each rule once, with the sample and examples in references; the example that has a Worker editing a rules file is corrected.
+- `engineering-quality-baselines` states the core-principles read once, drops the "list the categories you left out" instruction, and keeps the routing note only where a plan or report does not already carry the same fields.
+- For every deleted or merged passage the Reviewer can name the surviving canonical copy and confirm no consumer pointed only at the deleted text.
+- Package validation, smoke tests, and `git diff --check` pass; no validator, schema, consent gate, output contract, or evidence requirement changes.
+
+## Scope / Non-goals
+- Scope: the files in each task's `owns`.
+- Non-goals: any guidance ablation (part 3), any contradiction or stale-copy repair not listed here (part 2), any change to the Plan Gate, Reviewer approval, validation evidence, or Git boundaries; renaming skills; touching `docs/coding-agent/rules/`.
+
+## Compatibility stance
+- surface: skill descriptions (discovery text every runtime reads), skill roots and references, Claude adapter frontmatter, Researcher adapter bodies.
+- stance: migrate
+- justification: all consumers are in this repository; installed copies are refreshed by ebigunso after merge through the plugin update, as after #65; a version bump ships with the change.
+
+## Context (workspace)
+- Related files/areas: `claude/agents/harness-orchestrator.md:5-17` (twelve preloaded skills, about 7,000 root words), `harness-worker.md:5-8`, `harness-reviewer.md:6-8`; `skills/orchestration-harness/SKILL.md:14` ("also skim lessons and any active plans"), `references/lifecycle-gates.md:7-17` (seven-entry start-of-work read list; create-missing-rules at :17), `references/rule-suite-fast-path.md:7-12` and :37; Researcher adapters `codex/agent-templates/harness_researcher.toml:35-38`, `agents/Researcher.md:36-39`, `claude/agents/harness-researcher.md:34-37`; `skills/subagent-strategy/SKILL.md:61`; `skills/wave-integration/SKILL.md:12-28` and `references/integration-checklist.md`; the six descriptions at each `SKILL.md:3`; `skills/subagent-report-contract/SKILL.md` (951 words; the Reviewer-evidence rule at :81, :99, :112, :151; `references/examples.md:144`); `skills/engineering-quality-baselines/SKILL.md:31,34,52` and `references/core-principles.md:18`.
+- Existing patterns or references: ADR-D-0019 (redundancy class: consumer check plus surviving copy); ADR-D-0020 (the three-file rule entry is the minimum load); ADR-D-0022 (one home for workflow mechanics; replicated role contracts in adapters are the one exception and stay synchronized); `runtime-adapter-contract/references/adapter-maintenance-checklist.md`; `skills-maintenance/references/final-ambiguity-pass.md`.
+- Design record consulted and deviations from its acceptance: none; every edit stays inside ADR-D-0019's redundancy class and ADR-D-0022's exception.
+- Prior evidence: the Codex Researcher audit delivered over agmsg on 2026-09-12 16:30Z (four parts) and the Orchestrator's own reads of the router skill, the three largest roots, two adapters, and the rules; the article's points are the rubric recorded in the Decision Log.
+
+## Open Questions (max 3)
+- Q1: Which skills stay preloaded in the Claude Orchestrator adapter? Proposed: `orchestration-harness`, `plan-format`, `subagent-strategy` (needed on every non-trivial task); everything else is routed. Worker keeps `subagent-report-contract` and `engineering-quality-baselines`; `git-workflow` loads only on delegated Git work. Reviewer keeps `engineering-quality-baselines`; `playwright-e2e-evidence` loads only for UI acceptance.
+
+## Assumptions
+- A1: Claude loads a skill named in adapter frontmatter at agent start regardless of task; removing a name from the list only changes when the skill loads, since the body's routes still name it — source: Claude Code plugin agent frontmatter semantics; the Reviewer confirms the routes exist for every removed name.
+- A2: The package validator's adapter checks look at duplication markers and role sections, not at frontmatter skill lists — source: `scripts/validate_harness_package.py` adapter section; confirmed by running it after Task_6.
+
+## Tasks
+
+### Task_1: Descriptions say when, not how
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/git-workflow/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/playwright-cli/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/playwright-e2e-evidence/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/workspace-troubleshooting/SKILL.md
+- depends_on: []
+- description: |
+  Worker: rewrite the frontmatter description of each owned skill to the article's form ("<what it does>. Use when <scenarios>."), scenario-targeted and as short as the triggers allow. git-workflow: drop the watcher-arming instruction and the stack sentence from the description (both live in the body). durable-docs-authoring: drop the document taxonomy and the admission mechanics (body and `references/adr.md` carry them). playwright-cli: trigger on "a browser automation provider has been selected and it is playwright-cli", not on any web interaction. playwright-e2e-evidence: trigger on UI/E2E acceptance evidence, not on the bare word screenshots. workspace-troubleshooting: name only the failure families the three surviving references cover (stale view or branch mismatch, GitHub CLI auth, unexpected external changes) plus the generic triage entry; drop npm, Windows file locks, and flaky E2E. Bodies change only where a description trigger moved into them and was not already there.
+- acceptance:
+  - Each owned description is under 45 words, names scenarios, and contains no imperative execution step.
+  - Every trigger phrase removed from a description is present in that skill's body or a reference, quoted in the Worker report.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "For each description: scenario-targeted, no mechanics, every removed trigger located in the body; the final-ambiguity pass applied."
+
+### Task_2: Rule entry loads on relevance
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/lifecycle-gates.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/rule-suite-fast-path.md
+- depends_on: []
+- description: |
+  Worker: keep the three-file rule entry (ADR-D-0020) and rewrite everything else in the Repository Rule Entry section, the lifecycle reference's "At the start of non-trivial work, read:" list, and the fast-path reference so each additional source carries its condition: lessons when starting non-trivial work in a repository with a lessons file (recent or relevant entries), active plans when one covers the same area, the repository reference documents listed in `common.md` each for the purpose `common.md` states, project files after the Research Dispatch Gate. Remove the duplicate mandated three-file load from the fast-path reference (state it once, point to the root) and its self-contradiction about when `index.md` is read. Make `lifecycle-gates.md` say what the root says when rule files are absent: continue under the skill and record the missing context; creating rules is `rulebook` work triggered separately. No Plan Gate text changes.
+- acceptance:
+  - The only unconditional reads at task start are the three rule files; every other source in the three owned files has a stated condition.
+  - The absent-rules behavior is stated once and identically in the root and the lifecycle reference; the fast-path reference names index.md's read condition once.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Every source load in the three files has a condition; the three-file entry is intact (ADR-D-0020); the two absent-rules statements agree; nothing else in the Plan Gate or the five gates changed."
+
+### Task_3: Dispatch checklist on first use; one wave-integration procedure
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/subagent-strategy/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/wave-integration/**
+- depends_on: []
+- description: |
+  Worker: in `subagent-strategy/SKILL.md` change the per-dispatch reread of `references/dispatch-checklists.md` to a first-use read per role in a session, with the six required prompt sections remaining the always-on contract. In `wave-integration`, merge the root's ten-step Core Checklist and the reference's nine-section checklist into one procedure: the root keeps the trigger, the contract (parse reports, reconcile ownership, required evidence, no duplicate active work, async cleanup pointer to `subagent-strategy`), and routes; the reference keeps the branching (follow-up Worker versus Reviewer dispatch, escalation ruling). Qualify the Reviewer-packet instruction: the packet template is for post-Worker review; draft-plan review uses the plan-review snippet in `subagent-strategy`.
+- acceptance:
+  - No step appears in both the wave-integration root and its reference; the packet instruction names both review kinds and their inputs.
+  - The dispatch checklist read is first-use per role; the six prompt sections are unchanged.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Each merged step has exactly one home; contract items (ownership reconciliation, required evidence, independent Reviewer dispatch, async cleanup ownership per ADR-D-0021) all survive; the packet condition is correct."
+
+### Task_4: One copy of the Worker report contract
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/subagent-report-contract/**
+- depends_on: []
+- description: |
+  Worker: make `SKILL.md` the contract statement (absolute requirements, required keys with one-line meanings, the design-alert convention, when optional blocks apply) and move the full inline schema, the `ui_probes` and `lesson_candidates` schemas, and the filling notes into `references/schema.yaml` and `references/examples.md` where they are not already; state the "a Worker UI probe does not satisfy Reviewer-owned validation" rule once and the `base_url` rule once. Fix the description to trigger on producing, validating, or defining a Worker report. In `references/examples.md`, replace the example that has a Worker modifying `docs/coding-agent/rules/reviewer.md` with a rule candidate carrying `audience: reviewer` (only the Orchestrator edits rules), and make the test evidence in the done examples name what ran rather than "Exit code 0." alone. Keep every required key, every enum, and the exactly-one-YAML-block rule; the validator is not touched.
+- acceptance:
+  - `SKILL.md` is under 450 words; every required key and enum still appears in `references/schema.yaml`; each rule has one home.
+  - `python skills/subagent-report-contract/scripts/validate_worker_report.py` passes on every fixture under `tests/coding-agent-orchestration-harness/fixtures/` that it passed on before; the corrected example validates.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/run_validation_smoke_tests.py (covers the report fixtures) && python scripts/validate_harness_package.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff the contract before and after: no required key, enum, or evidence rule lost; each rule stated once; examples consistent with the single-writer rule for rules files; description scenario-targeted."
+
+### Task_5: Quality-baselines scaffolding
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/core-principles.md
+- depends_on: []
+- description: |
+  Worker: state the core-principles read once (in the root's routing list; delete the "Start with this document for every..." repeat inside the reference); remove "explicitly note major categories left out and why" from the routing decision; reduce the Required Evidence Note to the fields that the plan template and the Worker report do not already carry (validation depth, top risks, residual risk), pointing at those homes for the rest; keep the risk triage, the routing list, the Drift Tripwires, the stop condition, and precedence unchanged.
+- acceptance:
+  - The core read is mandated in one place; the categories-left-out instruction is gone; the evidence note lists no field that `plan-format/references/plan-template.md` or `subagent-report-contract` already requires.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Tripwires, stop condition, routing conditions, and precedence unchanged; each removed field named with its surviving home."
+
+### Task_6: Adapters load on relevance and stay in sync
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/claude/agents/**
+  - plugins/coding-agent-orchestration-harness/agents/**
+  - plugins/coding-agent-orchestration-harness/codex/agent-templates/**
+- depends_on: [Task_2]
+- description: |
+  Worker: (1) Claude frontmatter `skills:` lists per Q1's resolution; add a body line in each Claude adapter naming where the removed skills are routed from. (2) In all three Researcher adapters, rewrite the "Consult repo docs if present" block to the conditional form Task_2 landed (the three rule files when present; reference documents each for the purpose `common.md` states). (3) Run `runtime-adapter-contract/references/adapter-maintenance-checklist.md`: the three Researcher bodies stay semantically equivalent, differences classified as runtime-specific. No other adapter text changes (the Copilot research gate and the Worker workflow are part 2).
+- acceptance:
+  - Claude adapters preload only the Q1 set; each removed skill is named by a route in the adapter body or the orchestration-harness routing table.
+  - The three Researcher adapters carry the same conditional read block; the checklist's sync steps are reported with body hashes.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "A2 holds (validator passes); every removed preload has a live route; the Researcher block matches Task_2's wording; adapter sync evidence present; no other adapter lines changed."
+
+### Task_7: Final review, version bump, and closeout
+- type: review
+- owns:
+  - plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json
+  - plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json
+  - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
+- depends_on: [Task_1, Task_3, Task_4, Task_5, Task_6]
+- description: |
+  Orchestrator bumps the three plugin manifests together (patch version); Reviewer reviews the whole diff against the Definition of Done, with the ADR-D-0019 redundancy check applied to every deletion: surviving copy named, no consumer orphaned.
+- acceptance:
+  - Reviewer status is APPROVED; manifests agree.
+- validation:
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff review of the full change set vs Definition of Done; for each deleted or merged passage, the surviving canonical copy and a consumer search (grep for the old heading or phrase across plugins/ and docs/coding-agent/rules/)."
+
+## Task Waves (explicit parallel dispatch sets)
+
+Interpretation:
+- Tasks listed in the same wave are intended to be dispatched in parallel by default, when `owns` are disjoint and dependencies are met.
+- Waves are executed sequentially.
+
+- Wave 1 (parallel): [Task_1, Task_2, Task_3, Task_4, Task_5]
+- Wave 2 (parallel): [Task_6]
+- Wave 3 (parallel): [Task_7]
+
+## Rollback / Safety
+- Own feature branch off `main`; one PR; reverting it restores every file. No installed copy changes before merge; ebigunso refreshes after merge.
+- Parts 2 and 3 of the audit follow-up run after this plan merges, rebased on its result, because they touch some of the same skill files.
+
+## Progress Log (append-only)
+
+Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
+
+- (none yet)
+
+## Decision Log (append-only; re-plans and major discoveries)
+
+- 2026-09-13 Decision: Plan drafted as part 1 of the Astra-guide follow-up ebigunso requested ("Let's do all of them. Draft the plans needed.").
+  - Trigger / new insight: the article's nine points (short scenario-targeted descriptions; root as minimal router; fewer recipes; model-specific guidance overconstrains; conditional file references; drop run-tests-and-ask handholding; explicit permission for safe workflows; reframe protective boundaries; define completion up front) were applied to the harness by the Codex Researcher (agmsg, 2026-09-12 16:30Z, four parts) and the Orchestrator. Items 1 through 9 of the accepted list are redundancy-class changes and form this plan; contradictions, stale copies, permission wording, and model assumptions (items 10 through 14 and 16) form part 2; the repeat-check ablation (item 15) forms part 3.
+  - Plan delta (what changed): this plan exists; draft pending Reviewer plan review and ebigunso's approval. Research waived: the audit is the research; its findings are quoted in Context with line numbers.
+  - Tradeoffs considered: one plan for all sixteen items (rejected: three evidence classes under ADR-D-0019 need three validation methods, and the ablation's cost should be approved on its own).
+  - User approval: pending.
+
+## Notes
+- Word counts in the audit are static whitespace counts of file text, not measured context; the plan does not claim a token saving, only that each rule has one home and each load a condition.
+
+Required-check waiver
+- What is waived: Reviewer-owned UI/E2E/visual validation for this plan.
+- Why waived now: no UI, frontend, or user flow changes; the words UI, E2E, and visual appear only as the names of skills whose text or descriptions are edited.
+- Risk accepted and impact: none; every edited file is Markdown or adapter frontmatter with no rendered surface.
+- Mitigation and follow-up: package validation, smoke tests, and Reviewer diff review cover the edits; if a task turns out to touch a rendered surface, the Orchestrator replans.
+- Owner and expiration: Orchestrator ; expires at plan closeout.
