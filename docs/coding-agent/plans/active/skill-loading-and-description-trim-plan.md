@@ -12,9 +12,9 @@
 - Claude adapter frontmatter preloads only the skills a role needs on every task; every other skill the role may need is reachable through the routing table or a conditional route in the body, and the adapter maintenance checklist confirms the three runtimes still agree on role semantics.
 - At the start of a non-trivial task the Orchestrator reads the three rule files (`index.md`, `common.md`, `orchestrator.md`, per ADR-D-0020) and nothing else unconditionally; lessons, plans, and the repository reference documents listed in `common.md` are named with the condition under which each is read, in the "use X for Y" form; the create-missing-rules instruction in `lifecycle-gates.md` and the continue-and-record fallback in the skill root say the same thing; `rule-suite-fast-path.md` no longer contradicts itself about when `index.md` is read. The Researcher adapters carry the same conditional form.
 - The dispatch checklist is read on first use per role in a session, not before every dispatch; `wave-integration` has one integration procedure, and its Reviewer-packet instruction distinguishes post-Worker packets from draft-plan review.
-- Descriptions of `git-workflow`, `durable-docs-authoring`, `playwright-cli`, `playwright-e2e-evidence`, `workspace-troubleshooting`, and `subagent-report-contract` name the scenarios that need the skill and contain no execution mechanics, taxonomy, or promises the references do not keep; every trigger removed from a description still exists in the body it pointed to.
+- Descriptions of `git-workflow`, `durable-docs-authoring`, `playwright-cli`, `playwright-e2e-evidence`, `workspace-troubleshooting`, and `subagent-report-contract` name the scenarios that need the skill and contain no execution mechanics, taxonomy, or promises the references do not keep. Each phrase removed from a description is classified in the Worker report as one of: execution mechanics moved (the body or a reference carries the obligation, quoted); a scenario cue retained in the frontmatter in shorter form; or a trigger retired on purpose because nothing in the skill serves it (the audit's stale troubleshooting families and the provider skill's generic web-interaction list). Retired triggers need no surviving home; obligations do.
 - `subagent-report-contract/SKILL.md` carries the schema once and each rule once, with the sample and examples in references; the example that has a Worker editing a rules file is corrected.
-- `engineering-quality-baselines` states the core-principles read once, drops the "list the categories you left out" instruction, and keeps the routing note only where a plan or report does not already carry the same fields.
+- `engineering-quality-baselines` states the core-principles read once; the "explicitly note major categories left out and why" instruction is removed as consumer-less ceremony (no reviewer, validator, or template reads that list; the Reviewer confirms by search); the Required Evidence Note keeps every field whose obligation has no other home (risk profile and rationale, At Risk items with owner and target date, validation depth, residual risk) and points at the plan template or the Worker report for the fields those already require, each such field named with its surviving location. No required evidence is relaxed.
 - For every deleted or merged passage the Reviewer can name the surviving canonical copy and confirm no consumer pointed only at the deleted text.
 - Package validation, smoke tests, and `git diff --check` pass; no validator, schema, consent gate, output contract, or evidence requirement changes.
 
@@ -54,8 +54,8 @@
 - description: |
   Worker: rewrite the frontmatter description of each owned skill to the article's form ("<what it does>. Use when <scenarios>."), scenario-targeted and as short as the triggers allow. git-workflow: drop the watcher-arming instruction and the stack sentence from the description (both live in the body). durable-docs-authoring: drop the document taxonomy and the admission mechanics (body and `references/adr.md` carry them). playwright-cli: trigger on "a browser automation provider has been selected and it is playwright-cli", not on any web interaction. playwright-e2e-evidence: trigger on UI/E2E acceptance evidence, not on the bare word screenshots. workspace-troubleshooting: name only the failure families the three surviving references cover (stale view or branch mismatch, GitHub CLI auth, unexpected external changes) plus the generic triage entry; drop npm, Windows file locks, and flaky E2E. Bodies change only where a description trigger moved into them and was not already there.
 - acceptance:
-  - Each owned description is under 45 words, names scenarios, and contains no imperative execution step.
-  - Every trigger phrase removed from a description is present in that skill's body or a reference, quoted in the Worker report.
+  - Each owned description names scenarios and contains no imperative execution step; shorter is the editing target, completeness of triggers and obligations the constraint.
+  - The Worker report classifies every removed phrase as moved (with the quoted surviving line), retained cue, or retired trigger, and lists the retired triggers explicitly; scenario cues a first-time reader needs to select the skill stay in the frontmatter, never body-only (skills-maintenance final-ambiguity pass).
 - validation:
   - kind: command
     required: true
@@ -64,7 +64,7 @@
   - kind: review
     required: true
     owner: reviewer
-    detail: "For each description: scenario-targeted, no mechanics, every removed trigger located in the body; the final-ambiguity pass applied."
+    detail: "For each description: scenario-targeted, no mechanics; every moved obligation located in the body or a reference; every retired trigger genuinely served by nothing in the skill; selection cues still in frontmatter; the final-ambiguity pass applied."
 
 ### Task_2: Rule entry loads on relevance
 - type: docs
@@ -117,7 +117,7 @@
 - description: |
   Worker: make `SKILL.md` the contract statement (absolute requirements, required keys with one-line meanings, the design-alert convention, when optional blocks apply) and move the full inline schema, the `ui_probes` and `lesson_candidates` schemas, and the filling notes into `references/schema.yaml` and `references/examples.md` where they are not already; state the "a Worker UI probe does not satisfy Reviewer-owned validation" rule once and the `base_url` rule once. Fix the description to trigger on producing, validating, or defining a Worker report. In `references/examples.md`, replace the example that has a Worker modifying `docs/coding-agent/rules/reviewer.md` with a rule candidate carrying `audience: reviewer` (only the Orchestrator edits rules), and make the test evidence in the done examples name what ran rather than "Exit code 0." alone. Keep every required key, every enum, and the exactly-one-YAML-block rule; the validator is not touched.
 - acceptance:
-  - `SKILL.md` is under 450 words; every required key and enum still appears in `references/schema.yaml`; each rule has one home.
+  - `SKILL.md` carries the contract without the inline schema (shorter is the target, completeness the constraint); every required key and enum still appears in `references/schema.yaml`; each rule has one home.
   - `python skills/subagent-report-contract/scripts/validate_worker_report.py` passes on every fixture under `tests/coding-agent-orchestration-harness/fixtures/` that it passed on before; the corrected example validates.
 - validation:
   - kind: command
@@ -136,9 +136,9 @@
   - plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/core-principles.md
 - depends_on: []
 - description: |
-  Worker: state the core-principles read once (in the root's routing list; delete the "Start with this document for every..." repeat inside the reference); remove "explicitly note major categories left out and why" from the routing decision; reduce the Required Evidence Note to the fields that the plan template and the Worker report do not already carry (validation depth, top risks, residual risk), pointing at those homes for the rest; keep the risk triage, the routing list, the Drift Tripwires, the stop condition, and precedence unchanged.
+  Worker: state the core-principles read once (in the root's routing list; delete the "Start with this document for every..." repeat inside the reference). Remove "explicitly note major categories left out and why" after confirming by search that no reference, template, validator, or Reviewer rule consumes that list. For the Required Evidence Note, build a field table first: for each of its nine fields, the surviving obligation and where it is produced (plan template section, Worker report key, or this note). Fields the plan template or the Worker report already require (required and optional checks, in-scope and out-of-scope docs) become pointers to that home; fields with no other home (risk profile with rationale, At Risk items with owner and target date, validation depth, top risks, residual risk) stay in the note as the fallback for any output that is not a Worker report. Keep the risk triage, the routing list, the Drift Tripwires, the stop condition, and precedence unchanged.
 - acceptance:
-  - The core read is mandated in one place; the categories-left-out instruction is gone; the evidence note lists no field that `plan-format/references/plan-template.md` or `subagent-report-contract` already requires.
+  - The core read is mandated in one place; the categories-left-out instruction is gone with the consumer search recorded; the field table is in the Worker report and every field has exactly one producing home; the stop condition still references every field it needs.
 - validation:
   - kind: command
     required: true
@@ -147,7 +147,7 @@
   - kind: review
     required: true
     owner: reviewer
-    detail: "Tripwires, stop condition, routing conditions, and precedence unchanged; each removed field named with its surviving home."
+    detail: "Tripwires, stop condition, routing conditions, and precedence unchanged; field table complete and correct against the plan template and the report schema; the consumer search for the categories-left-out list is reproduced; no required evidence relaxed."
 
 ### Task_6: Adapters load on relevance and stay in sync
 - type: docs
@@ -215,6 +215,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): this plan exists; draft pending Reviewer plan review and ebigunso's approval. Research waived: the audit is the research; its findings are quoted in Context with line numbers.
   - Tradeoffs considered: one plan for all sixteen items (rejected: three evidence classes under ADR-D-0019 need three validation methods, and the ablation's cost should be approved on its own).
   - User approval: pending.
+- 2026-09-13 Decision: Plan review round 1 (Codex Reviewer) findings applied.
+  - Trigger / new insight: Task_1's acceptance required a surviving home for every removed description phrase, which would have reinstated the stale troubleshooting families and the generic browser list the DoD retires; Task_5 claimed the evidence note duplicates plan and report fields, but risk profile and At Risk owner/date have no other home and a Reviewer output is not a Worker report; the word ceilings were new constraints with no source.
+  - Plan delta (what changed): removed phrases are classified as moved obligation, retained cue, or retired trigger, with surviving homes required only for obligations and selection cues kept in frontmatter; Task_5 builds a per-field table, keeps fields with no other home, and removes the categories-left-out instruction as consumer-less with the search recorded; the ceilings are editing targets subordinate to completeness.
+  - Tradeoffs considered: keeping the ceilings as hard limits (rejected: no evidence behind the numbers).
+  - User approval: pending with plan approval.
 
 ## Notes
 - Word counts in the audit are static whitespace counts of file text, not measured context; the plan does not claim a token saving, only that each rule has one home and each load a condition.

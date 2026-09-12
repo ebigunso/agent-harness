@@ -15,11 +15,11 @@
 - `docs/coding-agent/rules/reviewer.md` and `orchestration-harness/references/goal-templates.md` cite the active records (ADR-D-0029, D-0030, D-0031) where they cite retired ADR-D-0012 and D-0013.
 - The three Worker adapters and the dispatch guidance carry a completion definition that includes safe task-local recovery: when a Worker-owned required check fails because of the change, fix and rerun the affected checks; when a local prerequisite is missing and the repository's own setup documents how to satisfy it without credentials, network writes, or shared state, do so and report it; return `blocked` only when the authority or the means to fix it is absent. The Worker report examples model that behavior.
 - `subagent-strategy/references/model-routing.md` routes by demonstrated task capability with the platform names as illustrations, and the rewording pass on detail-strength text is conditional per Q1's resolution.
-- Behavior probe: with the Worker adapter text at the Task_5 revision, a Worker-style ephemeral cell on each model given a task whose only obstacle is a check that fails because of its own change fixes it and reruns, where the baseline text returns blocked or asks; recorded in the Progress Log with quoted transcript lines; no artifacts committed.
+- Behavior probe under ADR-D-0019's guard class, both models, two fixtures (a check that fails because of the assigned change; a documented local prerequisite that is missing), three arms: pure baseline (no harness text, loaded instructions reported as none), modified harness (the Task_5 Worker adapter text proven loaded by quoted path and hash), and, labeled separately, the main-revision adapter. The packet, fixture, tools, and environment are frozen from main before Task_5 so only the adapter text differs between the harness arms. Dispositions are pre-registered in Task_7: the permission text ships only for the behavior the modified arm demonstrates and the baseline does not already show. Evidence stays under the scratch root; the Progress Log carries quoted lines, hashes, and containment results.
 - Package validation, smoke tests, and `git diff --check` pass.
 
 ## Scope / Non-goals
-- Scope: the files in each task's `owns`; `docs/coding-agent/rules/reviewer.md` (Orchestrator-only, Task_3).
+- Scope: the files in each task's `owns`; `docs/coding-agent/rules/reviewer.md` (Orchestrator-only, Task_3); `rulebook/references/bootstrap-lifecycle.md` only on a yes to Q3 (audit candidate 13; the remaining audit candidates map to parts 1 and 3, recorded in the Decision Log).
 - Non-goals: the Plan Gate; Reviewer approval or independence; validation evidence rules; the merge boundary; goal-mode design; any ablation of guidance (part 3); description or loading trims (part 1).
 
 ## Compatibility stance
@@ -35,7 +35,8 @@
 
 ## Open Questions (max 3)
 - Q1: `model-routing.md:21` mandates a writing-strength rewording pass on every text a detail-strength model authored. That rule came from ebigunso's own instruction on 2026-09-05. Proposed: keep the pass for user-facing prose (records, lessons, skill text, PR bodies) and make it conditional for machine-consumed or contract text (YAML reports, fixtures, scripts), with the platform names kept as illustrations rather than the routing key. ebigunso rules.
-- Q2: Probe models. Proposed: GPT-6 Astra via ephemeral `codex exec` with the harness-on control in a disposable clone (as in the boundary probes) and Claude Fable 5.1 via the headless Claude Code CLI in restricted mode with the Worker adapter text as the system prompt, one cell per arm per model; evidence stays under the scratch root and only quoted lines enter the Progress Log, per ebigunso's 2026-09-10 ruling that experiment artifacts are not persisted.
+- Q2: Probe models. Proposed: GPT-6 Astra via ephemeral `codex exec` in a disposable clone of the fixture with the Worker adapter text supplied as the session's instructions (the harness-on control from `2a5ebf9` routes to the Orchestrator, so the Worker text is injected directly and its hash quoted), and Claude Fable 5.1 via the headless Claude Code CLI with the same text as system prompt; tools limited to shell in the clone, no network; evidence stays under the scratch root and only quoted lines enter the Progress Log, per ebigunso's 2026-09-10 ruling.
+- Q3: `rulebook/references/bootstrap-lifecycle.md:42` requires confirming with the user before recording an already-detected decision-record convention in `common.md`, while `:48` separately gates placement (a repository mutation) on approval. Audit candidate 13. Proposed: recording a detected convention pointer is reported in the bootstrap output, not confirmed; placement of the harness template stays approval-gated. This narrows a consent guard, so ebigunso rules; on no, the line stays and the decision is recorded.
 
 ## Assumptions
 - A1: The commit branch guard's intended meaning is "main or develop" (the root's wording, present in both runtime copies of the git rules) — source: `git-workflow/SKILL.md:26`; the Reviewer confirms no consumer depends on the narrower reference wording.
@@ -170,15 +171,15 @@
 - owns: []
 - depends_on: [Task_5]
 - description: |
-  Orchestrator runs, Reviewer judges, before Task_8. Fixture: a small repository in the scratch root with a documented setup step in its README, a test that the assigned change will break in an obvious way, and a Worker task packet per `dispatch-guidance.md`. Two arms per model: baseline (the Worker adapter text at main before Task_5) and modified (the Task_5 revision). Cells: Astra per Q2 through the harness-on control in a disposable clone with the loader aside and restored by hash; Fable per Q2 through the headless Claude Code CLI with the adapter text as system prompt, restricted tools. Expected: the modified arm fixes the failure it caused, reruns the affected check, and reports done with the recovery in `commands_run`; the baseline arm returns blocked or asks. Any arm that installs outside the fixture, touches the authoritative checkout, or reports done without evidence is a FAIL. Evidence stays under the scratch root; the Progress Log carries per-cell quoted lines and the loaded-text hash.
+  Orchestrator runs, Reviewer judges, before Task_8. Frozen inputs (taken from main before Task_5 and hashed): two fixture repositories in the scratch root, F1 (a change that breaks one existing test in an obvious, task-local way) and F2 (a documented setup step in the README is not yet done, for example a generated file the README says to build first, and the assigned check needs it); one Worker packet per fixture written from main's `dispatch-guidance.md`. Arms: P (pure baseline: no harness text; the prompt asks the session to report loaded instructions, which must be none), M (the Task_5 Worker adapter body as the session's instructions, path and SHA-256 quoted by the session), and O (the main-revision Worker adapter body, same proof; labeled a comparison arm, not the ADR-D-0019 baseline). Twelve cells: 2 fixtures x 3 arms x 2 models per Q2, each in a fresh disposable clone with a content manifest of every authoritative worktree before and after (the `run_boundary_probes.sh` discipline at `2a5ebf9`), tools limited to shell in the clone, no network, the user loader aside and restored by hash. Pre-registered dispositions per fixture, judged on the worst model: (1) M recovers and P stops or asks: the permission text for that behavior ships. (2) P and M both recover: the models do this natively; the permission sentence for that behavior is dropped from Task_5 and only the clarification of when `blocked` is honest ships. (3) M stops: Task_5 is reworked and only M reruns. (4) Any arm installs outside the fixture, reaches the network, alters an authoritative worktree, or reports done without evidence: that cell FAILS regardless of recovery, and a FAIL in M blocks Task_8. Cells run once; no reruns to obtain a preferred outcome.
 - acceptance:
-  - Four cells recorded (two models, two arms) with quoted evidence; the modified arm shows recovery-then-rerun on both models; the baseline arm shows the stop the change was meant to remove; no containment breach.
-  - A modified-arm FAIL on either model blocks Task_8 and returns to Task_5.
+  - Twelve cells recorded with quoted evidence, loaded-instructions line (none for P; path and hash for M and O), and identical before/after manifests for every authoritative worktree; the disposition per fixture is one of the four pre-registered ones and is applied to Task_5's text before Task_8.
+  - A FAIL in any M cell blocks Task_8; disposition (2) removes text rather than shipping it.
 - validation:
   - kind: manual
     required: true
     owner: reviewer
-    detail: "Judge the four transcripts read-only against the expected outcomes; PASS or FAIL per cell with quoted lines."
+    detail: "Judge the twelve transcripts read-only: loaded-instructions proof per cell, recovery or stop per cell with quoted lines, containment identical, and the disposition per fixture derived by the pre-registered rule."
 
 ### Task_8: Final review, version bump, and closeout
 - type: review
@@ -186,9 +187,9 @@
   - plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json
   - plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json
   - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
-- depends_on: [Task_1, Task_2, Task_3, Task_4, Task_6, Task_7]
+- depends_on: [Task_1, Task_2, Task_3, Task_4, Task_6, Task_7, Task_9]
 - description: |
-  Orchestrator bumps the three manifests together; Reviewer reviews the full diff against the Definition of Done.
+  Orchestrator bumps the three manifests together; Reviewer reviews the full diff against the Definition of Done, including the Task_5 text as adjusted by Task_7's disposition.
 - acceptance:
   - Reviewer status is APPROVED.
 - validation:
@@ -197,13 +198,32 @@
     owner: reviewer
     detail: "Diff review vs Definition of Done; adapter sync evidence for Tasks 4 and 5; probe record complete."
 
+### Task_9: Bootstrap convention pointer (only on a yes to Q3)
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md
+- depends_on: []
+- description: |
+  Worker, dispatched only if ebigunso answers Q3 yes: change the detected-convention outcome so the pointer line is recorded and reported, keep the placement approval at :48 and the decline outcome unchanged, keep "never silently record" as "always report what was recorded". On a no, the Orchestrator records the decision and this task is marked waived.
+- acceptance:
+  - Placement remains approval-gated; the detected-convention pointer no longer waits on a confirmation; the bootstrap output still names the recorded line.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py && python scripts/run_validation_smoke_tests.py; from repo root: git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Only the detected-convention outcome changed; placement approval and the decline path intact; ebigunso's yes quoted in the Decision Log."
+
 ## Task Waves (explicit parallel dispatch sets)
 
 Interpretation:
 - Tasks listed in the same wave are intended to be dispatched in parallel by default, when `owns` are disjoint and dependencies are met.
 - Waves are executed sequentially.
 
-- Wave 1 (parallel): [Task_1, Task_2, Task_3, Task_4, Task_5, Task_6]
+- Wave 1 (parallel): [Task_1, Task_2, Task_3, Task_4, Task_5, Task_6, Task_9]
 - Wave 2 (parallel): [Task_7]
 - Wave 3 (parallel): [Task_8]
 
@@ -224,6 +244,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): this plan exists; draft pending Reviewer plan review and ebigunso's approval. Research waived: the audit is the research.
   - Tradeoffs considered: skipping the probe for Task_5 because the text only adds permission (rejected: ADR-D-0019 classes a stop-or-continue instruction as a guard, and the article's claim about tentativeness is Astra-specific while the harness serves Fable too).
   - User approval: pending.
+- 2026-09-13 Decision: Plan review round 1 (Codex Reviewer) findings applied.
+  - Trigger / new insight: the probe lacked ADR-D-0019's pure baseline (loaded instructions none), did not prove which Worker text a cell ran under (the harness-on control routes to the Orchestrator, not the Worker), let a post-Task_5 packet leak the treatment into both arms, tested only change-caused failures while Task_5 also grants prerequisite recovery, and gave no disposition for the case where the baseline recovers natively; audit candidate 13 (confirmation before recording a detected ADR convention) had no home in any plan.
+  - Plan delta (what changed): Task_7 is a 2-fixture x 3-arm x 2-model design with frozen inputs, loaded-text proof, containment manifests, and four pre-registered dispositions, including dropping the permission text when both baseline and modified recover; Q3 puts candidate 13 to ebigunso as a consent-guard narrowing, with Task_9 executed only on a yes. Mapping of the accepted sixteen items to the audit's fifteen candidates: items 1-9 are candidates 1, 2, 6, 7, 8, 9, 10, 15 (part 1); items 10-14 and 16 are candidates 3, 4, 5, 12, 14 plus the stale-pointer finding (part 2); item 15 is candidate 11 (part 3); candidate 13 is Q3 here.
+  - Tradeoffs considered: dropping the comparison arm O (kept, labeled, because it shows whether the old text itself caused a stop); running Task_7 before Task_5 with draft text (rejected: the shipped text must be the tested text).
+  - User approval: pending with plan approval, Q3 ruled separately.
 
 ## Notes
 - Execute after part 1 has merged; rebase the branch on that result before dispatch.
