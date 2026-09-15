@@ -161,7 +161,7 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-16 Task_1 done (Codex Worker; Codex Reviewer NEEDS_REVISION at 5362943 on the missing log entry only; protocol, arms, and tooling passed). Tooling recovered from `2a5ebf9` into `docs/coding-agent/experiments/repeat-check-ablation/`; `score.py` and `run/run_astra.sh` byte-identical to the originals; the other scripts adapted within the three rulings below. Validation: `python score.py --self-test` exit 0 (Worker and Reviewer); stub chain (`run/self_check.py --frozen 76434f6`) exit 0 with the `is_error` cell rejected and the stale done marker ignored; `git diff --check` clean.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -198,6 +198,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): branch feature/2026-09-16/astra-guide-part3 is based on feature/2026-09-15/astra-guide-part2 and joins the gh stack; the `testing-validation.md` line numbers in Context are re-baselined against the part-2 result before the frozen revision is recorded (part 1 and part 2 did not edit that file, so the two lines are expected unchanged); the frozen revision for arm B is the part-3 branch tip at Task_1 time, recorded in the protocol.
   - Tradeoffs considered: waiting for #67 and #68 to merge (rejected by ebigunso's instruction).
   - User approval: yes (2026-09-15).
+
+- 2026-09-16 Decision: Task_1 pre-registration recorded; three bounded tooling adaptations granted.
+  - Trigger / new insight: the acceptance requires the protocol hash and frozen revision in this log before any model call; the Worker asked three questions the archived tooling raised (a C-length cap that no longer applies, protocol passages contradicting the approved design, and Fable cells that must not count on the done marker alone).
+  - Plan delta (what changed): protocol `docs/coding-agent/experiments/repeat-check-ablation/protocol.md` SHA-256 `8506d6118e1d251fe6ae33d5a657b8ddc2e6f785585ca03b7a8523b76a3c3f43`; frozen revision `76434f6e0b45360412c073d8fd02eb86161dcffe` (the rebased branch base; `testing-validation.md` is byte-identical to the pre-rebase `c931246` it replaced, lines 74 and 77 unchanged since the audit). Rulings: (1) `validate_pilot.py` checks arm C against the registered contract (obligation plus one conditional hint) instead of the archived C <= B/3 cap and routes tv fixtures through the diff, commit-message, and Reviewer-notes checks; (2) protocol passages that contradicted the approved design were changed and every changed passage listed in the Worker report, all else verbatim; `fixture-plan.md` carries the tv authoring conventions and the 48 mapping slots; (3) `run/run_fable.sh` passes `--setting-sources ""` and counts a cell complete only on `is_error` false with a non-empty result; `unblind.py` takes the run date from the run; blinding admits successful cells only. Reviewer condition for Task_3: before each blinding pass create empty `work/blind/<model>/` and clear `work/grades/<model>/`, reconcile the file count with `mapping.json` before grading, import nothing from the 2026-09-08 experiment.
+  - Tradeoffs considered: keeping the pre-rebase frozen revision (rejected: the commit no longer exists on the branch); re-running the stub chain after the repoint (done by the Reviewer, exit 0).
+  - User approval: not required (within the approved plan; the Worker acted only on rulings, per ADR-D-0033).
 
 ## Notes
 - Planned calls: 288 cells and six graders, about a fifth of the 2026-09-09 remaining-sections run (1,344 cells); the spend cap and stop rule are Q3.
