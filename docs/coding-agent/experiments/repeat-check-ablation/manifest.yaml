@@ -1,0 +1,7 @@
+# Registered before model calls; frozen revision c93124670fe9dab6d9e38c47838c00d754c4e2b1
+models: [claude-fable-5-1, gpt-6-astra]
+seeds: 1
+sections:
+  tv-1: [tv-1-01, tv-1-02, tv-1-03, tv-1-04, tv-1-05, tv-1-06, tv-1-07, tv-1-08, tv-1-09, tv-1-10, tv-1-11, tv-1-12, tv-1-c1, tv-1-c2, tv-1-c3, tv-1-c4]
+  tv-2: [tv-2-01, tv-2-02, tv-2-03, tv-2-04, tv-2-05, tv-2-06, tv-2-07, tv-2-08, tv-2-09, tv-2-10, tv-2-11, tv-2-12, tv-2-c1, tv-2-c2, tv-2-c3, tv-2-c4]
+  tv-3: [tv-3-01, tv-3-02, tv-3-03, tv-3-04, tv-3-05, tv-3-06, tv-3-07, tv-3-08, tv-3-09, tv-3-10, tv-3-11, tv-3-12, tv-3-c1, tv-3-c2, tv-3-c3, tv-3-c4]
