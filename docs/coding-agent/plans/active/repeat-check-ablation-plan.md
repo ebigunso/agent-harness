@@ -1,8 +1,8 @@
 # Plan: Ablate the repeat-check rules in testing-validation.md (Astra guide, part 3 of 3)
 
-- status: approved
+- status: in_progress
 - generated: 2026-09-13
-- last_updated: 2026-09-15
+- last_updated: 2026-09-16
 - work_type: mixed
 
 ## Goal
@@ -191,6 +191,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Trigger / new insight: Codex Reviewer plan review APPROVED (a3d8908); ebigunso: "I accept all the plans as well as the ADR. Get to work."
   - Plan delta (what changed): status approved. Executes after parts 1 and 2 merge.
   - Tradeoffs considered: none.
+  - User approval: yes (2026-09-15).
+
+- 2026-09-16 Decision: Execution as the third member of the stacked pull requests, per ebigunso.
+  - Trigger / new insight: ebigunso: "You can go ahead and implement part 2 and 3 of the plans, as stacked PRs." Part 2 is closed and open as #68 on top of #67.
+  - Plan delta (what changed): branch feature/2026-09-16/astra-guide-part3 is based on feature/2026-09-15/astra-guide-part2 and joins the gh stack; the `testing-validation.md` line numbers in Context are re-baselined against the part-2 result before the frozen revision is recorded (part 1 and part 2 did not edit that file, so the two lines are expected unchanged); the frozen revision for arm B is the part-3 branch tip at Task_1 time, recorded in the protocol.
+  - Tradeoffs considered: waiting for #67 and #68 to merge (rejected by ebigunso's instruction).
   - User approval: yes (2026-09-15).
 
 ## Notes
