@@ -206,7 +206,10 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-15 Wave 1 Task_1 through Task_5 implemented, review pending: [Task_1, Task_2, Task_3, Task_4, Task_5]
+  - Summary: five Claude Worker subagents in parallel on disjoint owns. Task_1: five descriptions rewritten to "what. Use when scenarios."; removed phrases classified moved/retained/retired with quoted homes; retired: workspace-troubleshooting npm, Windows file locks, flaky E2E, installs break, EPERM/EBUSY, CI/validation confusion (no reference covers them); playwright-cli generic web list; bare "screenshots". Task_2: three-file rule entry kept; lessons, plans, common.md reference documents, and project files now load on stated conditions in the skill root with lifecycle-gates.md pointing at it; absent-rules sentence identical in both; fast-path reference no longer restates the load or contradicts itself; one duplicated create-plans sentence removed on ruling. Task_3: dispatch checklist read first-use per role; wave-integration root reduced to a five-item contract plus routes, reference to four branching sections; packet route names post-Worker packet versus draft-plan snippet; a new re-dispatch clause removed on ruling. Task_4: report contract root 951 to 637 words, full shape and enums in schema.yaml, probe rule and base_url rule one home each, rules-file-editing example replaced by an audience: reviewer candidate, evidence names what ran, description triggers on producing/validating/defining. Task_5: core read mandated once; categories-left-out clause removed with a consumer search; evidence note kept as fallback with two pointer fields (required and optional checks to validation_results) and seven retained fields; on ruling, a duplicate load sentence dropped and the stale companion list (stack, language, security references removed under ADR-I-0004/0005) replaced by the surviving set in core-principles.md and the description.
+  - Validation evidence: each Worker: validate_harness_package.py pass, run_validation_smoke_tests.py exit 0, git diff --check clean (Task_5 saw one transient failure on Task_4's mid-edit file, rerun clean); Orchestrator reran all three on the integrated tree before commit. Reviewer review dispatched for the wave.
+  - Notes: findings surfaced outside owns and left for later: dispatch-guidance.md:74-78 carries its own Reviewer packet field list without the draft-plan alternative (Task_3); the three Worker adapters restate the UI-probe rule as replicated role contract, kept (Task_4). Worker lesson candidates held for closeout: audience-line regex in the package validator; parallel-wave validator transients; Windows scratchpad path length; Bash heredoc and loop stalls.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -237,6 +240,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): status in_progress. Execution on feature/2026-09-15/astra-guide-part1, branched from the drafts branch so the accepted record and the approved parts 2 and 3 travel with it.
   - Tradeoffs considered: none.
   - User approval: yes (2026-09-15).
+
+- 2026-09-15 Decision: Task_5 scope widened by one description on the Orchestrator's ruling.
+  - Trigger / new insight: the Task_5 Worker surfaced that the engineering-quality-baselines description and core-principles.md How to Use still promised stack, language, and security references removed under ADR-I-0004 and ADR-I-0005.
+  - Plan delta (what changed): the description and the companion list name the surviving references; the Goal's "no promises the references do not keep" covers it; redundancy class (a stale claim with no consumer).
+  - Tradeoffs considered: deferring to part 2 (rejected: same class as Task_1's retirements, same owner, one line each).
+  - User approval: not required (inside the approved Goal; recorded per ADR-D-0018's surfacing obligation).
 
 ## Notes
 - Word counts in the audit are static whitespace counts of file text, not measured context; the plan does not claim a token saving, only that each rule has one home and each load a condition.

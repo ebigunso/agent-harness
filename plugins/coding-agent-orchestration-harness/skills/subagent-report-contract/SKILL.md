@@ -1,6 +1,6 @@
 ---
 name: subagent-report-contract
-description: Standardizes Worker subagent final YAML output for machine processing, including validation evidence, rule candidates, and (when deviations occur) lesson candidates. Use when defining or updating Worker reporting requirements.
+description: The contract for the YAML report a Worker subagent returns as its final message, and the validator for it. Use when producing a Worker report, validating one, or defining or updating Worker reporting requirements.
 ---
 
 # Skill: subagent-report-contract
@@ -11,79 +11,38 @@ This skill standardizes the Worker subagent final output format so the Orchestra
 
 ## Absolute requirements
 
-- The Worker’s final message MUST contain exactly one YAML code block and nothing else.
+- The Worker's final message MUST contain exactly one YAML code block and nothing else.
 - The YAML top-level keys and types must be respected (missing required keys breaks integration).
+- Do not emit `skill_candidates`; use `lesson_candidates` for deviations and `harness_migration_candidates` for proposed harness-global migrations.
 
 ---
 
-## YAML schema (required keys)
+## Required keys
 
-`commands_run` and `tests` remain required to emit, but validators no longer require them; `validation_results` is the evidence list.
+- `task_id`: the `Task_X` id from the Orchestrator prompt.
+- `status`: `done | blocked | failed`.
+- `summary`: 1-5 lines on what changed and what remains; when blocked or failed, expectation versus reality.
+- `files_changed`: every file actually `modified | created | deleted`, each with a one-line intent; nothing else.
+- `commands_run`: each command with `pass | fail | skipped` and a note; emit it, though validators do not require it.
+- `validation_results`: the evidence list, one entry per validation item assigned in the task contract, with `kind: command | manual | e2e | review`, `required`, `owner: worker | reviewer | orchestrator | user`, `status: pass | fail | skipped`, and `evidence`.
+- `tests`: whether tests ran and what remains unvalidated; emit it, though validators do not require it.
+- `blockers`: required non-empty when blocked or failed; otherwise `[]`.
+- `questions_for_orchestrator`: max ~3 recommended.
+- `assumptions`: assumptions made; `[]` if none.
+- `rule_candidates`: repo-local rule proposals, each routed to the destination rules file by its audience: common | worker | orchestrator | reviewer
+  - Use `audience: reviewer` only for review policy, review-risk hotspots, Reviewer-owned evidence, or recurring review misses.
 
-task_id: "Task_2"              # from Orchestrator prompt
-status: done | blocked | failed
+Evidence rules:
+- A required worker-owned failure or skip cannot accompany `status: done` unless the skip carries explicit waiver evidence; if required validation evidence is missing and cannot be produced, status is `blocked`, not `done`.
+- When a required command did not run, `evidence` names the skipped command and its reason, including waiver evidence when applicable.
 
-summary: |-
-  1–5 lines: what changed / what remains (include expectation vs reality when blocked/failed)
+---
 
-files_changed:
-  - path: "src/..."
-    change: modified | created | deleted
-    intent: "one-line intent"
+## Optional blocks (when each applies)
 
-commands_run:
-  - command: "npm run test:unit"
-    result: pass | fail | skipped
-    notes: "brief failure/skip reason"
-
-validation_results:
-  - kind: command | manual | e2e | review
-    required: true | false
-    owner: worker | reviewer | orchestrator | user
-    detail: "what was validated"
-    status: pass | fail | skipped
-    evidence: "brief proof or failure excerpt"
-
-tests:
-  ran: true | false
-  notes: "what was validated / what remains unvalidated"
-
-blockers:
-  - "required if blocked/failed; otherwise []"
-
-questions_for_orchestrator:
-  - "max ~3 recommended"
-
-assumptions:
-  - "assumptions made; [] if none"
-
-rule_candidates:
-  - audience: common | worker | orchestrator | reviewer
-    id: "RB-CAND-<short>"
-    rule: "one-sentence repo rule"
-    rationale: "why it prevents rework/risk"
-    scope: "where it applies"
-    example: "optional; use '' when none"
-
-# Optional: harness_migration_candidates
-harness_migration_candidates:
-  - id: "HMC-<short>"
-    category: review | validation | orchestration | delegation | rulebook | troubleshooting | adapter | validator | other
-    proposed_home: "skill/reference/agent/validator/adr hint"
-    generalized_rule: "cross-repo lesson or proposed global rule"
-    trigger: "when this should apply"
-    evidence_from_repo: "what happened in this repo"
-    rationale: "why this is not merely repo-specific"
-    suggested_change: "what a future harness-maintenance pass should update"
-
-Notes:
-- `validation_results` is the evidence contract for required and optional validation items.
-- `ui_probes` is optional and records Worker-owned implementation-local UI probes. It does not satisfy Reviewer-owned validation automatically.
-- `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
-- `rule_candidates` are always repo-local and route by `audience` to the destination rules file.
-- Use `audience: reviewer` only when the rule candidate affects review policy, review-risk hotspots, Reviewer-owned evidence, or recurring review misses.
-- Use `harness_migration_candidates` for cross-repo harness improvements that should be staged for later harness-maintenance work.
-- Do not emit `skill_candidates`; use `lesson_candidates` for deviations and `harness_migration_candidates` for proposed harness-global migrations.
+- `ui_probes`: only when a bounded Worker UI probe ran or materially affected implementation. A Worker UI probe does not satisfy Reviewer-owned validation.
+- `lesson_candidates`: when status is blocked or failed, required validation failed unexpectedly, unusual recovery steps were needed, a significant assumption mismatch was discovered, or a waiver or skip was needed to proceed. Lesson candidates are not rules; they record what went wrong, why, and how to prevent it so the Orchestrator can log atomic lessons and promote them later.
+- `harness_migration_candidates`: for cross-repo harness improvements that should be staged for later harness-maintenance work.
 
 ---
 
@@ -93,64 +52,8 @@ A design alert is a structured `blockers` or `questions_for_orchestrator` entry 
 
 ---
 
-## Optional: ui_probes
+## References
 
-Include `ui_probes` only when a bounded Worker UI probe was run or materially affected implementation.
-This key does not satisfy Reviewer-owned validation automatically.
-
-Schema:
-
-ui_probes:
-  - base_url: "http://localhost:3000"
-    flow: "Open settings page and toggle dark mode"
-    result: pass | fail | skipped
-    evidence: "Screenshot path or brief observation"
-    notes: "Fixes made or reason skipped"
-
-Guidance:
-- `ui_probes[*].base_url` is required when `ui_probes` is present; use `n/a` when no URL applies and describe the command or setup in `notes`.
-- Do not use `ui_probes` as a substitute for Reviewer-owned validation evidence.
-
----
-
-## Optional: lesson_candidates (recommended when deviations occur)
-
-Lesson candidates are NOT rules. They are “what went wrong / why / how to prevent it”
-so Orchestrator can log atomic lessons and promote them later.
-
-Include lesson_candidates when:
-- status is blocked/failed, OR
-- required validation failed unexpectedly, OR
-- you needed unusual recovery steps, OR
-- you discovered a significant assumption mismatch, OR
-- you needed a waiver/skip to proceed.
-
-Schema:
-
-lesson_candidates:
-  - id: "LESSON-CAND-<short>"
-    category: planning | delegation | validation | environment | review | docs | other
-    deviation: "what went wrong / what required course correction (1 sentence)"
-    root_cause: "why it happened (1 sentence)"
-    prevention: "what would prevent recurrence (1 sentence)"
-    promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
-    suggested_destination: "optional; for repo_rule use docs/coding-agent/rules/<role>.md; for harness_migration use docs/coding-agent/skill-candidates.md; for troubleshooting/residual_risk use docs/coding-agent/lessons.md or a repo troubleshooting note"
-
-Guidance:
-- Keep candidates atomic (one failure category each).
-- Prefer promoting prevention into repo docs/rules when it is repo-specific.
-- Use `harness_migration` when the prevention is reusable across repositories and should be staged for a later harness-maintenance pass.
-
----
-
-## Filling notes
-
-- files_changed: include only files actually modified/created/deleted.
-- validation_results[*].evidence: if a required command did not run, name the skipped command and its reason here, including waiver evidence when applicable.
-- validation_results: include every validation item assigned in the task contract; required worker-owned failures/skips cannot accompany `status: done` unless the skip has explicit waiver evidence.
-- ui_probes: include only if a bounded Worker UI probe was run or materially affected implementation. Do not use it as a substitute for Reviewer-owned validation evidence.
-- If required validation evidence is missing and cannot be produced, status should be blocked (not done).
-
-For worked report examples: `references/examples.md`.
-
-For the canonical report shape sample: `references/schema.yaml`.
+- Full schema with every field, enum, and filling note: `references/schema.yaml`.
+- Worked reports (done, done with a UI probe, blocked, done with rule and migration candidates): `references/examples.md`.
+- Validation: `python scripts/validate_worker_report.py --file <report.yaml>`; `--message-file <final-message.md>` also enforces the one-YAML-block rule; add `--task-contract <task.yaml>` to check that every required worker-owned validation item has a result.

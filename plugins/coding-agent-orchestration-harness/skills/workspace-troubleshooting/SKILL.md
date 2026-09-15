@@ -1,6 +1,6 @@
 ---
 name: workspace-troubleshooting
-description: Centralized troubleshooting runbook for recurring workspace/tool failures (npm install/test errors, Windows file locks, branch/state mismatches, unexpected external file changes, CI/validation confusion, flaky local E2E). Use when commands fail, installs break, permissions/EPERM/EBUSY errors occur, behavior differs from expectation, or a systematic triage process is needed.
+description: Triage runbook for workspace failures, with references for stale view or branch mismatch, GitHub CLI auth failures, and unexpected external file changes. Use when the user's view of the repository differs from yours, gh auth fails mid-task, files change without your edits, or a command fails or behaves unexpectedly and needs systematic triage before remediation.
 ---
 
 # Skill: workspace-troubleshooting

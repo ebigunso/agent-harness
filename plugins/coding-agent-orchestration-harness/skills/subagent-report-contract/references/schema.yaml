@@ -1,69 +1,87 @@
-task_id: "Task_X"
+# Canonical Worker report shape. Required keys are listed first; optional
+# blocks are marked. Comments carry the filling notes for each field.
+
+task_id: "Task_X"                 # from the Orchestrator prompt
 status: "done|blocked|failed"
 
 summary: |-
   "1-5 lines. If blocked/failed: expected vs actual."
 
+# Only files actually modified, created, or deleted.
 files_changed:
   - path: "path"
     change: "modified|created|deleted"
     intent: "1-line purpose"
 
+# Required to emit; validators do not require it.
 commands_run:
   - command: "string"
     result: "pass|fail|skipped"
-    notes: "string"
+    notes: "brief failure/skip reason"
 
+# The evidence contract for required and optional validation items.
+# Include every validation item assigned in the task contract.
+# A required worker-owned fail or skip cannot accompany status: done
+# unless the skip has explicit waiver evidence (the validator looks for
+# the word "waived" or "waiver" in evidence). If a required command did
+# not run, evidence names the skipped command and its reason.
 validation_results:
   - kind: "command|manual|e2e|review"
     required: true
     owner: "worker|reviewer|orchestrator|user"
-    detail: "string"
+    detail: "what was validated"
     status: "pass|fail|skipped"
-    evidence: "string"
+    evidence: "brief proof or failure excerpt"
 
-# Optional. Worker-owned implementation-local UI probes only.
-# Does not satisfy Reviewer-owned validation automatically.
+# Optional. Worker-owned implementation-local UI probes only; include
+# only when a bounded probe ran or materially affected implementation.
+# base_url is required when ui_probes is present; use "n/a" when no URL
+# applies and describe the command or setup in notes.
 ui_probes:
   - base_url: "http://localhost:3000"
-    flow: "string"
+    flow: "Open settings page and toggle dark mode"
     result: "pass|fail|skipped"
-    evidence: "string"
-    notes: "string"
+    evidence: "screenshot path or brief observation"
+    notes: "fixes made or reason skipped"
 
+# Required to emit; validators do not require it.
 tests:
   ran: true
-  notes: "string"
+  notes: "what was validated / what remains unvalidated"
 
-blockers: ["string"]
+blockers: ["string"]               # non-empty when blocked/failed; otherwise []
 questions_for_orchestrator: ["string"]
 assumptions: ["string"]
 
+# Repo-local rule proposals, routed by audience to the destination rules file.
 rule_candidates:
   - audience: "common|worker|orchestrator|reviewer"
     id: "RB-CAND-short"
-    rule: "string"
-    rationale: "string"
-    scope: "string"
-    example: "string"
+    rule: "one-sentence repo rule"
+    rationale: "why it prevents rework/risk"
+    scope: "where it applies"
+    example: "optional; use '' when none"
 
 # Optional. Cross-repo harness improvement proposals only.
 harness_migration_candidates:
   - id: "HMC-short"
     category: "review|validation|orchestration|delegation|rulebook|troubleshooting|adapter|validator|other"
-    proposed_home: "string"
-    generalized_rule: "string"
-    trigger: "string"
-    evidence_from_repo: "string"
-    rationale: "string"
-    suggested_change: "string"
+    proposed_home: "skill/reference/agent/validator/adr hint"
+    generalized_rule: "cross-repo lesson or proposed global rule"
+    trigger: "when this should apply"
+    evidence_from_repo: "what happened in this repo"
+    rationale: "why this is not merely repo-specific"
+    suggested_change: "what a future harness-maintenance pass should update"
 
-# Optional when deviations, failed validation, or recovery steps need to be surfaced.
+# Optional when deviations, failed validation, or recovery steps need to be
+# surfaced. Keep candidates atomic (one failure category each). Prefer
+# repo_rule when the prevention is repo-specific; use harness_migration when
+# it is reusable across repositories.
 lesson_candidates:
   - id: "LESSON-CAND-short"
     category: "planning|delegation|validation|environment|review|docs|other"
-    deviation: "string"
-    root_cause: "string"
-    prevention: "string"
+    deviation: "what went wrong / what required course correction (1 sentence)"
+    root_cause: "why it happened (1 sentence)"
+    prevention: "what would prevent recurrence (1 sentence)"
     promotion_target: "repo_rule|harness_migration|troubleshooting|residual_risk"
-    suggested_destination: "optional string"
+    suggested_destination: "optional; for repo_rule use docs/coding-agent/rules/<role>.md; for harness_migration use docs/coding-agent/skill-candidates.md; for troubleshooting/residual_risk use docs/coding-agent/lessons.md or a repo troubleshooting note"

@@ -4,17 +4,9 @@ Use this reference for plan, research, execution, replan, and closeout lifecycle
 
 ## Primary Sources
 
-At the start of non-trivial work, read:
+Sources and their read conditions: `SKILL.md` Repository Rule Entry (canonical); the three rule files are the only unconditional reads, and lessons, plans, the reference documents listed in `common.md`, and project files each load on the condition stated there.
 
-1. `docs/coding-agent/rules/index.md`
-2. `docs/coding-agent/rules/common.md`
-3. `docs/coding-agent/rules/orchestrator.md`
-4. Any repository reference documents listed in `common.md`
-5. `docs/coding-agent/lessons.md`, if present
-6. Relevant plans under `docs/coding-agent/plans/active/` and `docs/coding-agent/plans/completed/`
-7. Relevant project files after the Research Dispatch Gate is satisfied
-
-If `docs/coding-agent/rules/` does not exist, create the minimal repo-rule skeleton from the Rulebook templates. Do not add global migration placeholders to role rule files. If `docs/coding-agent/plans/active/` does not exist, create it before writing draft or in-progress plans.
+If the rule files are absent or unreadable, continue under the `orchestration-harness` skill and record the missing rule context when it materially affects planning or validation; creating rules is `rulebook` work triggered separately. Do not add global migration placeholders to role rule files.
 
 ## Plan Gate Details
 

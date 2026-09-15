@@ -9,23 +9,22 @@ Use this skill after each Worker wave.
 
 The Orchestrator remains the only writer for shared plan lifecycle state. This skill does not create a new subagent role by default.
 
-## Core Checklist
+## Integration Contract
 
-1. Parse every Worker report.
-2. Validate every report against `subagent-report-contract`.
-3. Confirm each changed file is inside `owns` or explained.
-4. Confirm all required Worker-owned validations are pass or explicitly waived.
-5. Close or terminate completed async/background subagent processes after their final reports are validated and integrated. If the runtime does not expose a close/terminate action, record cleanup as unavailable and do not reuse the completed process for unrelated work.
-6. Collect blockers/questions.
-7. Collect rule/lesson candidates and `harness_migration_candidates`.
-8. Update plan Progress Log.
-9. Decide whether to dispatch follow-up Workers or Reviewer.
-10. Prepare Reviewer packet.
+Every Worker report in the wave must satisfy all of the following before any follow-up or Reviewer dispatch:
 
-## References
+1. Parsed and validated: the report is one YAML block valid against `subagent-report-contract`, maps to exactly one assigned Task_X, and its status (`done`, `blocked`, `failed`) is recorded. A malformed report is a blocker: request a corrected report or dispatch follow-up work before review.
+2. Ownership reconciled: every `files_changed` path is inside the task's `owns`, or outside it only when minimal and explicitly explained. An unexplained cross-owns edit is a blocker.
+3. Required evidence present: every required Worker-owned validation item is `pass` or explicitly waived. `skipped` is not a waiver; missing evidence blocks progression.
+4. No duplicate active work: each report maps to exactly one assigned Task_X, and a completed process is not reused for unrelated work.
+5. Async cleanup owned: after a report is validated and integrated, the Orchestrator closes or terminates the completed async/background subagent process per `subagent-strategy/references/async-dispatch-lifecycle.md`, which holds the cleanup policy.
 
-After every Worker wave: run `references/integration-checklist.md`.
-Before every Reviewer dispatch: read `references/reviewer-packet-template.md` and build the packet.
+## Routes
+
+- Once the contract holds for every report: run `references/integration-checklist.md` (blockers and questions, candidates, the Progress Log entry, and the follow-up Worker versus Reviewer decision).
+- Before a Reviewer dispatch, build the packet for the review kind:
+  - Post-Worker review: `references/reviewer-packet-template.md`; its inputs are the wave's tasks, changed files, acceptance criteria, required validation checklist, Worker validation evidence, waivers, and open blockers or questions.
+  - Draft-plan review (before user approval): the Reviewer snippet (plan review) in `subagent-strategy/references/prompt-snippets.md`; its inputs are the plan path, the Researcher output path or "none", and the plugin root. No packet, no changed-files list.
 
 ## Closeout Validation
 
