@@ -1,0 +1,1 @@
+- Specific-test evidence must show executed, unskipped tests. If that evidence is absent, rerun the specific test and check for skips.
