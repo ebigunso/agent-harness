@@ -40,6 +40,14 @@ blockers: []
 questions_for_orchestrator: []
 assumptions: []
 rule_candidates: []
+lesson_candidates:
+  - id: "LESSON-CAND-inclusive-bound-off-by-one"
+    category: validation
+    deviation: "The first unit run failed on an off-by-one in my own edit against the inclusive upper bound the acceptance criterion names."
+    root_cause: "The bound was implemented as exclusive; the criterion was not reread before the first run."
+    prevention: "Reread the acceptance criterion's stated bounds against the edit before the first validation run."
+    promotion_target: residual_risk
+    suggested_destination: "docs/coding-agent/lessons.md"
 ```
 
 ## Example: done with bounded Worker UI probe
@@ -175,6 +183,14 @@ blockers:
 questions_for_orchestrator: []
 assumptions: []
 rule_candidates: []
+lesson_candidates:
+  - id: "LESSON-CAND-old-behavior-test-unruled"
+    category: planning
+    deviation: "A test outside owns encoded the behavior the acceptance criterion replaces, and the packet did not rule on it, so the task blocked on a ruling."
+    root_cause: "The plan changed a behavior without listing the tests that asserted the old one or pre-ruling their update."
+    prevention: "When a task changes a behavior, name the tests that assert the old behavior in the packet and pre-rule whether they are to be updated."
+    promotion_target: repo_rule
+    suggested_destination: "docs/coding-agent/rules/orchestrator.md"
 ```
 
 ## Example: done with rule candidate and harness migration candidate
