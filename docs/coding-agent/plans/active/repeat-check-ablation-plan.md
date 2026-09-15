@@ -206,5 +206,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: keeping the pre-rebase frozen revision (rejected: the commit no longer exists on the branch); re-running the stub chain after the repoint (done by the Reviewer, exit 0).
   - User approval: not required (within the approved plan; the Worker acted only on rulings, per ADR-D-0033).
 
+- 2026-09-16 Decision: Frozen revision pinned to the `main` tip the stack is based on.
+  - Trigger / new insight: the frozen revision was the part-3 branch base, and every rebase of the stack (part 1 and part 2 change under review) rewrites that commit, so the recorded SHA stopped resolving twice in one day.
+  - Plan delta (what changed): frozen revision `f7b81bba928b9ec0386f5f8c8131db1f41488e4e` (`origin/main` at the stack base); `testing-validation.md` is byte-identical from there to the part-3 branch (`git diff --quiet` between the two), so arm B and the source lines are unchanged; protocol.md, manifest.yaml, and fixture-plan.md repointed; protocol SHA-256 now `d7218c9d7ed6b2684f43d5d78c2d0c86460fab34761b7337b13710534d6fab6b`; validate_pilot.py and the stub chain pass against the new revision. The pre-registration entry above stands with this correction after it.
+  - Tradeoffs considered: tagging the rewritten commit (rejected: keeps an orphan object alive for a value main already carries); re-freezing after every rebase (rejected: the same churn).
+  - User approval: not required (record correction; content under test unchanged).
+
 ## Notes
 - Planned calls: 288 cells and six graders, about a fifth of the 2026-09-09 remaining-sections run (1,344 cells); the spend cap and stop rule are Q3.

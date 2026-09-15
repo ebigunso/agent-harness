@@ -4,7 +4,7 @@ Decides, section by section, whether the prescribed rerun mechanics in two testi
 
 ## Measured scope (section level)
 
-Frozen revision: `76434f6e0b45360412c073d8fd02eb86161dcffe` (part-3 branch tip at Task_1 start). Source: `plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/testing-validation.md`. Re-baselined source lines remain 74 and 77.
+Frozen revision: `f7b81bba928b9ec0386f5f8c8131db1f41488e4e` (the `main` tip the stack is based on; the file is byte-identical from there to the part-3 branch). Source: `plugins/coding-agent-orchestration-harness/skills/engineering-quality-baselines/references/testing-validation.md`. Re-baselined source lines remain 74 and 77.
 
 | Section | Source obligation / prescribed mechanic (exact quotation) | Invariant obligation retained in every outcome |
 |---|---|---|
