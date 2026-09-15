@@ -1,11 +1,11 @@
 ---
-status: accepted
+status: proposed
 adr_type: design
 date: 2026-09-13
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
-supersedes: ["superseded/ADR-D-0018-discoveries-recorded-and-surfaced--superseded-by-ADR-D-0033.md"]
+supersedes: ["ADR-D-0018-discoveries-recorded-and-surfaced.md"]
 superseded_by: null
 depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0032-plan-approval-is-never-self-granted.md"]
 ---

@@ -53,7 +53,7 @@ If tripped: surface the observation in the report (questions/blockers or lesson 
 
 Two fields already have a home: a Worker report supplies required and optional checks as `validation_results` entries (`subagent-report-contract/references/schema.yaml`: `required`, `status: pass|fail|skipped`, `evidence`; a waived required check is `skipped` with the waiver evidence in `evidence`). No other field has an equivalent in the plan template or the report schema.
 
-Include the note in the task output whenever the output does not already supply a field under a surviving obligation; this applies to Worker reports and standalone Reviewer outputs alike, and it adds no key to any schema:
+Include the note in the task output whenever the output does not already supply a field under a surviving obligation, and it adds no key to any schema. In a standalone Reviewer or Orchestrator output the note appears as the block below. In a Worker report, whose final message is exactly one YAML block, the fields the report schema lacks are carried in existing free-text keys: risk profile with rationale and validation depth as lines in `summary`, At Risk items and residual risk as `assumptions` entries, each prefixed with the field name:
 
 ```
 Quality routing note
