@@ -214,6 +214,14 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: Codex Worker: Claude preloads per Q1 (Orchestrator: orchestration-harness, plan-format, subagent-strategy; Worker: subagent-report-contract, engineering-quality-baselines; Reviewer: engineering-quality-baselines; Researcher: none); all eleven removed preloads retain an existing route, quoted from the routing table or the adapter body; one routing pointer added per affected Claude adapter; the three Researcher read blocks carry the Task_2 conditional form; normalized instruction bodies identical across the three runtimes in all pairwise comparisons. Six files, 12 insertions, 23 deletions.
   - Validation evidence: Worker: validate_harness_package.py pass, run_validation_smoke_tests.py exit 0, stdlib body and preload comparison pass; Orchestrator reran the package validator, smoke tests, and git diff --check on the integrated tree before commit. Task_6 review dispatched.
   - Notes: Worker lesson candidate held for closeout: Windows sandbox helper timeout on apply_patch (post-failure diff empty; exact-match replacements used).
+- 2026-09-15 Wave 1 and Wave 2 reviewed: [Task_1, Task_2, Task_3, Task_4, Task_5, Task_6]
+  - Summary: Codex Reviewer APPROVED Task_1, Task_2, Task_4, Task_5, Task_6 with no findings. Task_3 NEEDS_REVISION (major): the merged wave-integration opener required every contract item to hold before any follow-up dispatch, stranding blocked and malformed reports before the follow-up that obtains missing evidence; reworked at 727d7a4 so every report enters triage and corrective follow-up while pass-or-waiver evidence gates only Reviewer dispatch and closeout; Reviewer APPROVED the delta with the two traces confirmed.
+  - Validation evidence: Reviewer verdicts on 3877bd9, aa24ead, 727d7a4; package validator, smoke tests, and git diff --check clean at each commit.
+  - Notes: Worker lesson candidate from the rework held for closeout: converting a step sequence into a contract list needs each item tagged gate or triage input before writing the opener.
+- 2026-09-15 Wave 3 Task_7 opened: [Task_7]
+  - Summary: plugin manifests bumped together to 0.18.0 (Claude, Codex, Copilot); final review dispatched against the Definition of Done with the ADR-D-0019 redundancy check on every deletion.
+  - Validation evidence: package validator pass after the bump (cross-manifest check); final Reviewer verdict pending.
+  - Notes: none.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
