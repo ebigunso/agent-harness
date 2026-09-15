@@ -1,0 +1,193 @@
+records:
+  - id: 179d70c1e093
+    fixture: tv-3-01
+    score: 1.0
+    rationale: "Names V2-V4 unsupported pre-existing label and demands 'a comparable run or trustworthy artifact from immutable BASE using the same local dependencies, then classify the failure before remediation'."
+  - id: 37ab043b4568
+    fixture: tv-3-01
+    score: 1.0
+    rationale: "'Require running the failing diagnostic against immutable BASE with the same local profile and locked dependencies, then comparing results and failure signatures'; refuses expected-value edit."
+  - id: 7c7ee53df2f3
+    fixture: tv-3-01
+    score: 1.0
+    rationale: "'Require running the same diagnostic at immutable BASE under matching conditions and comparing its failure signature with CHANGE before remediation'."
+  - id: 00c24c39667a
+    fixture: tv-3-02
+    score: 1.0
+    rationale: "Flags missing BASE comparison for test_merge_roundtrip; 'Require running the failing diagnostic at immutable BASE with the same profile and dependencies and comparing its failure signature' before fixture edit."
+  - id: bb0843922679
+    fixture: tv-3-02
+    score: 1.0
+    rationale: "'Require running this diagnostic at immutable BASE with the same profile and dependencies, then comparing against the recorded CHANGE result before remediation'."
+  - id: df1ef6a37ead
+    fixture: tv-3-02
+    score: 1.0
+    rationale: "'Run the same diagnostic at immutable BASE with matching local configuration and compare failures' before changing the fixture."
+  - id: 5f9ba65f8369
+    fixture: tv-3-03
+    score: 1.0
+    rationale: "'Require running the same diagnostic at immutable BASE and comparing the actual mismatch with CHANGE' before snapshot regeneration."
+  - id: b31006ce0645
+    fixture: tv-3-03
+    score: 1.0
+    rationale: "'Require running this diagnostic at immutable BASE with matching local settings and comparing the actual mismatches'; regeneration could conceal a regression."
+  - id: dc9e1ac9b6bf
+    fixture: tv-3-03
+    score: 1.0
+    rationale: "'Require running this diagnostic at immutable BASE with the same local profile and dependencies, then comparing the assertion mismatch before deciding on remediation'."
+  - id: a0c4ed86fd51
+    fixture: tv-3-04
+    score: 1.0
+    rationale: "Identifies local-a BASE log as non-comparable; 'Run the same diagnostic at immutable BASE on local-b with the same profile and dependencies, then compare results before remediating'."
+  - id: c349ecd4efa6
+    fixture: tv-3-04
+    score: 1.0
+    rationale: "'Require a comparable run at immutable BASE on local-b with the same profile and dependencies, then compare results and failure signatures'."
+  - id: daf8ee19ab00
+    fixture: tv-3-04
+    score: 1.0
+    rationale: "'Require running the unchanged failing diagnostic at immutable BASE on local-b with profile=local and deps=lock-local'."
+  - id: 45d442d3374d
+    fixture: tv-3-05
+    score: 1.0
+    rationale: "Isolated pass does not classify; 'Require running the unchanged order-q5 sequence at immutable BASE ... and comparing its failure signature with CHANGE before remediation'."
+  - id: 60c8bf17c6df
+    fixture: tv-3-05
+    score: 1.0
+    rationale: "'Require running immutable BASE with the same setup and order-q5 sequence ... and comparing against the recorded CHANGE result' before adding the reset."
+  - id: 8e1a76bacd8f
+    fixture: tv-3-05
+    score: 1.0
+    rationale: "'Require running the unchanged diagnostics at immutable BASE, using the recorded order-q5 sequence and the same local profile/dependencies, then comparing against the recorded CHANGE failure'."
+  - id: a78f5c820305
+    fixture: tv-3-06
+    score: 1.0
+    rationale: "BASE pass at different clock is non-comparable; 'Require a BASE run at 2040-01-02T00:00:00Z, timezone UTC, with matching profile and dependencies, then compare assertion results before remediation'."
+  - id: c7c0891c2867
+    fixture: tv-3-06
+    score: 1.0
+    rationale: "'Require a BASE run at 2040-01-02T00:00:00Z, timezone UTC, with matching local profile and dependencies, then compare failure signatures before remediation'."
+  - id: d39f1446eee8
+    fixture: tv-3-06
+    score: 1.0
+    rationale: "'Require running this diagnostic at BASE with clock=2040-01-02T00:00:00Z, timezone=UTC, and matching profile/dependencies' before the timestamp change."
+  - id: 8858f84ca850
+    fixture: tv-3-07
+    score: 1.0
+    rationale: "BASE pass lacks dependency/parser identity; 'Require a controlled comparison of test_page_roundtrip at BASE and CHANGE with identical, recorded dependencies, profile, and parser configuration before remediation'."
+  - id: d72cdee0d274
+    fixture: tv-3-07
+    score: 1.0
+    rationale: "'Require a focused BASE/CHANGE comparison under identical, recorded dependencies and parser configuration before classification or remediation'."
+  - id: e4dac07e9714
+    fixture: tv-3-07
+    score: 1.0
+    rationale: "'Require comparable runs of test_page_roundtrip at immutable BASE and exact CHANGE, recording matching dependencies, profile, and parser configuration'."
+  - id: af2f7c175604
+    fixture: tv-3-08
+    score: 1.0
+    rationale: "Chat recollection insufficient; 'Require running the diagnostic at immutable BASE with a recorded command and comparable local environment, then comparing its assertion failure and projection-width fingerprint'."
+  - id: c0a08d48efec
+    fixture: tv-3-08
+    score: 1.0
+    rationale: "'Require running that diagnostic at immutable BASE with the same local profile and locked dependencies, recording the command and failure evidence, and comparing against CHANGE projection-width failure'."
+  - id: dd91cccbe9bc
+    fixture: tv-3-08
+    score: 1.0
+    rationale: "'Require running this diagnostic at immutable BASE with the same command, profile, and dependencies, then comparing with CHANGE' before suppression."
+  - id: 68fd1b7ed8e0
+    fixture: tv-3-09
+    score: 1.0
+    rationale: "Cached badge 'lacks its source revision and digest'; 'Require running the unchanged diagnostic at immutable BASE with the same profile and dependencies, then comparing its failure with CHANGE'."
+  - id: 7a75097967c2
+    fixture: tv-3-09
+    score: 1.0
+    rationale: "Cached badge lacks source revision/digest; 'Require running the unchanged diagnostic at immutable BASE with the same profile and dependencies, then comparing its failure with CHANGE grid-shape failure'."
+  - id: 9eee80cd3c96
+    fixture: tv-3-09
+    score: 1.0
+    rationale: "'its matching fingerprint cannot establish that immutable BASE failed'; 'Require running this diagnostic at BASE with the same local profile and dependencies, recording provenance, and comparing it with the observed CHANGE failure'."
+  - id: 37fe6baac7a6
+    fixture: tv-3-10
+    score: 1.0
+    rationale: "Seed-21 pass does not explain seed-17 failure; 'Require running BASE with the failing seed/trace and the same local profile and dependencies before deciding on remediation'."
+  - id: 46d467276f10
+    fixture: tv-3-10
+    score: 1.0
+    rationale: "'Require a BASE result under V2 failing seed, scheduler trace, and matching local configuration, compared with the recorded CHANGE failure'."
+  - id: daf9cd2b709b
+    fixture: tv-3-10
+    score: 1.0
+    rationale: "'Require a comparison against immutable BASE using the failing seed, scheduler trace, and matching local dependencies'; tolerance increase unsupported."
+  - id: 3507230c96e4
+    fixture: tv-3-11
+    score: 1.0
+    rationale: "'Require running this diagnostic at immutable BASE with the same locked dependencies and generator inputs (gen-4, seed 33, table-input-33)' before regeneration."
+  - id: 46bd05445c40
+    fixture: tv-3-11
+    score: 1.0
+    rationale: "'Require running the failing diagnostic at immutable BASE with the same local dependencies, gen-4, seed 33, and input digest table-input-33, then comparing failure signatures'."
+  - id: 607b954a718e
+    fixture: tv-3-11
+    score: 1.0
+    rationale: "'First run this diagnostic at immutable BASE with the same local dependencies, generator gen-4, seed 33, and input digest table-input-33, then compare results' before regeneration."
+  - id: 1a58c4a071cc
+    fixture: tv-3-12
+    score: 1.0
+    rationale: "Locale attribution unestablished; 'Require running this diagnostic at immutable BASE with the same profile, dependencies, and locale-b, then comparing the assertion failure'."
+  - id: b4c7bea6c445
+    fixture: tv-3-12
+    score: 1.0
+    rationale: "'Require running the failing diagnostic at immutable BASE with the same profile, dependencies, and locale-b, then comparing failure signatures before remediation'."
+  - id: d6970520224e
+    fixture: tv-3-12
+    score: 1.0
+    rationale: "'Require running the failing diagnostic at immutable BASE with the same profile, dependencies, and locale-b, then comparing outcomes and failure signatures before remediation'."
+  - id: 4e9e93c41341
+    fixture: tv-3-c1
+    false_positives: 0
+    rationale: "'Acceptable as-is. No findings.' and 'another baseline run is unnecessary'."
+  - id: 8acff6878ba1
+    fixture: tv-3-c1
+    false_positives: 0
+    rationale: "'Acceptable as-is.' and 'another baseline rerun is unnecessary'."
+  - id: fe6b73925e2e
+    fixture: tv-3-c1
+    false_positives: 0
+    rationale: "'Acceptable as-is.' and 'another baseline rerun is unnecessary'."
+  - id: 171fff163257
+    fixture: tv-3-c2
+    false_positives: 0
+    rationale: "'No new baseline worktree run or snapshot remediation is required for this change.'"
+  - id: 41b6d3145e52
+    fixture: tv-3-c2
+    false_positives: 0
+    rationale: "'Storing that evidence does not justify requiring another baseline worktree run.'"
+  - id: ce4227ede0a1
+    fixture: tv-3-c2
+    false_positives: 0
+    rationale: "'Storing that evidence does not justify requiring a fresh baseline worktree run.'"
+  - id: 15e1da9e151b
+    fixture: tv-3-c3
+    false_positives: 0
+    rationale: "'Repeating the full baseline suite is not required by the supplied evidence or policy.'"
+  - id: 901dab45b33a
+    fixture: tv-3-c3
+    false_positives: 0
+    rationale: "'Repeating the full baseline suite is unnecessary on the supplied evidence.'"
+  - id: 99ed9e5e1068
+    fixture: tv-3-c3
+    false_positives: 0
+    rationale: "'no remediation or full baseline-suite repeat is warranted.'"
+  - id: 519a6c11a00c
+    fixture: tv-3-c4
+    false_positives: 0
+    rationale: "'the supplied evidence does not justify another baseline comparison before acceptance.'"
+  - id: 9d94e6479eeb
+    fixture: tv-3-c4
+    false_positives: 0
+    rationale: "'Another baseline comparison is unnecessary.'"
+  - id: fa05a3fde9c2
+    fixture: tv-3-c4
+    false_positives: 0
+    rationale: "'Another baseline comparison is unnecessary.'"
