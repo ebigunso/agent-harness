@@ -1,6 +1,6 @@
 # Repeat-check fixture authoring plan
 
-Frozen revision: c93124670fe9dab6d9e38c47838c00d754c4e2b1
+Frozen revision: 76434f6e0b45360412c073d8fd02eb86161dcffe
 
 Author exactly one diff and validation-summary fixture for each slot below. Each fixture has YAML frontmatter id, section, type; Task framing:, Commit message:, Reviewer notes:, and a syntactically valid fenced diff. Keys name the exact evidence gap, its location, at least two adequate ways to obtain the missing evidence, and acceptable optional nitpicks. A plant targets exactly one section; decoys explicitly settle that section and invite a redundant rerun. Follow protocol.md for grading and immutable arm texts. No actual fixture or key is authored in this task.
 
