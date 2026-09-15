@@ -1,6 +1,6 @@
 # Plan: Trim skill loading, descriptions, and duplicated procedure (Astra guide, part 1 of 3)
 
-- status: in_progress
+- status: completed
 - generated: 2026-09-13
 - last_updated: 2026-09-15
 - work_type: docs
@@ -179,7 +179,7 @@
   - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
 - depends_on: [Task_1, Task_3, Task_4, Task_5, Task_6]
 - description: |
-  Orchestrator bumps the three plugin manifests together (patch version); Reviewer reviews the whole diff against the Definition of Done, with the ADR-D-0019 redundancy check applied to every deletion: surviving copy named, no consumer orphaned.
+  Orchestrator bumps the three plugin manifests together (to 0.18.0); Reviewer reviews the whole diff against the Definition of Done, with the ADR-D-0019 redundancy check applied to every deletion: surviving copy named, no consumer orphaned.
 - acceptance:
   - Reviewer status is APPROVED; manifests agree.
 - validation:
@@ -222,6 +222,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Summary: plugin manifests bumped together to 0.18.0 (Claude, Codex, Copilot); final review dispatched against the Definition of Done with the ADR-D-0019 redundancy check on every deletion.
   - Validation evidence: package validator pass after the bump (cross-manifest check); final Reviewer verdict pending.
   - Notes: none.
+- 2026-09-15 Wave 3 Task_7 done; plan closed: [Task_7]
+  - Summary: Codex Reviewer Task_7 APPROVED at 3731a87 (Definition of Done met; the ADR-D-0019 redundancy check passed for every deletion; manifests agree on 0.18.0); one minor plan-wording note applied at closeout.
+  - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check clean; Reviewer APPROVED for Task_1 through Task_7.
+  - Notes: closeout lessons appended to docs/coding-agent/lessons.md (the wave-integration opener defect; the package validator's audience-line regex; parallel-wave validator transients). Post-merge: ebigunso refreshes installed copies to 0.18.0. Plan moved to completed/.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
