@@ -138,7 +138,7 @@ Action: record the insight in the plan Decision Log and surface it in the next r
 
 ## Governance And Safety
 
-- Correction events, missed hard gates, and review/CI/human findings the harness should have caught require `improvement-loop` before ending the turn. State durable behavior changes back to the user unless explicitly one-time.
+- Missed hard gates, review/CI/human findings the harness should have caught, and corrections that change a durable default require `improvement-loop` before ending the turn. State durable behavior changes back to the user unless explicitly one-time.
 - Third-party or unknown-provenance skills are read-only unless the user explicitly approves editing them.
 - Only the Orchestrator edits repo rule files.
 

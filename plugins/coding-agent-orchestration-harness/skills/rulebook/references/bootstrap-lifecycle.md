@@ -39,7 +39,7 @@ A rule suite is valid when:
 
 During full bootstrap, detect candidate decision-record conventions: `docs/decisions/`, `docs/adr/`, and `ADR-*` file globs — scoped to tracked paths only (`git ls-files`), since gitignored trees such as review worktrees or vendored sibling checkouts can carry another repository's ADRs and must never count as this repository's convention.
 
-ALWAYS propose the resulting Decision Records line to the user and confirm before recording it in `common.md`; never silently record. Three outcomes:
+Record the resulting Decision Records line in `common.md` and always report what was recorded in the bootstrap output; a detected convention (outcome 1) is recorded without a confirmation step. Three outcomes:
 
 1. Convention detected: point at it — `Decision records: follow <path>; match the existing ADRs' numbering and sections.`
 2. No convention, placement approved: the Orchestrator copies the two drop-ins from `skills/durable-docs-authoring/references/` — `adr-template.md` to `docs/decisions/template.md` and `adr-repo-readme.md` to `docs/decisions/README.md` (track directories are created on the first ADR). The pointer then reads as outcome 1, at `docs/decisions/`.

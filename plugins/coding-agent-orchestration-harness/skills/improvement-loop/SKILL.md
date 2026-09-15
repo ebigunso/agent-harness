@@ -1,6 +1,6 @@
 ---
 name: improvement-loop
-description: Self-improvement loop for Orchestrator-driven workflows. Use immediately after any user correction or behavior change request (workflow, validation, scope, tone, output format), after missed required gates (e.g., validation), or after review misses. Requires recording lessons and stating durable default changes before ending the turn.
+description: Self-improvement loop for Orchestrator-driven workflows. Use when a hard gate was missed (required validation or evidence skipped, a wrong done/blocked state, a safety or policy gate miss), when a review, CI, or human finding arrives that the harness should have caught, or when a user correction changes a durable default (workflow, validation, scope). Records the lesson and states the durable default change before ending the turn; low-signal corrections (tone, wording, a one-off format) are applied without a lessons entry.
 ---
 
 # Skill: improvement-loop
@@ -23,12 +23,14 @@ During ordinary target-repository work, runtime agents must not edit bundled/glo
 ## Core rules (always apply)
 
 1) Close the correction loop
-If this skill is active, before ending the turn, append the lesson entry and state any durable default change.
+Before ending the turn, append the lesson entry for each capture trigger in rule 2 that occurred, and state any durable default change.
 
-2) Capture lessons at high signal; always capture hard-gate deviations
-- Mandatory capture: append a lesson entry immediately for hard-gate deviations (missed required validation, required evidence missing, incorrect done/blocked state, safety/policy gate misses).
-- High-signal capture: for non-gate corrections, append when the lesson is likely to prevent recurrence across future tasks (workflow drift, repeated review misses, repeated scope/dispatch mistakes).
-- If capture is skipped for a low-signal correction, still apply a local prevention action in the current task.
+2) One capture rule
+- Record a lesson before ending the turn when any of these occurred:
+  - a hard gate was missed (required validation or evidence skipped, a wrong done/blocked state, a safety or policy gate miss)
+  - a review, CI, or human finding arrived that the harness should have caught
+  - a correction changed a durable default (workflow, validation, scope)
+- Low-signal corrections (tone, wording, a one-off format) are applied in the current task without a lessons entry.
 - If the lessons file does not exist, create it using the template in references/lessons-template.md.
 
 3) Lesson entries must be actionable
@@ -50,9 +52,6 @@ For each lesson, decide whether to stage:
 - a harness migration candidate when a first-party skill, reference, agent adapter, validator, or ADR is the likely long-term owner
 - a troubleshooting note or candidate under `docs/coding-agent/`
 - a residual-risk record when prevention is intentionally not added
-
-If prevention is unclear:
-- still propose at least one small guardrail (e.g., “mandatory checklist before marking done”).
 
 6) Session-start usage
 Before non-trivial work, skim recent or relevant entries in `docs/coding-agent/lessons.md` and apply them proactively.

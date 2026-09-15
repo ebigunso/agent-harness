@@ -101,7 +101,7 @@ The iteration journal is `docs/coding-agent/goals/active/<goal-id>/journal.md`, 
 
 ## 3. Completion report template
 
-Produced by the loop before the goal branch may merge; the pre-merge reviewer verifies every assertion against the journal before the report is accepted (ADR-D-0013).
+Produced by the loop before the goal branch may merge; the pre-merge reviewer verifies every assertion against the journal before the report is accepted.
 Keep it readable at a glance: verbatim evidence (dispatch texts, full outputs) stays in the journal — the report asserts and points.
 Exactly these six sections.
 
