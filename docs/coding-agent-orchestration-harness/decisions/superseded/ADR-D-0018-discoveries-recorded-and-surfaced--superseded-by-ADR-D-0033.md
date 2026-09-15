@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-06
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0033-a-worker-acts-alone-only-within-the-acceptance-criteria.md
 depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md"]
 ---
 
 # ADR-D-0018: Discoveries are recorded and surfaced; three cases pause
+
+Retired on 2026-09-15. Replaced by ADR-D-0033.
 
 ## Context and Problem Statement
 

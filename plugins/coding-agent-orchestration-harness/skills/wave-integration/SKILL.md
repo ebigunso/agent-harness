@@ -16,7 +16,7 @@ Apply the following to every Worker report in the wave, including malformed, `bl
 1. Parsed and validated: the report is one YAML block valid against `subagent-report-contract`, maps to exactly one assigned Task_X, and its status (`done`, `blocked`, `failed`) is recorded. A malformed report is a blocker: request a corrected report or dispatch follow-up work before review.
 2. Ownership reconciled: every `files_changed` path is inside the task's `owns`, or outside it only when minimal and explicitly explained. An unexplained cross-owns edit is a blocker.
 3. Required evidence present: every required Worker-owned validation item is `pass` or explicitly waived. `skipped` is not a waiver; missing evidence blocks progression to Reviewer dispatch and closeout, not the follow-up dispatch that obtains it.
-4. No duplicate active work: each report maps to exactly one assigned Task_X, and a completed process is not reused for unrelated work.
+4. One assignment per report: each report maps to exactly one assigned Task_X, and a completed process is not reused for unrelated work; duplication of still-active child work is governed by `subagent-strategy/references/async-dispatch-lifecycle.md`.
 5. Async cleanup owned: after a report is validated and integrated, the Orchestrator closes or terminates the completed async/background subagent process per `subagent-strategy/references/async-dispatch-lifecycle.md`, which holds the cleanup policy.
 
 ## Routes
