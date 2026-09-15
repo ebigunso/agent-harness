@@ -1,0 +1,193 @@
+records:
+  - id: 3806bfdd6742
+    fixture: tv-1-01
+    score: 1.0
+    rationale: "V4 explicitly records it as skipped. Require preparing the fixture and rerunning that specific test at CHANGE ... body and assertion executed without skipping."
+  - id: 74709442b36c
+    fixture: tv-1-01
+    score: 1.0
+    rationale: "was explicitly skipped because its fixture was not prepared ... Require preparing the fixture and rerunning this test targeted against CHANGE ... without skipping."
+  - id: ea2741b95a79
+    fixture: tv-1-01
+    score: 1.0
+    rationale: "The requested test is explicitly skipped ... Require preparing the fixture and executing tests/test_status.py::test_status_label on CHANGE ... without skipping."
+  - id: 1924fdce0d2d
+    fixture: tv-1-02
+    score: 1.0
+    rationale: "it was skipped (completed=0 skipped=1). Exit code zero does not establish ... Require running tests/test_region.py::test_region_label on CHANGE ... without skipping."
+  - id: c6dbef733633
+    fixture: tv-1-02
+    score: 1.0
+    rationale: "completed=0 skipped=1 shows it never executed. Exit zero therefore provides no evidence ... Require rerunning ... with the local selector configured to execute it."
+  - id: edcb8ee7cd2b
+    fixture: tv-1-02
+    score: 1.0
+    rationale: "it was skipped (completed=0 skipped=1). Exit code zero provides no assertion evidence ... Require a targeted run on CHANGE with the local fixture selector enabling the test."
+  - id: 21c014fe0835
+    fixture: tv-1-03
+    score: 1.0
+    rationale: "V1 selects test_limit, but the actual test is test_batch_limit. V3 confirms zero matches and zero executions ... Require rerunning ... test_batch_limit on CHANGE."
+  - id: 59adfbc5fae4
+    fixture: tv-1-03
+    score: 1.0
+    rationale: "The selector names test_limit, but the actual test is test_batch_limit ... executing zero tests ... Require running tests/test_batch.py::test_batch_limit on CHANGE."
+  - id: e5c2881a7b67
+    fixture: tv-1-03
+    score: 1.0
+    rationale: "selector uses tests/test_batch.py::test_limit, but the actual check is tests/test_batch.py::test_batch_limit ... Require running the correct check against CHANGE."
+  - id: 308d1dcba8c8
+    fixture: tv-1-04
+    score: 1.0
+    rationale: "The function entered but returned before executing its assertion block ... Require a run against CHANGE with local input that reaches the assertion expecting 6."
+  - id: 69471aaccac5
+    fixture: tv-1-04
+    score: 1.0
+    rationale: "The target returned before its assertion block because the local sample set was empty ... Require preparing nonempty local inputs and rerunning the targeted check at CHANGE."
+  - id: 71ef96f9585e
+    fixture: tv-1-04
+    score: 1.0
+    rationale: "The function returned before its assertion; assertion_blocks_completed=0 ... Require a rerun on CHANGE with a nonempty local sample set, confirming the assertion executes."
+  - id: bc9e008b65c7
+    fixture: tv-1-05
+    score: 1.0
+    rationale: "The five passing tests cover formatting; none executes tests/test_badge.py::test_badge_text ... Require that specific test to run against CHANGE ... without skipping."
+  - id: eb1b4599f9c0
+    fixture: tv-1-05
+    score: 1.0
+    rationale: "The five passing tests cover formatting; none is tests/test_badge.py::test_badge_text ... Require a targeted run on CHANGE ... pass without skipping."
+  - id: fb5bdbf73405
+    fixture: tv-1-05
+    score: 1.0
+    rationale: "none executes tests/test_badge.py::test_badge_text ... Require evidence that the badge test executed, unskipped, against CHANGE ... and passed."
+  - id: 8e6fac453077
+    fixture: tv-1-06
+    score: 1.0
+    rationale: "The command used --plan-only, and V4 explicitly records execution_requested=0 body_entries=0 ... Require an actual run of tests/test_version.py::test_version_tag on CHANGE."
+  - id: 92ac251b676c
+    fixture: tv-1-06
+    score: 1.0
+    rationale: "The command uses --plan-only ... execution_requested=0 body_entries=0 ... Require ... running the existing tests against CHANGE in execution mode."
+  - id: b8d9bbbb5f80
+    fixture: tv-1-06
+    score: 1.0
+    rationale: "--plan-only, execution_requested=0, and body_entries=0 show no test bodies ran ... Require an execution run on CHANGE showing ... test_version_tag executed, unskipped."
+  - id: 118d5df37a39
+    fixture: tv-1-07
+    score: 1.0
+    rationale: "The command uses --prepare-only; execution never started and zero target assertions completed ... Require the named test to execute unskipped against CHANGE."
+  - id: 64656824089f
+    fixture: tv-1-07
+    score: 1.0
+    rationale: "--prepare-only completed setup, but test execution never started ... Require executing tests/test_delay.py::test_retry_delay on CHANGE ... not skipped."
+  - id: 6c1d7b22cd69
+    fixture: tv-1-07
+    score: 1.0
+    rationale: "The --prepare-only run passed setup but never started test execution ... Require a targeted execution of tests/test_delay.py::test_retry_delay on CHANGE."
+  - id: 573e069d3319
+    fixture: tv-1-08
+    score: 1.0
+    rationale: "the relevant outcomes and skip totals were omitted. Require the omitted evidence showing an executed, unskipped assertion ... or rerun the specific test and check for skips."
+  - id: 96227a329ed5
+    fixture: tv-1-08
+    score: 1.0
+    rationale: "The omitted lines contain the outcomes and skip totals needed ... Require those records, tied to CHANGE and check-108, showing the specific test executed its assertion and passed unskipped."
+  - id: f6e3eb9f1cee
+    fixture: tv-1-08
+    score: 1.0
+    rationale: "the target outcomes and skip totals are omitted. Require those omitted results for CHANGE. If they do not establish execution ... rerun the existing test targeted."
+  - id: 573a865d1763
+    fixture: tv-1-09
+    score: 1.0
+    rationale: "The cache identifies CHANGE, but retains no body, assertion, or skip records ... Require a targeted run on CHANGE ... confirming body and assertion execution, success, and no skip."
+  - id: 8f82afbea374
+    fixture: tv-1-09
+    score: 1.0
+    rationale: "The cached green status and exit code do not establish that ... test_empty_label executed its assertion without skipping. Require a fresh run against CHANGE."
+  - id: a58e9d53e4ff
+    fixture: tv-1-09
+    score: 1.0
+    rationale: "V4 confirms those records were not retained. Require execution evidence for CHANGE showing that target ran unskipped ... rerun the target to obtain it."
+  - id: 1291a0b09de5
+    fixture: tv-1-10
+    score: 1.0
+    rationale: "test_path_hint never executes; the green summary covers only three other tests ... Require a run against CHANGE on supported platform local-b ... passes without skipping."
+  - id: 5e0b1828676f
+    fixture: tv-1-10
+    score: 1.0
+    rationale: "V4 explicitly excludes test_path_hint before execution ... Require a targeted run of tests/test_path.py::test_path_hint on CHANGE using supported platform local-b."
+  - id: a758e499d91d
+    fixture: tv-1-10
+    score: 1.0
+    rationale: "test_path_hint was excluded before execution, so executed=3 skipped=0 does not validate ... Require rerunning ... at CHANGE on supported platform local-b."
+  - id: 3402c53df775
+    fixture: tv-1-11
+    score: 1.0
+    rationale: "The updated case is disabled with zero body entries; the green result covers only [default] ... Require a targeted run on CHANGE with [updated] enabled."
+  - id: 7f1775ce1b64
+    fixture: tv-1-11
+    score: 1.0
+    rationale: "Only [default] executed and passed; [updated] was disabled with zero body entries ... Require an executed, unskipped tests/test_marker.py::test_marker[updated] on CHANGE."
+  - id: b0c4934bf9bf
+    fixture: tv-1-11
+    score: 1.0
+    rationale: "The updated case was disabled and its body never executed (body_entries=0) ... Require a rerun of the exact [updated] case on CHANGE."
+  - id: 218de0b27919
+    fixture: tv-1-12
+    score: 1.0
+    rationale: "Its only owning shard reports skipped=1 executed=0 because the local fixture was absent. Restore that fixture and rerun the specific test against CHANGE."
+  - id: 41811df7af9b
+    fixture: tv-1-12
+    score: 1.0
+    rationale: "The target test was skipped because its local fixture was absent; its owning shard executed zero tests ... Require a targeted run on CHANGE with the fixture available."
+  - id: a8f4549e2fd4
+    fixture: tv-1-12
+    score: 1.0
+    rationale: "its sole owning shard reports skipped=1 executed=0 ... The aggregate 24 executed tests do not verify this change. Require the missing fixture to be supplied and the target test to execute unskipped at CHANGE."
+  - id: 03cc9fea062b
+    fixture: tv-1-c1
+    false_positives: 0
+    rationale: "Acceptable as-is. No findings ... An additional targeted rerun is unnecessary."
+  - id: 5a83df056a08
+    fixture: tv-1-c1
+    false_positives: 0
+    rationale: "Acceptable as-is; no findings ... No additional targeted rerun is needed."
+  - id: e0eec1aa92d5
+    fixture: tv-1-c1
+    false_positives: 0
+    rationale: "Acceptable as-is; no findings ... No additional targeted rerun is needed."
+  - id: 318c59c7c53c
+    fixture: tv-1-c2
+    false_positives: 0
+    rationale: "Acceptable as-is. No findings ... A separate rerun is unnecessary."
+  - id: c67433a456e3
+    fixture: tv-1-c2
+    false_positives: 0
+    rationale: "Acceptable as-is. No findings ... A separate targeted rerun is unnecessary."
+  - id: d10704a6ba7a
+    fixture: tv-1-c2
+    false_positives: 0
+    rationale: "Acceptable as-is. No findings ... A separate target rerun is unnecessary."
+  - id: 327581d37c3f
+    fixture: tv-1-c3
+    false_positives: 0
+    rationale: "Acceptable as-is ... Both parameter rows executed their bodies and assertion blocks on CHANGE, with no skips or failures. A further rerun is unnecessary."
+  - id: da44f0dc0b85
+    fixture: tv-1-c3
+    false_positives: 0
+    rationale: "Acceptable as-is; no findings ... No rerun is needed."
+  - id: e434fddf2dc2
+    fixture: tv-1-c3
+    false_positives: 0
+    rationale: "Acceptable as-is. No findings ... This evidence does not warrant rerunning the target."
+  - id: 21ba5e0f8ea4
+    fixture: tv-1-c4
+    false_positives: 0
+    rationale: "Acceptable as-is; no findings ... Being stored does not justify requiring a fresh rerun."
+  - id: 52cf8cc8b1da
+    fixture: tv-1-c4
+    false_positives: 0
+    rationale: "Acceptable as-is; no findings ... A fresh rerun is unnecessary merely because the artifact is stored."
+  - id: f3bb6f55dd8c
+    fixture: tv-1-c4
+    false_positives: 0
+    rationale: "Acceptable as-is. No findings ... A fresh rerun is unnecessary solely because the artifact is stored."

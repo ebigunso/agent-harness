@@ -1,0 +1,734 @@
+note: Per-cell token records; Fable from the CLI JSON usage (output tokens, cost),
+  Astra from the transcript's 'tokens used' line (the CLI reports a total, not output
+  tokens alone).
+totals:
+  claude-fable-5-1:
+    cells: 144
+    output_tokens: 178099
+    cost_usd: 13.55
+  gpt-6-astra:
+    cells: 144
+    tokens_used_total: 974360
+cells:
+  claude-fable-5-1:
+    A-tv-1-01-s1:
+      output_tokens: 826
+      cost_usd: 0.0701
+    A-tv-1-02-s1:
+      output_tokens: 1186
+      cost_usd: 0.0878
+    A-tv-1-03-s1:
+      output_tokens: 849
+      cost_usd: 0.0715
+    A-tv-1-04-s1:
+      output_tokens: 944
+      cost_usd: 0.0766
+    A-tv-1-05-s1:
+      output_tokens: 898
+      cost_usd: 0.074
+    A-tv-1-06-s1:
+      output_tokens: 964
+      cost_usd: 0.0769
+    A-tv-1-07-s1:
+      output_tokens: 744
+      cost_usd: 0.0664
+    A-tv-1-08-s1:
+      output_tokens: 993
+      cost_usd: 0.0786
+    A-tv-1-09-s1:
+      output_tokens: 992
+      cost_usd: 0.0783
+    A-tv-1-10-s1:
+      output_tokens: 965
+      cost_usd: 0.0775
+    A-tv-1-11-s1:
+      output_tokens: 1101
+      cost_usd: 0.0843
+    A-tv-1-12-s1:
+      output_tokens: 849
+      cost_usd: 0.0716
+    A-tv-1-c1-s1:
+      output_tokens: 585
+      cost_usd: 0.0585
+    A-tv-1-c2-s1:
+      output_tokens: 717
+      cost_usd: 0.0655
+    A-tv-1-c3-s1:
+      output_tokens: 634
+      cost_usd: 0.0619
+    A-tv-1-c4-s1:
+      output_tokens: 707
+      cost_usd: 0.0661
+    A-tv-2-01-s1:
+      output_tokens: 1458
+      cost_usd: 0.1054
+    A-tv-2-02-s1:
+      output_tokens: 1115
+      cost_usd: 0.0885
+    A-tv-2-03-s1:
+      output_tokens: 974
+      cost_usd: 0.0814
+    A-tv-2-04-s1:
+      output_tokens: 1673
+      cost_usd: 0.1165
+    A-tv-2-05-s1:
+      output_tokens: 1455
+      cost_usd: 0.1055
+    A-tv-2-06-s1:
+      output_tokens: 1093
+      cost_usd: 0.0876
+    A-tv-2-07-s1:
+      output_tokens: 1370
+      cost_usd: 0.1009
+    A-tv-2-08-s1:
+      output_tokens: 1501
+      cost_usd: 0.1084
+    A-tv-2-09-s1:
+      output_tokens: 1562
+      cost_usd: 0.111
+    A-tv-2-10-s1:
+      output_tokens: 2816
+      cost_usd: 0.1742
+    A-tv-2-11-s1:
+      output_tokens: 1111
+      cost_usd: 0.0886
+    A-tv-2-12-s1:
+      output_tokens: 1333
+      cost_usd: 0.1002
+    A-tv-2-c1-s1:
+      output_tokens: 910
+      cost_usd: 0.0803
+    A-tv-2-c2-s1:
+      output_tokens: 740
+      cost_usd: 0.0718
+    A-tv-2-c3-s1:
+      output_tokens: 887
+      cost_usd: 0.0801
+    A-tv-2-c4-s1:
+      output_tokens: 1154
+      cost_usd: 0.0932
+    A-tv-3-01-s1:
+      output_tokens: 1925
+      cost_usd: 0.1292
+    A-tv-3-02-s1:
+      output_tokens: 1403
+      cost_usd: 0.1032
+    A-tv-3-03-s1:
+      output_tokens: 1929
+      cost_usd: 0.1295
+    A-tv-3-04-s1:
+      output_tokens: 1491
+      cost_usd: 0.1077
+    A-tv-3-05-s1:
+      output_tokens: 1428
+      cost_usd: 0.1055
+    A-tv-3-06-s1:
+      output_tokens: 1446
+      cost_usd: 0.1058
+    A-tv-3-07-s1:
+      output_tokens: 1875
+      cost_usd: 0.1271
+    A-tv-3-08-s1:
+      output_tokens: 1663
+      cost_usd: 0.116
+    A-tv-3-09-s1:
+      output_tokens: 1832
+      cost_usd: 0.1249
+    A-tv-3-10-s1:
+      output_tokens: 1890
+      cost_usd: 0.129
+    A-tv-3-11-s1:
+      output_tokens: 1138
+      cost_usd: 0.0901
+    A-tv-3-12-s1:
+      output_tokens: 1907
+      cost_usd: 0.1285
+    A-tv-3-c1-s1:
+      output_tokens: 962
+      cost_usd: 0.0812
+    A-tv-3-c2-s1:
+      output_tokens: 1153
+      cost_usd: 0.091
+    A-tv-3-c3-s1:
+      output_tokens: 1048
+      cost_usd: 0.0856
+    A-tv-3-c4-s1:
+      output_tokens: 990
+      cost_usd: 0.0835
+    B-tv-1-01-s1:
+      output_tokens: 837
+      cost_usd: 0.0713
+    B-tv-1-02-s1:
+      output_tokens: 802
+      cost_usd: 0.0691
+    B-tv-1-03-s1:
+      output_tokens: 1037
+      cost_usd: 0.0815
+    B-tv-1-04-s1:
+      output_tokens: 1244
+      cost_usd: 0.0921
+    B-tv-1-05-s1:
+      output_tokens: 933
+      cost_usd: 0.0764
+    B-tv-1-06-s1:
+      output_tokens: 882
+      cost_usd: 0.0733
+    B-tv-1-07-s1:
+      output_tokens: 610
+      cost_usd: 0.0601
+    B-tv-1-08-s1:
+      output_tokens: 791
+      cost_usd: 0.0691
+    B-tv-1-09-s1:
+      output_tokens: 727
+      cost_usd: 0.0657
+    B-tv-1-10-s1:
+      output_tokens: 1128
+      cost_usd: 0.086
+    B-tv-1-11-s1:
+      output_tokens: 1073
+      cost_usd: 0.0835
+    B-tv-1-12-s1:
+      output_tokens: 850
+      cost_usd: 0.0722
+    B-tv-1-c1-s1:
+      output_tokens: 752
+      cost_usd: 0.0674
+    B-tv-1-c2-s1:
+      output_tokens: 827
+      cost_usd: 0.0716
+    B-tv-1-c3-s1:
+      output_tokens: 806
+      cost_usd: 0.0711
+    B-tv-1-c4-s1:
+      output_tokens: 886
+      cost_usd: 0.0756
+    B-tv-2-01-s1:
+      output_tokens: 1292
+      cost_usd: 0.0971
+    B-tv-2-02-s1:
+      output_tokens: 1078
+      cost_usd: 0.0867
+    B-tv-2-03-s1:
+      output_tokens: 951
+      cost_usd: 0.0802
+    B-tv-2-04-s1:
+      output_tokens: 1435
+      cost_usd: 0.1045
+    B-tv-2-05-s1:
+      output_tokens: 1556
+      cost_usd: 0.1104
+    B-tv-2-06-s1:
+      output_tokens: 1109
+      cost_usd: 0.0883
+    B-tv-2-07-s1:
+      output_tokens: 1281
+      cost_usd: 0.0964
+    B-tv-2-08-s1:
+      output_tokens: 1549
+      cost_usd: 0.1107
+    B-tv-2-09-s1:
+      output_tokens: 1281
+      cost_usd: 0.0969
+    B-tv-2-10-s1:
+      output_tokens: 1439
+      cost_usd: 0.1053
+    B-tv-2-11-s1:
+      output_tokens: 1269
+      cost_usd: 0.0965
+    B-tv-2-12-s1:
+      output_tokens: 1363
+      cost_usd: 0.1016
+    B-tv-2-c1-s1:
+      output_tokens: 1043
+      cost_usd: 0.0868
+    B-tv-2-c2-s1:
+      output_tokens: 886
+      cost_usd: 0.079
+    B-tv-2-c3-s1:
+      output_tokens: 1504
+      cost_usd: 0.1108
+    B-tv-2-c4-s1:
+      output_tokens: 1109
+      cost_usd: 0.0908
+    B-tv-3-01-s1:
+      output_tokens: 1752
+      cost_usd: 0.1211
+    B-tv-3-02-s1:
+      output_tokens: 1220
+      cost_usd: 0.0945
+    B-tv-3-03-s1:
+      output_tokens: 1459
+      cost_usd: 0.1066
+    B-tv-3-04-s1:
+      output_tokens: 1571
+      cost_usd: 0.1123
+    B-tv-3-05-s1:
+      output_tokens: 1863
+      cost_usd: 0.128
+    B-tv-3-06-s1:
+      output_tokens: 1577
+      cost_usd: 0.1128
+    B-tv-3-07-s1:
+      output_tokens: 1874
+      cost_usd: 0.1276
+    B-tv-3-08-s1:
+      output_tokens: 1588
+      cost_usd: 0.1129
+    B-tv-3-09-s1:
+      output_tokens: 1303
+      cost_usd: 0.099
+    B-tv-3-10-s1:
+      output_tokens: 1810
+      cost_usd: 0.1255
+    B-tv-3-11-s1:
+      output_tokens: 1532
+      cost_usd: 0.1104
+    B-tv-3-12-s1:
+      output_tokens: 1651
+      cost_usd: 0.1161
+    B-tv-3-c1-s1:
+      output_tokens: 689
+      cost_usd: 0.0681
+    B-tv-3-c2-s1:
+      output_tokens: 1295
+      cost_usd: 0.0987
+    B-tv-3-c3-s1:
+      output_tokens: 1092
+      cost_usd: 0.0883
+    B-tv-3-c4-s1:
+      output_tokens: 1033
+      cost_usd: 0.0861
+    C-tv-1-01-s1:
+      output_tokens: 825
+      cost_usd: 0.0705
+    C-tv-1-02-s1:
+      output_tokens: 1149
+      cost_usd: 0.0864
+    C-tv-1-03-s1:
+      output_tokens: 781
+      cost_usd: 0.0686
+    C-tv-1-04-s1:
+      output_tokens: 1268
+      cost_usd: 0.0932
+    C-tv-1-05-s1:
+      output_tokens: 923
+      cost_usd: 0.0757
+    C-tv-1-06-s1:
+      output_tokens: 754
+      cost_usd: 0.0668
+    C-tv-1-07-s1:
+      output_tokens: 682
+      cost_usd: 0.0636
+    C-tv-1-08-s1:
+      output_tokens: 999
+      cost_usd: 0.0794
+    C-tv-1-09-s1:
+      output_tokens: 642
+      cost_usd: 0.0613
+    C-tv-1-10-s1:
+      output_tokens: 1351
+      cost_usd: 0.0972
+    C-tv-1-11-s1:
+      output_tokens: 1022
+      cost_usd: 0.0809
+    C-tv-1-12-s1:
+      output_tokens: 946
+      cost_usd: 0.0769
+    C-tv-1-c1-s1:
+      output_tokens: 633
+      cost_usd: 0.0614
+    C-tv-1-c2-s1:
+      output_tokens: 1092
+      cost_usd: 0.0846
+    C-tv-1-c3-s1:
+      output_tokens: 809
+      cost_usd: 0.0711
+    C-tv-1-c4-s1:
+      output_tokens: 815
+      cost_usd: 0.0719
+    C-tv-2-01-s1:
+      output_tokens: 1382
+      cost_usd: 0.1021
+    C-tv-2-02-s1:
+      output_tokens: 1215
+      cost_usd: 0.094
+    C-tv-2-03-s1:
+      output_tokens: 1041
+      cost_usd: 0.0852
+    C-tv-2-04-s1:
+      output_tokens: 1516
+      cost_usd: 0.1091
+    C-tv-2-05-s1:
+      output_tokens: 1252
+      cost_usd: 0.0956
+    C-tv-2-06-s1:
+      output_tokens: 1274
+      cost_usd: 0.097
+    C-tv-2-07-s1:
+      output_tokens: 1724
+      cost_usd: 0.1191
+    C-tv-2-08-s1:
+      output_tokens: 1729
+      cost_usd: 0.1202
+    C-tv-2-09-s1:
+      output_tokens: 2028
+      cost_usd: 0.1347
+    C-tv-2-10-s1:
+      output_tokens: 3700
+      cost_usd: 0.2188
+    C-tv-2-11-s1:
+      output_tokens: 1933
+      cost_usd: 0.1301
+    C-tv-2-12-s1:
+      output_tokens: 1525
+      cost_usd: 0.1101
+    C-tv-2-c1-s1:
+      output_tokens: 885
+      cost_usd: 0.0795
+    C-tv-2-c2-s1:
+      output_tokens: 763
+      cost_usd: 0.0734
+    C-tv-2-c3-s1:
+      output_tokens: 881
+      cost_usd: 0.0802
+    C-tv-2-c4-s1:
+      output_tokens: 1124
+      cost_usd: 0.0921
+    C-tv-3-01-s1:
+      output_tokens: 1946
+      cost_usd: 0.1306
+    C-tv-3-02-s1:
+      output_tokens: 1663
+      cost_usd: 0.1166
+    C-tv-3-03-s1:
+      output_tokens: 1315
+      cost_usd: 0.0993
+    C-tv-3-04-s1:
+      output_tokens: 1724
+      cost_usd: 0.1198
+    C-tv-3-05-s1:
+      output_tokens: 1445
+      cost_usd: 0.1068
+    C-tv-3-06-s1:
+      output_tokens: 1696
+      cost_usd: 0.1187
+    C-tv-3-07-s1:
+      output_tokens: 2386
+      cost_usd: 0.153
+    C-tv-3-08-s1:
+      output_tokens: 1079
+      cost_usd: 0.0873
+    C-tv-3-09-s1:
+      output_tokens: 1766
+      cost_usd: 0.122
+    C-tv-3-10-s1:
+      output_tokens: 1799
+      cost_usd: 0.1248
+    C-tv-3-11-s1:
+      output_tokens: 1071
+      cost_usd: 0.0872
+    C-tv-3-12-s1:
+      output_tokens: 1430
+      cost_usd: 0.105
+    C-tv-3-c1-s1:
+      output_tokens: 779
+      cost_usd: 0.0725
+    C-tv-3-c2-s1:
+      output_tokens: 902
+      cost_usd: 0.0788
+    C-tv-3-c3-s1:
+      output_tokens: 829
+      cost_usd: 0.0751
+    C-tv-3-c4-s1:
+      output_tokens: 781
+      cost_usd: 0.0734
+  gpt-6-astra:
+    A-tv-1-01-s1:
+      tokens_used_total: 12719
+    A-tv-1-02-s1:
+      tokens_used_total: 12713
+    A-tv-1-03-s1:
+      tokens_used_total: 12756
+    A-tv-1-04-s1:
+      tokens_used_total: 3000
+    A-tv-1-05-s1:
+      tokens_used_total: 2901
+    A-tv-1-06-s1:
+      tokens_used_total: 12824
+    A-tv-1-07-s1:
+      tokens_used_total: 12791
+    A-tv-1-08-s1:
+      tokens_used_total: 13045
+    A-tv-1-09-s1:
+      tokens_used_total: 12678
+    A-tv-1-10-s1:
+      tokens_used_total: 12690
+    A-tv-1-11-s1:
+      tokens_used_total: 12662
+    A-tv-1-12-s1:
+      tokens_used_total: 2981
+    A-tv-1-c1-s1:
+      tokens_used_total: 12519
+    A-tv-1-c2-s1:
+      tokens_used_total: 2904
+    A-tv-1-c3-s1:
+      tokens_used_total: 12698
+    A-tv-1-c4-s1:
+      tokens_used_total: 12757
+    A-tv-2-01-s1:
+      tokens_used_total: 13152
+    A-tv-2-02-s1:
+      tokens_used_total: 3379
+    A-tv-2-03-s1:
+      tokens_used_total: 3313
+    A-tv-2-04-s1:
+      tokens_used_total: 13458
+    A-tv-2-05-s1:
+      tokens_used_total: 13108
+    A-tv-2-06-s1:
+      tokens_used_total: 13157
+    A-tv-2-07-s1:
+      tokens_used_total: 3416
+    A-tv-2-08-s1:
+      tokens_used_total: 3396
+    A-tv-2-09-s1:
+      tokens_used_total: 13162
+    A-tv-2-10-s1:
+      tokens_used_total: 14114
+    A-tv-2-11-s1:
+      tokens_used_total: 13429
+    A-tv-2-12-s1:
+      tokens_used_total: 3435
+    A-tv-2-c1-s1:
+      tokens_used_total: 12872
+    A-tv-2-c2-s1:
+      tokens_used_total: 3120
+    A-tv-2-c3-s1:
+      tokens_used_total: 3140
+    A-tv-2-c4-s1:
+      tokens_used_total: 3179
+    A-tv-3-01-s1:
+      tokens_used_total: 13027
+    A-tv-3-02-s1:
+      tokens_used_total: 13189
+    A-tv-3-03-s1:
+      tokens_used_total: 13104
+    A-tv-3-04-s1:
+      tokens_used_total: 3380
+    A-tv-3-05-s1:
+      tokens_used_total: 3460
+    A-tv-3-06-s1:
+      tokens_used_total: 13198
+    A-tv-3-07-s1:
+      tokens_used_total: 3519
+    A-tv-3-08-s1:
+      tokens_used_total: 13149
+    A-tv-3-09-s1:
+      tokens_used_total: 13048
+    A-tv-3-10-s1:
+      tokens_used_total: 3441
+    A-tv-3-11-s1:
+      tokens_used_total: 3573
+    A-tv-3-12-s1:
+      tokens_used_total: 3631
+    A-tv-3-c1-s1:
+      tokens_used_total: 12649
+    A-tv-3-c2-s1:
+      tokens_used_total: 12723
+    A-tv-3-c3-s1:
+      tokens_used_total: 3026
+    A-tv-3-c4-s1:
+      tokens_used_total: 2996
+    B-tv-1-01-s1:
+      tokens_used_total: 12739
+    B-tv-1-02-s1:
+      tokens_used_total: 3111
+    B-tv-1-03-s1:
+      tokens_used_total: 3105
+    B-tv-1-04-s1:
+      tokens_used_total: 3153
+    B-tv-1-05-s1:
+      tokens_used_total: 3074
+    B-tv-1-06-s1:
+      tokens_used_total: 3197
+    B-tv-1-07-s1:
+      tokens_used_total: 3101
+    B-tv-1-08-s1:
+      tokens_used_total: 3664
+    B-tv-1-09-s1:
+      tokens_used_total: 3111
+    B-tv-1-10-s1:
+      tokens_used_total: 12819
+    B-tv-1-11-s1:
+      tokens_used_total: 3205
+    B-tv-1-12-s1:
+      tokens_used_total: 3016
+    B-tv-1-c1-s1:
+      tokens_used_total: 2864
+    B-tv-1-c2-s1:
+      tokens_used_total: 2941
+    B-tv-1-c3-s1:
+      tokens_used_total: 2872
+    B-tv-1-c4-s1:
+      tokens_used_total: 12725
+    B-tv-2-01-s1:
+      tokens_used_total: 3633
+    B-tv-2-02-s1:
+      tokens_used_total: 13244
+    B-tv-2-03-s1:
+      tokens_used_total: 3416
+    B-tv-2-04-s1:
+      tokens_used_total: 3723
+    B-tv-2-05-s1:
+      tokens_used_total: 3345
+    B-tv-2-06-s1:
+      tokens_used_total: 3934
+    B-tv-2-07-s1:
+      tokens_used_total: 3594
+    B-tv-2-08-s1:
+      tokens_used_total: 3497
+    B-tv-2-09-s1:
+      tokens_used_total: 3386
+    B-tv-2-10-s1:
+      tokens_used_total: 3934
+    B-tv-2-11-s1:
+      tokens_used_total: 3327
+    B-tv-2-12-s1:
+      tokens_used_total: 3722
+    B-tv-2-c1-s1:
+      tokens_used_total: 3085
+    B-tv-2-c2-s1:
+      tokens_used_total: 3111
+    B-tv-2-c3-s1:
+      tokens_used_total: 3025
+    B-tv-2-c4-s1:
+      tokens_used_total: 3163
+    B-tv-3-01-s1:
+      tokens_used_total: 3320
+    B-tv-3-02-s1:
+      tokens_used_total: 3274
+    B-tv-3-03-s1:
+      tokens_used_total: 3356
+    B-tv-3-04-s1:
+      tokens_used_total: 3400
+    B-tv-3-05-s1:
+      tokens_used_total: 3450
+    B-tv-3-06-s1:
+      tokens_used_total: 3466
+    B-tv-3-07-s1:
+      tokens_used_total: 3503
+    B-tv-3-08-s1:
+      tokens_used_total: 3381
+    B-tv-3-09-s1:
+      tokens_used_total: 3376
+    B-tv-3-10-s1:
+      tokens_used_total: 3363
+    B-tv-3-11-s1:
+      tokens_used_total: 13139
+    B-tv-3-12-s1:
+      tokens_used_total: 13074
+    B-tv-3-c1-s1:
+      tokens_used_total: 12789
+    B-tv-3-c2-s1:
+      tokens_used_total: 12790
+    B-tv-3-c3-s1:
+      tokens_used_total: 12774
+    B-tv-3-c4-s1:
+      tokens_used_total: 3058
+    C-tv-1-01-s1:
+      tokens_used_total: 3961
+    C-tv-1-02-s1:
+      tokens_used_total: 6734
+    C-tv-1-03-s1:
+      tokens_used_total: 6790
+    C-tv-1-04-s1:
+      tokens_used_total: 14139
+    C-tv-1-05-s1:
+      tokens_used_total: 3557
+    C-tv-1-06-s1:
+      tokens_used_total: 4334
+    C-tv-1-07-s1:
+      tokens_used_total: 3616
+    C-tv-1-08-s1:
+      tokens_used_total: 13301
+    C-tv-1-09-s1:
+      tokens_used_total: 13783
+    C-tv-1-10-s1:
+      tokens_used_total: 3506
+    C-tv-1-11-s1:
+      tokens_used_total: 4010
+    C-tv-1-12-s1:
+      tokens_used_total: 3620
+    C-tv-1-c1-s1:
+      tokens_used_total: 2813
+    C-tv-1-c2-s1:
+      tokens_used_total: 2891
+    C-tv-1-c3-s1:
+      tokens_used_total: 2914
+    C-tv-1-c4-s1:
+      tokens_used_total: 2925
+    C-tv-2-01-s1:
+      tokens_used_total: 23354
+    C-tv-2-02-s1:
+      tokens_used_total: 13633
+    C-tv-2-03-s1:
+      tokens_used_total: 13304
+    C-tv-2-04-s1:
+      tokens_used_total: 3927
+    C-tv-2-05-s1:
+      tokens_used_total: 13368
+    C-tv-2-06-s1:
+      tokens_used_total: 3724
+    C-tv-2-07-s1:
+      tokens_used_total: 13033
+    C-tv-2-08-s1:
+      tokens_used_total: 3734
+    C-tv-2-09-s1:
+      tokens_used_total: 3455
+    C-tv-2-10-s1:
+      tokens_used_total: 13319
+    C-tv-2-11-s1:
+      tokens_used_total: 13338
+    C-tv-2-12-s1:
+      tokens_used_total: 3513
+    C-tv-2-c1-s1:
+      tokens_used_total: 12833
+    C-tv-2-c2-s1:
+      tokens_used_total: 3112
+    C-tv-2-c3-s1:
+      tokens_used_total: 3103
+    C-tv-2-c4-s1:
+      tokens_used_total: 3121
+    C-tv-3-01-s1:
+      tokens_used_total: 3432
+    C-tv-3-02-s1:
+      tokens_used_total: 13419
+    C-tv-3-03-s1:
+      tokens_used_total: 3281
+    C-tv-3-04-s1:
+      tokens_used_total: 3652
+    C-tv-3-05-s1:
+      tokens_used_total: 3606
+    C-tv-3-06-s1:
+      tokens_used_total: 3426
+    C-tv-3-07-s1:
+      tokens_used_total: 3412
+    C-tv-3-08-s1:
+      tokens_used_total: 3462
+    C-tv-3-09-s1:
+      tokens_used_total: 3540
+    C-tv-3-10-s1:
+      tokens_used_total: 3346
+    C-tv-3-11-s1:
+      tokens_used_total: 3566
+    C-tv-3-12-s1:
+      tokens_used_total: 3444
+    C-tv-3-c1-s1:
+      tokens_used_total: 3024
+    C-tv-3-c2-s1:
+      tokens_used_total: 2940
+    C-tv-3-c3-s1:
+      tokens_used_total: 3077
+    C-tv-3-c4-s1:
+      tokens_used_total: 3038
