@@ -389,7 +389,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - User approval: not required (record correction).
 
 ## Notes
-- Execute after part 1 has merged; rebase the branch on that result before dispatch.
+- Executed as the second member of a stacked pull request on part 1 (Decision Log 2026-09-15): the branch was based on the part-1 branch and rebased onto it after each part-1 review round.
 
 Required-check waiver
 - What is waived: Reviewer-owned UI/E2E/visual validation for this plan.
