@@ -263,6 +263,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: deferring to part 2 (rejected: same class as Task_1's retirements, same owner, one line each).
   - User approval: not required (inside the approved Goal; recorded per ADR-D-0018's surfacing obligation).
 
+- 2026-09-16 Decision: Record state on this branch corrected for readers (Copilot review of #67, round 3).
+  - Trigger / new insight: the 2026-09-15 approval entry says "the accepted record" travels with this branch. On this branch ADR-D-0033 is status proposed and ADR-D-0018 stays active; the acceptance and the retirement land together in the stacked part-2 pull request (#68) with the record's implementation, so that no merge point carries an accepted record its loaded text contradicts.
+  - Plan delta (what changed): none; this entry states the true lifecycle state at this branch. Two wording fixes landed in the same commit: the rule-entry condition for project files now says task reads follow the Research Dispatch Gate while reads to decide triviality and scope remain allowed before it (as that gate states); the wave-integration packet route no longer repeats the packet field list, whose one home is dispatch-guidance.md.
+  - Tradeoffs considered: rewriting the earlier entry (rejected: logs are append-only).
+  - User approval: not required (record correction and two clarifications inside the approved scope).
+
 ## Notes
 - Word counts in the audit are static whitespace counts of file text, not measured context; the plan does not claim a token saving, only that each rule has one home and each load a condition.
 

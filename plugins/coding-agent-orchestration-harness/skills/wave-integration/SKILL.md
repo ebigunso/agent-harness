@@ -23,7 +23,7 @@ Apply the following to every Worker report in the wave, including malformed, `bl
 
 - After applying the contract to every report: run `references/integration-checklist.md` (blockers and questions, candidates, the Progress Log entry, and the follow-up Worker versus Reviewer decision).
 - Before a Reviewer dispatch, build the packet for the review kind:
-  - Post-Worker review: `references/reviewer-packet-template.md`; its inputs are the wave's tasks, changed files, acceptance criteria, required validation checklist, Worker validation evidence, waivers, and open blockers or questions.
+  - Post-Worker review: build the packet with `references/reviewer-packet-template.md`; the packet's field list has one home, `orchestration-harness/references/dispatch-guidance.md` (Reviewer Dispatch).
   - Draft-plan review (before user approval): the Reviewer snippet (plan review) in `subagent-strategy/references/prompt-snippets.md`; its inputs are the plan path, the Researcher output path or "none", and the plugin root. No packet, no changed-files list.
 
 ## Closeout Validation
