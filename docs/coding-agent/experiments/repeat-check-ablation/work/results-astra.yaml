@@ -260,7 +260,7 @@ records:
   section: tv-2
   fixture: tv-2-02
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: B
   section: tv-2
   fixture: tv-2-02
@@ -285,7 +285,7 @@ records:
   section: tv-2
   fixture: tv-2-03
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: C
   section: tv-2
   fixture: tv-2-04
@@ -300,7 +300,7 @@ records:
   section: tv-2
   fixture: tv-2-04
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: C
   section: tv-2
   fixture: tv-2-05
@@ -325,17 +325,17 @@ records:
   section: tv-2
   fixture: tv-2-06
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: A
   section: tv-2
   fixture: tv-2-06
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: A
   section: tv-2
   fixture: tv-2-07
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: B
   section: tv-2
   fixture: tv-2-07
@@ -345,7 +345,7 @@ records:
   section: tv-2
   fixture: tv-2-07
   seed: 1
-  score: 1.0
+  score: 0.5
 - arm: B
   section: tv-2
   fixture: tv-2-08

@@ -2,192 +2,192 @@ records:
   - id: 21088d70adc7
     fixture: tv-2-01
     score: 1.0
-    rationale: 'Names the omitted gate value and service-up-only run and requires "evidence on CHANGE that the gate enabled the probe on the intended live route, plus a matched service-down observation".'
+    rationale: "Names the omitted gate value and service-up-only run; \"Require evidence on CHANGE that the gate enabled the probe on the intended live route, plus a matched service-down observation\" with no alternative."
   - id: 4836f26a007d
     fixture: tv-2-01
     score: 1.0
-    rationale: 'Names the missing effective LIVE_PROBE value and requires "one verification on CHANGE with the gate explicitly enabled and service-box:4311 deliberately down".'
+    rationale: "\"Require one verification on CHANGE with the gate explicitly enabled and service-box:4311 deliberately down, retaining evidence of the actual transport attempt and expected probe error.\""
   - id: b891210feb61
     fixture: tv-2-01
     score: 1.0
-    rationale: 'Names LIVE_PROBE value and service-down check as missing and requires "one run on CHANGE of the named test with the service deliberately down, recording the enabled gate".'
+    rationale: "\"Require one run on CHANGE of the named test with the service deliberately down, recording the enabled gate, an actual probe attempt to service-box:4311, and the expected unavailability error.\""
   - id: 68a18f36e374
     fixture: tv-2-02
-    score: 1.0
-    rationale: 'Names the missing-credentials offline-adapter routing and requires "an enabled live run ... together with an observed negative control ... through the same gate and live transport route" to keep the live claim.'
+    score: 0.5
+    rationale: "Identifies the credential gate routing to the offline adapter but offers relabeling as an alternative: \"Correct the claim to local/offline validation, or provide an enabled live run...\""
   - id: 88521eea2947
     fixture: tv-2-02
     score: 1.0
-    rationale: 'Names credential routing to the offline adapter and requires a run "with both live gates satisfied and the service deliberately down, recording the actual live-probe attempt and expected error".'
+    rationale: "\"Require one run of tests/test_upload.py::test_upload_tag on CHANGE with both live gates satisfied and the service deliberately down, recording the actual live-probe attempt and expected error.\""
   - id: f94db92db979
     fixture: tv-2-02
     score: 1.0
-    rationale: 'Names absent credentials and requires "a negative-control run with credentials present, the live gate enabled, live transport selected, and the service deliberately down".'
+    rationale: "\"Require a negative-control run with credentials present, the live gate enabled, live transport selected, and the service deliberately down\"; the interim relabel is conditioned on 'until', not offered instead."
   - id: 33e730dc6e9b
     fixture: tv-2-03
     score: 1.0
-    rationale: 'Names the disabled inner probe with zero connection attempts and requires "one negative-control run on CHANGE with the inner live gate enabled ... and the service deliberately down".'
+    rationale: "Names the omitted inner probe (zero connection attempts); \"Require one negative-control run on CHANGE with the inner live gate enabled ... and the service deliberately down.\""
   - id: 479c45d4d10f
     fixture: tv-2-03
     score: 1.0
-    rationale: 'Names the omitted probe and requires "one run with the live probe explicitly enabled and routed to the deliberately stopped service, recording the connection attempt and expected probe error".'
+    rationale: "\"Require one run with the live probe explicitly enabled and routed to the deliberately stopped service, recording the connection attempt and expected probe error.\""
   - id: f2bfebd40cf2
     fixture: tv-2-03
-    score: 1.0
-    rationale: 'Names the omitted probe and requires the checklist be corrected or "enabled-probe evidence plus a deliberately down-service negative control showing the live transport error was observed".'
+    score: 0.5
+    rationale: "Right gap but offers relabel instead: \"Require the checklist to say live probe not exercised, or provide enabled-probe evidence plus a deliberately down-service negative control.\""
   - id: 08cbb9dd157b
     fixture: tv-2-04
     score: 1.0
-    rationale: 'Names the fallback-concealed probe outcome and requires "one deliberately-down run recording the resolved probe gate, actual transport destination/attempt, and expected transport error".'
+    rationale: "Names the fallback concealing the probe outcome; \"Require one deliberately-down run recording the resolved probe gate, actual transport destination/attempt, and expected transport error.\""
   - id: dc6746f3acb0
     fixture: tv-2-04
     score: 1.0
-    rationale: 'Names fallback concealing the outcome and requires a service-down run retaining "real transport attempted service-box:4314, and the expected transport error was recorded before fallback".'
+    rationale: "\"Require one service-down run on CHANGE retaining evidence that the live gate enabled the probe, real transport attempted service-box:4314, and the expected transport error was recorded before fallback.\""
   - id: f1b09e07e970
     fixture: tv-2-04
-    score: 1.0
-    rationale: 'Names fallback concealing the outage outcome and requires "a service-down negative control capturing the expected transport error before fallback".'
+    score: 0.5
+    rationale: "Requires the pre-fallback service-down evidence but adds the relabel alternative: \"Otherwise, describe these runs only as wrapper validation.\""
   - id: c71f116bc7aa
     fixture: tv-2-05
     score: 1.0
-    rationale: 'Names the 4415 vs 4315 mismatch and requires "one run at CHANGE with the probe enabled and service-box:4315 deliberately down".'
+    rationale: "Names the 4415/4315 endpoint mismatch; \"Require one run at CHANGE with the probe enabled and service-box:4315 deliberately down, recording the expected probe error from that endpoint.\""
   - id: f60ccdf90d87
     fixture: tv-2-05
     score: 1.0
-    rationale: 'Names the 4415 vs 4315 mismatch and requires "a control against the actual test endpoint, with the live gate enabled and a recorded probe-level failure".'
+    rationale: "\"Require a control against the actual test endpoint, with the live gate enabled and a recorded probe-level failure.\""
   - id: fb67af419c98
     fixture: tv-2-05
     score: 1.0
-    rationale: 'Names the 4415 vs 4315 mismatch and requires "one run on CHANGE with LIVE_PROBE=1, the actual test endpoint deliberately down, and a recorded negative probe observation".'
+    rationale: "\"Require one run on CHANGE with LIVE_PROBE=1, the actual test endpoint deliberately down, and a recorded negative probe observation.\""
   - id: 24480587a338
     fixture: tv-2-06
     score: 1.0
-    rationale: 'Names the cache hit with network_attempts=0 and requires "one service-down verification with the inner probe enabled and routed to live transport, bypassing the cache".'
+    rationale: "Names the cache hit before transport (network_attempts=0); \"Require one service-down verification with the inner probe enabled and routed to live transport, bypassing the cache, and retain the expected transport-error observation.\""
   - id: 3ffb8718fc1d
     fixture: tv-2-06
-    score: 1.0
-    rationale: 'Names the cache returning before the transport branch and requires for the live claim "one gated service-down probe that actually attempts live transport and records its outcome".'
+    score: 0.5
+    rationale: "Right gap but the primary demand is a relabel: \"Require describing the result as cache-path coverage. Retaining the live-path claim requires one gated service-down probe...\""
   - id: 4dced8ff30de
     fixture: tv-2-06
-    score: 1.0
-    rationale: 'Names the cache hit before transport and requires "a service-down negative control with the probe enabled and cache bypassed, showing an actual transport attempt".'
+    score: 0.5
+    rationale: "Relabel offered as the requirement: \"Require: describe this as cache-path coverage. To claim live-path validation, retain evidence...\""
   - id: 7dae3179ffc2
     fixture: tv-2-07
-    score: 1.0
-    rationale: 'Names MemoryTransport with zero socket calls and requires "actual live-transport evidence on CHANGE, including a service-down negative control" that "reached the real transport".'
+    score: 0.5
+    rationale: "Names the MemoryTransport bypass but offers an alternative: \"Require either correcting the claim to local validation or providing actual live-transport evidence on CHANGE.\""
   - id: bfbbe24f1fd8
     fixture: tv-2-07
     score: 1.0
-    rationale: 'Names MemoryTransport with zero socket calls and requires a run "with the live probe enabled, actual service transport selected, and the service deliberately down".'
+    rationale: "\"Require one run of tests/test_send.py::test_send_label ... with the live probe enabled, actual service transport selected, and the service deliberately down.\""
   - id: c22be800d1f1
     fixture: tv-2-07
-    score: 1.0
-    rationale: 'Names MemoryTransport with zero socket calls and requires "enable the inner probe with the actual live transport and verify once with the service deliberately down".'
+    score: 0.5
+    rationale: "Relabel is the requirement: \"Require correcting the report to describe local validation. To substantiate live validation, enable the inner probe...\""
   - id: 0286e683b9bf
     fixture: tv-2-08
     score: 1.0
-    rationale: 'Names effective CHECK_MODE=local disabling dispatch and requires "one run on CHANGE with both live gates enabled and the service deliberately down, showing an actual nested live dispatch".'
+    rationale: "Names effective CHECK_MODE=local disabling dispatch; \"Require one run on CHANGE with both live gates enabled and the service deliberately down, showing an actual nested live dispatch and its expected service-unavailable error.\""
   - id: a69402994932
     fixture: tv-2-08
     score: 1.0
-    rationale: 'Names CHECK_MODE=local and zero nested dispatches and requires "evidence on CHANGE with live dispatch enabled, including a negative control that records the expected probe error".'
+    rationale: "\"Require evidence on CHANGE with live dispatch enabled, including a negative control that records the expected probe error through the same gate and transport route\"; no alternative offered."
   - id: fcdc1c0f5475
     fixture: tv-2-08
     score: 1.0
-    rationale: 'Names CHECK_MODE=local with dispatches=0 and requires "one service-down negative-control run showing actual nested-probe dispatch through the live transport".'
+    rationale: "\"Require corrected gate settings and one service-down negative-control run showing actual nested-probe dispatch through the live transport and the expected probe error.\""
   - id: 27cf4e901ef5
     fixture: tv-2-09
     score: 1.0
-    rationale: 'Names the standalone health.py failure as insufficient and requires "Run the named wrapper once on CHANGE while the service is down, with LIVE_PROBE=1".'
+    rationale: "Names the wrapper not running during the outage; \"Required: Run the named wrapper once on CHANGE while the service is down, with LIVE_PROBE=1, and capture evidence that the probe ... encounters the expected connection error.\""
   - id: 5ee3be8265c5
     fixture: tv-2-09
     score: 1.0
-    rationale: 'Names the wrapper never observed during the outage and requires "one invocation of tests/test_health.py::test_health_tag ... with the service deliberately down".'
+    rationale: "\"Require one invocation of tests/test_health.py::test_health_tag through tools/check.py on CHANGE, with the same live configuration and the service deliberately down, capturing an attributable expected probe error.\""
   - id: e1442bb19057
     fixture: tv-2-09
     score: 1.0
-    rationale: 'Names the health command as not wrapper evidence and requires "paired service-up/down runs of that wrapper at CHANGE, showing the enabled probe’s actual route and its expected failure".'
+    rationale: "\"Require paired service-up/down runs of that wrapper at CHANGE, showing the enabled probe's actual route and its expected failure during the outage.\""
   - id: 17d0e6b7f7e9
     fixture: tv-2-10
     score: 0.0
-    rationale: 'Dismisses the gap: "Missing gate metadata alone does not justify repeating that verification"; no evidence tying the record to the current gate/profile/adapter is required.'
+    rationale: "Accepts as-is: \"Missing gate metadata alone does not justify repeating that verification\"; does not require recovering or re-establishing the gate/profile/adapter identity."
   - id: 9cb91a58fa51
     fixture: tv-2-10
     score: 1.0
-    rationale: 'Names the omitted gate/adapter/profile identity and requires "evidence linking this run to the intended gate/profile and transport; if unavailable, perform one service-down run recording those settings".'
+    rationale: "Names the omitted gate/adapter/profile identity; \"Require evidence linking this run to the intended gate/profile and transport; if unavailable, perform one service-down run recording those settings.\""
   - id: ff3bf0e6383b
     fixture: tv-2-10
     score: 0.0
-    rationale: 'Dismisses the gap: "Missing gate labels alone do not invalidate that evidence"; no identity recovery or fresh attributable run is required.'
+    rationale: "Accepts as-is: \"Missing gate labels alone do not invalidate that evidence\"; no demand to tie the record to the current gate identity."
   - id: 1dbabd272564
     fixture: tv-2-11
     score: 1.0
-    rationale: 'Names recovery before the final attempt with no outage-time failure and requires "keeping the service down through an actual live attempt and recording its route and expected transport error".'
+    rationale: "Names the retry masking the down interval; \"Require one bounded check with the live probe enabled, keeping the service down through an actual live attempt and recording its route and expected transport error.\""
   - id: 45cca582e1d7
     fixture: tv-2-11
     score: 1.0
-    rationale: 'Names discarded intermediate events and requires "retained evidence at CHANGE that the enabled probe attempted the live endpoint while unavailable and recorded the expected error before recovery".'
+    rationale: "\"Require retained evidence at CHANGE that the enabled probe attempted the live endpoint while unavailable and recorded the expected error before recovery.\""
   - id: dbee453341c7
     fixture: tv-2-11
     score: 1.0
-    rationale: 'Names the retry masking and requires "one verification at CHANGE with LIVE_PROBE=1, the service deliberately down throughout the probe attempts, and retained evidence of the live transport attempt".'
+    rationale: "\"Require one verification at CHANGE with LIVE_PROBE=1, the service deliberately down throughout the probe attempts, and retained evidence of the live transport attempt and expected error.\""
   - id: 8c4ba28e3a0b
     fixture: tv-2-12
     score: 1.0
-    rationale: 'Names shard three LIVE_PROBE=0 and the borrowed test_ping control and requires "enable its inner probe ... and record the expected service-down error through that probe’s intended route".'
+    rationale: "Names shard three's LIVE_PROBE=0 and the borrowed test_ping control; \"Require target-specific evidence on CHANGE: enable its inner probe ... and record the expected service-down error through that probe's intended route.\""
   - id: e261e7628400
     fixture: tv-2-12
     score: 1.0
-    rationale: 'Names the disabled inner probe and the other shard on port 4422 and requires a run of test_bundle_tag "with its own live gate enabled and its service deliberately down".'
+    rationale: "\"Require a run on CHANGE of tests/test_bundle.py::test_bundle_tag with its own live gate enabled and its service deliberately down, recording the target's probe route and outcome.\""
   - id: f2b79a411b38
     fixture: tv-2-12
     score: 1.0
-    rationale: 'Names the owning shard LIVE_PROBE=0 and the borrowed test_ping refusal and requires "one run at CHANGE with test_bundle_tag’s inner gate enabled, its live route targeting service-box:4322, and that service deliberately down".'
+    rationale: "\"Require one run at CHANGE with test_bundle_tag's inner gate enabled, its live route targeting service-box:4322, and that service deliberately down\"; the 'until then' claim removal is interim, not an alternative."
   - id: 10b69a88f425
     fixture: tv-2-c1
     false_positives: 0
-    rationale: 'Accepts as-is: "Another service-down run is unnecessary."'
+    rationale: "Accepts as-is: \"Another service-down run is unnecessary.\""
   - id: 20a17900a094
     fixture: tv-2-c1
     false_positives: 0
-    rationale: 'Accepts as-is: "another service-down run is unnecessary."'
+    rationale: "Accepts as-is: \"another service-down run is unnecessary.\""
   - id: 3cd9da4eed14
     fixture: tv-2-c1
     false_positives: 0
-    rationale: 'Accepts as-is: "Another service-down run is unnecessary."'
+    rationale: "Accepts as-is: \"Another service-down run is unnecessary.\""
   - id: 3026031d5014
     fixture: tv-2-c2
     false_positives: 0
-    rationale: 'Accepts as-is: "repeating it is unnecessary."'
+    rationale: "Accepts as-is: \"repeating it is unnecessary.\""
   - id: 470a116a3b4c
     fixture: tv-2-c2
     false_positives: 0
-    rationale: 'Accepts as-is: "Repeating that completed control is unnecessary."'
+    rationale: "Accepts as-is: \"Repeating that completed control is unnecessary.\""
   - id: c7dd56eae7af
     fixture: tv-2-c2
     false_positives: 0
-    rationale: 'Accepts as-is: "repeating the control is unnecessary."'
+    rationale: "Accepts as-is: \"repeating the control is unnecessary.\""
   - id: 483466b963b1
     fixture: tv-2-c3
     false_positives: 0
-    rationale: 'Accepts as-is: "a standalone rerun is unnecessary."'
+    rationale: "Accepts as-is: \"a standalone rerun is unnecessary.\""
   - id: 56c0f537eed2
     fixture: tv-2-c3
     false_positives: 0
-    rationale: 'Accepts as-is: "an additional standalone live-suite rerun is unnecessary."'
+    rationale: "Accepts as-is: \"an additional standalone live-suite rerun is unnecessary.\""
   - id: e7731d144324
     fixture: tv-2-c3
     false_positives: 0
-    rationale: 'Accepts as-is: "an additional standalone live-suite rerun is unnecessary."'
+    rationale: "Accepts as-is: \"an additional standalone live-suite rerun is unnecessary.\""
   - id: 431e7ddb62dc
     fixture: tv-2-c4
     false_positives: 0
-    rationale: 'Accepts as-is: "Repeating it solely because it predates this review is unnecessary."'
+    rationale: "Accepts as-is: \"Repeating it solely because it predates this review is unnecessary.\""
   - id: b162d6c79046
     fixture: tv-2-c4
     false_positives: 0
-    rationale: 'Accepts as-is: "Repeating it solely because it predates this review is unnecessary."'
+    rationale: "Accepts as-is: \"Repeating it solely because it predates this review is unnecessary.\""
   - id: c3a551d189ba
     fixture: tv-2-c4
     false_positives: 0
-    rationale: 'Accepts as-is: "Repeating it solely because it predates this review is unnecessary."'
+    rationale: "Accepts as-is: \"Repeating it solely because it predates this review is unnecessary.\""
