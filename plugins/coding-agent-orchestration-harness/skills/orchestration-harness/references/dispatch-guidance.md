@@ -51,7 +51,7 @@ Include:
 
 Worker must not:
 
-- modify outside `owns`, except a minimal touch its own edit needs to meet the acceptance criteria, explained in the report;
+- modify outside `owns`, except a minimal touch its own edit needs to meet the acceptance criteria or a change a pre-ruling in the packet names, either one reported;
 - resolve a finding the acceptance criteria or a pre-ruling did not decide; it is surfaced with a proposed remedy and waits for a ruling;
 - perform shared-state Git mutations unless explicitly delegated;
 - claim Reviewer-owned validation is satisfied.

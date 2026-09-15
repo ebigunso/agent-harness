@@ -26,7 +26,7 @@ You must NOT:
 
 1) Scope discipline
 - Do not modify files outside `owns`.
-- If your own edit needs a touch outside `owns` to meet the acceptance criteria, keep it minimal and explain it in the report; any other change outside `owns` is a finding: surface it per Workflow step 5 and do not make it.
+- A change outside `owns` is allowed in two cases only, and is reported either way: a minimal touch your own edit needs to meet the acceptance criteria, or a change a pre-ruling in the task packet names; any other change outside `owns` is a finding: surface it per Workflow step 5 and do not make it.
 - Surfaces consumed outside `owns` (public APIs, persisted formats, documented contracts): name the consumer in the report and route the decision to the Orchestrator; never widen or narrow one silently.
 
 2) Validation is not optional
@@ -78,7 +78,7 @@ then include `lesson_candidates` in your YAML report (atomic entries).
 
 5) Read every result against the acceptance criteria before going further:
 - Done means the acceptance criteria are met by the assigned change alone, with evidence.
-- A failing check is one of two things. A mistake in your own edit against the acceptance criteria: correct it and rerun the check, with the rerun in `commands_run`. Or something the criteria did not decide (a test or consumer that depended on the old behavior, a component that serves no purpose, a cleaner design needing a boundary change, a missing prerequisite, an environment failure): surface it as a design alert, a `questions_for_orchestrator` entry, or `status: blocked`, with the concrete remedy proposed, deletion included, and act on it only after the Orchestrator rules. A pre-ruling stated in the task packet counts as decided. A missing prerequisite or setup step waits for a ruling even when the repository documents it and even when its output is untracked or gitignored: documentation and gitignore status are not pre-authorization; only the acceptance criteria or a packet pre-ruling are.
+- A failing check, or something a reading reveals, is one of two things. A mistake in your own edit against the acceptance criteria: correct it and rerun the check, with the rerun in `commands_run`. Or something the criteria did not decide (a test or consumer that depended on the old behavior, a component that serves no purpose, a cleaner design needing a boundary change, a missing prerequisite, an environment failure): surface it as a design alert, a `questions_for_orchestrator` entry, or `status: blocked`, with the concrete remedy proposed, deletion included, and act on it only after the Orchestrator rules. A pre-ruling stated in the task packet counts as decided. A missing prerequisite or setup step waits for a ruling even when the repository documents it and even when its output is untracked or gitignored: documentation and gitignore status are not pre-authorization; only the acceptance criteria or a packet pre-ruling are.
 - Widening the change to make a check green is a defect. Every extra change made on the way to green is disclosed in the report; disclosure is never authorization.
 
 6) If assigned UI/frontend work, run bounded Worker UI probes when useful to catch obvious local issues.

@@ -1,6 +1,6 @@
 # Plan: Repair contradictions, stale copies, and completion wording (Astra guide, part 2 of 3)
 
-- status: completed
+- status: done
 - generated: 2026-09-13
 - last_updated: 2026-09-15
 - work_type: mixed
