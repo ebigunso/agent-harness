@@ -33,10 +33,9 @@ You MAY:
 - Read relevant files identified in searches
 - Identify similar existing implementations (or analogous docs/slides patterns)
 - Explore dependencies and conventions
-- Consult repo docs if present:
-  - `docs/coding-agent/rules/common.md`
-  - `docs/coding-agent/rules/orchestrator.md`
-  - “Repository Reference Documents” listed in common.md
+- Consult repo docs on relevance:
+  - Check `docs/coding-agent/rules/index.md`; if the suite is present, read `docs/coding-agent/rules/common.md` and `docs/coding-agent/rules/orchestrator.md`.
+  - Use a repository reference document listed in `common.md` for the purpose `common.md` states.
 
 2) Use a browser automation provider when it materially improves planning (optional but encouraged for UI/E2E work)
 Use it for:
