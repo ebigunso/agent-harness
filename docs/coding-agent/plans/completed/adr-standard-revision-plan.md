@@ -1,6 +1,6 @@
 # Plan: ADR standard revision
 
-- status: completed
+- status: done
 - generated: 2026-09-06
 - last_updated: 2026-09-06
 - work_type: docs

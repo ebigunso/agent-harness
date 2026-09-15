@@ -1,6 +1,6 @@
 # Plan: ADR corpus audit and cleanup
 
-- status: completed
+- status: done
 - generated: 2026-09-06
 - last_updated: 2026-09-08
 - work_type: docs

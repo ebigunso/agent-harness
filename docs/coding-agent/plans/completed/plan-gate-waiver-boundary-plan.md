@@ -1,6 +1,6 @@
 # Plan: Plan Gate waiver boundary (no self-waived approval of non-trivial work)
 
-- status: completed
+- status: done
 - generated: 2026-09-09
 - last_updated: 2026-09-10
 - work_type: mixed

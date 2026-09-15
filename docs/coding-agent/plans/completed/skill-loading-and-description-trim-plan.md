@@ -1,6 +1,6 @@
 # Plan: Trim skill loading, descriptions, and duplicated procedure (Astra guide, part 1 of 3)
 
-- status: completed
+- status: done
 - generated: 2026-09-13
 - last_updated: 2026-09-15
 - work_type: docs
