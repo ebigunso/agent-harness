@@ -162,6 +162,7 @@ Interpretation:
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
 - 2026-09-16 Task_1 done (Codex Worker; Codex Reviewer NEEDS_REVISION at 5362943 on the missing log entry only; protocol, arms, and tooling passed). Tooling recovered from `2a5ebf9` into `docs/coding-agent/experiments/repeat-check-ablation/`; `score.py` and `run/run_astra.sh` byte-identical to the originals; the other scripts adapted within the three rulings below. Validation: `python score.py --self-test` exit 0 (Worker and Reviewer); stub chain (`run/self_check.py --frozen 76434f6`) exit 0 with the `is_error` cell rejected and the stale done marker ignored; `git diff --check` clean.
+- 2026-09-16 Task_2 done (Codex Worker; Reviewer spot-check pending). 48 fixtures and 3 keys authored per fixture-plan.md; one isolation ruling (tv-2 plants keep every named test executed and counted, with the gate inside the executed wrapper) recorded in the tv-2 key. Validation: `validate_pilot.py --frozen 76434f6` PASS over 3 sections (48 fixtures, 3 keys, 9 arms); `score.py --self-test` ok; `git diff --check` clean.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
