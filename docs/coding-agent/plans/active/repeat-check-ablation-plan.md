@@ -1,8 +1,8 @@
 # Plan: Ablate the repeat-check rules in testing-validation.md (Astra guide, part 3 of 3)
 
-- status: draft
+- status: approved
 - generated: 2026-09-13
-- last_updated: 2026-09-13
+- last_updated: 2026-09-15
 - work_type: mixed
 
 ## Goal
@@ -186,6 +186,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): the grading rule, the runner correction, and the call cap are registered as decided.
   - Tradeoffs considered: none.
   - User approval: yes for the three questions (2026-09-13); plan approval pending.
+
+- 2026-09-15 Decision: Plan approved by ebigunso.
+  - Trigger / new insight: Codex Reviewer plan review APPROVED (a3d8908); ebigunso: "I accept all the plans as well as the ADR. Get to work."
+  - Plan delta (what changed): status approved. Executes after parts 1 and 2 merge.
+  - Tradeoffs considered: none.
+  - User approval: yes (2026-09-15).
 
 ## Notes
 - Planned calls: 288 cells and six graders, about a fifth of the 2026-09-09 remaining-sections run (1,344 cells); the spend cap and stop rule are Q3.

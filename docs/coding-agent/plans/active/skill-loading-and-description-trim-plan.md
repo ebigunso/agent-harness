@@ -1,8 +1,8 @@
 # Plan: Trim skill loading, descriptions, and duplicated procedure (Astra guide, part 1 of 3)
 
-- status: draft
+- status: in_progress
 - generated: 2026-09-13
-- last_updated: 2026-09-13
+- last_updated: 2026-09-15
 - work_type: docs
 
 ## Goal
@@ -231,6 +231,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): Q1 marked resolved; Task_6 applies the named preload sets.
   - Tradeoffs considered: none.
   - User approval: yes for Q1 (2026-09-13); plan approval pending.
+
+- 2026-09-15 Decision: Plan approved by ebigunso.
+  - Trigger / new insight: Codex Reviewer plan review APPROVED (a3d8908); ebigunso: "I accept all the plans as well as the ADR. Get to work."
+  - Plan delta (what changed): status in_progress. Execution on feature/2026-09-15/astra-guide-part1, branched from the drafts branch so the accepted record and the approved parts 2 and 3 travel with it.
+  - Tradeoffs considered: none.
+  - User approval: yes (2026-09-15).
 
 ## Notes
 - Word counts in the audit are static whitespace counts of file text, not measured context; the plan does not claim a token saving, only that each rule has one home and each load a condition.

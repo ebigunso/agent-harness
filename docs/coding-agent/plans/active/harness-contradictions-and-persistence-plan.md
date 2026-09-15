@@ -1,8 +1,8 @@
 # Plan: Repair contradictions, stale copies, and completion wording (Astra guide, part 2 of 3)
 
-- status: draft
+- status: approved
 - generated: 2026-09-13
-- last_updated: 2026-09-13
+- last_updated: 2026-09-15
 - work_type: mixed
 
 ## Goal
@@ -308,6 +308,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): disposition (8) records the limitation, blocks Task_8, and waits for either a Task_5 rework with an M-only rerun or ebigunso's explicit ruling; the record is not rewritten by this plan.
   - Tradeoffs considered: moving Task_7 before Task_10 (rejected: the probe must run on the shipped text, which depends on the accepted record).
   - User approval: pending; record acceptance pending on its own.
+
+- 2026-09-15 Decision: Plan approved by ebigunso.
+  - Trigger / new insight: Codex Reviewer plan review APPROVED (a3d8908); ebigunso: "I accept all the plans as well as the ADR. Get to work."
+  - Plan delta (what changed): status approved. ADR-D-0033 accepted on its own in the same message ("as well as the ADR"); its status is flipped to accepted now and Task_10 performs the retirement of ADR-D-0018 when this plan executes, after part 1 merges.
+  - Tradeoffs considered: none.
+  - User approval: yes (2026-09-15).
 
 ## Notes
 - Execute after part 1 has merged; rebase the branch on that result before dispatch.
