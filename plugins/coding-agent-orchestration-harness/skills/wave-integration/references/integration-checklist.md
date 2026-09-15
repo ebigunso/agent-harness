@@ -1,6 +1,6 @@
 # Integration Checklist
 
-Run this checklist after each Worker wave, once the Integration Contract in `SKILL.md` holds for every report, and before the next dispatch.
+Run this checklist after each Worker wave, once the Integration Contract in `SKILL.md` has been applied to every report (whatever the outcome), and before the next dispatch.
 
 ## 1. Collect Blockers And Questions
 
