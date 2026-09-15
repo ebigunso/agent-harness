@@ -1,6 +1,6 @@
 # Plan: Repair contradictions, stale copies, and completion wording (Astra guide, part 2 of 3)
 
-- status: approved
+- status: in_progress
 - generated: 2026-09-13
 - last_updated: 2026-09-15
 - work_type: mixed
@@ -258,7 +258,14 @@ Interpretation:
 
 Append-only editing rule (applies to both logs below): when appending an entry, anchor the edit on the previous entry and reproduce it (or anchor on the section's tail marker) so the edit inserts rather than replaces, and verify afterward that the log grew.
 
-- (none yet)
+- 2026-09-15 Wave 1 Task_10 done (Orchestrator): [Task_10]
+  - Summary: ADR-D-0033 was accepted by ebigunso on 2026-09-15 ("I accept all the plans as well as the ADR."; status flipped at 1b4b1e7). ADR-D-0018 retired atomically: status superseded, header line "Retired on 2026-09-15. Replaced by ADR-D-0033.", moved to superseded/ with the --superseded-by-ADR-D-0033 suffix, superseded_by set; ADR-D-0033's supersedes path updated to the archive path; the inbound pointer in ADR-D-0019 More Information repaired with a dated note.
+  - Validation evidence: search for the old filename recorded in the commit; package validator pass. Reviewer review folded into the Wave 1 review.
+  - Notes: Task_5 is unblocked.
+- 2026-09-15 Wave 1 Task_3 Orchestrator half done: [Task_3]
+  - Summary: docs/coding-agent/rules/reviewer.md goal-mode check now cites ADR-D-0029 and ADR-D-0030 (the five goal-mode references it names still exist, so "all five references" stays); last_updated bumped. The Worker half (goal-templates.md citation removal) is dispatched.
+  - Validation evidence: grep for ADR-D-0012 and ADR-D-0013 under docs/coding-agent/rules/ returns nothing.
+  - Notes: none.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -313,6 +320,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Trigger / new insight: Codex Reviewer plan review APPROVED (a3d8908); ebigunso: "I accept all the plans as well as the ADR. Get to work."
   - Plan delta (what changed): status approved. ADR-D-0033 accepted on its own in the same message ("as well as the ADR"); its status is flipped to accepted now and Task_10 performs the retirement of ADR-D-0018 when this plan executes, after part 1 merges.
   - Tradeoffs considered: none.
+  - User approval: yes (2026-09-15).
+
+- 2026-09-15 Decision: Execution as a stacked pull request on part 1, per ebigunso.
+  - Trigger / new insight: ebigunso: "You can go ahead and implement part 2 and 3 of the plans, as stacked PRs." The plan's sequencing note said "after part 1 has merged"; a stack gives the same ordering (part 2 rebased on part 1's branch) without waiting for the merge.
+  - Plan delta (what changed): branch feature/2026-09-15/astra-guide-part2 is based on feature/2026-09-15/astra-guide-part1 and managed with the gh stack extension per git-workflow/references/stacked-prs.md; the source line numbers in Context are re-baselined by each Worker against the part-1 result before editing.
+  - Tradeoffs considered: waiting for #67 to merge (rejected by ebigunso's instruction).
   - User approval: yes (2026-09-15).
 
 - 2026-09-16 Decision: Record state corrected for readers of this branch (Copilot review of #67, round 4).
