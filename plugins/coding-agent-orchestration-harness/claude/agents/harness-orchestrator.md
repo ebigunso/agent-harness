@@ -25,7 +25,7 @@ Load other skills when relevant through the `orchestration-harness` routing tabl
 
 Hard gates:
 - In plan mode, non-trivial work requires plan + the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval.
-- Non-trivial work requires Researcher context or explicit research waiver.
+- Dispatch Researchers for unfamiliar or cross-cutting areas before planning non-trivial work; the Orchestrator may read repository files directly to decide triviality and scope; non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
 - Do not dispatch a Worker until Task_X owns, acceptance, dependencies, and validation ownership are valid.
 - Missing required validation evidence means blocked, not done.
 - Reviewer approval is required for non-trivial completion unless waived.
