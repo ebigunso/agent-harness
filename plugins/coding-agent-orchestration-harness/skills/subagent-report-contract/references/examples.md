@@ -2,14 +2,14 @@
 
 Field meanings and filling notes: `schema.yaml`.
 
-## Example: done (with required validation)
+## Example: done (own-edit correction, then rerun)
 
 ```yaml
 task_id: "Task_2"
 status: done
 
 summary: |-
-  Implemented X and updated Y. Expected behavior matches acceptance criteria.
+  Implemented X and updated Y. The first unit run failed on an off-by-one in my own edit against the acceptance criterion (upper bound is inclusive); corrected the bound and reran. Nothing else changed.
 
 files_changed:
   - path: "src/foo/bar.ts"
@@ -18,8 +18,11 @@ files_changed:
 
 commands_run:
   - command: "npm run test:unit"
+    result: fail
+    notes: "1 failed: input-Z upper bound rejected the inclusive maximum; mistake in my own edit against the criterion."
+  - command: "npm run test:unit"
     result: pass
-    notes: "All unit tests passed."
+    notes: "Rerun after correcting the bound in src/foo/bar.ts."
 
 validation_results:
   - kind: command
@@ -27,7 +30,7 @@ validation_results:
     owner: worker
     detail: "npm run test:unit"
     status: pass
-    evidence: "Exit code 0; 42 tests passed, 0 failed, including the new input-Z validation cases."
+    evidence: "Rerun exit code 0; 42 tests passed, 0 failed, including the new input-Z validation cases."
 
 tests:
   ran: true
@@ -91,7 +94,7 @@ status: blocked
 
 summary: |-
   Changes implemented, but required validation could not run.
-  Expected: npm run test:unit passes. Actual: command fails due to missing dependency.
+  Expected: npm run test:unit passes. Actual: the command fails because dependency <X> is missing; the README's setup step (npm install) has not been run in this checkout. No setup was performed.
 
 files_changed:
   - path: "src/foo/bar.ts"
@@ -116,10 +119,9 @@ tests:
   notes: "Required unit test command failed."
 
 blockers:
-  - "Unit tests fail due to missing dependency <X>"
+  - "Unit tests fail because dependency <X> is missing. Proposed remedy: run the README's setup step (npm install) in this checkout, either pre-authorized in a redispatch or done by the Orchestrator; then rerun npm run test:unit. Not done: setup is outside the acceptance criteria."
 
-questions_for_orchestrator:
-  - "Should I install dependency X (if allowed), or is there a repo-specific setup step?"
+questions_for_orchestrator: []
 
 assumptions: []
 rule_candidates: []
@@ -131,6 +133,48 @@ lesson_candidates:
     prevention: "Record prerequisite validation dependencies near the command or setup instructions before dispatch."
     promotion_target: troubleshooting
     suggested_destination: "docs/coding-agent/lessons.md"
+```
+
+## Example: blocked (a failing test that encoded the old behavior, surfaced with a remedy)
+
+The assigned change is complete and the new behavior is present; the test that asserted the old behavior is outside `owns` and the packet says nothing about it. The Worker neither edits the test, shims the old behavior, nor narrows the change; it surfaces the finding as a design alert with a proposed remedy and waits.
+
+```yaml
+task_id: "Task_5"
+status: blocked
+
+summary: |-
+  Changed price rounding to round-half-even per the acceptance criterion; the new behavior is in place.
+  Expected: npm run test:unit passes. Actual: 1 test fails: tests/pricing/rounding.test.ts asserts the old round-half-up result. The test is outside owns and the packet does not rule on it; no change was made to it.
+
+files_changed:
+  - path: "src/pricing/round.ts"
+    change: modified
+    intent: "Round half to even, per the acceptance criterion"
+
+commands_run:
+  - command: "npm run test:unit"
+    result: fail
+    notes: "40 passed, 1 failed: rounding.test.ts 'rounds 2.5 up to 3' expects the pre-change behavior."
+
+validation_results:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "npm run test:unit"
+    status: fail
+    evidence: "Exit code 1; 40 passed, 1 failed. The failing assertion encodes the old rounding; the assigned behavior is correct against the criterion."
+
+tests:
+  ran: true
+  notes: "Unit tests ran; the single failure is the old-behavior assertion, left untouched."
+
+blockers:
+  - "Design alert. Boundary: tests/pricing/rounding.test.ts (outside owns) asserts round-half-up, which the criterion replaces. Cleaner alternative: update the assertion to the round-half-even result (2.5 -> 2), or delete the case if the round-half-up guarantee has no remaining consumer. Cost delta: one assertion line versus keeping a second rounding path for the test. Proposed remedy: authorize updating the assertion; no change made pending the ruling."
+
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
 ```
 
 ## Example: done with rule candidate and harness migration candidate

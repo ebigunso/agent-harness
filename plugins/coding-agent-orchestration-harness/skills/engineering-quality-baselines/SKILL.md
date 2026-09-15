@@ -47,7 +47,7 @@ Load only relevant categories:
 - Trip when the fix goes around a type, schema, boundary, or constraint that this task could change, or that sits outside `owns` and the plan could change on request (a shared type lacking a field is the usual case).
 - Trip when adding a compatibility shim, wrapper, or dual code path for a consumer you cannot locate.
 
-If tripped: surface the observation in the report (questions/blockers or lesson candidates) with the cleaner alternative and its cost delta; take the non-workaround path when one exists inside `owns`; stop and await a ruling only when the only path inside `owns` is a workaround. Read `references/long-horizon-audit.md` when the pattern looks systemic.
+If tripped: surface the observation in the report (questions/blockers or lesson candidates) with the cleaner alternative and its cost delta, and take no action on it until the Orchestrator rules; a tripped finding lies outside what the acceptance criteria decided, whichever side of `owns` it sits on. Read `references/long-horizon-audit.md` when the pattern looks systemic.
 
 ### Required Evidence Note (fallback template)
 
