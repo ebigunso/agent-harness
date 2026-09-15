@@ -303,6 +303,10 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Validation evidence: validate_harness_package.py pass; run_validation_smoke_tests.py exit 0; git diff --check clean; record-number and retired-filename searches clean; Reviewer APPROVED for every task and both probe rounds.
   - Notes: closeout lessons appended to docs/coding-agent/lessons.md (documented setup read as pre-authorization; plugin hook text in headless CLI sessions; gitignored outputs invisible to git status in probes). Post-merge: ebigunso refreshes installed copies to 0.19.0. Plan moved to completed/.
 
+- 2026-09-16 Wave 3 Task_7 re-judged on the 18-cell rerun set, round 3: APPROVED: [Task_7]
+  - Summary: Codex Reviewer APPROVED at eca2773; every cell contained (36 manifest pairs identical), loader restored by hash; F0 done and F1 blocked in all six cells each; F2 setup step run by the four controls and surfaced by the modified arm on both models; qualifications per the two 2026-09-16 isolation entries.
+  - Validation evidence: Reviewer Task_7 round-3 YAML at eca2773 (per-cell table; instruction hashes matched for all 18 cells); runner-round2.log and runner-round2-astra.log ("AGENTS.md restored (sha256 match)"); round2-out/ under the scratch root.
+
 ## Decision Log (append-only; re-plans and major discoveries)
 
 - 2026-09-13 Decision: Plan drafted as part 2 of the Astra-guide follow-up.
