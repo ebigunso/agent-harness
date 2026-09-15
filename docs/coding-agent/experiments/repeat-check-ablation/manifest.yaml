@@ -1,4 +1,4 @@
-# Registered before model calls; frozen revision c93124670fe9dab6d9e38c47838c00d754c4e2b1
+# Registered before model calls; frozen revision 76434f6e0b45360412c073d8fd02eb86161dcffe
 models: [claude-fable-5-1, gpt-6-astra]
 seeds: 1
 sections:
