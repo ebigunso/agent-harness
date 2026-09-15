@@ -315,6 +315,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: yes (2026-09-15).
 
+- 2026-09-16 Decision: Record state corrected for readers of this branch (Copilot review of #67, round 4).
+  - Trigger / new insight: the 2026-09-15 approval entry says ADR-D-0033's status "is flipped to accepted now"; on the part-1 branch the file is status proposed and ADR-D-0018 stays active. ebigunso's acceptance of the proposal on 2026-09-15 stands as recorded; the file-state transition (status accepted, retirement of ADR-D-0018, pointer repair) is Task_10's and lands in the stacked part-2 pull request together with the record's implementation.
+  - Plan delta (what changed): none; this entry states the true state at this branch. Logs are append-only, so the earlier entry stands with this correction after it.
+  - Tradeoffs considered: none.
+  - User approval: not required (record correction).
+
 ## Notes
 - Execute after part 1 has merged; rebase the branch on that result before dispatch.
 
