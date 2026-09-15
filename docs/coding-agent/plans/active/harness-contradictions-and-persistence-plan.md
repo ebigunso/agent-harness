@@ -336,6 +336,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: waiting for #67 to merge (rejected by ebigunso's instruction).
   - User approval: yes (2026-09-15).
 
+- 2026-09-15 Decision: Task_7 probe restarted once before any cell counted, for an environment defect in the frozen packets.
+  - Trigger / new insight: in the first launch the pure-baseline Astra cell for F0 found no `python` on the sandbox PATH and installed an interpreter with `uv python install` over the network into a temporary directory; the pre-registered constraint is shell in the clone with no network, and the interpreter gap is a known property of this host's Codex sandbox (lessons.md 2026-09-15), not the behavior under test. Three cells had completed (F0-P-astra, F0-P-fable, F0-M-astra); a fourth was running.
+  - Plan delta (what changed): every packet gains one identical environment line before the validation item ("the interpreter is <path> if `python` is not on PATH; this checkout has no network access and nothing may be installed or downloaded"); the partial run is archived under the scratch root as run1-aborted and none of its cells counts; the run restarts from the first cell with the same fixtures, arms, adapter bodies (hashes unchanged), and dispositions. This is an environment fix applied to all arms alike, not a rerun to obtain a preferred outcome.
+  - Tradeoffs considered: letting the run continue and discounting network installs as environment noise (rejected: disposition 4 makes a network reach a FAIL, so every Astra cell would have been judged on the sandbox defect rather than on the adapter text).
+  - User approval: not required (probe environment; recorded under ADR-D-0018's surfacing obligation as carried by ADR-D-0033).
+
 - 2026-09-16 Decision: Record state corrected for readers of this branch (Copilot review of #67, round 4).
   - Trigger / new insight: the 2026-09-15 approval entry says ADR-D-0033's status "is flipped to accepted now"; on the part-1 branch the file is status proposed and ADR-D-0018 stays active. ebigunso's acceptance of the proposal on 2026-09-15 stands as recorded; the file-state transition (status accepted, retirement of ADR-D-0018, pointer repair) is Task_10's and lands in the stacked part-2 pull request together with the record's implementation.
   - Plan delta (what changed): none; this entry states the true state at this branch. Logs are append-only, so the earlier entry stands with this correction after it.
