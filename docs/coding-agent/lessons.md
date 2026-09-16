@@ -967,3 +967,31 @@ Prevention:
 
 Evidence:
 - ebigunso's account in session on 2026-09-16; the files named above read in that session (no draft-time alternatives or provenance obligation found in `plan-format`, `orchestration-harness`, or `subagent-strategy`).
+
+## 2026-09-16 - Hold Fixes Until The Review Round On The Current Head Lands  [tags: git-workflow, review, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/design-comparison-horizon-plan.md` (Copilot review loop on PR #71)
+- Task/Wave: review-round handling after PR open
+- Roles involved: Orchestrator
+
+Symptom:
+- Seven Copilot rounds each reviewed the commit before the latest push, so every round re-reported findings already fixed, and the Orchestrator triaged stale notes against the current head each time.
+
+Root cause:
+- Copilot auto-reviews every push. The Orchestrator pushed each round's fixes as soon as they were ready, while the review of the previous push was still running, so the next review always started from a superseded commit.
+
+Fix applied:
+- ebigunso's correction: await the push until the round on the current head has landed.
+
+Prevention:
+- Dispatch/plan guardrail:
+  - After a push that triggers an automatic review, hold further fixes locally (commit without pushing) until the watcher reports that round; then push once with everything batched. A round whose commit is not the current head is triaged by first marking which notes are already fixed.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: When a PR has automatic review on push, push fix rounds only after the review of the current head has landed; batch fixes locally in between.
+- Residual risk / waiver:
+  - none.
+
+Evidence:
+- PR #71 review commits: ab257e3, e3c05cb, badf522, ab743b8, b430246, 11bd23b, each one push behind the head at review time.
