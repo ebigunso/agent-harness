@@ -15,11 +15,10 @@ These principles are intentionally repository-agnostic and language-neutral.
 
 ## How to Use
 
-1. Start with this document for every non-trivial implementation or review.
-2. Select only applicable companion references (architecture, stack, language, validation, security).
-3. Apply each principle as both a build-time and review-time check.
-4. Prefer the smallest change that satisfies correctness, clarity, and evidence requirements.
-5. If trade-offs are required, document the chosen trade-off and residual risk.
+1. Select only applicable companion references (architecture gates, testing and validation, test authoring, review rubric, latent-risk routing, long-horizon audit).
+2. Apply each principle as both a build-time and review-time check.
+3. Prefer the smallest change that satisfies correctness, clarity, and evidence requirements.
+4. If trade-offs are required, document the chosen trade-off and residual risk.
 
 ## Core Implementation and Review Principles
 

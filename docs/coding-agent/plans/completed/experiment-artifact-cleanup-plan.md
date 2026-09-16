@@ -1,6 +1,6 @@
 # Plan: Remove the experiment artifacts from the docs tree
 
-- status: completed
+- status: done
 - generated: 2026-09-10
 - last_updated: 2026-09-10
 - work_type: docs

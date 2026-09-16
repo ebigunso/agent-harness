@@ -723,3 +723,85 @@ Prevention:
 
 Evidence:
 - Codex Worker Task_3 report (2026-09-10), commands_run.
+
+## 2026-09-15 - A Step Sequence Rewritten As A Contract Needs Each Item Tagged Gate Or Input  [tags: skill-maintenance, review, documentation]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/skill-loading-and-description-trim-plan.md`
+- Task/Wave: Task_3, Wave 1
+- Roles involved: Claude Worker, Codex Reviewer
+
+Symptom:
+- Merging wave-integration's ten-step root checklist and nine-section reference into one contract produced an opener that required every contract item to hold before any follow-up dispatch. A blocked report whose required validation had not run failed the evidence item, so the opener forbade the very follow-up Worker the checklist dispatches to obtain that evidence.
+
+Root cause:
+- The numbered sequence was rewritten as a precondition set without deciding which steps were gates (evidence before Reviewer dispatch) and which were triage inputs (every report, including malformed and blocked ones).
+
+Fix applied:
+- Every returned report enters triage and corrective follow-up; pass-or-waiver evidence gates only Reviewer dispatch and closeout; the Worker traced a blocked and a malformed report through the result before reporting.
+
+Prevention:
+- Harness migration candidate:
+  - category: review
+  - proposed_home: skills-maintenance/references/final-ambiguity-pass.md
+  - generalized_rule: When converting a step list into a contract or precondition set, tag each item as gate or triage input, write the opener from those tags, and trace one failing and one malformed case through the result before reporting.
+  - suggested_change: add the tag-and-trace check to the final ambiguity pass for checklist consolidations.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Codex Reviewer Task_3 finding (2026-09-15, 3877bd9); rework 727d7a4 approved.
+
+## 2026-09-15 - The Package Validator Reads The First audience Line Literally  [tags: troubleshooting, validation]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/skill-loading-and-description-trim-plan.md`
+- Task/Wave: Task_4, Wave 1
+- Roles involved: Claude Worker
+
+Symptom:
+- `validate_harness_package.py` failed with "Worker report audience line must allow common/worker/orchestrator/reviewer" after the audience enum was folded into a prose bullet of `subagent-report-contract/SKILL.md`.
+
+Root cause:
+- The validator takes the first `audience:` occurrence in that file and splits the rest of the line on `|`; trailing prose or backticks on that line break the check.
+
+Fix applied:
+- The root keeps a line whose text after `audience:` is exactly `common | worker | orchestrator | reviewer`, placed before any `audience: reviewer` guidance.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: package validator rejects the Worker report audience line after a SKILL.md edit
+  - cause: the first `audience:` line is parsed as the enum
+  - safe steps: keep an enum-only `audience:` line first; rerun the validator.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Task_4 Worker report (2026-09-15), commands_run.
+
+## 2026-09-15 - Parallel Wave Workers Share One Tree, So Repo-Wide Validators See Peer Edits  [tags: troubleshooting, validation, orchestration]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/skill-loading-and-description-trim-plan.md`
+- Task/Wave: Task_5, Wave 1
+- Roles involved: Claude Workers in parallel
+
+Symptom:
+- Task_5's required package validator failed on `subagent-report-contract/SKILL.md`, a file owned by the parallel Task_4 and mid-edit at that moment; a rerun after the peer's edit settled passed.
+
+Root cause:
+- Parallel Wave tasks run in one working tree, so a repository-wide validator observes other tasks' unfinished edits.
+
+Fix applied:
+- The Worker classified the failure by diffing the failing file against HEAD and rerunning once it was consistent, reporting both runs.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: a repo-wide required validator fails on a file outside the Worker's owns during a parallel wave
+  - cause: a peer Worker's in-progress edit in the shared tree
+  - safe steps: diff the failing file against HEAD, confirm it is outside owns, rerun after the peer settles, report both runs; never edit the peer's file.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Task_5 Worker report (2026-09-15), commands_run.

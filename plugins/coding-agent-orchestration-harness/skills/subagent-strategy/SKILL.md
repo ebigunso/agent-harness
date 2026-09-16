@@ -58,7 +58,7 @@ If the runtime setup uses multiple long-lived agents that stay alive across disp
 If multiple model platforms are available for delegation:
 - Read references/model-routing.md
 
-Before each Researcher/Worker/Reviewer dispatch, read and apply `references/dispatch-checklists.md`.
+Before the first dispatch of a role (Researcher, Worker, or Reviewer) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless.
 
 If you want concise prompt snippets to copy/adapt:
 - Read references/prompt-snippets.md

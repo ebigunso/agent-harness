@@ -1,6 +1,6 @@
 ---
 name: playwright-e2e-evidence
-description: Defines standard browser E2E/visual validation specs and evidence reporting (flows, viewports, screenshots, console/network). Use when UI verification, E2E testing, visual inspection, responsive checks, screenshots, or browser-based validation is needed. Read the Playwright provider reference only when that concrete path is selected.
+description: Standard spec and evidence format for browser E2E and visual validation. Use when a task or plan requires UI or E2E acceptance evidence, such as user-flow verification, visual or responsive checks, or browser-based validation of a change.
 ---
 
 # Skill: playwright-e2e-evidence

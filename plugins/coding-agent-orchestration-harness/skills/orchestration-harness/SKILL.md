@@ -11,9 +11,9 @@ When this skill is loaded by a runtime loader or skill reference rather than by 
 
 ## Repository Rule Entry
 
-For repository coding tasks, before planning, editing, dispatching subagents, or selecting validation/review policy: check `docs/coding-agent/rules/index.md`; if the suite is present, read `docs/coding-agent/rules/common.md` and `docs/coding-agent/rules/orchestrator.md`. Before starting non-trivial work, also skim `docs/coding-agent/lessons.md` and any active plans.
+For repository coding tasks, before planning, editing, dispatching subagents, or selecting validation/review policy: check `docs/coding-agent/rules/index.md`; if the suite is present, read `docs/coding-agent/rules/common.md` and `docs/coding-agent/rules/orchestrator.md`. Those three files are the only unconditional reads; every other source loads on its condition: use recent or relevant entries of `docs/coding-agent/lessons.md` when starting non-trivial work in a repository that has one; use a plan under `docs/coding-agent/plans/active/` (or `completed/`) when it covers the same area; use a repository reference document listed in `common.md` for the purpose `common.md` states; use project files for the task after the Research Dispatch Gate is satisfied; reading repository files to decide triviality and scope is allowed before it, as that gate states.
 
-This is rule instruction loading, not full rule-suite readiness work. If the rule files are absent or unreadable, continue under this skill and record the missing rule context when it materially affects planning or validation. Full procedure: `references/rule-suite-fast-path.md`.
+This is rule instruction loading, not full rule-suite readiness work. If the rule files are absent or unreadable, continue under the `orchestration-harness` skill and record the missing rule context when it materially affects planning or validation; creating rules is `rulebook` work triggered separately. Fast-path procedure: `references/rule-suite-fast-path.md`.
 
 ## Stable Role Model
 

@@ -1,6 +1,6 @@
 ---
 name: durable-docs-authoring
-description: Authoring and restructuring rules for durable documentation — product/strategy/policy/roadmap docs, philosophy or capability-boundary write-ups, decision records (ADRs), and ADR-adjacent prose meant to stay accurate over time. Use when writing, revising, renaming, or restructuring such documents; when deciding whether a decision meets the admission test for an ADR, proposing one, or drafting one; and whenever a plan, an older record, or an instruction directs an ADR to be written, so the admission test runs regardless of who asked. Not for code comments, commit messages, or transient notes (task logs, scratch plans, chat summaries).
+description: Authoring and restructuring rules for durable documentation and decision records (ADRs). Use when writing, revising, renaming, or restructuring a document meant to stay accurate over time, or when an ADR is being considered, proposed, or drafted, including when a plan, an older record, or an instruction directs one to be written. Not for code comments, commit messages, or transient notes.
 ---
 
 # Skill: durable-docs-authoring

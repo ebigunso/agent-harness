@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Standardizes safe Git workflow decisions for branch safety, logical commit chunking, commit hygiene, and explicit non-interactive or non-destructive defaults. Use when planning or executing commit-affecting work, checking whether a commit should proceed, deciding how to split changes into coherent commits, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop. After opening a PR or pushing review fixes, arm review monitoring with the bundled scripts/pr-comment-watch.sh rather than an inline polling loop. Also use when creating or updating stacked pull requests with the gh stack extension.
+description: Safe Git procedure for branch gates, coherent commits, and non-interactive, non-destructive defaults. Use when planning or executing commit-affecting work, deciding whether a commit may proceed or how to split changes, routing shared-state Git mutations through the Orchestrator, creating or updating a PR, or driving or monitoring an external review loop.
 ---
 
 # Skill: git-workflow

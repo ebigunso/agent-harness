@@ -1,6 +1,6 @@
 ---
 name: engineering-quality-baselines
-description: Trigger for non-trivial implementation, PR/code review, and bug fix/refactor work; routes validation depth and evidence expectations, including required checks, through progressive disclosure across architecture, stack, language/tech, validation, and security.
+description: Routes validation depth and evidence expectations, including required checks, through progressive disclosure across architecture gates, testing and validation, test authoring, review rubric, latent-risk routing, and long-horizon audit. Use when doing non-trivial implementation, PR/code review, or bug fix/refactor work.
 ---
 
 # Engineering Quality Baselines
@@ -28,7 +28,7 @@ If all are low and local, use the default targeted validation depth. If any are 
 
 ### Routing Decision
 
-Load only the reference categories relevant to the change; explicitly note major categories left out and why. Escalate to broader coverage on unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
+Escalate to broader coverage on unresolved high-risk findings, unclear boundary ownership, failing validation evidence, or reviewer-identified uncertainty.
 
 Load only relevant categories:
 - Core principles: `references/core-principles.md` (read for every non-trivial implementation or review; also when intent/scope or tradeoffs are unclear)
@@ -49,9 +49,11 @@ Load only relevant categories:
 
 If tripped: surface the observation in the report (questions/blockers or lesson candidates) with the cleaner alternative and its cost delta; take the non-workaround path when one exists inside `owns`; stop and await a ruling only when the only path inside `owns` is a workaround. Read `references/long-horizon-audit.md` when the pattern looks systemic.
 
-### Required Evidence Note (template)
+### Required Evidence Note (fallback template)
 
-Use this note in task output:
+Two fields already have a home: a Worker report supplies required and optional checks as `validation_results` entries (`subagent-report-contract/references/schema.yaml`: `required`, `status: pass|fail|skipped`, `evidence`; a waived required check is `skipped` with the waiver evidence in `evidence`). No other field has an equivalent in the plan template or the report schema.
+
+Include the note in the task output whenever the output does not already supply a field under a surviving obligation, and it adds no key to any schema. In a standalone Reviewer or Orchestrator output the note appears as the block below. In a Worker report, whose final message is exactly one YAML block, every field the report schema lacks is carried in an existing free-text key, each prefixed with the field name: risk profile with rationale, validation depth, and top risks as lines in `summary`; in-scope docs, out-of-scope docs with their reason, At Risk items, and residual risk as `assumptions` entries:
 
 ```
 Quality routing note
@@ -60,8 +62,8 @@ Quality routing note
 - Top risks: [security|data-integrity|migration|concurrency|external-deps|contract|performance]
 - Risk profile: [low|medium|high] with rationale
 - Validation depth: [targeted|extended|full-sweep]
-- Required checks: [{name: ..., status: pass|fail|waived, evidence: ...}]
-- Optional recommended checks: [{name: ..., status: pass|fail|skipped, evidence: ...}]
+- Required checks: `validation_results` entries with `required: true` when the output is a Worker report; otherwise [{name: ..., status: pass|fail|waived, evidence: ...}]
+- Optional recommended checks: `validation_results` entries with `required: false` when the output is a Worker report; otherwise [{name: ..., status: pass|fail|skipped, evidence: ...}]
 - At Risk items: [{item: ..., owner: ..., target_date: ...}] or []
 - Residual risk / follow-up: [...]
 ```

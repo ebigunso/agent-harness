@@ -1,18 +1,10 @@
 # Rule Suite Fast Path
 
-Use this reference when performing the Repository Rule Entry load in detail, or when tempted toward rule lifecycle work (bootstrap, repair, schema migration, targeted refresh) to decide whether it is actually needed.
+Use this reference when tempted toward rule lifecycle work (bootstrap, repair, schema migration, targeted refresh) to decide whether it is actually needed.
 
-## Repository Rule Entry (full procedure)
+## Repository Rule Entry
 
-For repository coding tasks, perform the minimal repository rule load before planning, editing, dispatching subagents, or selecting validation/review policy:
-
-1. Check for `docs/coding-agent/rules/index.md`.
-2. If the repository rule suite is present, read the relevant rule files for the current main-thread role:
-   - `docs/coding-agent/rules/common.md`
-   - `docs/coding-agent/rules/orchestrator.md`
-3. Treat this as rule instruction loading, not as full rule-suite readiness work.
-4. Do not read `_lifecycle.json`, bootstrap rules, refresh rules, or run `rulebook` unless the fast path below or the task itself requires lifecycle work.
-5. If the repository rule files are absent or unreadable, continue under the `orchestration-harness` skill and record the missing rule context when it materially affects planning or validation.
+The three-file load, its trigger, and the absent-rules behavior are stated once, in `SKILL.md` Repository Rule Entry: `index.md` is read for every repository coding task before planning, editing, dispatching subagents, or selecting validation/review policy, and the role rule files follow when the suite is present. That load is rule instruction loading, not rule-suite readiness work: do not read `_lifecycle.json`, bootstrap rules, or refresh rules, and do not run `rulebook`, unless the fast path below or the task itself requires lifecycle work.
 
 ## Fast Path Rules
 
@@ -34,9 +26,8 @@ For non-trivial work, use repo rules when they are needed for planning, validati
 
 Fast path:
 
-1. Read `docs/coding-agent/rules/index.md` only when repo rules are relevant.
-2. If `index.md` exists, schema matches, required files exist, and no current task signal invalidates the rules, use the relevant role rule files.
-3. Do not read `_lifecycle.json` unless lifecycle work is needed.
+1. With `index.md` already read under the Repository Rule Entry: if its schema matches, required files exist, and no current task signal invalidates the rules, use the relevant role rule files as they are.
+2. Do not read `_lifecycle.json` unless lifecycle work is needed.
 
 ## When To Use `rulebook`
 

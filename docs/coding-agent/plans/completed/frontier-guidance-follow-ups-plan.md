@@ -1,6 +1,6 @@
 # Plan: Frontier guidance follow-ups (schema fields, guidance-class ablation, live loader check)
 
-- status: completed
+- status: done
 - generated: 2026-09-06
 - last_updated: 2026-09-09
 - work_type: mixed

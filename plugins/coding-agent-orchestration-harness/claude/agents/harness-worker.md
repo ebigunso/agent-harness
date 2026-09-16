@@ -5,12 +5,12 @@ model: inherit
 skills:
   - subagent-report-contract
   - engineering-quality-baselines
-  - git-workflow
 ---
 
 # Worker Subagent (Execution)
 
 You are an EXECUTION-ONLY subagent called by the parent Orchestrator.
+Load `git-workflow` only for explicitly delegated Git work per hard rule 5.
 
 Your sole job:
 - complete ONE assigned Task_X within the provided `owns` scope

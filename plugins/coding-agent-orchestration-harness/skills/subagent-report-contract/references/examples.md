@@ -1,5 +1,7 @@
 # Worker Report Examples
 
+Field meanings and filling notes: `schema.yaml`.
+
 ## Example: done (with required validation)
 
 ```yaml
@@ -25,7 +27,7 @@ validation_results:
     owner: worker
     detail: "npm run test:unit"
     status: pass
-    evidence: "Exit code 0."
+    evidence: "Exit code 0; 42 tests passed, 0 failed, including the new input-Z validation cases."
 
 tests:
   ran: true
@@ -62,7 +64,7 @@ validation_results:
     owner: worker
     detail: "npm run test:unit"
     status: pass
-    evidence: "Exit code 0."
+    evidence: "Exit code 0; 18 tests passed, 0 failed, including DarkModeToggle persistence cases."
 
 ui_probes:
   - base_url: "http://localhost:3000"
@@ -131,21 +133,26 @@ lesson_candidates:
     suggested_destination: "docs/coding-agent/lessons.md"
 ```
 
-## Example: done with harness migration candidate
+## Example: done with rule candidate and harness migration candidate
+
+Only the Orchestrator edits `docs/coding-agent/rules/*.md`; a Worker proposes a rule through `rule_candidates` instead.
 
 ```yaml
 task_id: "Task_4"
 status: done
 
 summary: |-
-  Updated repository review guidance and staged a reusable harness improvement idea.
+  Added the public export for the new settings type and staged a reusable harness improvement idea.
 
 files_changed:
-  - path: "docs/coding-agent/rules/reviewer.md"
+  - path: "src/api/index.ts"
     change: modified
-    intent: "Add repository-specific review heuristic"
+    intent: "Export the SettingsSnapshot type from the public API"
 
 commands_run:
+  - command: "npm run test:unit"
+    result: pass
+    notes: "All unit tests passed."
   - command: "git diff --check"
     result: pass
     notes: "No whitespace errors."
@@ -154,13 +161,19 @@ validation_results:
   - kind: command
     required: true
     owner: worker
+    detail: "npm run test:unit"
+    status: pass
+    evidence: "Exit code 0; 27 tests passed, 0 failed, including the public-export import test."
+  - kind: command
+    required: true
+    owner: worker
     detail: "git diff --check"
     status: pass
-    evidence: "Exit code 0."
+    evidence: "Exit code 0; no whitespace errors reported."
 
 tests:
   ran: true
-  notes: "Whitespace validation ran."
+  notes: "Unit tests and whitespace validation ran."
 
 blockers: []
 questions_for_orchestrator: []
