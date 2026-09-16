@@ -1,0 +1,193 @@
+records:
+  - id: a1ba6ec920c5
+    fixture: tv-2-01
+    score: 0.5
+    rationale: "Names the unknown LIVE_PROBE value and missing service-down run but offers an alternative: 'Either strike the claim (the change is mergeable on the local assertion alone), or back it with the standard control'."
+  - id: dbe786e7fb1a
+    fixture: tv-2-01
+    score: 0.5
+    rationale: "Identifies V2/V3/V4 gap and lists evidence options, then offers relabeling instead: 'Until then, re-label the evidence as local request-contract assertion passed on CHANGE; live probe not verified and merge'."
+  - id: dcc00825849e
+    fixture: tv-2-01
+    score: 0.5
+    rationale: "Identifies gate value and negative-control gap, but: 'Alternatively, reword the note to claim only what is proven ... and drop the live wording.'"
+  - id: 086370d15a9a
+    fixture: tv-2-02
+    score: 0.5
+    rationale: "Sees credential gate routed to offline adapter, but option '(c) drop the validates the live upload tag wording ... Option (c) is sufficient for this change'."
+  - id: 2be620b1ea0a
+    fixture: tv-2-02
+    score: 0.5
+    rationale: "Identifies credential_present=false routing and missing negative control; resolution offered as 'Correct the claim or attach the missing evidence.'"
+  - id: 4ad79e0dcec8
+    fixture: tv-2-02
+    score: 0.5
+    rationale: "Identifies gate-off routing; offers '(a) reword the note to state that only the offline/local contract path was exercised' as an accepted alternative to (b)."
+  - id: 525d042e102a
+    fixture: tv-2-03
+    score: 0.5
+    rationale: "Identifies omitted optional probe (connection_attempts=0) but: '(a) change the checklist to state accurately that the live probe was not exercised ... (a) is the minimal acceptable fix'."
+  - id: 611ff7730011
+    fixture: tv-2-03
+    score: 0.5
+    rationale: "Identifies probe omission and missing service-down run; offers '(a) correct the checklist to live probe omitted' as alternative to supplying evidence."
+  - id: c5a19214cbeb
+    fixture: tv-2-03
+    score: 0.5
+    rationale: "Identifies zero-attempt probe omission; '(a) reword the checklist ... and don't block this change on it' offered as alternative to the negative run."
+  - id: 00c856bbb656
+    fixture: tv-2-04
+    score: 0.5
+    rationale: "Identifies fallback swallowing the probe outcome; 'Either drop the live-validation claim from the change description, or supply negative evidence'."
+  - id: 098b9b1aec4c
+    fixture: tv-2-04
+    score: 0.5
+    rationale: "Identifies fallback-neutralized negative run; 'Either (a) drop the live-validation claim from this change ... or (b) rerun once with the service down and offline_fallback=0'."
+  - id: 1b141ccea349
+    fixture: tv-2-04
+    score: 0.5
+    rationale: "Identifies fallback masking; 'Either (a) drop the live validation claim from the PR description ... or (b) ... re-run the deliberate-down probe'; explicitly non-blocking."
+  - id: 06331b0efba1
+    fixture: tv-2-05
+    score: 0.5
+    rationale: "Correctly identifies 4415 vs 4315 mismatch and demands rerun on 4315, but adds 'or the reviewer note citing the service-down attachment as the negative control should be withdrawn'."
+  - id: 150895a9bde8
+    fixture: tv-2-05
+    score: 1.0
+    rationale: "Identifies wrong-port control and requires without alternative: 'Rerun on CHANGE with LIVE_PROBE=1 after stopping service-box:4315 ... Until then, the service deliberately down verification should be treated as not performed'."
+  - id: 8992750db555
+    fixture: tv-2-05
+    score: 0.5
+    rationale: "Identifies port mismatch and demands rerun on 4315, but offers alternative '(or the live claim is withdrawn and the change is accepted on the local profile alone ...)'."
+  - id: 6b500a72d872
+    fixture: tv-2-06
+    score: 0.5
+    rationale: "Identifies cache hit before live branch; 'Either (a) strike the claim from the record ... or (b) ... attach a run with cache_mode=bypass'."
+  - id: a07dee0ff5ee
+    fixture: tv-2-06
+    score: 0.5
+    rationale: "Identifies cache short-circuit; 'Either (a) reword the claim to what was actually shown ... or (b) ... rerun once with the service down and the cache unable to satisfy the request'."
+  - id: cbee6c2a9f22
+    fixture: tv-2-06
+    score: 0.5
+    rationale: "Identifies cache bypassed live branch; primary demand is 'Reword the note'; the bypass rerun is 'a separate verification activity and is not something this diff needs to block on'."
+  - id: 240ce11620c9
+    fixture: tv-2-07
+    score: 0.5
+    rationale: "Identifies MemoryTransport override (socket calls=0); '(a) Reword the note ... I would accept the change on that corrected basis' offered as alternative to (b)."
+  - id: 87912f5ea707
+    fixture: tv-2-07
+    score: 0.5
+    rationale: "Identifies injected MemoryTransport; 'Either (a) reword the note ... or (b) actually perform the reference-material step ... (a) is the minimum'."
+  - id: e015093d8105
+    fixture: tv-2-07
+    score: 0.5
+    rationale: "Identifies transport override; 'Required: either (a) reword the note ... or (b) attach a genuine live-route run plus its negative control. Option (a) is sufficient here.'"
+  - id: 14d7d87bdcec
+    fixture: tv-2-08
+    score: 0.5
+    rationale: "Identifies CHECK_MODE=local selector; final requirement is 'either performing or explicitly deferring the service-down live run', deferral offered as alternative."
+  - id: 474df5fd055a
+    fixture: tv-2-08
+    score: 0.5
+    rationale: "Identifies inner selector false; option '3. ... drop the live-verification claim from the note and state plainly that only the local profile was exercised'."
+  - id: 5879b5230fe8
+    fixture: tv-2-08
+    score: 0.5
+    rationale: "Identifies dispatches=0 under CHECK_MODE=local; 'Either (a) strike the live-verification claim ... which is sufficient for this change - or (b) ... rerun with CHECK_MODE=live'."
+  - id: 1fff1fe5671b
+    fixture: tv-2-09
+    score: 0.5
+    rationale: "Identifies health-command failure misattributed to the wrapper; 'Either (a) drop the live-probe verification claim from the notes ... or (b) supply real negative evidence'."
+  - id: 2e33ba7d879e
+    fixture: tv-2-09
+    score: 0.5
+    rationale: "Identifies wrapper not invoked during down interval and demands wrapper rerun, but adds 'If the author is content to land ... on local-profile evidence alone, say so in the PR and drop the live-negative-control claim'."
+  - id: 76e2081347f1
+    fixture: tv-2-09
+    score: 0.5
+    rationale: "Identifies wrong-tool negative control; 'or (b) drop the live negative-control claim entirely ... Option (b) is sufficient to merge this change'."
+  - id: 4d7e03751fec
+    fixture: tv-2-10
+    score: 1.0
+    rationale: "Identifies missing gate identity linkage and requires it with no relabel alternative: 'Record LIVE_PROBE, adapter and wrapper profile in the retained run metadata (or re-run V1 and V2 back-to-back under one identified profile) ... before treating the live evidence as established'."
+  - id: a2ce27671084
+    fixture: tv-2-10
+    score: 0.5
+    rationale: "Identifies omitted gate identity fields (V3/V4) but requires only 'Reword the verification statement to what the evidence actually supports'; identity capture is conditional on project policy."
+  - id: fab5d5a0e378
+    fixture: tv-2-10
+    score: 0.5
+    rationale: "Identifies that the log 'cannot actually establish which route the probe took' but is explicitly non-blocking: 'ask that the note be reworded ... or that future retained runs capture the gate fields'."
+  - id: 49822c4766f6
+    fixture: tv-2-11
+    score: 0.5
+    rationale: "Identifies retry-masked outage with discarded attempt events; 'Either (a) remove the live negative-control result designation ... or (b) rerun the negative control properly'."
+  - id: 6de4ce2fcffc
+    fixture: tv-2-11
+    score: 1.0
+    rationale: "Identifies no failure record from the down interval and requires evidence: 'Either (a) re-run with the negative-control recorder retained so the expected probe error during the down interval is captured ... or (b) attach some other artifact that establishes the probe actually attempted the live endpoint'; both options obtain evidence, no relabel alternative."
+  - id: d68c64383f34
+    fixture: tv-2-11
+    score: 1.0
+    rationale: "Identifies discarded intermediate events and blocks the claim: 'Either a negative-control run with the service deliberately down for the entire run ... or re-run live-311 scenario with intermediate attempt events retained'; no retraction alternative offered."
+  - id: 21c769fa2faf
+    fixture: tv-2-12
+    score: 0.5
+    rationale: "Identifies shard-one control borrowed for shard three (LIVE_PROBE=0); 'Either (a) reword the merged summary ... or (b) ... re-run shard three with LIVE_PROBE=1'."
+  - id: 40d33fe6ca97
+    fixture: tv-2-12
+    score: 0.5
+    rationale: "Identifies mis-scoped shard evidence; 'or (b) remove the live checks verified statement from the merged report for this target'."
+  - id: 9820bea21ee1
+    fixture: tv-2-12
+    score: 0.5
+    rationale: "Identifies non-transferable shard-one control; first preference is 'Drop the live-verified claim for test_bundle_tag from the merge record'."
+  - id: 075dd6096c8a
+    fixture: tv-2-c1
+    false_positives: 0
+    rationale: "'Repeating it adds no information. I would decline this request rather than block on it.'"
+  - id: 9d88f9100ff2
+    fixture: tv-2-c1
+    false_positives: 0
+    rationale: "'A second run would only re-observe the same deterministic ConnectionRefused; it's not something I'd block on.'"
+  - id: c3ba70b23aa8
+    fixture: tv-2-c1
+    false_positives: 0
+    rationale: "'it is already satisfied and I would not hold acceptance on it.'"
+  - id: 13b84fe8acab
+    fixture: tv-2-c2
+    false_positives: 0
+    rationale: "'I would not require it. ... Repeating it would produce no new information'; only a non-blocking commit-message nit."
+  - id: 1c3e69e9757a
+    fixture: tv-2-c2
+    false_positives: 0
+    rationale: "'I would not require this. ... Merge on the evidence in hand.'"
+  - id: e28d49082f7b
+    fixture: tv-2-c2
+    false_positives: 0
+    rationale: "'Not required. ... I would decline that request rather than block on it.'"
+  - id: 20042792c41d
+    fixture: tv-2-c3
+    false_positives: 0
+    rationale: "'Not required as a condition of merge. ... I would not block on it.'"
+  - id: 72067a0b9400
+    fixture: tv-2-c3
+    false_positives: 0
+    rationale: "'I would not require an additional standalone live-suite rerun before approving this one-line change.'"
+  - id: eb575fc5d282
+    fixture: tv-2-c3
+    false_positives: 0
+    rationale: "'I would not require it. ... a generic repeat is not warranted here.'"
+  - id: 99cf1a7fd83b
+    fixture: tv-2-c4
+    false_positives: 0
+    rationale: "'repeating it would reproduce the same evidence and adds no information. I would not make it a blocking condition.'"
+  - id: b0181c3a49e0
+    fixture: tv-2-c4
+    false_positives: 0
+    rationale: "'Repeating it would be redundant work, not a blocking condition.'"
+  - id: e8f076423c58
+    fixture: tv-2-c4
+    false_positives: 0
+    rationale: "'I would not require this. ... Repeating it would produce no new information'; commit-message nit is optional."

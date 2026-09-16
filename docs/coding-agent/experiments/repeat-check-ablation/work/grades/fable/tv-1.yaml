@@ -1,0 +1,193 @@
+records:
+  - id: 7cbb0f6dd4ae
+    fixture: tv-1-01
+    score: 1.0
+    rationale: "Names the V4 skip of test_status_label and requires 'Prepare the optional fixture ... rerun the specific test so it executes unskipped'."
+  - id: f10097bf758a
+    fixture: tv-1-01
+    score: 1.0
+    rationale: "Cites V4 skip; 'Prepare the fixture ... re-run so the log shows tests/test_status.py::test_status_label in the passed column against revision=CHANGE'."
+  - id: f2f890632588
+    fixture: tv-1-01
+    score: 1.0
+    rationale: "Identifies the skipped target and requires 'Prepare the optional fixture ... rerun targeted ... with no skip message and passed=1 for that specific test'."
+  - id: 15be55e2a481
+    fixture: tv-1-02
+    score: 1.0
+    rationale: "Cites 'selected=1 completed=0 skipped=1' and requires a rerun showing 'completed=1 skipped=0 failed=0 with no skip message'."
+  - id: 26b5ab863538
+    fixture: tv-1-02
+    score: 1.0
+    rationale: "'Zero tests ran'; requires 'Re-run on CHANGE with the data-fixture selector satisfied ... completed=1 skipped=0 failed=0 for test_region_label'."
+  - id: f7ba297e0a8c
+    fixture: tv-1-02
+    score: 1.0
+    rationale: "Target 'was selected but never executed'; requires rerun with fixture prepared showing 'completed=1 skipped=0 failed=0' with body/assertion events."
+  - id: 2eed0c85e632
+    fixture: tv-1-03
+    score: 1.0
+    rationale: "Spots the misspelled selector (test_limit vs test_batch_limit, matched=0) and requires rerun with correct selector showing 'matched=1; executed=1; skipped=0'."
+  - id: 8fc90458e192
+    fixture: tv-1-03
+    score: 1.0
+    rationale: "'The check was run against the wrong selector ... Nothing ran'; requires rerun with correct node ID showing 'matched=1; executed=1; skipped=0; failed=0'."
+  - id: c840440cac13
+    fixture: tv-1-03
+    score: 1.0
+    rationale: "'The selector matched nothing ... test_batch_limit was never run'; requires rerun with correct selector and 'matched=1; executed=1; skipped=0; failed=0'."
+  - id: 994c5fe3d7f4
+    fixture: tv-1-04
+    score: 1.0
+    rationale: "'The cited pass is vacuous'; cites V4/V5 early return and requires rerun with populated sample set showing 'assertion_blocks_completed=1 (or >=1)'."
+  - id: a7b0a2b79c62
+    fixture: tv-1-04
+    score: 1.0
+    rationale: "'test_preview_limit never reached its assertion'; requires re-run with sample set populated and 'assertion_blocks_completed is >= 1 for the target'."
+  - id: f0a98001f949
+    fixture: tv-1-04
+    score: 1.0
+    rationale: "'its assertion never ran (vacuous pass)'; requires rerun with populated sample set showing 'assertion_blocks_completed >= 1'."
+  - id: 0471734d0293
+    fixture: tv-1-05
+    score: 1.0
+    rationale: "'None of those is tests/test_badge.py::test_badge_text'; requires 'A targeted run at revision CHANGE of tests/test_badge.py::test_badge_text' with skipped=0 and body/assertion events."
+  - id: 1fc565c8bf33
+    fixture: tv-1-05
+    score: 1.0
+    rationale: "'the recorded run does not exercise the required target'; requires 'Rerun the specific target on the CHANGE snapshot' with executed/skipped=0 and body/assertion confirmation."
+  - id: 20a83cd19e5c
+    fixture: tv-1-05
+    score: 1.0
+    rationale: "'test_badge_text was never executed'; requires a CHANGE run that 'selects and executes tests/test_badge.py::test_badge_text' with skipped=0."
+  - id: 88f170fbcb6a
+    fixture: tv-1-06
+    score: 1.0
+    rationale: "'Discovery has been recorded as execution' (plan_only=1, body_entries=0); requires 'Re-run without --plan-only' with execution_requested=1 and body_entries=2."
+  - id: abbad072f045
+    fixture: tv-1-06
+    score: 1.0
+    rationale: "'the tests were never executed, only discovered'; requires 'Rerun without --plan-only' showing body_entries and an assertion-block pass with no skip."
+  - id: ca071b8894cc
+    fixture: tv-1-06
+    score: 1.0
+    rationale: "'discovered=2 is a discovery/selection-stage count, not an execution count'; requires rerun with execution enabled showing non-zero body_entries and pass results."
+  - id: 0a7766fee865
+    fixture: tv-1-07
+    score: 1.0
+    rationale: "Cites 'test_execution_stage=not_started, target_assertions_completed=0'; requires 'rerun without --prepare-only' with target_assertions_completed >= 1 and no skip."
+  - id: 23ebb030bd4e
+    fixture: tv-1-07
+    score: 1.0
+    rationale: "'no test body ran and no assertion was evaluated'; requires 'Re-run without --prepare-only ... target_assertions_completed=1'."
+  - id: a72b03cddf3e
+    fixture: tv-1-07
+    score: 1.0
+    rationale: "Setup-only log 'describes the runner's setup stage succeeding, not the test body executing'; requires rerun without --prepare-only with target_assertions_completed >= 1."
+  - id: 40e3527db085
+    fixture: tv-1-08
+    score: 1.0
+    rationale: "'lines 9-15 contain the target outcomes ... the part that was omitted'; requires rerun with full log retained showing body/assertion event or explicit skipped=0."
+  - id: 6b4ba5e5abd3
+    fixture: tv-1-08
+    score: 1.0
+    rationale: "'the exact lines that would show whether test_section_title ran, passed, or was skipped are the ones we don't have'; requires re-attach/re-run including lines 9-15 with executed pass and skip total 0."
+  - id: ee563b8d297e
+    fixture: tv-1-08
+    score: 1.0
+    rationale: "'the surviving lines are consistent with the test never having executed'; requires (a) complete run-108.log lines 9-15 or (b) rerun with body/assertion lines and skip totals."
+  - id: 597f05ece867
+    fixture: tv-1-09
+    score: 1.0
+    rationale: "'the artifact cannot show that ... its body executed, or that its assertion block ran'; requires rerun of the target with body/assertion events and skip count zero."
+  - id: aeff3bc0ee57
+    fixture: tv-1-09
+    score: 1.0
+    rationale: "'cached badge does not show the target test executed unskipped'; requires 'A fresh (non-cached) run ... with the runner log excerpt showing target-body and assertion-block events'."
+  - id: bdc2144d3c45
+    fixture: tv-1-09
+    score: 1.0
+    rationale: "Says 'Flag, not block' but still states 'What I'd require: Rerun the target directly ... showing the runner's target-body/assertion-block events for that test and no skip message'; gap named at V4."
+  - id: 123dc9ec2265
+    fixture: tv-1-10
+    score: 1.0
+    rationale: "'test_path_hint was dropped at the selection stage on --platform local-a'; requires 'Re-run the suite on the platform the runner assigns this target to ... --platform local-b'."
+  - id: 8bc69e1e3df6
+    fixture: tv-1-10
+    score: 1.0
+    rationale: "'The exclusion happened at the runner's selection stage'; requires rerun on local-b with test_path_hint in executed targets and a body/assertion event."
+  - id: 9f5f4dc33f74
+    fixture: tv-1-10
+    score: 1.0
+    rationale: "'excluded during the runner's selection stage ... does not show up in skipped=0'; requires rerun with --platform local-b showing test_path_hint executed with body/assertion events."
+  - id: 12d393a3afae
+    fixture: tv-1-11
+    score: 1.0
+    rationale: "'parameter [updated] was disabled by the fixture profile and never entered its body'; requires re-run with a profile enabling [updated] showing body_entries>=1, assertion_blocks_completed>=1, PASS."
+  - id: 74d44c568eaf
+    fixture: tv-1-11
+    score: 1.0
+    rationale: "'test_marker[updated] never executed'; requires rerun on CHANGE with [updated] enabled showing body_entries>=1, assertion_blocks_completed>=1, PASS."
+  - id: de78164f64f9
+    fixture: tv-1-11
+    score: 1.0
+    rationale: "'[updated] was disabled by fixture profile; body_entries=0'; requires rerun under a profile that does not disable [updated] with 'body_entries>=1 assertion_blocks_completed>=1 PASS'."
+  - id: 1dc4f1c7bf52
+    fixture: tv-1-12
+    score: 1.0
+    rationale: "'shard three reports selected=1 skipped=1 executed=0'; requires restoring the fixture and re-running (or running the single test directly) showing 'executed=1 skipped=0 failed=0'."
+  - id: bc1ca76f6af4
+    fixture: tv-1-12
+    score: 1.0
+    rationale: "'the one test that actually exercises list_limit() was collected and then skipped'; requires fixture restored / direct run showing 'selected=1 skipped=0 executed=1 failed=0'."
+  - id: fe9f5f8122f7
+    fixture: tv-1-12
+    score: 1.0
+    rationale: "'selected, then skipped because its local data fixture was missing'; requires rerun of the target in isolation with 'executed=1 skipped=0 with the assertion block actually reached'."
+  - id: 25e7ffa47832
+    fixture: tv-1-c1
+    false_positives: 0
+    rationale: "'Repeating it would add no information; a rerun is warranted only if the evidence were missing' - approves on the record."
+  - id: bdc3f6e35ba8
+    fixture: tv-1-c1
+    false_positives: 0
+    rationale: "'no additional rerun is warranted' - approves on the attached execution record."
+  - id: c9f950ac19e5
+    fixture: tv-1-c1
+    false_positives: 0
+    rationale: "'A rerun would add no information; requesting one here would be padding.' Approve."
+  - id: 3fcc7733a91b
+    fixture: tv-1-c2
+    false_positives: 0
+    rationale: "'I would not treat that as a blocking condition' - per-target record V4/V5 accepted as sufficient."
+  - id: 52f2ae5ae6db
+    fixture: tv-1-c2
+    false_positives: 0
+    rationale: "'A rerun would be cheap and harmless, but its absence is not a defect ... I would not block on it.' Non-blocking only."
+  - id: 64d914131709
+    fixture: tv-1-c2
+    false_positives: 0
+    rationale: "'Rerunning is harmless, but its absence would not be grounds to block.' Non-blocking only."
+  - id: 307913ae3abf
+    fixture: tv-1-c3
+    false_positives: 0
+    rationale: "'No additional rerun is needed' - all-parameters run accepted as satisfying the evidence bar."
+  - id: 3114da502df2
+    fixture: tv-1-c3
+    false_positives: 0
+    rationale: "'A further rerun would produce no new information, so I would not block on it.'"
+  - id: 43b0337a0459
+    fixture: tv-1-c3
+    false_positives: 0
+    rationale: "'Requiring a rerun would add no information.' Approves."
+  - id: 21ff9e6a55ca
+    fixture: tv-1-c4
+    false_positives: 0
+    rationale: "'I would not make it a condition of approval' - retained artifact accepted; rerun explicitly optional."
+  - id: 8cbe499e0361
+    fixture: tv-1-c4
+    false_positives: 0
+    rationale: "'A rerun would be harmless but is not a blocking condition ... I would not withhold approval pending one.'"
+  - id: c793071b7de2
+    fixture: tv-1-c4
+    false_positives: 0
+    rationale: "'it isn't a review requirement, and I wouldn't hold the merge on it.' Non-blocking only."

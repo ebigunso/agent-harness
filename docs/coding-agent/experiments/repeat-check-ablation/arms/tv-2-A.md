@@ -1,0 +1,1 @@
+- Gated live tests require negative evidence when the gate could be off.
