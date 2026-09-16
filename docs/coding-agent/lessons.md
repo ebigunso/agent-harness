@@ -887,3 +887,51 @@ Prevention:
 
 Evidence:
 - Task_7 round 1 addendum to the Reviewer packet (2026-09-16).
+
+## 2026-09-16 - A Frozen Revision On A Stacked Branch Is Rewritten By Every Rebase  [tags: planning, validation, tooling]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/repeat-check-ablation-plan.md`
+- Task/Wave: Task_1 and Task_2
+- Roles involved: Orchestrator, Reviewer
+
+Symptom:
+- The protocol recorded the part-3 branch base as its frozen revision; two rebases of the stack in one day rewrote that commit, so the recorded SHA stopped resolving and the validator's `--frozen` argument pointed at an orphan object.
+
+Root cause:
+- A stacked branch's base commits belong to the lower branches, which change under review; a SHA taken there is not stable until the stack merges.
+
+Fix applied:
+- The frozen revision was pinned to the `main` tip the stack is based on, after checking the file under test is byte-identical from there to the branch; a Decision Log entry records the repoint and the new protocol hash.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: a pre-registered SHA in an experiment record no longer resolves on the branch
+  - cause: the SHA was a stacked-branch commit rewritten by a rebase
+  - safe steps: freeze on a commit that no open review rewrites (the trunk tip the stack is based on, or a tag pushed for the purpose); verify the frozen content is identical to the branch head before pinning.
+- Residual risk / waiver:
+  - none
+
+## 2026-09-16 - A Grader Can Relax The Pre-Registered Hit Condition After Reading The Responses  [tags: validation, review, orchestration]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/repeat-check-ablation-plan.md`
+- Task/Wave: Task_3
+- Roles involved: Orchestrator, Reviewer, Claude grader subagents
+
+Symptom:
+- One blinded grader scored seven responses as hits under a condition it stated in its own summary ("evidence required only for the claim as made"), while the pre-registered rule required the response to require obtaining the missing evidence. The Reviewer's sensitivity copy showed the reading flipped that section's verdict.
+
+Root cause:
+- The grader packet restated the rule but did not name the tempting relaxation; the responses offered the author a way out (retract the claim), and the grader resolved the ambiguity in the responses' favor after seeing them.
+
+Fix applied:
+- The section was regraded on both models by fresh blinded graders with the rule's condition stated literally, including the alternative that does not count; round-1 grade files were preserved beside the regrade, and the adjudication is in the Decision Log and `outcome.md`. Applied consistently, the other model showed the same pattern in most responses, and the worst-model verdict did not change.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: a grader's summary adds a condition or reading the rubric does not contain
+  - cause: the rubric left a plausible relaxation unnamed and the grader chose it post hoc
+  - safe steps: when a grader reports a "judgment worth noting", treat it as a rubric deviation until checked; have the Reviewer recompute a sensitivity copy; regrade the affected unit on every model with the condition stated literally rather than adjudicating only the records found.
+- Residual risk / waiver:
+  - the corrected condition is now in the grader packet for this experiment only; a future protocol should carry it in the grading rule text.

@@ -1,6 +1,6 @@
 # Plan: Ablate the repeat-check rules in testing-validation.md (Astra guide, part 3 of 3)
 
-- status: in_progress
+- status: done
 - generated: 2026-09-13
 - last_updated: 2026-09-16
 - work_type: mixed
@@ -168,6 +168,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
 - 2026-09-16 Wave 3 Task_3 reviewed, round 1: NEEDS_REVISION (R1, MAJOR: the round-1 Astra tv-2 grader relaxed the Q1 hit condition; seven records). tv-2 regraded on both models by fresh blinded graders under the literal condition; results regenerated; `score.py` verdicts unchanged (DELETE on all three sections) with tv-2 now decided on Fable as the worst model (A 0.542, dB +0pp, dC +4.2pp); `outcome.md` rewritten with the adjudication section, corrected tables, and caveats; round-1 tv-2 grades preserved under `work/grades-round1/`.
 - 2026-09-16 Wave 3 Task_3 reviewed, round 2: APPROVED at 1af6e03 (R1 resolved; R2 MINOR non-blocking: outcome.md partial counts corrected to A 11/12, B 11/12, C 10/12 and the one-seed caveat limited to the measured result). Wave 4 Task_4 dispatched to the Codex Worker.
 - 2026-09-16 Wave 4 Task_4 done (Codex Worker; one ruling: the worktree's CRLF comes from core.autocrlf, comparisons on LF-normalized content). Original line 74 replaced by the tv-1 and tv-2 arm-A bullets, original line 77 by the tv-3 arm-A bullet, each byte-equal to its arm file; nothing else changed. Validation: validate_harness_package.py pass; git diff --check clean; three byte comparisons pass (Worker and Orchestrator). Task_4 review and Task_5 final review dispatched together to the Codex Reviewer.
+- 2026-09-16 Wave 4 Task_4 reviewed and Wave 5 Task_5 final review: APPROVED at 72ab76b (Codex Reviewer, full diff against the Definition of Done with the tree present). Closeout: evidence commit `72ab76b818dab6b3c64ae4431d3158f91168df05` tagged `evidence/repeat-check-ablation-2026-09-16` and pushed; `docs/coding-agent/experiments/` removed; manifests 0.19.0 -> 0.20.0; plan closed with status done and moved to completed/; two lessons appended to `docs/coding-agent/lessons.md`.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -222,6 +223,21 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): no task, text, or rule change. Adjudication: tv-2 regraded on both models by two fresh blinded Claude graders with the same packet plus one sentence stating the Q1 condition literally (retraction, relabeling, or narrowing offered as an alternative to obtaining the evidence scores 0.5 at most), applied to every tv-2 response in every arm on both models; round-1 grade files preserved in `work/grades-round1/`. Result: Astra reproduces the Reviewer's seven records exactly; Fable shows the same pattern in 32 of 36 planted responses in all three arms, so the worst model on tv-2 is Fable (A 0.542, B 0.542, C 0.583), dB +0pp, dC +4.2pp, rule 1, DELETE. The KEEP illustration depended on holding Fable at its round-1 grades. `outcome.md` records the adjudication, the corrected tables, and the caveat that tv-2 is not a ceiling result.
   - Tradeoffs considered: adjudicating only the seven Astra records (rejected: the Reviewer required the same treatment for equivalent responses across arms and models, and the Fable round-1 grader had not applied the condition either); regrading all three sections (rejected: the Reviewer's spot checks of tv-1 and tv-3 found no retraction alternative, and the pattern is specific to a live-validation claim that can be withdrawn).
   - User approval: not required (grading adjudication within the pre-registered rule; recorded for the Reviewer's re-review and ebigunso's report).
+
+- 2026-09-16 Decision: Outcome recorded; DELETE on all three sections; evidence commit tagged; experiment tree removed.
+  - Trigger / new insight: Task_3 APPROVED (round 2) and Task_4 and Task_5 APPROVED at 72ab76b. Outcome table (detection = mean hit score over 12 planted fixtures, one seed; FP = false positives over 4 decoys):
+    | Section | Model | A | B | C | FP A/B/C | Worst model | dB | dC | Outcome |
+    |---|---|---|---|---|---|---|---|---|---|
+    | tv-1 skip confirmation | claude-fable-5-1 | 1.000 | 1.000 | 1.000 | 0/0/0 | tie, both evaluated | +0pp | +0pp | DELETE |
+    | tv-1 skip confirmation | gpt-6-astra | 1.000 | 1.000 | 1.000 | 0/0/0 | tie, both evaluated | +0pp | +0pp | DELETE |
+    | tv-2 gated live test | claude-fable-5-1 | 0.542 | 0.542 | 0.583 | 0/0/0 | claude-fable-5-1 | +0pp | +4.2pp | DELETE |
+    | tv-2 gated live test | gpt-6-astra | 0.708 | 0.958 | 0.875 | 0/0/0 | (not worst) | +25.0pp | +16.7pp | (rule evaluated on Fable) |
+    | tv-3 baseline classification | claude-fable-5-1 | 1.000 | 1.000 | 1.000 | 0/0/0 | tie, both evaluated | +0pp | +0pp | DELETE |
+    | tv-3 baseline classification | gpt-6-astra | 1.000 | 1.000 | 1.000 | 0/0/0 | tie, both evaluated | +0pp | +0pp | DELETE |
+    FP guard passes on every model (every arm 0/4). All 288 cells complete on the first call, 0 retries; six blinded Claude graders; one adjudication (tv-2 regraded on both models under the literal Q1 hit condition, entry above).
+  - Plan delta (what changed): `testing-validation.md` original line 74 replaced by the tv-1 and tv-2 obligations (two bullets), original line 77 by the tv-3 obligation; each obligation retained verbatim; nothing else in the file changed. Caveats carried from `outcome.md`: tv-1 and tv-3 are ceiling results (the obligation alone produces the detection; the experiment does not show that the mechanics harm); tv-2 is not a ceiling result (Fable names the gap in every planted case but requires the evidence in only four, in every arm alike; Astra's B lift of +25pp is real but Astra is not the worst model, so it does not decide under the pre-registered rule; whether an obligation can be phrased so that Fable requires the evidence rather than offering a relabel is a different experiment); one seed, stability under more seeds not measured; review targets only. Evidence: pre-removal commit `72ab76b818dab6b3c64ae4431d3158f91168df05` (the full tree: protocol, manifest, arms, fixtures, keys, runners, prompts excluded, results, grades and round-1 grades, per-cell tokens, outcome.md), tagged `evidence/repeat-check-ablation-2026-09-16` and pushed so it stays reachable after the squash merge; `docs/coding-agent/experiments/` removed in the closeout commit per ebigunso's 2026-09-10 ruling. Fleet delta from ADR-I-0004: Claude Fable 5.1 and GPT-6 Astra, one seed. Per ADR-D-0019 no per-removal decision record; this entry and the tag are the record.
+  - Tradeoffs considered: keeping the tree on `main` (rejected: ebigunso's ruling); a per-removal ADR (rejected: ADR-D-0019 names the pre-registered ablation as the record).
+  - User approval: not required for the closeout (approved plan); the merge of the stacked PR waits on ebigunso's explicit instruction.
 
 ## Notes
 - Planned calls: 288 cells and six graders, about a fifth of the 2026-09-09 remaining-sections run (1,344 cells); the spend cap and stop rule are Q3.

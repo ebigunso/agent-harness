@@ -1,1 +1,0 @@
-- When validation fails in tests the change did not touch, rerun against baseline HEAD (stash/worktree) to classify pre-existing vs regression before remediating.
