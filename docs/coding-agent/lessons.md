@@ -888,7 +888,7 @@ Prevention:
 Evidence:
 - Task_7 round 1 addendum to the Reviewer packet (2026-09-16).
 
-## 2026-09-16 - A Frozen Revision On A Stacked Branch Is Rewritten By Every Rebase  [tags: planning, validation, tooling]
+## 2026-09-16 - A Frozen Revision Taken On A Stacked Branch Leaves The Branch Ancestry At Every Rebase  [tags: planning, validation, tooling]
 
 Context:
 - Plan: `docs/coding-agent/plans/completed/repeat-check-ablation-plan.md`
@@ -896,18 +896,18 @@ Context:
 - Roles involved: Orchestrator, Reviewer
 
 Symptom:
-- The protocol recorded the part-3 branch base as its frozen revision; two rebases of the stack in one day rewrote that commit, so the recorded SHA stopped resolving and the validator's `--frozen` argument pointed at an orphan object.
+- The protocol recorded the part-3 branch base as its frozen revision; two rebases of the stack in one day replaced that commit with a new one and moved the branch, so the recorded SHA was no longer in the branch's ancestry (the object still existed locally but was unreachable from any branch and would not survive a fresh clone or garbage collection).
 
 Root cause:
-- A stacked branch's base commits belong to the lower branches, which change under review; a SHA taken there is not stable until the stack merges.
+- A rebase creates replacement commits and moves branch references; the old commit is left outside the new ancestry. A stacked branch's base commits belong to the lower branches, which change under review, so a SHA taken there has no durable reachability until the stack merges.
 
 Fix applied:
 - The frozen revision was pinned to the `main` tip the stack is based on, after checking the file under test is byte-identical from there to the branch; a Decision Log entry records the repoint and the new protocol hash.
 
 Prevention:
 - Troubleshooting note/candidate:
-  - symptom: a pre-registered SHA in an experiment record no longer resolves on the branch
-  - cause: the SHA was a stacked-branch commit rewritten by a rebase
+  - symptom: a pre-registered SHA in an experiment record is no longer an ancestor of the branch (and may not resolve at all in a fresh clone)
+  - cause: the SHA was a stacked-branch commit that a rebase replaced, leaving it unreachable
   - safe steps: freeze on a commit that no open review rewrites (the trunk tip the stack is based on, or a tag pushed for the purpose); verify the frozen content is identical to the branch head before pinning.
 - Residual risk / waiver:
   - none

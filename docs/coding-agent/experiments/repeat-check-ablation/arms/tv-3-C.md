@@ -1,1 +1,0 @@
-- Classify failures in untouched tests as pre-existing or regression before remediation. If that evidence is absent, compare against baseline HEAD.
