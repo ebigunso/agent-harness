@@ -63,7 +63,7 @@ Rules:
 
 Scope:
 - Review the draft plan at <plan> before user approval. The artifact is the plan file, not a diff.
-- Inputs: the plan; the request as given (the user's request text, verbatim or a faithful record); Researcher output at <path or "none">; the plugin root.
+- Inputs: the plan; the request as given at <request> (the Orchestrator fills it from the original request text, verbatim or a faithful record); Researcher output at <path or "none">; the plugin root.
 
 Procedure:
 - Run `python <plugin root>/skills/plan-format/scripts/validate_plan.py --file <plan> --mode balanced` first. Its pass output is the required validation evidence; do not re-check by hand what it checks.

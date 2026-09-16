@@ -70,7 +70,7 @@ Design assumptions:
 
 11) ADR-producing tasks: use "propose an ADR if the admission test passes" per `durable-docs-authoring/references/adr.md`; do not enumerate record contents in acceptance criteria.
 
-12) Planner-added requirements: a `planner-added requirement` is a Definition of Done item, acceptance bullet, or constraint that entered the plan during drafting rather than from the request, a document the request names, or the repository's rule suite and lessons. Every planner-added requirement is listed in the plan's `Planner-added requirements` section with the reason the request cannot be met without it under the chosen design. An addition found anywhere else in the plan but not in that section is a plan defect.
+12) Planner-added requirements: a `planner-added requirement` is a Definition of Done item, acceptance bullet, or constraint that entered the plan during drafting rather than from the request, a document the request names, or the repository's rule suite and lessons. Every planner-added requirement is listed in the plan's `Planner-added requirements` section with the reason the request cannot be met without it under the chosen design; the section is present on every plan and reads `- None` when nothing was added. An addition found anywhere else in the plan but not in that section is a plan defect.
 
 13) Design comparison:
 - The plan's `Design` section states the design chosen and at least one alternative that differs from it on a lens, with what each changes on every lens group (consumers stay in the Compatibility stance, rule 8), and why the chosen one wins.
