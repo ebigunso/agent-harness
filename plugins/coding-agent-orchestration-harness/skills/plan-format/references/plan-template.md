@@ -22,9 +22,19 @@ Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sent
 ## Definition of Done
 - <concrete criteria>
 
+## Planner-added requirements
+- <requirement>. Needed because: <why the request cannot be met without it under the chosen design>
+- (an empty section reads exactly:) `- None`
+
 ## Scope / Non-goals
 - Scope:
 - Non-goals:
+
+## Design
+- Chosen: <design>. Dependencies: <what it changes>. Duplicated state: <what it changes>. Conversions: <what it changes>. (consumers: see the Compatibility stance)
+- Alternative: <design differing on at least one axis>. Dependencies: <...>. Duplicated state: <...>. Conversions: <...>.
+- Why chosen: <why the chosen one wins>
+- Proportional form when the change touches no responsibility, contract, persisted state, or new component: `- Chosen: <one line>; no alternative changes the cost axes.`
 
 ## Compatibility stance (required if a contract/interface/persisted format is touched)
 - surface: <contract/interface/format being changed>

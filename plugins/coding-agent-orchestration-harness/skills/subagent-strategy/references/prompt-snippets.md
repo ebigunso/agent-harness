@@ -63,16 +63,18 @@ Rules:
 
 Scope:
 - Review the draft plan at <plan> before user approval. The artifact is the plan file, not a diff.
-- Inputs: the plan; Researcher output at <path or "none">.
+- Inputs: the plan; the request as given (the user's request text, verbatim or a faithful record); Researcher output at <path or "none">; the plugin root.
 
 Procedure:
 - Run `python <plugin root>/skills/plan-format/scripts/validate_plan.py --file <plan> --mode balanced` first. Its pass output is the required validation evidence; do not re-check by hand what it checks.
 - Read `<plugin root>/skills/plan-format/SKILL.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
 - Open every source an Assumption or Context claim names and confirm it says what the plan says.
+- List every Definition of Done item, acceptance bullet, and constraint in the plan that the request does not state, then compare that list with the plan's `Planner-added requirements` section. Each item on your list missing from the section is a finding. Each listed item whose reason does not hold under the chosen design, or whose need another design removes, is a finding.
+- Read the plan's `Design` section against the whole change. A finding may name a design that removes an addition, a dependency, a copy of state, or a conversion, stating what it changes on dependencies, duplicated state, and conversions, and its cost delta. The Orchestrator owns the rewrite.
 
 Deliverables:
 - Each finding names the fact, record, or reference it contradicts.
-- Your verdict is advisory to the Orchestrator. Question the decomposition given; do not propose another.
+- Your verdict is advisory to the Orchestrator; do not rewrite the plan.
 
 ## Reviewer snippet (ADR review)
 
