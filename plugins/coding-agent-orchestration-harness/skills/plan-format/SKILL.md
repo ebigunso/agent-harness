@@ -82,7 +82,7 @@ Design assumptions:
   - `human`: cognitive load (names predict behavior); debuggability (reproducible locally).
   - `safety`: trust boundary handling; least privilege (permissions, secrets, reach); data exposure (logs, caches, errors).
 - A fit claim (a statement that a design fits or conflicts with the project's stated direction) names the document where the repository states that direction: a decision record, roadmap, README or contributing guide, rule file, or a reference document the rule suite lists.
-- Proportional form: when the change touches no responsibility, contract, persisted state, new component, trust boundary, or hot path, the section is the one-line form the template shows.
+- Proportional form: when the change touches no responsibility, contract, persisted state, new component, trust boundary, or hot path, the section is the one-line form the template shows and no alternative is required.
 
 ---
 
