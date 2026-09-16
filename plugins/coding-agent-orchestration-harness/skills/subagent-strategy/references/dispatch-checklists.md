@@ -53,7 +53,7 @@ Include:
   - require evidence screenshots under the provider-defined artifact root
   - require console/network notes if specified
 - When review-specific repository policy matters, include `docs/coding-agent/rules/reviewer.md` in the packet and name any relevant review hotspots from that file.
-- For plan review, the packet is the plan path, the request as given, the Researcher output path, and the plugin root; no changed-files list.
+- For plan review, the packet is the inputs the Reviewer snippet (plan review) in `prompt-snippets.md` names; no changed-files list.
 
 Optional (only if it materially steers decisions):
 - Context / Rationale
