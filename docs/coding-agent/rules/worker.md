@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "worker"
-last_updated: "2026-09-10"
+last_updated: "2026-09-16"
 ---
 
 # Worker Repository Rules
@@ -19,7 +19,7 @@ last_updated: "2026-09-10"
 
 | Change Type | Required Checks | Notes |
 |---|---|---|
-| Harness package structure, manifests, runtime role map, adapter references, rulebook lifecycle references, or latent-risk reference links | `python scripts/validate_harness_package.py` | Run from `plugins/coding-agent-orchestration-harness/`. |
+| Harness package structure, manifests, runtime role map, adapter references, rulebook lifecycle references, or the latent-risk reference file list and the links inside `review-latent-risk.md` (the validator reads no other file's links) | `python scripts/validate_harness_package.py` | Run from `plugins/coding-agent-orchestration-harness/`. |
 | Cross-harness validation plumbing or Codex bootstrap behavior | `python scripts/run_validation_smoke_tests.py` | Run from `plugins/coding-agent-orchestration-harness/`; includes package validation and bootstrap smoke checks. |
 | Plan-format skill or plan fixture changes | `python skills/plan-format/scripts/validate_plan.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-plan.md --mode balanced` | Add targeted plan fixture validation when a specific fixture is changed. |
 | Worker report contract, schema, validator, or fixtures | `python skills/subagent-report-contract/scripts/validate_worker_report.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-worker-report.yaml` | Also validate any new or changed report fixture. |

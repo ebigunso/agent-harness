@@ -42,6 +42,7 @@ last_updated: "2026-09-15"
 ## Recurring Misses And Prevention
 
 - After moving a plan from `active` to `completed`, update any durable lesson or ADR references to the completed path.
+- At closeout, re-read any lessons entry the plan appended or extended against the landed diff; an entry written at draft time diverges when the plan is extended after review (2026-09-16: three groups became six).
 - When fast-path guidance says not to read a sidecar in normal work, do not add adjacent wording that implicitly requires reading the sidecar to decide triviality.
 - For enum/schema package checks, verify the exact enum owner or contract field rather than broad token presence.
 - Durable rule sections should describe repository convention or review semantics, not the tool or reviewer that surfaced an issue.
