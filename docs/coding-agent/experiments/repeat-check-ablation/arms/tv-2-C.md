@@ -1,1 +1,0 @@
-- Gated live tests require negative evidence when the gate could be off. If that evidence is absent, verify once with the service deliberately down.
