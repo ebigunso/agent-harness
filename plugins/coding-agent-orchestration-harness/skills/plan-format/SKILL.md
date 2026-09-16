@@ -73,7 +73,7 @@ Design assumptions:
 12) Planner-added requirements: a `planner-added requirement` is a Definition of Done item, acceptance bullet, or constraint that entered the plan during drafting rather than from the request, a document the request names, or the repository's rule suite and lessons. Every planner-added requirement is listed in the plan's `Planner-added requirements` section with the reason the request cannot be met without it under the chosen design; the section is present on every plan and reads `- None` when nothing was added. An addition found anywhere else in the plan but not in that section is a plan defect.
 
 13) Design comparison:
-- The plan's `Design` section states the design chosen and at least one alternative that differs from it on a lens, with what each changes on every lens group (consumers stay in the Compatibility stance, rule 8), and why the chosen one wins.
+- The plan's `Design` section, present on every plan, states the design chosen and at least one alternative that differs from it on a lens, with what each changes on every lens group (consumers stay in the Compatibility stance, rule 8), and why the chosen one wins.
 - Lens groups and their members (each lens is its name with at most one short clause):
   - `structure`: dependencies; duplicated state; conversions; one owner per piece of state; coupling direction (volatile depends on stable); boundary crossings (representation, process, trust level).
   - `evolution`: technical debt; blast radius of the next change; fit with the project's stated direction; concept count (abstractions, knobs, vocabulary); deletion path.
