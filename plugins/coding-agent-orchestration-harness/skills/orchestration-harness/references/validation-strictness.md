@@ -23,7 +23,7 @@ Require explanation, waiver, or follow-up.
 
 Examples:
 
-- Worker touched files outside `owns` but reported and justified it;
+- Worker reported a minimal touch outside `owns` that its own edit needed to meet the acceptance criteria;
 - optional validation was skipped with a reason;
 - plan decomposition changed during execution and needs a Decision Log entry;
 - Reviewer found non-blocking maintainability concerns that should be tracked.

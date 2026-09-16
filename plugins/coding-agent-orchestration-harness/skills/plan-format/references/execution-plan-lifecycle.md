@@ -41,7 +41,7 @@ If a deviation occurs mid-execution (unexpected outcome, blocked/failed, reviewe
 1) Record the insight in the Decision Log: trigger, plan delta, tradeoffs, and approval status.
 2) Surface it in the next report or wave integration and update tasks/waves/validation as needed.
 3) Apply the `improvement-loop` skill for correction events.
-4) Follow `orchestration-harness` Replan Triggers for contract-shape, irreversible, or outward-facing changes, and `engineering-quality-baselines` Drift Tripwires when the only path inside `owns` is a workaround.
+4) Follow `orchestration-harness` Replan Triggers for contract-shape, irreversible, or outward-facing changes, and the always-active `engineering-quality-baselines` Drift Tripwires: classify every finding against the acceptance criteria and packet pre-rulings; anything they do not decide waits for an Orchestrator ruling.
 
 ## 4) Close
 

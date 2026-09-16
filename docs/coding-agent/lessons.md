@@ -5,7 +5,7 @@ Purpose:
 - enable "read once, don't repeat" improvements
 
 ## How to use
-- Append a new entry after any user correction or significant miss.
+- Record a lesson after a missed hard gate, a review/CI/human finding the harness should have caught, or a correction that changed a durable default; low-signal corrections need no entry.
 - Keep entries short and actionable.
 - Promote repeated/high-severity lessons into repo rules, first-party skills/references, or troubleshooting knowledge.
 
