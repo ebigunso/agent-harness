@@ -12,7 +12,7 @@ Examples:
 
 Good:
 - “If you touch paths mapped to CI checks, you must run those checks before reporting done, unless explicitly waived by the user.”
-- “Workers must not edit files outside owns; if unavoidable, they must explain why in the report.”
+- “Workers must not edit files outside owns, except a minimal touch their own edit needs to meet the acceptance criteria or a change a packet pre-ruling names, reported either way; anything else is surfaced and waits for a ruling.”
 
 Bad:
 - “Try to run tests when possible.”

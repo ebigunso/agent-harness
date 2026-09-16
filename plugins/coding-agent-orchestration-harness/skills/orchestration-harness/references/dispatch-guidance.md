@@ -46,11 +46,13 @@ Include:
 - acceptance criteria;
 - Worker-owned validation items;
 - expected YAML report contract;
-- explicit permission for bounded UI probes when the task includes UI/frontend work.
+- explicit permission for bounded UI probes when the task includes UI/frontend work;
+- pre-rulings for foreseeable findings the acceptance criteria do not decide (for example "tests that encoded the old behavior are to be updated", "the documented setup step is pre-authorized"), so the Worker resolves those without a round trip.
 
 Worker must not:
 
-- modify outside `owns` without minimal justification and reporting;
+- modify outside `owns`, except a minimal touch its own edit needs to meet the acceptance criteria or a change a pre-ruling in the packet names, either one reported;
+- resolve a finding the acceptance criteria or a pre-ruling did not decide; it is surfaced with a proposed remedy and waits for a ruling;
 - perform shared-state Git mutations unless explicitly delegated;
 - claim Reviewer-owned validation is satisfied.
 

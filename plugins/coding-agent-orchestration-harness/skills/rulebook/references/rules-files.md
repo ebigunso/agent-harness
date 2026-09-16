@@ -40,7 +40,7 @@ common.md may additionally include one optional Decision Records line recording 
 - `Decision records: follow <path>; match the existing ADRs' numbering and sections.`
 - `Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).`
 
-Set and update this line only through the detection/placement procedure in `references/bootstrap-lifecycle.md`; never record or change it without user confirmation.
+Set and update this line only through the detection/placement procedure in `references/bootstrap-lifecycle.md`, and always report what was recorded.
 
 3) worker.md must include:
 - Repo-Specific Worker Notes

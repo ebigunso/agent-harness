@@ -5,7 +5,7 @@ Purpose:
 - enable “read once, don’t repeat” improvements
 
 ## How to use
-- Append a new entry after any user correction or significant miss.
+- Append a new entry when a hard gate was missed, when a finding arrived that the harness should have caught, or when a correction changed a durable default; low-signal corrections get no entry.
 - Keep entries short and actionable.
 - Promote repeated/high-severity lessons into repo rules, harness migration candidates, troubleshooting notes, or accepted residual-risk records.
 

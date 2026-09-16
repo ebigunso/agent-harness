@@ -1,3 +1,4 @@
+<!-- Capture rule: write an entry when a hard gate was missed, when a review, CI, or human finding arrived that the harness should have caught, or when a correction changed a durable default. Low-signal corrections (tone, wording, a one-off format) get no entry. -->
 ## YYYY-MM-DD — <Short Title>  [tags: <tag1>, <tag2>]
 
 Context:

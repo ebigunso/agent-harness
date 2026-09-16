@@ -23,7 +23,7 @@ It defines how to:
 
 2) Pre-commit branch gate
 - Before creating a commit, verify the current branch.
-- If the branch is `main` or `develop`, stop and do not commit unless the user explicitly waives that gate.
+- The gate (which branches stop a commit, and its waiver) is stated once, in `references/pre-commit-gate.md` step 2; run that checklist rather than restating it.
 - This skill defines the safety check, not repo-specific branch naming or release policy.
 
 3) Shared-state Git mutations stay Orchestrator-controlled by default
@@ -33,7 +33,8 @@ It defines how to:
 4) Prefer non-interactive Git usage
 - Use explicit command flags and messages rather than opening editors or interactive consoles.
 - Prefer deterministic commands that are easy to audit in logs and easy for the user to review afterward.
-- If separating changes would require interactive staging or risky history editing, pause and escalate instead of improvising.
+- If separating changes would need hunk-level staging, do it non-interactively first: stage per file, or `git apply --cached` a prepared patch (`git add -p` is interactive and is not used); escalate only when no non-interactive split exists.
+- If separating changes would require history editing or an interactive tool, pause and escalate instead of improvising.
 
 5) Prefer non-destructive defaults
 - Prefer inspection commands first (`git status`, `git diff`, `git log`, `git show`) before any mutation.

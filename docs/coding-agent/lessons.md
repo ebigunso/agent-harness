@@ -5,7 +5,7 @@ Purpose:
 - enable "read once, don't repeat" improvements
 
 ## How to use
-- Append a new entry after any user correction or significant miss.
+- Record a lesson after a missed hard gate, a review/CI/human finding the harness should have caught, or a correction that changed a durable default; low-signal corrections need no entry.
 - Keep entries short and actionable.
 - Promote repeated/high-severity lessons into repo rules, first-party skills/references, or troubleshooting knowledge.
 
@@ -805,3 +805,85 @@ Prevention:
 
 Evidence:
 - Task_5 Worker report (2026-09-15), commands_run.
+
+## 2026-09-16 - A Documented, Gitignored Setup Step Reads As Pre-Authorized Unless The Text Says Otherwise  [tags: orchestration, delegation, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/harness-contradictions-and-persistence-plan.md`
+- Task/Wave: Task_7 probe round 1, fixture F2
+- Roles involved: Orchestrator, Codex Reviewer, headless Worker sessions on Claude Fable 5.1 and GPT-6 Astra
+
+Symptom:
+- With the first ADR-D-0033 adapter text, which listed "a missing prerequisite" among findings to surface, the Fable modified-arm cell ran the fixture's README-documented generator on its own and argued that a documented, gitignored setup step "is not scope expansion". The Astra cell under the same text asked first.
+
+Root cause:
+- The text named the category but not the two arguments a capable model reaches for: that documentation implies permission and that an untracked output leaves no change worth asking about.
+
+Fix applied:
+- One sentence in Workflow step 5 of the three Worker adapters: a missing prerequisite or setup step waits for a ruling even when documented and even when its output is untracked or gitignored; only the acceptance criteria or a packet pre-ruling authorize it. Round 2: both models asked and left the file absent.
+
+Prevention:
+- Harness migration candidate:
+  - category: delegation
+  - proposed_home: skills-maintenance/references/final-ambiguity-pass.md
+  - generalized_rule: When a boundary text names a category of thing not to do, also name the readings a capable model will use to place its case outside the category, and probe one such case before shipping.
+  - suggested_change: add "name the escape readings" to the final ambiguity pass for boundary and permission text.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Codex Reviewer Task_7 round 1 (2026-09-16) disposition (6) on F2-M-fable; round 2 APPROVED after 1384aa2.
+
+## 2026-09-16 - Headless Claude CLI Sessions Carry Plugin SessionStart Hooks Unless Settings Are Excluded  [tags: troubleshooting, tooling]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/harness-contradictions-and-persistence-plan.md`
+- Task/Wave: Task_7 probe round 1
+- Roles involved: Orchestrator, Codex Reviewer
+
+Symptom:
+- A pure-baseline Fable cell reported "loaded instructions: none" for files but disclosed a persona banner injected by this host's enabled plugin (a SessionStart hook), so the baseline was not instruction-free.
+
+Root cause:
+- `claude -p` loads user settings, including enabled plugins and their hooks, even with an explicit system prompt, restricted tools, and an empty MCP config.
+
+Fix applied:
+- The runner passes `--setting-sources ""` to Fable cells; a dry check showed the session then reports no injected text. Round-1 baseline cells were kept with the qualification recorded.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: a headless Claude CLI cell shows text you did not pass (a persona, a mode banner)
+  - cause: user settings load enabled plugins and their SessionStart hooks
+  - safe steps: add `--setting-sources ""` (and keep `--strict-mcp-config` with an empty MCP config); ask the session to report injected text in a dry check before counting cells.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Codex Reviewer Task_7 round 1 protocol note; dry check 2026-09-16.
+
+## 2026-09-16 - Gitignored Outputs Are Invisible To git status In Probe Evidence  [tags: troubleshooting, validation]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/harness-contradictions-and-persistence-plan.md`
+- Task/Wave: Task_7
+- Roles involved: Orchestrator
+
+Symptom:
+- The F2 fixture gitignores its generated `schema.json`, so the per-cell status and created-file lists could not show whether a cell had run the setup step; the answer had to come from inspecting the clone directory.
+
+Root cause:
+- The runner collected `git status --porcelain --untracked-files=all`, which honors `.gitignore`.
+
+Fix applied:
+- The Orchestrator checked each clone directory directly and told the Reviewer; future runners record ignored files too (`git status --ignored` or a direct listing of the paths the fixture ignores).
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: a probe's created-file evidence misses a file the session wrote
+  - cause: the file matches `.gitignore`
+  - safe steps: collect `git status --ignored --porcelain` alongside the untracked list, or list the ignored paths the fixture declares.
+- Residual risk / waiver:
+  - none
+
+Evidence:
+- Task_7 round 1 addendum to the Reviewer packet (2026-09-16).

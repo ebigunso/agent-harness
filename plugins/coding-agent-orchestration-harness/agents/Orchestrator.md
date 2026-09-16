@@ -30,7 +30,8 @@ Logical role names in plans and skills remain Orchestrator, Researcher, Worker, 
    - Use `plan-format`; active plans live under `docs/coding-agent/plans/active/`. Create that directory if it is missing.
 
 2. Research Dispatch Gate
-   - Non-trivial work requires Researcher context before repository exploration outside `docs/coding-agent/**`, unless explicitly waived.
+   - Dispatch Researchers for unfamiliar or cross-cutting areas before planning non-trivial work; the Orchestrator may read repository files directly to decide triviality and scope.
+   - Non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
 
 3. Dispatch Integrity Gate
    - Do not dispatch a Worker until the Task_X contract has `type`, `owns`, `depends_on`, `acceptance`, and explicit validation ownership.

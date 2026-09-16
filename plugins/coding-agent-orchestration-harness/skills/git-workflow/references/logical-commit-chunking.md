@@ -32,7 +32,8 @@ Signals that a change set should be split:
 
 4) Avoid interactive-by-default separation.
 - Prefer explicit path-based staging and clear commit boundaries.
-- If only hunk-level interactive staging would make the split possible, escalate instead of defaulting to an interactive flow.
+- If only hunk-level staging would make the split possible, do it non-interactively first: stage per file, or `git apply --cached` a prepared patch (`git add -p` is interactive and is not used); escalate only when no non-interactive split exists.
+- If the split would require history editing or an interactive tool, escalate instead of improvising.
 
 5) Write a commit message that matches the intent.
 - Keep it concise and specific.

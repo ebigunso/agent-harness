@@ -8,7 +8,7 @@ Use this checklist before any commit-affecting Git mutation.
 
 2) Verify the current branch
 - Check the current branch with `git rev-parse --abbrev-ref HEAD`.
-- If the current branch is `main`, stop and do not commit unless the user explicitly waived the branch gate.
+- If the branch is `main` or `develop`, stop and do not commit unless the user explicitly waives that gate.
 
 3) Inspect the current change set
 - Review `git status --short`.
@@ -17,7 +17,8 @@ Use this checklist before any commit-affecting Git mutation.
 
 4) Resolve mixed-intent changes before committing
 - If the worktree contains multiple intents, split them into separate commits when that can be done safely.
-- If safe separation is not practical without interactive or risky manipulation, stop and surface the split decision instead of forcing a commit.
+- If the split would need hunk-level staging, do it non-interactively first: stage per file, or `git apply --cached` a prepared patch (`git add -p` is interactive and is not used); escalate only when no non-interactive split exists.
+- If the split would require history editing or an interactive tool, stop and surface the split decision instead of forcing a commit.
 
 5) Commit non-interactively
 - Use an explicit commit message.
@@ -32,5 +33,5 @@ Use this checklist before any commit-affecting Git mutation.
 - Before pushing documentation-heavy changes, run a privacy sweep for machine-specific paths (`C:/Users`, `/c/Users`, `%USERPROFILE%`, `%APPDATA%`) and replace hits with repo-relative or environment-agnostic forms.
 
 Notes:
-- This checklist does not define branch naming conventions beyond the `main` safety gate.
+- This checklist does not define branch naming conventions beyond the branch gate in step 2.
 - Repo-specific branch or release policy belongs in repo rules, not here.

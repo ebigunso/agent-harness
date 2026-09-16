@@ -7,7 +7,7 @@ Use this reference before declaring a Task_X, phase, wave, or full plan complete
 Done/blocked conditions: `SKILL.md` Validation Gate (canonical). Additionally confirm:
 
 - Worker report status is `done`;
-- any files changed outside `owns` are minimal, justified, and reported.
+- any files changed outside `owns` are limited to a minimal touch the Worker's own edit needs to meet the acceptance criteria or a change a packet pre-ruling names, reported either way.
 
 Worker `done` does not imply plan `done`.
 

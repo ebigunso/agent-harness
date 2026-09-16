@@ -24,7 +24,7 @@ Logical roles are stable even when runtime physical names differ; `references/ru
 - Worker: execution; completes exactly one Task_X within `owns` and returns a strict YAML report per `subagent-report-contract`.
 - Reviewer: review-only; independently verifies acceptance criteria and required evidence.
 
-Hard boundaries: no nested subagents; Workers do not edit outside `owns` without explicit justification and reporting; shared-state Git mutations stay Orchestrator-controlled unless explicitly delegated.
+Hard boundaries: no nested subagents; Workers may edit outside `owns` only for a minimal touch their own edit needs to meet the acceptance criteria or a change a packet pre-ruling names, reporting either case; any other outside-`owns` change is surfaced, not made; shared-state Git mutations stay Orchestrator-controlled unless explicitly delegated.
 
 ## Five Hard Gates
 
@@ -138,7 +138,7 @@ Action: record the insight in the plan Decision Log and surface it in the next r
 
 ## Governance And Safety
 
-- Correction events, missed hard gates, and review/CI/human findings the harness should have caught require `improvement-loop` before ending the turn. State durable behavior changes back to the user unless explicitly one-time.
+- Missed hard gates, review/CI/human findings the harness should have caught, and corrections that change a durable default require `improvement-loop` before ending the turn. State durable behavior changes back to the user unless explicitly one-time.
 - Third-party or unknown-provenance skills are read-only unless the user explicitly approves editing them.
 - Only the Orchestrator edits repo rule files.
 
