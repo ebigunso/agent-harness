@@ -31,10 +31,10 @@ Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sent
 - Non-goals:
 
 ## Design
-- Chosen: <design>. Dependencies: <what it changes>. Duplicated state: <what it changes>. Conversions: <what it changes>. (consumers: see the Compatibility stance)
-- Alternative: <design differing on at least one axis>. Dependencies: <...>. Duplicated state: <...>. Conversions: <...>.
+- Chosen: <design>. Structure: <...>. Evolution: <...>. Verification: <...>. Operation: <...>. Human: <...>. Safety: <...>. (consumers: see the Compatibility stance)
+- Alternative: <design differing on at least one lens>. Structure: <...>. Evolution: <...>. Verification: <...>. Operation: <...>. Human: <...>. Safety: <...>.
 - Why chosen: <why the chosen one wins>
-- Proportional form when the change touches no responsibility, contract, persisted state, or new component: `- Chosen: <one line>; no alternative changes the cost axes.`
+- Proportional form when the change touches no responsibility, contract, persisted state, new component, trust boundary, or hot path: `- Chosen: <one line>; no alternative differs on a lens.`
 
 ## Compatibility stance (required if a contract/interface/persisted format is touched)
 - surface: <contract/interface/format being changed>
