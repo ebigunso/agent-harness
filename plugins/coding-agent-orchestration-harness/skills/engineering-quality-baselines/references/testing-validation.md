@@ -71,10 +71,11 @@ Rules that keep validation evidence trustworthy, not just present:
 
 - Absence claims ("no X remains") require an evidence search matching the broadest syntactic form of X — encode the class, not the expected spelling — scoped to the repo root with only documented historical/generated paths excluded.
 - Never infer file/asset absence from ignore-aware search (`rg`/`fd` honor `.gitignore`); require direct filesystem checks or `--no-ignore`.
-- Skip-capable tests can report green with unexecuted bodies: when specific-test evidence matters, rerun it targeted and confirm no skip message, and verify gated live tests once with the service deliberately down.
+- Specific-test evidence must show executed, unskipped tests.
+- Gated live tests require negative evidence when the gate could be off.
 - Scripted bulk text mutations assert their postconditions before commit — replaced count, required text present and absent, and placement (the mutated content sits inside its owning section, not merely somewhere in the file); in documents with non-uniform structure, prefer anchored single-target edits over regex segment surgery.
 - Targeted-test evidence requires a positive executed-test count, never exit code alone — filters can match zero tests and still exit 0.
-- When validation fails in tests the change did not touch, rerun against baseline HEAD (stash/worktree) to classify pre-existing vs regression before remediating.
+- Classify failures in untouched tests as pre-existing or regression before remediation.
 - Evidence claims must state scenario scope, config identity, and dependency provenance at the point of claim; label scoped evidence as scoped.
 - Temporary test mutations that must restore exactly (verify-fail-restore sequences, planted mismatches): record a pre-edit hash and verify it after restoration — patch tooling can silently change line endings on edited lines, which content comparison cannot see.
 - Assert on the surface that owns the validated behavior, not a mirror or derived copy — a mirror assertion stays green while the owning surface drifts.
