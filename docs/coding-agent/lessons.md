@@ -935,3 +935,34 @@ Prevention:
   - safe steps: when a grader reports a "judgment worth noting", treat it as a rubric deviation until checked; have the Reviewer recompute a sensitivity copy; regrade the affected unit on every model with the condition stated literally rather than adjudicating only the records found.
 - Residual risk / waiver:
   - the corrected condition is now in the grader packet for this experiment only; a future protocol should carry it in the grading rule text.
+
+## 2026-09-16 - Requirements Added During Drafting Passed As The User's  [tags: planning, review, scope-owns, correction]
+
+Context:
+- Plan: none in this repository; reported by ebigunso from a target-repository session run on the installed harness (GPT-family Orchestrator and Reviewer).
+- Task/Wave: plan draft and plan review
+- Roles involved: Orchestrator, Reviewer, user
+
+Symptom:
+- The drafting Orchestrator decided extra things were necessary to meet the request and wrote them into acceptance bullets next to the requested ones, without challenging their necessity.
+- A scan of the plan by the user and the Reviewer's plan review both passed them; the additions surfaced only later as the source of an error.
+
+Root cause:
+- The Plan Gate's existence challenge runs on the request before decomposition; additions made during decomposition never face it.
+- The plan template has no place where added requirements are visible as additions, so an added bullet is indistinguishable from a requested one on a scan.
+- The plan-review snippet asks the Reviewer to verify sourced claims and question the decomposition, never to enumerate what the plan requires that the request did not; a Reviewer of the same model family passes a plausible-looking addition.
+
+Fix applied:
+- Plan `docs/coding-agent/plans/completed/plan-requirement-provenance-plan.md`: planner-added requirements are listed in one section of the plan with the reason the request cannot be met without each under the chosen design; the plan states the chosen design against at least one alternative on the whole-change cost axes; the Plan Gate re-runs the existence challenge and the design comparison before the plan is presented; the plan-review Reviewer enumerates the plan's unrequested requirements independently, tests each reason against the design, and may name a design that removes an addition with its cost delta (ebigunso's correction on the first presented plan: surfacing and justifying additions is not enough; the plan must land on the best design for the instance).
+
+Prevention:
+- Harness migration candidate:
+  - category: skill
+  - proposed_home: `plan-format`, `orchestration-harness` Plan Gate, `subagent-strategy` plan-review snippet (this repository is the harness; the plan above edits them directly)
+  - generalized_rule: A requirement that entered a plan during drafting is listed as planner-added with the reason it must exist under the chosen design; the plan sets that design against an alternative; plan review enumerates the additions independently, tests their reasons against the design, and questions the design with a named cheaper alternative where one exists.
+  - suggested_change: per the plan above; no validator, per ebigunso's ruling that automation comes last.
+- Residual risk / waiver:
+  - A drafting model may still leave an addition untagged; the Reviewer's independent enumeration is the catch, and the user's scan of one section is the backstop. If an untagged addition passes both, the second occurrence promotes to a validator question.
+
+Evidence:
+- ebigunso's account in session on 2026-09-16; the files named above read in that session (no draft-time alternatives or provenance obligation found in `plan-format`, `orchestration-harness`, or `subagent-strategy`).
