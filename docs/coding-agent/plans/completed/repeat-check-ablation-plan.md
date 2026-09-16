@@ -247,5 +247,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: rerunning the 288 cells to recreate raw outputs (rejected as the Orchestrator's call: it would produce new responses, not the originals, and cost about $14 plus grading; it is ebigunso's to order); representing the derived rows as originals (rejected: the Reviewer's condition and the record's honesty).
   - User approval: pending. ebigunso decides the disposition of the gap: accept the record as it stands (verdicts reproducible, raw provenance attested by the Reviewer's reviews and the derived rows), or order a rerun.
 
+- 2026-09-16 Decision: Evidence gap accepted by ebigunso; the record stands, no rerun.
+  - Trigger / new insight: ebigunso: "I'll let this slide this time."
+  - Plan delta (what changed): the pending disposition in the entry above is resolved as accept; Task_5's review gate closes on the Reviewer's post-removal confirmation (APPROVED-with-pending-disposition at 73cf22a) plus this acceptance. The lesson on committing raw outputs before removal stands as the prevention.
+  - Tradeoffs considered: rerun (declined by ebigunso).
+  - User approval: yes (2026-09-16).
+
 ## Notes
 - Planned calls: 288 cells and six graders, about a fifth of the 2026-09-09 remaining-sections run (1,344 cells); the spend cap and stop rule are Q3.
