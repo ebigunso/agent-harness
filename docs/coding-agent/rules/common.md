@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-09-10"
+last_updated: "2026-09-30"
 ---
 
 # Common Repository Rules
@@ -41,3 +41,9 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 - Keep first-party skill content version agnostic; track rollout phase and evolution plans outside the skill unless the version is part of a public compatibility contract.
 - Store runtime payload templates as inert plugin files unless the task intentionally installs them into a runtime discovery path.
 - Design and implementation decisions live under `docs/coding-agent-orchestration-harness/decisions/`.
+
+## Standing Approvals
+
+What the owner approved for all future runs. An entry is in effect only once it records the owner's acceptance of the entry, quoted with the date, and is committed.
+
+- A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner. Basis: the owner's answer on 2026-09-30 to whether such a run may publish its branch and open the pull request on its own as a standing approval: "Yes, pull requests can be opened before approval." Acceptance of this entry: pending; not in effect.
