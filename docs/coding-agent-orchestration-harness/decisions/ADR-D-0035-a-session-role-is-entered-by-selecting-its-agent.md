@@ -14,11 +14,15 @@ depends_on: ["ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md"
 
 ## Context and Problem Statement
 
-GitHub Copilot and Claude Code let the person opening a session pick an agent for it, and both also discover skills by description and may load one on their own when a request seems to match. Two harness roles are held by a session itself: the Orchestrator, whose plan gates and delegation rules apply only to a session running under that role, and Counsel, whose limits hold only in a session opened as Counsel. For Counsel the person opening the session is the owner, the person whose product the work serves (ADR-D-0034). The fork is whether a session comes to hold such a role by an explicit selection or by a skill's automatic activation.
+GitHub Copilot and Claude Code let the person opening a session pick an agent for it, and both also discover skills by description and may load one on their own when a request seems to match. Two harness roles are held by a session itself: the Orchestrator, whose plan gates and delegation rules apply only to a session running under that role, and Counsel, whose limits hold only in a session opened as Counsel. For Counsel the person opening the session is the person directing the work, the one who says what the work should do and judges what is built, whether or not that person owns the product (ADR-D-0034). The fork is whether a session comes to hold such a role by an explicit selection or by a skill's automatic activation.
 
 ## Decision
 
-In a runtime that offers agent selection, a session takes a session role, Orchestrator or Counsel, by the person opening the session explicitly selecting that role's agent. In a runtime without agent selection, Counsel's role is taken by that person explicitly invoking the `counsel` skill, which holds Counsel's policy; the Orchestrator's route in such a runtime is the loader route, which ADR-D-0020 governs and this record does not. A skill's activation by description match is never the way into a session role: support skills, meaning every skill other than the ones that hold a session role's policy, are capability modules whose descriptions serve discovery and assistance, and no support skill presents itself as the way into a session role.
+- In a runtime that offers agent selection, a session takes a session role, Orchestrator or Counsel, by the person opening the session explicitly selecting that role's agent.
+- In a runtime without agent selection, Counsel's role is taken by the person opening the session explicitly invoking the `counsel` skill, which holds Counsel's policy.
+- In a runtime without agent selection, the Orchestrator's route is the loader route, which ADR-D-0020 governs and this record does not.
+- A skill's activation by description match is never the way into a session role.
+- Support skills, meaning every skill other than the ones that hold a session role's policy, are capability modules whose descriptions serve discovery and assistance, and no support skill presents itself as the way into a session role.
 
 ## Why
 
@@ -31,7 +35,7 @@ A session that was supposed to run under a role but did not simply proceeds with
 
 ## Decision Boundary
 
-Invariant: in a runtime with agent selection, no way into a session role other than explicitly selecting that role's agent is relied on or documented as one; in a runtime without it, no way into Counsel's role other than the person opening the session explicitly invoking the `counsel` skill is relied on or documented as one.
+Invariant: the only way into a session role that is relied on or documented is the explicit act the Decision names for the runtime: selecting the role's agent, or, without agent selection, invoking the `counsel` skill for Counsel.
 
 Not covered: what an adapter says once selected; how skill descriptions are worded; the Orchestrator's loader route in runtimes without agent selection (ADR-D-0020); what each session role may do.
 

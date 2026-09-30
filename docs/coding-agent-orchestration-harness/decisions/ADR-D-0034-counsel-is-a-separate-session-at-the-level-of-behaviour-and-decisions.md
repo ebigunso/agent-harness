@@ -10,47 +10,60 @@ superseded_by: null
 depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md"]
 ---
 
-# ADR-D-0034: Value discussion with the owner is held by Counsel, a session of its own that works at the level of behaviour and decisions and takes no part in how the work is done
+# ADR-D-0034: Value discussion with the person directing the work is held by Counsel, a session of its own that works at the level of behaviour and decisions and takes no part in how the work is done
 
 ## Context and Problem Statement
 
-The owner, the person whose product the work serves, shapes the product by saying what it should do and how the project should look, and by judging what was built from its behaviour. The Orchestrator plans, dispatches and reports at the level of implementation, so when it is the only session the owner can talk to, the owner shapes the product by auditing each plan for drift. The fork is whether value discussion is a phase of the Orchestrator session or a role of its own, and, if its own, how far that role reaches into the work.
+The person directing the work is the one who says what the work should do and how the project should look, and who judges what was built from its behaviour; that person owns the product in some repositories and directs work on someone else's product in others. The Orchestrator plans, dispatches and reports at the level of implementation, so when it is the only session that person can talk to, the product is shaped by auditing each plan for drift. The fork is whether value discussion is a phase of the Orchestrator session or a role of its own, and whom that role serves.
 
 ## Decision
 
-The owner's discussion of what the product does or should do and of how the owner wants the project to look, and the owner's ratification of what comes of either, are held in a Counsel session: a session the owner opens, separate from any Orchestrator session and never dispatched by another agent. One Counsel holds both discussions, and both are at the level of behaviour and decisions. Counsel works at that level. It may do quick reads of code in service of a discussion with the owner; such a read informs the discussion and gives Counsel no part in how the work is done, no review of the work, and no direction to the Orchestrator, and it is never a check on a run's work. Grounding that needs bulk code reading is delegated to a read-only Researcher. Plans and diffs stay off limits to Counsel. Counsel dispatches no Worker, and the only agent it dispatches for facts about the project is a read-only Researcher. Counsel may ask another model for advice at the level of behaviour and decisions and bring it into the discussion marked with its source; that is consulting, not dispatching work: the adviser is given no part of the work to do and decides nothing, and what it says is an input to the discussion, never the owner's view. Counsel holds none of the owner's authority: it drafts and restates, only the owner's own act ratifies anything, and Counsel approves nothing, whether a plan, a decision record or a merge. The grounds for a piece of work pass from Counsel to an Orchestrator as a brief the owner ratified, a file the Orchestrator reads itself, and Counsel gives no direction on how the work is done. A Counsel session never takes the Orchestrator role, and an Orchestrator session never takes Counsel's. The limit is the level Counsel works at, not the occasions it may be used on: nothing restricts when the owner opens it. Where the person directing a piece of work is not the owner of the product, there is no Counsel for that work: that person talks to the Orchestrator session directly under plan mode as it stands, a value-level ruling given there is recorded as unratified, and nothing in this record stops an Orchestrator session from discussing the work with that person.
+- Counsel serves the person directing the work, whether or not that person owns the product.
+- That person's discussion of what the product does or should do and of how the project should look, and that person's ratification of what comes of either, are held in a Counsel session.
+- Counsel is a session the person directing the work opens, separate from any Orchestrator session and never dispatched by another agent.
+- One Counsel holds both the product and the engineering discussion, and both are at the level of behaviour and decisions.
+- Counsel holds none of that person's authority: it drafts and restates, and only that person's own act ratifies anything.
+- Counsel approves nothing, whether a plan, a decision record or a merge.
+- The grounds for a piece of work pass from Counsel to an Orchestrator as a brief the person directing the work ratified, in a file the Orchestrator reads itself.
+- Counsel gives no direction on how the work is done.
+- A Counsel session never takes the Orchestrator role, and an Orchestrator session never takes Counsel's.
+- The limit is the level Counsel works at, not the occasions it may be used on: nothing restricts when the person directing the work opens it.
+- A product philosophy exists only where the person directing the work owns the product.
+- The brief traces to the product philosophy where there is one, and to the request as received where there is not.
+- Counsel never infers product values on an absent owner's behalf: where the person directing the work does not own the product, product-level judgements go to that person, who takes them to the requester.
+- The engineering side works the same whether or not the person directing the work owns the product.
+- Anyone may talk to an Orchestrator session directly, and a value-level ruling given there is recorded as unratified.
 
 ## Why
 
-The owner judges what is built by its behaviour and shapes direction by objecting at product level instead of auditing each plan, and the session the owner opens sets the altitude. A discussion partner that reviews a run's work or reads its plans draws the owner back into judging implementation; a quick look at code to make an engineering discussion concrete does not.
+The person directing the work judges what is built by its behaviour and shapes direction by objecting at product level instead of auditing each plan, and the session that person opens sets the altitude; delegation is kept as wide as possible so that this holds whoever directs the work, while the values of a product stay with its owner, who is the only one entitled to state them.
 
 ## Rejected Alternatives
 
-- Value discussion as a phase or mode of the Orchestrator session: rejected outright; the session the owner talks with then works at the level of plans, and the owner is back to auditing them.
-- Counsel never reading code at all: rejected outright; the owner judged that boundary to go too far, since the engineering discussion may be better handled when Counsel can do quick reads.
-- Counsel reading plans and diffs: rejected outright; the owner kept them off limits.
-- Counsel reading code as a check on a run's work: rejected outright; it would make Counsel a reviewer of the work, and a quick read serves a discussion with the owner.
-- Counsel doing bulk grounding in the code itself: rejected outright; the owner delegates grounding that needs bulk code reads to a Researcher.
-- Counsel approving plans, decision records or merges on the owner's behalf: rejected outright; an agent would hold the owner's authority, against ADR-D-0017.
-- Counsel dispatching the Orchestrator as a subagent, so that the owner opens one session: rejected outright; the owner left nested orchestration out on purpose, nested subagents are not required, and the Orchestrator session stays flat.
+- Value discussion as a phase or mode of the Orchestrator session: rejected outright; the session the person directing the work talks with then works at the level of plans, and that person is back to auditing them.
+- Counsel approving plans, decision records or merges on that person's behalf: rejected outright; an agent would hold that person's authority, against ADR-D-0017.
+- Counsel dispatching the Orchestrator as a subagent, so that one session is opened: rejected outright; nested orchestration was left out on purpose, nested subagents are not required, and the Orchestrator session stays flat.
+- No Counsel where the person directing the work does not own the product, that person talking to the Orchestrator session directly instead: it lost because delegation should be as wide as possible to free the attention of the person directing the work, as ebigunso ruled on 2026-10-01; reopen if Counsel, serving a person who does not own the product, is found deciding product-level judgements in the session instead of sending them to the requester.
+- Counsel inferring product values for an absent owner from the request: rejected outright; a product's values are its owner's to state.
 
 ## Decision Boundary
 
-Invariant: the owner's discussion of what the product does or should do and of how the owner wants the project to look, and the owner's ratification of either, are held in Counsel, a session the owner opens, separate from the Orchestrator and never dispatched by another agent; it works at the level of behaviour and decisions; it may do quick reads of code in service of a discussion with the owner, which inform the discussion and give it no part in how the work is done, no review of the work and no direction to the Orchestrator, and are never a check on a run's work; grounding that needs bulk code reading is delegated to a read-only Researcher; plans and diffs stay off limits to it; it dispatches no Worker, and the only agent it dispatches for facts about the project is a read-only Researcher; advice it asks of another model is at that level, marked with its source, given no part of the work and no decision, and never the owner's view; it holds no approval authority; the grounds for work pass from it as a brief the owner ratified, in a file, and it gives no direction on how the work is done; neither session takes the other's role; the limit is the level Counsel works at, and nothing restricts when the owner opens it.
+Invariant: value discussion and ratification are held in Counsel, a session the person directing the work opens, separate from the Orchestrator, holding none of that person's authority and taking no part in how the work is done; the Decision list states the rest.
 
-Not covered: work directed by someone who is not the owner of the product, which has no Counsel; where a quick read ends and bulk reading begins; any account of which files Counsel read, which this record neither requires nor asks for; how a Counsel conversation is conducted; how advice from another model is obtained; the forms of the documents the owner writes with it; what else passes between the two sessions and how it travels; the model a Counsel session runs on, which the owner chooses when opening it; Counsel's physical names, which the role map owns (ADR-D-0003); its tool configuration in each runtime, which the adapters and the capability matrix own.
+Not covered: how far Counsel reaches into the work by reading code, dispatching a Researcher or consulting another model, which ADR-D-0039 governs; how a Counsel conversation is conducted; the forms of the documents written with it; who the requester is and how a product-level judgement reaches the requester; where an unratified ruling is recorded; what else passes between the two sessions and how it travels; the model a Counsel session runs on, which the person opening it chooses; Counsel's physical names, which the role map owns (ADR-D-0003).
 
 ## Validation
 
-- Counsel's adapters and policy forbid Worker dispatch, keep plans and diffs off limits, and state that a read of code serves a discussion with the owner and is never a check on a run's work; a Researcher dispatched by Counsel is read-only.
-- Review of any change to Counsel's tools or text asks: does this let Counsel review or direct how the work is done, read a plan or a diff, or decide anything for the owner?
+- Counsel's adapters and policy state that Counsel approves nothing, that the grounds for work pass as a ratified brief in a file, and that Counsel gives no direction on how the work is done.
+- Counsel's policy states that a product philosophy exists only where the person directing the work owns the product, and that product-level judgements for a product that person does not own go to that person and are never inferred for the owner.
+- Review of any change to Counsel's tools or text asks: does this let Counsel direct how the work is done, or decide anything for the person directing the work?
 - A brief acted on by an Orchestrator is a file that Orchestrator read itself.
 
 ## Revisit When
 
-- Use on real initiatives, the first being Character Memory, shows Counsel's reads of code turning into a check on a run's work, or the owner being drawn back into judging implementation.
-- In the Counsel agent definitions for GitHub Copilot and Claude Code as written on 2026-09-30, the limits on reading (plans and diffs off limits, and no read of code as a check on a run's work) are stated rules and no tool configuration enforces them. Evidence that a Counsel session read a plan or a diff, or checked a run's work by reading code, reopens how the limits are held, not the limits.
+- Use on real initiatives, the first being Character Memory, shows the person directing the work being drawn back into judging implementation.
+- Use by a person directing work on a product that person does not own, none having occurred on 2026-10-01, shows product-level judgements decided in the Counsel session instead of reaching the requester.
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`. Related: ADR-D-0003 (role identities), ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (a session that loads the orchestration workflow is the Orchestrator), the record on how a session role is taken (ADR-D-0035), the record on how the owner's word reaches an Orchestrator session (ADR-D-0037).
+Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Who it is for and why", "What Counsel is" and "Roles and sessions"; the generalisation to the person directing the work was accepted by ebigunso on 2026-10-01. Related: ADR-D-0003 (role identities), ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (a session that loads the orchestration workflow is the Orchestrator), the record on Counsel's reach into the work (ADR-D-0039), the record on how a session role is taken (ADR-D-0035), the record on how the word of the person directing the work reaches an Orchestrator session (ADR-D-0037).
