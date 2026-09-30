@@ -1097,3 +1097,28 @@ Prevention:
 
 Evidence:
 - Task_2 and Task_6 Worker reports, 2026-09-30.
+
+## 2026-09-30 - Record The Owner's Answer Against The Held Item Before Acting On It  [tags: orchestration, validation, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: Task_8, before the first pull request opened
+- Roles involved: Orchestrator, Reviewer
+
+Symptom:
+- A value audit held the push and the pull request for the owner. The owner's answer arrived by relay and was written into the brief by the Counsel session, and the Orchestrator queued the push while the plan's Decision Log still said the item was held.
+
+Root cause:
+- The answer was acted on from the message that carried it; the step that records it against the item was skipped because the commit that followed touched the brief and a rule file only.
+
+Fix applied:
+- The answer is logged in the Decision Log against the item with its date and the owner's statement admitting relays; the delta review caught it before anything was pushed.
+
+Prevention:
+- Before acting on a released hold, check that the plan's Decision Log carries the owner's quoted answer against that item; the record comes before the act.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: as the prevention line.
+
+Evidence:
+- Delta re-review before the first pull request, 2026-09-30.
