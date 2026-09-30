@@ -669,6 +669,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: waived for this initiative
   - Record proposed: ADR-D-0034 (final revision), ADR-D-0035, ADR-D-0036, ADR-D-0037, ADR-D-0038 with the owner, unaccepted
+- 2026-09-30 Decision: the owner accepted the standing approval and allowed the stack extension.
+  - Trigger / new insight: Counsel's relay of 2026-09-30, quoting the owner in reply to a message listing the gh-stack install, ADR-D-0034 and the standing-approval entry: "The common rule proposed, accepted. The gh-stack can be installed. I am still looking at the ADR. Await on that."
+  - Plan delta (what changed): the entry under "Standing Approvals" in `docs/coding-agent/rules/common.md` records the acceptance with those words and the date; by the landed rule it applies from the run after this one. The `gh stack` extension is installed for the second pull request. ADR-D-0034 is unanswered; the records and the second pull request wait.
+  - Tradeoffs considered: none.
+  - User approval: waived for this initiative
+  - Record proposed: unchanged
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.

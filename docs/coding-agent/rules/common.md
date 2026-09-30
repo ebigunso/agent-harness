@@ -46,4 +46,4 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 
 What the owner approved for all future runs. An entry is in effect only once it records the owner's acceptance of the entry, quoted with the date, and is committed.
 
-- A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner. Basis: the owner's answer on 2026-09-30 to whether such a run may publish its branch and open the pull request on its own as a standing approval: "Yes, pull requests can be opened before approval." Acceptance of this entry: pending; not in effect.
+- A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner. Basis: the owner's answer on 2026-09-30 to whether such a run may publish its branch and open the pull request on its own as a standing approval: "Yes, pull requests can be opened before approval." Accepted by the owner on 2026-09-30, relayed by Counsel: "The common rule proposed, accepted."
