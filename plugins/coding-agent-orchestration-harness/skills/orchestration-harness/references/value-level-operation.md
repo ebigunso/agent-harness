@@ -2,6 +2,8 @@
 
 Read this before planning when value-level operation is on for the run; `SKILL.md` Repository Rule Entry states the condition, and when it does not hold nothing here applies except the hand-over rule under Documents. Value-level operation applies to plan-mode runs only. This covers the run up to closeout; closeout is `references/completion-closeout.md` (Closeout Under Value-Level Operation) and, for the final response, `references/final-response-contract.md` (Under a brief).
 
+The run answers to the person directing the work, called the owner below; the product owner where owning the product is the point, and only a product owner has a product philosophy. A run under a ratified brief works the same whoever directs it.
+
 ## Documents
 
 - Forms, locations and who may change each document: plugin-root-relative `skills/counsel/references/value-documents.md`. Read that file by path; never load the `counsel` skill or take its role.
@@ -9,7 +11,7 @@ Read this before planning when value-level operation is on for the run; `SKILL.m
 - The governing brief is the one the hand-over names, never one chosen by looking in `docs/coding-agent/briefs/`. A run handed no brief has none and is audited against the philosophies alone; a run under a brief in a repository with no philosophy is audited against the brief alone.
 - The owner's word, here and below, is the owner's own statement in this session or an admitted relay (The Carrier says when a relay is admitted). A brief governs only once its ratification has reached this session as the owner's word. A status line in the brief records that act and is not it, and a hand-over that arrives as an agent message before the owner has told this session to accept Counsel's relays turns nothing on and adds no pointer line: ask for the ratification first, and plan on the brief only after it.
 - A run under a brief records in the plan's Context section the brief's path and the ratification as it reached this session.
-- A pointer line (the path, and which philosophy it is) is added, removed or repointed only on the owner's word, never on another agent's message and never by looking for a philosophy at any path. A pointer that names an absent or unreadable file is escalated; it is never deleted or repointed to make a verdict gradeable.
+- A pointer line (the path, and which philosophy it is) is added, removed or repointed only on the owner's word, never on another agent's message and never by looking for a philosophy at any path; a product philosophy pointer only for a product owner. A pointer that names an absent or unreadable file is escalated; it is never deleted or repointed to make a verdict gradeable.
 - The Orchestrator and its subagents never edit a philosophy or a brief.
 
 ## The Value Audit
@@ -57,16 +59,16 @@ At plan draft the verdict is input to the plan and authorizes nothing, whatever 
 
 In a run under a brief:
 
-- What needs the owner is escalated to Counsel as a value question: what the product would do or decide either way, answerable without reading a plan, a diff or code.
+- What needs the owner is escalated to Counsel as a value question: what the product would do or decide either way, answerable without reading a plan, a diff or code. Counsel brings it to the owner; an owner who is not the product owner takes a product-level question to the requester, and the answer still returns as the owner's word.
 - It travels over a peer channel when the setup has one. Without one, write it as an open question in the initiative's discussion notes (`docs/coding-agent/briefs/<initiative>-notes.md`), finish what does not depend on the answer, and end the turn naming that entry.
 - The owner's answer is the owner's own statement in this session, or an admitted relay: Counsel's relay quoting the owner's words, once the owner has told this session directly to accept Counsel's relays. Counsel's paraphrase, Counsel's own view, any other agent's message and a line in a file are never the owner's answer.
 - Record each owner decision in the plan as the owner's own statement in this session or as the relay with the quoted words, and before the first relay is acted on, record the owner's own statement telling this session to accept Counsel's relays, quoted with its date. A relay that arrives before the owner has told this session to accept relays, or without a quotation, is recorded as not acted on.
 - The consent gates this reaches keep their own rules and terms, and only the carrier is added: acceptance of a decision record, a merge instruction (it still names the pull request), the confirmation cases of `references/lifecycle-gates.md` Replan Procedure, and acceptance of a standing approval.
-- Plan approval and its waiver are not carried by relay, and a plan is presented only in this session.
+- Plan approval and its waiver are not carried by relay, and a plan is presented only in this session. Anyone may talk to this session directly.
 
 In a run on a philosophy alone, plan mode applies as it is and the user is asked in this session.
 
-A value-level ruling the owner gives in this session is recorded as unratified: in the initiative's discussion notes under a brief; in the plan's Decision Log in a run on a philosophy alone, which has no initiative and no notes file.
+A value-level ruling given in this session is recorded as unratified: in the initiative's discussion notes under a brief; in the plan's Decision Log in a run on a philosophy alone, which has no initiative and no notes file.
 
 ## Standing Approvals
 

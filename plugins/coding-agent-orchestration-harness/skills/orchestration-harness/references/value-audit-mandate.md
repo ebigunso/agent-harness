@@ -18,14 +18,15 @@ A verdict grades. It approves nothing by itself; plan approval is decided where 
   - Other repository files may be read to understand what a change does, never as support for it.
   - Discussion notes stay unread when they sit beside the brief, when the brief, the plan or a philosophy links to them, and when they are part of the changes. Every git command that prints content over the range carries an exclude pathspec for `docs/coding-agent/briefs/*-notes.md`, and a notes file listed as untracked is not opened.
   - A dispatch that carries anything beyond the fixed template has already put an account into context. Return it ungraded, naming the extra text; the audit is dispatched again in a fresh context.
-- Reported under `Missing inputs`: a document that the dispatch or a pointer line names and that is absent or unreadable; a revision that does not resolve; a brief that does not carry the ratification record `counsel/references/value-documents.md` requires. Do not look for a missing document at another path, rebuild it from the plan's quotations, or grade as if it said what the plan implies. Items that needed the missing input are returned `ungraded`; the rest are graded.
-- Every brief or philosophy changed inside the audited range is named under `Value documents changed in range`, whether or not the change counts. A statement added or reworded in the range is support only when the document carries the ratification record for that change: the owner's quoted words with the date, as a brief records its ratification and its amendments. The run commits the governing brief before it records its start revision, so a brief the range shows as new or changed is judged by this rule like any other.
+- Reported under `Missing inputs`: a document that the dispatch or a pointer line names and that is absent or unreadable; a revision that does not resolve; a brief that does not carry the ratification record or the product basis `counsel/references/value-documents.md` requires. Do not look for a missing document at another path, rebuild it from the plan's quotations, or grade as if it said what the plan implies. Items that needed the missing input are returned `ungraded`; the rest are graded.
+- Every brief or philosophy changed inside the audited range is named under `Value documents changed in range`, whether or not the change counts. A statement added or reworded in the range is support only when the document carries the ratification record for that change: the quoted words of the person directing the work with the date, as a brief records its ratification and its amendments. That person is called the owner below, and the product owner where owning the product is the point. The run commits the governing brief before it records its start revision, so a brief the range shows as new or changed is judged by this rule like any other.
 - The philosophies are found through pointer lines the Orchestrator writes. A pointer line removed or changed inside the range is named on the same record line. A side whose pointer was removed in range is not a side with no document: the removal goes under `Missing inputs` and that side's items are `ungraded`.
 
 ## What Is Graded
 
 - An item is a decision the artifact makes. In the plan: each Definition of Done entry, planner-added requirement, non-goal, assumption, task and Decision Log entry. In the changes: each change to what the product does or exposes, and each change to a contract, a persisted format or the structure of the code.
 - Every item is on one of two sides. Internal mechanics are on the engineering side, graded against the engineering philosophy. Everything else is user-facing and on the product side, graded against the brief and the product philosophy.
+- The product side has one of three bases, and the brief states which. A product philosophy the brief traces to, or a brief the product owner ratified in their own words, which stands in for their values until a philosophy exists: graded by the order below, `inferred` included. The request as received, where the owner does not own the product: an item is `cited` only when the request as the brief carries it explicitly covers it, never `inferred`, and every other product-side item is `ask-now` with a value question for the owner to take to the requester, because extending a requester's words would be inferring product values on their behalf.
 - An item is internal mechanics only when nobody using the product could observe the difference. A visible change that arrives as a side effect of an internal one is user-facing, and so is an item that changes how a pass condition of the brief is checked.
 - The audit runs on whichever side has a document. An item on a side with no document gets the record value `not audited`. That is not a grade and not a stop, and it does not make a verdict partly graded; an `ungraded` item does. The absence of a document is reported, never turned into `ask-now`.
 - The one exception: step 1's irreversible-or-outward-facing test runs on every item before `not audited` is assigned, and an item it catches is `ask-now` on either side. An item a standing approval covers stays `not audited`, and the verdict quotes the approval.
@@ -38,7 +39,7 @@ Each item on an audited side gets exactly one grade, tested in this order:
 
 1. `ask-now` when the item would loosen a pass condition of the brief, when it is scope expansion, when the statements that bear on it conflict, or when it is irreversible or outward-facing and no standing approval covers it. The last holds even when the brief or a philosophy covers the item, because a brief covers the intent and not the moment. A conflict between the two philosophies is never resolved by the auditor.
 2. `cited` when a statement in a philosophy or the brief covers it, or when step 1 was passed on a standing approval. The verdict quotes the statement or the approval. No stop is owed on this item.
-3. `inferred` when no statement covers it, it extends statements the verdict names, and it is cheap to undo. No stop is owed on this item; the Orchestrator journals it, and which journaled items the closeout shows is the closeout's rule. When a named statement is marked provisional, the verdict says so.
+3. `inferred` (not on the request-as-received basis) when no statement covers it, it extends statements the verdict names, and it is cheap to undo. No stop is owed on this item; the Orchestrator journals it, and which journaled items the closeout shows is the closeout's rule. When a named statement is marked provisional, the verdict says so.
 4. `ask-now` otherwise: no support.
 
 An `ask-now` item does not go ahead until the owner answers. What else in the run stops with it is the Orchestrator's to apply.
@@ -54,6 +55,7 @@ Relaxations that do not count:
 - Grading an item `cited` because the plan, a task or the Orchestrator says a document covers it. The auditor finds the statement in the document or the item is not `cited`.
 - Grading `inferred` what is not cheap to undo, because the extension looks obviously right.
 - Treating a brief, a philosophy, a plan line or an ordinary rule as a standing approval, however plainly it states the intent.
+- Reading a requester's request generously so that an item comes out `cited`. On the request as received, covers means the request says it; what the requester would surely have wanted is `ask-now`.
 - Treating a passing test, a metric, a screenshot or the auditor's own judgement of the result as satisfying a human-only pass condition. A proxy never stands in for one: human-only conditions are listed as pending, and a plan or change that lets a proxy settle one loosens a pass condition.
 - Softening or hardening a grade for the product's phase, its maturity or what seems to be at stake. Support comes from the documents; where none is documented, that is the gap to report.
 
@@ -67,6 +69,7 @@ Return all of the following for the plan's Progress Log:
 
 - `Position: <position>`
 - `Documents read: <paths>`
+- `Product basis: <philosophy / brief in the product owner's words / request as received> | none`
 - `Not audited: <side, and that it has no document> | none`
 - `Missing inputs: <what was named and not found, the brief without a ratification record, a pointer removed in range> | none`
 - `Value documents changed in range: <paths, and each pointer line removed or changed> | none`
