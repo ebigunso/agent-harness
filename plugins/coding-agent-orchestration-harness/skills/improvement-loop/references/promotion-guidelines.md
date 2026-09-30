@@ -34,6 +34,9 @@ Only edit bundled harness content during an explicit harness-maintenance task.
 - it has a repeatable “symptom → cause → safe steps” structure
 - it can live as a repo-local troubleshooting note or be staged as a harness migration candidate
 
+## Not promoted here
+- Only when value-level operation is on (`orchestration-harness/SKILL.md` Repository Rule Entry states the condition; otherwise this item does not apply): a result the owner rejects, or an inferred call the owner confirms, says what the owner wants and is a candidate amendment to the product philosophy or the engineering philosophy. It goes to Counsel in the closeout list (`orchestration-harness/references/completion-closeout.md`) and is never promoted into a repo rule or staged as a skill change. A harness defect behind it (a wrong stop, a skipped decision) is still a lesson and is promoted as above.
+
 ## Existing-text check (required per item)
 - Before staging or scheduling any promotion item, read the target file and quote the closest existing line, stating the delta the item adds — no delta, no item.
 

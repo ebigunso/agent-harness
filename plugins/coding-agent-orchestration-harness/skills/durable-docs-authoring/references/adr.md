@@ -22,6 +22,7 @@ Two further boundaries: records shape the repository's product domain, so decisi
 
 - **One decision per record.** Test: could this record be retired on its own without touching another decision? A bundle is split before it is written.
 - **The why is prose.** Present tense, a sentence or two, the fork and the reason one branch won. Evidence lives with the experiment; when a premise is a measured fact that will expire, Revisit When names the models and the date of the check, nothing more.
+- **The why names the statement served.** Where the repository's `docs/coding-agent/rules/common.md` "Repository Reference Documents" points to a product philosophy or an engineering philosophy, the why names the statement in it that the decision serves.
 - **Intent altitude.** The record does not mirror implementation wording, code or normative prose; the constraint is stated so that any rewording of the implementation that preserves it stays valid. Exact strings, formats, and thresholds are "not covered" and live in skill text or configuration.
 - **No time-relative wording.** Name models, people, dates, and pull requests. "Current", "older", "the fleet", "now" expire silently.
 - **Rejected alternatives carry their reopen condition** or state that they are rejected outright; an alternative rejected for a reason that no longer holds is a stale record.

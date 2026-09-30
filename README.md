@@ -97,7 +97,7 @@ The shared orchestration workflow source of truth is:
 
 `skills/orchestration-harness/SKILL.md`
 
-Runtime-specific files should route to that skill instead of duplicating the harness workflow.
+Runtime-specific files should route to that skill instead of duplicating the harness workflow. The Counsel agents route to `skills/counsel/SKILL.md` instead and never load `orchestration-harness`.
 
 Design decisions for this plugin are recorded under the repo-root-relative path
 `docs/coding-agent-orchestration-harness/decisions/`.
@@ -107,6 +107,8 @@ Design decisions for this plugin are recorded under the repo-root-relative path
 GitHub Copilot and Claude Code users explicitly select the Orchestrator agent as the main thread controller for harness work. Automatic skill discovery is useful, but it is not the primary activation path for those runtimes.
 
 Codex uses loader instructions plus installed custom-agent templates. The loader block stays small and routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the shared skill.
+
+Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans, diffs, or code. GitHub Copilot and Claude Code users select the `harness-counsel` agent. Codex users open a session and invoke the `$counsel` skill explicitly; the loader block does not route to it, and the bootstrap installs no Counsel template.
 
 Skills are shared capability modules. Runtime adapters should point to shared skills and references rather than copying full workflow instructions.
 
@@ -126,6 +128,7 @@ Logical roles are stable, but physical runtime names may differ:
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
+| Counsel | harness-counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the owner |
 
 The canonical role map is `skills/orchestration-harness/references/runtime-role-map.md`.
 

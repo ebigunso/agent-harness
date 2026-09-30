@@ -54,6 +54,7 @@ Include:
   - require console/network notes if specified
 - When review-specific repository policy matters, include `docs/coding-agent/rules/reviewer.md` in the packet and name any relevant review hotspots from that file.
 - For plan review, the packet is the inputs the Reviewer snippet (plan review) in `prompt-snippets.md` names; no changed-files list.
+- For a value audit, nothing in this checklist applies, the optional items included: see the value audit dispatch entry in `prompt-snippets.md`.
 
 Optional (only if it materially steers decisions):
 - Context / Rationale

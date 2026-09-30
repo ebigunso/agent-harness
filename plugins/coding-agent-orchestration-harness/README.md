@@ -10,7 +10,7 @@ This plugin provides a shared orchestration harness for GitHub Copilot, Claude C
 - Codex loader snippet: `codex/snippets/AGENTS.md`
 - Shared skills: `skills/`
 
-Runtime adapters route to `skills/orchestration-harness/SKILL.md`, the canonical runtime workflow policy.
+Runtime adapters route to `skills/orchestration-harness/SKILL.md`, the canonical runtime workflow policy. The Counsel agents route to `skills/counsel/SKILL.md` instead and never load `orchestration-harness`.
 
 ## Role Map
 
@@ -22,12 +22,21 @@ Logical roles are stable; physical names vary by runtime.
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
+| Counsel | harness-counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the owner |
 
 Canonical reference: `skills/orchestration-harness/references/runtime-role-map.md`.
+
+## Counsel Session
+
+Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans, diffs, or code.
+
+- Copilot and Claude Code: select the `harness-counsel` agent.
+- Codex: open a session and invoke the `$counsel` skill explicitly. The managed `AGENTS.md` loader does not route to it, and the bootstrap installs no Counsel template.
 
 ## Key Skills
 
 - `orchestration-harness`: canonical Orchestrator policy and hard gates.
+- `counsel`: canonical Counsel session policy and the value-document forms.
 - `plan-format`: Task_X plan structure and waves.
 - `subagent-strategy`: dispatch strategy and prompt checklists.
 - `subagent-report-contract`: Worker YAML report contract.

@@ -34,6 +34,8 @@ Triggers: `SKILL.md` Replan Triggers.
 2. Surface it in the next report or wave integration.
 3. Pause for user confirmation only when the change is contract-shape (Escalation Ruling below), irreversible, or outward-facing: stop dispatching further Workers, ask at most three questions, and continue only after confirmation.
 
+When value-level operation is on (`SKILL.md` Repository Rule Entry), `references/value-level-operation.md` states who is asked at step 3 and for a ruling under Escalation Ruling that needs the owner, how the question travels, and what counts as the answer. The pause cases and what each confirmation must say are unchanged.
+
 ## Escalation Ruling
 
 Use this procedure when a Worker or Reviewer escalation asks for a ruling rather than a fact.
