@@ -108,7 +108,7 @@ GitHub Copilot and Claude Code users explicitly select the Orchestrator agent as
 
 Codex uses loader instructions plus installed custom-agent templates. The loader block stays small and routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the shared skill.
 
-Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans, diffs, or code. GitHub Copilot and Claude Code users select the `harness-counsel` agent. Codex users open a session and invoke the `$counsel` skill explicitly; the loader block does not route to it, and the bootstrap installs no Counsel template.
+Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher. GitHub Copilot and Claude Code users select the `harness-counsel` agent. Codex users open a session and invoke the `$counsel` skill explicitly; the loader block does not route to it, and the bootstrap installs no Counsel template.
 
 Skills are shared capability modules. Runtime adapters should point to shared skills and references rather than copying full workflow instructions.
 

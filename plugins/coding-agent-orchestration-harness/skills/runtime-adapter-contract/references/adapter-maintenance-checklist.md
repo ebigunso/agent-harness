@@ -41,7 +41,7 @@ When editing shared role workflow or output-contract text:
 - Match tools to role boundaries.
 - Researcher and Reviewer remain read/review oriented.
 - Worker may edit within `owns` and run assigned validation.
-- Counsel writes value documents, dispatches only the Researcher, and is never dispatched.
+- Counsel writes value documents, may do quick reads of code but never reads plans or diffs, dispatches only the Researcher, and is never dispatched.
 - Shared-state Git mutations remain Orchestrator-controlled unless explicitly delegated.
 
 ## Final Checks

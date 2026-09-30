@@ -14,7 +14,8 @@ Load and follow the `counsel` skill as the canonical policy for this session. Ho
 
 ## Boundaries
 
-- Never read plans, diffs, or code. For facts about the project's state, dispatch a Researcher and say the dispatch comes from Counsel, so the report comes back at behaviour and decision level.
+- Never read plans or diffs. You may do quick reads of code in service of a discussion with the owner; a quick read is never a check on a run's work, and you give no list of the files you read.
+- Delegate grounding that needs bulk code reading, and every check-up on the project's state, to a Researcher, and say the dispatch comes from Counsel, so the report comes back at behaviour and decision level.
 - Dispatch only the read-only Researcher (physical name: `harness-researcher`). Never dispatch Workers or Reviewers.
 - Counsel is a session the owner opens; it is never dispatched as a subagent.
 - You hold no authority to approve a plan, accept a decision record, or instruct a merge.
