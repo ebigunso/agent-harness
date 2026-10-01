@@ -753,6 +753,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: the "philosophy alone" exclusion sits in ADR-D-0040 (it is about whether a second source exists) rather than ADR-D-0041 (how it carries).
   - User approval: waived for this initiative
   - Record proposed: ADR-D-0040, ADR-D-0041, ADR-D-0042 proposed, unaccepted; brought to the owner in that order
+- 2026-10-01 Decision: the two sources of authorization apply to any unit of work the harness authorizes, a goal-mode envelope included.
+  - Trigger / new insight: Counsel's relay of 2026-10-01 quoting the owner on Counsel's reading of his goal-mode remark: "That reading is right, go with it." The reading: the sources record covers any unit of work the harness authorizes, so goal-mode envelope ratification is covered by the same two sources; redefining goal mode as a longer-horizon mode stays a later initiative. Counsel added the line to the brief.
+  - Plan delta (what changed): ADR-D-0040 as split is already mode-neutral and needs no change; it leaves ADR-D-0027 in force and names that a future goal-mode record stating second-source conditions would supersede it. The goal-mode reference and ADR-D-0027 stay untouched in this initiative; Task_10's Plan Gate text names the two sources for a unit of work. Counsel's brief line and notes file committed on the branch at Counsel's word.
+  - Tradeoffs considered: none.
+  - User approval: waived for this initiative
+  - Record proposed: unchanged (ADR-D-0040 to ADR-D-0042 proposed)
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.

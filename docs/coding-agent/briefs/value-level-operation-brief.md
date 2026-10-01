@@ -136,6 +136,7 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 ### Lifecycle
 
 - With a ratified brief, a citing audit approves plans; without one, ebigunso approves as today. One conditional inside plan mode, not a third lifecycle.
+- The two sources of authorization (the explicit approval or waiver of the person directing the work in the Orchestrator session, or that person's ratified brief carried through the value audit) apply to any unit of work the harness authorizes, a goal-mode envelope included, not to plans alone. Redefining goal mode as a longer-horizon mode stays a later initiative. *(told 2026-10-01: "the case about goal mode applies here too." and, to Counsel's reading of it, "That reading is right, go with it.")*
 - A review loop that does not converge is treated as evidence against the brief and becomes a value question.
 - Workers make choices within the bounds of their task, and the Orchestrator settles what falls outside them; that is unchanged from the accepted harness rule. No act-then-report. *(told 2026-09-30: "Workers make choices within its bounds, and the Orchestrator settles things that fall out of them, that is unchanged.")*
 - What comes to ebigunso is limited to what needs a decision at the level of the product or engineering philosophy, the level that defines the direction of the product. *(told 2026-09-30: "What should come to me is now more limited, only something that needs decisions on the product or engineering philosophy level that defines the direction of the product.")*
