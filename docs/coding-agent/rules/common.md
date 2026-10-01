@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-09-30"
+last_updated: "2026-10-01"
 ---
 
 # Common Repository Rules
@@ -47,3 +47,4 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 Approvals given for all future runs. A standing approval is given by whoever holds the authority for that action in this repository, and the entry records who gave it; the person directing a run may grant one only within their own authority. An entry is in effect only once it records the giver's acceptance of the entry, quoted with the date, and is committed.
 
 - A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner. Basis: the owner's answer on 2026-09-30 to whether such a run may publish its branch and open the pull request on its own as a standing approval: "Yes, pull requests can be opened before approval." Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: "The common rule proposed, accepted."
+- In this repository, a relay from the agmsg identity `agent-harness-counsel` that quotes the person directing the work carries that person's decisions to an Orchestrator session, with no statement needed in that session; the quoted words must still meet the terms of the gate, and plan approval and its waiver are not carried. The risk accepted is impersonation of that identity. Given by ebigunso, who holds that authority here; pending acceptance.
