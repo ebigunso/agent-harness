@@ -759,6 +759,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: waived for this initiative
   - Record proposed: unchanged (ADR-D-0040 to ADR-D-0042 proposed)
+- 2026-10-02 Decision: ADR-D-0040 accepted.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-02: "I accept ADR-D-0040." The record is `ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md` as announced final on 2026-10-01.
+  - Plan delta (what changed): the record's file set to `status: accepted`; it stays untracked on this branch and is committed on the second pull request's branch, where ADR-D-0032 is retired in the same commit with its inbound pointers repaired. That branch is cut once ADR-D-0041 and ADR-D-0042 have the owner's word, since the Plan Gate text follows from them.
+  - Tradeoffs considered: none.
+  - User approval: the owner's acceptance of the record, relayed by Counsel
+  - Record proposed: ADR-D-0040 accepted; ADR-D-0041 and ADR-D-0042 still proposed
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
