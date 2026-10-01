@@ -30,7 +30,8 @@ Canonical reference: `skills/orchestration-harness/references/runtime-role-map.m
 
 Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher.
 
-- Copilot and Claude Code: select the `harness-counsel` agent.
+- Copilot: select the `harness-counsel` agent in the agent picker.
+- Claude Code: launch the session as the agent (`claude --agent harness-counsel`), or set the `agent` setting in `.claude/settings.json` for a project that only ever runs Counsel; where neither applies (for example the desktop app), invoke the `counsel` skill explicitly. Claude Code has no per-session agent picker.
 - Codex: open a session and invoke the `$counsel` skill explicitly. The managed `AGENTS.md` loader does not route to it, and the bootstrap installs no Counsel template.
 
 ## Key Skills

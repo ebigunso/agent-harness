@@ -104,11 +104,11 @@ Design decisions for this plugin are recorded under the repo-root-relative path
 
 ### Runtime operation model
 
-GitHub Copilot and Claude Code users explicitly select the Orchestrator agent as the main thread controller for harness work. Automatic skill discovery is useful, but it is not the primary activation path for those runtimes.
+A harness role is entered by an explicit act, and the act differs per runtime. GitHub Copilot: select the role's agent in the agent picker. Claude Code: launch the session as the role's agent (`claude --agent harness-orchestrator`, `claude --agent harness-counsel`), or set the `agent` setting in `.claude/settings.json` for a project that only ever runs one role; where neither applies (for example the desktop app), invoke the role's skill explicitly (`orchestration-harness` for the Orchestrator, `counsel` for Counsel). Claude Code has no per-session agent picker. Codex: invoke the skill. A skill switching itself on by description match is never the way in.
 
 Codex uses loader instructions plus installed custom-agent templates. The loader block stays small and routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the shared skill.
 
-Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher. GitHub Copilot and Claude Code users select the `harness-counsel` agent. Codex users open a session and invoke the `$counsel` skill explicitly; the loader block does not route to it, and the bootstrap installs no Counsel template.
+Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher. Enter it by the explicit act above: the `harness-counsel` agent in Copilot's picker, `claude --agent harness-counsel` or the `counsel` skill in Claude Code, the `$counsel` skill in Codex; the loader block does not route to it, and the bootstrap installs no Counsel template.
 
 Skills are shared capability modules. Runtime adapters should point to shared skills and references rather than copying full workflow instructions.
 
