@@ -8,9 +8,11 @@ Logical roles are stable. Physical agent names may vary by runtime.
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
+| Counsel | harness-counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the owner |
 
 ## Rules
 
+- Counsel is a separate session the owner opens, never a subagent: no role dispatches it, and it dispatches only the Researcher. Its policy is the `counsel` skill; a Counsel session never loads `orchestration-harness`.
 - Plans and shared skills use logical role names.
 - Runtime adapters invoke physical names.
 - Preserve existing Copilot physical names unless a migration plan is explicitly added.
@@ -22,3 +24,4 @@ Logical roles are stable. Physical agent names may vary by runtime.
 - GitHub/Copilot physical names should correspond to files under `plugins/coding-agent-orchestration-harness/agents/`.
 - Claude Code physical names should correspond to files under `plugins/coding-agent-orchestration-harness/claude/agents/`.
 - Codex physical names should correspond to templates under `plugins/coding-agent-orchestration-harness/codex/agent-templates/` or loader behavior documented in `plugins/coding-agent-orchestration-harness/codex/snippets/AGENTS.md`.
+- Counsel has no Codex template and no loader line; its Codex entry is the `counsel` skill under `plugins/coding-agent-orchestration-harness/skills/counsel/`.

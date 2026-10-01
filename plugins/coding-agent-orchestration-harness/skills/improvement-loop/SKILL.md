@@ -1,6 +1,6 @@
 ---
 name: improvement-loop
-description: Self-improvement loop for Orchestrator-driven workflows. Use when a hard gate was missed (required validation or evidence skipped, a wrong done/blocked state, a safety or policy gate miss), when a review, CI, or human finding arrives that the harness should have caught, or when a user correction changes a durable default (workflow, validation, scope). Records the lesson and states the durable default change before ending the turn; low-signal corrections (tone, wording, a one-off format) are applied without a lessons entry.
+description: Self-improvement loop for Orchestrator-driven workflows. Use when a hard gate was missed (required validation or evidence skipped, a wrong done/blocked state, a safety or policy gate miss), when a run audited against the owner's value documents made a wrong stop or skipped a decision that needed the owner, when a review, CI, or human finding arrives that the harness should have caught, or when a user correction changes a durable default (workflow, validation, scope). Records the lesson and states the durable default change before ending the turn; low-signal corrections (tone, wording, a one-off format) are applied without a lessons entry.
 ---
 
 # Skill: improvement-loop
@@ -28,6 +28,7 @@ Before ending the turn, append the lesson entry for each capture trigger in rule
 2) One capture rule
 - Record a lesson before ending the turn when any of these occurred:
   - a hard gate was missed (required validation or evidence skipped, a wrong done/blocked state, a safety or policy gate miss)
+  - in a run audited against the owner's value documents: a wrong stop (the run stopped on something the documents already answered, for a decision that can be undone) or a skipped decision (something that needed the owner went ahead)
   - a review, CI, or human finding arrived that the harness should have caught
   - a correction changed a durable default (workflow, validation, scope)
 - Low-signal corrections (tone, wording, a one-off format) are applied in the current task without a lessons entry.

@@ -145,3 +145,7 @@ Rules:
 - Include `docs/coding-agent/rules/reviewer.md` in the packet if present and relevant.
 - Name relevant review hotspots from that file.
 - Do not read `_lifecycle.json` unless lifecycle work is part of the review.
+
+## Value audit dispatch (not a snippet to adapt)
+
+The whole prompt is the Fixed Dispatch Template in `orchestration-harness/references/value-audit-mandate.md`, verbatim, with nothing added. When it is dispatched: `orchestration-harness/references/value-level-operation.md`.

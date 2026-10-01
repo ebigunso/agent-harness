@@ -21,6 +21,7 @@ Use this checklist before completing runtime adapter changes.
 - Keep shared role workflow and output-contract text synchronized across all three instruction blocks.
 - Keep runtime-specific additions local to the runtime that needs them, such as tool names, connector policy references, and platform mechanics.
 - Keep Codex `AGENTS.md` loaders and snippets loader-only; do not confuse them with role-template `developer_instructions`.
+- Counsel has two instruction blocks, the Copilot and Claude `harness-counsel` agents; keep them synchronized with each other. Codex has none: a Counsel session there is the `counsel` skill invoked explicitly, with no template and no loader line.
 
 ## Replicated Contract Sync
 
@@ -40,12 +41,13 @@ When editing shared role workflow or output-contract text:
 - Match tools to role boundaries.
 - Researcher and Reviewer remain read/review oriented.
 - Worker may edit within `owns` and run assigned validation.
+- Counsel writes value documents, may do quick reads of code but never reads plans or diffs, dispatches only the Researcher, and is never dispatched.
 - Shared-state Git mutations remain Orchestrator-controlled unless explicitly delegated.
 
 ## Final Checks
 
 - Manifest paths still point to the intended runtime directories.
-- Adapter bodies route to `orchestration-harness`.
+- Adapter bodies route to `orchestration-harness`, except the Counsel agents, which route to `counsel` and never load `orchestration-harness`.
 - Pairwise body diffs contain only classified runtime-specific differences.
 - Adapters do not duplicate detailed canonical procedures beyond the enforcement-critical role workflow/output contract.
 - New skills live under shared `skills/` unless runtime-specific by design.

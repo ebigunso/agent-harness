@@ -6,7 +6,7 @@ Runtime adapters should preserve shared semantics while fitting each runtime's p
 
 - May carry a medium-length Orchestrator kernel.
 - Keep the five hard gates visible.
-- Keep replicated role workflow and output-contract text synchronized with Claude and Codex instruction bodies.
+- Keep replicated role workflow and output-contract text synchronized with Claude and Codex instruction bodies; Counsel's is replicated in the Copilot and Claude agents only, with no Codex copy.
 - Avoid copying detailed procedures that already live in `orchestration-harness` references.
 
 ## Claude Code Adapters

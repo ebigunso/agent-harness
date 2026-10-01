@@ -8,7 +8,7 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: ../ADR-D-0023-the-harness-is-entered-by-selecting-the-orchestrator.md
+superseded_by: ADR-D-0023-the-harness-is-entered-by-selecting-the-orchestrator--superseded-by-ADR-D-0037.md
 ---
 
 # ADR-D-0002: Treat The Orchestrator As The Explicit Harness Entrypoint
