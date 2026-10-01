@@ -735,6 +735,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: the entry is not in effect for this run (added during it), and this session already holds the owner's statement, so nothing changes for the run in progress.
   - User approval: waived for this initiative; the entry itself waits for the owner's acceptance
   - Record proposed: ADR-D-0038 revised, proposed, unaccepted
+- 2026-10-01 Decision: ADR-D-0038 and the relay standing approval accepted.
+  - Trigger / new insight: Counsel's relay of 2026-10-01 quoting the owner: "I accept ADR-D-0038 and the standing approval entry." The record is ADR-D-0038 as revised in 7383168; the entry is the Standing Approvals bullet in `docs/coding-agent/rules/common.md` naming `agent-harness-counsel` as carrier.
+  - Plan delta (what changed): ADR-D-0038 set to `status: accepted`; the entry now records the giver, the quoted words and the date. The entry is not in effect for this run, which already holds the owner's statement in this session.
+  - Tradeoffs considered: none.
+  - User approval: the owner's acceptance of the record and the entry, relayed by Counsel
+  - Record proposed: ADR-D-0038 accepted; ADR-D-0039 and ADR-D-0040 still proposed
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
