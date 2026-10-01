@@ -117,6 +117,7 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 - Initiative brief: one initiative's acceptance; traces to product tenets; each pass condition marked agent-checkable or human-only.
 - Discussion notes: unratified, typed (facts, assumptions, decisions, open questions). The auditor never reads them.
 - Decision records (ADRs) stay for architectural forks; the why names the tenet served.
+- In a record, his declining or ruling is never itself the reason for a decision or for rejecting an alternative; the reason behind it is always stated, and his ruling may appear only as provenance. *(told 2026-10-01: "Me declining or ruling, in itself shouldn't be treated as the reason for a decision. A reason behind it should always be present.")*
 - Neither philosophy need be complete up front. They grow from what each initiative forces into words and from verdicts on results. A result ebigunso rejects, or an inferred call he confirms, yields a candidate amendment that he accepts or not in discussion.
 - Wording note: where this brief says "tenet" or "engineering guidelines", read "a statement in the product philosophy" and "the engineering philosophy".
 

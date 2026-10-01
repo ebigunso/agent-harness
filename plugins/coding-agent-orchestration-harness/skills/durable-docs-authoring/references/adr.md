@@ -26,6 +26,7 @@ Two further boundaries: records shape the repository's product domain, so decisi
 - **Intent altitude.** The record does not mirror implementation wording, code or normative prose; the constraint is stated so that any rewording of the implementation that preserves it stays valid. Exact strings, formats, and thresholds are "not covered" and live in skill text or configuration.
 - **No time-relative wording.** Name models, people, dates, and pull requests. "Current", "older", "the fleet", "now" expire silently.
 - **Rejected alternatives carry their reopen condition** or state that they are rejected outright; an alternative rejected for a reason that no longer holds is a stale record.
+- **A rejected alternative states why it lost.** A person's ruling or decline is provenance (who, quoted, when), never the reason; the reason behind the ruling is written.
 
 ## Three homes
 - Record: the admitted decision, its constraint, the why, the rejected alternatives with reopen conditions, and Revisit When. Durable operational material that fails the admission test belongs in a rule or a skill, however long it lasts.

@@ -34,7 +34,7 @@ Only the product owner is entitled to state the product's values, and a philosop
 
 ## Rejected Alternatives
 
-- A product philosophy exists only where the person directing the work owns the product: rejected outright; ebigunso noted on 2026-10-01 that a product philosophy may pre-exist for a product that person does not own.
+- A product philosophy exists only where the person directing the work owns the product: rejected outright; a product's philosophy is written by its owner before any given piece of work, so it can exist for a product the person directing the work does not own, and a rule that denies it would ignore a document that governs (ebigunso, 2026-10-01: "a product philosophy might be pre-existing even when the person directing the work is not the product owner themselves").
 - Counsel inferring product values for an absent product owner from the request: rejected outright; a product's values are the product owner's to state.
 - Grading a pre-existing product philosophy as cited only, with no inferred grade: it lost because the philosophy was written to be reasoned from, as ebigunso agreed on 2026-10-01; reopen if the product owner, shown inferred items, regularly rejects them.
 - Grading a request as received with inferred grades: rejected outright; a request states a goal, not values to reason from.

@@ -1122,3 +1122,28 @@ Prevention:
 
 Evidence:
 - Delta re-review before the first pull request, 2026-09-30.
+
+## 2026-10-01 - A Ruling Is Provenance, Never The Reason  [tags: documentation, adr, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: the proposed decision records read by the owner
+- Roles involved: Orchestrator, Worker (records), owner
+
+Symptom:
+- Rejected alternatives in a proposed record gave the owner's ruling as the reason they lost ("the owner kept them off limits", "the owner declined"). The owner's correction, quoted: "Me declining or ruling, in itself should not be treated as the reason for a decision. A reason behind it should always be present."
+
+Root cause:
+- Rulings arrived by relay with the decision but without the reasoning behind it, and the drafting instruction said to give only reasons on disk; the ruling was the only thing on disk.
+
+Fix applied:
+- The reasons as the owner gave them in discussion were written into the alternatives, with the ruling kept as provenance; `durable-docs-authoring/references/adr.md` gains the rule under Form.
+
+Prevention:
+- A rejected alternative states why it lost; a person's ruling or decline is provenance (who, quoted, when), never the reason. When a ruling arrives without its reason, ask for the reason before writing the record.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: as the prevention line; the Counsel skill's relay carries the reason with the ruling where one was given.
+
+Evidence:
+- Owner correction relayed by Counsel, 2026-10-01, on ADR-D-0035.

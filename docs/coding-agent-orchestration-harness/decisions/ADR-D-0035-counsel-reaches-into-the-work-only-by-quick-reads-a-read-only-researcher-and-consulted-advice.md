@@ -38,12 +38,12 @@ A discussion partner that reviews a run's work or reads its plans draws the pers
 
 ## Rejected Alternatives
 
-- Counsel never reading code at all: rejected outright; ebigunso judged that boundary to go too far, since the engineering discussion may be better handled when Counsel can do quick reads.
-- Counsel reading plans and diffs: rejected outright; ebigunso kept them off limits.
+- Counsel never reading code at all: rejected outright; the engineering discussion is better handled with the code in front of it, and a Researcher's summary loses the wording that matters where the code is the prose (ebigunso, 2026-09-30: "Probably the boundary about you never reading code has gone too far. The engineering discussion may be better handled if the Counsel can do quick reads too.").
+- Counsel reading plans and diffs: rejected outright; they are a run's work in progress, and reading them puts Counsel back into auditing the run (ebigunso, 2026-09-30, asked whether plans and diffs stay off limits: "Yes.").
 - Counsel reading code as a check on a run's work: rejected outright; it would make Counsel a reviewer of the work, and a quick read serves a discussion with the person directing the work.
 - Counsel doing bulk grounding in the code itself: rejected outright; grounding that needs bulk code reads is delegated to a Researcher.
 - Counsel dispatching a Worker to act on what a discussion settled: rejected outright; Counsel would then direct how the work is done, which ADR-D-0034 forbids.
-- Counsel listing the files it read in the conversation: rejected outright; ebigunso declined it as not serving the discussion at hand.
+- Counsel listing the files it read in the conversation: rejected outright; the list does not serve the discussion at hand, which is about behaviour and decisions and not about where facts were found (ebigunso, 2026-09-30: "I don't want to look at a list of files you read. That doesn't serve the discussion at hand.").
 - Advice from another model taken as a decision, or the adviser given part of the work: rejected outright; the adviser is a consultant, and a decision is the act of the person directing the work.
 
 ## Decision Boundary
