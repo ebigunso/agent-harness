@@ -703,6 +703,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): all seven records revised; `durable-docs-authoring/references/adr.md` Form gains two rules (a ruling or decline is never the reason and the record does not quote the person; Revisit When names the premise, never the occasion); ADR-D-0034 returned to `status: proposed` and goes back to the owner first, then ADR-D-0035. Two reasons in ADR-D-0034 are the record's own rather than the owner's stated ones (nested orchestration: the authority-holding session would sit inside the working one; the non-owner alternative's second clause: direct talk returns that person to the level of plans) and are named to the owner with the record. Lesson recorded in `docs/coding-agent/lessons.md`.
   - User approval: waived for this initiative
   - Record proposed: ADR-D-0034 to ADR-D-0040 all proposed, unaccepted
+- 2026-10-01 Decision: ADR-D-0034 re-accepted by the owner in its revised form.
+  - Trigger / new insight: Counsel's relay quoting the owner: "I accept ADR-D-0034." (the revised record, reasons stated without quotes; the two record-own reasons were named to him and accepted with that known).
+  - Plan delta (what changed): ADR-D-0034 status accepted. ADR-D-0035 is with the owner next.
+  - User approval: waived for this initiative
+  - Record proposed: ADR-D-0034 accepted; ADR-D-0035 to ADR-D-0040 proposed
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
