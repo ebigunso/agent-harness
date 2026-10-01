@@ -687,6 +687,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: "the owner" stays the short name for the person directing the work in the plugin text, with "the product owner" defined beside it, instead of renaming forty occurrences; the records use the full phrases.
   - User approval: waived for this initiative
   - Record proposed: ADR-D-0034, ADR-D-0035, ADR-D-0036, ADR-D-0037, ADR-D-0038, ADR-D-0039 (first pull request) and ADR-D-0040 (second), all proposed, unaccepted; brought to the owner in numerical order
+- 2026-10-01 Decision: a standing approval may cover a merge where the repository's rule files allow it and the product owner gave it.
+  - Trigger / new insight: the brief's "Stops during a run", amended with the owner's direction on who gives a standing approval, says a standing approval to merge in a repository the person directing the work does not own is the product owner's to give; the owner had already made merge looseness a per-repository matter for that repository's rule files. The Orchestrator's earlier ruling that a standing approval never discharges a merge over-reached.
+  - Plan delta (what changed): the mandate, the run-side reference and ADR-D-0039 now say a standing approval never discharges acceptance of a decision record, a change to a philosophy, plan approval or acceptance of another standing approval, and may cover a merge only where that repository's rule files allow it and only when given by its product owner. In this repository none does: the owner withdrew free merging here.
+  - Tradeoffs considered: none.
+  - User approval: waived for this initiative
+  - Record proposed: unchanged
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
