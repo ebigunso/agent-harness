@@ -771,6 +771,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: the owner's acceptance of the record, relayed by Counsel
   - Record proposed: ADR-D-0041 accepted; ADR-D-0042 still proposed
+- 2026-10-02 Decision: the second pull request's branch cut as a stack on the first; ADR-D-0040 and ADR-D-0041 landed there and ADR-D-0032 retired.
+  - Trigger / new insight: the owner's acceptances of ADR-D-0040 and ADR-D-0041 (entries above).
+  - Plan delta (what changed): `gh stack init` adopted `feature/2026-09-30/value-level-operation` and created `feature/2026-10-02/plan-authorized-by-ratified-brief` on top. On the new branch: ADR-D-0040 and ADR-D-0041 committed as accepted; ADR-D-0032 set to `status: superseded`, given the retirement line, and moved to `superseded/ADR-D-0032-plan-approval-is-never-self-granted--superseded-by-ADR-D-0040.md`; pointers repaired in ADR-D-0033 (depends_on and two glosses), ADR-D-0038 and ADR-D-0039 (the plan-approval pointer now names ADR-D-0040) and two completed plans' paths; absence search for the old filename clean; validator passed. ADR-D-0042 stays untracked until the owner's word.
+  - Tradeoffs considered: pointer repairs in accepted records change no decision (adr.md allows pointer repair).
+  - User approval: waived for this initiative
+  - Record proposed: unchanged
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.

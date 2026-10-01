@@ -45,7 +45,7 @@
   - .gitattributes
   - docs/coding-agent-orchestration-harness/decisions/ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md
   - docs/coding-agent-orchestration-harness/decisions/ADR-D-0022-workflow-mechanics-have-one-home.md
-  - docs/coding-agent-orchestration-harness/decisions/ADR-D-0032-plan-approval-is-never-self-granted.md
+  - docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0032-plan-approval-is-never-self-granted--superseded-by-ADR-D-0040.md
 - depends_on: []
 - description: |
   `git rm -r docs/coding-agent/experiments`; delete `.gitattributes` (its only content is the evidence exemption and its comment); in each of the three records keep the specific evidence path and qualify it with "in git history at `<commit>`" where `<commit>` is the main commit immediately before the removal, changing no other word (ADR-D-0019's separate language-guide-ablation pointer already reads that way and stays).

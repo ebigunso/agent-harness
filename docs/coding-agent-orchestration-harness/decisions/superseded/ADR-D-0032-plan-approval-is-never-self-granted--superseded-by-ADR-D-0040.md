@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-10
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md
 depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md"]
 ---
 
 # ADR-D-0032: Approval of a non-trivial plan comes only from the user, never from the Orchestrator or from the request that produced the plan
+
+Retired on 2026-10-02. Replaced by ADR-D-0040.
 
 ## Context and Problem Statement
 
