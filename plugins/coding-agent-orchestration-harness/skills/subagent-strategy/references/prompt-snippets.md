@@ -62,7 +62,7 @@ Rules:
 ## Reviewer snippet (plan review)
 
 Scope:
-- Review the draft plan at <plan> before user approval. The artifact is the plan file, not a diff.
+- Review the draft plan at <plan> before it is approved or authorized. The artifact is the plan file, not a diff.
 - Inputs: the plan; the request as given at <request> (the Orchestrator fills it with the original request text verbatim; when only a paraphrase is available it says so, and you report the provenance check as unverified); Researcher output at <path or "none">; the plugin root.
 
 Procedure:

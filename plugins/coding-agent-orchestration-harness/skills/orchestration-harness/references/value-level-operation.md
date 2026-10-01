@@ -29,7 +29,7 @@ The run answers to the person directing the work, called the owner below. The pr
 Each part of a verdict is an input (nothing waits on it), a gate on one item (that item waits; the rest of the run need not), or a gate on the position (the plan is not presented, the next wave is not dispatched, or closeout does not proceed).
 
 - `cited` (input): nothing to do.
-- `inferred` (input): the item goes ahead. Note it in the Progress Log as an inferred call, marked provisional when the verdict marks a statement it relies on so.
+- `inferred` (input): the item goes ahead. Note it in the Progress Log as an inferred call, as the verdict's item line states it, mark included, marked provisional when the verdict marks a statement it relies on so.
 - `not audited` (input): nothing to do. A side with no document is not a stop.
 - `ask-now` (gate on the item): the item does not go ahead until the owner answers the verdict's value question, carried as The Carrier states. Record the answer, quoted with its date, in the plan's Decision Log against that item. Decide what else can continue without depending on the item, and continue that.
 - `ungraded`, an entry under `Missing inputs`, or a verdict that is absent or not in the mandate's record form (gate on the position): correct an input that is the Orchestrator's own (a path or revision in the dispatch) and dispatch again, new. Never supply the missing content in the dispatch. A brief, a philosophy or a pointer line is never changed to make a verdict gradeable: that input is escalated.
@@ -44,14 +44,14 @@ An `ask-now` the owner has answered:
 
 Never alter, override or skip a grade. A grade that looks wrong goes to the owner as a value question, or the artifact is changed and audited again. Dispatching again on unchanged inputs to get a different grade, and adding explanation to the dispatch, are both overriding it.
 
-At plan draft the verdict is input to the plan and authorizes nothing, whatever its grades: a verdict with every item `cited` is not approval, and the plan is approved as `SKILL.md` Plan Gate states.
+At plan draft the verdict is input to the plan and is never approval, whatever its grades; whether the plan is authorized under the ratified brief or approved by the user is as `SKILL.md` Plan Gate states.
 
 ## Asking The Owner
 
 - What goes to the owner is limited to questions that need a decision at the level of the product or engineering philosophy, the level that sets the product's direction. Workers choose within the bounds of their task, the Orchestrator settles what falls outside them, and those choices and rulings are kept in the plan's records in full.
 - That limit is about questions of judgement. The acts the owner reserved still reach the owner: an irreversible or outward-facing action, a merge, a decision record, a change to either philosophy, a standing approval. An irreversible or outward-facing action comes back even when the brief or a philosophy covers it, because a brief covers the intent and not the moment; the only exception is a standing approval.
 - Before escalating a question that can be undone, search the documents for the answer. Stopping on what they answer is a defect; skipping a decision that needed the owner is a harness failure. Each stop is right or wrong on its own and there is no target number of them: where the documents decide everything, the run never stops.
-- Where a direction can be reasonably inferred from the documents and is cheap to undo (as the mandate defines it), keep going and note it as an inferred call like an `inferred` grade, to be reported afterwards.
+- Where a direction can be reasonably inferred from the documents and is cheap to undo (as the mandate defines it), keep going and note it as an Orchestrator ruling, reported afterwards under the judgement calls and never as an audit-graded item.
 - What is documented decides, and a gap at the level of direction is what to escalate. The product's phase, its maturity and what seems to be at stake set nothing.
 - None of this removes a consent gate The Carrier lists or lowers a grade.
 

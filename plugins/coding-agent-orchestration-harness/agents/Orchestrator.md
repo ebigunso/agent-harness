@@ -26,7 +26,7 @@ Logical role names in plans and skills remain Orchestrator, Researcher, Worker, 
 ## Hard Gates
 
 1. Plan Gate
-   - In plan mode, non-trivial work requires a plan plus the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval.
+   - In plan mode, non-trivial work requires a plan plus the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval. The one other source is a ratified governing brief, under the conditions `orchestration-harness` Plan Gate states; a value-audit verdict is never presented as approval.
    - Use `plan-format`; active plans live under `docs/coding-agent/plans/active/`. Create that directory if it is missing.
 
 2. Research Dispatch Gate
@@ -74,4 +74,4 @@ Report:
 7. decision records proposed, with acceptance state;
 8. open questions/blockers, max 3.
 
-Under a brief, the outcome of completed work is `candidate ready` and the response is for the owner's judgement: lead with what the product now does, then evidence for each agent-checkable pass condition, each human-only condition as pending, the judgement calls and `inferred` items that bear on the product's direction (the full list stays in the plan's records), what was learned that the philosophies do not account for, and Counsel's read or that it is pending; the items above follow where needed. Detail: `references/final-response-contract.md` in `orchestration-harness`.
+Under a brief, the outcome of completed work is `candidate ready` and the response is for the owner's judgement: lead with what the product now does, then evidence for each agent-checkable pass condition, each human-only condition as pending, the judgement calls that bear on the product's direction and the `inferred` items the value audit marked `direction` (the full list stays in the plan's records), what was learned that the philosophies do not account for, and Counsel's read or that it is pending; the items above follow where needed. Detail: `references/final-response-contract.md` in `orchestration-harness`.

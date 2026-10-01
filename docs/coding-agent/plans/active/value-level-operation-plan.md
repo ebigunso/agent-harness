@@ -777,6 +777,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: pointer repairs in accepted records change no decision (adr.md allows pointer repair).
   - User approval: waived for this initiative
   - Record proposed: unchanged
+- 2026-10-02 Decision: ADR-D-0042 accepted; Task_10 done with the text of ADR-D-0040 to ADR-D-0042.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-02: "I accept ADR-D-0042." All nine records (ADR-D-0034 to ADR-D-0042) and both standing-approval entries are accepted.
+  - Plan delta (what changed): ADR-D-0042 set to `status: accepted` and committed on the second pull request's branch. Task_10 (Worker, then Reviewer NEEDS_REVISION with one MAJOR, fixed, then delta review APPROVED with four wording MINORs, applied): the second source of authorization stated once in the Plan Gate with its conditions in `lifecycle-gates.md` Plan Gate Details; Replan Procedure step 4 holds changed items for a later audit or approval; the mandate's `ask-now` on an action stated as waiting does not count against authorization when that test is the only reason; the auditor marks `inferred` items `direction` and the closeout, the final response, the note to Counsel, both Orchestrator agents and the Counsel skill show only the marked ones as the verdict states them; one line of `value-level-operation.md` outside Task_10's owns corrected by the Orchestrator (it said a plan-draft verdict authorizes nothing); manifests at 0.23.0. Validators and smoke tests pass. Reviewer wording "draft plan before approval" in the Reviewer agents left as is (not contradictory).
+  - Tradeoffs considered: the "only reason" qualifier is narrower than ADR-D-0041's words, in the safe direction.
+  - User approval: the owner's acceptance of the record, relayed by Counsel; plan approval waived for this initiative
+  - Record proposed: none outstanding
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
