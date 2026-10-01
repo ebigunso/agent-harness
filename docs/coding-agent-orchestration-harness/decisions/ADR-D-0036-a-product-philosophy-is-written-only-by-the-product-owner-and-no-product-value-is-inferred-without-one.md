@@ -34,9 +34,9 @@ Only the product owner is entitled to state the product's values, and a philosop
 
 ## Rejected Alternatives
 
-- A product philosophy exists only where the person directing the work owns the product: rejected outright; a product's philosophy is written by its owner before any given piece of work, so it can exist for a product the person directing the work does not own, and a rule that denies it would ignore a document that governs (ebigunso, 2026-10-01: "a product philosophy might be pre-existing even when the person directing the work is not the product owner themselves").
+- A product philosophy exists only where the person directing the work owns the product: rejected outright; a product's philosophy is written by its owner before any given piece of work, so it can exist for a product the person directing the work does not own, and a rule that denies it would ignore a document that governs.
 - Counsel inferring product values for an absent product owner from the request: rejected outright; a product's values are the product owner's to state.
-- Grading a pre-existing product philosophy as cited only, with no inferred grade: it lost because the philosophy was written to be reasoned from, as ebigunso agreed on 2026-10-01; reopen if the product owner, shown inferred items, regularly rejects them.
+- Grading a pre-existing product philosophy as cited only, with no inferred grade: it lost because the philosophy was written to be reasoned from, and refusing to reason from it would stop the run on what the product owner already answered; reopen if the product owner, shown inferred items, regularly rejects them.
 - Grading a request as received with inferred grades: rejected outright; a request states a goal, not values to reason from.
 - The person directing the work amending a product philosophy for a product that person does not own: rejected outright; the amendment is the product owner's act.
 
@@ -59,4 +59,4 @@ Not covered: the forms and locations of the philosophies and the brief, which th
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions", "Documents, in the target repository" and "Value audit", and ebigunso's directions of 2026-10-01 on a pre-existing philosophy and on grading against it. Related: the record on Counsel (ADR-D-0034), the record on the value audit (ADR-D-0039).
+Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions", "Documents, in the target repository" and "Value audit". Related: the record on Counsel (ADR-D-0034), the record on the value audit (ADR-D-0039).

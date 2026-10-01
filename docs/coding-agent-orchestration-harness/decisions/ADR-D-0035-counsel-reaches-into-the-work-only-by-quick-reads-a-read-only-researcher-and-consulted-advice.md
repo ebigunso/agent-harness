@@ -38,12 +38,12 @@ A discussion partner that reviews a run's work or reads its plans draws the pers
 
 ## Rejected Alternatives
 
-- Counsel never reading code at all: rejected outright; the engineering discussion is better handled with the code in front of it, and a Researcher's summary loses the wording that matters where the code is the prose (ebigunso, 2026-09-30: "Probably the boundary about you never reading code has gone too far. The engineering discussion may be better handled if the Counsel can do quick reads too.").
-- Counsel reading plans and diffs: rejected outright; they are a run's work in progress, and reading them puts Counsel back into auditing the run (ebigunso, 2026-09-30, asked whether plans and diffs stay off limits: "Yes.").
+- Counsel never reading code at all: rejected outright; the engineering discussion is better handled with the code in front of it, and a Researcher's summary loses the wording that matters where the code is the prose.
+- Counsel reading plans and diffs: rejected outright; they are a run's work in progress, and reading them puts Counsel back into auditing the run.
 - Counsel reading code as a check on a run's work: rejected outright; it would make Counsel a reviewer of the work, and a quick read serves a discussion with the person directing the work.
-- Counsel doing bulk grounding in the code itself: rejected outright; grounding that needs bulk code reads is delegated to a Researcher.
+- Counsel doing bulk grounding in the code itself: rejected outright; bulk reading would quickly fill the Counsel session's context, so vital information not yet documented could be lost at session compaction, and code in the context would pull Counsel away from the high level of abstraction it is meant to hold.
 - Counsel dispatching a Worker to act on what a discussion settled: rejected outright; Counsel would then direct how the work is done, which ADR-D-0034 forbids.
-- Counsel listing the files it read in the conversation: rejected outright; the list does not serve the discussion at hand, which is about behaviour and decisions and not about where facts were found (ebigunso, 2026-09-30: "I don't want to look at a list of files you read. That doesn't serve the discussion at hand.").
+- Counsel listing the files it read in the conversation: rejected outright; the list does not serve the discussion at hand, which is about behaviour and decisions and not about where facts were found.
 - Advice from another model taken as a decision, or the adviser given part of the work: rejected outright; the adviser is a consultant, and a decision is the act of the person directing the work.
 
 ## Decision Boundary
@@ -60,7 +60,7 @@ Not covered: where a quick read ends and bulk reading begins; how advice from an
 
 ## Revisit When
 
-- Use on real initiatives, the first being Character Memory, shows Counsel's reads of code turning into a check on a run's work.
+- Counsel's reads of code turn into a check on a run's work; the premise that a quick read serves the discussion without making Counsel a reviewer then no longer holds.
 - In the Counsel agent definitions for GitHub Copilot and Claude Code as written on 2026-09-30, the limits on reading (plans and diffs off limits, and no read of code as a check on a run's work) are stated rules and no tool configuration enforces them. Evidence that a Counsel session read a plan or a diff, or checked a run's work by reading code, reopens how the limits are held, not the limits.
 
 ## More Information
