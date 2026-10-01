@@ -10,11 +10,13 @@ superseded_by: null
 depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
 
-# ADR-D-0037: The word of the person directing the work reaches an Orchestrator session as that person's own statement there or, once that person has said so in that session, as Counsel's relay quoting that person
+# ADR-D-0038: The word of the person directing the work reaches an Orchestrator session as that person's own statement there or, once that person has said so in that session, as Counsel's relay quoting that person
 
 ## Context and Problem Statement
 
-The person directing the work is the one who says what the work should do and judges what is built, whether or not that person owns the product (ADR-D-0034). When that person is present in an Orchestrator session, that person is its user in the sense of ADR-D-0032 and ADR-D-0033; the relay decided here is how that person's word arrives when that person is not. Under value-level operation the person directing the work talks with Counsel, and the Orchestrator's consent gates need that person's decision all the same: the ratification of a brief, the acceptance of a decision record or of a standing approval, the instruction to merge a named pull request, and the answers to questions a run brings back. An Orchestrator session cannot tell a faithful relay of that person's words from any other agent message, and harness text holds none of that person's authority (ADR-D-0017). The fork is what an Orchestrator session may treat as the word of the person directing the work when that person is not the one typing into it.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+
+The relay decided here is how the word of the person directing the work arrives in an Orchestrator session when that person is not typing into it. Under value-level operation the person directing the work talks with Counsel, and the Orchestrator session's consent gates need that person's decision all the same: the ratification of a brief, the acceptance of a decision record or of a standing approval, the instruction to merge a named pull request, and the answers to questions a run brings back. An Orchestrator session cannot tell a faithful relay of that person's words from any other agent message, and harness text holds none of that person's authority (ADR-D-0017). The fork is what an Orchestrator session may treat as the word of the person directing the work when that person is not the one typing into it.
 
 ## Decision
 
@@ -25,7 +27,7 @@ The person directing the work is the one who says what the work should do and ju
 - Counsel's paraphrase, summary or own view, and any other agent's message, carry no decision of the person directing the work.
 - A line in a file records an act and is not the act: a file line is never that person's answer to a question or consent at a gate in the session.
 - Each relayed decision rests on Counsel quoting faithfully, which the Orchestrator cannot verify; that is the cost the person directing the work accepts in making the statement, and it is why the statement comes first.
-- Approval or waiver of a plan is not carried by relay under this record: plans are presented only by the Orchestrator session, and the record on plan approval governs where approval comes from (ADR-D-0032; ADR-D-0038 is proposed as its replacement).
+- Approval or waiver of a plan is not carried by relay under this record: plans are presented only by the Orchestrator session, and the record on plan approval governs where approval comes from (ADR-D-0032; ADR-D-0040 is proposed as its replacement).
 
 ## Why
 
@@ -43,7 +45,7 @@ The person directing the work should not need to type into the Orchestrator sess
 
 Invariant: a relay from Counsel counts as the decision of the person directing the work only after that person's own statement in the Orchestrator session, only as a quotation of that person's words, and only when those words meet the terms of the gate; plan approval and waiver are never carried by relay; the Decision list states the rest.
 
-Not covered: statements of the person directing the work on channels other than the Orchestrator session and Counsel's relay, for example a pull-request comment from that person's account, which this record neither admits nor excludes; a standing approval in effect, which records an acceptance already given and is governed by the record on the value audit (ADR-D-0036), the file-line sentence being about answers and consents given in the session; how a relay or an escalation travels between sessions; the wording of the statement admitting relays and the scope given to it; how the Orchestrator records a relay; what each consent gate requires, which its own record or rule states; whether an audit's verdict can authorize a plan, which this record does not grant.
+Not covered: statements of the person directing the work on channels other than the Orchestrator session and Counsel's relay, for example a pull-request comment from that person's account, which this record neither admits nor excludes; how the product owner's answer reaches the person directing the work, which precedes this relay; a standing approval in effect, which records an acceptance already given and is governed by the record on the value audit (ADR-D-0039), the file-line sentence being about answers and consents given in the session; how a relay or an escalation travels between sessions; the wording of the statement admitting relays and the scope given to it; how the Orchestrator records a relay; what each consent gate requires, which its own record or rule states; whether an audit's verdict can authorize a plan, which this record does not grant.
 
 ## Validation
 
@@ -60,4 +62,4 @@ Not covered: statements of the person directing the work on channels other than 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions" and "Limits on the run". Related: ADR-D-0017 (harness text holds no user authority), the record on plan approval (ADR-D-0032; ADR-D-0038 is proposed as its replacement), the record on Counsel, which defines the person directing the work and holds none of that person's authority (ADR-D-0034).
+ADR-D-0032 and ADR-D-0033 say "the user" for the person present in the Orchestrator session; this record says the person directing the work. Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions" and "Limits on the run". Related: ADR-D-0017 (harness text holds no user authority), the record on plan approval (ADR-D-0032; ADR-D-0040 is proposed as its replacement), the record on Counsel, which holds none of that person's authority (ADR-D-0034).

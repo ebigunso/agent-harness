@@ -10,11 +10,13 @@ superseded_by: null
 depends_on: ["ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md", "ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
 
-# ADR-D-0035: Where a runtime offers agent selection, a session role (Orchestrator or Counsel) is taken by explicitly selecting that role's agent; a skill's activation by description match is never the way into one
+# ADR-D-0037: Where a runtime offers agent selection, a session role (Orchestrator or Counsel) is taken by explicitly selecting that role's agent; a skill's activation by description match is never the way into one
 
 ## Context and Problem Statement
 
-GitHub Copilot and Claude Code let the person opening a session pick an agent for it, and both also discover skills by description and may load one on their own when a request seems to match. Two harness roles are held by a session itself: the Orchestrator, whose plan gates and delegation rules apply only to a session running under that role, and Counsel, whose limits hold only in a session opened as Counsel. For Counsel the person opening the session is the person directing the work, the one who says what the work should do and judges what is built, whether or not that person owns the product (ADR-D-0034). The fork is whether a session comes to hold such a role by an explicit selection or by a skill's automatic activation.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+
+GitHub Copilot and Claude Code let the person opening a session pick an agent for it, and both also discover skills by description and may load one on their own when a request seems to match. Two harness roles are held by a session itself: the Orchestrator, whose plan gates and delegation rules apply only to the Orchestrator session, and Counsel, whose limits hold only in a session opened as Counsel by the person directing the work (ADR-D-0034). The fork is whether a session comes to hold such a role by an explicit selection or by a skill's automatic activation.
 
 ## Decision
 
