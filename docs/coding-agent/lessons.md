@@ -1147,3 +1147,25 @@ Prevention:
 
 Evidence:
 - Owner correction relayed by Counsel, 2026-10-01, on ADR-D-0035.
+
+## 2026-10-01 - Revisit When Names The Unexercised Premise, Not The First Use  [tags: documentation, adr, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: the three records split from the plan-approval draft (ADR-D-0040 to ADR-D-0042)
+- Roles involved: Orchestrator (author), Reviewer
+
+Symptom:
+- Two drafts wrote "the first use on a real initiative is the check of this record" under Revisit When. That names the occasion on which the record will be checked, which the record standard forbids, not the premise whose failure reopens it.
+
+Root cause:
+- `durable-docs-authoring/references/adr.md` stated the rule and gave the expiring-fact form, but no form for a premise nothing has exercised yet; the accepted ADR-D-0038 had the right shape (the date on which nothing had exercised it, and what failure reopens) and was not consulted.
+
+Fix applied:
+- Both lines restated as the unexercised premise and what reopens; `adr.md` Form now gives that case with the forbidden phrase as the counter-example.
+
+Prevention:
+- For a premise not yet exercised, write the date on which nothing had exercised it and what failure reopens the record; never the occasion. Before drafting a Revisit When, read the newest accepted record's for the shape.
+
+Evidence:
+- Reviewer findings on the split records, 2026-10-01; `adr.md` Form, Revisit When rule.
