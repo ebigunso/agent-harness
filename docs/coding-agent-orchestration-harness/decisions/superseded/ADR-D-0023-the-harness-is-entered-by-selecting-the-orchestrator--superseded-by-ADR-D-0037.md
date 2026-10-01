@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["superseded/ADR-D-0002-explicit-orchestrator-entrypoint--superseded-by-ADR-D-0023.md"]
-superseded_by: null
+superseded_by: ../ADR-D-0037-a-session-role-is-entered-by-an-explicit-act-of-the-person-opening-it.md
 ---
 
 # ADR-D-0023: Where a runtime offers agent selection, the harness is entered by selecting the Orchestrator
+
+Retired on 2026-10-01. Replaced by ADR-D-0037.
 
 ## Context and Problem Statement
 

@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-09-30
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-D-0023-the-harness-is-entered-by-selecting-the-orchestrator.md"]
+supersedes: ["superseded/ADR-D-0023-the-harness-is-entered-by-selecting-the-orchestrator--superseded-by-ADR-D-0037.md"]
 superseded_by: null
 depends_on: ["ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md", "ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
