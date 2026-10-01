@@ -19,7 +19,7 @@ Two philosophy documents may govern a run: the product philosophy, which states 
 
 ## Decision
 
-- A product philosophy is written and amended only on the product owner's ratification; Counsel writes what the product owner ratified, and nobody else changes the text.
+- A product philosophy is amended only on the product owner's ratification; where Counsel writes it, it writes what the product owner ratified; nobody else changes the text.
 - A product philosophy may pre-exist for a product the person directing the work does not own, and where one exists it governs the product side whoever directs the work.
 - The brief traces to the product philosophy where there is one, and to the request as received where there is not.
 - Counsel never infers product values on the product owner's behalf.

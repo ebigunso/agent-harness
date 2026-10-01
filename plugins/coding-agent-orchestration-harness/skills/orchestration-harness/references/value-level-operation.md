@@ -72,7 +72,7 @@ A value-level ruling given in this session is recorded as unratified: in the ini
 
 ## Standing Approvals
 
-- What the owner approved for all future runs is recorded under the heading "Standing Approvals" in `docs/coding-agent/rules/common.md`, written only by the Orchestrator.
+- Approvals given for all future runs are recorded under the heading "Standing Approvals" in `docs/coding-agent/rules/common.md`, written only by the Orchestrator.
 - To add or change one, write the entry and send it to the owner by the carrier with the path to the file. On acceptance, the entry records who gave it and quotes that person's words with the date, as a brief does; a declined entry is removed. A standing approval is given by whoever holds the authority for that action in that repository, and the owner may grant one only within the owner's own authority. Ordinary rule changes do not go this way.
 - An entry is in effect only when it carries that record, is committed, and was not added or changed during the current run. The run that adds one still brings the action it covers to the owner, even when a later audit in the same run grades that action `cited` on the approval.
 - A standing approval never discharges these five, which keep their own rules: a merge, acceptance of a decision record, a change to a philosophy, plan approval, and acceptance of another standing approval.
