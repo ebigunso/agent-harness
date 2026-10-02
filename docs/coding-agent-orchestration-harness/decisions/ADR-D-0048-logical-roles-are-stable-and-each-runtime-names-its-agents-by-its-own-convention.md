@@ -7,53 +7,50 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["ADR-D-0003-runtime-namespaced-role-identities.md"]
 superseded_by: null
-depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
 
-# ADR-D-0048: The harness has five stable logical roles, and each runtime names the agents that hold them by its own convention: namespaced where a generic name could collide, bare role names where the runtime's agents already use them
+# ADR-D-0048: Roles are referred to by stable logical names, each runtime gives its agents physical names by that runtime's own convention, and the role map is the canonical statement of which roles exist and which physical name holds each
 
 ## Context and Problem Statement
 
-Plans, skills and governance documents name roles; runtimes name agents. The harness has five logical roles: Orchestrator, Researcher, Worker and Reviewer, and Counsel, the session role for value discussion (ADR-D-0034). A runtime may ship built-in agents with generic names such as `worker`, so a physical name chosen carelessly can collide. The GitHub Copilot agents have been published under bare role names (`Orchestrator`, `Researcher`, `Reviewer`, `Worker`) since before namespacing was preferred. The fork is whether logical and physical names are one thing, and what rule a new physical name follows.
+Plans, skills and governance documents name roles; runtimes name agents. The same role is held by differently named agents in different runtimes, and the set of roles grows over time. The fork is whether logical and physical names are one thing, and where the list of roles and the mapping between the two kinds of name is stated.
 
 ## Decision
 
-- The logical roles are stable and are five: Orchestrator, Researcher, Worker, Reviewer and Counsel.
-- Plans, shared skills and governance documents refer to roles by their logical names.
-- Physical agent names may differ by runtime, and the role map (`plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`) is the canonical statement of which physical name holds which role in which runtime. Runtime instructions (adapter definitions, the adapter checklist) may use the physical names they are about.
-- A new physical name is namespaced where a collision with a platform-provided or user agent is plausible; a generic name such as `worker` is not relied on in such a runtime.
-- A runtime whose published agents already use bare role names keeps that convention for a new role, so that its agents read as one set: in Copilot the Counsel agent is `Counsel`, beside `Orchestrator`, `Researcher`, `Reviewer` and `Worker`.
-- Published physical names are not changed without a migration plan.
+- Plans, shared skills and governance documents refer to roles by their logical names, and those names are stable.
+- Each runtime gives its agents physical names following that runtime's own convention.
+- The role map (`plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`) is the canonical statement of which roles exist and which physical name holds each role in each runtime.
+- Published physical names do not change without a migration plan.
 
 ## Why
 
-Someone writing or reading a plan works with roles and should not have to know which runtime will run it; someone picking an agent in a runtime sees a list of names and should find the harness's agents as one recognisable set there. Namespacing protects that person from picking a platform agent that happens to share a generic name; where a runtime's set is already published under bare role names, a single namespaced newcomer would make the set harder to recognise, not safer.
+Someone writing or reading a plan works with roles and should not have to know which runtime will run it, so the names in plans must not move when a runtime's do. Someone picking an agent in a runtime sees that runtime's list and should find the harness's agents named the way that runtime's agents are named. Which roles exist and what each runtime calls them changes more often than this rule does, so it is stated in one place that is edited when a role or a runtime is added, and this record does not have to be.
 
 ## Rejected Alternatives
 
-- One generic physical name per role on every runtime: it lost because a runtime's own `worker` or a user's agent can shadow it; reopen if every supported runtime gives plugin agents a namespace of their own.
-- Rename every published agent to a namespaced name: it lost because people already select the Copilot agents by their published names; reopen if a release is planned that migrates them.
-- Namespace the Copilot Counsel agent because it is new, reading ADR-D-0003's preference for namespaced new names without its allowance for compatibility: it lost because the Copilot Counsel agent would be the one namespaced name in a set of bare ones; reopen if a bare role name in Copilot is found to collide with a platform or user agent.
-- Four logical roles, Counsel treated as outside the role model: rejected outright; Counsel is a role a session holds, with a policy and adapters like the others (ADR-D-0034).
+- One physical name per role, the same on every runtime: it lost because runtimes differ in how agents are named and listed, so one name fits some and reads as foreign in others; reopen if every supported runtime adopts one naming scheme for plugin agents.
+- The list of roles stated in this record: it lost because the record would have to be replaced each time a role is added, for no change to the rule; reopen if the role map is found to drift from the adapters with nothing catching it.
+- A collision-avoidance rule in this record, namespacing new physical names wherever a clash with a platform or user agent is plausible, as ADR-D-0003 had: it lost because it is caution against harm that has not been observed, and a naming convention is a runtime's matter that a reviewer checks on the diff that adds an agent; reopen if a harness agent's name is found to collide with a platform or user agent.
+- Renaming published agents to a common scheme: it lost because people already select the published agents by name; reopen if a release is planned that migrates them.
 
 ## Decision Boundary
 
-Invariant: five logical roles, named the same in every plan and skill; the role map canonical for which physical name holds which role; a new name is namespaced where a collision is plausible, and follows a runtime's published bare-name convention where one exists; the Decision list states the rest.
+Invariant: roles are referred to by stable logical names; physical names follow each runtime's convention; the role map says which roles exist and which physical name holds each; published names change only with a migration plan.
 
-Not covered: what each role is responsible for (ADR-D-0034 for Counsel; the orchestration skill for the others); how a session takes a role (ADR-D-0037); where adapter files live (ADR-I-0006); dispatch profiles of a role, which are not roles (ADR-D-0030); the physical names themselves, which the role map owns.
+Not covered: which roles exist and what each is responsible for; each runtime's naming convention and any guidance on choosing a new name, which the role map and the adapter checklist state; how a session takes a role (ADR-D-0037); where adapter files live (ADR-I-0006); dispatch profiles of a role, which are not roles (ADR-D-0030).
 
 ## Validation
 
-- The role map lists five logical roles and a physical name or entry route for each runtime, and matches the adapter files.
-- Plans and shared skills use logical role names.
-- Review of a new physical name asks: could this name collide in its runtime, and does the runtime's published set use bare role names?
+- The role map lists every role with a physical name or entry route for each runtime, and matches the adapter files.
+- Plans and shared skills refer to roles by logical names.
+- Review of a change that adds or renames an agent asks: is the role map updated, and does the name follow its runtime's convention?
 
 ## Revisit When
 
-- A runtime gives plugin agents a namespace or a role binding independent of file names.
-- A bare role name in Copilot is found to collide with a platform or user agent.
+- A harness agent's name is found to collide with a platform or user agent.
+- The role map is found to drift from the adapters with nothing catching it.
 - A release is planned that migrates published physical names.
 
 ## More Information
 
-Replaces ADR-D-0003 in full: its stable logical roles, runtime-specific physical names, role map, collision policy and preservation of published names are carried. Changed: Counsel is added as the fifth role; and where ADR-D-0003 limited namespacing to plausible collisions and allowed a compatibility reason, this record states the Copilot case outright: a runtime whose published agents use bare role names keeps that convention for a new role. Related: ADR-D-0034 (Counsel), ADR-D-0037 (entering a session role), ADR-D-0030 (dispatch profiles), ADR-I-0006 (adapter layout).
+Replaces ADR-D-0003 in full. Carried: stable logical role names, runtime-specific physical names, the role map as their canonical statement, and published names kept. Dropped: the list of four roles, which the role map now owns, and the preference for namespaced new names where a collision is plausible, which is no longer a decision of record. Related: ADR-D-0037 (entering a session role), ADR-D-0030 (dispatch profiles), ADR-I-0006 (adapter layout).
