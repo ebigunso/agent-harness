@@ -22,8 +22,7 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 - `python scripts/run_validation_smoke_tests.py`
 - `python skills/plan-format/scripts/validate_plan.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-plan.md --mode balanced`
 - `python skills/subagent-report-contract/scripts/validate_worker_report.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-worker-report.yaml`
-- `bash ../../tests/coding-agent-orchestration-harness/pr-comment-watch-selfcheck.sh` when `skills/git-workflow/scripts/pr-comment-watch.sh` changes (deterministic, no network; needs Bash 4+).
-- `bash ../../tests/coding-agent-orchestration-harness/privacy-sweep-selfcheck.sh` when `skills/git-workflow/scripts/privacy-sweep.sh` changes (deterministic, no network; needs Bash 4+).
+- `bash ../../tests/coding-agent-orchestration-harness/pr-comment-watch-selfcheck.sh` when `skills/git-workflow/scripts/**` changes (deterministic, no network; needs Bash 4+).
 - `python skills/subagent-report-contract/scripts/validate_worker_report.py --file ../../tests/coding-agent-orchestration-harness/fixtures/valid-worker-report-reviewer-candidate.yaml` when reviewer rule-candidate audience support is in scope.
 - From repository root: `git diff --check` before committing or publishing.
 

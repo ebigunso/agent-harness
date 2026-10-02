@@ -973,6 +973,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: a script under `skills/` is runtime text invoked by `pre-commit-gate.md`, and it is Git-specific, so it is not the universal quality-gate runner the repository rules forbid.
   - User approval: the owner left how to deal with the privacy check to the Orchestrator (relay of 2026-10-02); plan approval waived for this initiative
   - Record proposed: none
+- 2026-10-02 Decision: the privacy sweep leaves the plugin; it becomes a local pre-push hook on the owner's machine.
+  - Trigger / new insight: Counsel's relays quoting the owner, 2026-10-02: "Probably it is better to have it as a pre-push hook rather than relying on a worded gate." and then "Actually, just make it a local thing. It does not have to go with the plugin. I would like to have it in all repositories I work on, but it is not for everyone else."
+  - Plan delta (what changed): `skills/git-workflow/scripts/privacy-sweep.sh` and `tests/coding-agent-orchestration-harness/privacy-sweep-selfcheck.sh` removed from the repository (both remain in history at ad74f85); `pre-commit-gate.md` step 7 restored to its text on main; the validation-command line in `common.md` restored. The local install (the script in a hooks folder in the owner's home directory and a global pre-push hook) was refused to the Orchestrator by the runtime's permission check as persistence outside the project and was not worked around; the commands are given to the owner to run.
+  - Tradeoffs considered: the gate's worded sweep on main is known to be narrow (four Windows path forms); with the hook local, the plugin's wording stays as consumers have it.
+  - User approval: the owner's direction, relayed by Counsel
+  - Record proposed: none
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
