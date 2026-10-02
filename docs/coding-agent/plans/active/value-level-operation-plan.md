@@ -931,6 +931,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: the "only reason" qualifier is narrower than ADR-D-0041's words, in the safe direction.
   - User approval: the owner's acceptance of the record, relayed by Counsel; plan approval waived for this initiative
   - Record proposed: none outstanding
+- 2026-10-02 Decision: the stack published on the owner's statement in this session.
+  - Trigger / new insight: the permission check in this session refused `gh stack submit --auto --open` as an external write; the refusal was brought to the owner here and through Counsel and not worked around. The owner's own statement in this session, 2026-10-02: "You can push the stack and open PRs."
+  - Plan delta (what changed): `gh stack submit --auto --open` pushed both branches, opened pull request #73 (https://github.com/ebigunso/agent-harness/pull/73) on top of #72 (https://github.com/ebigunso/agent-harness/pull/72) and created the stack on GitHub. Nothing is merged; the merge waits for the owner's acceptance naming the stack and each pull request. The closeout audit's question on whether Counsel sees the audit's direction-marked items before its own read is with Counsel, unanswered.
+  - Tradeoffs considered: none.
+  - User approval: the owner's statement in this session
+  - Record proposed: none outstanding
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
