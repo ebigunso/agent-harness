@@ -29,6 +29,23 @@ Formed from the Orchestrator's candidate-ready note and the brief only. Not fina
 - Counsel saw what the audit did not mark: the conversation conduct and check-ups are not evidenced in the note; the records cost him several revision rounds on form; a runtime permission refusal can only be cleared by his own statement in the Orchestrator session.
 - Put to him for decision: C7 and C15. The rest of the marked items are stated in records he accepted.
 
+## Local privacy hook: what Counsel found and what was discussed, 2026-10-02
+
+Not part of the harness or this initiative's deliverable. ebigunso is handing this matter to a different session; this section is Counsel's contribution to the single location he asked the Orchestrator to prepare.
+
+- His directions so far: the privacy check should be a pre-push hook rather than a worded gate; it is local, for all repositories he works on, and does not go with the plugin.
+- Facts from a read-only scan of the folder holding his local repositories on 2026-10-02: no global hooks path is set; Character Memory has a `pre-commit` hook in its own `.git/hooks`, installed by the pre-commit framework, and carries a `.pre-commit-config.yaml`; thirteen other repositories have no hooks of their own and no hook tooling; four folders there are not git repositories. Repositories kept elsewhere on the machine were not scanned.
+- Consequence discussed: a global hooks path makes git ignore every repository's own `.git/hooks`, so Character Memory's pre-commit checks would stop unless forwarded, and the pre-commit framework refuses to install while one is set (the second point not verified here).
+- His leaning, stated as a question to Counsel: apply it as repository-local configuration in every repository he works on, since some repositories hold settings other developers use and a machine-global setting cannot be assumed the same everywhere.
+- Counsel's advice, not yet taken as a direction: a hook in each repository's own `.git/hooks`, which overrides nothing and is not shared with other developers; git's template directory so new clones get the hook automatically; one script that each hook calls.
+- Where the one script lives, settled 2026-10-02. His concern: a script placed directly in the home directory clutters it and carries no information about how and from where it is used, so it could later be removed without knowing the effects. Counsel proposed, and he took ("I like that idea of an independent repository." and, to the name, scope and structure below, "Yeah that looks good."):
+  - An independent repository beside his other repositories, named `machine-setup`. It is kept private or never pushed, since it holds machine-specific details.
+  - Scope: general in what it may hold, with one admission rule. Something belongs there if it is installed from there onto the machine or into other repositories, and something depends on it being there. Preferences nothing depends on, and files not installed anywhere, do not belong.
+  - Structure: one folder per item, starting with only the pre-push privacy check; each item states what it installs, where it installs it, and what stops working if it is removed; one list at the top of everything currently installed and where; an install and an uninstall step per item.
+  - Each repository's hook calls the script by its path and fails closed: if the script is missing, the hook blocks the push and says where it expected to find it. Consequence he was told: moving or renaming the repository stops every push on the machine until the path is fixed.
+  - Repository-local hooks in each repository's own `.git/hooks`, plus git's template directory so new clones get the hook, were Counsel's advice above; he did not rule on them separately, and left the setup to the session he will spin up.
+- Who does the work: a session he spins up, which sets up that repository and then the other repositories on top of it. *(told 2026-10-02: "I'll let the session I spin up handle setting up that repository and setting up the other repositories on top of it too, so just have the handoff location hold that note.")*
+
 ## Decisions pending ratification
 
 - None.
