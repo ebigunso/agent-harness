@@ -158,6 +158,11 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 - This limit is about questions of judgement. The acts he reserved still come to him: irreversible or outward-facing actions, merges, decision records, changes to either philosophy, and standing approvals. *(inferred, then confirmed 2026-09-30 when put to him as "Your limit on what reaches you is about questions of judgement; the acts you reserved still come to you.": "Yes.")*
 - Closeout reports "candidate ready": evidence for agent-checkable conditions, human-only conditions pending, the collected judgement calls, and Counsel's read.
 
+### Model routing *(amendment, 2026-10-02)*
+
+- The plugin keeps the durable principle: route each kind of work by the strength a model has demonstrated, and keep the correctness and design tiers apart. The dated observation of which models have shown which strength, and which models and peers a workspace has, moves out of the shipped plugin into the repository's rule files, which every session reads at start. A model upgrade is an occasion to re-observe it. This work stacks on the current pull requests. *(agent-proposed; ratified 2026-10-02: "Right. I think that is a good direction to go towards. Let's do that. Stack on the current PRs." His concern: best practices on the capability split "could get old quickly as model capabilities advance, even though for the past few years that capability split was mostly fixed.")*
+- His observation that prompted it: the Orchestrator was not using the agmsg Codex teammates at all; document writing is a Claude task, but the privacy check is probably better handled by a GPT model. *(told 2026-10-02)*
+
 ### Left out on purpose
 
 - Persona voices for the discussion agent.

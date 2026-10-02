@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "orchestrator"
-last_updated: "2026-09-10"
+last_updated: "2026-10-02"
 ---
 
 # Orchestrator Repository Rules
@@ -15,9 +15,18 @@ last_updated: "2026-09-10"
 - Before adding validators for skill changes, distinguish objective package integrity from editable skill prose. Prefer Reviewer checks for wording, criteria quality, and prompt-bloat concerns unless a structural packaging contract is at risk.
 - When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.
 - Use `rulebook` for full rule-suite bootstrap, schema migration, targeted refresh, and repair. Do not run full bootstrap as a per-task ritual.
-- Route agmsg dispatch only to the registered `agent-harness-*` peers; never spawn new peers or run headless Codex for dispatch. If a registered peer is silent, tell the user. Ephemeral headless `codex exec` is allowed only as a measurement instrument for ablation probes.
 - Propose a decision record only after the admission test in `durable-docs-authoring/references/adr.md` passes, present it for acceptance on its own, and never count plan approval or a merge as acceptance.
 - Keep implementation-time artifacts (self-tests, fixtures, dry checks) out of `skills/`; every file there is one a session reads or runs at runtime, and a Reviewer packet for a skill change asks what runtime text invokes each added non-Markdown file.
+
+## Models And Peers In This Workspace
+
+The routing principle is in `subagent-strategy/references/model-routing.md`; this section is the dated observation it routes on. Re-observe and redate it when a model changes.
+
+- Observation, dated 2026-09-15: the Claude models have shown the writing strength and the Codex (GPT) models the detail-scrutiny strength. Nothing is recorded for long-context reading; route on it only after observing it.
+- What this workspace has: Claude subagents dispatched from the Orchestrator session, and the registered Codex peers `agent-harness-worker` and `agent-harness-reviewer`, reached over agmsg in team `AgentHarness`.
+- So, by default: correctness-tier review, forensic research, checks and scripts whose acceptance is mechanical precision go to the Codex peers; records, skill text, plans, design-tier review and other prose go to Claude subagents; prose a Codex peer authored gets a Claude rewording pass before it is final.
+- Before the first dispatch of a run, send each registered peer the run needs a message and confirm it answers. A peer that stays silent is reported to the user, with what was sent and when; its work is not given to a Claude subagent without saying so in the plan and to the user, and the peer is tried again at the next dispatch that suits it.
+- Route agmsg dispatch only to the registered `agent-harness-*` peers; never spawn new peers or run headless Codex for dispatch. Ephemeral headless `codex exec` is allowed only as a measurement instrument for ablation probes.
 
 ## Repo-Specific Integration / Git Policy
 
