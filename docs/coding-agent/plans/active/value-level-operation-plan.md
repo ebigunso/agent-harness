@@ -1421,6 +1421,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: the owner's direction, relayed by Counsel
   - Record proposed: ADR-D-0048 (rewritten) and ADR-D-0049, proposed, unaccepted
+- 2026-10-03 Decision: ADR-D-0048 accepted; ADR-D-0003 retired.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-03: "I accept ADR-D-0048." The text he had before him is the trimmed record. On ADR-D-0049, not accepted: "ADR-D-0049 has the role names embedded in it too. Review them to see if it is necessary." He asked that of Counsel, who is answering him.
+  - Plan delta (what changed): ADR-D-0048 set to `status: accepted`; ADR-D-0003 set to `status: superseded`, given the retirement line, and moved to `superseded/ADR-D-0003-runtime-namespaced-role-identities--superseded-by-ADR-D-0048.md`; pointers repaired in ADR-D-0048's `supersedes`, in ADR-D-0030 and ADR-D-0034 (the role-identities pointer now names ADR-D-0048) and in one completed plan's path; absence search for the old filename clean; mentions by number in completed plans, lessons and already retired records are history and left. ADR-D-0049 stays proposed and untouched until his word on it.
+  - Tradeoffs considered: none.
+  - User approval: the owner's acceptance naming the record, relayed by Counsel
+  - Record proposed: ADR-D-0049, proposed, unaccepted
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.

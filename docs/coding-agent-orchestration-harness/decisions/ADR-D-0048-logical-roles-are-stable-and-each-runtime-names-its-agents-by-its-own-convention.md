@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-10-03
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-D-0003-runtime-namespaced-role-identities.md"]
+supersedes: ["superseded/ADR-D-0003-runtime-namespaced-role-identities--superseded-by-ADR-D-0048.md"]
 superseded_by: null
 ---
 

@@ -47,7 +47,7 @@ The person directing the work judges what is built by its behaviour and shapes d
 
 Invariant: value discussion and ratification are held in Counsel, a session the person directing the work opens, separate from the Orchestrator session, holding none of that person's authority and taking no part in how the work is done; the Decision list states the rest.
 
-Not covered: how far Counsel reaches into the work by reading code, dispatching a Researcher or consulting another model, which ADR-D-0035 governs; how the philosophy documents are handled, what a brief traces to, and what is done where no product philosophy exists, which ADR-D-0036 governs; how a Counsel conversation is conducted; the forms of the documents written with it; where an unratified ruling is recorded; what else passes between the two sessions and how it travels; the model a Counsel session runs on, which the person opening it chooses; Counsel's physical names, which the role map owns (ADR-D-0003).
+Not covered: how far Counsel reaches into the work by reading code, dispatching a Researcher or consulting another model, which ADR-D-0035 governs; how the philosophy documents are handled, what a brief traces to, and what is done where no product philosophy exists, which ADR-D-0036 governs; how a Counsel conversation is conducted; the forms of the documents written with it; where an unratified ruling is recorded; what else passes between the two sessions and how it travels; the model a Counsel session runs on, which the person opening it chooses; Counsel's physical names, which the role map owns (ADR-D-0048).
 
 ## Validation
 
@@ -62,4 +62,4 @@ Not covered: how far Counsel reaches into the work by reading code, dispatching 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Who it is for and why", "What Counsel is" and "Roles and sessions". Related: ADR-D-0003 (role identities), ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (a session that loads the orchestration workflow is the Orchestrator), the record on Counsel's reach into the work (ADR-D-0035), the record on the philosophy documents (ADR-D-0036), the record on how a session role is taken (ADR-D-0037), the record on how the word of the person directing the work reaches an Orchestrator session (ADR-D-0038).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Who it is for and why", "What Counsel is" and "Roles and sessions". Related: ADR-D-0048 (role identities), ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (a session that loads the orchestration workflow is the Orchestrator), the record on Counsel's reach into the work (ADR-D-0035), the record on the philosophy documents (ADR-D-0036), the record on how a session role is taken (ADR-D-0037), the record on how the word of the person directing the work reaches an Orchestrator session (ADR-D-0038).
