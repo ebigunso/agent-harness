@@ -22,6 +22,13 @@ Formed from the Orchestrator's candidate-ready note and the brief only. Not fina
 - Not audited in this run: the engineering side, because no engineering philosophy exists for the harness. Writing one is the obvious next discussion.
 - Counsel cannot verify the agent-checkable claims (validators, reviews, audit dispatches); they are the Orchestrator's report and the audit's to confirm.
 
+## Counsel's finalized read, 2026-10-02, after the audit's eight marked extensions
+
+- Both reads flagged independently: a standing approval taking effect only from the run after the one that adds it (the audit's C7), and the engineering side going unaudited for want of an engineering philosophy (C11).
+- The audit caught what Counsel missed: the Orchestrator still selects which Worker choices and which of its own rulings are shown at closeout (C15); only audit-graded extensions are marked by the audit.
+- Counsel saw what the audit did not mark: the conversation conduct and check-ups are not evidenced in the note; the records cost him several revision rounds on form; a runtime permission refusal can only be cleared by his own statement in the Orchestrator session.
+- Put to him for decision: C7 and C15. The rest of the marked items are stated in records he accepted.
+
 ## Decisions pending ratification
 
 - None.

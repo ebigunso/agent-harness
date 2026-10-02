@@ -57,4 +57,4 @@ Not covered: what an extension is and when it lets a plan start (ADR-D-0041); th
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Stops during a run" and "Lifecycle". Related records: ADR-D-0039 (the value audit), ADR-D-0041 (extensions as a condition of authorization), ADR-D-0040 (the sources of authorization).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run" and "Lifecycle". Related records: ADR-D-0039 (the value audit), ADR-D-0041 (extensions as a condition of authorization), ADR-D-0040 (the sources of authorization).

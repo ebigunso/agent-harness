@@ -17,13 +17,14 @@ Four document types in the target repository carry what the person directing the
 |---|---|---|---|
 | Product philosophy | pointer line in `common.md` | the product owner only | Counsel, Orchestrator, auditor |
 | Engineering philosophy | pointer line in `common.md` | the owner only | Counsel, Orchestrator, auditor |
-| Initiative brief | `docs/coding-agent/briefs/<initiative>-brief.md` | Counsel, on the owner's ratification | Counsel, Orchestrator, auditor |
-| Discussion notes | `docs/coding-agent/briefs/<initiative>-notes.md` | Counsel; the Orchestrator for two kinds of entry | Counsel, Orchestrator; never the auditor |
+| Initiative brief | `docs/coding-agent/briefs/active/<initiative>-brief.md` | Counsel, on the owner's ratification | Counsel, Orchestrator, auditor |
+| Discussion notes | `<initiative>-notes.md`, in the same folder as its brief | Counsel; the Orchestrator for two kinds of entry | Counsel, Orchestrator; never the auditor |
 
 - The two philosophies have no fixed path. Each is located only by a pointer line in the target repository's `docs/coding-agent/rules/common.md`, section "Repository Reference Documents". Do not probe paths for one.
 - The Orchestrator adds, removes or repoints a pointer line only on the owner's word: the owner's own statement in the Orchestrator session, or Counsel's relay quoting the owner naming the document and its path. Counsel never edits rule files, and Counsel's own statement of a path is not enough.
 - "Only" in the Changed by column means the text changes only on that person's ratification, which reaches Counsel through the person directing the work where the two differ, and Counsel writes what was ratified. The Orchestrator, its subagents and the auditor never edit either philosophy.
-- Briefs accumulate in one directory. The brief that governs a run is the one named in the hand-over, never one chosen by looking in the directory.
+- Briefs have the lifecycle plans have. A brief is written under `docs/coding-agent/briefs/active/` and moves to `docs/coding-agent/briefs/completed/` when the owner accepts its final stack of pull requests; its discussion notes move with it. The Orchestrator makes the move.
+- A completed brief authorizes nothing: only a brief under `active/` can govern a run. The brief that governs a run is the one named in the hand-over, never one chosen by looking in the directory.
 
 ## Product philosophy
 

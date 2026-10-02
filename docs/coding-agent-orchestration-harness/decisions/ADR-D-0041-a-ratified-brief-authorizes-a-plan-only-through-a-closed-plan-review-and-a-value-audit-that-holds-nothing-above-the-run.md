@@ -66,4 +66,4 @@ Not covered: the sources of authorization themselves and what is never one (ADR-
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Stops during a run", "Value audit" and "Lifecycle". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0039 (the value audit), ADR-D-0038 (how the ratification reaches the session), ADR-D-0036 (the product side's documents), ADR-D-0042 (extensions at closeout).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run", "Value audit" and "Lifecycle". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0039 (the value audit), ADR-D-0038 (how the ratification reaches the session), ADR-D-0036 (the product side's documents), ADR-D-0042 (extensions at closeout).

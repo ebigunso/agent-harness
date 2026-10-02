@@ -6,7 +6,7 @@
 - work_type: mixed
 
 ## Goal
-- The harness can be operated at value level as `docs/coding-agent/briefs/value-level-operation-brief.md` describes: the owner talks with a Counsel session about what the product should do, a ratified brief is the grounds for a run, a value audit grades the run against the documents that exist, and the run stops only where those documents do not decide.
+- The harness can be operated at value level as `docs/coding-agent/briefs/active/value-level-operation-brief.md` describes: the owner talks with a Counsel session about what the product should do, a ratified brief is the grounds for a run, a value audit grades the run against the documents that exist, and the run stops only where those documents do not decide.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 
 ## Definition of Done
@@ -53,7 +53,7 @@
 - Related files/areas: `plugins/coding-agent-orchestration-harness/` (skills `orchestration-harness`, `plan-format`, `wave-integration`, `subagent-strategy`, `improvement-loop`, `runtime-adapter-contract`, `engineering-quality-baselines`, `git-workflow`, `durable-docs-authoring`; `agents/`, `claude/agents/`, `codex/`; the three manifests; `scripts/validate_harness_package.py`), `README.md`, `docs/coding-agent-orchestration-harness/decisions/`.
 - Existing patterns or references: the goal assessor (`orchestration-harness/references/goal-assessor-mandate.md`) is the precedent for a Reviewer dispatch profile with a disk-only input boundary and a fixed dispatch template; a repository's decision records are located by a pointer line in `common.md` (`rulebook/references/bootstrap-lifecycle.md:42-46`), and listed reference documents are read for the purpose `common.md` states (`orchestration-harness/SKILL.md:14`).
 - Research: three Researcher reports (role surfaces; lifecycle seams; value documents and the third-party reference set the brief names), received in session on 2026-09-30.
-- Governing brief: `docs/coding-agent/briefs/value-level-operation-brief.md`; ratification relayed by Counsel on 2026-09-30 quoting the owner: "That looks reasonable enough. You can now start delegating work to the orchestrator."
+- Governing brief: `docs/coding-agent/briefs/active/value-level-operation-brief.md`; ratification relayed by Counsel on 2026-09-30 quoting the owner: "That looks reasonable enough. You can now start delegating work to the orchestrator."
 - Design record consulted and deviations from its acceptance: ADR-D-0003, D-0017, D-0020, D-0022, D-0023, D-0029, D-0030, D-0031, D-0032, D-0033, ADR-I-0006, I-0007. Contradicted: D-0023 and D-0032. D-0003, D-0022 and D-0033 stand (determined in Task_3 and its review; see the Decision Log).
 
 ## Open Questions (max 3)
@@ -942,6 +942,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Plan delta (what changed): `completion-closeout.md` Note to Counsel no longer carries the marked items; after Counsel says its first read is written down, the Orchestrator sends what Counsel asks for, the marked items as the verdict states them included, as text. The Counsel skill says the same from its side. ADR-D-0042 is unaffected: what the owner is shown at closeout is unchanged. The marked items of this run's closeout audit sent to Counsel after its first read. Counsel's brief amendments and notes committed on the branch.
   - Tradeoffs considered: none.
   - User approval: the owner's answer to the held item, relayed by Counsel
+  - Record proposed: none
+- 2026-10-02 Decision: briefs get the lifecycle plans have; the Copilot Counsel agent is named Counsel; machine user names and paths are redacted before push.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-02, from looking at the structure of the pull requests; not an acceptance of the stack: "Do the briefs split, and rename the Copilot agent to Counsel. The wording cleanup is not necessary, but the usual privacy protection of no machine specific user names and paths leaking applies here too. If that sort of thing is quoted, it should be redacted before they ever reach the remote." Counsel amended the brief accordingly.
+  - Plan delta (what changed): (1) target-repository layout `docs/coding-agent/briefs/active/` and `completed/`, notes travelling with the brief; a brief moves to `completed/` when the owner's acceptance of its final stack has reached the Orchestrator session; only a brief under `active/` can govern a run, and the audit reports one named elsewhere as a missing input; stated once in the brief form (`counsel/references/value-documents.md`) and carried in the Counsel skill, the Repository Rule Entry, the run-side reference, the mandate and the closeout. This repository's brief and notes moved to `docs/coding-agent/briefs/active/`; live pointers repaired in this plan's header lines and in the eight records' source-of-intent lines (path only). Verbatim history in the Progress Log keeps the old path. (2) `agents/harness-counsel.md` renamed `agents/Counsel.md` for Copilot, Claude keeps `harness-counsel`; role map, both READMEs, adapter checklist and validator repaired; the role map's Counsel row says the person directing the work; its naming rule gains the Copilot exception. Task text above that names `agents/harness-counsel.md` and "the physical name harness-counsel" is left as written; this entry supersedes it. (3) Scan of both published branches: the stack introduced no machine user name or path; three lines already on main (two in lessons, one in a completed plan) redacted. Worker Task_11, Reviewer NEEDS_REVISION (one MAJOR: the mandate's notes-exclusion pathspec had been narrowed and no longer covered a notes file directly under `briefs/`; restored), validators pass. Plugin stays at 0.23.0: unmerged.
+  - Tradeoffs considered: main's history keeps the three old lines; no history rewrite proposed.
+  - User approval: the owner's directions, relayed by Counsel; plan approval waived for this initiative
   - Record proposed: none
 
 ## Notes

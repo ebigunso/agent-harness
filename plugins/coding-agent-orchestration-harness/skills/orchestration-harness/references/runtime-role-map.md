@@ -8,15 +8,15 @@ Logical roles are stable. Physical agent names may vary by runtime.
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
-| Counsel | harness-counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the owner |
+| Counsel | Counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the person directing the work |
 
 ## Rules
 
-- Counsel is a separate session the owner opens, never a subagent: no role dispatches it, and it dispatches only the Researcher. Its policy is the `counsel` skill; a Counsel session never loads `orchestration-harness`.
+- Counsel is a separate session the person directing the work opens, never a subagent: no role dispatches it, and it dispatches only the Researcher. Its policy is the `counsel` skill; a Counsel session never loads `orchestration-harness`.
 - Plans and shared skills use logical role names.
 - Runtime adapters invoke physical names.
 - Preserve existing Copilot physical names unless a migration plan is explicitly added.
-- Prefer namespaced physical names for newly added runtime agents.
+- Prefer namespaced physical names for newly added runtime agents, except where a runtime's agents already use bare role names (Copilot).
 - Do not rely on generic names such as `worker` in runtimes where collisions with platform-provided agents are plausible.
 
 ## Maintenance Checks

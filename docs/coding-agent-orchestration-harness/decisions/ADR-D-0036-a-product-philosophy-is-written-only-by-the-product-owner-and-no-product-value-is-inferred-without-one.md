@@ -59,4 +59,4 @@ Not covered: the forms and locations of the philosophies and the brief, which th
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions", "Documents, in the target repository" and "Value audit". Related: the record on Counsel (ADR-D-0034), the record on the value audit (ADR-D-0039).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions", "Documents, in the target repository" and "Value audit". Related: the record on Counsel (ADR-D-0034), the record on the value audit (ADR-D-0039).

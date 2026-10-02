@@ -62,4 +62,4 @@ Not covered: statements of the person directing the work on channels other than 
 
 ## More Information
 
-ADR-D-0033 says "the user" for the person present in the Orchestrator session; this record says the person directing the work. Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions" and "Limits on the run". Related: ADR-D-0017 (harness text holds no user authority), the record on plan approval (ADR-D-0040), the record on Counsel, which holds none of that person's authority (ADR-D-0034).
+ADR-D-0033 says "the user" for the person present in the Orchestrator session; this record says the person directing the work. Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions" and "Limits on the run". Related: ADR-D-0017 (harness text holds no user authority), the record on plan approval (ADR-D-0040), the record on Counsel, which holds none of that person's authority (ADR-D-0034).
