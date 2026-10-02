@@ -1427,6 +1427,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: the owner's acceptance naming the record, relayed by Counsel
   - Record proposed: ADR-D-0049, proposed, unaccepted
+- 2026-10-03 Decision: ADR-D-0049 reduced: no role or skill names in its Decision; the role map states each session role's home.
+  - Trigger / new insight: Counsel's relay quoting the owner on ADR-D-0049, 2026-10-03, not an acceptance: "ADR-D-0049 has the role names embedded in it too. Review them to see if it is necessary." and, to the record without them as Counsel put it to him (each session role's workflow mechanics have one home; every loader, adapter, snippet and README routes to the home of the role concerned and does not restate it; a session reads the home of the role it holds and not another role's; what roles share is stated once and pointed to; adapters may differ in length and wording; one bounded replication, the role contracts in runtime instruction blocks; which skill is the home of which role stated in the role map): "Yes, send that to the Orchestrator."
+  - Plan delta (what changed): ADR-D-0049 rewritten, still proposed and still replacing ADR-D-0022; naming the roles and skills in the record is now a rejected alternative; the role map gains "Home Of Each Session Role". One clause is the Orchestrator's, to keep the record true of the text: where two roles each have a part in one exchange, each home states only its own role's part (the carrier between the sessions).
+  - Tradeoffs considered: none.
+  - User approval: the owner's direction, relayed by Counsel
+  - Record proposed: ADR-D-0049 (rewritten), proposed, unaccepted
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
