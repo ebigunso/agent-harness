@@ -2,7 +2,7 @@
 
 - status: in_progress
 - generated: 2026-09-30
-- last_updated: 2026-09-30
+- last_updated: 2026-10-03
 - work_type: mixed
 
 ## Goal
@@ -715,6 +715,11 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - promotion_target: residual_risk
 
   How the Orchestrator applied it: (P1) `ask-now` on the outward-facing test alone; the owner's answer of 2026-09-30 to this same item, recorded in the Decision Log ("Yes, pull requests can be opened before approval."), was given for this plan's delivery as two stacked pull requests, so the second branch is published and its pull request opened on that answer; nothing merges. (Merge) waits for the owner's acceptance naming the stack and each pull request. (C16) a new stop: sent to Counsel as a value question; the text stays as committed and unmerged until answered. The eight `direction` items go in the closeout note as the verdict states them. The remarks on the brief's form go to Counsel.
+- 2026-10-03 Closeout audit of the run after the later directions (live audit dispatch 4, closeout position), at 5a0e66f. Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/value-level-operation-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 2eb21b6." Dispatched to a Claude Reviewer-profile subagent with fresh context; the runtime attached a generic skill block to the subagent, which the auditor noted and which carried no account of the run. Verdict as returned (one machine path in its closing remarks removed before logging):
+
+
+
+  How the Orchestrator applied it: no `ungraded` item, no watch hit and no item resting on a provisional statement, so no exception report was owed. The merge is the only `ask-now`, on the outward-facing test alone, and waits for the owner's acceptance naming the stack and each pull request. The five `direction` items (P8, A5, DL41, C3b, C7) go in the final response and to Counsel after its first read. The auditor's point on DL41 is carried into the closeout evidence: the last five records were accepted by one statement naming each. The remarks on the brief go to Counsel. The remark that the standing approvals count only because the range began mid-run is noted: the publications in this run were made on the owner's own answers and statement, recorded in the Decision Log, not on the standing approval.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
