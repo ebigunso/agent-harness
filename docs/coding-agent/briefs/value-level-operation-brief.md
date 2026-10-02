@@ -7,6 +7,13 @@
 
 This brief is the grounds for the work. It is passed verbatim; do not paraphrase it into a plan as if the paraphrase were the requirement. It states what and why. How is the Orchestrator's.
 
+- product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository yet. *(amendment drafted 2026-10-02 at the closeout audit's request; ratified 2026-10-02: "The brief amendments are OK as well.")*
+
+## Pass conditions *(amendment drafted 2026-10-02 at the closeout audit's request, each drawn from a statement below; ratified 2026-10-02: "The brief amendments are OK as well.")*
+
+- Agent-checkable: a Counsel session can be opened on Copilot, Claude Code and Codex by the explicit act the runtime offers; the package validators pass; every decision record proposed by the run was accepted by him on its own before landing; no plan of this run was presented to him for approval, and every plan is on disk; nothing merged without his acceptance of the stack.
+- Human-only: the discussion with Counsel does not feel like filling in a form; the stops during a run were each right, neither skipping a decision that needed him nor stopping on something the documents answered; the closeout let him judge by behaviour, with implementation detail only where his judgement needed it and the reason stated; judged through first real use on Character Memory.
+
 ## Who it is for and why
 
 - You (ebigunso), as owner of a product built with agents. *(told)*
@@ -81,7 +88,7 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 
 - The role is named Counsel; runtime name `harness-counsel`.
 - Counsel and the Orchestrator are separate sessions. The session you open sets the altitude. Nested subagents are not required; the Orchestrator session stays flat.
-- Counsel never dispatches Workers, and may dispatch read-only Researchers for facts.
+- Counsel never dispatches Workers, and may dispatch read-only Researchers for facts. *(part of the brief he ratified on 2026-09-30; the line then also said Counsel never reads plans, diffs or code, which his ruling of 2026-09-30 on quick reads replaced, so the reading part now stands in its own lines below)*
 - Counsel may do quick reads of code, which the engineering discussion may need; grounding work that requires bulk code reads is still delegated to a Researcher. *(told 2026-09-30, on reading ADR-D-0034, replacing the earlier line that Counsel never reads code: "Probably the boundary about you never reading code has gone too far. The engineering discussion may be better handled if the Counsel can do quick reads too. But grounding work that requires bulk code reads should still be delegated to a researcher.")*
 - Plans and diffs stay off limits to Counsel. *(asked 2026-09-30, "Do plans and diffs stay off limits?": "Yes.")*
 - A quick read serves a discussion with him and is never a check on a run's work. *(agent-proposed, accepted 2026-09-30: "This one is reasonable.")*
@@ -96,7 +103,7 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 - One Counsel holds both the product and the engineering discussion. For the engineering one it is advisable to get advice from GPT models as well, brought into the discussion marked with its source. *(told 2026-09-30: "I'll take your case and stay with one counsel. Engineering could still use help from GPT models so it's advisable to get advice from them too for that.")*
 - Which model Counsel runs on is the owner's choice when he opens the session; it is not harness text. *(told 2026-09-30: "This is just me switching out models so it doesn't have to go into the harness.")*
 - Counsel serves the person directing the work, whether or not that person owns the product. The product's owner is whoever is entitled to state the product's values and answer product-level questions for that work; only the owner writes or amends a product philosophy, and one may pre-exist for a product the person directing the work does not own. The brief rests on one of three grounds: a product philosophy where one exists; the directing person's own words in a ratified brief where they own the product and no philosophy exists yet; the request as received otherwise. Counsel never infers product values on behalf of an absent owner; product-level judgements that the grounds do not cover come to the person directing the work, who takes them to the owner. The engineering side works the same whether or not that person owns the product. *(the single owner role and the pre-existing-philosophy wording are his directions of 2026-10-01: "a product philosophy might be pre-existing even when the person directing the work is not the product owner themselves, so the wording about that part should probably be revised to match the reality as well." and "Go, send all five as my direction.")* *(agent-proposed, accepted 2026-10-01: "Yes, generalize it and have the Orchestrator revise 0034."; this replaces the earlier line under which a non-owner had no Counsel and talked to the Orchestrator directly. His reason: "it's still good to have as much delegation as possible to free up my attention.")*
-- Plans are still presented only by the Orchestrator session, never relayed by Counsel, and anyone may talk to the Orchestrator session directly; a value-level ruling given there is recorded to the discussion notes as unratified.
+- Plans are still presented only by the Orchestrator session, never relayed by Counsel, and anyone may talk to the Orchestrator session directly; a value-level ruling given there is recorded to the discussion notes as unratified. *(part of the brief he ratified on 2026-09-30, where it was stated for the non-owner case; the generalisation of 2026-10-01 made it hold for anyone, and that wording is Counsel's; ratified 2026-10-02: "The brief amendments are OK as well.")*
 
 ### Counsel as contributor
 

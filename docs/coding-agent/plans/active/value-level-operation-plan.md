@@ -937,6 +937,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: the owner's statement in this session
   - Record proposed: none outstanding
+- 2026-10-02 Decision: Counsel forms a first read before seeing any part of the verdict, then reads what it needs and brings the finished read.
+  - Trigger / new insight: the closeout audit's held item on the note to Counsel carrying the audit's direction-marked items. Counsel's relay quoting the owner, 2026-10-02: "Do an independent read first, but do not make that final. Read whatever you need to next, and bring me the finalized read." Also relayed, on the brief amendments Counsel drafted at the audit's request (product-basis line, pass conditions marked, provenance on two reworded lines): "The brief amendments are OK as well."
+  - Plan delta (what changed): `completion-closeout.md` Note to Counsel no longer carries the marked items; after Counsel says its first read is written down, the Orchestrator sends what Counsel asks for, the marked items as the verdict states them included, as text. The Counsel skill says the same from its side. ADR-D-0042 is unaffected: what the owner is shown at closeout is unchanged. The marked items of this run's closeout audit sent to Counsel after its first read. Counsel's brief amendments and notes committed on the branch.
+  - Tradeoffs considered: none.
+  - User approval: the owner's answer to the held item, relayed by Counsel
+  - Record proposed: none
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
