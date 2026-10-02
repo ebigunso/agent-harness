@@ -1009,6 +1009,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: none.
   - User approval: the owner's direction, relayed by Counsel
   - Record proposed: ADR-D-0034 (Why revised), ADR-D-0044, ADR-D-0045, ADR-D-0046, ADR-D-0047, proposed, unaccepted
+- 2026-10-03 Decision: a blanket acceptance of the five proposed records is recorded as not acted on.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-03: "I accept all the proposed ADRs." Counsel noted the words do not name the records one by one. The five proposed records are ADR-D-0034 (re-read of its Why), ADR-D-0044, ADR-D-0045, ADR-D-0046 and ADR-D-0047.
+  - Plan delta (what changed): none. The acceptance gate asks for each record to be accepted on its own, and a relay carries exactly what the quoted words say; the five stay proposed until an acceptance names each. The owner was told in the Orchestrator session and by Counsel.
+  - Tradeoffs considered: none.
+  - User approval: not applicable
+  - Record proposed: unchanged
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
