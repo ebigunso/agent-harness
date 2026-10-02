@@ -961,6 +961,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: the liveness check lives in this repository's rule file, not the plugin; whether the plugin should carry such a step was put to Counsel for the owner.
   - User approval: the owner's direction, relayed by Counsel; plan approval waived for this initiative
   - Record proposed: none
+- 2026-10-02 Decision: ADR-D-0043 accepted with the copy of Counsel's read removed.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-02: "I accept ADR-D-0043, keep the copy out." What that answered: Counsel had told him the record let a copy of Counsel's closeout read go to the Orchestrator session only to be shown with the closeout, that this was not in his words, and that removing it was a one-line change.
+  - Plan delta (what changed): ADR-D-0043 set to `status: accepted` with the read going to the owner only (Decision line, the rejected alternative and the invariant). The Counsel skill, `completion-closeout.md`, `final-response-contract.md` and both Orchestrator agents no longer have the Orchestrator show or report Counsel's read; `candidate ready` does not depend on it. The brief's closeout line naming Counsel's read is Counsel's to amend.
+  - Tradeoffs considered: none.
+  - User approval: the owner's acceptance of the record, relayed by Counsel
+  - Record proposed: ADR-D-0043 accepted; ADR-D-0044 proposed, unaccepted
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.
