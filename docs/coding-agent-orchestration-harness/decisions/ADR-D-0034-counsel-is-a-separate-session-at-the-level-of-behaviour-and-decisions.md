@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: proposed
 adr_type: design
 date: 2026-09-30
 deciders: ["ebigunso"]
@@ -34,7 +34,7 @@ The Orchestrator session works at the level of implementation, so when it is the
 
 ## Why
 
-The person directing the work judges what is built by its behaviour and shapes direction by objecting at product level instead of auditing each plan, and the session that person opens sets the altitude; delegation is kept as wide as possible, so Counsel serves whoever directs the work.
+The person directing the work judges what is built by its behaviour and shapes direction by objecting at product level instead of auditing each plan, and the session that person opens sets the altitude. That level matters because a person recognises what is wrong in an experience, and what it should be instead, more readily than in a mechanism: a session that speaks in plans and code asks that person to translate before judging, and one that speaks of what someone does, experiences and gains puts the judgement where that person's intuition works. Delegation is kept as wide as possible, so Counsel serves whoever directs the work.
 
 ## Rejected Alternatives
 
