@@ -45,7 +45,7 @@ Record-plus-rule pairs are the expected shape for enforced contracts; the homes 
 
 ## Acceptance
 
-A record binds future work, so a human accepts it on its own, never by implication.
+A record binds future work, so a human accepts it on its own, never by implication. On its own means named individually: one statement may accept several records when it names each, and a statement that names none (all of them, the proposed ones) accepts none.
 
 1. When the admission test passes, state the proposal in conversation and in the plan Decision Log in the same action: title, the decision in one line, the constraint it places on future work, the why.
 2. Draft on the writing-strength side per `subagent-strategy/references/model-routing.md`.

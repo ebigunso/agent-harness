@@ -29,6 +29,28 @@ Formed from the Orchestrator's candidate-ready note and the brief only. Not fina
 - Counsel saw what the audit did not mark: the conversation conduct and check-ups are not evidenced in the note; the records cost him several revision rounds on form; a runtime permission refusal can only be cleared by his own statement in the Orchestrator session.
 - Put to him for decision: C7 and C15. The rest of the marked items are stated in records he accepted.
 
+## Counsel's first read of the second candidate (stack of three), 2026-10-03, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note and the brief only. Not final.
+
+- Fits the brief as reported: everything the brief asks for is named as shipped across the three pull requests, and records ADR-D-0034 to 0047 are all accepted, the last five by his statement naming each.
+- A discrepancy with his ruling: the note still lists, as a judgement call of the Orchestrator's, that a standing approval takes effect from the run after the one that adds it. On 2026-10-02 he took Counsel's recommendation that it takes effect once his acceptance is recorded and committed. Either the ruling is not yet in the text or the note is stale; Counsel cannot tell which from here.
+- A second ruling whose application is not evidenced: that the closeout audit, not the Orchestrator, marks which Worker choices and Orchestrator rulings bear on direction. The note's list of direction-bearing judgement calls is headed as the Orchestrator's own.
+- Not evidenced in the note, judged in first use: how the shipped Counsel conducts a discussion (he speaks first, the experience chain, teaching before asking, the closing pass, the watch list written at that pass).
+- What Counsel saw of the run against the human-only conditions: the stops that reached him were nearly all matters no document answered, which his rule says should stop; three times a runtime permission check needed his own hand in the Orchestrator session (renumbering, the push, the global hook), which the relay cannot carry; one blanket acceptance of his was sent back for not naming the records, the rule working as written at the cost of a round trip.
+- Cost Counsel observed and the note does not state: fourteen decision records for one initiative, most revised several times before he accepted them, almost all on form. The record standard has since gained the rules that caused the revisions.
+- Counsel's own faults in the run, for his judgement of the role: statements recorded as told without his words until the audit asked; instructions of its own sent to the Orchestrator until he pointed it out; three Orchestrator messages missed for over an hour while the watch was lapsed; a discussion practice turned into a document format and relayed as his direction, which he corrected.
+- Still true: no engineering philosophy exists, so the engineering side of every audit here was not audited. This brief has no watch list.
+- Counsel cannot verify the agent-checkable claims (validator, smoke tests, reviews, four audits).
+
+## Counsel's finalized read of the second candidate, 2026-10-03, after the audit's five marked items
+
+- The audit caught what Counsel missed: the five last records were set accepted on one statement naming each of them, which reads his condition "accepted on its own" as "named individually" and not as one statement per record; the audit asks that he judge whether that meets his condition.
+- Counsel caught what the audit could not: two rulings he gave on 2026-10-02 are in neither the text nor this closeout (when a standing approval takes effect; who marks the Worker choices and Orchestrator rulings shown at closeout). The relay carrying them is stored in the channel at 2026-10-02T07:10:49Z and was not seen by the Orchestrator. An earlier relay, stored at 2026-10-01T12:54:39Z, was missed the same way.
+- So the stack as it stands contradicts two of his decisions. Both are now in the brief as ratified lines and were sent again with their proposal text.
+- The other marked items (escalation transport, what counts as a citing audit, the two-stage read, a pause binding without admission as a relay) are stated in records he accepted.
+- Answered from his standing words during this run, without bringing it to him: nothing.
+
 ## Local privacy hook: what Counsel found and what was discussed, 2026-10-02
 
 Not part of the harness or this initiative's deliverable. ebigunso is handing this matter to a different session; this section is Counsel's contribution to the single location he asked the Orchestrator to prepare.
