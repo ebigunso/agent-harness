@@ -30,7 +30,7 @@ Someone writing or reading a plan works with roles and should not have to know w
 
 - One physical name per role, the same on every runtime: it lost because runtimes differ in how agents are named and listed, so one name fits some and reads as foreign in others; reopen if every supported runtime adopts one naming scheme for plugin agents.
 - The list of roles stated in this record: it lost because the record would have to be replaced each time a role is added, for no change to the rule; reopen if the role map is found to drift from the adapters with nothing catching it.
-- A collision-avoidance rule in this record, namespacing new physical names wherever a clash with a platform or user agent is plausible, as ADR-D-0003 had: it lost because it is caution against harm that has not been observed, and a naming convention is a runtime's matter that a reviewer checks on the diff that adds an agent; reopen if a harness agent's name is found to collide with a platform or user agent.
+- A collision-avoidance rule in this record, namespacing new physical names wherever a clash with a platform or user agent is plausible, as ADR-D-0003 had: it lost because no such collision had been observed on Copilot, Claude Code or Codex on 2026-10-03, and a naming convention is a runtime's matter that a reviewer checks on the diff that adds an agent; reopen if a harness agent's name is found to collide with a platform or user agent.
 - Renaming published agents to a common scheme: it lost because people already select the published agents by name; reopen if a release is planned that migrates them.
 
 ## Decision Boundary
@@ -47,7 +47,7 @@ Not covered: which roles exist and what each is responsible for; each runtime's 
 
 ## Revisit When
 
-- A harness agent's name is found to collide with a platform or user agent.
+- A harness agent's name is found to collide with a platform or user agent; none had been observed on Copilot, Claude Code or Codex on 2026-10-03.
 - The role map is found to drift from the adapters with nothing catching it.
 - A release is planned that migrates published physical names.
 
