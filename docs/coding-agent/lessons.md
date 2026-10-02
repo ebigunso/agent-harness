@@ -199,7 +199,7 @@ Context:
 - Roles involved: Orchestrator
 
 Symptom:
-- ADRs used the personal display name `Kohta`, generic `Codex` for the consulted agent, and context-sensitive terms such as `current`.
+- ADRs used a personal display name, generic `Codex` for the consulted agent, and context-sensitive terms such as `current`.
 
 Root cause:
 - ADRs were written from the immediate chat context instead of as durable project records.
@@ -711,7 +711,7 @@ Root cause:
 - The restricted sandbox environment does not expose the user-installed Python alias.
 
 Fix applied:
-- The Worker reran with `C:/Users/Kohta/AppData/Local/Programs/Python/Python312/python.exe` and reported both attempts.
+- The Worker reran with the full path of a locally installed Python and reported both attempts.
 
 Prevention:
 - Troubleshooting note/candidate:

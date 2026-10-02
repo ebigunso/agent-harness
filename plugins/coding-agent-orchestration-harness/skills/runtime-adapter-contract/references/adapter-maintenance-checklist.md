@@ -21,7 +21,7 @@ Use this checklist before completing runtime adapter changes.
 - Keep shared role workflow and output-contract text synchronized across all three instruction blocks.
 - Keep runtime-specific additions local to the runtime that needs them, such as tool names, connector policy references, and platform mechanics.
 - Keep Codex `AGENTS.md` loaders and snippets loader-only; do not confuse them with role-template `developer_instructions`.
-- Counsel has two instruction blocks, the Copilot and Claude `harness-counsel` agents; keep them synchronized with each other. Codex has none: a Counsel session there is the `counsel` skill invoked explicitly, with no template and no loader line.
+- Counsel has two instruction blocks, the Copilot `Counsel` agent and the Claude `harness-counsel` agent; keep them synchronized with each other. Codex has none: a Counsel session there is the `counsel` skill invoked explicitly, with no template and no loader line.
 
 ## Replicated Contract Sync
 

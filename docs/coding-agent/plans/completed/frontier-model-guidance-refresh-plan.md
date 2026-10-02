@@ -195,7 +195,7 @@
   - kind: command
     required: true
     owner: orchestrator
-    detail: "From repository root (bash): git diff --check; python -c \"import pathlib,sys; hits=[str(f) for f in pathlib.Path('docs/coding-agent/experiments/frontier-guard-probes').rglob('*') if f.is_file() and ('C:/Users' in f.read_text(errors='ignore') or 'Users/Kohta' in f.read_text(errors='ignore'))]; print(hits); sys.exit(1 if hits else 0)\""
+    detail: "From repository root (bash): git diff --check; python -c \"import pathlib,sys; hits=[str(f) for f in pathlib.Path('docs/coding-agent/experiments/frontier-guard-probes').rglob('*') if f.is_file() and ('C:/Users' in f.read_text(errors='ignore') or 'Users/<name>' in f.read_text(errors='ignore'))]; print(hits); sys.exit(1 if hits else 0)\""
 
 ### Task_6: Behavioral verification of the applied changes
 - type: test

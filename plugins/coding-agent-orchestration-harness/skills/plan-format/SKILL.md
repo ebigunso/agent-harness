@@ -8,7 +8,7 @@ description: Standard execution plan format for decomposing non-trivial work int
 This skill defines the standard **execution plan** structure used for non-trivial work.
 
 Design assumptions:
-- Plans are drafted at the start, reviewed by a Reviewer, then approved by the user.
+- Plans are drafted at the start, reviewed by a Reviewer, then approved by the user or authorized under a ratified brief, as `orchestration-harness` Plan Gate states.
 - Plans may evolve during execution (progress logs + decision logs).
 - The format should remain easy to evolve; avoid over-constraining.
 
