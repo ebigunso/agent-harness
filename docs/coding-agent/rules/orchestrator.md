@@ -34,5 +34,6 @@ The routing principle is in `subagent-strategy/references/model-routing.md`; thi
 - Prefer `feature/YYYY-MM-DD/<feature-name>` branch names in this repository unless the user requests another convention.
 - If nested branch creation fails with `unable to create directory for .git/refs/heads/...`, verify there is no conflicting loose or packed ref, then rerun the Git branch/switch command with filesystem approval; do not change naming conventions or edit `.git` internals as a workaround.
 - Stage only intended files when the worktree is mixed; never include unrelated untracked files silently.
+- A change reaches the remote only after it has been reviewed, an open pull request included: commit locally, get the review, apply its findings, then push. Log the validator result and the review for each change in the plan before the push.
 - Merge a pull request only on an explicit user instruction that names that pull request; a conditional or standing authorization given for one pull request never extends to another, ask again for each one.
 - PR titles describe the change; plugin version numbers stay in the manifests and the PR body, never in the title.
