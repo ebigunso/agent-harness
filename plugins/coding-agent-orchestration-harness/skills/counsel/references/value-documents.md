@@ -46,7 +46,7 @@ Four document types in the target repository carry what the person directing the
 - Each pass condition is marked agent-checkable or human-only. A human-only condition passes only by the owner's judgement of the result.
 - It records its ratification by quoting the owner's words with the date.
 - The Orchestrator and the auditor read it from disk, verbatim. A paraphrase of it in a plan or a message is not the requirement.
-- An amendment is ratified like the brief. The file on disk governs, and Counsel tells the Orchestrator that it changed.
+- An amendment is ratified like the brief. The file on disk governs, and it reaches the Orchestrator as the hand-over did: a relay quoting the owner's ratifying words and naming the brief's path.
 - An amendment to a brief or to either philosophy carries its own ratification record, the owner's quoted words with the date, beside the statement it adds or changes. The auditor counts a statement changed during a run as support only when that record is there.
 
 ## Discussion notes
