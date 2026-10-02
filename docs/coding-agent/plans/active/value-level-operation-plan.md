@@ -715,9 +715,176 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - promotion_target: residual_risk
 
   How the Orchestrator applied it: (P1) `ask-now` on the outward-facing test alone; the owner's answer of 2026-09-30 to this same item, recorded in the Decision Log ("Yes, pull requests can be opened before approval."), was given for this plan's delivery as two stacked pull requests, so the second branch is published and its pull request opened on that answer; nothing merges. (Merge) waits for the owner's acceptance naming the stack and each pull request. (C16) a new stop: sent to Counsel as a value question; the text stays as committed and unmerged until answered. The eight `direction` items go in the closeout note as the verdict states them. The remarks on the brief's form go to Counsel.
-- 2026-10-03 Closeout audit of the run after the later directions (live audit dispatch 4, closeout position), at 5a0e66f. Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/value-level-operation-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 2eb21b6." Dispatched to a Claude Reviewer-profile subagent with fresh context; the runtime attached a generic skill block to the subagent, which the auditor noted and which carried no account of the run. Verdict as returned (one machine path in its closing remarks removed before logging):
+- 2026-10-03 Closeout audit of the run after the later directions (live audit dispatch 4, closeout position), at 5a0e66f. Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/value-level-operation-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 2eb21b6." Dispatched to a Claude Reviewer-profile subagent with fresh context; the runtime attached a generic skill block to the subagent, which the auditor noted and which carried no account of the run. Verdict as returned (one machine path in its closing remarks removed before logging; the verdict text was written into this log from the Orchestrator session's record of the auditor's hand-back):
 
+  ## Value audit verdict: closeout, value-level-operation plan (range 2eb21b6..working tree)
 
+  Graded. One item is `ask-now` (the merge, on the outward-facing test alone, and the plan states it as waiting). Nothing is `ungraded`. A verdict grades and approves nothing.
+
+  Dispatch check: the first line of the dispatch is the fixed template verbatim. The same message also carried a loaded skill block (`engineering-quality-baselines`, "Base directory for this skill ... Stop condition ... Precedence"). It is generic skill text and contains no account of this run, so I graded rather than returning ungraded. If the Orchestrator added it, the next dispatch should be the template alone.
+
+  ### Verdict record
+
+  - `Position: closeout`
+  - `Documents read: docs/coding-agent/briefs/active/value-level-operation-brief.md; docs/coding-agent/rules/common.md ("Repository Reference Documents" pointer lines and "Standing Approvals" only)`. Instructions read: the mandate and `counsel/references/value-documents.md`. Artifact read: the plan file whole (1028 lines), and `git diff 2eb21b6` to the working tree with the notes exclude pathspec on every content command. HEAD is 5a0e66f. The only untracked paths are two files under `.claude/` dated July and September, before the range; not opened. The notes file was not opened.
+  - `Product basis: brief in the product owner's words` (brief L10: "product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository yet.")
+  - `Not audited: engineering side, no engineering philosophy (no pointer line in common.md)`
+  - `Missing inputs: none`. 2eb21b6 resolves; the brief is under `briefs/active/`, carries its ratification record (L3) and its product basis (L10).
+  - `Value documents changed in range: docs/coding-agent/briefs/active/value-level-operation-brief.md (moved from docs/coding-agent/briefs/ and amended). No pointer line added, removed or changed.`
+    - Counted as support (quoted words with a date beside the change): L10, L12-15, L37, L38, L39, L92, L93, L94, L102, L103, L104, L106, L107, L108, L109, L119, L165, L169.
+    - Not relied on alone: L170 ("told 2026-10-02", no quoted words); the second sentence of L105 ("The role is not strictly advisory..."), which follows the quote and has no record of its own; the last sentence of L38 ("...are written as chains"), which L39 says it replaces but which still stands in the text.
+    - `common.md` "Standing Approvals": both entries are committed, unchanged in the range (only `last_updated` changed), and each records the giver with quoted words and a date. By the mandate's test both are in effect for this audit. See the first remark.
+
+  "Lnn" is the brief's current line number. The brief has no watch list, so the sixth field is "-" throughout.
+
+  **Plan: Definition of Done**
+  - DoD1 Counsel session in three runtimes | maps to the brief | cited | L14 "a Counsel session can be opened on Copilot, Claude Code and Codex by the explicit act the runtime offers"; L95 "Counsel and the Orchestrator are separate sessions." | - | -
+  - DoD2 four document types, one form, location and reading rule each | maps | cited | "Documents, in the target repository" L133-139 | - | -
+  - DoD3 Orchestrator reads documents, audits at three positions, escalates to Counsel, closes "candidate ready" | maps | cited | L148 "It runs by position: plan draft, each wave boundary, closeout."; L113 "it escalates to Counsel, and Counsel brings it to him"; L165 "Closeout reports \"candidate ready\""; L56 "It leads with behaviour." | - | -
+  - DoD4 a citing audit authorizes plan execution only after its record is accepted | maps | cited | L158 "With a ratified brief, a citing audit approves plans; without one, ebigunso approves as today."; L69 "The change to plan approval needs its own decision record, accepted by you separately." | - | -
+  - DoD5 no value documents, behaviour as before | maps | inferred | extends L152 "It audits against whichever documents exist."; L158 "without one, ebigunso approves as today" | - | -
+  - DoD6 contradicted records replaced, each accepted on its own | maps | cited | L136 "Each decision record is still accepted on its own."; L14 | - | -
+  - DoD7 validators, Reviewer approval, no merge without instruction | maps | cited | L68 "Merges happen only on your explicit instruction for each pull request."; L14 "the package validators pass" | - | -
+
+  **Plan: planner-added requirements**
+  - P1 delivery as stacked pull requests: publishing branches and opening pull requests (three now exist: #72, #73, #75; all three branches are on the remote at their local heads) | maps | cited | common.md Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner. ... Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: \"The common rule proposed, accepted.\""; L76 "A finished, reviewed run may publish its branch and open the pull request before his approval; the merge still waits for him."; L169 "This work stacks on the current pull requests." | - | -
+  - P2 decision records beyond the one the brief names (fourteen in all, ADR-D-0034 to ADR-D-0047) | maps | inferred | extends L140 "Decision records (ADRs) stay for architectural forks"; L136 | - | -
+  - P3 fixed dispatch template, logged verbatim | internal mechanics | not audited | - | - | -
+  - P4 brief path recorded in the plan and named in each dispatch | internal mechanics | not audited | - | - | -
+  - P5 older "value audit" renamed "existence audit" | maps | inferred | extends the "Value audit" section L147-154 | - | -
+  - P6 Researcher contract names the dispatching session; behaviour-level report for Counsel | maps | cited | L28 "For a check-up it learns the project's state through a read-only Researcher reporting at that level." | - | -
+  - P7 philosophies found only by `common.md` pointer lines; on/off condition | maps | inferred | extends L152; L133 "Product philosophy: standing, changed only by the owner." | - | -
+  - P8 escalation transport; a file line is never his answer; without a peer channel the answer is his own statement in the Orchestrator session | maps | inferred | extends L113; L112 "Ratifying a brief takes an act of the owner, not a line in a file."; sits against L113 "ebigunso does not need to type into the Orchestrator session" | direction | -
+  - P9 live dispatch as closeout evidence | internal mechanics | not audited | - | - | -
+  - P10 one version bump per pull request | internal mechanics | not audited | - | - | -
+  - P11 missing, malformed or partly graded verdict authorizes nothing | maps | inferred | extends L158; L46 "Skipping a decision that needed to reach you is a harness failure to be fixed." | - | -
+
+  **Plan: non-goals**
+  - N1 persona voices, nested orchestration, directory memory | maps | cited | "Left out on purpose" L174-176 | - | -
+  - N2 no philosophy written for this repository or Character Memory | maps | cited | L133 "changed only by the owner"; L10 "no product philosophy and no engineering philosophy exist for this repository yet" | - | -
+  - N3 no trial of Counsel before shipping | maps | cited | L62 "It ships as a first version. No trial on a development build is required first." | - | -
+  - N4 no grade validators, report fields, rule file, templates, Codex loader change | internal mechanics | not audited | - | - | -
+  - N5 Counsel's reading limit is a stated rule, not tool-enforced | maps | inferred | extends L97; L98 "Plans and diffs stay off limits to Counsel."; L62 | - | -
+
+  **Plan: assumptions**
+  - A1 under a ratified brief the owner's decisions travel through Counsel; without one he talks to the Orchestrator | maps | inferred | extends L113; L119 "anyone may talk to the Orchestrator session directly" | - | -
+  - A2 Worker judgement calls are choices inside the task | maps | cited | L161 "Workers make choices within the bounds of their task, and the Orchestrator settles what falls outside them ... No act-then-report." | - | -
+  - A3 "candidate ready" is the closeout outcome under a brief | maps | cited | L165; L63 "what proves off comes back as corrections" | - | -
+  - A4 no documents, no audit | maps | inferred | extends L152 | - | -
+  - A5 all cited-or-inferred counts as a "citing audit" | maps | inferred | extends L149 "inferred (extends named tenets and is cheap to undo; proceed, journal, show at closeout)"; L158; L45 | direction | -
+  - A6 candidate amendments go through Counsel; the Orchestrator writes to neither philosophy | maps | cited | L133; L142 "yields a candidate amendment that he accepts or not in discussion" | - | -
+  - A7 Worker sees tenets only through its packet | internal mechanics | not audited | - | - | -
+  - A8 the Reviewer's plan review runs before the audit | maps | inferred | extends L70 "The Reviewer's plan review still runs" (stated for this initiative only); L160 | - | -
+  - A9 Codex peers reachable | internal mechanics | not audited | - | - | -
+
+  **Plan: tasks and the pull-request paragraph**
+  - T1 Counsel skill and document forms | maps | cited | sections "What Counsel is", "How a conversation with Counsel should go", "Roles and sessions", "Counsel as contributor", "Documents, in the target repository" | - | -
+  - T2 Counsel agents for Copilot and Claude, role registered, Researcher-only dispatch, Codex by explicit skill invocation (the task text still says both agents are named `harness-counsel`; the Decision Log entry of 2026-10-02 supersedes it) | maps | cited | L92 "`Counsel` in Copilot ...; `harness-counsel` in Claude Code"; L96 "Counsel never dispatches Workers, and may dispatch read-only Researchers for facts."; L14 | - | -
+  - T3 record drafts, each accepted on its own | maps | inferred | as P2 | - | -
+  - T4 value-audit mandate and the rename | maps | cited | "Value audit" section; L48 | - | -
+  - T5 package validator covers Counsel agents | internal mechanics | not audited | - | - | -
+  - T6 audit in the run, escalation, standing approvals | maps | cited | L149; L47 "Stopping on something the documents already answer is also a defect."; L160; L49 "its home is the repository rule files" | - | -
+  - T7 closeout as candidate ready, showing only what bears on direction (the task text still lists "Counsel's read or that it is pending"; superseded, see C4) | maps | cited | L56; L57; L58; L151; L163 "a closeout shows him only those that bear on direction"; L165 | - | -
+  - T8 live dispatch; landing accepted records only on the owner's yes for each | maps | cited | L136 | - | -
+  - T9 record for plan approval by a citing audit | maps | cited | L69 | - | -
+  - T10 the plan-approval conditional | maps | cited | L158 "One conditional inside plan mode, not a third lifecycle."; L112 | - | -
+  - PR merge of the stack (#72, #73, #75), stated as waiting for his acceptance naming the stack and each pull request | maps | ask-now | L68; L72 "The unit he accepts is a stack of pull requests that together ship something he can judge"; L73; L78 (free merging withdrawn for this repository) | Reason: outward-facing, and no standing approval covers a merge here (the publish entry says "Merges are not covered and wait for the owner"). That test is the only reason, and the plan states the action as waiting for him. Question: having seen what this stack does, do you accept it and instruct the merge, naming each of the three pull requests? | -
+
+  **Plan: Decision Log** (DL1 to DL26 as numbered in the verdict logged on 2026-10-02; DL27 onward are the entries after it, in order)
+  - DL1 requirement challenge, cuts | internal mechanics | not audited | - | - | -
+  - DL2 record proposals 1 to 7 | maps | inferred | as P2 | - | -
+  - DL3 ratification reaches the Orchestrator by quoted relay | maps | cited | L112 | - | -
+  - DL4 plan review round 1 applied | internal mechanics | not audited | - | - | -
+  - DL5 relayed waiver held until the owner confirms in the Orchestrator session | maps | cited | L114 | - | -
+  - DL6 round 2 applied: relay record, pointer location | maps | inferred | as P7, P2 | - | -
+  - DL7 round 3 applied: Proposal 7 tightened | maps | cited | L114 | - | -
+  - DL8 execution authorized; Counsel as carrier | maps | cited | L70 "Plan approval is waived for this initiative only."; L79. The owner's statement in the Orchestrator session is the plan's claim; the grade rests on the brief. | - | -
+  - DL9 Wave 1 rulings ("a model of another family" for "GPT models") | maps | inferred | extends L116 "it is advisable to get advice from GPT models as well"; L117 | - | -
+  - DL10 proposals 2, 6 and 8 not admitted; standing-approval home; Wave 2 rulings | maps | inferred | extends L140; L49 | - | -
+  - DL11 second-review rulings; narrowing of what reaches the owner | maps | cited | L162; L51 "he accepts it himself before it takes effect" | - | -
+  - DL12 verdict acted on; stack brought as one; records sent | maps | cited | L48; L72 | - | -
+  - DL13 reading limit changed; Counsel on any runtime; plan-approval record drafted | maps | cited | L97; L98; L99; L100; L69 | - | -
+  - DL14 owner's answer to P1; standing-approval entry; what a standing approval never discharges | maps | cited | L76; L51; L73; L74; L75 | - | -
+  - DL15 standing approval accepted; local install of the stack extension | maps | cited | L51 | - | -
+  - DL16 Counsel serves the person directing the work; ADR-D-0034 split; three product bases | maps | cited | L118; L153 | - | -
+  - DL17 further directions (one product-owner role, standing-approval authority, terms, brief tagging, reading order), renumbering | maps | cited | L118; L50; L153 | - | -
+  - DL18 a standing approval may cover a merge where the rule files allow it and the product owner gave it | maps | cited | L50 "a standing approval to merge in a repository they do not own is the product owner's to give"; L78 | - | -
+  - DL19 acceptances of ADR-D-0034 to ADR-D-0042 recorded one by one from Counsel's relays | maps | cited | L136; L114; L115. That each relay occurred and what it quoted is the plan's claim. | - | -
+  - DL20 records do not quote the owner; reasons replace rulings | maps | cited | L141 | - | -
+  - DL21 ADR-D-0037 restated as an explicit act per runtime | maps | cited | L14 "by the explicit act the runtime offers"; L95 | - | -
+  - DL22 relays admitted by a standing approval naming Counsel's identity | maps | cited | L115 | - | -
+  - DL23 plan-approval record split into three; sources stated for any mode | maps | cited | L159; L69 | - | -
+  - DL24 two sources apply to any unit of work, goal-mode envelope included | maps | cited | L159 | - | -
+  - DL25 second branch cut as a stack; ADR-D-0040 and ADR-D-0041 landed; ADR-D-0032 retired | maps | cited | L69; L72 | - | -
+  - DL26 Task_10 done with the text of ADR-D-0040 to ADR-D-0042 | maps | cited | L158; L69 | - | -
+  - DL27 the stack published (both branches pushed, #73 opened on #72) | maps | cited | common.md Standing Approvals, publish entry, as quoted at P1; L76. The owner's statement in the session is the plan's claim. | - | -
+  - DL28 Counsel forms a first read before seeing any part of the verdict, then asks for what it needs | maps | cited for the first read, inferred for what follows; graded at C3a and C3b | see C3a, C3b | see C3b | -
+  - DL29 briefs get `active/` and `completed/`; Copilot agent named Counsel; machine names and paths redacted | maps | cited | L93; L92; L94 | - | -
+  - DL30 ADR-D-0043 and ADR-D-0044 proposed; pre-push privacy sweep broadened (the sweep text was later restored, DL34; no net change in the tree) | maps | cited | L106; L107; L108; L109; L94 | - | -
+  - DL31 dated model-routing observation moves to the repository rule files; a third pull request on the stack | maps | cited | L169; publication on the Standing Approvals publish entry as quoted at P1 | - | -
+  - DL32 ADR-D-0043 accepted with Counsel's read going to the owner only | maps | cited | L165 "Counsel's read is not part of the Orchestrator's closeout and no copy of it goes to the Orchestrator; it reaches him from Counsel alone." | - | -
+  - DL33 privacy sweep as a helper script in the plugin, built and reviewed by the Codex peers (removed again by DL34; no net change in the tree) | maps | inferred | extends L94 "machine-specific user names and paths must not leak" | - | -
+  - DL34 the privacy sweep leaves the plugin; local hook commands handed to the owner | maps | inferred | extends L94. The owner's words quoted in the entry are in no document. | - | -
+  - DL35 Counsel may withdraw its own pause; ADR-D-0044 revised | maps | cited | L103 | - | -
+  - DL36 Counsel hears of a run by exception only; ADR-D-0045 proposed | maps | cited | L104 | - | -
+  - DL37 value discussion conducted as the experience chain; ADR-D-0046 proposed; ADR-D-0034 Why revised | maps | cited | L37; L38 | - | -
+  - DL38 the chain governs the discussion, not the durable documents | maps | cited | L39 | - | -
+  - DL39 ADR-D-0046 split into ADR-D-0046 and ADR-D-0047 | maps | inferred | extends L39; L140 | - | -
+  - DL40 a blanket acceptance of the five proposed records not acted on | maps | cited | L136 "Each decision record is still accepted on its own."; L14 | - | -
+  - DL41 five records set accepted on one statement naming each of them | maps | inferred | extends L136 and L14 "every decision record proposed by the run was accepted by him on its own before landing": reads "on its own" as "named individually", not "one statement per record". Undone by reverting the status lines. | direction | -
+
+  **Changes since 2eb21b6**
+  - C1 the Copilot Counsel agent is named `Counsel`; Claude keeps `harness-counsel`; role map, both READMEs, checklist and validator follow; the role-map naming rule gains the Copilot exception | maps | cited | L92 | - | -
+  - C2 briefs live under `briefs/active/` and `briefs/completed/`; only a brief under `active/` governs a run; a hand-over or dispatch naming one elsewhere has no governing brief; the Orchestrator moves brief and notes on the owner's acceptance of the final stack; this repository's brief and notes moved to `active/` | maps | cited | L93 "A brief moves to `completed/` when he accepts its final stack, and a completed brief authorizes nothing." | - | -
+  - C3a the note to Counsel carries no part of the verdict, the direction-marked items included; Counsel's first read is formed blind to it | maps | cited | L111 "formed before seeing the auditor's verdict"; L104 "Counsel's first closeout read stays blind to those marks" | - | -
+  - C3b after Counsel says its first read is written down, the Orchestrator sends what Counsel asks for, the marked items as the verdict states them included, and Counsel brings the owner a finished read | maps | inferred | extends L111; L104 "Everything else the audit marks reaches him at closeout"; L142. The brief speaks of a "first" read and says nothing of the second stage. | direction | -
+  - C4 the Orchestrator's closeout no longer shows, waits for or reports Counsel's read; `candidate ready` does not depend on it (closeout, final-response contract, both Orchestrator agents, Counsel skill) | maps | cited | L165 | - | -
+  - C5 about the run's work Counsel speaks to the Orchestrator only in the owner's words: quote, hand back, or bring to the owner; no instruction, opinion or sequencing; a list of what was answered from standing words; advice goes to the owner (skill, run-side reference, ADR-D-0043) | maps | cited | L106; L107 | - | -
+  - C6 three severities; at high severity a narrow, binding pause with a stated reason, raised with the owner at the same moment; Counsel may withdraw it; nothing bars raising it again (skill, run-side reference, ADR-D-0044) | maps | cited | L108; L109; L103 | - | -
+  - C7 a pause binds without admission as a relay, and the Orchestrator names every pause in force in its next report to the owner | maps | inferred | extends L109 "That pause is binding on the Orchestrator ... He sees every use". Consequence: a message under Counsel's identity can hold part of a run until the owner notices. | direction | -
+  - C8 exception reports: an optional watch list in the brief form; the mandate checks graded items against it and records `watch`; the Orchestrator sends each hit and each item let through on a provisional statement to Counsel at once, as the verdict states it; work proceeds unless Counsel pauses (value-documents, mandate, run-side reference, skill, ADR-D-0045) | maps | cited | L104 | - | -
+  - C9 without a peer channel an exception report is a notes entry and the turn is not ended; an unchanged line is not re-sent; a run on a philosophy alone sends nothing | maps | inferred | extends L104 "a hit comes to Counsel at once". In that setup "at once" means when Counsel next reads the notes. | - | -
+  - C10 Counsel discusses as the four-part experience chain; mechanism put into the chain before it reaches the owner; personas (skill, ADR-D-0046) | maps | cited | L37; L38 | - | -
+  - C11 durable documents are free in their terms; the record standard says no form is required (value-documents, `adr.md`, ADR-D-0047) | maps | cited | L39 | - | -
+  - C12 ADR-D-0034's Why revised; five records added with `status: accepted` (ADR-D-0043 to ADR-D-0047); source-of-intent paths repaired in eight records | maps | cited | L136; L37. That each was accepted is the plan's claim; the form of the last acceptance is graded at DL41. | - | -
+  - C13 what Counsel adds to a relay only places the quote; a brief amendment reaches the Orchestrator as a relay quoting the ratifying words and naming the path | maps | inferred | extends L106; L112; L101 | - | -
+  - C14 the plugin keeps the routing principle and drops the dated illustration; `orchestrator.md` gains "Models And Peers In This Workspace" with the dated observation and the registered peers | maps | cited | L169 | - | -
+  - C15 the liveness check before a run's first dispatch and the rule that a silent peer is reported, never silently replaced (repository rule file) | internal mechanics | not audited | - | - | -
+  - C16 machine user name and path redacted in two lessons lines and one completed plan | maps | cited | L94 | - | -
+  - C17 the third branch published and pull request #75 opened | maps | cited | common.md Standing Approvals, publish entry, as quoted at P1; L169 "This work stacks on the current pull requests." | - | -
+  - C18 manifests at 0.24.0, validator path, `common.md` and `orchestrator.md` dates, plan log entries | internal mechanics | not audited | - | - | -
+
+  - `Human-only conditions pending: "the discussion with Counsel does not feel like filling in a form"; "the stops during a run were each right, neither skipping a decision that needed him nor stopping on something the documents answered"; "the closeout let him judge by behaviour, with implementation detail only where his judgement needed it and the reason stated"; "judged through first real use on Character Memory"` (L15). No plan item or change lets a proxy settle any of them.
+
+  ### Remarks outside the record
+
+  - **Totals:** 66 cited (DL28 counted once, at C3a), 22 inferred (6 marked `direction`), 1 ask-now, 14 not audited, none ungraded. The irreversible-or-outward-facing test ran on every item and caught the publications (P1, DL27, DL31, C17), which a standing approval covers, and the merge, which none does.
+  - **The standing approval is in effect only because of the range named.** The mandate voids an entry "added or changed inside the audited range". Both entries were added during this run but before 2eb21b6, so they pass that test. `value-documents.md` also says an accepted approval "applies from the run after the one that adds it". Had `Changes since` named the run's start, the publications would be `ask-now` on the outward-facing test alone. They have already happened, and the plan claims the owner's own statement for them, which I cannot verify from a document.
+  - **This verdict covers the plan whole and the changes since 2eb21b6 only.** Everything between the run's start and 2eb21b6 rests on the earlier audits logged in the plan, which I treated as claims.
+  - **Marked `direction` for the closeout:** P8, A5, DL41, C3b, C7. None rests on a statement marked provisional. No watch hit; the brief has no watch list. (That is five marks on six lines; DL28 is graded at C3b.)
+  - **DL41 bears on an agent-checkable pass condition.** The closeout evidence for "accepted by him on its own" should state the form: one statement naming five records. He can then judge whether that meets his condition.
+  - **The merge is the only stop,** and it does not count against the plan under the Plan Gate, since the outward-facing test is its only reason and the plan states it as waiting.
+  - **Brief gaps, for Counsel and the owner:**
+    - The plan quotes the owner's answer on the first read ("Do an independent read first, but do not make that final...") but the brief does not carry it as an amendment.
+    - L38 still ends with the sentence L39 says it replaces.
+    - L170 has no quoted words.
+  - **Proposed records were published before acceptance.** ADR-D-0043 to ADR-D-0047 were committed and pushed as `proposed`, unlike ADR-D-0040 to ADR-D-0042, which stayed untracked until accepted. I read "before landing" (L14) as before merge, so no item is graded on it.
+  - **Stale plan text:**
+    - The header still reads `last_updated: 2026-09-30`.
+    - T2 names both agents `harness-counsel`.
+    - T7 still lists Counsel's read in the closeout.
+    - The pull-request paragraph says two pull requests; there are three.
+    - The Decision Log names an untracked handoff file under `docs/coding-agent/handoffs/` that git does not list.
+  - **Not verifiable from documents:** every relayed acceptance and the owner's session statements are the plan's claims. Grades rest on the brief and the Standing Approvals section.
+  - **Installed plugin:** the cached plugin is 0.21.0 and has no mandate file; the dispatch resolved from this repository's working tree.
+
+  ### Lesson candidate
+
+  - category: value audit dispatch
+  - deviation: a closeout audit dispatched with `Changes since` set to a mid-run revision lets a standing approval added earlier in the same run count as in effect, against the "applies from the run after the one that adds it" rule.
+  - root_cause: the mandate tests "inside the audited range", and the run-side text does not hold `Changes since` at closeout to the run's start revision when a closeout audit is repeated.
+  - prevention: either the closeout dispatch always names the run's start revision, or the mandate's test is worded by run instead of by range.
+  - promotion_target: harness_migration
 
   How the Orchestrator applied it: no `ungraded` item, no watch hit and no item resting on a provisional statement, so no exception report was owed. The merge is the only `ask-now`, on the outward-facing test alone, and waits for the owner's acceptance naming the stack and each pull request. The five `direction` items (P8, A5, DL41, C3b, C7) go in the final response and to Counsel after its first read. The auditor's point on DL41 is carried into the closeout evidence: the last five records were accepted by one statement naming each. The remarks on the brief go to Counsel. The remark that the standing approvals count only because the range began mid-run is noted: the publications in this run were made on the owner's own answers and statement, recorded in the Decision Log, not on the standing approval.
 
