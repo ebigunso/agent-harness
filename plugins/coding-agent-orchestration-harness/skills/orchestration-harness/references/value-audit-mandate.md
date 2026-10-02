@@ -42,6 +42,8 @@ Each item on an audited side gets exactly one grade, tested in this order:
 3. `inferred` (not on the request-as-received basis) when no statement covers it, it extends statements the verdict names, and it is cheap to undo. No stop is owed on this item; the Orchestrator journals it. The auditor marks the item `direction` when the extension is a decision at the level of the product philosophy or the engineering philosophy, the level that sets the product's direction; the closeout shows the owner the marked items and no others, so the mark is the auditor's and never the Orchestrator's. When a named statement is marked provisional, the verdict says so.
 4. `ask-now` otherwise: no support.
 
+After grading, check every graded item against the brief's watch list, when the brief has one. An item that is, or bears on, something the list names is a watch hit: record `watch` and the entry it hit on the item's line. A hit changes no grade and is not a stop; the list is the owner's, so match what an entry's own words name and add none. When unsure whether an item bears on an entry, record the hit: a report that proves unneeded costs a message, and a missed one is what the list exists to prevent.
+
 An `ask-now` item does not go ahead until it is answered. What else in the run stops with it is the Orchestrator's to apply. An irreversible or outward-facing item no standing approval covers is graded `ask-now` even when the plan states the action as waiting for the decision of whoever holds the authority for it; an action so stated does not count as `ask-now` against the plan's authorization under the Plan Gate when that test is the only reason for the grade, and the action itself still waits.
 
 Terms the order relies on:
@@ -73,7 +75,7 @@ Return all of the following for the plan's Progress Log:
 - `Not audited: <side, and that it has no document> | none`
 - `Missing inputs: <what was named and not found, a governing brief not under `active/`, the brief without a ratification record, a pointer removed in range> | none`
 - `Value documents changed in range: <paths, and each pointer line removed or changed> | none`
-- One line per item: `<item> | <maps to the brief / internal mechanics / scope expansion; "-" for a user-facing item when no brief is named> | <cited / inferred / ask-now / ungraded / not audited> | <document and quoted statement for each statement or standing approval relied on, with "provisional" beside each so marked> | <for ask-now: each reason and the value question; for inferred: `direction` when it bears on the product's direction, else "-">`
+- One line per item, six fields separated by ` | `: ``<item> | <maps to the brief / internal mechanics / scope expansion; "-" for a user-facing item when no brief is named> | <cited / inferred / ask-now / ungraded / not audited> | <document and quoted statement for each statement or standing approval relied on, with "provisional" beside each so marked> | <for ask-now: each reason and the value question; for inferred: direction when it bears on the product's direction, else "-"> | <watch: followed by the entry hit, or "-">``
 - `Human-only conditions pending: <each, as the brief words it> | none`
 
 ## Fixed Dispatch Template

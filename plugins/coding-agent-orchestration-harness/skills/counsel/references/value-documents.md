@@ -18,7 +18,7 @@ Four document types in the target repository carry what the person directing the
 | Product philosophy | pointer line in `common.md` | the product owner only | Counsel, Orchestrator, auditor |
 | Engineering philosophy | pointer line in `common.md` | the owner only | Counsel, Orchestrator, auditor |
 | Initiative brief | `docs/coding-agent/briefs/active/<initiative>-brief.md` | Counsel, on the owner's ratification | Counsel, Orchestrator, auditor |
-| Discussion notes | `<initiative>-notes.md`, in the same folder as its brief | Counsel; the Orchestrator for two kinds of entry | Counsel, Orchestrator; never the auditor |
+| Discussion notes | `<initiative>-notes.md`, in the same folder as its brief | Counsel; the Orchestrator for three kinds of entry | Counsel, Orchestrator; never the auditor |
 
 - The two philosophies have no fixed path. Each is located only by a pointer line in the target repository's `docs/coding-agent/rules/common.md`, section "Repository Reference Documents". Do not probe paths for one.
 - The Orchestrator adds, removes or repoints a pointer line only on the owner's word: the owner's own statement in the Orchestrator session, or Counsel's relay quoting the owner naming the document and its path. Counsel never edits rule files, and Counsel's own statement of a path is not enough.
@@ -44,6 +44,7 @@ Four document types in the target repository carry what the person directing the
 - Each statement carries a tag, told (someone said it), inferred (Counsel inferred it and nobody objected), or agent-proposed (Counsel originated it and it was accepted), and, for anything told or accepted, the quoted words of the person who said it with the date. Counsel writes a brief this way while drafting, not when an audit asks.
 - It traces to statements in the product philosophy where there is one, and to the request as received where there is not. It states which of three it is, so the auditor and the Orchestrator can tell without asking: it traces to a product philosophy; or it is ratified in the owner's words where the owner is the product owner; or it carries the request as received from a product owner who is not the owner, in which case the product owner's words are kept as received and Counsel adds nothing to them as product value.
 - Each pass condition is marked agent-checkable or human-only. A human-only condition passes only by the owner's judgement of the result.
+- It may carry a watch list: a short list, a handful of entries, of the things the owner would want to hear about at once if they came up during the run. The owner writes it with Counsel at the closing pass of the discussion and it is ratified with the brief. The auditor checks every item it grades against it; a hit is reported to Counsel during the run and is neither a grade nor a stop. A brief with no watch list has none; nobody writes one for the owner.
 - It records its ratification by quoting the owner's words with the date.
 - The Orchestrator and the auditor read it from disk, verbatim. A paraphrase of it in a plan or a message is not the requirement.
 - An amendment is ratified like the brief. The file on disk governs, and it reaches the Orchestrator as the hand-over did: a relay quoting the owner's ratifying words and naming the brief's path.
@@ -52,6 +53,6 @@ Four document types in the target repository carry what the person directing the
 ## Discussion notes
 
 - Unratified. One file per initiative, with typed entries: facts, assumptions, decisions, open questions.
-- The Orchestrator writes two kinds of entry: an open question for Counsel when the setup has no peer channel, and a value-level ruling given in the Orchestrator session, recorded as unratified.
+- The Orchestrator writes three kinds of entry: an open question for Counsel when the setup has no peer channel; an exception report for Counsel (a watch hit or a provisional-statement item, as the audit's verdict states it) when the setup has no peer channel; and a value-level ruling given in the Orchestrator session, recorded as unratified.
 - No entry is grounds for a plan or a grade, and no entry is the owner's answer.
 - The auditor never reads them.

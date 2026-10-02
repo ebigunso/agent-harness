@@ -10,7 +10,7 @@ superseded_by: null
 depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0043-counsel-speaks-to-the-orchestrator-only-in-the-words-of-the-person-directing-the-work-and-its-advice-goes-to-that-person.md"]
 ---
 
-# ADR-D-0044: Where continuing without the decision of the person directing the work would be severe, Counsel pauses the affected part of the work, and the Orchestrator session holds that part until that person answers
+# ADR-D-0044: Where continuing without the decision of the person directing the work would be severe, Counsel pauses the affected part of the work, and the Orchestrator session holds that part until that person answers or Counsel withdraws the pause
 
 ## Context and Problem Statement
 
@@ -32,7 +32,7 @@ Counsel's advice goes to the person directing the work and never to the Orchestr
 
 ## Why
 
-A stop is different from a direction: waiting costs time and can be undone, while irreversible work, or work piled onto a direction that turns out wrong, cannot. So the one case where Counsel acts on the run without that person's words is the case where waiting for those words is the cheaper error. The party whose work waits cannot be the judge of whether it should wait, so the pause binds; and it is kept narrow, to the affected part and to the time until that person answers, so that it cannot become a way of steering the run.
+A stop is different from a direction: waiting costs time and can be undone, while irreversible work, or work piled onto a direction that turns out wrong, cannot. So the one case where Counsel acts on the run without that person's words is the case where waiting for those words is the cheaper error. The party whose work waits cannot be the judge of whether it should wait, so the pause binds; and it is kept narrow, to the affected part and to the time until that person answers or Counsel finds its reason gone and withdraws it, so that it cannot become a way of steering the run.
 
 ## Rejected Alternatives
 
@@ -47,12 +47,12 @@ A stop is different from a direction: waiting costs time and can be undone, whil
 
 Invariant: Counsel pauses only where continuing would be severe, only the affected part, with a stated reason and with the matter raised to that person at the same moment; the Orchestrator session holds that part until that person answers or Counsel withdraws the pause, and does not judge it; a pause directs nothing and is no decision of that person; the Decision list states the rest.
 
-Not covered: what else Counsel may say to an Orchestrator session and where its advice goes (ADR-D-0043); what the value audit holds, a separate stop that is unchanged (ADR-D-0039); when that person's answer counts as that person's word (ADR-D-0038); the wording of a pause notice; how the pause travels between sessions.
+Not covered: what else Counsel may say to an Orchestrator session and where its advice goes (ADR-D-0043); how a matter comes to Counsel's notice while a run is under way (ADR-D-0045); what the value audit holds, a separate stop that is unchanged (ADR-D-0039); when that person's answer counts as that person's word (ADR-D-0038); the wording of a pause notice; how the pause travels between sessions.
 
 ## Validation
 
 - Counsel's policy states the three severities, that a pause names only the affected part with its reason and says nothing of what to do instead, that the matter is raised with that person at the same moment, and that a withdrawal states its reason and is told to that person.
-- The Orchestrator's run-side text states that a pause from Counsel stops the named part until that person's answer arrives as that person's word, that the Orchestrator determines what depends on it, and that a pause is not that person's decision.
+- The Orchestrator's run-side text states that a pause from Counsel stops the named part until that person's answer arrives as that person's word or Counsel withdraws the pause with a stated reason, that the Orchestrator determines what depends on it, and that a pause is not that person's decision.
 - Each pause recorded in a plan shows the part paused, the severity reason as Counsel gave it, and what ended it: that person's answer, or Counsel's withdrawal with its stated reason.
 
 ## Revisit When
