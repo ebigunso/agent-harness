@@ -19,8 +19,8 @@ Plans, skills and governance documents name roles; runtimes name agents. The har
 ## Decision
 
 - The logical roles are stable and are five: Orchestrator, Researcher, Worker, Reviewer and Counsel.
-- Plans, shared skills and governance documents use logical role names, never a runtime's physical agent names.
-- Physical agent names may differ by runtime, and the role map (`plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`) is the one place that states them.
+- Plans, shared skills and governance documents refer to roles by their logical names.
+- Physical agent names may differ by runtime, and the role map (`plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`) is the canonical statement of which physical name holds which role in which runtime. Runtime instructions (adapter definitions, the adapter checklist) may use the physical names they are about.
 - A new physical name is namespaced where a collision with a platform-provided or user agent is plausible; a generic name such as `worker` is not relied on in such a runtime.
 - A runtime whose published agents already use bare role names keeps that convention for a new role, so that its agents read as one set: in Copilot the Counsel agent is `Counsel`, beside `Orchestrator`, `Researcher`, `Reviewer` and `Worker`.
 - Published physical names are not changed without a migration plan.
@@ -33,12 +33,12 @@ Someone writing or reading a plan works with roles and should not have to know w
 
 - One generic physical name per role on every runtime: it lost because a runtime's own `worker` or a user's agent can shadow it; reopen if every supported runtime gives plugin agents a namespace of their own.
 - Rename every published agent to a namespaced name: it lost because people already select the Copilot agents by their published names; reopen if a release is planned that migrates them.
-- Namespace every new physical name with no exception, as ADR-D-0003 preferred: it lost because the Copilot Counsel agent would be the one namespaced name in a set of bare ones; reopen if a bare role name in Copilot is found to collide with a platform or user agent.
+- Namespace the Copilot Counsel agent because it is new, reading ADR-D-0003's preference for namespaced new names without its allowance for compatibility: it lost because the Copilot Counsel agent would be the one namespaced name in a set of bare ones; reopen if a bare role name in Copilot is found to collide with a platform or user agent.
 - Four logical roles, Counsel treated as outside the role model: rejected outright; Counsel is a role a session holds, with a policy and adapters like the others (ADR-D-0034).
 
 ## Decision Boundary
 
-Invariant: five logical roles, named the same in every plan and skill; physical names stated only in the role map; a new name is namespaced where a collision is plausible, and follows a runtime's published bare-name convention where one exists; the Decision list states the rest.
+Invariant: five logical roles, named the same in every plan and skill; the role map canonical for which physical name holds which role; a new name is namespaced where a collision is plausible, and follows a runtime's published bare-name convention where one exists; the Decision list states the rest.
 
 Not covered: what each role is responsible for (ADR-D-0034 for Counsel; the orchestration skill for the others); how a session takes a role (ADR-D-0037); where adapter files live (ADR-I-0006); dispatch profiles of a role, which are not roles (ADR-D-0030); the physical names themselves, which the role map owns.
 
@@ -56,4 +56,4 @@ Not covered: what each role is responsible for (ADR-D-0034 for Counsel; the orch
 
 ## More Information
 
-Replaces ADR-D-0003 in full: its stable logical roles, runtime-specific physical names and role map are carried; Counsel is added as the fifth role, and the preference for namespaced new names gains the exception for a runtime whose published agents use bare role names. Related: ADR-D-0034 (Counsel), ADR-D-0037 (entering a session role), ADR-D-0030 (dispatch profiles), ADR-I-0006 (adapter layout).
+Replaces ADR-D-0003 in full: its stable logical roles, runtime-specific physical names, role map, collision policy and preservation of published names are carried. Changed: Counsel is added as the fifth role; and where ADR-D-0003 limited namespacing to plausible collisions and allowed a compatibility reason, this record states the Copilot case outright: a runtime whose published agents use bare role names keeps that convention for a new role. Related: ADR-D-0034 (Counsel), ADR-D-0037 (entering a session role), ADR-D-0030 (dispatch profiles), ADR-I-0006 (adapter layout).

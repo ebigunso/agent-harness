@@ -1082,6 +1082,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Exception report: DL13b's verdict line sent to Counsel at once, as stated.
   - The seven `direction` items (P8, A5, DL10, DL13b, DL28b, DL30b, W2) are what the closeout shows; sent to Counsel after its first read, and listed in the final response. The Orchestrator selects none.
   - The small text gap in `completion-closeout.md` is closed. The brief gaps go to Counsel. Stale task text (two pull requests; both agents named `harness-counsel`; Counsel's read in the closeout) is superseded by the Decision Log entries of 2026-10-02 and left as written.
+- 2026-10-03 Validation and review of the local commits 68bf6ebd and 2b8c8759 before any push: package validator passed; `git diff --check` clean. Review: correctness tier by the Codex reviewer peer, NEEDS_REVISION with two MAJORs on ADR-D-0049 (its Validation claimed a package-validator check of the loader snippet that the validator does not make; it said the carrier is stated once when both skills state their side of it) and three MINORs (two alternatives without a losing reason; ADR-D-0048 saying physical names appear only in the role map; its comparison with ADR-D-0003); it passed the ADR-D-0042 status change, the closeout text line and the push-after-review rule, and listed the pointer repairs the two retirements will need. All five findings applied; the delta goes back to the reviewer before the push.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 

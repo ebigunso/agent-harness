@@ -21,7 +21,7 @@ Three runtimes (GitHub Copilot, Claude Code, Codex) consume the harness through 
 - The workflow mechanics of a session role have one home: the `orchestration-harness` skill and its references for the Orchestrator and the roles it dispatches, and the `counsel` skill and its references for Counsel.
 - Every loader block, runtime adapter, snippet and README routes agents to the home of the role concerned and does not restate its gates, rules, role names or formats.
 - A session reads the home of the role it holds and not the other's: a Counsel session never loads `orchestration-harness`, and an Orchestrator session does not take its mechanics from the `counsel` skill.
-- What the two roles share (the forms of the value documents, the carrier between the sessions) is stated once, in the reference of the skill that owns it, and the other skill points to it.
+- What the two roles share is not restated across the two homes. The forms of the value documents are stated once, in the `counsel` skill's reference, and the Orchestrator's reference points to it; reading that shared reference is not loading the other role's skill. The carrier between the sessions is stated from each side in that side's own home, each saying only what its own role sends and how it acts on what arrives.
 - Adapters may differ from one another in length and wording as long as their meaning comes from the shared skill tree.
 - One replication is deliberate and bounded: the role workflow and output contracts that runtime instruction blocks carry under `runtime-adapter-contract`, maintained as one text across all runtime copies.
 
@@ -32,9 +32,9 @@ An agent that follows a stale copy of the workflow reports gates as satisfied th
 ## Rejected Alternatives
 
 - One home for both roles, the orchestration skill carrying Counsel's mechanics as well, as ADR-D-0022 was written before Counsel existed: it lost because a session would load the other role's mechanics with its own; reopen if the two skills are found restating each other's rules.
-- Duplicate the workflow into every adapter: reopen if a runtime ever refuses to read shared skills from an agent definition.
+- Duplicate the workflow into every adapter: it lost because each copy can go stale unnoticed and an agent following one reports gates the workflow no longer defines; reopen if a runtime ever refuses to read shared skills from an agent definition.
 - Put the workflow in `AGENTS.md`: rejected outright; a repository `AGENTS.md` reaches every platform, not only Codex, and a user one reaches every project.
-- Force one identical prompt body on every runtime: reopen if a generated-adapter system can emit runtime-specific shapes from one source.
+- Force one identical prompt body on every runtime: it lost because the runtimes differ in what an agent definition may contain and how it is loaded, so one body fits none of them well; reopen if a generated-adapter system can emit runtime-specific shapes from one source.
 
 ## Decision Boundary
 
@@ -44,7 +44,7 @@ Not covered: adapter length, kernel wording, which references an adapter names, 
 
 ## Validation
 
-- Package validation confirms loader snippets are loader-only and rejects harness role names or gate wording in them.
+- Review of the loader snippet confirms it is loader-only, with no harness role names or gate wording in it; the package validator does not check this (ADR-D-0022 said it did), so it is a Reviewer and checklist check until a validator check exists.
 - The adapter maintenance checklist diffs the replicated role contract across the runtime copies, for the Orchestrator's roles and for Counsel.
 - Review of any new runtime surface asks: does this restate, or route, and to which role's home?
 
@@ -56,4 +56,4 @@ Not covered: adapter length, kernel wording, which references an adapter names, 
 
 ## More Information
 
-Replaces ADR-D-0022 in full: everything it decided for the orchestration skill is carried, and the rule is stated per session role now that Counsel is a second one. Related: ADR-D-0020 (loader-routed sessions assume the Orchestrator role), ADR-D-0034 (Counsel), ADR-D-0037 (entering a session role), ADR-I-0006 (adapter layout).
+Replaces ADR-D-0022 in full: everything it decided for the orchestration skill is carried, and the rule is stated per session role now that Counsel is a second one. New here: what the two roles share is not restated across the two homes, the document forms having one owner and the carrier being stated from each side. Corrected here: ADR-D-0022's Validation claimed a package-validator check of the loader snippet that the validator does not make. Related: ADR-D-0020 (loader-routed sessions assume the Orchestrator role), ADR-D-0034 (Counsel), ADR-D-0037 (entering a session role), ADR-I-0006 (adapter layout).
