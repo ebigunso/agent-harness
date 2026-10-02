@@ -12,7 +12,7 @@ Logical roles are stable. Physical agent names may vary by runtime.
 
 ## Home Of Each Session Role
 
-A session holds one role and reads that role's home, never another's.
+A session holds one role and takes its mechanics from that role's home. It never loads another role's home as its own; it reads a reference kept in another home only where its own home points it to that file.
 
 - Orchestrator, and the Researcher, Worker and Reviewer it dispatches: the `orchestration-harness` skill and its references.
 - Counsel: the `counsel` skill and its references.

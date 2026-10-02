@@ -21,7 +21,7 @@ The runtimes the harness supports consume it through different surfaces: agent d
 
 - The workflow mechanics of each session role have one home.
 - Every loader, adapter, snippet and README routes to the home of the role concerned and does not restate its gates, rules, role names or formats.
-- A session reads the home of the role it holds, and not another role's.
+- A session takes its mechanics from the home of the role it holds and never loads another role's home as its own; reading a single shared statement that its own home points it to, wherever that statement is kept, is not that.
 - What roles share is stated once and pointed to, not restated in each home; where two roles each have a part in one exchange, each home states only its own role's part.
 - Adapters may differ from one another in length and wording as long as their meaning comes from that home.
 - One replication is deliberate and bounded: the role contracts that runtime instruction blocks must carry, kept as one text across the runtime copies.
@@ -41,7 +41,7 @@ An agent that follows a stale copy of the workflow reports gates as satisfied th
 
 ## Decision Boundary
 
-Invariant: no surface other than the home of the role concerned defines a gate, rule, role name or report format; each session reads its own role's home; what roles share is stated once; the replicated role contract is the only exception and is kept in sync as one text; the Decision list states the rest.
+Invariant: no surface other than the home of the role concerned defines a gate, rule, role name or report format; each session takes its mechanics from its own role's home, reading elsewhere only a shared statement its home points to; what roles share is stated once; the replicated role contract is the only exception and is kept in sync as one text; the Decision list states the rest.
 
 Not covered: which roles exist, which skill is the home of each, and their physical names, which the role map states (ADR-D-0048); adapter length, kernel wording, which references an adapter names, and the loader block's exact text, all of which change through skill text and the adapter checklist; what each role is responsible for; how a session takes a role (ADR-D-0037).
 
