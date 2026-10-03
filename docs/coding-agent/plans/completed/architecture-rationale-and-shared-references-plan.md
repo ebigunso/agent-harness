@@ -53,7 +53,7 @@
 - type: docs
 - owns:
   - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0002-explicit-orchestrator-entrypoint--superseded-by-ADR-D-0023.md`
-  - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0003-runtime-namespaced-role-identities.md`
+  - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0003-runtime-namespaced-role-identities--superseded-by-ADR-D-0048.md`
   - `docs/coding-agent-orchestration-harness/decisions/ADR-D-0004-worker-ui-probes-vs-reviewer-evidence.md`
   - `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md`
 - depends_on: []

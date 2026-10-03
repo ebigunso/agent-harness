@@ -101,6 +101,7 @@ def check_skills(errors: list[str]) -> None:
         "runtime-adapter-contract",
         "rulebook",
         "counsel",
+        "value-documents",
     ]
     for name in required:
         path = skills_dir / name / "SKILL.md"

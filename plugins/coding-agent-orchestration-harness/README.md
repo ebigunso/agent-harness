@@ -37,7 +37,8 @@ Counsel is a separate session from the Orchestrator: the owner opens it to discu
 ## Key Skills
 
 - `orchestration-harness`: canonical Orchestrator policy and hard gates.
-- `counsel`: canonical Counsel session policy and the value-document forms.
+- `counsel`: canonical Counsel session policy.
+- `value-documents`: forms, locations and ownership of the value documents; the home of no role.
 - `plan-format`: Task_X plan structure and waves.
 - `subagent-strategy`: dispatch strategy and prompt checklists.
 - `subagent-report-contract`: Worker YAML report contract.

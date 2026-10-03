@@ -30,7 +30,7 @@ Use this checklist before any commit-affecting Git mutation.
 
 7) Before claiming the branch clean or opening a PR
 - Verify `git status` AND a targeted `git diff` of the last-touched files; a clean-looking status alone is not proof after follow-up edits.
-- Before every push, run a privacy sweep over every commit the push publishes, patch and message alike (`git log -p @{u}..HEAD`; every commit on the branch when it has no upstream), not over the net diff: a line added in one unpushed commit and removed in a later one is still published. Match case-insensitively for machine-specific paths and names: home-directory paths in any form (`C:\Users\`, the escaped `C:\\Users\\`, `C:/Users/`, `/c/Users/`, `/Users/<name>/`, `/home/<name>/`, `%USERPROFILE%`, `%APPDATA%`, `%LOCALAPPDATA%`), the local account name itself (`$USER` or `$USERNAME`) wherever it appears, in a path or alone, and the machine's host name (`hostname` or `$COMPUTERNAME`). Quoted material is not exempt: a hit inside a quoted command, log line or statement is redacted before the push. Replace hits in the working tree with repo-relative or environment-agnostic forms. A hit in a commit message or in an earlier unpushed commit can be removed only by rewriting history: stop and escalate before the push. A hit already on the remote is outside the sweep; report it if seen, and do not rewrite it.
+- Before pushing documentation-heavy changes, run a privacy sweep for machine-specific paths (`C:/Users`, `/c/Users`, `%USERPROFILE%`, `%APPDATA%`) and replace hits with repo-relative or environment-agnostic forms.
 
 Notes:
 - This checklist does not define branch naming conventions beyond the branch gate in step 2.

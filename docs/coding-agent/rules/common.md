@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-10-01"
+last_updated: "2026-10-02"
 ---
 
 # Common Repository Rules
