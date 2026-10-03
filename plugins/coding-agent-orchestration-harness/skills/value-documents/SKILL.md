@@ -34,7 +34,7 @@ Four document types in the target repository carry what the person directing the
 ## Product philosophy
 
 - Standing. Only the product owner writes or amends it, and it may exist whoever directs the work. It states the behaviour the product owner wants from using the product, what the product owner wants out of it, and what the product owner does not want it to be.
-- Product values are the product owner's: a product-level judgement the request does not explicitly cover, and any amendment to a product philosophy, is the product owner's to state and nobody else's. The engineering philosophy is unchanged by this.
+- Product values are the product owner's. Any amendment to a product philosophy is the product owner's to state. Where there is no product philosophy and the owner is not the product owner, a product-level judgement the request does not explicitly cover is likewise the product owner's and nobody else's; where a product philosophy exists, it is reasoned from. The engineering philosophy is unchanged by this.
 - Form: prose that gives a view to reason from, with success written as observable behaviour. No fixed fields and no length limit.
 - Its statements keep the product owner's wording. It never refers to the engineering philosophy.
 
