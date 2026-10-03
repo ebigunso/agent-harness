@@ -6,7 +6,7 @@ The run answers to the person directing the work, called the owner below. The pr
 
 ## Documents
 
-- Forms, locations and who may change each document: plugin-root-relative `skills/counsel/references/value-documents.md`. Read that file by path; never load the `counsel` skill or take its role.
+- Forms, locations and who may change each document: plugin-root-relative `skills/value-documents/SKILL.md`, the home of no role. Read that file by path; never load the `counsel` skill or take its role.
 - Before planning, read the governing brief from disk, whole, and each philosophy a pointer line in `docs/coding-agent/rules/common.md` "Repository Reference Documents" names. The brief's text on disk is the requirement; a paraphrase of it in a hand-over, a message or the plan is not.
 - The governing brief is the one the hand-over names, never one chosen by looking in `docs/coding-agent/briefs/`. Only a brief under `docs/coding-agent/briefs/active/` can govern a run: a hand-over that names a brief anywhere else, a completed one included, hands over no governing brief, and the answer to it says so. A run handed no brief has none and is audited against the philosophies alone; a run under a brief in a repository with no philosophy is audited against the brief alone.
 - The owner's word, here and below, is the owner's own statement in this session or an admitted relay (The Carrier says when a relay is admitted). A brief governs only once its ratification has reached this session as the owner's word. A status line in the brief records that act and is not it, and a hand-over that arrives as an agent message before relays are admitted turns nothing on and adds no pointer line: ask for the ratification first, and plan on the brief only after it.

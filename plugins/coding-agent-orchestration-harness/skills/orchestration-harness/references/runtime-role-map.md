@@ -16,6 +16,7 @@ A session holds one role and takes its mechanics from that role's home. It never
 
 - Orchestrator, and the Researcher, Worker and Reviewer it dispatches: the `orchestration-harness` skill and its references.
 - Counsel: the `counsel` skill and its references.
+- The forms of the value documents have a home of their own, the `value-documents` skill, which both role homes point to and which points to neither.
 
 ## Rules
 
