@@ -368,7 +368,7 @@
     owner: reviewer
     detail: "Diff review vs acceptance and vs the accepted record; escape readings for 'ratified' and 'cited' named and closed (lessons 2026-09-16)"
 
-### Task_11: Briefs lifecycle, Copilot Counsel agent name, redactions (added 2026-10-02 on the owner's direction)
+### Task_11: Briefs lifecycle and the Copilot Counsel agent name (added 2026-10-02 on the owner's direction; the three redactions and the eight records' pointer repairs of the same day were the Orchestrator's own integration edits, outside this task)
 - type: docs
 - owns:
   - plugins/coding-agent-orchestration-harness/skills/counsel/**
@@ -400,7 +400,8 @@
   - tests/coding-agent-orchestration-harness/privacy-sweep-selfcheck.sh
 - depends_on: [Task_11]
 - acceptance:
-  - A read-only script scans every commit a push would newly publish for this machine's home paths, account name and host name; a self-check covers the path forms and encodings.
+  - A read-only script scans every commit a push would newly publish for this machine's home paths, account name and host name.
+  - A self-check covers the path forms and encodings the script claims.
 - validation:
   - kind: command
     required: true
@@ -421,7 +422,9 @@
   - plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py
 - depends_on: [Task_11]
 - acceptance:
-  - `skills/value-documents/SKILL.md` holds the forms, meaning, locations and ownership of the value documents and no role procedure; both role homes point to it; every reference repointed; the validator requires it.
+  - `skills/value-documents/SKILL.md` holds the forms, meaning, locations and ownership of the value documents and no role procedure.
+  - Both role homes point to it and it points to neither; every reference to the old file is repointed.
+  - The package validator requires the new skill.
 - validation:
   - kind: command
     required: true
@@ -441,7 +444,7 @@
 - Wave 5 (parallel): [Task_10]
 - Wave 6 (sequential, added during the run on the owner's directions): [Task_11], [Task_12], [Task_13]
 
-Pull requests: the first after Wave 3 (Counsel, the documents, and the value audit in the run), the second after Wave 5 (plan approval), stacked on the first; a third, stacked on the second, carries the owner's later directions (Wave 6 and the records that followed; see the Decision Log from 2026-10-02 on). Each is reviewed before it opens. By the owner's ruling of 2026-09-30 the two are brought to him as one stack through Counsel, with each number and link, what the stack ships at behaviour level and how he can observe it; nothing merges before his acceptance names the stack and its pull requests.
+Pull requests: the first after Wave 3 (Counsel, the documents, and the value audit in the run), the second after Wave 5 (plan approval), stacked on the first; a third, stacked on the second, carries the owner's later directions (Wave 6 and the records that followed; see the Decision Log from 2026-10-02 on). Each is reviewed before it opens. By the owner's ruling of 2026-09-30 (given for the two then planned) the pull requests, now three, are brought to him as one stack through Counsel, with each number and link, what the stack ships at behaviour level and how he can observe it; nothing merges before his acceptance names the stack and its pull requests.
 
 ## Rollback / Safety
 - Each pull request reverts on its own in reverse order; reverting the second restores user-only plan approval without touching Counsel or the audit.
