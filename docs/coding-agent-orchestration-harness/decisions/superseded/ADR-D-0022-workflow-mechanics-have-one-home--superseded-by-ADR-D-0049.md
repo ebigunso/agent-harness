@@ -5,7 +5,7 @@ date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md", "superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md", "superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md"]
+supersedes: ["ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md", "ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md", "ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md"]
 superseded_by: ../ADR-D-0049-each-session-roles-workflow-mechanics-have-one-home-and-every-runtime-surface-routes-to-it.md
 ---
 
