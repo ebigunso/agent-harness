@@ -35,7 +35,7 @@ A session that was supposed to run under a role but did not simply proceeds with
 ## Rejected Alternatives
 
 - Rely on automatic skill discovery to start a role: reopen if a runtime documents deterministic activation for a named skill.
-- Make every support skill self-sufficient as an entrypoint: rejected outright; it multiplies the workflow across skills against ADR-D-0022.
+- Make every support skill self-sufficient as an entrypoint: rejected outright; it multiplies the workflow across skills against ADR-D-0049.
 - One way in per runtime, chosen by whether the runtime offers agent selection: rejected outright; Claude Code runs the main session as a named agent on some surfaces and not on others, so a per-runtime rule leaves sessions on the other surfaces with no way in.
 
 ## Decision Boundary
@@ -57,4 +57,4 @@ Not covered: what an adapter says once the role is entered; how skill descriptio
 
 ## More Information
 
-Replaces ADR-D-0023 in full: what it decided for the Orchestrator is carried, restated as an explicit act in the form the runtime offers, and the same rule is stated for Counsel, the second role a session itself holds. Loader-routed sessions: ADR-D-0020. Single home of workflow mechanics: ADR-D-0022. Counsel: the record on Counsel (ADR-D-0034).
+Replaces ADR-D-0023 in full: what it decided for the Orchestrator is carried, restated as an explicit act in the form the runtime offers, and the same rule is stated for Counsel, the second role a session itself holds. Loader-routed sessions: ADR-D-0020. One home per session role for workflow mechanics: ADR-D-0049. Counsel: the record on Counsel (ADR-D-0034).

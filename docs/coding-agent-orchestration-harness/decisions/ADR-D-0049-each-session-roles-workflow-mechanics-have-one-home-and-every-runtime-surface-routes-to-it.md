@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-10-03
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["ADR-D-0022-workflow-mechanics-have-one-home.md"]
+supersedes: ["superseded/ADR-D-0022-workflow-mechanics-have-one-home--superseded-by-ADR-D-0049.md"]
 superseded_by: null
 ---
 

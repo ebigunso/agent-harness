@@ -47,4 +47,4 @@ Not covered: the specific directory names, manifest formats, bootstrap flags, an
 
 ## More Information
 
-Replaces ADR-I-0001 in full and the template clause of ADR-I-0002; ADR-I-0002's loader-only clause is carried by ADR-D-0022.
+Replaces ADR-I-0001 in full and the template clause of ADR-I-0002; ADR-I-0002's loader-only clause is carried by ADR-D-0049.

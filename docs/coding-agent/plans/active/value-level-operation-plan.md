@@ -1441,6 +1441,12 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Tradeoffs considered: the mandate keeps its skills-directory-relative path form for the new skill, as it had for the old file.
   - User approval: the owner's direction, relayed by Counsel, with the how decided by Counsel under his principle
   - Record proposed: ADR-D-0049 (revised), proposed, unaccepted
+- 2026-10-03 Decision: ADR-D-0049 accepted; ADR-D-0022 retired. No proposed record remains.
+  - Trigger / new insight: Counsel's relay quoting the owner, 2026-10-03: "I accept ADR-D-0049." The text he had before him is the record as announced final at 05:12 UTC.
+  - Plan delta (what changed): ADR-D-0049 set to `status: accepted`; ADR-D-0022 set to `status: superseded`, given the retirement line, and moved to `superseded/ADR-D-0022-workflow-mechanics-have-one-home--superseded-by-ADR-D-0049.md`; pointers repaired in ADR-D-0049's `supersedes`, in the three retired records that named it as their replacement (ADR-D-0001, ADR-D-0005, ADR-I-0002), in ADR-D-0037 and ADR-I-0006 (the workflow-mechanics pointer now names ADR-D-0049) and in one completed plan's path; absence search for the old filename clean. Records ADR-D-0034 to ADR-D-0049 are all accepted; ADR-D-0003, ADR-D-0022, ADR-D-0023 and ADR-D-0032 retired in this run.
+  - Tradeoffs considered: none.
+  - User approval: the owner's acceptance naming the record, relayed by Counsel
+  - Record proposed: none outstanding
 
 ## Notes
 - Risks: a Codex session opened as Counsel may drift into Orchestrator work when the talk turns to code; a stated rule in the skill is the only guard. Claude lists plugin agents as dispatchable subagents, so "Counsel is never dispatched" is a stated rule there. Up to nine record acceptances are nine decisions for the owner (Q2); they are required by the repository rule on records. The Orchestrator cannot verify a relayed quote; the design accepts Counsel as the carrier of the owner's word only after the owner has named Counsel as his carrier in that Orchestrator session, and the relay record (Proposal 7) must say so plainly.

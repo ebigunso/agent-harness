@@ -8,7 +8,7 @@ consulted:
   - GPT-5.5
 informed: []
 supersedes: []
-superseded_by: ../ADR-D-0022-workflow-mechanics-have-one-home.md
+superseded_by: ADR-D-0022-workflow-mechanics-have-one-home--superseded-by-ADR-D-0049.md
 ---
 
 # ADR-D-0001: Keep Harness Workflow Mechanics In The Orchestration Skill
