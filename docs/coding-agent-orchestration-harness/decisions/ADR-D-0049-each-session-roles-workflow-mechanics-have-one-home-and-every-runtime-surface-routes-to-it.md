@@ -41,7 +41,7 @@ An agent that follows a stale copy of the workflow reports gates as satisfied th
 
 ## Decision Boundary
 
-Invariant: no surface other than the home of the role concerned defines a gate, rule, role name or report format; each session takes its mechanics from its own role's home; what roles share has a home of its own that names no role's procedure; what roles share is stated once; the replicated role contract is the only exception and is kept in sync as one text; the Decision list states the rest.
+Invariant: no surface other than the home of the role concerned defines that role's workflow mechanics, its gates, rules, role names and report formats; each session takes its mechanics from its own role's home; what roles share, the forms and ownership of the documents they both read, is stated once in a home of its own that names no role's procedure; the replicated role contract is the only copy of a role's mechanics outside its home and is kept in sync as one text; the Decision list states the rest.
 
 Not covered: which roles exist, which skill is the home of each, and their physical names, which the role map states (ADR-D-0048); adapter length, kernel wording, which references an adapter names, and the loader block's exact text, all of which change through skill text and the adapter checklist; what each role is responsible for; how a session takes a role (ADR-D-0037).
 
