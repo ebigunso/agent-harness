@@ -46,6 +46,24 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the rest of the step unchanged and the non-goal on other branches are covered by the brief's statements for those branches; the fixture check, the template, the other non-goals are mechanics the audit does not grade.
 
+### `setup-holds-when-several-fit-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft heading keeps its reading as corrected after that comparison, with these additions.
+- The text as built: with several fitting documents setup writes the awaiting line naming each, records no pointer, writes no none-yet line for that philosophy, and brings the candidates for the person to pick | covered | brief: "Where more than one document fits, setup likewise records nothing by itself and does not write the philosophy down as simply missing: it holds, shows the person the candidates, and the person picks."
+- A pick records that document's pointer and nothing is written about the others | extends | brief: "the person picks"
+- "None of them" leaves the none-yet line naming each as not it; none is brought again | extends | brief: "the person picks"; "Nothing nags."
+- A file gone at refresh drops from an awaiting line; the rest still await the person's word | extends | brief: "it holds"
+- The awaiting and after-objection line forms name one or more files; four forms as before | extends | brief: "likewise"
+- The report for an awaiting line gives each candidate, and why a file may belong to something else only where one file is named | extends | brief: "shows the person the candidates"
+- Counsel's opening sentence covers one or several awaiting documents | extends | brief: "A Counsel session sees those lines when it opens"
+- The fourth fixture and the fresh agent's setup on it, its reply stored | covered as mechanics; no statement needed
+- Decision Log: draft review applied (rejection kept only for none-of-them; the fixture evidence inside Task_1; no version bump) | extends for the first, mechanics for the others | brief: "the person picks"
+- Rulings: the plan-draft verdict counts despite the auditor's order of reading; the note to Counsel is the harness's own carrier | covered as mechanics; no statement needed
+- Worker's judgement calls (wording for several paths; when the report says why) | covered as mechanics; no statement needed
+- Scenarios, the Orchestrator's expectation only: 1 and 2 demonstrated as the earlier run left them; 3 not yet; this run adds none and shows the several-fit case on a fixture.
+
 ## Findings
 
 - None yet.
