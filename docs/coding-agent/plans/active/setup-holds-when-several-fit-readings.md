@@ -13,8 +13,7 @@ Item | reading | statement relied on
 - Definition of Done: shown on a fixture by a fresh agent | extends | brief, Pass conditions: "scenarios 1 and 2 hold on a fixture repository" (this case is not one of the scenarios)
 - Definition of Done: the fixed template byte-identical; validators and review | covered as mechanics; no statement needed
 - Definition of Done: the run closes with its branch published and a pull request opened, nothing merged | covered | standing approval in `docs/coding-agent/rules/common.md` on publishing a finished, reviewed run
-- Planner-added: a candidate not picked is named as not the philosophy when none is picked | extends | brief: "the person picks"; "Nothing nags."
-- Planner-added: one version bump | covered as mechanics; no statement needed
+- Planner-added: on "none of them" the line names each candidate as not the philosophy; a pick needs no such record | extends | brief: "the person picks"; "Nothing nags."
 - Non-goals | extends | brief, the same statement
 - Design: the awaiting line names one or more files; no fifth form | extends | brief: "likewise"
 - Compatibility stance: break of the several-fit behaviour | covered | brief, the statement and its record: "Yes, hold and ask when several fit."

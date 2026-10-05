@@ -11,7 +11,7 @@
 - This is the only plan of the run recorded in `docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md`. It follows the run that closed on 2026-10-06 (`docs/coding-agent/plans/completed/setup-names-what-is-missing-plan.md`), whose closed plan is not reopened.
 
 ## Definition of Done
-- Where more than one tracked document fits one philosophy, the setup text has setup record no pointer, write a line that names the candidates as awaiting the person's word and not the none-yet line, and bring the candidates to the person in its report; the person's pick records that document's pointer, and the others are not brought again.
+- Where more than one tracked document fits one philosophy, the setup text has setup record no pointer, write a line that names the candidates as awaiting the person's word and not the none-yet line, and bring the candidates to the person in its report; the person's pick records that document's pointer, which ends the looking.
 - The rest of setup's philosophy step behaves as it does at this plan's start revision.
 - On a fixture repository that holds two fitting documents, a fresh agent following the setup text records no pointer, writes the awaiting line naming both, and brings both for the person to pick.
 - The value audit's fixed dispatch template is byte-identical to this plan's start revision.
@@ -19,11 +19,10 @@
 - The run closes as `completion-closeout.md` states: its branch published on the stack and a pull request opened under the standing approval, the note to Counsel sent, nothing merged.
 
 ## Planner-added requirements
-- A candidate the person did not pick is named in the line as not the philosophy, as a file is after an objection. Needed because: the lines are derived again at every refresh, and without that record the next refresh would find the same documents and ask again.
-- One plugin version bump. Needed because: the package validator requires the three manifests to agree per installed version.
+- When the person answers that none of the candidates is the philosophy, the line that replaces the awaiting line names each as not it, as a file is named after an objection. Needed because: the lines are derived again at every refresh, and without that record the next refresh would find the same documents and ask again. A pick needs no such record: the pointer it writes ends the looking.
 
 ## Scope / Non-goals
-- Scope: `rulebook/references/bootstrap-lifecycle.md` and `rules-files.md`, `counsel/SKILL.md` where it speaks of an awaiting line, the three manifests, one fixture under `tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/`.
+- Scope: `rulebook/references/bootstrap-lifecycle.md` and `rules-files.md`, `counsel/SKILL.md` where it speaks of an awaiting line, one fixture under `tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/`.
 - Non-goals: any other branch of setup's philosophy step; the texts on what is not a pointer, which already cover every line that is not settled; the fixed dispatch templates; a decision record (none states setup's step).
 
 ## Design
@@ -60,9 +59,6 @@
   - plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md
   - plugins/coding-agent-orchestration-harness/skills/rulebook/references/rules-files.md
   - plugins/coding-agent-orchestration-harness/skills/counsel/SKILL.md
-  - plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json
-  - plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json
-  - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
   - tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/**
 - depends_on: []
 - description: |
@@ -70,7 +66,7 @@
 - acceptance:
   - More than one fitting document: no pointer recorded, the awaiting line names each candidate, the report lists them and says the person's pick decides; the none-yet line is not written for that philosophy.
   - The person's pick replaces the awaiting line with that document's pointer; "none of them" replaces it with the none-yet line naming each as not it; a later refresh that changes nothing does not ask again.
-  - Every other branch of the step, the fixed dispatch template and the mandate read as at this plan's start revision; the three manifests agree at the next version.
+  - Every other branch of the step, the fixed dispatch template, the mandate and the manifests read as at this plan's start revision.
   - The fourth fixture is a file set whose ratification lines are kept apart, as the other fixtures' are, so that nothing in this repository is itself a ratified philosophy.
 - validation:
   - kind: command
@@ -79,17 +75,20 @@
     detail: "python scripts/validate_harness_package.py; python scripts/run_validation_smoke_tests.py; git diff --check"
   - kind: manual
     required: true
+    owner: orchestrator
+    detail: "After the Worker's report and before the review: a fresh agent's setup on the fourth fixture in a temporary repository, its whole reply stored with the fixtures' records"
+  - kind: review
+    required: true
     owner: reviewer
-    detail: "A fresh agent's setup on the fourth fixture in a temporary repository; diff review against the brief's statement"
+    detail: "Diff review against the brief's statement; independent reading of the stored fixture reply against this task's acceptance"
 
 ### Task_2: Close the plan and the run
 - type: review
 - owns:
   - docs/coding-agent/plans/**
-  - tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/**
 - depends_on: [Task_1]
 - description: |
-  The Orchestrator runs the fresh agent's setup on the fourth fixture and stores its reply with the fixtures' records, then closes the plan (closeout audit with its reading; the review of Task_1 is the branch's final review) and the run: the branch pushed on the stack, a pull request opened under the standing approval, the note to Counsel, `candidate ready`.
+  The Orchestrator closes the plan (closeout audit with its reading; the review of Task_1, which covers the stored fixture reply, is the branch's final review) and the run: the branch pushed on the stack, a pull request opened under the standing approval, the note to Counsel, `candidate ready`.
 - acceptance:
   - The closeout audit is dispatched by the fixed template and logged.
   - Every outgoing commit, message and pull request text is swept for machine-specific names and paths before it is pushed; nothing is merged.
@@ -113,6 +112,12 @@
   - Trigger / new insight: the statement is one sentence and asks for one branch to change.
   - Plan delta (what changed): no new line form, no record, no change to the texts on what is not a pointer.
   - Tradeoffs considered: see Design.
+  - User approval: not applicable at draft
+  - Record proposed: none
+- 2026-10-06 Decision: draft-plan review (Codex reviewer): NEEDS_REVISION, three minor findings, all applied.
+  - Trigger / new insight: the planner-added line recorded every candidate not picked, against A1 and for a reason that does not hold once a pointer exists; the fixture evidence Task_1 needs was placed in Task_2; the version bump's stated reason was not true of the validator.
+  - Plan delta (what changed): the record of rejected candidates is kept only for an explicit "none of them"; the fresh agent's setup on the fourth fixture is the Orchestrator's validation item inside Task_1, before the review, which reads the stored reply; the version bump is dropped, no rule or check asking for one.
+  - Tradeoffs considered: none further.
   - User approval: not applicable at draft
   - Record proposed: none
 
