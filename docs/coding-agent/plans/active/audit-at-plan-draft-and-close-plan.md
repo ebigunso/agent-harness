@@ -157,6 +157,7 @@
   ```text
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 2e237902.
   ```
+- 2026-10-05 Closeout audit, first dispatch: returned ungraded by the auditor itself. It named the readings file as an explicit path in a range diff, so the file was printed before any grade; it recognised the breach, graded nothing and asked for a fresh dispatch. Nothing is logged as a verdict and the run record is unchanged. A gate on the position: the same template is dispatched again, new (text as above). This is the second auditor in two days to open a readings file before grading; recorded in the readings file as a finding, with the auditor's suggestion that the mandate give the literal exclude pathspecs to copy.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-05 Decision: requirement challenge before decomposition.

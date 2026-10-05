@@ -62,4 +62,4 @@ Item | reading | statement relied on
 
 ## Findings
 
-- None yet.
+- A second auditor opened a readings file before grading (the first closeout dispatch of this plan; the earlier one was in the design-led long runs run), each time by building its inputs from a file listing. Each caught itself and returned ungraded, at the cost of one dispatch. Reading: trivial; nothing the owner experiences changes, since no grade was given on a seen reading. Not built in this plan, whose brief lines do not cover it: the mandate could give the literal exclude pathspecs to copy, so that the safe command is the default one.
