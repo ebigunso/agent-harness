@@ -148,3 +148,55 @@ last_updated: "2026-10-06"
 - `tally.py` at the repository root is the single entry point (`python tally.py FILE`).
 - User-facing usage documentation lives in `docs/usage.md`.
 ```
+
+---
+
+# `with-two-philosophies` (run on 2026-10-06, after the text gained the branch that holds several fitting documents for the person to pick)
+
+## Setup report
+
+The rule suite is set up under `docs/coding-agent/rules/` with suite_id `rules-20261006-tally`, schema version 2. Files were written in this order: `common.md`, `worker.md`, `orchestrator.md`, `reviewer.md`, `_lifecycle.json`, then `index.md`, which marks success. Nothing is committed; all the files are in the working tree.
+
+- **Product philosophy: awaiting line written.** Two tracked documents each say they are this repository's product philosophy, and each has an owner's quoted words with a date:
+  - `docs/product/what-tally-is-for.md`
+  - `vendor/wordlist/docs/what-wordlist-is-for.md`
+
+  None was recorded. Your word decides it. If you say yes to one file, its pointer line is recorded. If you say no to all of them, the product philosophy stays none yet, and neither file is recorded or brought up again.
+- **Engineering philosophy: none-yet line written.** Once an engineering philosophy exists, work here is held to how the owner wants the project to look. To start one, open a Counsel session.
+- **Decision records:** no convention found among tracked files (no `docs/decisions/`, no `docs/adr/`, no `ADR-*`). Recorded: `Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).` Adding the template files to the repository needs your approval, and I was told not to ask. So I took the "declined" option and created no `docs/decisions/` files. The offer comes back only at a rule-suite refresh.
+- **Validation command recorded:** the quick check from `docs/usage.md`. It passed when run during setup.
+- **Other rules recorded:**
+  - `vendor/wordlist/` is a bundled project and is not edited during tally work.
+  - `tally.py` is the single entrypoint.
+  - No CI is configured.
+
+## common.md
+
+```
+---
+rule_schema_version: 2
+suite_id: "rules-20261006-tally"
+rule_file: "common"
+last_updated: "2026-10-06"
+---
+
+# Common Repository Rules
+
+## Repository Reference Documents
+
+- Product philosophy: not settled. docs/product/what-tally-is-for.md or vendor/wordlist/docs/what-wordlist-is-for.md may be it and awaits the owner's word.
+- Engineering philosophy: none yet. Once it exists, work here is held to how the owner wants the project to look. To start one, open a Counsel session.
+- Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).
+
+## Repository-Specific Validation Commands
+
+- `python -c "import subprocess, sys; assert subprocess.check_output([sys.executable, 'tally.py', 'README.md'], text=True).strip() == '21'"` (from `docs/usage.md`; run from the repository root).
+
+## Repo Safety / Boundaries
+
+- `vendor/wordlist/` is a bundled third-party project; do not edit it as part of tally work.
+
+## Repo Naming / Structure
+
+- `tally.py` at the repository root is the single entrypoint (`python tally.py FILE`).
+```
