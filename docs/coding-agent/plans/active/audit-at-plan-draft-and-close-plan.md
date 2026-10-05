@@ -19,7 +19,6 @@
 - The run closes as `completion-closeout.md` states: its branch published on the stack and a pull request opened under the standing approval, the note to Counsel sent, nothing merged.
 
 ## Planner-added requirements
-- A plan is unacceptably long, for the Reviewer's purpose, when its build would run so far between its draft audit and its close audit that drift from the value documents would be costly to undo; the Reviewer says so and names where the plan could end sooner. Needed because: the brief gives the check and not its measure, and the reason he gave for the check is that no audit runs between a plan's draft and its close.
 - One plugin version bump. Needed because: the package validator requires the three manifests to agree per installed version.
 
 ## Scope / Non-goals
@@ -27,7 +26,15 @@
 - Non-goals: the fixed dispatch template, whose `wave boundary` fill-in stays and names an assessment event in a goal run; goal mode; any decision record (none fixes the audit's positions); a numeric limit on a plan's length.
 
 ## Design
-- Proportional form: the change removes one audit position from plan-mode text and adds one check to the plan-review instructions; it touches no responsibility, contract, persisted state, new component, trust boundary or hot path.
+- Chosen: the plan-mode text names two audit positions, a plan's draft and its close; the wave-boundary step and what serves it are removed; the plan-review instructions gain the brief's check on a plan's length, in the brief's words, with the fact that no audit runs between a plan's draft and its close offered to the Reviewer as the thing to weigh.
+- Alternative: keep the wave-boundary position in the text and make it conditional, dispatched only for a wave the Orchestrator judges risky.
+- Lenses. structure: chosen removes a position and its bookkeeping (the revision recorded at each wave); the alternative keeps both and adds a judgement. evolution: chosen leaves one rule to maintain; the alternative leaves a condition to tune. verification: chosen is checked by a search that finds no wave-boundary audit of a plan; the alternative cannot be checked from the text. operation: chosen costs two audits a plan; the alternative costs between two and one per wave. human: with the chosen design drift inside a plan shows at its close, which is why the plan review looks at length; the alternative shows it sooner where the Orchestrator guessed right. safety: the alternative has the audited party decide when it is audited.
+- Why chosen: the brief says "nowhere between", and the alternative puts the choice of when to audit with the party being audited.
+
+## Compatibility stance (required if a contract/interface/persisted format is touched)
+- surface: when the value audit runs in a plan-mode run; what a plan review reports.
+- stance: break
+- justification: the consumers that can be located are this repository's own runs and Character Memory with the plugin installed; the owner asked for the change in cadence by amendment. A plan-mode run stops dispatching an audit at wave boundaries. Preserved: a goal-mode run's audit moments, and the fixed dispatch template, whose `wave boundary` value keeps its one remaining consumer, an assessment event in a goal run.
 
 ## Context (workspace)
 - Governing brief: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, ratified 2026-09-30; the amendment of 2026-10-05 carries the owner's quoted words beside it, and Counsel relayed on 2026-10-05 his word on when it is built: "Yes, do it first before the next one prepared."
@@ -57,7 +64,7 @@
   - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
 - depends_on: []
 - description: |
-  The plan-mode text states two audit positions, a plan's draft and its close, and no audit between; every line that asks for or serves a wave-boundary audit of a plan is removed or reworded; the goal-run text and the fixed template stay. The plan-review snippet has the Reviewer report a plan that is unacceptably long, by the measure in this plan's planner-added requirements.
+  The plan-mode text states two audit positions, a plan's draft and its close, and no audit between; every line that asks for or serves a wave-boundary audit of a plan is removed or reworded; the goal-run text and the fixed template stay. The plan-review snippet has the Reviewer report a plan that is unacceptably long, in the brief's words, and tells the Reviewer the one fact that bears on it: under value-level operation no audit runs between a plan's draft and its close.
 - acceptance:
   - No plugin text has a value audit dispatched at a wave boundary of a plan, and nothing left depends on one (the revision recorded at each wave's dispatch, the checklist step).
   - The goal-run section of the mandate and the Fixed Dispatch Template block are byte-identical to this plan's start revision.
@@ -101,8 +108,14 @@
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-05 Decision: requirement challenge before decomposition.
   - Trigger / new insight: the amendment asks for less auditing and one check at plan review.
-  - Plan delta (what changed): no record is proposed, since none fixes the positions; no numeric limit on a plan's length is added.
+  - Plan delta (what changed): no record is proposed, since none fixes the positions; no numeric limit on a plan's length and no definition of "unacceptably long" is added; the Reviewer judges.
   - Tradeoffs considered: a limit in tasks or waves; not taken, the brief gives a judgement and a count would be the run's own.
+  - User approval: not applicable at draft
+  - Record proposed: none
+- 2026-10-05 Decision: draft-plan review (Codex reviewer): NEEDS_REVISION, three minor findings, all applied.
+  - Trigger / new insight: the proportional design form does not fit a change to when the audit runs and to what the Reviewer reports; the compatibility stance was missing; the planner-added measure of a plan's length was not shown to be needed.
+  - Plan delta (what changed): the Design section compares the chosen design with a conditional wave-boundary audit; the stance is stated (break for the plan-mode cadence, the goal-mode moments and the template preserved); the measure is dropped and the snippet uses the brief's words.
+  - Tradeoffs considered: none further.
   - User approval: not applicable at draft
   - Record proposed: none
 
