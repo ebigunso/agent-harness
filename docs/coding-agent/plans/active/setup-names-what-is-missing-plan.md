@@ -166,6 +166,12 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 - The branch reverts on its own; no migration, no persisted data. A repository refreshed under the new text and then under the old one keeps two free lines the old text ignores.
 
 ## Progress Log (append-only)
+- 2026-10-05 Plan review (Codex reviewer): NEEDS_REVISION with two major and one minor finding, applied (see the Decision Log); re-review APPROVED with no finding open. Plan validator passes.
+- 2026-10-05 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: none.
+  ```
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-05 Decision: requirement challenge before decomposition.
