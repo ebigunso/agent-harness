@@ -327,6 +327,12 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
   - Tradeoffs considered: no record, the brief standing as the only statement; not taken, a brief is moved away when its work is accepted and the plugin text will state the rule without its reason.
   - User approval: not applicable; the record goes to the owner by name
   - Record proposed: ADR-D-0057
+- 2026-10-05 Decision: no record; ADR-D-0057 is withdrawn before it went to the owner.
+  - Trigger / new insight: the Reviewer's ADR review judged that the narrower decision does not pass the admission test: it is load-bearing, but the decision and its reasons can be read back from the brief and this plan, which the record standard excludes. The Orchestrator had passed it on the Worker's judgement call and had asked the Reviewer to say plainly if it fails.
+  - Plan delta (what changed): the proposed record is deleted and its number freed. The decided behaviour is built in the plugin text, which states the rule and, where the text owns it, the reason in a clause. Task_1 is done with the test failed; nothing is asked of the owner; Task_2 starts.
+  - Tradeoffs considered: keeping the record on the ground that the brief moves to `completed/`; not taken, a completed brief is still on disk and still the source.
+  - User approval: not applicable
+  - Record proposed: none
 
 ## Notes
 - A record is checked by the owner before anything is built on it; the audits of this run are at this plan's draft and close.
