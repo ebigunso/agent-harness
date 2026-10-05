@@ -64,6 +64,27 @@ Item | reading | statement relied on
 - Worker's judgement calls (wording for several paths; when the report says why) | covered as mechanics; no statement needed
 - Scenarios, the Orchestrator's expectation only: 1 and 2 demonstrated as the earlier run left them; 3 not yet; this run adds none and shows the several-fit case on a fixture.
 
+#### The audit's comparison, closeout (2026-10-06), as returned
+
+`Reading compared:`
+- Plan items (readings as corrected after the plan-draft comparison): DoD 1 agrees; DoD 2 agrees; DoD 3 agrees (mechanics); DoD 4 agrees; DoD 5 agrees in grade; DoD 6 agrees on the standing approval; planner-added agrees; non-goals agree; A1 agrees; A2 agrees; Task_1 agrees; Task_2 agrees; Decision Log 1 agrees.
+- The text as built (several fit: awaiting line, no pointer, no none-yet line, brought to pick): agrees (`covered` against `cited`).
+- A pick records the pointer and nothing about the others: agrees (`extends` against `inferred`).
+- "None of them" leaves the none-yet line naming each: agrees.
+- A file gone at refresh drops from an awaiting line: agrees.
+- The line forms name one or more files: agrees.
+- The report for an awaiting line: diverges in part. Orchestrator `extends` for the whole; auditor `cited` for giving each candidate and `inferred` for saying why only where one file is named.
+- Counsel's opening sentence: agrees.
+- The fourth fixture and the stored reply: agrees (mechanics, `not audited`).
+- Decision Log 2: agrees (2a `extends` against `inferred`; 2b and 2c mechanics).
+- Rulings (the verdict counts; the note to Counsel): agrees (`not audited`), with the auditor's alternative reading of the note stated on its line. The ruling that the plan is authorized: unread.
+- Worker's judgement calls: diverges. Orchestrator "covered as mechanics; no statement needed"; auditor user-facing and `inferred` for both, because the line's wording and what the report says are what the person reads.
+- Scenarios: the Orchestrator's expectation matches the states given.
+
+`Findings compared: none found` (the readings file records "None yet"; no departure from a means was noted on any item line)
+
+Readings corrected after this comparison: the report giving each candidate is what the brief states; the wording of the line and what the report says are things the person reads, so the Worker's two choices are extensions and not mechanics.
+
 ## Findings
 
-- None yet.
+- With several candidates the setup report shows the paths and does not say that one of them sits in a vendored project, though it says so for a single doubtful document (noticed by the closeout auditor in the stored fixture reply). Reading: trivial; the person sees the paths and picks, and nothing is recorded without that. Named to him in the closeout as an observation.
