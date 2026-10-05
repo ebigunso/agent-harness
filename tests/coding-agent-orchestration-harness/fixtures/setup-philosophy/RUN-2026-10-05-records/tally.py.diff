@@ -1,0 +1,13 @@
+diff --git a/tally.py b/tally.py
+index 70c3300..8effaf6 100644
+--- a/tally.py
++++ b/tally.py
+@@ -8,7 +8,7 @@ if len(sys.argv) != 2:
+ try:
+     text = Path(sys.argv[1]).read_text(encoding="utf-8")
+ except (OSError, UnicodeError):
+-    print("Cannot read the file.", file=sys.stderr)
++    print(f"tally could not read {sys.argv[1]}.", file=sys.stderr)
+     raise SystemExit(1)
+ 
+ # ponytail: whitespace tokens; refine if punctuation-only input matters here.
