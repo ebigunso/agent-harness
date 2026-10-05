@@ -45,6 +45,21 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the fixed template kept byte-identical, the template's three position values (A1) and the template non-goal are mechanics; the Decision Log's requirement challenge and the non-goals on goal mode, records and a numeric limit are covered by the brief's two amended lines.
 
+### `audit-at-plan-draft-and-close-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft heading keeps its reading as corrected after that comparison, with these additions.
+- The text as built: two positions in a plan-mode run, the wave-boundary entry, the per-wave revision and the checklist step gone | covered | brief: "It runs by position: at each plan's draft and at each plan's close, and nowhere between."
+- The mandate keeps one line saying that `wave boundary` is a goal run's assessment event; its goal-run section and the template unchanged | covered | brief: "In a goal-mode run it runs as the accepted record on goal mode states."
+- The plan-review snippet's line on a plan that is unacceptably long, with the fact to weigh | covered | brief: "A plan review catches a plan that is unacceptably long."
+- Manifests at 0.29.0 | covered as mechanics; no statement needed
+- Decision Log: draft review applied (design comparison, compatibility stance, the added measure dropped) | covered | brief, the two amended lines
+- Worker's judgement calls (the sentence on the next audit left as it reads; where the mandate's pointer sits) | covered as mechanics; no statement needed
+- Orchestrator's edit: this morning's lesson marked as overtaken | covered as mechanics; no statement needed
+- Divergences at plan draft corrected in the readings only | covered | brief: "It runs by position: at each plan's draft and at each plan's close, and nowhere between."
+- This run audited at its plan's draft and close and at no wave boundary | covered | brief: "and nowhere between"
+
 ## Findings
 
 - None yet.
