@@ -1,2 +1,0 @@
-docs/product/what-tally-is-for.md: Ratified by the fixture's owner, Robin Vale, on 2026-01-15: "Yes, this is what tally is for."
-vendor/wordlist/docs/what-wordlist-is-for.md: Ratified by the wordlist project's owner, Sam Okoro, on 2025-11-03: "Yes, this is what wordlist is for."
