@@ -30,6 +30,28 @@ Item | reading | statement relied on
 - Decision Log: the accepted records are revised, not a new record added; adapters owned | covered for the first, mechanics for the second | as the first Design line
 - Scenario, the Orchestrator's expectation only: 1 not yet at plan draft.
 
+#### The audit's comparison, plan draft (2026-10-06), as returned
+
+Reading compared:
+- DoD 1, 2, 3, 4, 5, 7: agrees.
+- DoD 6: diverges. Orchestrator: covered as mechanics, no statement needed. Audit: inferred, user-facing.
+- DoD 8: diverges in basis. Orchestrator: covered as mechanics, with the standing approval for publication. Audit: cited on the standing approval; outward-facing, not mechanics.
+- Planner-added 1 and 2: agrees (extends / inferred). The audit adds `direction` to both.
+- Non-goals trivial work, full size, conditions for a plan: agrees.
+- Non-goals goal mode, the two sources, templates: diverges. Orchestrator: covered. Audit: inferred.
+- Non-goals test artifacts, full suite: agrees.
+- Non-goal version bump: diverges. Orchestrator: covered as mechanics. Audit: inferred.
+- A1: agrees. The audit adds `direction`.
+- A2: agrees.
+- A3: diverges. Orchestrator: extends. Audit: cited.
+- Task_1, Task_2, Task_3: agrees.
+- Decision Log 1: agrees. Decision Log 2: agrees (mechanics / not audited).
+- The Orchestrator's two Design readings: the audit graded no Design item, because the mandate's item list does not include the Design section.
+
+Findings compared: none found (the readings file records "None yet"; no departure from a means was noted, and the brief marks no means).
+
+Readings corrected after this comparison: the template kept fixed, goal mode, the two sources and the version bump are extensions of the brief's statements and not mechanics or covered; publication is outward-facing and rests on the standing approval; A3 is what the brief's core scenario states.
+
 ## Findings
 
 - None yet.

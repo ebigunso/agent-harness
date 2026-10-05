@@ -1,6 +1,6 @@
 # Plan: A middle size for a small change
 
-- status: draft
+- status: in_progress
 - generated: 2026-10-06
 - last_updated: 2026-10-06
 - work_type: docs
@@ -144,6 +144,71 @@
   ```text
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/middle-size-for-a-small-change-plan.md. Governing brief: docs/coding-agent/briefs/active/small-change-from-his-word-brief.md. Changes since: none.
   ```
+
+- 2026-10-06 Plan-draft audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
+
+  ## Value audit verdict: middle-size-for-a-small-change-plan.md, plan draft
+
+  Every item on the audited side is graded; none is `ask-now` and none is `ungraded`. Three items are `inferred` with the `direction` mark.
+
+  Two procedure disclosures, for the Orchestrator to rule on:
+  - **First Step order.** I opened the plan and the brief in the same step in which I located the mandate, so before reading the mandate to its end. No notes file was opened, and the readings file was opened only after the grades were fixed, so the mandate's stated void condition did not occur. If you hold the order lapse to void the audit, dispatch again.
+  - **Dispatch text.** The dispatch was the fixed template verbatim. The runtime appended the `engineering-quality-baselines` skill text and a hook's mode text to it; neither is an account of the work, so I did not return the audit ungraded for extra text.
+
+  ### Verdict record
+
+  Position: plan draft
+
+  Documents read: `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md` and `plugins/coding-agent-orchestration-harness/skills/value-documents/SKILL.md` (instructions); `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`; `docs/coding-agent/plans/active/middle-size-for-a-small-change-plan.md`; `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD, unmodified); ADR-D-0040 and ADR-D-0041 under `docs/coding-agent-orchestration-harness/decisions/` and four `Counsel` / `candidate ready` lines of `completion-closeout.md` (all to understand, not as support); `docs/coding-agent/plans/active/middle-size-for-a-small-change-readings.md` (after grading only).
+
+  Product basis: brief in the product owner's words ("ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository"; ratified 2026-10-06: "Your proposal seems like a good way to handle things. I'll take it.")
+
+  Not audited: engineering side; it has no document (`common.md`: "Engineering philosophy: none yet", which is not a pointer line).
+
+  Missing inputs: none
+
+  Value documents changed in range: none (plan draft; no range)
+
+  Items:
+
+  - DoD 1: a third size with no plan, plan review or plan-draft audit; the review and one closing audit kept; the audit holds what went beyond the statement | maps to the brief | cited | brief: "A small change that comes from his word keeps two checks: the review of the change, and one closing value audit, which checks that what was built is what he said and nothing more."; "It drops the separate plan, the plan's review and the plan-draft audit. For a change this small his statement in the brief is the plan."; "This loosens a gate, and he was told so before he took it." | -
+  - DoD 2: smallness is the Orchestrator's call, guarded by the closing audit | maps to the brief | cited | brief: "Whether a change is small is the Orchestrator's call. The guard on that call is the closing audit: where the change went beyond his statement, the audit holds it." | -
+  - DoD 3: on top of the stack's last branch, no branch or pull request of its own, while the stack is unmerged | maps to the brief | cited | brief: "While the stack it belongs to is unmerged, it takes no branch and no pull request of its own; it goes on top of the last one." | -
+  - DoD 4: trivial and full-size work read as at the start revision | maps to the brief | cited | brief: "Trivial work and work of full size are handled as they are today." | -
+  - DoD 5: ADR-D-0041, and ADR-D-0040 where it says otherwise, revised, and each accepted by the owner by name before harness text is built on it | maps to the brief | cited | brief: "It changes the Plan Gate, so the accepted record that states it returns to him for acceptance by name."; pass condition "the record that states the Plan Gate is accepted by him by name before the change lands". The plan's "before any harness text is built on it" tightens the pass condition. The acceptance stays the owner's own act, and no standing approval is relied on for it. | -
+  - DoD 6: the fixed dispatch template byte-identical | maps to the brief | inferred | extends brief: "keeps two checks: the review of the change, and one closing value audit"; "Trivial work and work of full size are handled as they are today."; cheap to undo | -
+  - DoD 7: validators and smoke tests pass; Reviewer `APPROVED` | maps to the brief | cited | brief, pass conditions: "the package validators pass". The Reviewer approval is the run's own mechanics and tightens. | -
+  - DoD 8: the run closes with its branch published on the stack, a pull request opened, the note to Counsel sent, nothing merged | maps to the brief | cited | Standing approval, `common.md`: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner. ... Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: \"The common rule proposed, accepted.\"" The entry carries its record and is committed; whether the quoted words were said a file cannot show. I read the note to Counsel as the run's report to the owner's own session, not as an outward-facing message. If that reading is wrong, no standing approval covers the note. | -
+  - Planner-added 1: a small change keeps a short record file of its own, named after `Plan:` in the template | maps to the brief | inferred | extends brief: "one closing value audit, which checks that what was built is what he said and nothing more"; "It drops the separate plan"; core scenario "with no plan document". As described the file holds no tasks, design or definition of done. Cheap to undo. | direction: every small change still leaves a document of its own, where the owner asked for less ceremony
+  - Planner-added 2: the middle size applies only under a governing brief whose ratification reached the session, to a change stated in that brief or an amendment | maps to the brief | inferred | extends brief: "For a change this small his statement in the brief is the plan."; "A small change that comes from his word". The brief does not say "only": a one-sentence change he states directly to the Orchestrator outside a brief is excluded by the plan, not by the brief. Tightens; cheap to undo. | direction: whether his word must pass through Counsel and a brief to get the middle size
+  - Non-goal: trivial work | maps to the brief | cited | brief: "Trivial work and work of full size are handled as they are today." | -
+  - Non-goal: work of full size | maps to the brief | cited | same statement | -
+  - Non-goal: the conditions under which a plan of full size is authorized | maps to the brief | cited | same statement | -
+  - Non-goal: goal mode | maps to the brief | inferred | extends the same statement; the brief speaks only of the plan, its review and its audits; cheap to undo | -
+  - Non-goal: the two sources of authorization stay two | maps to the brief | inferred | extends brief: "For a change this small his statement in the brief is the plan." (the ratified brief stays the source); cheap to undo | -
+  - Non-goal: the fixed dispatch templates | maps to the brief | inferred | as DoD 6 | -
+  - Non-goal: a rule on test artifacts | maps to the brief | cited | brief, Left out on purpose: "A rule on test artifacts. *(told 2026-10-06: \"No recorded rule required yet.\")*" | -
+  - Non-goal: running the full suite on small changes to exercise the guards | maps to the brief | cited | brief, Left out on purpose: "Running the full suite on small changes to exercise the guards." | -
+  - Non-goal: no version bump | maps to the brief | inferred | extends brief: "While the stack it belongs to is unmerged"; nothing changes; cheap to undo | -
+  - A1: his word for a small change arrives as a statement Counsel writes into a governing brief with his quoted words, relayed | maps to the brief | inferred | extends brief: "For a change this small his statement in the brief is the plan."; cheap to undo | direction: the same decision as Planner-added 2
+  - A2: once the stack is merged a small change takes a branch and a pull request as any change does | maps to the brief | inferred | extends brief: "While the stack it belongs to is unmerged, it takes no branch and no pull request of its own"; cheap to undo | -
+  - A3: what the brief does not drop stays (the Worker builds, the note to Counsel and `candidate ready`, nothing reaches the remote before the review and the closing audit) | maps to the brief | cited | brief: "keeps two checks: the review of the change, and one closing value audit"; core scenario "It is built on top of the stack, reviewed and audited once at its close, with no plan document and no new pull request, and he is told when it is done." | -
+  - Task_1: the accepted records carry the small change; the owner accepts each by name before Task_2 is dispatched | maps to the brief | cited | brief: "It changes the Plan Gate, so the accepted record that states it returns to him for acceptance by name."; "Trivial work and work of full size are handled as they are today." | -
+  - Task_2: the harness text states the middle size; the closing audit's mandate grades a small change against the owner's statement | maps to the brief | cited | brief, "The middle size", all four statements as quoted under DoD 1 to 3; "where the change went beyond his statement, the audit holds it."; "Trivial work and work of full size are handled as they are today." The gate is loosened only as far as the brief gives. | -
+  - Task_3: close the plan and the run (closeout audit, push on the stack, pull request, note to Counsel, `candidate ready`, privacy sweep, nothing merged) | maps to the brief | cited | Standing approval as quoted under DoD 8, with the same note on the message to Counsel. The privacy sweep tightens. | -
+  - Decision Log 1: the accepted records are revised in place and return by name, not a new record beside them | maps to the brief | cited | brief: "the accepted record that states it returns to him for acceptance by name" | -
+  - Decision Log 2: Task_2 owns the two Orchestrator adapters and names its skill paths | internal mechanics | not audited | the engineering side has no document; the irreversible-or-outward-facing test was run and does not catch it | -
+
+  Human-only conditions pending: "the next small change he gives, judged by whether it felt proportionate." Nothing in the plan lets a proxy settle it.
+
+  Scenarios: none
+
+  ### Observations outside the grades
+
+  - Task_2 `owns` lists `skills/counsel/SKILL.md` and the plugin `README.md`, which the plan's Scope section does not name. If the build changes how Counsel writes a small change into a brief, that change is user-facing and will be graded at closeout against the brief.
+  - Planner-added 1 exists only because the template is held fixed (a non-goal the brief does not ask for). The alternative of no per-change file was not weighed in the Design section. That is the reason for the `direction` mark.
+
+  How the Orchestrator applied it: no item is `ask-now` and none is `ungraded`. With the brief's ratification relayed by Counsel under the standing approval, the plan review closed with no finding open, and this verdict, the plan is authorized under the ratified brief; this records no approval by the owner. No item rests on a provisional statement. Inferred calls, as the verdict states them: DoD 6, the non-goals on goal mode, the two sources, the templates and the version bump, A2, and three marked `direction`: Planner-added 1 (every small change still leaves a document of its own), Planner-added 2 and A1 (whether his word must pass through Counsel and a brief to get the middle size). The marked items go ahead and are shown to the owner at closeout as the closeout verdict states them. On the auditor's two procedural points the Orchestrator rules as in the earlier runs that the verdict counts: the readings file was opened only after the grades. The note to Counsel is the harness's own carrier between the owner's sessions. The comparison set readings apart from grades in class only (DoD 6, DoD 8, four non-goals, A3), corrected in the readings file with nothing to redo. The auditor's observation that Task_2 owns two files the Scope does not name is taken: they are owned so that a consumer found there can be traced, and a change to either is graded at closeout.
 
 ## Decision Log
 - 2026-10-06 Which record: the first draft proposed a new record and left ADR-D-0040 and ADR-D-0041 as accepted. The plan review found that wrong: ADR-D-0041 has a plan reviewed and audited before it is built, ADR-D-0040 rejects a brief authorizing with no audit judging the fit first, and the brief says the accepted record returns to the owner. The accepted records are revised in place and return by name.
