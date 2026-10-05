@@ -61,7 +61,7 @@ At full bootstrap and at every targeted refresh, the Repository Reference Docume
   - A none-yet line keeps naming any file the line it replaces named as not the philosophy.
 - The person's objection to a pointer setup recorded replaces it with the none-yet line naming that file.
 
-Report in the bootstrap or refresh output each pointer line recorded and its file; the files found where more than one fitted; and each philosophy now none yet, with what it gives and that it starts by opening a Counsel session. Nothing else is reported as missing. A refresh that changes none of these lines says nothing of them, so a missing philosophy is told once, when its line is first written.
+Report, in the bootstrap or refresh output, line by line and only for a line this run wrote: a pointer line recorded, with its file; a none-yet line written, with the files found where more than one fitted, what the philosophy gives and that it starts by opening a Counsel session. A none-yet line that was already there is not reported again, so a missing philosophy is told once, when its line is first written. A pointer whose file is gone or moved is flagged in every refresh that finds it so, whether or not any line changed. Nothing else is reported as missing.
 
 Setup never writes, drafts, starts, templates or offers a form for a philosophy's content, and infers none from the repository's code or documents: a philosophy comes only from discussion with the person entitled to state it.
 
