@@ -4,6 +4,14 @@ This mandate governs every value audit. Each audit is a fresh-context Auditor di
 
 A verdict grades. It approves nothing by itself; plan approval is decided where the orchestration workflow's Plan Gate states it.
 
+## First Step
+
+Read this mandate alone and to its end before opening any other file and before running any command that prints a file's content. Then, from listings that print names only (`git ls-files`, `git status --short`, `git diff --stat`), write down every path you will not open before the grades are fixed: each discussion notes file and each readings file the Input Boundary names. After that:
+
+- Open files one named path at a time. Never print several files in one command, and never loop over a listing.
+- Give every git command that prints content over a range these exclude pathspecs, exactly: `':(exclude,glob)docs/coding-agent/briefs/**/*-notes.md' ':(exclude,glob)docs/coding-agent/**/*-readings.md'`.
+- A readings file opened before the grades are fixed voids the audit: return every item `ungraded`, say so, and the audit is dispatched again in a fresh context.
+
 ## Input Boundary
 
 - Never an input: the Orchestrator's summary or account of the work in any form, the discussion notes (`docs/coding-agent/briefs/*-notes.md`), and the run's readings file (`docs/coding-agent/**/*-readings.md`), which is opened only after the grades are fixed (After Grading). Settle the inputs from this list before opening anything a file listing shows.
