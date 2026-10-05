@@ -127,15 +127,18 @@ def check_role_map(errors: list[str]) -> None:
         ROOT / "agents" / "Researcher.md",
         ROOT / "agents" / "Worker.md",
         ROOT / "agents" / "Reviewer.md",
+        ROOT / "agents" / "Auditor.md",
         ROOT / "agents" / "Counsel.md",
         ROOT / "claude" / "agents" / "harness-orchestrator.md",
         ROOT / "claude" / "agents" / "harness-researcher.md",
         ROOT / "claude" / "agents" / "harness-worker.md",
         ROOT / "claude" / "agents" / "harness-reviewer.md",
+        ROOT / "claude" / "agents" / "harness-auditor.md",
         ROOT / "claude" / "agents" / "harness-counsel.md",
         ROOT / "codex" / "agent-templates" / "harness_researcher.toml",
         ROOT / "codex" / "agent-templates" / "harness_worker.toml",
         ROOT / "codex" / "agent-templates" / "harness_reviewer.toml",
+        ROOT / "codex" / "agent-templates" / "harness_auditor.toml",
     ]
     for path in expected_paths:
         if not path.exists():
@@ -145,15 +148,18 @@ def check_role_map(errors: list[str]) -> None:
         "Researcher",
         "Worker",
         "Reviewer",
+        "Auditor",
         "Counsel",
         "harness-orchestrator",
         "harness-researcher",
         "harness-worker",
         "harness-reviewer",
+        "harness-auditor",
         "harness-counsel",
         "harness_researcher",
         "harness_worker",
         "harness_reviewer",
+        "harness_auditor",
     )
     for token in role_map_tokens:
         if token not in text:
@@ -166,7 +172,7 @@ def check_codex(errors: list[str]) -> None:
         py_compile.compile(str(bootstrap), doraise=True)
     except Exception as exc:
         fail(errors, f"Codex bootstrap compile failed: {exc}")
-    for name in ("harness_researcher.toml", "harness_worker.toml", "harness_reviewer.toml"):
+    for name in ("harness_researcher.toml", "harness_worker.toml", "harness_reviewer.toml", "harness_auditor.toml"):
         if not (ROOT / "codex" / "agent-templates" / name).exists():
             fail(errors, f"missing Codex template: {name}")
 

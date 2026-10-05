@@ -22,6 +22,7 @@ Use this checklist before completing runtime adapter changes.
 - Keep runtime-specific additions local to the runtime that needs them, such as tool names, connector policy references, and platform mechanics.
 - Keep Codex `AGENTS.md` loaders and snippets loader-only; do not confuse them with role-template `developer_instructions`.
 - Counsel has two instruction blocks, the Copilot `Counsel` agent and the Claude `harness-counsel` agent; keep them synchronized with each other. Codex has none: a Counsel session there is the `counsel` skill invoked explicitly, with no template and no loader line.
+- Auditor has three instruction blocks pointing only to the mandate named in its fixed location-only dispatch; keep them synchronized and restate no mandate or procedure.
 
 ## Replicated Contract Sync
 
@@ -39,7 +40,7 @@ When editing shared role workflow or output-contract text:
 ## Tool Permissions
 
 - Match tools to role boundaries.
-- Researcher and Reviewer remain read/review oriented.
+- Researcher and Reviewer remain read/review oriented. Auditor is read-only, dispatched only by the Orchestrator, and dispatches nothing.
 - Worker may edit within `owns` and run assigned validation.
 - Counsel writes value documents, may do quick reads of code but never reads plans or diffs, dispatches only the Researcher, and is never dispatched.
 - Shared-state Git mutations remain Orchestrator-controlled unless explicitly delegated.

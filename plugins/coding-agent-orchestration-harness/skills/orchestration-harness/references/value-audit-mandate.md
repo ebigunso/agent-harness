@@ -1,6 +1,6 @@
 # Value Audit Mandate
 
-This mandate governs every value audit. The auditor is a fresh-context Reviewer-profile dispatch that keeps nothing between audits; its mandate is grading accuracy, not the run's progress. It is dispatched by position: plan draft, each wave boundary, closeout.
+This mandate governs every value audit. Each audit is a fresh-context Auditor dispatch that keeps nothing between audits; its mandate is grading accuracy, not the run's progress. It is dispatched by position: plan draft, each wave boundary, closeout.
 
 A verdict grades. It approves nothing by itself; plan approval is decided where the orchestration workflow's Plan Gate states it.
 

@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: proposed
 adr_type: design
 date: 2026-10-01
 deciders: ["ebigunso"]
@@ -23,14 +23,14 @@ Two philosophy documents may govern a run: the product philosophy, which states 
 - A product philosophy may pre-exist for a product the person directing the work does not own, and where one exists it governs the product side whoever directs the work.
 - The brief traces to the product philosophy where there is one, and to the request as received where there is not.
 - Counsel never infers product values on the product owner's behalf.
-- The value audit grades the product side against the product owner's own words in a brief or a philosophy, inferred grades included, because a philosophy is written to be reasoned from.
+- The value audit grades the product side against what the product owner ratified in a brief or a philosophy, whoever worded it, inferred grades included, because a philosophy is written to be reasoned from.
 - Against a request as received, an item is graded cited only where the request explicitly covers it, and never inferred.
 - Every other product-side item, and any amendment to a product philosophy, goes to the product owner through the person directing the work.
 - The engineering philosophy is unaffected: who writes it and how the engineering side is graded do not turn on who owns the product.
 
 ## Why
 
-Only the product owner is entitled to state the product's values, and a philosophy that owner wrote was written to be reasoned from, so the audit may extend it; a request states a goal and not values, so nothing is reasoned from it on the product owner's behalf, and the gap goes to the product owner.
+Only the product owner is entitled to state the product's values, and a philosophy that owner ratified is there to be reasoned from, so the audit may extend it; a request states a goal and not values, so nothing is reasoned from it on the product owner's behalf, and the gap goes to the product owner.
 
 ## Rejected Alternatives
 
@@ -42,7 +42,7 @@ Only the product owner is entitled to state the product's values, and a philosop
 
 ## Decision Boundary
 
-Invariant: the product values are stated and amended only by the product owner; where no product philosophy exists nothing is inferred on the product owner's behalf, and the product side is graded only on the product owner's own words; the Decision list states the rest.
+Invariant: the product values are stated and amended only by the product owner; where no product philosophy exists nothing is inferred on the product owner's behalf, and the product side is graded only on what the product owner ratified; the Decision list states the rest.
 
 Not covered: the forms and locations of the philosophies and the brief, which the value-documents reference owns; how a product-level question travels from the person directing the work to the product owner and back; how the audit records a grade and what the Orchestrator does with one, which ADR-D-0039 and the run-side procedure own; what Counsel is and whom it serves (ADR-D-0034).
 

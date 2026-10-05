@@ -32,7 +32,7 @@ A wrong stop costs one human touch while a wrong continuation compounds, and the
 
 Invariant: the assessor is a different dispatch with fresh context, reads the named inputs only, and ties break toward stopping.
 
-Not covered: how the assessor is packaged (ADR-D-0030), its cadence, and its second duty of re-examining the goal itself (ADR-D-0014).
+Not covered: how the assessor is packaged (ADR-D-0050), its cadence, and its second duty of re-examining the goal itself (ADR-D-0014).
 
 ## Validation
 

@@ -1,6 +1,6 @@
 # Goal Assessor Mandate
 
-This mandate governs every in-loop assessment and is immutable during the goal run. The assessor is a fresh-context Reviewer-profile dispatch whose mandate is assessment accuracy, not goal completion.
+This mandate governs every in-loop assessment and is immutable during the goal run. The assessor is a fresh-context Auditor dispatch whose mandate is assessment accuracy, not goal completion.
 
 ## Input Boundary
 

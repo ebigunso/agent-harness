@@ -8,13 +8,14 @@ Logical roles are stable. Physical agent names may vary by runtime.
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
+| Auditor | Auditor | harness-auditor | harness_auditor |
 | Counsel | Counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the person directing the work |
 
 ## Home Of Each Session Role
 
 A session holds one role and takes its mechanics from that role's home. It never loads another role's home; what the roles share is in a home of its own that names no role's procedure.
 
-- Orchestrator, and the Researcher, Worker and Reviewer it dispatches: the `orchestration-harness` skill and its references.
+- Orchestrator, and the Researcher, Worker, Reviewer and Auditor it dispatches: the `orchestration-harness` skill and its references. The Auditor's value audit and goal assessor mandates live in those references.
 - Counsel: the `counsel` skill and its references.
 - The forms of the value documents have a home of their own, the `value-documents` skill, which both role homes point to and which points to neither.
 

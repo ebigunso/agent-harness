@@ -48,3 +48,7 @@ Unratified. Kept by Counsel. Nothing here gates anything; the auditor does not r
 ## Answered from his standing words during this run
 
 - Nothing yet.
+
+## Ruling given in the Orchestrator session (unratified; written by the Orchestrator)
+
+- 2026-10-04, ebigunso, typed in the Orchestrator session: "Opus is an acceptable cheap model. Fable and Astra count as expensive, for me at the moment." and later "I've configured the codex worker and reviewer to use GPT-6.1-Sol instead of GPT-6 Astra so you can continue dispatching them freely." Recorded in this repository's `docs/coding-agent/rules/orchestrator.md` as his setting for the workspace. Unratified as a value statement; nothing is graded on it.

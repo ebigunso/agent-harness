@@ -79,7 +79,7 @@ A goal condition is never just "the target is met": it is "the target is met, OR
 
 ## Assessment Cadence
 
-An independent assessor (a fresh-context Reviewer-role dispatch; mandate and fixed dispatch template: `references/goal-assessor-mandate.md`) judges the trajectory — the optimizer never judges its own stall. Cadence is uncertainty-adaptive, driven by the journal's own events, not a fixed interval:
+An independent assessor (a fresh-context Auditor dispatch; mandate and fixed dispatch template: `references/goal-assessor-mandate.md`) judges the trajectory — the optimizer never judges its own stall. Cadence is uncertainty-adaptive, driven by the journal's own events, not a fixed interval:
 
 - early iterations of a fresh goal;
 - the iterations immediately after a major pivot (approach change, goal re-scoping, surprising evidence);

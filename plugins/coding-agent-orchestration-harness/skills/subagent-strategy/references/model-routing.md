@@ -22,6 +22,7 @@ Give each role to the model that has shown the strength the work needs:
 - Review, correctness tier (line-level defects, spec conformance, validation evidence): detail-strength.
 - Review, design tier (boundaries, contracts, proportionality, long-horizon cost): writing-strength.
 - Implementation: either — prefer detail-strength when acceptance is mechanical precision, writing-strength when acceptance is judgment or prose.
+- Independent judgement of the Orchestrator's work (the value audit, the in-loop goal assessment): the Auditor role; which model holds it is the workspace's choice, recorded with the observations above.
 - Decision records (ADRs, plan decisions, design rulings): authored by the coordinating, writing-strength side — never dispatched to implementation workers.
 
 ## Prose quality

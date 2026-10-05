@@ -8,6 +8,7 @@ Tool names vary by runtime. This reference describes capability boundaries rathe
 | Researcher | read, search, diagnostics, bounded UI research when assigned | no implementation edits; no plan-file writes |
 | Worker | read, search, edit within `owns`, run assigned validation, bounded UI probes for assigned UI/frontend work | no nested subagents; no shared-state Git mutations unless delegated |
 | Reviewer | read, search, diagnostics, run review/evidence checks, bounded UI/E2E evidence when required | no implementation edits |
+| Auditor | read, search, terminal inspection; follow the mandate named in its fixed location-only dispatch | read-only; dispatched only by the Orchestrator; no nested dispatch; no connectors |
 | Counsel | ask the owner, read and write value documents, quick reads of code in service of a discussion, search, dispatch Researchers, message the Orchestrator session over a peer channel (which may be shell-based, hence terminal tools) | separate session, never dispatched; dispatches no Worker or Reviewer; does not read plans or diffs; no bulk code reading, no check-up on the project's state, and no check on a run's work by reading code (those go to a Researcher); approves no plan, accepts no decision record, instructs no merge |
 
 ## Runtime Notes

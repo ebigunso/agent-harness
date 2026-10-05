@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0012-independent-in-loop-assessor--superseded-by-ADR-D-0029.md"]
-superseded_by: null
+supersedes: ["ADR-D-0012-independent-in-loop-assessor--superseded-by-ADR-D-0029.md"]
+superseded_by: ../ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md
 ---
 
 # ADR-D-0030: The assessor is a Reviewer dispatch profile with a fixed, journaled template, not a fourth role
+
+Retired on 2026-10-04. Replaced by ADR-D-0050.
 
 ## Context and Problem Statement
 

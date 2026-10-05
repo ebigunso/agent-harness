@@ -148,4 +148,4 @@ Rules:
 
 ## Value audit dispatch (not a snippet to adapt)
 
-The whole prompt is the Fixed Dispatch Template in `orchestration-harness/references/value-audit-mandate.md`, verbatim, with nothing added. When it is dispatched: `orchestration-harness/references/value-level-operation.md`.
+An Auditor dispatch. The whole prompt is the Fixed Dispatch Template in `orchestration-harness/references/value-audit-mandate.md`, verbatim, with nothing added. When it is dispatched: `orchestration-harness/references/value-level-operation.md`.
