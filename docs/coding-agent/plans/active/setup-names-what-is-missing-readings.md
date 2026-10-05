@@ -109,6 +109,28 @@ Findings compared: none found (the readings file records no finding; no item lin
 
 Readings corrected after this comparison: A3 and Task_3 as a whole are extensions (the brief does not state the run's size or who dispatches it); the acceptance of a record by name, the version bump, Task_1, no script, no validator and the templates are mechanics the audit does not grade.
 
+### `setup-names-what-is-missing-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft headings keeps its reading as corrected after the second comparison, with these changes and additions.
+- The text as built: the rulebook's philosophy step and its three line forms; the report line by line, a none-yet line told once, a gone pointer flagged at every refresh | covered | brief: "Those things are clearly presented as missing"; "setup finds it, records the pointer to it, and says in its report that it did"; "At refresh, a pointer to a file that is gone or moved is flagged"; "Nothing nags."
+- The pointer rule's one exception in the value-document form, pointed to from the run-side reference and Counsel's skill | covered | brief: "After this work, setup's report is where he hears of it, and his objection removes it."
+- A none-yet line is not a pointer, in the skill's rule entry, the run-side reference and the mandate | covered | brief, Limits: "A run in a repository whose philosophies are marked missing behaves exactly as a run does today in a repository without one."
+- Counsel reads the section when a session opens, mentions once in its first reply and offers | extends | brief: "A Counsel session sees those lines when it opens and may offer to start on one."
+- Counsel's hand-over asks for the owner naming a philosophy's path only where no pointer line exists | extends | brief: "setup finds it, records the pointer to it"
+- Setup never writes, drafts, templates or infers a philosophy, stated once in the rulebook | covered | brief, Limits
+- Task_1's outcome: the admission test failed on review, the proposed record withdrawn, nothing asked of the owner | covered as mechanics; no statement needed
+- Task_3: two fixtures; scenario 1 and the setup half of scenario 2 by a fresh agent following the text; a later run on the second fixture from plan to close, audited at both ends against the philosophy the pointer names, this run's Orchestrator dispatching and standing in for the fixture's user | extends | brief, Pass conditions: "scenarios 1 and 2 hold on a fixture repository"
+- The fixture's ratification line kept in a file of its own | covered as mechanics; no statement needed
+- This repository's rule file refreshed: both philosophies none yet | extends | brief, scenario 1
+- The mandate's First Step, added in this plan | extends, and not from this brief | no statement of this brief; it tightens the audit, and the earlier brief says "tightening is free"
+- The detection rule as built (tracked files; a document's own statement plus a ratification record; none recorded when more than one fits; an objection kept in the line) | extends | brief: "A philosophy has no fixed path or name, so setup will sometimes list one as missing when it exists."
+- Manifests at 0.30.0 | covered as mechanics; no statement needed
+- Workers' judgement calls (Counsel's mention in its first reply; several fitting documents named only when the line is first written; an existing pointer in other wording stays a pointer; no new refresh trigger) | extends | brief: "It states what and why. How is the Orchestrator's"
+- Review fixes (the reporting rule line by line; the hand-over) | extends | brief: "Nothing nags."
+- Scenarios, the Orchestrator's expectation only: 1 demonstrated on the fixture (the report and the rule file of `no-philosophy`); 2 demonstrated on the fixture, with the later run carried by this run's Orchestrator as dispatcher and stand-in; 3 not yet, shown only by tracing the text, no Counsel or Orchestrator session having been opened on a fixture.
+
 ## Findings
 
 - Four Auditor dispatches in two days opened a readings file before grading, two of them running on this run's fixture; the mandate's instruction did not hold. Reading: trivial as to what he experiences (no grade was given on a seen reading), but it blocked this run's evidence; built here as the mandate's First Step, the Orchestrator's addition.
