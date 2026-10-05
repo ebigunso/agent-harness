@@ -316,3 +316,33 @@ Product basis: his own words. No product philosophy exists for this repository.
 ## Assumptions
 
 - None recorded here.
+
+## Counsel's first read of the audit-positions candidate, 2026-10-05, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 12:43 UTC and the brief's two amended lines only. Not final.
+
+- Fits both statements as reported: the audit at each plan's draft and close and nowhere between; the plan review reporting a plan that is unacceptably long, as a judgement and with no number. Goal mode's audit moments are reported unchanged, as he accepted them.
+- No decision record is reported as changed, which matches what Counsel told him to expect.
+- Not evidenced: a run on the built plugin. His first real run shows whether the two remaining audits hold and what the Reviewer makes of plan length.
+- The value-document changes named in the note are Counsel's.
+
+## Counsel's finalized read of the audit-positions candidate, 2026-10-05
+
+- The closeout verdict marked nothing: no judgement call bearing on direction, no record reworded after acceptance, no record changed or proposed. The first read stands unchanged.
+
+## Counsel's first read of the setup candidate, 2026-10-06, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 2026-10-05 15:32 UTC and the brief only. Not final.
+
+- Fits the brief as reported, statement by statement: a line for each philosophy in the common rule file, a pointer or none yet with what it gives and how to start; an existing one found, recorded and named in the report; a doubtful one held for his confirmation, as he answered on 2026-10-06; setup writing no philosophy; no run mentioning what is missing.
+- The note does not give the three core scenarios their states. Commit titles say they were run on two fixture repositories.
+- Counsel is built to mention what is missing once in its first reply of each session. The brief says Counsel may offer and that nothing nags. Once per session he opened for discussion is within that as Counsel reads it; he judges it in use.
+- One thing built outside the brief: a first step in the Auditor's instructions, because four audits in two days were thrown away after the auditor opened the Orchestrator's readings before grading. It tightens, which he left free. It is also evidence that keeping the reading from the auditor until the grades are fixed rests on the auditor following an instruction.
+- The value-document changes named are Counsel's.
+
+## Counsel's finalized read of the setup candidate, 2026-10-06, after the audit's marked items
+
+- Scenarios as the closing verdict states them: 1 and 2 demonstrated on fixture repositories, with the setup reports stored; 3 not yet, since no Counsel or Orchestrator session was opened in the fixture. The held-document behaviour was observed on a third fixture; his yes or no being applied was not shown.
+- The four marked items are one decision and its edge: how setup recognises a philosophy (a tracked document that names itself and carries a ratification), and that where several documents fit it records none and writes the none-yet line, naming the files once in the report. The audit's own observation: a repository holding his philosophy and a vendored one then ends at none yet, which his words of 2026-10-06 speak against. Goes to him as a question.
+- The Auditor's first step was breached by the auditor in the first closeout dispatch (plan and brief read before the mandate; the readings file opened only after grading). The Orchestrator ruled that verdict counts; a second verdict stands beside it. Shown to him; no decision asked.
+- Nothing in the marks contradicts the first read.
