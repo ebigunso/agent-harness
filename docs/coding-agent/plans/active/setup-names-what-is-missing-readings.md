@@ -131,10 +131,40 @@ Item | reading | statement relied on
 - Review fixes (the reporting rule line by line; the hand-over) | extends | brief: "Nothing nags."
 - Scenarios, the Orchestrator's expectation only: 1 demonstrated on the fixture (the report and the rule file of `no-philosophy`); 2 demonstrated on the fixture, with the later run carried by this run's Orchestrator as dispatcher and stand-in; 3 not yet, shown only by tracing the text, no Counsel or Orchestrator session having been opened on a fixture.
 
+#### The audit's comparison, closeout (2026-10-05), as returned
+
+Reading compared:
+- DoD 1 to 7: agrees
+- Planner-added 1 to 5 and the version bump: agrees
+- Planner-added 6 and Decision Log 7 (the mandate's First Step): diverges. Orchestrator: extends, not from this brief; audit: not audited, internal mechanics.
+- Non-goals, A1, A2, A3: agrees
+- Task_1 to Task_4: agrees
+- Decision Log 1, 3, 6: agrees
+- Decision Log 2, 4, 5: unread
+- Built rulebook text, the pointer rule's exception, the none-yet line is not a pointer, the Limits sentence, the detection rule, the objection line: agrees
+- Counsel's opening: diverges. Orchestrator: extends; audit: cited, on scenario 3's words.
+- Counsel's hand-over, this repository's rule file, the fixtures, the ratification line kept apart, manifests: agrees
+- The mandate's First Step as a change: diverges, as above
+- The rulebook skill's cross-reference; the lessons entry: unread
+- Worker judgement calls: agrees on four; "a none-yet line keeps naming a file an earlier objection named" is unread
+- Review fixes; the stand-in ruling; the redone line: agrees
+- Rulings on the plan's authorization, on what was left as it is, on the refresh report through the closeout, and on the final review fixes: unread
+
+Findings compared:
+- Finding 1 (auditors opened a readings file; read as trivial): agrees
+- Finding 2 (a repository that tracks another project's ratified philosophy gets it recorded; read as trivial): bears on the design though read as trivial. Acting on it would change what the person meets from setup: either a none-yet line, or a foreign document recorded as their philosophy with value-level operation turned on until they object. This repository's own first refresh would have hit it. The brief's "the person objects only if it picked the wrong file" covers a wrong pick, which is why the item grades stand; the finding test is separate.
+- Finding 3 (order when a request contradicts a philosophy; read as bearing on the design): agrees
+- Finding 4 (no route to the product owner in a run on a philosophy alone; read as bearing on the design): agrees
+- Finding 5 (reading written before plan review can go stale, and the rest; read as trivial): agrees
+- Departures from a means: none noted on any item line.
+
+Readings corrected after this comparison: the mandate's First Step is mechanics the audit does not grade; Counsel's opening is what the brief's scenario 3 states.
+
 ## Findings
 
 - Four Auditor dispatches in two days opened a readings file before grading, two of them running on this run's fixture; the mandate's instruction did not hold. Reading: trivial as to what he experiences (no grade was given on a seen reading), but it blocked this run's evidence; built here as the mandate's First Step, the Orchestrator's addition.
 - A repository that tracks another project's ratified philosophy (a vendored project, or a test fixture, as this repository's own fixture was) gets that file recorded as its philosophy by setup. Reading: trivial; the brief leaves a wrong pick to one objection, and the objection holds across refreshes. This repository's fixture was changed so that it is not one.
+  - Named by the closeout audit as bearing on the design. Escalated through Counsel on 2026-10-05 as a value question: whether setup records such a document and leaves him to object, or records nothing when the only candidates sit inside what looks like another project's files. Part held: anything further built on setup's detection, and the run's closeout and publication. Answer: awaited.
 - The built text does not say which comes first when a request itself contradicts a philosophy: the question before planning, or the plan-draft audit; nor what "search the documents before escalating" means when the documents answer against the user's explicit request (the fixture's Orchestrator asked first). Reading: bears on the design, as it decides whether a person is asked or planned against; outside this brief, which is about setup; no part of this plan is held by it.
 - In a run on a philosophy alone whose user is not the product owner, no text names a route to the product owner. Reading: bears on the design; outside this brief; nothing here is held by it.
 - The reading is written before the plan review and can go stale when the review changes the plan; the reading's three values have none for an item the audit will not grade; a plan file has to exist half-made to hold the research waiver and start revision before requirement questions are settled. Reading: trivial; mechanics.
