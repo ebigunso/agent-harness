@@ -32,6 +32,47 @@ Item | reading | statement relied on
 - Task_4: land the record; refresh this repository's rule file; close and publish | covered | standing approval on publishing; brief on the rule files
 - Decision Log: no script, no validator; two candidates recorded as neither; earlier repositories at refresh; Counsel once per session | extends | brief: "It states what and why. How is the Orchestrator's"
 
+#### The audit's comparison, plan draft, first dispatch (2026-10-05), as returned
+
+Reading compared (these two lines go in the readings file, not the plan):
+- DoD 1: agrees
+- DoD 2: diverges (Orchestrator: covered; audit: ask-now)
+- DoD 3: agrees
+- DoD 4: agrees
+- DoD 5: diverges (Orchestrator: extends; audit: not audited, internal mechanics)
+- DoD 6: agrees
+- DoD 7: agrees
+- Planner-added 1: agrees
+- Planner-added 2: agrees
+- Planner-added 3: agrees
+- Planner-added 4: agrees
+- Planner-added 5: diverges (Orchestrator: extends; audit: not audited)
+- Non-goals, read as one item: agrees for "Left out on purpose" and for no change to how a philosophy is written; diverges for no script, no validator and the dispatch templates (Orchestrator: covered; audit: not audited)
+- A1: agrees
+- A2: agrees
+- A3: diverges (Orchestrator: extends; audit: ask-now)
+- Task_1: diverges (Orchestrator: extends; audit: not audited)
+- Task_2: agrees
+- Task_3: diverges (Orchestrator: covered; audit: ask-now)
+- Task_4: agrees
+- Decision Log 1: agrees
+- Decision Log 2: unread
+- The Orchestrator also read "Design" and "Compatibility stance"; the mandate lists neither as a plan item, so they carry no grade.
+
+Findings compared: none found (the readings file exists and records no finding; no item line notes a departure from a means)
+
+### `setup-names-what-is-missing-plan.md`, plan draft, second dispatch
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft heading above keeps that reading, with these changes.
+- Definition of Done: scenarios 1 and 2 on a fixture, the later run of scenario 2 carried from plan to close and audited at both ends | covered | brief, Pass conditions: "scenarios 1 and 2 hold on a fixture repository"; scenario 2: "a later run there is kept to that product philosophy"
+- Definition of Done: a proposed record accepted by name before text is built on it; Task_1; the version bump; no script, no validator, the templates untouched | covered as mechanics; no statement needed
+- A3: the later run is a whole small run on the fixture, its agents fresh, dispatched by this run's Orchestrator | covered | brief, scenario 2
+- Task_3 | covered | brief, Pass conditions
+- Task_2, added: an objection is kept in the line that replaces the pointer; the setup report is where an Orchestrator session tells the person | extends | brief: "his objection removes it"; "Nothing nags."
+- Decision Log: the line redone after the first verdict, nothing asked of the owner | covered | the earlier brief's amendment: "A line the Orchestrator adds to its own plan that your documents do not support is the Orchestrator's to drop or redo so that the plan follows the brief." (not this brief; this brief is silent on it)
+
 ## Findings
 
 - None yet.
