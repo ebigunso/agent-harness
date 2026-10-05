@@ -1,8 +1,8 @@
 # Plan: Setup names what is missing
 
-- status: in_progress
+- status: done
 - generated: 2026-10-05
-- last_updated: 2026-10-05
+- last_updated: 2026-10-06
 - work_type: docs
 
 ## Goal
@@ -45,7 +45,7 @@
 
 ## Context (workspace)
 - Governing brief: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`, ratified 2026-10-05 ("I ratify the brief, hand it over after the run closes."), handed over by Counsel's relay of 2026-10-05, taken up after the audit-positions change on his word.
-- Run record: `docs/coding-agent/plans/active/setup-names-what-is-missing-run.md`. Readings file: `docs/coding-agent/plans/active/setup-names-what-is-missing-readings.md`. This plan starts from revision: 6935b2c3.
+- Run record: `docs/coding-agent/plans/completed/setup-names-what-is-missing-run.md`. Readings file: `docs/coding-agent/plans/completed/setup-names-what-is-missing-readings.md` (both under `active/` until the run closed). This plan starts from revision: 6935b2c3.
 - Research: a Researcher report received in session on 2026-10-05; not on disk, so nothing here rests on it alone. Facts the plan relies on, each checkable in the tree: setup is the rulebook's full bootstrap, followed as text (`skills/rulebook/references/bootstrap-lifecycle.md`); it detects a decision-record convention among tracked files, records it without asking, reports what it recorded and flags a contradiction at refresh; the section "Repository Reference Documents" is required and its lines are free; the rule that a pointer line is added only on the owner's word is in `value-documents/SKILL.md` and `value-level-operation.md` and in no decision record; Counsel reads no rule file when it opens; no fixture repository exists.
 - The audits of this run: this plan's draft and its close.
 - Design record consulted and deviations from its acceptance: ADR-D-0036 (kept: setup states no value and infers none; it leaves forms and locations to the value-document form), ADR-D-0024 and ADR-D-0025 (kept: the lines sit in the common rule file and are derived again at refresh), ADR-D-0052 and ADR-D-0056 (kept).
@@ -483,6 +483,155 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
   ```text
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: 6935b2c3.
   ```
+
+- 2026-10-06 Closeout audit, second dispatch, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
+
+  ## Value audit verdict: closeout (second dispatch), `setup-names-what-is-missing-plan.md`
+
+  No item is `ask-now` and none is `ungraded`. Scenarios 1 and 2 are `demonstrated`, scenario 3 is `not yet`, and the run is getting closer. Two items carry `direction`.
+
+  **Process disclosures, for you to rule on before relying on this verdict:**
+  - **First Step order breached.** My first batch located the mandate and, in the same batch, opened the plan (to line 363) and the brief and ran `git log --oneline`, `git diff --stat` and `git status --short`. So the plan and the brief were read before the mandate. That part of the plan includes the first closeout verdict as logged; I regraded each item against the documents, but I cannot claim I never saw it.
+  - **Readings and notes.** The readings file was opened once, after every grade was fixed. No notes file was opened. The void rule names only a readings file opened early, so I graded; if you read the First Step strictly, dispatch again.
+  - **Commit subjects seen.** My own `git log --oneline` printed the range's commit subjects, which are accounts of the work. I disregarded them.
+  - **Dispatch.** The text matched the fixed template. The runtime also attached a reviewer role prompt, the quality-baselines skill body, a hook text, a memory index and a git status snapshot with five commit subjects. None is an account written for this audit; I disregarded the subjects.
+  - **Commands.** Every content-printing git command named one path and carried the two exclude pathspecs.
+
+  ### Verdict record
+
+  Position: closeout
+
+  Documents read:
+  - `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` and its diff
+  - `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact, in full)
+  - `docs/coding-agent/plans/active/setup-names-what-is-missing-run.md` (prior scenario states)
+  - `docs/coding-agent/rules/common.md` (its diff, and the "Standing Approvals" section)
+  - The range `6935b2c3`..working tree, one path at a time: the nine changed plugin skill and reference files, and `docs/coding-agent/lessons.md`
+  - Under `tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/`: `README.md`, `RUN-2026-10-05.md`, `RUN-2026-10-05-records/setup-reports.md`, `plan-draft-verdict.md`, `closeout-verdict.md`, `with-foreign-philosophy/vendor/wordlist/docs/what-wordlist-is-for.md` and its `ratification-line.txt`
+  - Untracked: `.claude/pr67body.tmp`
+  - After grading: `docs/coding-agent/plans/active/setup-names-what-is-missing-readings.md`
+  - Not opened: the two modified notes files, `.claude/settings.local.json`, the three manifests, and the other fixture files and records
+
+  Product basis: brief in the product owner's words. The brief says "ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository"; ratification record present, 2026-10-05: "I ratify the brief, hand it over after the run closes."
+
+  Not audited: engineering side, it has no document. `common.md` carries "Engineering philosophy: none yet", which is not a pointer line.
+
+  Missing inputs: none
+
+  Value documents changed in range: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`. One gives-statement was added under "A philosophy that already exists" (a document that may belong to something else is held for the person's confirmation). It carries its own ratification record, his quoted words dated 2026-10-06 ("I take neither. I think it is better if the setup procedure notices such a problem, it holds the decision and brings up the findings for confirmation. ..."), so it counts as support. Whether the words were said is not something a file can show. No pointer line was removed or changed; two none-yet lines were added to `common.md`. The fixture documents are test fixtures kept without their ratification lines, not philosophies of this repository.
+
+  Items (`item | maps | grade | support | reasons / mark`):
+
+  Plan items
+  - DoD 1: every gives-statement and constraint carried by the plugin text, means built from | maps to the brief | cited | brief: "This brief is the grounds for the work. It is passed verbatim"; "a means does not bind" | -
+  - DoD 2: scenarios 1 and 2 on a fixture, the later run carried from plan to close and audited at both ends | maps to the brief | cited | brief, Pass conditions: "scenarios 1 and 2 hold on a fixture repository"; scenario 2: "a later run there is kept to that product philosophy" | -
+  - DoD 3: no setup text drafts, templates or offers a form | maps to the brief | cited | brief, Limits: "Setup never writes, drafts, starts or offers a form to fill in for a philosophy, and infers none from the repository's code or documents." | -
+  - DoD 4: a run with philosophies marked missing behaves as today | maps to the brief | cited | brief, Limits: "A run in a repository whose philosophies are marked missing behaves exactly as a run does today in a repository without one."; "Nothing nags. Work runs as it does today while a philosophy is missing, and no run reminds the person of it." | -
+  - DoD 5: a proposed record accepted by name before text is built on it | internal mechanics | not audited | - | -
+  - DoD 6: validators and smoke tests pass; Reviewer `APPROVED` | maps to the brief | cited | brief, Pass conditions: "the package validators pass" | -
+  - DoD 7: branch published, pull request opened, note to Counsel, nothing merged | maps to the brief | cited | standing approval, `common.md`: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." Record: "Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: "The common rule proposed, accepted."" Outside the range, so committed; whether the words were said is not something a file can show. | - (not yet done: the branch has no upstream)
+  - Planner-added 1: detection among tracked files by self-statement plus ratification record; none recorded when several fit | maps to the brief | inferred | brief: "Where the repository already has a philosophy document, setup finds it, records the pointer to it, and says in its report that it did; the person objects only if it picked the wrong file."; "A philosophy has no fixed path or name, so setup will sometimes list one as missing when it exists. A sentence from the person corrects it." | direction
+  - Planner-added 2: a none-yet line cannot be read as a pointer | maps to the brief | cited | brief, Limits: "behaves exactly as a run does today in a repository without one" | -
+  - Planner-added 3: the objection is kept in the line that replaces the pointer | maps to the brief | inferred | brief: "his objection removes it"; "the person objects only if it picked the wrong file" | -
+  - Planner-added 4: lines derived again at every refresh | maps to the brief | inferred | brief: "the common rule file carries a line for each missing philosophy."; "At refresh, a pointer to a file that is gone or moved is flagged" | -
+  - Planner-added 5: this repository's rule file refreshed under the built text | maps to the brief | inferred | brief, scenario 1; product basis line: "no product philosophy and no engineering philosophy exist for this repository" | -
+  - Planner-added 6: the mandate's First Step | internal mechanics | not audited | - | - (tightens the audit's boundary; not irreversible, not outward-facing)
+  - Planner-added 7: one version bump | internal mechanics | not audited | - | -
+  - Non-goal: the brief's "Left out on purpose" | maps to the brief | cited | brief: "Standing approvals as missing items."; "Initiative briefs: they belong to a piece of work, not to the repository." | -
+  - Non-goals: no setup script; no rule-file validator; dispatch templates untouched | internal mechanics | not audited | - | - (the template block has no hunk in the range)
+  - Non-goal: no change to how a philosophy is written or ratified | maps to the brief | cited | brief, Limits: "A philosophy comes only from discussion with the person entitled to state it." | -
+  - A1: a gone or moved pointer is flagged and left | maps to the brief | cited | brief: "At refresh, a pointer to a file that is gone or moved is flagged, as it is for decision records." | -
+  - A2: Counsel mentions once when it opens, offers, does not raise it again | maps to the brief | inferred | brief: "A Counsel session sees those lines when it opens and may offer to start on one."; "Nothing nags." | -
+  - A3: the later run is a whole small run on the fixture, dispatched by this run's Orchestrator | maps to the brief | inferred | brief, scenario 2; Pass conditions | -
+  - Task_1: admission test, record to the owner if it passes | internal mechanics | not audited | - | -
+  - Task_2: setup text, pointer rule, Counsel's opening, run silence | maps to the brief | cited | brief: "For each one that is missing, setup says what the person gains once it exists and how to start: open a Counsel session."; "After this work, setup's report is where he hears of it, and his objection removes it."; Limits; scenario 3 | - (the change to who adds a pointer is the brief's own: "This changes a rule in force")
+  - Task_3: two fixtures, setup by a fresh agent, the later run with a stand-in user | maps to the brief | inferred | brief, Pass conditions; scenarios 1 and 2 | -
+  - Task_4: refresh this repository's rule file, close, publish | maps to the brief | cited | the standing approval quoted at DoD 7, same caveat | - (no record exists to accept; nothing merged)
+  - Task_5: a document that may belong to something else gets an awaiting line, the report brings it and asks, yes records the pointer | maps to the brief | cited | brief (added 2026-10-06, with its record): "setup records nothing by itself and does not list the philosophy as simply missing: it holds the decision and brings what it found to the person for confirmation. Nothing obviously awkward passes quietly, and taking the document is one confirmation." | - (its parts the statement does not say are graded under the changes below)
+  - Decision Log 1: requirement challenge | maps to the brief | inferred | statements at Planner-added 1 and 4, A1, A2 | -
+  - Decision Log 2: draft review applied | maps to the brief | inferred | brief, Limits and scenario 2 | - (its "whole run not taken" was replaced by Decision Log 3)
+  - Decision Log 3: the later run is a whole run; nothing asked of the owner | maps to the brief | cited | brief, scenario 2: "a later run there is kept to that product philosophy" | - (the entry's stated source is not in this brief and was not taken as support)
+  - Decision Log 4: delta review applied | maps to the brief | inferred | as Planner-added 3 and Task_3 | -
+  - Decision Log 5: ADR-D-0057 proposed | internal mechanics | not audited | - | - (superseded by the next entry)
+  - Decision Log 6: no record, ADR-D-0057 withdrawn before it reached the owner | internal mechanics | not audited | - | - (the rule change is stated in the ratified brief, so no decision of his is bypassed)
+  - Decision Log 7: the mandate gains a First Step | internal mechanics | not audited | - | -
+  - Decision Log 8: the owner's answer taken; Task_5 added; the close held until it is built and audited | maps to the brief | cited | brief, the 2026-10-06 statement as quoted at Task_5 | - (holding the close tightens a stop)
+
+  Changes in the range
+  - Rulebook: one line per philosophy; a none-yet line says what it gives and how to start; template placeholders replace "None recorded yet." | maps to the brief | cited | brief: "the common rule file carries a line for each missing philosophy."; "setup says what the person gains once it exists and how to start: open a Counsel session."; "Only the two philosophy documents ... are marked as missing by setup." | -
+  - Rulebook: one fitting document, plainly the repository's own, is recorded without asking | maps to the brief | inferred | brief: "setup finds it, records the pointer to it, and says in its report that it did; the person objects only if it picked the wrong file." | direction (the same decision as Planner-added 1)
+  - Rulebook: one fitting document that may belong to something else gets the awaiting line; the report gives the file, why, and that the person's word decides | maps to the brief | cited | brief, the 2026-10-06 statement | -
+  - Rulebook: "may belong to something else" is judged from where the file sits and what surrounds it | maps to the brief | inferred | brief: "(a vendored project, an example, a test fixture)" | -
+  - Rulebook: yes to an awaiting line records the pointer | maps to the brief | cited | brief: "taking the document is one confirmation" | -
+  - Rulebook: no to an awaiting line, or an objection to a pointer, leaves a none-yet line naming the file, never recorded or brought again | maps to the brief | inferred | brief: "his objection removes it"; "Nothing nags." | -
+  - Rulebook: an awaiting line already there is left alone and not reported again; one whose file is gone becomes the none-yet line | maps to the brief | inferred | brief: "Nothing nags."; "the common rule file carries a line for each missing philosophy." | - (the awaiting line stays in the rule file and Counsel mentions it, so what was held does not pass quietly)
+  - Rulebook: more than one fitting document, wherever each sits, records none and writes the none-yet line | maps to the brief | inferred | brief: "setup will sometimes list one as missing when it exists. A sentence from the person corrects it."; the 2026-10-06 statement is about "the only document that fits" | direction
+  - Rulebook: report line by line, each none-yet or awaiting line told once, a gone pointer flagged at every refresh, nothing else reported as missing | maps to the brief | cited | brief: "says in its report that it did"; "At refresh, a pointer to a file that is gone or moved is flagged"; "Nothing nags."; scenario 1: "nothing else is listed as missing" | -
+  - Rulebook: setup never writes, drafts, starts, templates or offers a form, and infers none | maps to the brief | cited | brief, Limits, first statement | -
+  - `value-documents/SKILL.md`: setup's one exception to "only on the owner's word" | maps to the brief | cited | brief: "This changes a rule in force: the form of the value documents says a pointer line is added only on the owner's word. After this work, setup's report is where he hears of it, and his objection removes it." | -
+  - `value-level-operation.md`, `orchestration-harness/SKILL.md`, the mandate: a none-yet line is not a pointer, turns nothing on or off, no run mentions it | maps to the brief | cited | brief, Limits, second statement; "no run reminds the person of it"; scenario 3: "an Orchestrator session there does not" | -
+  - The same three texts: a not-settled line is not a pointer either, and no run mentions it | maps to the brief | inferred | brief: "setup records nothing by itself"; Limits, second statement; "no run reminds the person of it" | - (the Limits statement speaks of philosophies marked missing; an awaiting one is an extension)
+  - `counsel/SKILL.md`: read the section when the session opens, mention a none-yet philosophy once in the first reply, offer to start | maps to the brief | cited | brief, scenario 3; "A Counsel session sees those lines when it opens and may offer to start on one."; "Nothing nags." | -
+  - `counsel/SKILL.md`: an awaiting document is mentioned once in the same reply; the owner's answer reaches the Orchestrator as the owner's word | maps to the brief | inferred | brief: "A Counsel session sees those lines when it opens"; "brings what it found to the person for confirmation" | - (who decides is unchanged: the owner's word)
+  - `counsel/SKILL.md` hand-over: the owner names a philosophy's path only where it has no pointer line yet | maps to the brief | inferred | brief: "setup finds it, records the pointer to it"; "everything is in place apart from things I have to discuss and define" | -
+  - The mandate's First Step section | internal mechanics | not audited | - | -
+  - Manifests at 0.30.0; the rulebook skill's corrected cross-reference; the lessons entry | internal mechanics | not audited | - | -
+  - This repository's `common.md`: both philosophies none yet in the built form, no pointer | maps to the brief | inferred | brief, scenario 1; product basis line | -
+  - Three fixtures, the run write-up and its records | maps to the brief | inferred | brief, Pass conditions: "scenarios 1 and 2 hold on a fixture repository"; the 2026-10-06 statement for the third | -
+
+  Judgement calls and rulings
+  - Worker (Task_2): Counsel's mention comes in its first reply | maps to the brief | inferred | brief: "sees those lines when it opens" | -
+  - Worker (Task_2): several fitting documents are named only when the line is first written | maps to the brief | inferred | brief: "Nothing nags."; "A sentence from the person corrects it." | -
+  - Worker (Task_2): a none-yet line keeps naming a file an earlier objection named | maps to the brief | inferred | brief: "his objection removes it" | -
+  - Worker (Task_2): an existing pointer in other wording stays a pointer | maps to the brief | inferred | brief: "everything is in place" | -
+  - Worker (Task_2): the step runs at bootstrap and every targeted refresh, no new trigger | maps to the brief | inferred | as Planner-added 4 | -
+  - Worker (Task_5): the non-pointer forms are covered by the words that open them | maps to the brief | inferred | brief, Limits, second statement | -
+  - Worker (Task_5): an awaiting line whose file is gone becomes the plain none-yet line, reported once | maps to the brief | inferred | brief: "the common rule file carries a line for each missing philosophy."; "Nothing nags." | -
+  - Worker (Task_5): "may belong to something else" judged from where the file sits and what surrounds it | maps to the brief | inferred | brief: "(a vendored project, an example, a test fixture)" | -
+  - Ruling: after the first plan-draft verdict, redo the plan's own line and ask the owner nothing | maps to the brief | cited | brief, scenario 2 | -
+  - Ruling: the plan authorized under the ratified brief on the second verdict | internal mechanics | not audited | - | -
+  - Ruling: left as it is, the mandate's rule on a pointer removed in range also covering one replaced by an objection | internal mechanics | not audited | - | -
+  - Ruling: review findings applied (the hand-over; the reporting rule) | maps to the brief | inferred | brief: "setup finds it, records the pointer to it"; "Nothing nags." | -
+  - Ruling: standing in for the fixture's user, answering to keep to the philosophy, approving the fixture plan | maps to the brief | inferred | brief, Pass conditions ("Agent-checkable"); scenario 2 | -
+  - Ruling: the fixtures' ratification lines kept in files of their own | internal mechanics | not audited | - | -
+  - Ruling: this refresh's setup report goes to the owner through the closeout | maps to the brief | inferred | brief: "setup's report is where he hears of it" | -
+  - Ruling: final review findings applied (records in full, lesson, change stored as before and after) | internal mechanics | not audited | - | -
+  - Ruling: the first closeout verdict counts despite the auditor's disclosed order of reading | internal mechanics | not audited | - | - (the audited party ruling on its own audit; this second verdict now stands beside it, and the plan says the ruling is shown to the owner)
+  - Ruling: the second finding escalated as a value question; detection, close and publication held for the answer | maps to the brief | cited | brief, the 2026-10-06 statement, which records the question and his answer | - (tightens a stop)
+  - Ruling (Task_5): where several documents fit and one may belong to something else, the several-fit branch stays | maps to the brief | inferred | brief: "Where the only document that fits looks as if it may belong to something else"; "setup will sometimes list one as missing when it exists. A sentence from the person corrects it." | direction (see the first observation)
+
+  Decision records changed after acceptance: none. No file under `docs/coding-agent-orchestration-harness/decisions/` differs between `6935b2c3` and the working tree.
+
+  Human-only conditions pending: "his first setup on a repository of his own, judged by whether what he was shown as missing was clear and whether anything pushed him."
+
+  Scenarios (prior state of each in the run record: `not yet`):
+  - **1: demonstrated.** Observe in `tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/RUN-2026-10-05-records/setup-reports.md`, section `no-philosophy`: the whole report and rule file, both philosophies none yet with what each gives and how to start. Repeat by the fixtures' `README.md`. The report also states the decision-record default and that placing a convention will be offered again; I did not count that as listed as missing.
+  - **2: demonstrated.** Observe in the same file, section `with-product-philosophy` (pointer `Product philosophy: docs/product/what-tally-is-for.md` recorded and reported, only the engineering line none yet), and in `RUN-2026-10-05-records/plan-draft-verdict.md` and `closeout-verdict.md` (both name that philosophy, located by the pointer line, as product basis, with no `ask-now`). The write-up states its own limits: this run's Orchestrator dispatched every step and stood in for the user, and the agents had this repository's commit subjects in context.
+  - **3: not yet.** The text is built in `counsel/SKILL.md` and `orchestration-harness/SKILL.md`, but no Counsel session and no Orchestrator session was opened in the scenario 1 repository.
+  - **Not a scenario of the run record:** the held-document behaviour was observed on the third fixture (`setup-reports.md`, section `with-foreign-philosophy`): no pointer, the awaiting line, the file and the reason brought. The person's yes or no being applied and a later refresh leaving the line alone were not shown, as the write-up says.
+  - **Getting closer: yes.** Every prior state is `not yet`; two scenarios are now observed on fixtures with the setup replies stored in full, and the wrong-pick case the first closeout surfaced was answered by the owner, built and observed.
+
+  ### Observations outside the record, with no effect on any grade
+  - **A foreign document can hide the repository's own.** With the several-fit branch, a repository holding its own ratified philosophy and a vendored project's ends at "none yet", with both files named once in the report. His 2026-10-06 words prefer hold-and-ask over "just being reported that the philosophy is missing". The brief's means covers the built behaviour, so the grade is `inferred`, but no finding records the case. It is the likeliest shape of the vendored case, so it is worth showing him with the `direction` mark.
+  - **Decision-record line at first setup.** Setup still reports "Decision records: no repo convention", with an offer to place one "again at the next rule-suite refresh". It predates this change, but he may read it as a second thing listed as missing; that bears on the human-only condition.
+  - **Whose ratification.** The detection text asks for "the owner's quoted words with a date"; for a product philosophy the ratifier is the product owner, who may not be the owner. The third fixture's agent still recognised a record by "the wordlist project's owner".
+  - **Untracked files.** `.claude/pr67body.tmp` is a pull request body for an older plan, and `.claude/settings.local.json` was not opened. Neither belongs to this run; keep both out of what is pushed.
+  - **Still not recorded.** The plan's header reads `status: in_progress` and the run record still shows every scenario `not yet`; both change when the plan closes.
+
+  Files:
+  - `[machine path redacted]\docs\coding-agent\plans\active\setup-names-what-is-missing-plan.md`
+  - `[machine path redacted]\docs\coding-agent\briefs\active\setup-names-what-is-missing-brief.md`
+  - `[machine path redacted]\docs\coding-agent\plans\active\setup-names-what-is-missing-run.md`
+  - `[machine path redacted]\docs\coding-agent\plans\active\setup-names-what-is-missing-readings.md` (opened once, after the grades were fixed)
+  - `[machine path redacted]\docs\coding-agent\rules\common.md`
+  - `[machine path redacted]\plugins\coding-agent-orchestration-harness\skills\rulebook\references\bootstrap-lifecycle.md`
+  - `[machine path redacted]\plugins\coding-agent-orchestration-harness\skills\rulebook\references\rules-files.md`
+  - `[machine path redacted]\plugins\coding-agent-orchestration-harness\skills\orchestration-harness\references\value-audit-mandate.md`
+  - `[machine path redacted]\tests\coding-agent-orchestration-harness\fixtures\setup-philosophy\RUN-2026-10-05.md`
+  - `[machine path redacted]\tests\coding-agent-orchestration-harness\fixtures\setup-philosophy\RUN-2026-10-05-records\setup-reports.md`
+
+  How the Orchestrator applied it: no item is `ask-now` or `ungraded`, so nothing is held. Scenarios 1 and 2 are `demonstrated`, scenario 3 is `not yet`, and the audit judges the run is getting closer; nothing of the brief is left to build, so the plan closes and with it the run. Two decisions are marked `direction` and are shown to the owner at closeout as the verdict states them: which fitting document setup records without asking, and that where several documents fit, wherever each sits, setup records none and lists the philosophy as none yet. The auditor adds that the second can hide a repository's own philosophy behind a vendored one, against the grain of his answer of 2026-10-06; that is recorded as a finding read as bearing on the design and is put to him in the closeout itself, the moment it was found. On the auditor's process disclosures the Orchestrator rules as it did for the first closeout verdict, that the verdict counts: the readings file was opened once, after every grade, and every content-printing command carried the exclude pathspecs; the plan and brief were opened in the same batch as the mandate. That ruling is the audited party's own and is shown at closeout. No item rests on a provisional statement. The comparison found no finding misread and set four readings apart from their grades in class only (parts of Task_5's text and the not-settled line read as covered that the audit grades as extensions; the ruling on the first verdict), corrected in the readings file with nothing in the built text to redo, so no further dispatch follows.
+- 2026-10-06 Plan closed: Tasks 1, 2, 3 and 5 done; Task_4's refresh and closeout audit done, and the publication of the branch with its pull request and the note to Counsel follow this commit. Required validation: package validator and smoke tests pass; the template block byte-identical to this plan's start revision; final review APPROVED, Task_5 reviewed and approved after it.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-05 Decision: requirement challenge before decomposition.

@@ -176,6 +176,29 @@ Item | reading | statement relied on
 - The ruling that the first closeout verdict counts despite the auditor's disclosed order of reading | extends | no statement of this brief
 - Scenarios, the Orchestrator's expectation only: 1 and 2 demonstrated on the fixtures, as the first closeout audit stated; 3 not yet.
 
+#### The audit's comparison, closeout, second dispatch (2026-10-06), as returned
+
+Reading compared (heading "closeout, second dispatch", which keeps the earlier closeout readings as corrected):
+- DoD 1 to 7, Planner-added 1 to 5, the version bump, Non-goals, A1 to A3, Task_1 to Task_4, Decision Log 1, 3 and 6: agrees
+- Planner-added 6, Decision Log 7 and the First Step as a change: agrees with the corrected reading (mechanics, not graded)
+- Decision Log 2, 4, 5: unread
+- The 2026-10-06 statement as support, and Decision Log 8 with the escalation ruling: agrees (covered against cited)
+- Task_5 and its text: agrees on the hold, the report and the yes. Diverges on two parts read `covered`: the person's no leaving a none-yet line that names the file and is never brought again, and an awaiting line being told once. Audit: `inferred`; the statement says neither.
+- One fitting document plainly the repository's own; how "may belong to something else" is judged; several fitting with one foreign; the third fixture: agrees (extends against inferred). The audit adds `direction` to the several-fit ruling.
+- Every none-yet or not-settled line is not a pointer; Counsel mentions an awaiting line: agrees for the none-yet line and Counsel's none-yet mention. Diverges for the not-settled line and Counsel's awaiting mention (Orchestrator: covered; audit: inferred, the Limits statement speaks of philosophies marked missing).
+- The ruling that the first closeout verdict counts: diverges (Orchestrator: extends; audit: not audited, internal mechanics)
+- Task_5 Worker judgement calls on the gone awaiting file and on the opening words of the non-pointer forms; the rulebook cross-reference; the lessons entry; the rulings on authorization, on what was left as it is, on the refresh report and on the final review fixes: unread
+
+Findings compared:
+- Finding 1 (auditors opened a readings file; trivial): agrees
+- Finding 2 (another project's ratified philosophy recorded by setup; now recorded as bearing on the design, escalated, answered and built): agrees
+- Finding 3 (order when a request contradicts a philosophy; bears on the design): agrees
+- Finding 4 (no route to the product owner in a run on a philosophy alone; bears on the design): agrees
+- Finding 5 (the reading can go stale, and the rest; trivial): agrees
+- Departures from a means: none noted on any item line.
+
+Readings corrected after this comparison: a no that leaves a none-yet line naming the file, an awaiting line told once, the not-settled line not being a pointer and Counsel's mention of it are extensions of the brief's added statement; the ruling on the first verdict is mechanics the audit does not grade.
+
 ## Findings
 
 - Four Auditor dispatches in two days opened a readings file before grading, two of them running on this run's fixture; the mandate's instruction did not hold. Reading: trivial as to what he experiences (no grade was given on a seen reading), but it blocked this run's evidence; built here as the mandate's First Step, the Orchestrator's addition.
@@ -184,3 +207,4 @@ Item | reading | statement relied on
 - The built text does not say which comes first when a request itself contradicts a philosophy: the question before planning, or the plan-draft audit; nor what "search the documents before escalating" means when the documents answer against the user's explicit request (the fixture's Orchestrator asked first). Reading: bears on the design, as it decides whether a person is asked or planned against; outside this brief, which is about setup; no part of this plan is held by it.
 - In a run on a philosophy alone whose user is not the product owner, no text names a route to the product owner. Reading: bears on the design; outside this brief; nothing here is held by it.
 - The reading is written before the plan review and can go stale when the review changes the plan; the reading's three values have none for an item the audit will not grade; a plan file has to exist half-made to hold the research waiver and start revision before requirement questions are settled. Reading: trivial; mechanics.
+- Where a repository holds its own ratified philosophy and another project's, the several-fit branch records neither and lists the philosophy as none yet, naming both once in the report; his answer of 2026-10-06 prefers holding and asking to being told it is missing (pointed out by the second closeout auditor). Reading: bears on the design. Put to him in the run's closeout, where the audit's `direction` mark already shows the decision; nothing more is built on it meanwhile.
