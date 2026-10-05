@@ -75,6 +75,40 @@ Item | reading | statement relied on
 - Task_3: the fixture's later run passes the built text's own gates, this run's Orchestrator standing in for the fixture's user | extends | brief, scenario 2
 - Decision Log: the line redone after the first verdict, nothing asked of the owner | covered | the earlier brief's amendment: "A line the Orchestrator adds to its own plan that your documents do not support is the Orchestrator's to drop or redo so that the plan follows the brief." (not this brief; this brief is silent on it)
 
+#### The audit's comparison, plan draft, second dispatch (2026-10-05), as returned
+
+Reading compared (heading "plan draft, second dispatch", which keeps the first heading's readings except where it changes them):
+- DoD 1: agrees
+- DoD 2: agrees
+- DoD 3: agrees
+- DoD 4: agrees
+- DoD 5: diverges (Orchestrator: covered as mechanics; audit: not audited, internal mechanics on a side with no document)
+- DoD 6: agrees
+- DoD 7: agrees
+- Planner-added 1: agrees
+- Planner-added 2: agrees
+- Planner-added 3 (objection line): agrees
+- Planner-added 4 (refresh): agrees
+- Planner-added 5 (this repository's rule file): agrees
+- Planner-added 6 (version bump): diverges (Orchestrator: covered as mechanics; audit: not audited)
+- Non-goals, read as one item: agrees for "Left out on purpose" and for no change to how a philosophy is written; diverges for no script, no validator and the dispatch templates (Orchestrator: covered; audit: not audited)
+- A1: agrees
+- A2: agrees
+- A3: diverges (Orchestrator: covered; audit: inferred, the brief does not state the run's size or who dispatches it)
+- Task_1: diverges (Orchestrator: covered as mechanics; audit: not audited)
+- Task_2: agrees
+- Task_3: read twice. Agrees with the reading of the stand-in (extends); diverges from the reading of the task as a whole (Orchestrator: covered; audit: inferred)
+- Task_4: agrees
+- Decision Log 1: agrees
+- Decision Log 2: unread
+- Decision Log 3: agrees on the grade (the statement the reading relies on is from another brief, as the reading itself says; the audit's support is this brief's scenario 2)
+- Decision Log 4: unread as an entry (its two parts are read under Planner-added 3 and Task_3)
+- The Orchestrator also read "Design" and "Compatibility stance"; the mandate lists neither as a plan item, so they carry no grade.
+
+Findings compared: none found (the readings file records no finding; no item line notes a departure from a means)
+
+Readings corrected after this comparison: A3 and Task_3 as a whole are extensions (the brief does not state the run's size or who dispatches it); the acceptance of a record by name, the version bump, Task_1, no script, no validator and the templates are mechanics the audit does not grade.
+
 ## Findings
 
 - None yet.
