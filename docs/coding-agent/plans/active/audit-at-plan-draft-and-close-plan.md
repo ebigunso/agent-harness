@@ -1,6 +1,6 @@
 # Plan: The value audit at a plan's draft and close
 
-- status: draft
+- status: in_progress
 - generated: 2026-10-05
 - last_updated: 2026-10-05
 - work_type: docs
@@ -110,6 +110,45 @@
   ```text
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: none.
   ```
+
+- 2026-10-05 Plan-draft audit, verdict as returned (the two comparison lines are logged in the readings file, not here):
+
+  Value audit verdict record (plan draft). Every graded item is `cited`; there is no `ask-now` and no `ungraded` item. The engineering side has no document, so its items are `not audited`.
+
+  - `Position: plan draft`
+  - `Documents read: docs/coding-agent/briefs/active/value-level-operation-brief.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md; docs/coding-agent/rules/common.md (sections "Repository Reference Documents" for pointer lines and "Standing Approvals", checked against HEAD, file unmodified in the working tree); instructions only: plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md, plugins/coding-agent-orchestration-harness/skills/value-documents/SKILL.md`
+  - `Product basis: brief in the product owner's words` ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository yet.")
+  - `Not audited: engineering side; common.md carries no pointer line to an engineering philosophy (nor to a product philosophy), so internal-mechanics items have no document`
+  - `Missing inputs: none`
+  - `Value documents changed in range: none` (plan draft, no range; the 2026-10-05 amendment is committed at 2e237902 and carries the owner's quoted words with the date beside each of the two amended lines)
+
+  Items (`item | scope | grade | support | notes`):
+
+  - DoD 1: plan-mode audit at a plan's draft and close and at no other moment; no text asks for a wave-boundary audit of a plan | maps to the brief | cited | brief, Value audit: "It runs by position: at each plan's draft and at each plan's close, and nowhere between." | -
+  - DoD 2: a goal-mode run's audit moments unchanged | maps to the brief | cited | brief, Value audit: "In a goal-mode run it runs as the accepted record on goal mode states." | -
+  - DoD 3: plan-review instructions have the Reviewer report a plan that is unacceptably long | maps to the brief | cited | brief, Value audit: "A plan review catches a plan that is unacceptably long." | -
+  - DoD 4: fixed dispatch template byte-identical to the start revision | internal mechanics | not audited | - | -
+  - DoD 5: package validators and smoke tests pass; Reviewer APPROVED | maps to the brief | cited | brief, Pass conditions: "the package validators pass" | the Reviewer approval part is internal mechanics, not audited
+  - DoD 6: run closes with branch published on the stack, pull request opened under the standing approval, note to Counsel sent, nothing merged | maps to the brief | cited | common.md, Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." (in effect: committed, records the giver and the acceptance "The common rule proposed, accepted." dated 2026-09-30; whether those words were said is not something the file can show); brief: "Merges happen only on your explicit instruction for each pull request."; brief: "Closeout reports "candidate ready": evidence for agent-checkable conditions, human-only conditions pending, and the collected judgement calls."; brief: "When the Orchestrator needs his authority or judgement it escalates to Counsel, and Counsel brings it to him." | the note to Counsel is read as the run's own reporting channel to the owner, not as outward-facing; the publish and the pull request pass step 1 on the standing approval
+  - Planner-added: one plugin version bump across the three manifests | internal mechanics | not audited | - | -
+  - Non-goal: the fixed dispatch template and its `wave boundary` fill-in stay | internal mechanics | not audited | - | -
+  - Non-goal: goal mode | maps to the brief | cited | brief: "In a goal-mode run it runs as the accepted record on goal mode states." | -
+  - Non-goal: no decision record changed or proposed | maps to the brief | cited | brief: "Decision records (ADRs) stay for architectural forks; the why names the tenet served." | the plan's claim that no record fixes the positions was checked by search: no decision record or rule file mentions a wave-boundary audit
+  - Non-goal: no numeric limit on a plan's length | maps to the brief | cited | brief: "A plan review catches a plan that is unacceptably long." | the plan adds nothing to the statement
+  - A1: the template's Position fill-in keeps its three values; `wave boundary` unused in a plan-mode run | internal mechanics | not audited | - | -
+  - Task_1: two positions in the plan-mode text; wave-boundary lines and what serves them removed; plan-review snippet reports an unacceptably long plan and states that no audit runs between draft and close | maps to the brief | cited | brief: "It runs by position: at each plan's draft and at each plan's close, and nowhere between."; brief: "A plan review catches a plan that is unacceptably long." | the fact offered to the Reviewer restates the first line
+  - Task_2: close the plan and the run (closeout audit by the fixed template, push, pull request, note to Counsel, `candidate ready`, privacy sweep, nothing merged) | maps to the brief | cited | brief: "at each plan's close"; common.md standing approval as quoted at DoD 6 (same caveat); brief: "Closeout reports "candidate ready""; brief: "machine-specific user names and paths must not leak, and anything of that kind in a quote is redacted before it ever reaches the remote."; brief: "Merges happen only on your explicit instruction for each pull request." | -
+  - Decision Log 1: requirement challenge: no record proposed, no numeric limit, no definition of "unacceptably long", the Reviewer judges | maps to the brief | cited | brief: "A plan review catches a plan that is unacceptably long."; brief: "Decision records (ADRs) stay for architectural forks" | -
+  - Decision Log 2: draft-plan review findings applied (design comparison, compatibility stance `break`, planner-added length measure dropped) | maps to the brief | cited | brief: "A plan review catches a plan that is unacceptably long." (the dropped measure leaves the brief's words); brief: "It runs by position: at each plan's draft and at each plan's close, and nowhere between." (the stance breaks only the cadence the owner amended) | the design-form and stance bookkeeping is internal mechanics
+
+  - `Human-only conditions pending: "the discussion with Counsel does not feel like filling in a form"; "the stops during a run were each right, neither skipping a decision that needed him nor stopping on something the documents answered"; "the closeout let him judge by behaviour, with implementation detail only where his judgement needed it and the reason stated"; "judged through first real use on Character Memory"` (the plan lets no proxy settle any of them)
+  - `Scenarios: none`
+  Notes outside the record:
+  - The dispatch text matched the fixed template. The session also carried harness-injected skill and hook text (engineering-quality-baselines, ponytail); neither is an account of the work, so the audit was graded.
+  - The plan's Context quotes a relay, "Yes, do it first before the next one prepared." That quote is not in the brief and was disregarded. No grade depends on it.
+  - Discussion notes were not opened. The readings file was opened once, after the grades were fixed.
+
+  How the Orchestrator applied it: no item is `ask-now` and none is `ungraded`. With the brief ratified on 2026-09-30, its amendment of 2026-10-05 carrying the owner's words, the plan review closed with no finding open, and this verdict, the plan is authorized under the ratified brief; this records no approval by the owner. No item rests on a provisional statement, so nothing goes to Counsel. The comparison set four readings apart from their grades in class only (things read as extensions that the audit holds to be mechanics or stated by the brief); the readings are corrected in the readings file and nothing in the plan needs redoing for them.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-05 Decision: requirement challenge before decomposition.

@@ -12,4 +12,4 @@ The brief lists no scenarios; its pass conditions are graded by the audit.
 
 | Plan | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md` | draft | - |
+| `docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md` | authorized under the ratified brief 2026-10-05; in progress | - |

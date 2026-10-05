@@ -24,6 +24,27 @@ Item | reading | statement relied on
 - Decision Log: no record proposed, no count | extends | brief: "A plan review catches a plan that is unacceptably long."
 - This run audited at its plan's draft and close only | covered | brief: "and nowhere between"
 
+#### The audit's comparison, plan draft (2026-10-05), as returned
+
+- `Reading compared:`
+  - DoD 1: agrees
+  - DoD 2: agrees
+  - DoD 3: agrees
+  - DoD 4: diverges (Orchestrator: extends, on "It runs by position…"; auditor: internal mechanics, not audited)
+  - DoD 5: agrees (covered against cited; the auditor quotes the pass condition where the Orchestrator named no statement)
+  - DoD 6: agrees
+  - Planner-added version bump: diverges in form only (Orchestrator: covered as mechanics; auditor: not audited, same classification)
+  - Non-goals, read by the Orchestrator as one item, extends: diverges (auditor: template not audited; goal mode, no record and no numeric limit each cited)
+  - A1: diverges (Orchestrator: extends; auditor: internal mechanics, not audited)
+  - Task_1: agrees
+  - Task_2: agrees
+  - Decision Log 1: diverges (Orchestrator: extends; auditor: cited, the entry adds nothing to the brief's statement)
+  - Decision Log 2: unread
+  - The Orchestrator also read three things the mandate does not list as items, and they were not graded: Design, Compatibility stance, and "this run audited at its draft and close only".
+- `Findings compared: none found` (the readings file records "None yet"; no departure from a means was noted on any item line)
+
+Readings corrected after this comparison: the fixed template kept byte-identical, the template's three position values (A1) and the template non-goal are mechanics; the Decision Log's requirement challenge and the non-goals on goal mode, records and a numeric limit are covered by the brief's two amended lines.
+
 ## Findings
 
 - None yet.
