@@ -66,7 +66,8 @@ last_updated: "YYYY-MM-DD"
 
 ## Repository Reference Documents
 
-- None recorded yet.
+- <product philosophy line>
+- <engineering philosophy line>
 
 ## Repository-Specific Validation Commands
 
@@ -85,6 +86,8 @@ For fresh suites, add one optional Decision Records line under Repository Refere
 
 - `Decision records: follow <path>; match the existing ADRs' numbering and sections.`
 - `Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).`
+
+Replace the two philosophy placeholders with the lines `references/bootstrap-lifecycle.md` (Philosophy Lines) decides, in the forms `references/rules-files.md` gives.
 
 ## worker.md
 

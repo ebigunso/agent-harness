@@ -42,6 +42,14 @@ common.md may additionally include one optional Decision Records line recording 
 
 Set and update this line only through the detection/placement procedure in `references/bootstrap-lifecycle.md`, and always report what was recorded.
 
+Repository Reference Documents also holds exactly one line for each of the two philosophies, in one of three forms:
+
+- Pointer: `<Product | Engineering> philosophy: <path>`
+- None yet: `<Product | Engineering> philosophy: none yet. Once it exists, <what it gives>. To start one, open a Counsel session.`
+- None yet, after an objection: `<Product | Engineering> philosophy: none yet; <path> is not it. Once it exists, <what it gives>. To start one, open a Counsel session.`
+
+`<what it gives>` is `work here is held to the behaviour the product owner wants from the product` for the product philosophy and `work here is held to how the owner wants the project to look` for the engineering philosophy. Only the first form is a pointer line; an existing pointer line in other wording keeps it. Set these lines only through `references/bootstrap-lifecycle.md` (Philosophy Lines), which also says what is reported.
+
 common.md may additionally include an optional Standing Approvals section (approvals given for all future runs), added or changed only as `orchestration-harness/references/value-level-operation.md` states.
 
 3) worker.md must include:

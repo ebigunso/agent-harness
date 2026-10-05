@@ -27,7 +27,7 @@ Four document types in the target repository carry what the person directing the
 | Discussion notes | `<initiative>-notes.md`, in the same folder as its brief | Counsel; the Orchestrator for three kinds of entry | Counsel, Orchestrator; never the auditor |
 
 - The two philosophies have no fixed path. Each is located only by a pointer line in the target repository's `docs/coding-agent/rules/common.md`, section "Repository Reference Documents". That pointer line is the only location there is.
-- A pointer line is added, removed or repointed by the Orchestrator only, and only on the owner's word. Counsel never edits rule files.
+- A pointer line is added, removed or repointed by the Orchestrator only, and only on the owner's word, with one exception: setup, the `rulebook` skill's bootstrap and refresh, records a pointer line itself for a document as that skill states (`skills/rulebook/references/bootstrap-lifecycle.md`, Philosophy Lines), the person hears of it in the setup report, and the person's objection removes it. Counsel never edits rule files.
 - "Only" in the Changed by column means the text changes only on that person's ratification, and Counsel writes what was ratified. The Orchestrator, its subagents and the auditor never edit either philosophy.
 - Briefs have the lifecycle plans have. A brief is written under `docs/coding-agent/briefs/active/` and is under `docs/coding-agent/briefs/completed/` once the owner has accepted its final stack of pull requests; its discussion notes are in the same folder as the brief in either state.
 - A completed brief authorizes nothing: only a brief under `active/` can govern a run.

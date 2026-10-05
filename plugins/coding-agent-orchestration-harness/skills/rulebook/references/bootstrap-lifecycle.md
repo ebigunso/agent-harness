@@ -49,6 +49,22 @@ Placement is a repository mutation and is gated on explicit user approval at boo
 
 At targeted refresh, verify the Decision Records line against tracked paths only (`git ls-files`, the same scope as bootstrap detection) and flag any contradiction (pointer to a missing convention, or an unrecorded tracked convention present) to the user.
 
+## Philosophy Lines
+
+At full bootstrap and at every targeted refresh, the Repository Reference Documents section of `common.md` holds exactly one line for each of the two philosophies, product and engineering, in one of the three forms `references/rules-files.md` gives. For each philosophy:
+
+- An existing pointer line is left as it is. At refresh, a pointer whose file is gone or moved is flagged to the user and the line left unchanged; removing or repointing it is on the owner's word (`skills/value-documents/SKILL.md`).
+- With no pointer line, look among tracked paths only (`git ls-files`, the same scope as decision-record detection) for a document that states, in whatever words, that it is this repository's product philosophy or its engineering philosophy and that carries a ratification record, the owner's quoted words with a date, as `skills/value-documents/SKILL.md` requires of every philosophy. This is how setup looks, not a form a philosophy must take. A file a none-yet line names as not the philosophy is never recorded again.
+  - Exactly one such document: record its pointer line without asking.
+  - More than one: record none and write the none-yet line.
+  - None: write the none-yet line.
+  - A none-yet line keeps naming any file the line it replaces named as not the philosophy.
+- The person's objection to a pointer setup recorded replaces it with the none-yet line naming that file.
+
+Report in the bootstrap or refresh output each pointer line recorded and its file; the files found where more than one fitted; and each philosophy now none yet, with what it gives and that it starts by opening a Counsel session. Nothing else is reported as missing. A refresh that changes none of these lines says nothing of them, so a missing philosophy is told once, when its line is first written.
+
+Setup never writes, drafts, starts, templates or offers a form for a philosophy's content, and infers none from the repository's code or documents: a philosophy comes only from discussion with the person entitled to state it.
+
 ## Full Bootstrap Triggers
 
 Run full bootstrap when:
