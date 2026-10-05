@@ -2,13 +2,15 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-10-02"
+last_updated: "2026-10-05"
 ---
 
 # Common Repository Rules
 
 ## Repository Reference Documents
 
+- Product philosophy: none yet. Once it exists, work here is held to the behaviour the product owner wants from the product. To start one, open a Counsel session.
+- Engineering philosophy: none yet. Once it exists, work here is held to how the owner wants the project to look. To start one, open a Counsel session.
 - `plugins/coding-agent-orchestration-harness/README.md`: plugin layout, runtime paths, validators, Codex bootstrap commands, and ADR location.
 - Decision records: follow `docs/coding-agent-orchestration-harness/decisions/`; match the existing ADRs' numbering and sections.
 - `docs/coding-agent/plans/completed/`: completed implementation plans and validation history.

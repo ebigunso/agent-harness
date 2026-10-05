@@ -111,4 +111,8 @@ Readings corrected after this comparison: A3 and Task_3 as a whole are extension
 
 ## Findings
 
-- None yet.
+- Four Auditor dispatches in two days opened a readings file before grading, two of them running on this run's fixture; the mandate's instruction did not hold. Reading: trivial as to what he experiences (no grade was given on a seen reading), but it blocked this run's evidence; built here as the mandate's First Step, the Orchestrator's addition.
+- A repository that tracks another project's ratified philosophy (a vendored project, or a test fixture, as this repository's own fixture was) gets that file recorded as its philosophy by setup. Reading: trivial; the brief leaves a wrong pick to one objection, and the objection holds across refreshes. This repository's fixture was changed so that it is not one.
+- The built text does not say which comes first when a request itself contradicts a philosophy: the question before planning, or the plan-draft audit; nor what "search the documents before escalating" means when the documents answer against the user's explicit request (the fixture's Orchestrator asked first). Reading: bears on the design, as it decides whether a person is asked or planned against; outside this brief, which is about setup; no part of this plan is held by it.
+- In a run on a philosophy alone whose user is not the product owner, no text names a route to the product owner. Reading: bears on the design; outside this brief; nothing here is held by it.
+- The reading is written before the plan review and can go stale when the review changes the plan; the reading's three values have none for an item the audit will not grade; a plan file has to exist half-made to hold the research waiver and start revision before requirement questions are settled. Reading: trivial; mechanics.
