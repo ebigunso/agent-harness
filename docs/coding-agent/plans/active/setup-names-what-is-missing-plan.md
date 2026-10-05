@@ -139,7 +139,7 @@
   - docs/coding-agent-orchestration-harness/decisions/**
   - docs/coding-agent/rules/common.md
   - docs/coding-agent/plans/**
-- depends_on: [Task_1, Task_2, Task_3]
+- depends_on: [Task_1, Task_2, Task_3, Task_5]
 - description: |
   On the owner's acceptance naming the record the Orchestrator sets it accepted and logs the quoted words. After Task_3 it refreshes this repository's own common rule file under the built text, which lists both philosophies as missing here. It then closes the plan (closeout audit with its reading; final review) and the run: the branch pushed on the stack, a pull request opened under the standing approval, the note to Counsel, `candidate ready`.
 - acceptance:
@@ -156,11 +156,42 @@
     owner: reviewer
     detail: "Final review of the branch vs this plan's Definition of Done"
 
+### Task_5: A document that may belong to something else is held for the person's confirmation
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/references/rules-files.md
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/references/rule-suite-templates.md
+  - plugins/coding-agent-orchestration-harness/skills/counsel/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-level-operation.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md
+  - tests/coding-agent-orchestration-harness/fixtures/setup-philosophy/**
+- depends_on: [Task_2, Task_3]
+- description: |
+  Added on the owner's answer of 2026-10-06, now a gives-statement of the brief under "A philosophy that already exists". Where the only document that fits looks as if it may belong to something else in the repository (a vendored project, an example, a test fixture), setup records no pointer by itself and does not list the philosophy as simply missing: it holds the decision and brings what it found to the person for confirmation; the person's confirmation records the pointer, and the person's no is an objection. A third fixture carries a ratified product philosophy inside a vendored project's files.
+- acceptance:
+  - For such a document setup writes a line that is not a pointer and not the plain none-yet line: it names the file as found and awaiting the person's word; the report brings the file and why it may belong to something else, and asks for confirmation; a later refresh that changes nothing does not ask again.
+  - The person's yes replaces the line with the pointer; the person's no replaces it with the none-yet line naming that file, which is never recorded or brought again.
+  - The awaiting line turns value-level operation neither on nor off, and no run mentions it; a Counsel session mentions it once when it opens.
+  - The value audit's fixed dispatch template is byte-identical to this plan's start revision.
+  - On the third fixture a fresh agent following the setup text records no pointer, writes the awaiting line and brings the file for confirmation.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "python scripts/validate_harness_package.py; python scripts/run_validation_smoke_tests.py; git diff --check; hash of the template block against the start revision"
+  - kind: manual
+    required: true
+    owner: reviewer
+    detail: "A fresh agent's setup on the third fixture in a temporary repository; diff review against the brief's added statement"
+
 ## Task Waves (explicit parallel dispatch sets)
 - Wave 1: Task_1
 - Wave 2: Task_2
 - Wave 3: Task_3
-- Wave 4: Task_4
+- Wave 4: Task_5 (added 2026-10-06)
+- Wave 5: Task_4
 
 Task_2 waits for the owner's acceptance of the record, or for the admission test to fail.
 
@@ -487,6 +518,12 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
   - Plan delta (what changed): one planner-added requirement, built at once: the mandate tells the auditor to read it alone first, list the paths it will not open, open one named path at a time and copy the exact exclude pathspecs. Needed because: this run's own closeout audits, on the fixture and at the plan's close, cannot be relied on to return a verdict without it, and a further dispatch on unchanged text is not a remedy. The brief does not ask for it; it is the Orchestrator's addition and the closeout audit grades it.
   - Tradeoffs considered: a hook that denies the read; not taken, the text change is smaller and is tried first. Leaving it for a later run; not taken, this run cannot close its fixture evidence without a verdict.
   - User approval: not applicable; it tightens the audit's boundary
+  - Record proposed: none
+- 2026-10-06 Decision: the owner's answer to the value question; one task added.
+  - Trigger / new insight: Counsel's relay of his answer, quoted in full: "I take neither. I think it is better if the setup procedure notices such a problem, it holds the decision and brings up the findings for confirmation. This way nothing obviously awkward quietly passes, and it is easier when you actually want to take that compared to just being reported that the philosophy is missing." The brief on disk carries it as a gives-statement with his words.
+  - Plan delta (what changed): Task_5 is added: for a document that fits but may belong to something else in the repository, setup holds the decision and asks. The hold on setup's detection is released for that task. The part of the planner-added detection rule that had setup record such a document without asking is replaced by his statement. The close stays held until Task_5 is built, reviewed, shown on a third fixture, and the closeout audit has graded the result.
+  - Tradeoffs considered: none; his answer decides it. How setup tells that a document "looks as if it may belong to something else" is left to the text: the brief's own examples (a vendored project, an example, a test fixture) and where the file sits.
+  - User approval: the owner's answer above
   - Record proposed: none
 
 ## Notes
