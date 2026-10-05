@@ -160,6 +160,22 @@ Findings compared:
 
 Readings corrected after this comparison: the mandate's First Step is mechanics the audit does not grade; Counsel's opening is what the brief's scenario 3 states.
 
+### `setup-names-what-is-missing-plan.md`, closeout, second dispatch
+
+Item | reading | statement relied on
+
+- Every item read under this plan's closeout heading above keeps that reading as corrected after its comparison, with these changes and additions.
+- The brief changed in the range: one gives-statement added on 2026-10-06 with the owner's words (a document that may belong to something else is held for his confirmation) | covered | brief, the statement itself, with its ratification record beside it
+- Task_5 and its text: one fitting document that may belong to something else gets the not-settled line; the report brings the file and why; his yes records the pointer, his no leaves none yet naming the file; told once | covered | brief: "setup records nothing by itself and does not list the philosophy as simply missing: it holds the decision and brings what it found to the person for confirmation."
+- The detection rule as now built: one fitting document that is plainly the repository's own is recorded without asking | extends | brief: "setup finds it, records the pointer to it, and says in its report that it did"
+- How setup judges "may belong to something else" (where the file sits and what the files around it are) | extends | brief: "(a vendored project, an example, a test fixture)"
+- Where several documents fit and one may belong to something else, none is recorded and the files are named | extends | brief: "Where the only document that fits looks as if it may belong to something else"
+- Every line that is none yet or not settled is not a pointer; Counsel mentions an awaiting line once at opening | covered | brief, Limits: "behaves exactly as a run does today in a repository without one"; "A Counsel session sees those lines when it opens"
+- The third fixture and its run; the three setup replies stored in full | extends | brief, Pass conditions: "scenarios 1 and 2 hold on a fixture repository"
+- The value question sent on the first closeout audit's naming, the close held, the answer taken as a task | covered | brief, the statement added on 2026-10-06 records the question and his answer
+- The ruling that the first closeout verdict counts despite the auditor's disclosed order of reading | extends | no statement of this brief
+- Scenarios, the Orchestrator's expectation only: 1 and 2 demonstrated on the fixtures, as the first closeout audit stated; 3 not yet.
+
 ## Findings
 
 - Four Auditor dispatches in two days opened a readings file before grading, two of them running on this run's fixture; the mandate's instruction did not hold. Reading: trivial as to what he experiences (no grade was given on a seen reading), but it blocked this run's evidence; built here as the mandate's First Step, the Orchestrator's addition.
