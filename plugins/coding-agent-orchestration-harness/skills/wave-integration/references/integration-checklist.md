@@ -55,4 +55,3 @@ The packet for the chosen review kind is built per the Routes section of `SKILL.
 Skip this section when it is off (`orchestration-harness` `SKILL.md`, Repository Rule Entry).
 
 - Judgement calls (input; nothing waits on it): under the label `Judgement calls`, add to the Progress Log entry every `assumptions` entry, from every report in the wave, that records a choice the acceptance criteria left open. They are kept in the plan in full; which of them closeout shows is `skills/orchestration-harness/references/completion-closeout.md`'s. Workers are asked for nothing new.
-- Wave-boundary value audit: once this wave's review is complete, dispatch it and act on its verdict per `skills/orchestration-harness/references/value-level-operation.md` before dispatching the next wave.
