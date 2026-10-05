@@ -70,7 +70,9 @@ Item | reading | statement relied on
 - Definition of Done: a proposed record accepted by name before text is built on it; Task_1; the version bump; no script, no validator, the templates untouched | covered as mechanics; no statement needed
 - A3: the later run is a whole small run on the fixture, its agents fresh, dispatched by this run's Orchestrator | covered | brief, scenario 2
 - Task_3 | covered | brief, Pass conditions
-- Task_2, added: an objection is kept in the line that replaces the pointer; the setup report is where an Orchestrator session tells the person | extends | brief: "his objection removes it"; "Nothing nags."
+- Planner-added: an objection is kept in the line that replaces the pointer, in a form that is not a pointer | extends | brief: "his objection removes it"
+- Task_2: the setup report is where an Orchestrator session tells the person what is missing | covered | brief: "Those things are clearly presented as missing"; "no run reminds the person of it"
+- Task_3: the fixture's later run passes the built text's own gates, this run's Orchestrator standing in for the fixture's user | extends | brief, scenario 2
 - Decision Log: the line redone after the first verdict, nothing asked of the owner | covered | the earlier brief's amendment: "A line the Orchestrator adds to its own plan that your documents do not support is the Orchestrator's to drop or redo so that the plan follows the brief." (not this brief; this brief is silent on it)
 
 ## Findings
