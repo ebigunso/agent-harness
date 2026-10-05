@@ -138,6 +138,12 @@
 
 ## Progress Log (append-only)
 - 2026-10-06 Brief committed on the run's branch; the plan starts from revision 12b1892.
+- 2026-10-06 Plan review (Codex reviewer): NEEDS_REVISION with two MAJOR findings, applied (see the Decision Log); re-review at f7e676a APPROVED with no finding open. Plan validator passes.
+- 2026-10-06 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/middle-size-for-a-small-change-plan.md. Governing brief: docs/coding-agent/briefs/active/small-change-from-his-word-brief.md. Changes since: none.
+  ```
 
 ## Decision Log
 - 2026-10-06 Which record: the first draft proposed a new record and left ADR-D-0040 and ADR-D-0041 as accepted. The plan review found that wrong: ADR-D-0041 has a plan reviewed and audited before it is built, ADR-D-0040 rejects a brief authorizing with no audit judging the fit first, and the brief says the accepted record returns to the owner. The accepted records are revised in place and return by name.
