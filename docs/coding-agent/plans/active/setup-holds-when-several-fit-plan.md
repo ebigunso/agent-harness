@@ -106,6 +106,12 @@
 - The branch reverts on its own; no migration, no persisted data.
 
 ## Progress Log (append-only)
+- 2026-10-06 Plan review (Codex reviewer): NEEDS_REVISION with three minor findings, applied (see the Decision Log); re-review APPROVED with no finding open. Plan validator passes.
+- 2026-10-06 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: none.
+  ```
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-06 Decision: requirement challenge before decomposition.
