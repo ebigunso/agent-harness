@@ -60,6 +60,27 @@ Item | reading | statement relied on
 - Divergences at plan draft corrected in the readings only | covered | brief: "It runs by position: at each plan's draft and at each plan's close, and nowhere between."
 - This run audited at its plan's draft and close and at no wave boundary | covered | brief: "and nowhere between"
 
+#### The audit's comparison, closeout, second dispatch (2026-10-05), as returned
+
+- `Reading compared:`
+  - DoD 1, 2, 3, 6, Task_1, Task_2: agrees (covered against cited)
+  - DoD 4, A1, the template non-goal: agrees (read as mechanics after the plan-draft correction; not audited)
+  - DoD 5: agrees (covered; the auditor quotes the pass condition)
+  - Non-goals on goal mode, records and a numeric limit; Decision Log 1: agrees (covered against cited, as corrected)
+  - Decision Log 2: agrees (covered against cited)
+  - Planner-added version bump and manifests at 0.29.0: diverges (Orchestrator: covered as mechanics, no statement needed; auditor: user-facing because the installed version is visible, inferred from "the package validators pass" and "It ships as a first version.")
+  - The text as built (two positions, wave-boundary entry and checklist step gone): agrees. The per-wave revision, read inside that item as covered: diverges in class only (auditor: internal mechanics, not audited)
+  - The mandate's one line on `wave boundary`, goal-run section and template unchanged: agrees
+  - The plan-review snippet's line: agrees
+  - Worker's judgement calls: agrees (mechanics; not audited)
+  - Orchestrator's edit to the lesson: agrees (mechanics; not audited)
+  - This run audited at its plan's draft and close only: agrees (covered against cited)
+  - "Divergences at plan draft corrected in the readings only": not an item of the plan or the range; not graded
+  - Unread by the Orchestrator: the changed wording of the gate on the position; the new run record; the authorization ruling on the plan-draft verdict; the second closeout dispatch; research waived; the untracked `.claude/` files; the untracked brief
+- `Findings compared:` the one finding (a second auditor opened a readings file before grading; read as trivial): agrees. Acting on it would change no grade and nothing anyone experiences from the feature beyond a spared dispatch. No departure from a means was noted on any item line; the brief carries no kind marks.
+
+Reading corrected after this comparison: the version bump | extends | brief: "the package validators pass"
+
 ## Findings
 
 - A second auditor opened a readings file before grading (the first closeout dispatch of this plan; the earlier one was in the design-led long runs run), each time by building its inputs from a file listing. Each caught itself and returned ungraded, at the cost of one dispatch. Reading: trivial; nothing the owner experiences changes, since no grade was given on a seen reading. Not built in this plan, whose brief lines do not cover it: the mandate could give the literal exclude pathspecs to copy, so that the safe command is the default one.
