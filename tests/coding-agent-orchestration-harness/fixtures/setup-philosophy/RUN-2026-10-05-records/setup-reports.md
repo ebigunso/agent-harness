@@ -1,6 +1,6 @@
 # Setup reports, as returned
 
-Each agent's whole reply to the setup dispatch in `dispatches.md`: its setup report and the common rule file it wrote.
+Each agent's whole reply to the setup dispatch given in full in `../RUN-2026-10-05.md` ("What the agents were given"): its setup report and the common rule file it wrote.
 
 ---
 
