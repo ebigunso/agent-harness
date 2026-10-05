@@ -15,8 +15,8 @@ Item | reading | statement relied on
 - Definition of Done: a proposed record is accepted by name before text is built on it | extends | the earlier brief's amendment, "You still check a proposed decision record before anything is built on it."; this brief does not state it
 - Definition of Done: validators and review | covered | brief, Pass conditions: "the package validators pass"
 - Definition of Done: the run closes with its branch published and a pull request opened, nothing merged | covered | standing approval in `docs/coding-agent/rules/common.md` on publishing a finished, reviewed run
-- Planner-added: a pointer only for a file that names itself and carries a ratification record, and only when exactly one is found | extends | brief: "Where the repository already has a philosophy document, setup finds it, records the pointer to it, and says in its report that it did"; "A philosophy has no fixed path or name, so setup will sometimes list one as missing when it exists."
-- Planner-added: the missing line cannot be read as a pointer | covered | brief, Limits: "behaves exactly as a run does today in a repository without one"
+- Planner-added: setup looks among tracked files for a document that states which philosophy it is and carries a ratification record; with more than one it records none | extends | brief: "Where the repository already has a philosophy document, setup finds it, records the pointer to it, and says in its report that it did"; "A philosophy has no fixed path or name, so setup will sometimes list one as missing when it exists."
+- Planner-added: the missing line cannot be read as a pointer and turns value-level operation neither on nor off | covered | brief, Limits: "behaves exactly as a run does today in a repository without one"
 - Planner-added: the lines are derived again at every refresh, in earlier repositories too | extends | brief: "What is missing stays visible after the setup report is gone: the common rule file carries a line for each missing philosophy."
 - Planner-added: this repository's own rule file refreshed under the built text | extends | brief: "Someone opens a repository and runs the harness setup once."
 - Planner-added: one version bump | extends | brief: "the package validators pass"
@@ -25,7 +25,7 @@ Item | reading | statement relied on
 - Compatibility stance: preserve | covered | brief, Limits: "behaves exactly as a run does today"
 - A1: a gone pointer is flagged and left | covered | brief: "At refresh, a pointer to a file that is gone or moved is flagged, as it is for decision records."
 - A2: Counsel mentions once per session and offers | extends | brief: "A Counsel session sees those lines when it opens and may offer to start on one."; "Nothing nags."
-- A3: "a later run is kept to that product philosophy" shown by tracing the text | extends | brief, scenario 2
+- A3: "a later run is kept to that product philosophy" shown on the fixture by a plan draft and its audit, not a whole run | extends | brief, scenario 2
 - Task_1: one record, if the admission test passes, to the owner by name before text is built | extends | brief: "This changes a rule in force"
 - Task_2: setup, the pointer rule, Counsel's opening | covered | brief, all sections
 - Task_3: two fixture repositories and a fresh agent's setup on each | covered | brief, Pass conditions
