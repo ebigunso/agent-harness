@@ -18,4 +18,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 
 | Plan | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md` | draft | - |
+| `docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md` | authorized under the ratified brief 2026-10-06; in progress | - |

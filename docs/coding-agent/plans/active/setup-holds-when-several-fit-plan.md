@@ -1,6 +1,6 @@
 # Plan: Setup holds and asks when several documents fit
 
-- status: draft
+- status: in_progress
 - generated: 2026-10-06
 - last_updated: 2026-10-06
 - work_type: docs
@@ -112,6 +112,65 @@
   ```text
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: none.
   ```
+
+- 2026-10-06 Plan-draft audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
+
+  ## Value audit verdict: plan draft, setup-holds-when-several-fit
+
+  No item is `ask-now` and none is `ungraded`. Two procedural points are yours to rule on before logging:
+
+  - **Reading order.** The mandate says to read it alone and to its end before opening any other file. My first lookup for the mandate missed (it is not in the plugin cache, only in the repository), and the plan and the brief were opened in that same step, before the mandate was read. Both are inputs of this position. No notes file was opened, and the readings file was opened once, after the grades were fixed. The mandate voids an audit only for a readings file opened early, so I graded; re-dispatch if you read the first step more strictly.
+  - **Dispatch content.** The dispatch text matches the fixed template exactly. The context also carried harness-injected skill text (engineering-quality-baselines, a ponytail hook). Neither contains any account of the work, so I did not treat it as text beyond the template.
+
+  ### Verdict record
+
+  `Position: plan draft`
+
+  `Documents read: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md; docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md; docs/coding-agent/rules/common.md (Repository Reference Documents for pointer lines, Standing Approvals); docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md. Read to understand, not as support: plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md (Philosophy Lines), rules-files.md (line forms), counsel/SKILL.md line 33, orchestration-harness/references/completion-closeout.md (Closeout Under Value-Level Operation). Instructions: value-audit-mandate.md, value-documents/SKILL.md.`
+
+  `Product basis: brief in the product owner's words` (the brief: "product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."; ratification record present: "I ratify the brief, hand it over after the run closes.", 2026-10-05; the several-fit statement carries its own record: "Yes, hold and ask when several fit.", 2026-10-06)
+
+  `Not audited: engineering side; common.md reads "Engineering philosophy: none yet", which is not a pointer line, so that side has no document. The product philosophy line is also none yet; the product side is graded against the brief.`
+
+  `Missing inputs: none`
+
+  `Value documents changed in range: none` (plan draft; no range)
+
+  Item lines:
+
+  - DoD 1: several fitting documents: no pointer, an awaiting line naming the candidates and not the none-yet line, candidates brought in the report, the person's pick records the pointer | maps to the brief | cited | brief: "Where more than one document fits, setup likewise records nothing by itself and does not write the philosophy down as simply missing: it holds, shows the person the candidates, and the person picks." | -
+  - DoD 2: the rest of the philosophy step behaves as at the start revision | maps to the brief | cited | brief: "Where the repository already has a philosophy document, setup finds it, records the pointer to it, and says in its report that it did"; "Where the only document that fits looks as if it may belong to something else in the repository ... it holds the decision and brings what it found to the person for confirmation." | -
+  - DoD 3: shown on a fixture with two fitting documents by a fresh agent | internal mechanics | not audited | none; step 1 passed: reverting restores the prior state and nothing leaves the repository. It adds a check and changes none of the brief's pass conditions, and settles no human-only condition. | -
+  - DoD 4: the value audit's fixed dispatch template byte-identical | internal mechanics | not audited | none; step 1 passed | -
+  - DoD 5: package validators and smoke tests pass; Reviewer APPROVED | maps to the brief | cited | brief, Pass conditions: "Agent-checkable: the package validators pass" | -
+  - DoD 6: the run closes as completion-closeout.md states: branch published, pull request opened, note to Counsel, nothing merged | internal mechanics | not audited | Publishing and the pull request are outward-facing and covered by the standing approval in common.md: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." Its record: "Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: \"The common rule proposed, accepted.\"" The entry is committed at HEAD and no merge is planned. Whether the quoted words were said is not something the file can show. The note to Counsel I read as not outward-facing: it passes between the owner's own sessions working in this repository and reaches no person or system beyond them. No standing approval covers it, so if you read "a message sent" as catching it, that part is ask-now. | -
+  - Planner-added: on "none of them", the line that replaces the awaiting line names each candidate as not it | maps to the brief | inferred | extends brief: "it holds, shows the person the candidates, and the person picks."; "Nothing nags. Work runs as it does today while a philosophy is missing, and no run reminds the person of it." Cheap to undo: a text revert. | -
+  - Non-goal: any other branch of the philosophy step | maps to the brief | cited | the two statements quoted at DoD 2 | -
+  - Non-goal: the texts on what is not a pointer | internal mechanics | not audited | none; step 1 passed | -
+  - Non-goal: the fixed dispatch templates | internal mechanics | not audited | none; step 1 passed | -
+  - Non-goal: a decision record | internal mechanics | not audited | none; step 1 passed | -
+  - A1: a pick records that document's pointer, replaces the awaiting line, and nothing is written about the others | maps to the brief | inferred | The pick recording the pointer is the brief's "the person picks"; writing nothing about the unpicked candidates extends that statement and "Nothing nags." Cheap to undo. | -
+  - A2: "none of them" leaves the none-yet line naming each as not it | maps to the brief | inferred | extends brief: "the person picks"; "Nothing nags." Cheap to undo. | -
+  - Task_1: several fitting documents are held for the person to pick (setup text, line form, report, Counsel's opening mention, fourth fixture) | maps to the brief | cited | brief: "Where more than one document fits, setup likewise records nothing by itself and does not write the philosophy down as simply missing: it holds, shows the person the candidates, and the person picks."; for Counsel's mention, the means "A Counsel session sees those lines when it opens and may offer to start on one." Its "none of them" clause is the planner-added requirement, graded on its own line. | -
+  - Task_2: close the plan and the run | internal mechanics | not audited | the standing approval quoted at DoD 6, with the same reading of the note to Counsel | -
+  - Decision Log 1: no new line form, no record, no change to the texts on what is not a pointer | maps to the brief | inferred | extends brief: "setup likewise records nothing by itself ... it holds" (the same held state for one doubtful document and for several). Cheap to undo. | -
+  - Decision Log 2a: the record of rejected candidates is kept only for an explicit "none of them" | maps to the brief | inferred | as A1 and A2 | -
+  - Decision Log 2b: the fresh agent's fixture run moved into Task_1, before the review | internal mechanics | not audited | none; step 1 passed | -
+  - Decision Log 2c: the version bump dropped | internal mechanics | not audited | none; step 1 passed: nothing is released by this item | -
+
+  `Human-only conditions pending: "his first setup on a repository of his own, judged by whether what he was shown as missing was clear and whether anything pushed him."`
+
+  `Scenarios: none`
+
+  ### Files
+
+  - [machine path redacted]\docs\coding-agent\plans\active\setup-holds-when-several-fit-plan.md
+  - [machine path redacted]\docs\coding-agent\briefs\active\setup-names-what-is-missing-brief.md
+  - [machine path redacted]\docs\coding-agent\rules\common.md
+  - [machine path redacted]\docs\coding-agent\plans\active\setup-holds-when-several-fit-readings.md
+  - [machine path redacted]\plugins\coding-agent-orchestration-harness\skills\orchestration-harness\references\value-audit-mandate.md
+
+  How the Orchestrator applied it: no item is `ask-now` and none is `ungraded`. With the brief's ratification relayed by Counsel under the standing approval, the plan review closed with no finding open, and this verdict, the plan is authorized under the ratified brief; this records no approval by the owner. No item rests on a provisional statement. On the auditor's two procedural points the Orchestrator rules as in the earlier run that the verdict counts: the readings file was opened once, after the grades; the plan and brief were opened in the same step as the lookup for the mandate. The note to Counsel at closeout is the harness's own carrier between the owner's sessions, as every earlier audit of these runs read it. The comparison set readings apart from grades in class only, corrected in the readings file.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-10-06 Decision: requirement challenge before decomposition.

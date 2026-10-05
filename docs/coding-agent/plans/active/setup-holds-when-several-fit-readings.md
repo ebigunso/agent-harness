@@ -23,6 +23,29 @@ Item | reading | statement relied on
 - Task_2 | covered | standing approval on publishing a finished, reviewed run
 - Decision Log: no new form, no record | extends | brief: "It states what and why. How is the Orchestrator's"
 
+#### The audit's comparison, plan draft (2026-10-06), as returned
+
+`Reading compared:`
+- DoD 1: agrees.
+- DoD 2: diverges; auditor `cited` (the brief's statements for the other branches), Orchestrator `extends`.
+- DoD 3: diverges; auditor `not audited` (internal mechanics, no engineering document), Orchestrator `extends`.
+- DoD 4: diverges; auditor `not audited`, Orchestrator "covered as mechanics; no statement needed".
+- DoD 5: agrees in grade (`cited` against `covered`); auditor relied on the brief's pass condition, Orchestrator on none.
+- DoD 6: agrees on the standing approval (`not audited` with the approval quoted, as the mandate records an item an approval covers). The note to Counsel is unread by the Orchestrator.
+- Planner-added: agrees.
+- Non-goals: diverges; auditor `cited` for the other branches and `not audited` for the other three, Orchestrator `extends` for all.
+- A1: agrees.
+- A2: agrees.
+- Task_1: agrees.
+- Task_2: agrees on the standing approval.
+- Decision Log 1: agrees (`inferred` against `extends`); auditor named "likewise ... it holds", Orchestrator named "How is the Orchestrator's".
+- Decision Log 2 (a, b, c): unread.
+- The Orchestrator also read the Design and the Compatibility stance. The mandate does not list either as a plan item, so neither was graded; the Design's choice is Decision Log 1.
+
+`Findings compared: none found` (the readings file records "None yet"; no departure from a means was noted on any item line)
+
+Readings corrected after this comparison: the rest of the step unchanged and the non-goal on other branches are covered by the brief's statements for those branches; the fixture check, the template, the other non-goals are mechanics the audit does not grade.
+
 ## Findings
 
 - None yet.
