@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-30
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
-superseded_by: null
-depends_on: ["ADR-D-0036-a-product-philosophy-is-written-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md"]
+superseded_by: ../ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md
+depends_on: ["ADR-D-0036-a-product-philosophy-is-stated-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md"]
 ---
 
 # ADR-D-0039: The Orchestrator never grades its own run against the value documents; a fresh dispatch that takes only those documents and the artifact as evidence does, and a grade that requires a decision above the run holds the item until it is given
+
+Retired on 2026-10-05. Replaced by ADR-D-0052.
 
 ## Context and Problem Statement
 

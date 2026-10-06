@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0036-a-product-philosophy-is-written-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md"]
+depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0036-a-product-philosophy-is-stated-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md"]
 ---
 
 # ADR-D-0046: A value discussion with the person directing the work is conducted from the viewpoint of a person's experience, as a chain of four parts: a person with a given persona does something, experiences something as a result, and so gains certain values

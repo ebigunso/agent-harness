@@ -53,6 +53,8 @@ Then:
 - status: `done`
 - move file to `docs/coding-agent/plans/completed/`
 
+Under a ratified brief a plan is one of a run's plans: it closes this way while the run may continue into its next plan, and `candidate ready` comes only at the run's closeout. The run, its record and its closeout: `orchestration-harness` `references/completion-closeout.md`.
+
 ## 5) Post-mortem improvements (recommended)
 
 If a deviation occurred:
