@@ -1,0 +1,15 @@
+# Changes file: A middle size for a small change
+
+- Run record: `docs/coding-agent/plans/active/middle-size-for-a-small-change-run.md`. Readings file: `docs/coding-agent/plans/active/middle-size-for-a-small-change-readings.md`.
+- Holds the trace of each small change of the run built without a plan; the Orchestrator's writing, not audit-stated. Created 2026-10-06 when the run's first small change was logged (first in a section of the run record, moved here when the text built by that change said where the trace lives).
+
+## Small change 1: the run record holds only what audits stated; a small change's trace is kept beside it
+
+- Directed by the owner while the run is open, on the closeout items C4 and J10. His words, relayed by Counsel on 2026-10-06 (admitted by the standing approval of 2026-10-01), quoted in full: "Yes, keep the rule and move the trace to the readings file, or any other place that is appropriate." Counsel's proposal he answered: keep ADR-D-0051's rule and move the small-change trace out of the run record, the run record keeping only the audit verdict on it; a text change, no record returning.
+- Where the statement stands in the brief: `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`, section "A small change and the run", the gives-statement added 2026-10-06 with his quoted words (committed after the start revision, on this branch).
+- Starts from revision: 32f0c67.
+- The Orchestrator's call that this is small and needs no plan: one task, text only, in the files that say where a small change's trace lives; his statement leaves the place open and delegates it ("or any other place that is appropriate"), so the Orchestrator chooses: a file `<run>-changes.md` beside the run record, moving with it, since the readings file may be opened by the auditor only after grading and the trace is what the audit grades.
+
+- Worker report (one Task_X, `done`, one YAML block, six files all inside the stated `owns`): the trace lives in `<run>-changes.md`, its creation and moves stated once in completion-closeout.md and pointed to elsewhere; the run record holds only Scenarios and Units; the mandate's Small Change section has `Plan:` name the changes file and the auditor read prior scenario state in the run record the changes file names; the template block byte-identical; no adapter sentence changed. Worker validation: package validator pass, smoke tests pass, `git diff --check` clean, grep finds no remaining "section of the run record".
+  - Judgement calls (Worker): "A small change's section" renamed "The changes file" and given the creation and move statement; "logged in the run record" in While open reads "logged as any unit of the run is"; the Note to Counsel names the changes file among the places not pointed into; mandate line 46 (outside Small Change) repointed so the auditor finds Scenarios in the run record the changes file names; "the record's quotation" reads "the changes file's quotation".
+  - Orchestrator ruling: the edit to mandate line 46 stands; without it the auditor would look for Scenarios in a file that has none.

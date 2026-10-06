@@ -95,7 +95,7 @@ Before final done, read and apply `references/completion-closeout.md`, then conf
 - all Task_X entries are done or waived;
 - all required Worker and Reviewer validation evidence is pass or waived;
 - no unresolved blockers remain;
-- plan lifecycle state is updated, or, for a small change built without a plan, its section of the run record (`references/completion-closeout.md`);
+- plan lifecycle state is updated, or, for a small change built without a plan, its section of the run's changes file (`references/completion-closeout.md`);
 - if the task edited rule-source files, targeted rule refresh is complete or explicitly waived with rationale;
 - active plans are moved to completed when the repository uses active/completed plan folders.
 
