@@ -150,7 +150,8 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 ### Value audit
 
 - A stateless Reviewer dispatch profile, not a new role. Fresh context each time; inputs are the documents that exist and the artifact under review, read from disk, never the Orchestrator's summary.
-- It runs by position: plan draft, each wave boundary, closeout.
+- It runs by position: at each plan's draft and at each plan's close, and nowhere between. In a goal-mode run it runs as the accepted record on goal mode states. *(amendment 2026-10-05. This line read "plan draft, each wave boundary, closeout" as Counsel drafted it and he ratified it with the brief. Told that three wave-boundary audits had been skipped in a run, he said: "Wait, every wave. I missed that part. Probably that is too much auditing which adds minimal value, while hitting hard on token budget. I think audits every now and then, perhaps at the start and end of a plan, and wherever a goal mode checkpoint is, would be closer to optimal." Counsel put the rule to him as it now reads, and what it gives up; his answer: "I think that change covers it, as long as plan reviews catch unacceptably long plans, which I thought they already do.")*
+- A plan review catches a plan that is unacceptably long. *(told 2026-10-05, the condition in his answer above. Counsel read the plan-review instructions as built on that day: they have the reviewer question the decomposition and state nothing about a plan's length.)*
 - Three grades: cited (a tenet or the brief covers it; proceed); inferred (extends named tenets and is cheap to undo; proceed, journal, show at closeout); ask-now (no support, tenets conflict, irreversible or outward-facing, or it would loosen a pass condition).
 - Scope test: each user-facing item maps to the brief, is internal mechanics, or is scope expansion that escalates.
 - A proxy never stands in for a human-only condition.
