@@ -19,6 +19,13 @@ Item | reading | statement relied on
 - ADR-D-0020's broader wording left as an observation | extends | brief: "the rest not"; a record's decision is the owner's
 - Scenario: the brief states no numbered scenarios; nothing to move.
 
+#### The audit's comparison, small change 1 closeout (2026-10-06), as returned
+
+- `Reading compared:` the assessment: agrees (covered / cited); fix 1: agrees; fix 2: agrees; fixes 3, 6, 8 (the records' wording): diverges, Orchestrator "covered as mechanics", auditor "not audited" as decision records changed after acceptance that did not alter the decision (items 10 to 13); fixes 4, 5, 7, 9 and the rule-file line and goal-mode sentence: agrees on the grade (covered / cited), though the auditor places the Counsel contact line, the goal-mode sentence and the push rule on the product side, not as mechanics; the declines against the triage: diverges, Orchestrator "extends", auditor "cited" on the brief's "the rest not"; the routing to Counsel: agrees; the call small, no plan: agrees (the Orchestrator relied on the small-change brief, which does not govern this run; the auditor cites this brief's "How is the Orchestrator's"); ADR-D-0020 left as an observation: diverges, Orchestrator "extends", auditor "cited" on "Each decision record is still accepted on its own"; unread: the closed middle-size plan's DoD edit (item 14), the setup run record's Scenarios cells (item 15), the planned push and PR body edits (item 17), the run record and changes file (item 16), the three Worker judgement calls (items 26 to 28)
+- `Findings compared:` none recorded ("None yet"); departures noted on item lines: item 15 (Orchestrator words in audit-stated cells) changes nothing anyone experiences, agrees, cited; item 14 (closed plan edited while two other closed-record comments were declined as not reopened) changes nothing anyone experiences, agrees, cited
+
+Readings corrected after this comparison: the records' wording changes are decision records changed after acceptance, not mechanics; the declines and the ADR-D-0020 observation rest on this brief's "the rest not" and "Each decision record is still accepted on its own"; the small-change call rests on this brief's "How is the Orchestrator's", not on the small-change brief, which does not govern this run.
+
 ## Findings
 
 - None yet.
