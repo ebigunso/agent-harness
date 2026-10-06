@@ -12,11 +12,11 @@ If the rule files are absent or unreadable, continue under the `orchestration-ha
 
 Trivial/non-trivial criteria, requirement challenge, plan and approval requirements, and lifecycle selection: `SKILL.md` Plan Gate (canonical).
 
-Follow-up non-trivial work re-enters the Plan Gate (`SKILL.md`): chain it through a new or updated plan, never by extending the approved scope in place.
+Follow-up non-trivial work re-enters the Plan Gate (`SKILL.md`): chain it through a new or updated plan, or, under a ratified brief, as a small change (below), never by extending the approved scope in place.
 
 Clarifications, follow-up requirements, and plan refinements are NOT plan approval. In plan mode, execution of non-trivial work requires the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver. Neither a task request nor a direct instruction to do the work is plan approval unless it explicitly approves the presented plan or explicitly waives the approval step. When in doubt, ask; without applicable user approval or waiver and with no user to ask, present the plan and end the turn.
 
-Authorization under a ratified brief is the second source in `SKILL.md` Plan Gate (canonical); whenever it does not authorize, the paragraph above is the whole rule. Its conditions in full:
+Authorization under a ratified brief is the second source in `SKILL.md` Plan Gate (canonical); whenever it does not authorize, the paragraph above is the whole rule. Its conditions for a plan in full:
 
 - The governing brief is the one the hand-over named for this work, and its ratification reached this session as the owner's word (`references/value-level-operation.md` Documents); an amendment to the brief counts on the same terms as the brief.
 - The plan review is closed only when no finding is left open. A review loop that does not converge goes to the owner as a value question and is not a closed review. The audit is dispatched after the review closes.
@@ -25,6 +25,14 @@ Authorization under a ratified brief is the second source in `SKILL.md` Plan Gat
 - An irreversible or outward-facing action that no standing approval in effect covers: the plan is authorized by this route only when it states the action as waiting for the decision of whoever holds the authority for it, taken at its moment and not before. So stated, the action's `ask-now` does not count against authorization when that test is the verdict's only reason for it; otherwise only the approval or waiver in the paragraph above authorizes that plan. Either way the action itself still waits.
 - The verdict covers the plan as it stands when execution starts. What is later added to or changed in what the plan decides needs a later audit or the approval in the paragraph above before the changed item is executed; a second audit on unchanged inputs does not replace the first.
 - Before execution starts the plan records the ratification as it reached this session (the owner's statement, or the relay with the quoted words), the plan review closed with no finding open, and the audit's dispatch text and verdict, logged as `references/value-level-operation.md` states.
+
+A small change built without a plan (`SKILL.md` Plan Gate, canonical) is authorized by the same source on these terms:
+
+- The owner stated the change in the governing brief, or in an amendment to it on the same terms as the brief; the statement, as it stands in the brief, is the requirement in place of a plan.
+- The Worker builds it as one Task_X. The Orchestrator writes the task's `type`, `owns`, `depends_on`, acceptance and validation items from the statement into the Worker dispatch, as the Dispatch Integrity Gate requires; no plan file holds them. Wave integration, the Reviewer packet and review, and `git-workflow`'s checks before a push, its privacy sweep included, apply as for a plan.
+- No plan review and no plan-draft audit runs. After the review of the change, one value audit is dispatched at position closeout, and nothing of the change is published or reported as done before its verdict holds nothing: the verdict is acted on as `references/value-level-operation.md` Acting On A Verdict states, and an item beyond the statement is held there as any `ask-now` is.
+- Before the Worker is dispatched, the run record logs the change in a section of its own (`references/completion-closeout.md` The run record): where the owner's statement is, with the owner's words as they reached this session, and the revision the change starts from.
+- When the Orchestrator drafts a plan for a change instead, the plan path above applies in full.
 
 Plan review loop: the Orchestrator triages each Reviewer finding as fix, research-and-rewrite, or dispute; re-review scopes to the delta only when the delta re-review condition in `skills/wave-integration/references/integration-checklist.md` holds, otherwise it is full; a third round on the same seam applies that file's third-bounce detector; a finding that needs a ruling follows Escalation Ruling below.
 
