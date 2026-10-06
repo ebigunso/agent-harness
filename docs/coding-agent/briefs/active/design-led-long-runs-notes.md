@@ -4,7 +4,7 @@ Unratified. Kept by Counsel. Nothing here gates anything; the auditor does not r
 
 ## Owed after this run closes (added 2026-10-05)
 
-- Decision: hand `setup-names-what-is-missing-brief.md` to the Orchestrator once this run has closed, relaying his ratification in full: "I ratify the brief, hand it over after the run closes." Not before.
+- Decision: hand `setup-names-what-is-missing-brief.md` to the Orchestrator once this run has closed, relaying his ratification in full: "I ratify the brief, hand it over after the run closes." Not before. Done: handed over on 2026-10-05 at 11:58 UTC, to be taken up after the change to the audit positions.
 
 ## State for Counsel at session compaction, 2026-10-05
 
