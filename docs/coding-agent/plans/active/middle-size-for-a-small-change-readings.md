@@ -117,6 +117,13 @@ Item | reading | statement relied on
 - The brief's amendment in range (Counsel's, the owner's words) | covered; a value-document change made by Counsel, not the run
 - Scenario 1, the Orchestrator's expectation only: demonstrated by this change if the audit holds nothing (a one-sentence change built on the stack, no plan, no new pull request, reviewed and audited once, and he is told); observe in the changes file and the run record.
 
+#### The audit's comparison, small change 1 closeout (2026-10-06), as returned
+
+- `Reading compared:` A, B: agrees (covered / cited). C, F, W1, W2, W3, W5: diverges in basis; Orchestrator: "covered as mechanics; no statement needed" (readings line 113) or read together under line 111; audit: user-facing, cited on the trace statement; both end with no stop. D, E, J2, W4: diverges in basis; Orchestrator: "covered as mechanics; follows from the statement" (line 112); audit: user-facing (it changes what the audit reads), cited; both end with no stop. G, H: diverges in basis; Orchestrator: "covered as mechanics" (line 116); audit: maps to the brief, cited. I: unread (not audited). J1a: agrees (covered / cited). J1b: agrees (covered / cited); the audit adds `direction`. Brief amendment (line 117): not an item of the change; named under value documents changed, agrees that it counts.
+- `Findings compared:` one recorded finding (ADR-D-0051 "holds only what audits stated" against the prior unit's text putting the trace in the run record): agrees; it bears on the design, and this change acted on it. The brief marks no statement as a means, so no departure from a means was noted on any item line.
+
+Readings corrected after this comparison: the relocated texts, the mandate's Small Change lines and the instance files are user-facing items cited on the brief's trace statement, not mechanics.
+
 ## Findings
 
 - ADR-D-0051 keeps "The record holds only what audits stated" while the text built here makes a small change's section of the run record the Orchestrator's trace (noticed by the Task_2 Worker and the reviewer). Reading: bears on the design if raised, since it changes what the owner reads of a run; the audit graded it inferred with `direction` (J10), so it reaches him at closeout as a marked item and is not escalated twice.
