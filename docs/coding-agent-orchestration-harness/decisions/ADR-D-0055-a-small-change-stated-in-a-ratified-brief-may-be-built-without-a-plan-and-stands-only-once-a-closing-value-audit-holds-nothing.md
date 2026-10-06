@@ -25,6 +25,7 @@ The harness knows two sizes of work. Trivial work is handled directly, but only 
 - Whichever it chooses, a small change keeps two checks: the review of the change, and one closing value audit that checks that what was built is what the statement said and nothing more. Where the change went beyond the statement, the audit holds it.
 - Nothing of the change is published or reported as done before that audit holds nothing.
 - Whether a change is small is the Orchestrator's call; the guard on that call is the closing audit. What counts as trivial work does not change: that class has no audit behind it.
+- A small change is a unit of the run its governing brief governs, as a plan is (ADR-D-0051).
 
 ## Why
 
@@ -38,13 +39,13 @@ For a change this small the full suite is often out of proportion, and the state
 
 ## Decision Boundary
 
-Invariant: a small change stated by the person directing the work in a governing brief whose ratification reached the session may be built without a plan, a plan review or a plan-draft audit, the Orchestrator choosing per change, and takes the plan path when a plan is drafted; whichever is chosen it keeps the review of the change and one closing value audit, which holds it where it went beyond the statement; nothing of it is published or reported as done before that audit holds nothing; whether a change is small is the Orchestrator's call, guarded by that audit; what counts as trivial work does not change; the Decision list states the rest.
+Invariant: a small change stated by the person directing the work in a governing brief whose ratification reached the session may be built without a plan, a plan review or a plan-draft audit, the Orchestrator choosing per change, and takes the plan path when a plan is drafted; whichever is chosen it keeps the review of the change and one closing value audit, which holds it where it went beyond the statement; nothing of it is published or reported as done before that audit holds nothing; whether a change is small is the Orchestrator's call, guarded by that audit; what counts as trivial work does not change; a small change is a unit of the run its brief governs; the Decision list states the rest.
 
-Not covered: trivial work and its tripwires (ADR-D-0040 leaves them uncovered); how the Orchestrator judges that a change is small; how a small change is recorded, and the branch and pull request it is published on; goal mode; the conditions under which the second source authorizes a plan (ADR-D-0041); the audit's procedure and the dispatch wording (ADR-D-0052).
+Not covered: trivial work and its tripwires (ADR-D-0040 leaves them uncovered); how the Orchestrator judges that a change is small; how a small change is recorded, which is in the run record of its run (ADR-D-0051), and how it closes and is reported as part of that run (ADR-D-0051); the branch and pull request it is published on; goal mode; the conditions under which the second source authorizes a plan (ADR-D-0041); the audit's procedure and the dispatch wording (ADR-D-0052).
 
 ## Validation
 
-- A small change built under the second source records whether a plan was drafted and, where none was, where the statement stands in the brief, the ratification as it reached the session, the result of the review of the change, and the closing audit's dispatch and verdict; nothing of it is published or reported as done before a verdict that holds nothing.
+- The run record of a small change built under the second source records whether a plan was drafted and, where none was, where the statement stands in the brief, the ratification as it reached the session, the result of the review of the change, and the closing audit's dispatch and verdict; nothing of it is published or reported as done before a verdict that holds nothing.
 
 ## Revisit When
 
@@ -53,4 +54,4 @@ Not covered: trivial work and its tripwires (ADR-D-0040 leaves them uncovered); 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`, "Who it is for and why", "The middle size" and "Limits". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0041 (when a ratified brief authorizes a plan), ADR-D-0052 (the value audit), ADR-D-0051 (a run of plans, from which a small change is excepted).
+Source of intent: `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`, "Who it is for and why", "The middle size", "A small change and the run" and "Limits". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0041 (when a ratified brief authorizes a plan), ADR-D-0052 (the value audit), ADR-D-0051 (a run of units, of which a small change is one).
