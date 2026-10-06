@@ -52,6 +52,26 @@ Findings compared: none found (the readings file records "None yet"; no departur
 
 Readings corrected after this comparison: the template kept fixed, goal mode, the two sources and the version bump are extensions of the brief's statements and not mechanics or covered; publication is outward-facing and rests on the standing approval; A3 is what the brief's core scenario states.
 
+### `middle-size-for-a-small-change-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft heading keeps its reading as corrected after that comparison, with these changes and additions.
+- DoD 1 as reworded: a small change may be built without a plan, the Orchestrator choosing per change, a plan right for more than one task or an open choice of how; review and one closing audit kept; the audit holds what went beyond the statement | covered | brief, The middle size, second statement (amendment 2026-10-06) and first statement
+- DoD 4 as reworded: trivial unchanged, its definition unchanged | covered | brief: "the definition of trivial work does not change"
+- DoD 5 as reworded: ADR-D-0055 proposed and accepted by name; ADR-D-0040 and ADR-D-0051 revised and accepted by name; ADR-D-0041 pointing only | covered | brief, Limits: "the accepted record that states it returns to him for acceptance by name"; his acceptance 2026-10-06
+- Planner-added 1 as reworded: the small change logged in the run record, no file of its own | covered | brief, A small change and the run: the change belongs to the run; "no plan document"
+- The text as built: a run is one or more units; reported ready after the last unit and again after each directed change; stays open on its stack; closes once on his acceptance; a small change against an accepted-and-merged brief starts a run of its own under a brief Counsel hands over | covered | brief, A small change and the run; his words "Yes, that reading is right."; the hand-over mechanics are the existing ones
+- The text as built: the closing audit for a small change grades the change against the statement, holding what is built beyond it on the product side; sides and bases as elsewhere | covered | brief: "checks that what was built is what he said and nothing more"; "where the change went beyond his statement, the audit holds it"
+- The text as built: a small change goes on top of its stack's last branch with no branch or pull request of its own while the stack is unmerged, with or without a drafted plan; full-size plans keep the ordinary policy | covered | brief: "While the stack it belongs to is unmerged, it takes no branch and no pull request of its own; it goes on top of the last one."; "work of full size are handled as they are today"
+- Worker judgement calls (Task_2): run record and readings file stay under active/ until acceptance | extends | brief: the run stays open and takes directed changes
+- Worker judgement calls (Task_2): Scenarios and Units audit-stated, the small change's section its trace | extends | ADR-D-0055 Validation line; ADR-D-0051 "holds only what audits stated" (tension named to the owner)
+- Worker judgement calls (Task_2): scenarios and getting-closer judged at a small change's closeout too; stopping reads "a further unit"; "no plan" said plainly; a rejection while open is a directed change | extends | brief: "he is told when it is done"; A small change and the run
+- Orchestrator rulings: ADR-D-0051 left alone (overturned by review), then revised on his word; a new record first, then the accepted ones revised, then split on his word; the merged case's governing brief left to the hand-over; depends_on left alone; plan alternative kept rejected outright; the derived reopen premises kept | covered as mechanics or by his words, as each Decision Log entry records
+- Decision Log: the owner's three answers (split the record; may be built, trivial unchanged; revise the run's closing) | covered | his quoted words of 2026-10-06
+- Removal of the setup fixture folder and the close of the old value-level-operation plan, in the range but outside this brief | covered | his words relayed 2026-10-06: "Remove all."; "Just make sure it's not forgotten."
+- Scenario 1, the Orchestrator's expectation only: not yet; the text exists and no small change has been built under it.
+
 ## Findings
 
 - None yet.
