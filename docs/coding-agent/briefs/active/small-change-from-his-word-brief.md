@@ -19,14 +19,14 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 All of this section is agent-proposed and was accepted on 2026-10-06 in the words quoted in the status line.
 
 - A small change that comes from his word keeps two checks: the review of the change, and one closing value audit, which checks that what was built is what he said and nothing more. **gives**
-- It drops the separate plan, the plan's review and the plan-draft audit. For a change this small his statement in the brief is the plan. **gives**
+- It may be built without the separate plan, the plan's review and the plan-draft audit; his statement in the brief then stands in place of the plan. The Orchestrator chooses, per change, whether to draft a plan, and when it drafts one the full plan path applies as today. A plan is the right choice when the work needs more than one task, or when his statement leaves open a choice about how to do it that someone should see before it is built. **gives** *(amendment 2026-10-06. On reading the record this line produced he said: "Hmm... waiving plans entirely for small changes may be overkill. I'd like to leave the decision open on whether a plan is deemed necessary, based on what is being worked on." and "I'd like to have less of a strict rule that may result in cases where that would result in suboptimal choices." Counsel proposed this wording and that the trivial class stay strict because it has no audit behind it; his answer: "That seems reasonable. Make the proposed change to ADR-D-0055, and keep the definition of trivial work as is.")*
 - While the stack it belongs to is unmerged, it takes no branch and no pull request of its own; it goes on top of the last one. **gives**
 - Whether a change is small is the Orchestrator's call. The guard on that call is the closing audit: where the change went beyond his statement, the audit holds it. **gives**
 
 ## Limits
 
 - This loosens a gate, and he was told so before he took it. It changes the Plan Gate, so the accepted record that states it returns to him for acceptance by name. **constraint** *(agent-proposed; accepted 2026-10-06 with the proposal)*
-- Trivial work and work of full size are handled as they are today. **constraint** *(agent-proposed, as the proposal's "middle size")*
+- Trivial work and work of full size are handled as they are today; the definition of trivial work does not change. **constraint** *(agent-proposed, as the proposal's "middle size"; told 2026-10-06: "keep the definition of trivial work as is.")*
 
 ## Core scenario
 
