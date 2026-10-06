@@ -2,6 +2,7 @@
 
 - Governing brief: `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`
 - Run starts from revision: 12b1892
+- Readings file: `docs/coding-agent/plans/active/middle-size-for-a-small-change-readings.md`. Changes file: `docs/coding-agent/plans/active/middle-size-for-a-small-change-changes.md`.
 - State: reported ready 2026-10-06 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack
 
 ## Scenarios
