@@ -189,3 +189,4 @@ These were agreed between ebigunso and Counsel before this brief. They are const
 ## Directed while the stack was open for his judgement
 
 - The Copilot review comments on the stack's pull requests are checked and assessed; those that need a fix are applied, the rest not. The work closes with a value audit of its own, so that no drift and no overly conservative implementation slips in. **gives** *(told 2026-10-06: "Some of the PRs have Copilot comments on them. Let the Orchestrator check and assess if any of them needs to be fixed, and apply those necessary. This should also have its own value audit at the end, so no drift or overly conservative implementations slip in." Placed in this brief by Counsel because the comments span the stack of every brief built on it.)*
+- Every pull request title of the stack starts with an appropriate gitmoji. **gives** *(told 2026-10-06: "Prepend an appropriate gitmoji in every PR title.")*
