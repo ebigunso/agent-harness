@@ -40,6 +40,7 @@ Record-plus-rule pairs are the expected shape for enforced contracts; the homes 
 
 - **Proposed.** A record on a branch carries `status: proposed` until a human accepts it on its own (see Acceptance). While proposed it is a draft: rewritten, renumbered, split, or dropped freely; the plan's Decision Log carries the drafting history; a dropped draft frees its number.
 - **Accepted.** The status flips to `accepted` on the explicit yes, before merge. Immutability attaches at merge to `main`, because that is when readers may have built on it. After merge a record changes only when a retirement elsewhere requires repairing a pointer in it, or to correct a typo that changes no meaning. Any change to the decision, its boundary, its reasons, or its reopen conditions is a new complete record, and the old one is retired. Refinement and reversal both replace; there is no partial supersession.
+- **Reworded after acceptance.** For an accepted record, a change of wording that changes none of its decision, its boundary, its reasons, or its reopen conditions does not return to the human (after merge the only such changes are the two the line above allows); a change to any of those does, and is accepted by name as a new record is. Whether a change is wording only is the Orchestrator's call as the work goes; where a value audit runs, its closeout confirms that call for every record accepted before the change, and where none runs the Reviewer's final review does. When the human asks for a wording change on first reading and accepts in the same sentence, the corrected text does not return. The run's final response lists each record reworded after acceptance (`orchestration-harness/references/final-response-contract.md`).
 - **Superseded.** Retirement is one atomic operation: set `status: superseded`, add a header line under the title ("Retired on DATE. Replaced by ADR-X." or "Retired on DATE; nothing in it still binds."), move the file to `superseded/` with the `--superseded-by-ADR-X` or `--retired` suffix, repair every inbound reference in the repository, and prove it with an absence search for the old filename. A retired record is frozen.
 - A number is taken at merge: merged IDs are never reused, and a gap in an active directory means a retirement.
 
@@ -47,8 +48,10 @@ Record-plus-rule pairs are the expected shape for enforced contracts; the homes 
 
 A record binds future work, so a human accepts it on its own, never by implication. On its own means named individually: one statement may accept several records when it names each, and a statement that names none (all of them, the proposed ones) accepts none.
 
+A Worker may draft a record. It writes only what the governing brief or request and the plan's Decision Log state; where the reason for a decision is not written down, it reports the gap in its report's `questions_for_orchestrator` and invents nothing. The Orchestrator checks that the draft says what was decided and logs the proposal (step 1); a Reviewer checks the draft against this standard. Plans and rule files stay with the Orchestrator.
+
 1. When the admission test passes, state the proposal in conversation and in the plan Decision Log in the same action: title, the decision in one line, the constraint it places on future work, the why.
-2. Draft on the writing-strength side per `subagent-strategy/references/model-routing.md`.
+2. Draft, or have a Worker draft, on the writing-strength side per `subagent-strategy/references/model-routing.md`.
 3. Present the draft to the human by itself and ask for acceptance. Plan approval does not accept a record; merging a pull request does not accept a record. A no is terminal for that draft: record the decline in the Decision Log and do not re-propose.
 4. Land the record only after the explicit yes, and list every proposed record with its acceptance state in the final response and the pull request body under its own heading.
 

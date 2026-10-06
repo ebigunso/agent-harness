@@ -1208,3 +1208,37 @@ Prevention:
 
 Evidence:
 - Second-round Wave 2 review by the Codex reviewer peer, 2026-10-04.
+
+## 2026-10-05 - A New Branch Is Traced Through Every Special Case And Every Stop And Release  [tags: review, contract, orchestration]
+
+Context:
+- A comparison gained a second direction and a stop gained a second mode (a goal loop) in one wave.
+
+Symptom:
+- The ordinary case was right, but a special branch written earlier (a departure from a means) still returned the old outcome, and a mapping of "every gate stops the loop" swept in gates that wait for no decision and gave them no way to resume.
+
+Fix applied:
+- The special branch names both directions; a gate the Orchestrator clears itself suspends without asking.
+
+Prevention:
+- When adding an outcome or a stop, list every existing branch that produces that kind of outcome and every transition into and out of a stopped state (held, corrected, answered, archived), and check each against the new rule in the same change.
+
+Evidence:
+- Combined review of two tasks by the Codex reviewer peer, 2026-10-05.
+
+## 2026-10-05 - The Wave-Boundary Audit Is Dispatched Before The Next Wave, Not Remembered After  [tags: validation, orchestration, gate-miss]
+
+Context:
+- A plan under a brief with five waves, reordered mid-run when records were accepted at different times.
+
+Symptom:
+- Three wave boundaries passed with no value audit: each time the Orchestrator went from the wave's review straight to the next dispatch, because the next task was already unblocked by an acceptance that had just arrived.
+
+Fix applied:
+- The closeout audit covers the plan's whole range; the miss is recorded in the plan.
+
+Prevention:
+- After a wave's review closes, the next action is the wave-boundary audit dispatch, and the next wave's Worker dispatch comes only after its verdict is logged. When waves are reordered, write the audit into the new order explicitly.
+
+Evidence:
+- Third plan of the design-led long runs brief, 2026-10-05, found by the Orchestrator when reaching the closeout.
