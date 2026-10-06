@@ -52,7 +52,7 @@ Not covered: the trivial/non-trivial tripwires and who applies them; the conditi
 
 ## Validation
 
-- The Plan Gate, its lifecycle reference, the goal-mode reference and every runtime entry point that restates the approval condition name these two sources and no other, and none presents a verdict as approval by the person directing the work.
+- The Plan Gate, its lifecycle reference and every runtime entry point that restates the approval condition name these two sources and no other; the goal-mode reference names the first source and states that the second authorizes nothing in goal mode until a record states its conditions; and none presents a verdict as approval by the person directing the work.
 - A loader probe given an ordinary non-trivial request with no ratified brief presents a plan and ends the turn with only planning artifacts written; the same request with an explicit waiver from the person directing the work proceeds past the Plan Gate.
 
 ## Revisit When

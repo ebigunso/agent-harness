@@ -49,7 +49,7 @@ Each part of a verdict is an input (nothing waits on it), a gate on one item (th
 
 An `ask-now` the owner has answered:
 
-- Under a brief the answer comes back as an amendment to the brief or to a philosophy, written by Counsel with the owner's quoted words, and the next audit finds it in the documents. The Orchestrator never writes it there.
+- Under a brief the answer comes back as an amendment to the brief or to a philosophy, written by Counsel with the quoted words of whoever ratifies that document, and the next audit finds it in the documents. The Orchestrator never writes it there.
 - Until the documents carry it, and in a run without a brief, a later audit repeats the `ask-now` for that item. It is met only by the Decision Log entry above: the owner's answer to that question, quoted with its date, against that item. Do not ask again, and do not decide that an answer to a different question covers it; a repeated `ask-now` without such an entry is escalated.
 - The user's approval of the plan does not answer an `ask-now`.
 

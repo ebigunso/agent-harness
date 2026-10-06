@@ -52,9 +52,9 @@ Not covered: the conditions for authorizing a plan (ADR-D-0041) and a small chan
 
 ## Validation
 
-- A run's record lists each unit with the dispatch and verdict that authorized it or, for a small change, closed it, and shows each report as ready for judgement only after every unit before it has closed.
+- A run's record lists each unit with the dispatch and verdict that authorized it or, for a small change, its state, the dispatch and verdict that closed it being in the run's changes file, and shows each report as ready for judgement only after every unit before it has closed.
 - No unit of a run starts on another unit's verdict.
-- A change directed while a run is open appears in that run's record with its review and closing audit, followed by a report as ready again; the run is closed only once the acceptance of its stack has reached the session.
+- A change directed while a run is open appears in that run's record, its review and closing audit in its plan or, for a small change, the run's changes file, followed by a report as ready again; the run is closed only once the acceptance of its stack has reached the session.
 - A report as ready names each scenario of the brief with its state and how to observe it, and reports no human-only scenario as met.
 
 ## Revisit When

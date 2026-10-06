@@ -9,7 +9,7 @@ Four document types in the target repository carry what the person directing the
 
 ## Rules for all four
 
-- Only what the owner ratified counts. Ratification is the owner's act; a status line in a file records it and is not it.
+- Only what the person entitled to ratify a document ratified counts: the product owner for a product philosophy, the owner for a brief and the engineering philosophy. Ratification is that person's act; a status line in a file records it and is not it.
 - The owner's reading surface is three kinds of document: decision records, the product philosophy and the engineering philosophy. They shape later implementation decisions, so the owner reads them and objects to anything even slightly off.
 - Both philosophies sit above decision records. A conflict between the two philosophies is never inferred; the owner settles it, and the ruling is written into the engineering philosophy.
 - Neither philosophy need be complete up front. They grow from what each initiative forces into words and from verdicts on results, and are revised by discussion after implementation and measurement shed new light.
@@ -58,7 +58,7 @@ Four document types in the target repository carry what the person directing the
 - It records its ratification by quoting the owner's words with the date.
 - The file on disk is the requirement, verbatim. A paraphrase of it in a plan or a message is not.
 - An amendment is ratified like the brief, and the file on disk governs.
-- A new philosophy, and an amendment to a brief or to either philosophy, carries its own ratification record, the owner's quoted words with the date, beside the statement it adds or changes.
+- A new philosophy, and an amendment to a brief or to either philosophy, carries its own ratification record, the quoted words, with the date, of whoever ratifies that document, beside the statement it adds or changes.
 - Wording that restates an answer of the owner's is ratified by that answer, which is its ratification record, and needs no second yes. What Counsel infers beyond an answer is tagged inferred and has no ratification record of its own, so it is no support for the audit. A statement tagged inferred that the owner ratified with the brief keeps its support.
 
 ## Discussion notes

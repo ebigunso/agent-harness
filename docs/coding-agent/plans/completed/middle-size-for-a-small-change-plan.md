@@ -18,7 +18,7 @@
 - The records that state the gate carry the small change (ADR-D-0055 proposed; ADR-D-0040 and ADR-D-0051 revised; ADR-D-0041 pointing to it), and each proposed or revised record is accepted by the owner by its own name before any harness text is built on it.
 - The value audit's fixed dispatch template is byte-identical to this plan's start revision.
 - Package validators and smoke tests pass; the branch has Reviewer `APPROVED`.
-- The run closes as `completion-closeout.md` states: its branch published on the stack and a pull request opened under the standing approval, the note to Counsel sent, nothing merged.
+- The plan closes and the run is reported ready as `completion-closeout.md` states: its branch published on the stack and a pull request opened under the standing approval, the note to Counsel sent, nothing merged; the run stays open until the owner's acceptance of its stack.
 
 ## Planner-added requirements
 - A small change built without a plan is logged in the run record of the run its brief governs (where the owner's statement is, the revision it starts from, the review's result, and the closing audit's dispatch text and verdict), and the audit's fixed template names that record after `Plan:`. Needed because: the verdict and the review must be logged somewhere a later reader finds them, and the template names a file; changing the template is outside this work. No file of its own is added (reworded 2026-10-06 on the owner's direction that a directed change after a run is reported ready belongs to that run).
@@ -112,7 +112,7 @@
     owner: reviewer
     detail: "Diff review against the brief and the accepted records, with the adapter parity check; this is also the branch's final review"
 
-### Task_3: Close the plan and the run
+### Task_3: Close the plan and report the run ready
 - type: review
 - owns:
   - docs/coding-agent/plans/**

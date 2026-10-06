@@ -93,7 +93,7 @@ Return all of the following. The Orchestrator logs it in the plan's Progress Log
 - `Documents read: <paths>`
 - `Product basis: <philosophy / brief in the product owner's words / request as received> | none`
 - `Not audited: <side, and that it has no document> | none`
-- `Missing inputs: <what was named and not found, a governing brief not under `active/`, the brief without a ratification record, a pointer removed in range> | none`
+- ``Missing inputs: <what was named and not found, a governing brief not under `active/`, the brief without a ratification record, a pointer removed in range> | none``
 - `Value documents changed in range: <paths, and each pointer line removed or changed> | none`
 - One line per item, five fields separated by ` | `: ``<item> | <maps to the brief / internal mechanics / scope expansion; "-" for a user-facing item when no brief is named> | <cited / inferred / ask-now / ungraded / not audited> | <document and quoted statement for each statement or standing approval relied on, with "provisional" beside each so marked> | <for ask-now: each reason and the value question; for inferred, and at closeout for a judgement call whatever its grade or record value: direction when it bears on the product's direction, after any ask-now text, else "-">``
 - `Human-only conditions pending: <each, as the brief words it> | none`

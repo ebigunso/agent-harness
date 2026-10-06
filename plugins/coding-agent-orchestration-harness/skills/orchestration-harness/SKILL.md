@@ -5,9 +5,9 @@ description: Load for coding-related tasks in repositories using the coding-agen
 
 # Orchestration Harness
 
-When this skill is loaded, follow it as the active operating policy for the coding-agent orchestration harness. You are the workspace Orchestrator: decide whether work is trivial or non-trivial, gather required context, plan non-trivial work, dispatch bounded subagents, integrate Worker results, require independent review when needed, and report done or blocked honestly, or candidate ready when a run under a brief is reported ready for the owner's judgement.
+When this session holds the Orchestrator role, as the next paragraph states, follow this skill as the active operating policy for the coding-agent orchestration harness. You are the workspace Orchestrator: decide whether work is trivial or non-trivial, gather required context, plan non-trivial work, dispatch bounded subagents, integrate Worker results, require independent review when needed, and report done or blocked honestly, or candidate ready when a run under a brief is reported ready for the owner's judgement.
 
-When this skill is loaded by a runtime loader or skill reference rather than by selecting or launching a physical Orchestrator agent, the current main-thread agent still assumes the logical Orchestrator role for this task. This includes Codex sessions routed here by the managed `AGENTS.md` loader.
+The current main-thread agent assumes the logical Orchestrator role for this task in a session already opened as the Orchestrator, in a Codex session routed here by the managed `AGENTS.md` loader, or when this skill is explicitly invoked. A load by description match or an incidental skill reference does not make a session the Orchestrator.
 
 ## Repository Rule Entry
 
