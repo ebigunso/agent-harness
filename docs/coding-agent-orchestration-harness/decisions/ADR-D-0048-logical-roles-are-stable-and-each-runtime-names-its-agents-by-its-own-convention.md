@@ -9,7 +9,7 @@ supersedes: ["superseded/ADR-D-0003-runtime-namespaced-role-identities--supersed
 superseded_by: null
 ---
 
-# ADR-D-0048: Roles are referred to by stable logical names, each runtime gives its agents physical names by that runtime's own convention, and the role map is the canonical statement of which roles exist and which physical name holds each
+# ADR-D-0048: Roles are referred to by stable logical names, each runtime gives its agents physical names by that runtime's own convention, and the role map is the canonical statement of which roles exist and which physical name or entry route holds each
 
 ## Context and Problem Statement
 
@@ -19,7 +19,7 @@ Plans, skills and governance documents name roles; runtimes name agents. The sam
 
 - Plans, shared skills and governance documents refer to roles by their logical names, and those names are stable.
 - Each runtime gives its agents physical names following that runtime's own convention.
-- The role map (`plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`) is the canonical statement of which roles exist and which physical name holds each role in each runtime.
+- The role map (`plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md`) is the canonical statement of which roles exist and which physical name or entry route holds each role in each runtime.
 - Published physical names do not change without a migration plan.
 
 ## Why
@@ -35,7 +35,7 @@ Someone writing or reading a plan works with roles and should not have to know w
 
 ## Decision Boundary
 
-Invariant: roles are referred to by stable logical names; physical names follow each runtime's convention; the role map says which roles exist and which physical name holds each; published names change only with a migration plan.
+Invariant: roles are referred to by stable logical names; physical names follow each runtime's convention; the role map says which roles exist and which physical name or entry route holds each; published names change only with a migration plan.
 
 Not covered: which roles exist and what each is responsible for; each runtime's naming convention and any guidance on choosing a new name, which the role map and the adapter checklist state; how a session takes a role (ADR-D-0037); where adapter files live (ADR-I-0006); dispatch profiles of a role, which are not roles.
 

@@ -50,7 +50,7 @@ The brief carries the authority of the person directing the work only as far as 
 
 Invariant: in plan mode the second source authorizes a plan only through a governing brief whose ratification reached the session, a plan review closed with nothing open, and a value audit that grades every item on each side that has a document, finds each covered or a cheap-to-undo extension, and holds none above the run; the verdict covers the plan as it stood when execution started, and no item the audit holds goes ahead on either source; the Decision list states the rest.
 
-Not covered: the sources of authorization themselves and what is never one (ADR-D-0040); goal mode; the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0052 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0052); what the product side is graded against where no product philosophy exists (ADR-D-0036); what is shown of the extensions at closeout (ADR-D-0042); merge authorization; how the plan records the ratification and the verdict; the wording of the Plan Gate and the lifecycle reference.
+Not covered: the sources of authorization themselves and what is never one (ADR-D-0040); a small change built without a plan (ADR-D-0055); goal mode; the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0052 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0052); what the product side is graded against where no product philosophy exists (ADR-D-0036); what is shown of the extensions at closeout (ADR-D-0042); merge authorization; how the plan records the ratification and the verdict; the wording of the Plan Gate and the lifecycle reference.
 
 ## Validation
 
@@ -66,4 +66,4 @@ Not covered: the sources of authorization themselves and what is never one (ADR-
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run", "Value audit" and "Lifecycle". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0052 (the value audit), ADR-D-0038 (how the ratification reaches the session), ADR-D-0036 (the product side's documents), ADR-D-0042 (extensions at closeout).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run", "Value audit" and "Lifecycle". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0052 (the value audit), ADR-D-0038 (how the ratification reaches the session), ADR-D-0036 (the product side's documents), ADR-D-0042 (extensions at closeout), ADR-D-0055 (a small change built without a plan).

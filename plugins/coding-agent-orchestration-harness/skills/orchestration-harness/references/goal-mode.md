@@ -35,7 +35,7 @@ Before the loop starts, construct the goal condition with `references/goal-condi
 
 ## Authority Envelope
 
-A goal is never accepted bare. Negotiate an authority envelope — the boundary of the loop's autonomy — with the user, ratified once up front and recorded in the goal file (template: `references/goal-templates.md`). It contains:
+A goal is never accepted bare. Negotiate an authority envelope — the boundary of the loop's autonomy — with the user, ratified once up front and recorded in the goal file (template: `references/goal-templates.md`). Only the user's ratification in the session authorizes an envelope; a ratified brief authorizes nothing in goal mode until a record states the conditions under which it would. It contains:
 
 - Decision scope: paths, components, and operation classes the loop may change freely.
 - Progress obligation: progress is reduction in expected distance to the goal — there is no separate "movement" object. Measure it:
