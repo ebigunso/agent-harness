@@ -20,7 +20,7 @@ A ratified brief can authorize a plan without the person directing the work read
 
 ## Decision
 
-- What a ratified brief governs is a run: one or more plan-mode plans, drafted one after another as the work shows what the next has to be. A small change the person directing the work stated in the brief, built without a plan as ADR-D-0041 states, is the one exception: it is not a plan and forms no run.
+- What a ratified brief governs is a run: one or more plan-mode plans, drafted one after another as the work shows what the next has to be. A small change the person directing the work stated in the brief, built without a plan as ADR-D-0055 states, is the one exception: it is not a plan and forms no run.
 - Each plan of a run is authorized on its own, exactly as ADR-D-0040 and ADR-D-0041 state; nothing about being inside a run authorizes a plan.
 - A plan of a run closes with its own closeout audit and review and is not reported as ready for judgement; the run continues into its next plan without the person directing the work.
 - The run closes once. Only then is the result reported as ready for that person's judgement, the note sent to Counsel, and the reviewed branches published where a standing approval covers that.
@@ -42,9 +42,9 @@ Someone who hands over a design wants to come back to it built, not to a first p
 
 ## Decision Boundary
 
-Invariant: a brief governs a run of one or more plans, a small change built without a plan (ADR-D-0041) excepted; each plan is authorized on its own through the Plan Gate; a plan closes without being reported as ready, and the run closes once, scenario by scenario, with human-only scenarios reported as ready for judgement and never as met; the run record holds only what audits stated; the Decision list states the rest.
+Invariant: a brief governs a run of one or more plans, a small change built without a plan (ADR-D-0055) excepted; each plan is authorized on its own through the Plan Gate; a plan closes without being reported as ready, and the run closes once, scenario by scenario, with human-only scenarios reported as ready for judgement and never as met; the run record holds only what audits stated; the Decision list states the rest.
 
-Not covered: the conditions for authorizing a plan, and when a small change is built without one and what it keeps (ADR-D-0041); how a small change closes and is reported, which the workflow text states; what a run's closeout shows of the extensions the audit let through (ADR-D-0042); when a run stops without finishing because it has stopped getting closer, which the workflow text states; what the Orchestrator writes for the audit to compare, and where (ADR-D-0052); design-level findings during a run (ADR-D-0053); the form of the run record and of the closeout; goal mode; work with no brief.
+Not covered: the conditions for authorizing a plan (ADR-D-0041); when a small change is built without one and what it keeps (ADR-D-0055); how a small change closes and is reported, which the workflow text states; what a run's closeout shows of the extensions the audit let through (ADR-D-0042); when a run stops without finishing because it has stopped getting closer, which the workflow text states; what the Orchestrator writes for the audit to compare, and where (ADR-D-0052); design-level findings during a run (ADR-D-0053); the form of the run record and of the closeout; goal mode; work with no brief.
 
 ## Validation
 
