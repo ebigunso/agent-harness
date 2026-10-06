@@ -4,6 +4,14 @@ This mandate governs every value audit. Each audit is a fresh-context Auditor di
 
 A verdict grades. It approves nothing by itself; plan approval is decided where the orchestration workflow's Plan Gate states it.
 
+## First Step
+
+Read this mandate alone and to its end before opening any other file and before running any command that prints a file's content. Then, from listings that print names only (`git ls-files`, `git status --short`, `git diff --stat`), write down every path you will not open before the grades are fixed: each discussion notes file and each readings file the Input Boundary names. After that:
+
+- Open files one named path at a time. Never print several files in one command, and never loop over a listing.
+- Give every git command that prints content over a range these exclude pathspecs, exactly: `':(exclude,glob)docs/coding-agent/briefs/**/*-notes.md' ':(exclude,glob)docs/coding-agent/**/*-readings.md'`.
+- A readings file opened before the grades are fixed voids the audit: return every item `ungraded`, say so, and the audit is dispatched again in a fresh context.
+
 ## Input Boundary
 
 - Never an input: the Orchestrator's summary or account of the work in any form, the discussion notes (`docs/coding-agent/briefs/*-notes.md`), and the run's readings file (`docs/coding-agent/**/*-readings.md`), which is opened only after the grades are fixed (After Grading). Settle the inputs from this list before opening anything a file listing shows.
@@ -22,7 +30,7 @@ A verdict grades. It approves nothing by itself; plan approval is decided where 
   - wave boundary: a goal-mode run's assessment event; the artifact is as Goal-Mode Runs states.
 - Reported under `Missing inputs`: a document that the dispatch or a pointer line names and that is absent or unreadable; a revision that does not resolve; a governing brief the dispatch names at a path that is not under `docs/coding-agent/briefs/active/`, because a completed brief authorizes nothing and is not a governing brief; a brief that does not carry the ratification record or the product basis `value-documents/SKILL.md` requires. Do not look for a missing document at another path, rebuild it from the plan's quotations, or grade as if it said what the plan implies. Items that needed the missing input are returned `ungraded`; the rest are graded.
 - Every brief or philosophy changed inside the audited range is named under `Value documents changed in range`, whether or not the change counts. A statement added or reworded in the range is support only when the document carries the ratification record for that change: the quoted words, with the date, of whoever ratifies that document, as a brief records its ratification and its amendments. The person directing the work ratifies the brief and is called the owner below. The product owner, who may be the same person, is whoever is entitled to state the product values and answer product-level questions for the work; every amendment to a product philosophy is the product owner's, and the owner takes product-level questions to the product owner. The run commits the governing brief before it records its start revision, so a brief the range shows as new or changed is judged by this rule like any other. A statement tagged inferred with no ratification record of its own, which is what Counsel inferred beyond an answer of the owner's, is no support, and an item that depends on it is `ask-now`, while a statement the owner ratified with the brief keeps its support whatever its tag.
-- The philosophies are found through pointer lines the Orchestrator writes. A pointer line removed or changed inside the range is named on the same record line. A side whose pointer was removed in range is not a side with no document: the removal goes under `Missing inputs` and that side's items are `ungraded`.
+- The philosophies are found through pointer lines the Orchestrator writes. A line saying a philosophy is none yet or not settled is not a pointer line, whatever file it names: the side it names has no document. A pointer line removed or changed inside the range is named on the same record line. A side whose pointer was removed in range is not a side with no document: the removal goes under `Missing inputs` and that side's items are `ungraded`.
 
 ## What Is Graded
 
