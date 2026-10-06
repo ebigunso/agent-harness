@@ -20,7 +20,14 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 
 | Plan | State | Scenarios it is predicted to move | Scenarios the closeout audit found moved |
 | --- | --- | --- | --- |
-| `design-led-long-runs-plan.md` | authorized under the ratified brief 2026-10-04; in progress | none demonstrated; 4 and 5 to 9 made ready for the owner's judgement on the built plugin | - |
+| `docs/coding-agent/plans/completed/design-led-long-runs-plan.md` (the brief form, Counsel's discussion, the Auditor role) | authorized under the ratified brief 2026-10-04; closed 2026-10-04 after its closeout audit and final review | none demonstrated; 4 and 5 to 9 made ready for the owner's judgement on the built plugin | none demonstrated (closeout audit, dispatch 7) |
+| second plan (the run across plans) | to be drafted | - | - |
+
+## Carried between plans
+
+- ADR-D-0036 is reworded and proposed; nothing that depends on it reaches the remote before the owner accepts it by name.
+- The run's unpushed commits are rebuilt before publication so that no machine path reaches the remote, on the owner's go (asked 2026-10-04).
+- The audit mandate and the run-side reference do not yet read kind marks or scenarios; the second plan carries that.
 
 ## Findings
 

@@ -79,7 +79,9 @@ When Reviewer uses browser/UI tooling, artifacts must stay under the selected pr
 
 Use the plugin-root-relative `skills/wave-integration/references/reviewer-packet-template.md` as the packet shape after Worker waves.
 
-The value audit is a Reviewer-profile dispatch that takes nothing from this file: no packet, no Context / Rationale, no constraints. Its text and timing: `references/value-level-operation.md`.
+## Auditor Dispatch
+
+The Auditor's dispatches, the value audit and the in-loop goal assessment, take nothing from this file: no packet, no Context / Rationale, no constraints. Text and timing: `references/value-level-operation.md` for the audit, `references/goal-mode.md` Assessment Cadence for the assessment.
 
 ## Parallel Dispatch
 

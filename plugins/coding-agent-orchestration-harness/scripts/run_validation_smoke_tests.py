@@ -20,6 +20,7 @@ EXPECTED_INSTALL_FILES = [
     "harness_researcher.toml",
     "harness_worker.toml",
     "harness_reviewer.toml",
+    "harness_auditor.toml",
     "references/codex-app-connector-policy.md",
 ]
 

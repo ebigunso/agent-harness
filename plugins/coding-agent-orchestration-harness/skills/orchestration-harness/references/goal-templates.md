@@ -62,7 +62,7 @@ The envelope (the user-ratified boundary of what the loop may decide alone) is i
   - Any action that is irreversible or outward-facing (merge, deploy, force-push, data deletion, publishing, external service mutation) is outside the envelope by class, not by enumeration; new action types are judged against this irreversibility criterion.
 
 ## Assessment cadence events
-Dispatch the independent assessor (fresh-context Reviewer-role dispatch; see `references/goal-assessor-mandate.md`) on each of these events:
+Dispatch the independent assessor (fresh-context Auditor dispatch; see `references/goal-assessor-mandate.md`) on each of these events:
 - fresh start: <first N iterations of the goal>
 - post-pivot: <iterations immediately after an approach change, re-scoping, or surprising evidence>
 - suspected stall: <whenever stall criteria above may be met>

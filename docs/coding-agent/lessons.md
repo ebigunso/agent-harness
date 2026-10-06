@@ -1169,3 +1169,25 @@ Prevention:
 
 Evidence:
 - Reviewer findings on the split records, 2026-10-01; `adr.md` Form, Revisit When rule.
+
+## 2026-10-04 - A Verdict Logged Verbatim Is Swept For Machine Paths Before It Is Committed  [tags: privacy, validation, orchestration]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/design-led-long-runs-plan.md`
+- Task/Wave: the audit verdicts logged in the Progress Log
+- Roles involved: Orchestrator, Auditor, Reviewer
+
+Symptom:
+- Seven audit verdicts were logged verbatim into the plan and committed locally. Each said where the auditor had read its mandate, as an absolute path under the machine's home directory with the user name in it. The final review caught it before anything was pushed.
+
+Root cause:
+- "Logged verbatim" was applied without the privacy sweep, which ran only on text the Orchestrator wrote. A subagent's output is text from the same machine and names the same paths.
+
+Fix applied:
+- The paths were replaced in the plan by an explicit redaction mark and a note saying what was changed; the unpushed commits that still hold the original are rebuilt before publication, on the owner's go.
+
+Prevention:
+- Before committing any text returned by a subagent or a peer (a verdict, a report, a review), run the same sweep as for one's own text, and redact with an explicit mark rather than silently. A local commit counts: what is committed is what gets pushed.
+
+Evidence:
+- Final review by the Codex reviewer peer, 2026-10-04, on the range from the run's start revision.

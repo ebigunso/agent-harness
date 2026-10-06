@@ -34,6 +34,7 @@ Physical subagents:
 - Researcher: harness-researcher
 - Worker: harness-worker
 - Reviewer: harness-reviewer
+- Auditor: harness-auditor
 
 Counsel (`harness-counsel`) is a separate session role that the Orchestrator never dispatches, including when the runtime lists it among the available agents.
 

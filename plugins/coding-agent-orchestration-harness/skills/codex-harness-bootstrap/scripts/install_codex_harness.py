@@ -17,6 +17,7 @@ AGENT_FILENAMES = [
     "harness_researcher.toml",
     "harness_worker.toml",
     "harness_reviewer.toml",
+    "harness_auditor.toml",
 ]
 REFERENCE_FILENAMES = [
     "codex-app-connector-policy.md",

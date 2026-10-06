@@ -25,6 +25,7 @@ Logical roles are stable even when runtime physical names differ; `references/ru
 - Researcher: research-only; gathers context before planning.
 - Worker: execution; completes exactly one Task_X within `owns` and returns a strict YAML report per `subagent-report-contract`.
 - Reviewer: review-only; independently verifies acceptance criteria and required evidence.
+- Auditor: read-only; holds independent judgement of the Orchestrator's work, the value audit and the in-loop goal assessment, dispatched only by the Orchestrator with a fixed location-only template; dispatches nothing.
 - Counsel: a separate session the owner opens for value-level discussion; never dispatched, and its policy is the `counsel` skill, not this one.
 
 Hard boundaries: no nested subagents; Workers may edit outside `owns` only for a minimal touch their own edit needs to meet the acceptance criteria or a change a packet pre-ruling names, reporting either case; any other outside-`owns` change is surfaced, not made; shared-state Git mutations stay Orchestrator-controlled unless explicitly delegated.
@@ -108,8 +109,8 @@ When UI/user flows/layout correctness are impacted, the plan must include Review
 - Planning format and lifecycle: `plan-format`, `references/lifecycle-gates.md`
 - Goal mode (mode selection, envelope, loop, escalation): `references/goal-mode.md`
 - Rule entry and rule-suite fast path: `references/rule-suite-fast-path.md`
-- Value-level operation, only when on per Repository Rule Entry (value documents, value audit, asking the owner): `references/value-level-operation.md`; the auditor's mandate and fixed dispatch template: `references/value-audit-mandate.md`
-- Research/Worker/Reviewer dispatch: `subagent-strategy`, `references/dispatch-guidance.md`
+- Value-level operation, only when on per Repository Rule Entry (value documents, value audit, asking the owner): `references/value-level-operation.md`; the Auditor's mandate and fixed dispatch template: `references/value-audit-mandate.md`
+- Research/Worker/Reviewer/Auditor dispatch: `subagent-strategy`, `references/dispatch-guidance.md`
 - Worker report schema: `subagent-report-contract`
 - Worker UI probes: `references/ui-validation-policy.md`
 - UI/E2E evidence: `playwright-e2e-evidence`, `playwright-cli`

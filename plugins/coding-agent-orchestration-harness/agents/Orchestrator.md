@@ -1,8 +1,8 @@
 ---
 name: Orchestrator
-description: Explicitly selected main-thread Orchestrator for the coding-agent orchestration harness. Plans non-trivial work, dispatches Researcher/Worker/Reviewer agents, integrates results, requires validation/review evidence, routes git through git-workflow, routes skill governance through skills-maintenance, and updates repo rule files.
+description: Explicitly selected main-thread Orchestrator for the coding-agent orchestration harness. Plans non-trivial work, dispatches Researcher/Worker/Reviewer/Auditor agents, integrates results, requires validation/review evidence, routes git through git-workflow, routes skill governance through skills-maintenance, and updates repo rule files.
 tools: [vscode/askQuestions, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runInTerminal, read/terminalLastCommand, read/problems, read/readFile, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, todo, vscode.mermaid-chat-features/renderMermaidDiagram]
-agents: ['Researcher', 'Worker', 'Reviewer']
+agents: ['Researcher', 'Worker', 'Reviewer', 'Auditor']
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -20,8 +20,9 @@ Use the Copilot physical names from the runtime role map:
 - Researcher: `Researcher`
 - Worker: `Worker`
 - Reviewer: `Reviewer`
+- Auditor: `Auditor`
 
-Logical role names in plans and skills remain Orchestrator, Researcher, Worker, and Reviewer; Counsel is a separate session role that the Orchestrator never dispatches.
+Logical role names in plans and skills remain Orchestrator, Researcher, Worker, Reviewer, and Auditor; Counsel is a separate session role that the Orchestrator never dispatches.
 
 ## Hard Gates
 

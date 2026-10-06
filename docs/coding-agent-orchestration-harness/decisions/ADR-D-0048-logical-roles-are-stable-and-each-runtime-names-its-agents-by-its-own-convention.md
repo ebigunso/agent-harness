@@ -37,7 +37,7 @@ Someone writing or reading a plan works with roles and should not have to know w
 
 Invariant: roles are referred to by stable logical names; physical names follow each runtime's convention; the role map says which roles exist and which physical name holds each; published names change only with a migration plan.
 
-Not covered: which roles exist and what each is responsible for; each runtime's naming convention and any guidance on choosing a new name, which the role map and the adapter checklist state; how a session takes a role (ADR-D-0037); where adapter files live (ADR-I-0006); dispatch profiles of a role, which are not roles (ADR-D-0030).
+Not covered: which roles exist and what each is responsible for; each runtime's naming convention and any guidance on choosing a new name, which the role map and the adapter checklist state; how a session takes a role (ADR-D-0037); where adapter files live (ADR-I-0006); dispatch profiles of a role, which are not roles.
 
 ## Validation
 
@@ -53,4 +53,4 @@ Not covered: which roles exist and what each is responsible for; each runtime's 
 
 ## More Information
 
-Replaces ADR-D-0003 in full. Carried: stable logical role names, runtime-specific physical names, the role map as their canonical statement, and published names kept. Dropped: the list of four roles, which the role map now owns, and the preference for namespaced new names where a collision is plausible, which is no longer a decision of record. Related: ADR-D-0037 (entering a session role), ADR-D-0030 (dispatch profiles), ADR-I-0006 (adapter layout).
+Replaces ADR-D-0003 in full. Carried: stable logical role names, runtime-specific physical names, the role map as their canonical statement, and published names kept. Dropped: the list of four roles, which the role map now owns, and the preference for namespaced new names where a collision is plausible, which is no longer a decision of record. Related: ADR-D-0037 (entering a session role), ADR-D-0050 (the Auditor role), ADR-I-0006 (adapter layout).
