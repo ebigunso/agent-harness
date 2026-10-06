@@ -23,6 +23,11 @@ All of this section is agent-proposed and was accepted on 2026-10-06 in the word
 - While the stack it belongs to is unmerged, it takes no branch and no pull request of its own; it goes on top of the last one. **gives**
 - Whether a change is small is the Orchestrator's call. The guard on that call is the closing audit: where the change went beyond his statement, the audit holds it. **gives**
 
+## A small change and the run
+
+- A change he directs after a run is reported ready belongs to the closing of that run and is handled inside it: the run's closing conditions anticipate such changes. A small change is a unit of a run, as a plan is, and not an exception outside it. **gives** *(told 2026-10-06, of ADR-D-0051 as first revised: "I think the better approach is to revise the closing conditions of a run, to anticipate directed changes after a run is reported done and handle them appropriately, rather than to make an exception to allow small runs." Counsel's reading, which he confirmed: that such a change belongs to the run's closing and a small change is a unit of a run.)*
+- A small change stated against a brief whose run is already accepted and merged starts a run of its own, of one small change, closing once like any run. A run is one or more units, plans or small changes. **gives** *(agent-proposed 2026-10-06; his answer: "Yes, that reading is right.")*
+
 ## Limits
 
 - This loosens a gate, and he was told so before he took it. It changes the Plan Gate, so the accepted record that states it returns to him for acceptance by name. **constraint** *(agent-proposed; accepted 2026-10-06 with the proposal)*
