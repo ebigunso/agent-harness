@@ -14,3 +14,9 @@
   - Judgement calls (Worker): "A small change's section" renamed "The changes file" and given the creation and move statement; "logged in the run record" in While open reads "logged as any unit of the run is"; the Note to Counsel names the changes file among the places not pointed into; mandate line 46 (outside Small Change) repointed so the auditor finds Scenarios in the run record the changes file names; "the record's quotation" reads "the changes file's quotation".
   - Orchestrator ruling: the edit to mandate line 46 stands; without it the auditor would look for Scenarios in a file that has none.
 - Review (Codex reviewer, at 9da00e4): NEEDS_REVISION with one MINOR, in the live input and not the text: the run record carried no readings-file pointer, which the mandate has the auditor read from it; applied by adding the pointer line (and the changes file's) to the run record's metadata. The plugin text passed every other check.
+- Delta re-review (Codex reviewer, at 66c14d7): APPROVED, no finding open.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/middle-size-for-a-small-change-changes.md. Governing brief: docs/coding-agent/briefs/active/small-change-from-his-word-brief.md. Changes since: 32f0c67.
+  ```

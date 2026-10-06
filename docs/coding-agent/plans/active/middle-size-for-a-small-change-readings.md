@@ -104,6 +104,19 @@ Findings compared: none found. The readings file's `Findings` section reads "Non
 
 Readings corrected after this comparison: the run record's trace, the run closing on acceptance, the merged case's hand-over and Counsel's recurring note are extensions of the brief's statements, not covered by them; `no plan` said plainly and a rejection while open as a directed change are what the brief states; the owner's acceptance of the revised records and his other relayed words live in the plan's Decision Log, not in a value document, so they are claims to the audit and the readings now say so; the old plan's close and the fixture removal are mechanics outside this brief.
 
+### Small change 1 (the trace kept beside the run record), closeout
+
+Item | reading | statement relied on
+
+- The text as built: a small change's trace lives in `<run>-changes.md`, created with the first small change, moving with the run record and readings file; the run record holds only Scenarios and Units | covered | brief, A small change and the run, last statement: "The run record holds only what audits stated ... The trace the Orchestrator writes for a small change ... lives in a place of its own, not in the run record."; "Where it goes is the Orchestrator's"
+- The mandate's Small Change section: `Plan:` names the changes file; prior scenario state read from the run record it names | covered as mechanics; follows from the statement
+- Worker judgement calls (renamed bullet; "logged as any unit of the run is"; the note to Counsel names the changes file; mandate line 46 repointed; "the changes file's quotation") | covered as mechanics; no statement needed
+- Orchestrator's call: small, no plan (one task, text only, the place delegated) | covered | brief, The middle size: "The Orchestrator chooses, per change, whether to draft a plan"; "Whether a change is small is the Orchestrator's call"
+- Orchestrator's choice of place: a changes file, not the readings file | covered | brief: "or any other place that is appropriate"; "Where it goes is the Orchestrator's"
+- The run record's pointer lines added (review finding); the trace moved from the run record's section into the changes file | covered as mechanics
+- The brief's amendment in range (Counsel's, the owner's words) | covered; a value-document change made by Counsel, not the run
+- Scenario 1, the Orchestrator's expectation only: demonstrated by this change if the audit holds nothing (a one-sentence change built on the stack, no plan, no new pull request, reviewed and audited once, and he is told); observe in the changes file and the run record.
+
 ## Findings
 
 - ADR-D-0051 keeps "The record holds only what audits stated" while the text built here makes a small change's section of the run record the Orchestrator's trace (noticed by the Task_2 Worker and the reviewer). Reading: bears on the design if raised, since it changes what the owner reads of a run; the audit graded it inferred with `direction` (J10), so it reaches him at closeout as a marked item and is not escalated twice.
