@@ -72,6 +72,38 @@ Item | reading | statement relied on
 - Removal of the setup fixture folder and the close of the old value-level-operation plan, in the range but outside this brief | covered | his words relayed 2026-10-06: "Remove all."; "Just make sure it's not forgotten."
 - Scenario 1, the Orchestrator's expectation only: not yet; the text exists and no small change has been built under it.
 
+#### The audit's comparison, closeout (2026-10-06), as returned
+
+Reading compared:
+- C1 (DoD 1 as reworded), C3, C5a, C9, C10, C14-type items (J11, J14): agrees.
+- C2 (statement in the brief or an amendment): agrees (plan-draft Planner-added 2, extends / inferred, kept).
+- C4 and Planner-added 1 as reworded: diverges. Orchestrator: covered ("the change belongs to the run; no plan document"). Audit: inferred, with `direction`.
+- C6a: agrees (covered / cited).
+- C6b (closes on acceptance; `candidate ready` and the note recur): diverges. Orchestrator: covered under "The text as built: a run is one or more units ... closes once on his acceptance". Audit: inferred, `direction`.
+- C7 (merged case under a brief Counsel hands over): diverges. Orchestrator: covered ("the hand-over mechanics are the existing ones"). Audit: inferred, `direction`.
+- C5b (pull-request text brought up to date): unread.
+- C8 (`no plan` said plainly; told when done): diverges. Orchestrator: extends. Audit: cited.
+- C11 (Counsel's contacts each time reported ready): unread.
+- D1 (ADR-D-0055): agrees (covered / cited).
+- D2, D3 (ADR-D-0040, ADR-D-0051): diverges. Orchestrator: covered, relying on "his acceptance 2026-10-06". Audit: ask-now; the relayed acceptance is in the plan's log and in no document, and the mandate returns a record whose decision changed to the owner by name.
+- D4: unread (ADR-D-0041 pointers) / not audited.
+- J1: agrees. J2: agrees (mechanics / not audited).
+- J3 (split on his word): diverges in basis. Orchestrator: covered by his quoted words. Audit: inferred; the words are in the plan, not a document.
+- J4 (ADR-D-0051 left alone, overturned): diverges. Orchestrator: covered as mechanics or by his words. Audit: inferred, superseded.
+- J5, J6: agrees. J7: agrees (mechanics / not audited).
+- J8 (between acceptance and merge left Not covered): unread; the audit marks it `direction`.
+- J9: agrees (extends / inferred).
+- J10: agrees (extends / inferred); the audit adds `direction`.
+- J11: diverges. Orchestrator: extends. Audit: cited.
+- J12: unread as its own item (the final form is read under "the text as built ... product side", which agrees).
+- J13: diverges, as C7.
+- H1, H2 (old plan closed; fixtures removed): diverges. Orchestrator: covered by his relayed words "Remove all." and "Just make sure it's not forgotten." Audit: internal mechanics, not audited; the relayed words are in no document and are not support; the changes are not work of this brief and the fixture removal is not logged in the plan.
+- H3: unread.
+
+Findings compared: none found. The readings file's `Findings` section reads "None yet."; the brief marks no statement as a means, so no departure from a means was noted on any item line. Not under Findings but recorded as a reading (line 68): the tension between ADR-D-0051's "holds only what audits stated" and the small change's section of the run record; acting on it would change what the owner reads of a run, so if it is raised it bears on the design; it ends with its grade, inferred with `direction` (J10).
+
+Readings corrected after this comparison: the run record's trace, the run closing on acceptance, the merged case's hand-over and Counsel's recurring note are extensions of the brief's statements, not covered by them; `no plan` said plainly and a rejection while open as a directed change are what the brief states; the owner's acceptance of the revised records and his other relayed words live in the plan's Decision Log, not in a value document, so they are claims to the audit and the readings now say so; the old plan's close and the fixture removal are mechanics outside this brief.
+
 ## Findings
 
-- None yet.
+- ADR-D-0051 keeps "The record holds only what audits stated" while the text built here makes a small change's section of the run record the Orchestrator's trace (noticed by the Task_2 Worker and the reviewer). Reading: bears on the design if raised, since it changes what the owner reads of a run; the audit graded it inferred with `direction` (J10), so it reaches him at closeout as a marked item and is not escalated twice.
