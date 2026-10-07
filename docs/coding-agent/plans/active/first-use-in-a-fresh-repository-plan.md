@@ -154,15 +154,15 @@
   - docs/coding-agent/plans/**
 - depends_on: [Task_2, Task_3]
 - description: |
-  The Orchestrator writes this repository's Counsel line in `common.md` and the merge rule in `orchestrator.md` as the new text has them; then runs the fixture in a temporary directory: scenario 1, a fresh agent given the setup dispatch offers the relay approval and writes the line on a yes, and a fresh agent given the Counsel skill opens, finds the line and does nothing more; the fixture part of scenario 2, the fixture holding an invented prose philosophy with a companion carrying a synthetic ratification record, setup finds it and records the pointer, and a fresh agent following the Orchestrator's Documents step reads it as ratified with no missing-ratification flag. The dispatch texts and the agents' replies are kept in this plan's Progress Log; no fixture is committed.
+  The Orchestrator writes this repository's Counsel line in `common.md` and the merge rule in `orchestrator.md` as the new text has them; then runs the fixture in a temporary directory: scenario 1, a fresh agent given the setup dispatch offers the relay approval and writes the line on a yes, and a fresh agent given the Counsel skill opens, finds the line and does nothing more; the fixture part of scenario 2, the fixture holding an invented prose philosophy with a companion carrying a synthetic ratification record, setup finds it and records the pointer, a fresh agent following the Orchestrator's Documents step reads it as ratified with no missing-ratification flag, and a fresh Auditor dispatch by the fixed template on the fixture (a plan under its brief, both invented) reads the companion and returns no missing-ratification entry. The fixture's file contents (or the recipe that recreates them), the dispatch texts and the agents' replies are kept in this plan's Progress Log; no fixture is committed.
 - acceptance:
   - `common.md` carries the Counsel line beside its Standing Approvals entry; `orchestrator.md` has the owner's acceptance of a stack by name cover each pull request in it.
-  - The agents' replies show scenario 1 and the fixture part of scenario 2 as the brief states them, or the plan records where they did not and what was corrected; the discussion itself and the reference's effect on quality are left to the owner and said so.
+  - The agents' replies show scenario 1 and the fixture part of scenario 2 (the Orchestrator's and the Auditor's lookup both) as the brief states them, or the plan records where they did not and what was corrected; the discussion itself and the reference's effect on quality are left to the owner and said so.
 - validation:
   - kind: manual
     required: true
     owner: orchestrator
-    detail: "Scenario 1 on the fixture, replies logged verbatim in the Progress Log; this is also the branch's final review's input"
+    detail: "Scenario 1 and the fixture part of scenario 2 (setup, the Orchestrator's Documents step, one Auditor dispatch) on the fixture; the fixture's contents, the dispatch texts and the replies logged verbatim in the Progress Log; this is also the branch's final review's input"
   - kind: review
     required: true
     owner: reviewer
