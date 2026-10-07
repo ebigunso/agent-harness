@@ -1,0 +1,42 @@
+# Readings: First use in a fresh repository
+
+Written by the Orchestrator for the value audit to compare after its grades are fixed. Not read by an auditor before grading.
+
+## Readings
+
+### `first-use-in-a-fresh-repository-plan.md`, plan draft
+
+Item | reading | statement relied on
+
+- DoD 1 (prose philosophy; companion with records; readers look there) | covered | brief, The philosophy as a human document, both statements
+- DoD 2 (the reference; read after the draft; gaps; no wording; gaps left out recorded) | covered | brief, A reference for the philosophy, gives and constraint; its contents the means
+- DoD 3 (acceptance of a stack by name merges; permission the owner's once) | covered | brief, Merging a stack
+- DoD 4 (Counsel's seat; no acknowledgement rule) | covered | brief, The peer channel
+- DoD 5 (setup offers the approval; the line; recorded in common.md and nowhere else) | covered | brief, Relay admission before setup
+- DoD 6 (two lines; first-session reference; reference read only at a draft check; word count) | covered | brief, One-time setup without a cost; pass condition on the word count
+- DoD 7 (the outside view, route-neutral, verbatim, no-route escape) | covered | brief, A view from a model of another family
+- DoD 8 (before setup; dates) | covered | brief, Smaller frictions
+- DoD 9 (records return by name) | covered | brief, Limits, first constraint
+- DoD 10 (privacy and other repositories' names) | covered | brief, Limits, second constraint
+- DoD 11 (validators; review; scenario 1 on a fixture, scenario 2 said plainly) | covered | brief, Pass conditions
+- DoD 12 (the run's close) | covered as mechanics; the standing approval covers publication
+- Planner-added 1 (companion name; carved out of the Auditor's exclusion) | extends | brief: "a companion notes file beside each philosophy, named after it"; "The Orchestrator and the Auditor look there"
+- Planner-added 2 (old-form philosophies read as ratified until moved) | extends | brief: "the companion has a defined home"; the owner's two philosophies in the old form exist
+- Planner-added 3 (the engineering discussion's notes in its companion) | extends | brief: "the reply is kept verbatim in the discussion notes"
+- Non-goals (acknowledgement contract; named route; trivial work) | covered | brief, Left out on purpose
+- Non-goals (template; grades; goal mode; rewriting other repositories' philosophies) | covered as mechanics
+- Design: no hook built, the seat claimed by Counsel once per repository | extends | a departure from a means, recorded as a finding; brief: "where there is none, the reference tells Counsel to claim it"
+- Design: the Counsel line beside the Standing Approvals entry | extends | brief: "Admission is recorded in the common rule file"; "one line there that records Counsel's seat and that relays are admitted"
+- Design: a record proposed for the merge; ADR-D-0035 revised; ADR-D-0038 wording | covered | brief, Limits: "Where it changes what an accepted decision record decides, that record returns to him"
+- A1 (a stack by name covers each pull request in it) | extends | brief: "acceptance of a stack by name"
+- A2 (nowhere else excludes runtime memory, not the in-session statement) | extends | brief: "a note the Orchestrator keeps for itself is not a place the harness reads"; ADR-D-0038
+- A3 (the identity convention `<repository>-counsel`; the owner may correct it) | extends | brief: "names the convention"
+- Task_1 to Task_5 | covered, as the Definition of Done items they carry
+- Decision Log 1 (no hook) | as the Design line
+- Decision Log 2 (companion name; old form) | as Planner-added 1 and 2
+- Version bump to 0.31.0 | extends | the brief answers a report on 0.30.0 in use; mechanics of release
+- Scenarios, the Orchestrator's expectation only: all four not yet at plan draft.
+
+## Findings
+
+- The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.
