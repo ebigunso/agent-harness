@@ -14,9 +14,10 @@ Item | reading | statement relied on
 - DoD 4 (evidence named by the closing review; kept only with the case made; regression tests are not evidence) | covered | brief, fourth principle; scenario 4
 - DoD 5 (additions carry their reason, widening the suppressions line) | covered | brief, fifth principle
 - DoD 6 (no new code norm; existing ones left and named) | covered | brief, Limits, first constraint; "no new text states a code norm"
-- DoD 7 (records revised and accepted by name) | covered | brief, pass condition on the record on discoveries
-- DoD 8, 9 (validators; review; the run reported ready) | covered as mechanics
-- Planner-added 1 (without a brief the gate is the user's approval; ADR-D-0033's pause cases widen) | extends | brief: "goes back through the same gate that admitted it"
+- DoD 7 (ADR-D-0033 replaced and retired; ADR-D-0041 revised; each accepted by name) | covered | brief, pass condition on the record on discoveries
+- DoD 8 (the repository's text wins, stated once in Precedence) | covered | brief, Limits, third constraint
+- DoD 9, 10 (validators; review; the run reported ready) | covered as mechanics
+- Planner-added 1 (without a brief the gate is the user's approval or waiver; the discoveries record's pause cases widen) | extends | brief: "goes back through the same gate that admitted it"
 - Planner-added 2 (a revision audited at plan draft on the whole plan) | extends | brief: "the value audit on the plan as it now stands, graded as a whole"
 - Non-goals (code norms; porting mechanism; adapters' output format; template; fixture) | covered | brief, Limits and Left out on purpose; pass conditions agent-checkable on the text
 - Design (tighten one statement per principle; records revised in place) | covered | brief, means: tighten rather than add
@@ -24,6 +25,7 @@ Item | reading | statement relied on
 - A2 (ADR-D-0053's experience test kept beside the design-change reading) | extends | brief, second principle: "how it sits under the repository's philosophies"
 - Task_1 to Task_3 | covered, as the Definition of Done items they carry
 - Decision Log 1 | as Planner-added 1 and 2
+- Decision Log 2 (review applied; the hand-over condition unresolved and asked) | covered as mechanics; the hand-over question is the owner's
 - Scenarios, the Orchestrator's expectation only: all four not yet; no fixture is run; his next real run shows them.
 
 ## Findings
