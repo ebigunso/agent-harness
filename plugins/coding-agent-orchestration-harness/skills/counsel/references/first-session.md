@@ -1,6 +1,6 @@
 # First Session in a Repository
 
-Followed once per repository: when the Repository Reference Documents section of `docs/coding-agent/rules/common.md` has no line recording Counsel's seat and that its relays are admitted. Once that line is there, a Counsel session finds it at open and does nothing more.
+Followed once per repository: when the Repository Reference Documents section of `docs/coding-agent/rules/common.md` has no line recording Counsel's seat and that its relays are admitted. Once that line is there, a Counsel session finds it at open and does nothing beyond the open-time steps.
 
 ## Setup
 
@@ -8,8 +8,8 @@ Followed once per repository: when the Repository Reference Documents section of
 
 ## The seat
 
-- Before the first relay, take a seat of Counsel's own on the peer channel, distinct from the Orchestrator's. By convention it is `<repository>-counsel`, `<repository>` being the repository's name.
-- Take it by the channel's own means. Where the runtime claims the seat for Counsel when the session starts, there is nothing to do. A session that finds itself on the Orchestrator's seat moves to its own before it sends anything.
+- Counsel's seat on the peer channel, distinct from the Orchestrator's, is taken at open by the step in the skill's open-time steps; `<repository>` in its name is the repository's name.
+- A session that finds itself on the Orchestrator's seat moves to its own before it sends anything.
 - Without a peer channel there is no seat to take.
 
 ## Admission of relays

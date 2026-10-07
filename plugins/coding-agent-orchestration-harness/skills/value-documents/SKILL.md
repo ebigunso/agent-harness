@@ -15,7 +15,7 @@ Four document types in the target repository carry what the person directing the
 - Neither philosophy need be complete up front. They grow from what each initiative forces into words and from verdicts on results, and are revised by discussion after implementation and measurement shed new light.
 - A philosophy says what the person who may change it ratified; it need not be in that person's wording. It is prose: no statement in it carries a provenance tag and no ratification record sits inside it. Which statements Counsel originated, and the ratification, are in its companion.
 - A date in a value document or a companion is the owner's local calendar date, since the owner is the one ratifying; the peer channel's timestamps are left as the channel gives them.
-- A statement that is not ready to settle is marked provisional where it stands.
+- A statement in a brief that is not ready to settle is marked provisional where it stands. In a philosophy the prose stays unmarked: the mark is recorded in its companion, naming the statement.
 - None of these documents is required to take the form of the experience chain (a person with a given persona, does something, experiences something as a result, and so gains certain values). A document may use that framing where it helps communicate, and each states the concept the discussion settled on in whatever terms state it best. A product persona is the product owner's to state; Counsel supplies none and no values for one.
 
 ## Where each is, who changes it, who reads it
@@ -66,7 +66,7 @@ Four document types in the target repository carry what the person directing the
 ## Philosophy companion
 
 - One file beside each philosophy, named after it: `<philosophy-stem>-companion.md`, the stem being the philosophy's file name without its extension.
-- It holds three things and nothing of the discussion: which statements Counsel originated, each accepted by the person entitled to ratify the philosophy; one ratification record per ratified version of the philosophy, that person's quoted words with the date; and the gaps against the `counsel` skill's philosophy reference that that person left out, so they are not raised again.
+- It holds four things and nothing of the discussion: which statements Counsel originated, each accepted by the person entitled to ratify the philosophy; one ratification record per ratified version of the philosophy, that person's quoted words with the date; which statements are marked provisional, each named; and the gaps against the `counsel` skill's philosophy reference that that person left out, so they are not raised again.
 - That person ratifies the philosophy whole: every statement in a ratified version counts on that version's record, whoever originated it.
 - It is not a notes file. The Orchestrator and the auditor read it for a philosophy's ratification.
 - A philosophy ratified before companions existed, with its ratification record and tags inside it, is read as ratified until Counsel moves its record into a companion; a reader accepts the record in either place.
