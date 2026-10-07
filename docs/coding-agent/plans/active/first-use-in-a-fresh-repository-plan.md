@@ -579,6 +579,110 @@
   Remark outside the record (not a grade): the plan's owns path `src/ledgerling.py` does not exist in this repository (no `ledgerling*` file outside docs/). If this is intended as a fixture exercise that is fine; otherwise the Plan Gate's own checks should catch it.
 
 - 2026-10-07 Task_4 outcome, the Orchestrator's reading: scenario 1 shown (setup found the companion's record and recorded the pointer without asking; offered the relay-admission entry as an offer with the seat `fresh-repo-counsel` by convention; wrote nothing until the yes; on the yes wrote the entry with the quoted words and date and the Counsel line in one change; a fresh Counsel session found the line and did nothing more, reading neither reference). The fixture part of scenario 2 shown (the Orchestrator's Documents step and the Auditor each read the companion's record as the ratification, with no missing-ratification flag; the Auditor's `Missing inputs: none`). Not shown and the owner's to judge: the discussion itself and whether the reference improves a philosophy without shaping the discussion (scenario 2's human-only part), scenario 3 (a real merge on his acceptance), scenario 4. Two things noticed, carried to the owner as observations: with the Counsel line present the skill has no open-time step for sitting on the seat in a later session (the brief's "nothing more"); setup took `<repository>` from the folder name where the repository has no remote. The review of the branch follows.
+- 2026-10-07 Final review of the branch (Codex reviewer, 8b36645..2a5ff5d): NEEDS_REVISION, one MAJOR: the Auditor fixture step's invented brief and plan were described but not retained, so the case that returned `Missing inputs: none` could not be inspected. Recovered exactly from the session's own record of the command that wrote them (not reconstructed from the verdict) and retained here as fixture inputs. Everything else passed: the rule files, the logged replies, the records, validators, template block, adapter parity, the privacy sweep over all fourteen commits with no other repository's name found.
+- 2026-10-07 Fixture inputs for step 5, verbatim as written to the working tree. Seed tracking state: in the fixture repository of steps 1 to 4, `README.md`, `src/ledgerling.py`, the philosophy and the companion were committed (tracked) before setup ran, and setup discovered the philosophy among tracked paths; in this repository's working tree for step 5 the philosophy, the companion, the brief, the plan and the readings file were untracked and the pointer line was changed in the working tree only, which the Auditor noted in its record. The brief, `docs/coding-agent/briefs/active/ledgerling-fixture-brief.md`:
+
+  ```md
+    # Brief: Settle rounds to whole units
+
+    - status: ratified by the owner on 2026-10-07 ("Yes, do it.")
+    - drafted by: Counsel, from discussion with the owner on 2026-10-07
+    - handed to: the Orchestrator on 2026-10-07
+    - product basis: the product philosophy, `docs/product/what-ledgerling-is-for.md`
+    - kind marks: **gives** (binds), **constraint** (fixed), **means** (does not bind).
+
+    ## Who it is for and why
+
+    - When the month settles, each housemate sees one whole number, never cents. **gives** *(told 2026-10-07: "Round to whole units and say so; nobody wants to owe 13.37.")*
+
+    ## Core scenario
+
+    1. A housemate runs settle and sees whole numbers with a line saying the amounts are rounded.
+
+    ## Pass conditions
+
+    - Agent-checkable: settle prints whole numbers and a rounding line.
+    - Human-only: the owner's next month-end.
+  ```
+
+  The plan, `docs/coding-agent/plans/active/ledgerling-fixture-plan.md`:
+
+  ```md
+    # Plan: Settle rounds to whole units
+
+    - status: draft
+    - generated: 2026-10-07
+    - last_updated: 2026-10-07
+    - work_type: impl
+
+    ## Goal
+    - Settle prints each balance as a whole number and says the amounts are rounded, as `docs/coding-agent/briefs/active/ledgerling-fixture-brief.md` states.
+
+    ## Definition of Done
+    - `settle` prints whole numbers and one line saying the amounts are rounded.
+    - The ledger file's format is unchanged.
+
+    ## Planner-added requirements
+    - None
+
+    ## Scope / Non-goals
+    - Scope: `src/ledgerling.py`, settle only.
+    - Non-goals: add; the ledger format; currencies.
+
+    ## Design
+    - Proportional form: one function changes its output format; no responsibility, contract or state is touched.
+
+    ## Compatibility stance (required if a contract/interface/persisted format is touched)
+    - surface: none touched
+    - stance: preserve
+    - justification: the ledger file is unchanged.
+
+    ## Context (workspace)
+    - Governing brief: `docs/coding-agent/briefs/active/ledgerling-fixture-brief.md`, ratified 2026-10-07 ("Yes, do it.").
+    - Run record: none yet. Readings file: `docs/coding-agent/plans/active/ledgerling-fixture-readings.md`.
+
+    ## Open Questions (max 3)
+    - None.
+
+    ## Assumptions
+    - A1: rounding is to the nearest whole unit, half up. source: a reading of "whole units".
+
+    ## Tasks
+
+    ### Task_1: Round the settle output
+    - type: impl
+    - owns:
+      - src/ledgerling.py
+    - depends_on: []
+    - description: |
+      Settle rounds each balance to a whole number and prints one line saying so.
+    - acceptance:
+      - Balances print as whole numbers.
+      - One line says the amounts are rounded.
+    - validation:
+      - kind: command
+        required: true
+        owner: worker
+        detail: "python src/ledgerling.py settle on a sample ledger"
+      - kind: review
+        required: true
+        owner: reviewer
+        detail: "Diff review against the brief"
+
+    ## Task Waves (explicit parallel dispatch sets)
+    - Wave 1: Task_1
+
+    ## Rollback / Safety
+    - Revert the commit.
+
+    ## Progress Log (append-only)
+    - 2026-10-07 Drafted.
+
+    ## Decision Log
+    - None.
+  ```
+
+  The readings file, `docs/coding-agent/plans/active/ledgerling-fixture-readings.md`, held two reading lines for the audit to compare after grading (DoD 1 covered by the brief's whole-numbers statement; A1 extending "whole units") and a `Findings` section reading "None yet."; it is not reproduced here so that no readings text sits in a plan. The philosophy and the companion are those logged above.
 
 ## Decision Log
 - 2026-10-07 The hook means is not taken: the plugin has no hook mechanism and names no channel tool, so an adapter hook would bind it to one channel and fire in every session of that runtime; Counsel claims its seat following the first-session reference, once per repository. Recorded as a finding in the readings file (trivial: it changes nothing the owner experiences beyond one claim).
