@@ -684,6 +684,12 @@
 
   The readings file, `docs/coding-agent/plans/active/ledgerling-fixture-readings.md`, held two reading lines for the audit to compare after grading (DoD 1 covered by the brief's whole-numbers statement; A1 extending "whole units") and a `Findings` section reading "None yet."; it is not reproduced here so that no readings text sits in a plan. The philosophy and the companion are those logged above.
 
+- 2026-10-07 Delta re-review, also the branch's final review (Codex reviewer, range 8b36645..2a102dc): APPROVED, no finding open. Task_4 is done.
+- 2026-10-07 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/first-use-in-a-fresh-repository-plan.md. Governing brief: docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md. Changes since: 8b36645.
+  ```
 ## Decision Log
 - 2026-10-07 The hook means is not taken: the plugin has no hook mechanism and names no channel tool, so an adapter hook would bind it to one channel and fire in every session of that runtime; Counsel claims its seat following the first-session reference, once per repository. Recorded as a finding in the readings file (trivial: it changes nothing the owner experiences beyond one claim).
 - 2026-10-07 The companion is named `<philosophy-stem>-companion.md`, metadata only, an input to the audit; discussion stays in notes files the Auditor never opens, the engineering philosophy's beside it as `<philosophy-stem>-notes.md`; old-form philosophies are read as ratified until Counsel moves their record. (First drafted as a `-notes.md` companion carved out of the exclusion; the plan review found that one file cannot be an input to one reader and forbidden to another.)

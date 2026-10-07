@@ -44,6 +44,23 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the companion's home, purpose and readers are what the brief states and only the filename is a how; "a stack by name" is the brief's own phrase.
 
+### `first-use-in-a-fresh-repository-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft heading keeps its reading as corrected after that comparison, with these additions.
+- The text as built, Counsel's side: prose philosophy, companion, notes file, dates, the two open-time lines, the two references, the outside view, the seat, before-setup | covered | the brief's sections as the plan-draft readings cite them
+- The text as built, the Orchestrator's side: the companion read by the Orchestrator, the Auditor and setup; the offer and the Counsel line; the merge on acceptance of a stack; 0.31.0 | covered | the brief's sections; Planner-added 4 for the version
+- Records: ADR-D-0035 revised and accepted by name; ADR-D-0038 wording only; ADR-D-0057 proposed then withdrawn on his question | covered | brief, Limits; his words of 2026-10-07
+- This repository's rule files: the Counsel line; the merge rule | covered | brief, Relay admission and Merging a stack; the identity the standing approval of 2026-10-01 names
+- The fixture: scenario 1 and the fixture part of scenario 2 shown, the rest said plainly | covered | brief, Pass conditions
+- Worker judgement calls (Task_2): the notes file for either philosophy's discussion; `provisional` kept as a status; the two lines placed after the open-time bullet; "For facts, dispatch only" | extends | brief: "the reply is kept verbatim in the discussion notes"; ADR-D-0035
+- Worker judgement calls (Task_3): the stub's wording; the offer at bootstrap and at a targeted refresh; the yes as his own statement unless already admitted; the repository-wide notes exclusion | extends | brief, Relay admission before setup; the mandate's boundary
+- Orchestrator rulings: the wide notes exclusion kept; the Copilot adapter's agent list left; the history sentence added; the first-request scoping (review); the companion metadata-only (review); withdrawal of ADR-D-0057 on his question | covered | brief, The peer channel; A view from a model of another family; Limits; his words
+- Departure from the means: no hook | extends | the finding below, trivial
+- Observations for the owner: no open-time seat step in a later session; `<repository>` from the folder name where no remote exists | extends | brief: "names the convention"
+- Scenarios, the Orchestrator's expectation only: 1 demonstrated on the fixture; 2 demonstrated in its checkable part, the discussion his; 3 not yet; 4 not yet.
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.
