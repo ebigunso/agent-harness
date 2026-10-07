@@ -68,6 +68,17 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the widened notes exclusion extends the brief (no statement places a notes file outside the briefs folder); ADR-D-0038's change is wording only; the observations for the owner rest on the brief's pass conditions and "names the convention"; the owner's acceptance of ADR-D-0035 lives in the plan's Decision Log, a claim to the audit, and the readings now say so.
 
+### Small changes 1 and 2 (provisional mark to the companion; seat at open), closeout
+
+Item | reading | statement relied on
+
+- The text as built, change 1: a philosophy's provisional mark in its companion, prose unmarked, readers adjusted | covered | brief, Directed after the run was reported ready, first statement
+- The text as built, change 2: one open-time seat step whether or not the Counsel line is present; first-session refers to it | covered | brief, second statement
+- The Orchestrator's calls: small, no plan, built together, reviewed once, audited once | covered | small-change brief: "The Orchestrator chooses, per change"; the statements leave no how-choice
+- Worker judgement calls (old-form line not extended to in-prose provisional marks; first-session's dropped sentences) | covered as mechanics; nothing beyond the statements
+- Orchestrator ruling: first-session's "does nothing more" reworded to "nothing beyond the open-time steps" | covered | the second statement makes the seat step run at every open
+- Scenario 1 (the next Counsel session "does nothing more"): the Orchestrator's expectation, demonstrated as before; the seat step now runs at every open as he directed.
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.

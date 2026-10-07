@@ -22,3 +22,9 @@
 - Worker report (one task, `done`, one YAML block, five files): a provisional mark stands in place in a brief only, a philosophy's going in its companion naming the statement, the prose unmarked, the companion's contents line now four things; the mandate, value-level-operation and Counsel's drafting read a philosophy's mark from the companion; one open-time seat step before the Counsel-line check, whether or not the line is there; first-session's seat paragraph refers to that step and keeps the move off the Orchestrator's seat. Word count 3518 to 3559 (+15 change 1, +26 change 2); the two lines unchanged. Worker validation: package validator pass, smoke tests pass, `git diff --check` clean, template block byte-identical, grep: no plugin text expects a provisional mark inside a philosophy's prose.
   - Judgement calls (Worker): the old-form line (a record inside the document) not extended to old in-prose provisional marks; the seat step reads "whether or not the line below is there"; first-session drops "before the first relay" and the runtime-claims sentence, the step's "where you do not already hold it" covering the runtime case.
   - Orchestrator ruling: first-session's opening sentence, "does nothing more", reworded by the Orchestrator to "does nothing beyond the open-time steps", since the seat step now runs at every open.
+- Review (Codex reviewer, at 22aebba): APPROVED, no finding open.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md. Governing brief: docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md. Changes since: 106097c.
+  ```
