@@ -12,8 +12,6 @@ depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour
 
 # ADR-D-0035: Counsel reaches into the work only by quick reads of code in service of a discussion, by a read-only Researcher for bulk grounding, and by advice it consults, which for the engineering discussion is a view it obtains from a model of another family by whatever route the environment provides; plans, diffs and Worker dispatch stay off limits
 
-
-Revision of 2026-10-07 awaiting acceptance by name: the outside view for the engineering discussion (the added Decision bullet, the added sentence of Why, the two added rejected alternatives, the extended invariant, Not covered and Validation). Until ebigunso accepts the revised record by name, the terms accepted on 2026-10-01 stand.
 ## Context and Problem Statement
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
