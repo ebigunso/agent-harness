@@ -18,11 +18,12 @@ Item | reading | statement relied on
 - DoD 8 (before setup; dates) | covered | brief, Smaller frictions
 - DoD 9 (records return by name) | covered | brief, Limits, first constraint
 - DoD 10 (privacy and other repositories' names) | covered | brief, Limits, second constraint
-- DoD 11 (validators; review; scenario 1 on a fixture, scenario 2 said plainly) | covered | brief, Pass conditions
-- DoD 12 (the run's close) | covered as mechanics; the standing approval covers publication
-- Planner-added 1 (companion name; carved out of the Auditor's exclusion) | extends | brief: "a companion notes file beside each philosophy, named after it"; "The Orchestrator and the Auditor look there"
+- DoD 11 (validators; review; scenario 1 and the fixture part of scenario 2 on a fixture, the rest said plainly) | covered | brief, Pass conditions: "where one can be made, and where one cannot the closeout says so plainly"
+- DoD 12 (the plan closes, the run reported ready) | covered as mechanics; the standing approval covers publication
+- Planner-added 1 (companion `-companion.md`, metadata only, an input; discussion stays in notes) | extends | brief: "a companion notes file beside each philosophy, named after it"; "The Orchestrator and the Auditor look there"
 - Planner-added 2 (old-form philosophies read as ratified until moved) | extends | brief: "the companion has a defined home"; the owner's two philosophies in the old form exist
-- Planner-added 3 (the engineering discussion's notes in its companion) | extends | brief: "the reply is kept verbatim in the discussion notes"
+- Planner-added 3 (the engineering discussion's notes in a notes file beside the philosophy) | extends | brief: "the reply is kept verbatim in the discussion notes"
+- Planner-added 4 (version 0.31.0) | extends | the brief answers a report on 0.30.0 in use; the cache installs by version
 - Non-goals (acknowledgement contract; named route; trivial work) | covered | brief, Left out on purpose
 - Non-goals (template; grades; goal mode; rewriting other repositories' philosophies) | covered as mechanics
 - Design: no hook built, the seat claimed by Counsel once per repository | extends | a departure from a means, recorded as a finding; brief: "where there is none, the reference tells Counsel to claim it"
@@ -34,7 +35,6 @@ Item | reading | statement relied on
 - Task_1 to Task_5 | covered, as the Definition of Done items they carry
 - Decision Log 1 (no hook) | as the Design line
 - Decision Log 2 (companion name; old form) | as Planner-added 1 and 2
-- Version bump to 0.31.0 | extends | the brief answers a report on 0.30.0 in use; mechanics of release
 - Scenarios, the Orchestrator's expectation only: all four not yet at plan draft.
 
 ## Findings
