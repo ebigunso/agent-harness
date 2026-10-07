@@ -272,7 +272,314 @@
 - 2026-10-07 Wave 2, Task_2: Worker report `done`, one YAML block, seven files inside the task's `owns`. A philosophy is plain prose; the companion `<philosophy-stem>-companion.md` (provenance, one ratification record per version, gaps left out; not a notes file; read by Counsel, the Orchestrator and the auditor) and a philosophy's notes file beside it; the old form read as ratified until moved; dates the owner's local date; briefs unchanged. Counsel's skill: the two open-time lines and the before-setup clause; drafting without tags, ratification in the companion; the philosophy reference read only after a draft, as gaps, supplying no wording; the outside view as ADR-D-0035; the seat convention. New references `philosophy-reference.md` (479 words, a gap check with the brief's nine elements, the exclusions, the qualities, an invented example of an unnamed tool) and `first-session.md` (289 words). Counsel adapters and the capability matrix allow consulting a model of another family as consulting, not dispatch. Word count 3304 to 3482 at the Worker's hand-back, 3518 after the Orchestrator's one sentence below: the one-time procedure +3 net (two lines +40, the moved admission text -37); other additions +211 (outside view, reference pointer, companion and dates, before-setup, seat, the channel-history sentence). Worker validation: package validator pass, smoke tests pass, `git diff --check` clean, no text asks for a tag or record inside a philosophy, the example names no real project.
   - Judgement calls (Task_2): the notes file applies to either philosophy's discussion; `provisional` kept as a status, not a tag; the two lines placed after the open-time bullet; "Dispatch only the read-only Researcher" became "For facts, dispatch only…".
   - Orchestrator rulings: the Copilot adapter's agent list is left as it is, the no-route case covering a runtime so configured (Counsel says so and the owner decides); the notes file for either philosophy's discussion confirmed; the brief's constraint that Counsel reads the channel's history rather than trusting its inbox, and that no acknowledgement is asked, is added as one sentence to the peer-channel bullet by the Orchestrator (counted with the other additions).
-- 2026-10-07 Wave 2 review (Codex reviewer, 28244ad..eb363d1): NEEDS_REVISION, one MAJOR (bootstrap-lifecycle.md read as forbidding any relay to start setup, where the brief restricts only the first request before relays are admitted; scoped to that) and one MINOR (the word-count entry omitted the Orchestrator's sentence; corrected above). Everything else passed: both sides agree on the companion, the Counsel line, the seat, the audit's inputs; the reference does not bind the document to the discussion's terms; adapter parity; privacy.
+- 2026-10-07 Wave 2 review (Codex reviewer, 28244ad..eb363d1): NEEDS_REVISION, one MAJOR (bootstrap-lifecycle.md read as forbidding any relay to start setup, where the brief restricts only the first request before relays are admitted; scoped to that) and one MINOR (the word-count entry omitted the Orchestrator's sentence; corrected above). Everything else passed: both sides agree on the companion, the Counsel line, the seat, the audit's inputs; the reference does not bind the document to the discussion's terms; adapter parity; privacy.- 2026-10-07 Wave 3, Task_4 (the Orchestrator's own): this repository's rule files written (d441db9): the Counsel line in `common.md` in the form `rules-files.md` gives, naming the identity the Standing Approvals entry of 2026-10-01 names; `orchestrator.md`'s merge rule reads as the new text has it. Then the fixture, in a temporary directory outside the repository, nothing of it committed.
+- 2026-10-07 Fixture recipe (invented, naming no real project): a git repository `fresh-repo` holding `README.md`, `src/ledgerling.py` (a 25-line expense splitter), `docs/product/what-ledgerling-is-for.md` (the prose philosophy below) and `docs/product/what-ledgerling-is-for-companion.md` (the companion below); no rule files. The philosophy, verbatim:
+
+  # What Ledgerling is for
+
+  Ledgerling exists so that people who share a home never have to have the conversation about money twice. One of them types what was spent as it happens, and at the end of the month everyone sees one number each and nobody argues about the arithmetic.
+
+  The person it serves is the housemate who hates asking. They would rather pay more than bring it up. Ledgerling succeeds when that person opens it, sees the balance, and the balance is simply right, with nothing to discuss. It fails when anyone has to reconstruct a month from memory, however pretty the output.
+
+  Two principles carry it. Plain text wins over any database, because a ledger people can read without the tool is a ledger they trust; when speed and legibility conflict, legibility wins. One number per person wins over itemised fairness, because the point is to end the conversation, not to extend it; when exactness and simplicity conflict, the tool rounds and says so.
+
+  It behaves like a quiet flatmate who writes everything on the fridge: never reminds, never nags, never hides a line. It aspires to settle a shared holiday as easily as a week of groceries, and until it can, it says plainly that it handles one household and one currency.
+
+  It must not become a budgeting app, a bank connection, or a chat. It refuses notifications, because a reminder is the conversation it exists to avoid. It refuses categories beyond a free word, because taxonomy is where arguments start.
+
+  You can see it working when a month closes with no message between housemates about money. The question every change is held to: does this make the money conversation shorter? When in doubt, leave it out.
+
+  Left out on purpose: multiple currencies and recurring expenses, because both reintroduce the arithmetic the tool exists to hide.
+
+  The companion, verbatim:
+
+  # Companion: What Ledgerling is for
+
+  ## Provenance
+
+  The scene and the measure, the two principles and the refusals are the owner's own. The analogy to a quiet flatmate and the north-star question were proposed by Counsel and accepted.
+
+  ## Ratification
+
+  - Version 1, ratified by the owner on 2026-10-07: "Yes, this is what Ledgerling is for. Ratified."
+
+  ## Gaps left out
+
+  - The reference's "what it aspires to" beyond one household: left out on purpose; the owner said the tool stays at one household for now.
+
+- 2026-10-07 Scenario 1 and the fixture part of scenario 2, step 1: setup. Dispatch (a fresh Claude Worker-type agent on Opus; the fixture's path and the plugin's path given as machine paths, redacted here): "You are the Orchestrator session of a fresh repository, asked by its owner directly: 'Run setup for this repository.' The repository is at [machine path redacted] (a git repository; work only inside it; commit nothing). The harness you follow is the plugin at [machine path redacted] (read its skills by path; this is the version installed for this repository). Run the rulebook's full bootstrap as `skills/rulebook/SKILL.md` and its `references/bootstrap-lifecycle.md`, `rules-files.md` and `rule-suite-templates.md` state, with `skills/value-documents/SKILL.md` for how a philosophy is found; the peer channel this repository uses names seats `<repository>-counsel` by convention. Write the rule files the bootstrap writes under the fresh repository's `docs/coding-agent/rules/`. Then give the owner the setup report the text asks for, exactly as the text has you give it, and stop there: do not assume any answer from the owner. Your final message is the setup report (the text you would show the owner), followed by one short section 'Files written' listing the paths relative to the fresh repository and the full text of its `common.md`. Use no path of the machine in the report itself." Reply, verbatim:
+
+  ## Setup report
+
+  Setup is done. I wrote the repository's rules under `docs/coding-agent/rules/` and committed nothing.
+
+  **Product philosophy:** recorded as `docs/product/what-ledgerling-is-for.md`. It is the only document in the repository that says what Ledgerling is for. Its companion beside it records your ratification on 2026-10-07, so I recorded it without asking. From now on, work here is held to it. If it isn't your product philosophy, say so and I'll remove the line.
+
+  **Engineering philosophy:** none yet. Once one exists, work here is held to how you want the project to look. To start one, open a Counsel session.
+
+  **Decision records:** the repository has no convention for them yet, and I haven't written a line for this. Two options:
+  - **Yes:** I add the harness's ADR template and README under `docs/decisions/`, and `common.md` points there.
+  - **No:** `common.md` records that there's no repository convention and the harness's default template applies.
+
+  Do you want them placed?
+
+  **Admitting Counsel's relays (an offer, nothing is missing):** you can let Counsel bring your decisions to this session, so you don't have to type them here yourself. The seat is named by convention; tell me if you want a different name. If you accept, I'll add this under a new Standing Approvals section in `common.md`:
+
+  > - Relays from Counsel: a relay from `fresh-repo-counsel` on the peer channel that quotes the owner carries the owner's decisions to an Orchestrator session in this repository, on the terms of the `orchestration-harness` value-level operation reference (The Carrier); plan approval and its waiver are not carried. A message's sender cannot be verified, and the owner accepts that risk with this entry. Given and accepted by <you> on <date>: "<your words>".
+
+  In the same change I'd add this line under Repository Reference Documents:
+
+  > - Counsel: fresh-repo-counsel on the peer channel; relays admitted (Standing Approvals).
+
+  Do you accept this entry as written, with this seat name? Until you say yes, neither line is written.
+
+  ## Files written
+
+  - `docs/coding-agent/rules/common.md`
+  - `docs/coding-agent/rules/worker.md`
+  - `docs/coding-agent/rules/orchestrator.md`
+  - `docs/coding-agent/rules/reviewer.md`
+  - `docs/coding-agent/rules/_lifecycle.json`
+  - `docs/coding-agent/rules/index.md` (written last, as the marker that setup succeeded)
+
+  Full text of `common.md`:
+
+  ```md
+  ---
+  rule_schema_version: 2
+  suite_id: "rules-20261007-1"
+  rule_file: "common"
+  last_updated: "2026-10-07"
+  ---
+
+  # Common Repository Rules
+
+  ## Repository Reference Documents
+
+  - Product philosophy: docs/product/what-ledgerling-is-for.md
+  - Engineering philosophy: none yet. Once it exists, work here is held to how the owner wants the project to look. To start one, open a Counsel session.
+
+  ## Repository-Specific Validation Commands
+
+  - None recorded yet.
+
+  ## Repo Safety / Boundaries
+
+  - None recorded yet.
+
+  ## Repo Naming / Structure
+
+  - None recorded yet.
+  ```
+
+  Notes for the Orchestrator (not part of the owner report):
+  - **No Decision Records line yet:** each of the three allowed outcomes needs either a detected convention or the owner's yes or no on placement, so I left it out until he answers.
+  - **Seat name:** the repository has no git remote, so I took `<repository>` from its folder name, `fresh-repo`.
+  - **Report format:** I followed your requested final-message format instead of the Worker YAML contract.
+
+- 2026-10-07 Step 2: the owner's answers, sent to the same agent as the fixture's owner: "The owner, in this session, 2026-10-07: 'No, don't place the ADR template; record that the harness default applies. And yes, I accept the Standing Approvals entry as written, with the seat name fresh-repo-counsel.' Act on both as the text has you act, then reply with the full text of common.md as it now stands and one line on what you wrote where. Commit nothing." Reply, verbatim:
+
+  I've made both changes in `docs/coding-agent/rules/common.md` and committed nothing. Under Repository Reference Documents I added the harness-default Decision records line, since you declined the template, and the Counsel line. I also added a new Standing Approvals section with the entry, quoting your acceptance and dated 2026-10-07. Finally, in `docs/coding-agent/rules/_lifecycle.json` I updated the evidence note so it says ADR placement was declined.
+
+  The entry doesn't admit Counsel's relays until it is committed. Until then, I won't act on any relay from `fresh-repo-counsel`.
+
+  Two things to check in the entry:
+  - **Who accepted:** I wrote "the owner" because I don't know your name. Tell me your name if you want it there instead.
+  - **Your quote:** I quoted only the part of your message that accepts the entry, starting at "yes".
+
+  `common.md` as it now stands:
+
+  ```md
+  ---
+  rule_schema_version: 2
+  suite_id: "rules-20261007-1"
+  rule_file: "common"
+  last_updated: "2026-10-07"
+  ---
+
+  # Common Repository Rules
+
+  ## Repository Reference Documents
+
+  - Product philosophy: docs/product/what-ledgerling-is-for.md
+  - Engineering philosophy: none yet. Once it exists, work here is held to how the owner wants the project to look. To start one, open a Counsel session.
+  - Decision records: no repo convention — harness default template applies (durable-docs-authoring references/adr.md).
+  - Counsel: fresh-repo-counsel on the peer channel; relays admitted (Standing Approvals).
+
+  ## Repository-Specific Validation Commands
+
+  - None recorded yet.
+
+  ## Repo Safety / Boundaries
+
+  - None recorded yet.
+
+  ## Repo Naming / Structure
+
+  - None recorded yet.
+
+  ## Standing Approvals
+
+  - Relays from Counsel: a relay from `fresh-repo-counsel` on the peer channel that quotes the owner carries the owner's decisions to an Orchestrator session in this repository, on the terms of the `orchestration-harness` value-level operation reference (The Carrier); plan approval and its waiver are not carried. A message's sender cannot be verified, and the owner accepts that risk with this entry. Given and accepted by the owner on 2026-10-07: "yes, I accept the Standing Approvals entry as written, with the seat name fresh-repo-counsel."
+  ```
+
+  The fixture's rule files were then committed in the fixture repository so that the entry is in effect.
+- 2026-10-07 Step 3: a fresh Counsel session opens. Dispatch (a fresh agent on Opus): "You are a Counsel session that the owner has just opened in the repository at [machine path redacted] (work only inside it; write nothing; the owner has said nothing yet beyond opening the session). Your skill is [machine path redacted]/skills/counsel/SKILL.md and its references (read the skill by path; follow only what it has you do at open). Do exactly what the skill's open-time steps say for this repository and nothing more; the peer channel of this repository is assumed present with seats named by the convention the skill states, and you need not actually take a seat, only say whether the skill sends you to do so. Your final message: (1) the files you read, in order, with the reason the skill gave for each; (2) what you found in the Repository Reference Documents section and what the skill then had you do; (3) whether you read `references/first-session.md` or `references/philosophy-reference.md` at open, and why or why not; (4) the greeting or opening words you would say to the owner, if the skill has you say anything. Use no machine path in the message." Reply, verbatim:
+
+  task_id: Task_counsel_open_fresh_repo
+  status: done
+  summary: |
+    I followed the counsel skill's open-time steps in the fresh repository. I read two files and wrote nothing.
+    The Repository Reference Documents section exists, so setup has run. It lists a product philosophy, says the engineering philosophy is "none yet", and has the Counsel line ("fresh-repo-counsel on the peer channel; relays admitted").
+    Because the Counsel line is there, the skill says "nothing more": I did not read first-session.md, and I read philosophy-reference.md only after a draft exists.
+    The skill says the owner speaks first, so I say nothing at open. My first reply will mention once that there is no engineering philosophy yet and offer to start one.
+    Risk profile: low (a read-only role check). Validation depth: targeted.
+  files_changed: []
+  commands_run:
+    - command: "list files in the fresh repository (excluding .git)"
+      result: pass
+      note: "Found the rules files, the product philosophy and its companion, README, src/ledgerling.py. Used only to find files; not a skill step."
+  validation_results:
+    - name: "open-time steps of the counsel skill followed exactly, nothing written"
+      kind: manual
+      required: true
+      owner: worker
+      status: pass
+      evidence: "I read only the skill and common.md, edited nothing, took no seat and sent no message."
+  tests: "None; read-only behavioural check."
+  answers:
+    q1_files_read_in_order:
+      - file: "the counsel skill's SKILL.md"
+        reason: "The task assigned it as my skill; it defines Counsel's conduct and what to do at open."
+      - file: "docs/coding-agent/rules/common.md"
+        reason: "The skill says: 'When the session opens, read the \"Repository Reference Documents\" section of docs/coding-agent/rules/common.md; reading it is not editing it.'"
+    q2_reference_documents_section:
+      found:
+        - "Product philosophy: docs/product/what-ledgerling-is-for.md"
+        - "Engineering philosophy: none yet. To start one, open a Counsel session."
+        - "Decision records: no repo convention; the harness default template applies."
+        - "Counsel: fresh-repo-counsel on the peer channel; relays admitted (Standing Approvals). This matches a Standing Approvals entry the owner accepted on 2026-10-07."
+      what_the_skill_had_me_do:
+        - "The section exists, so setup has run. I do not say setup is missing and do not offer it."
+        - "The engineering philosophy is listed as none yet. The skill says to mention it once, in my first reply, and offer to start on one, then not raise it again this session if the owner does not take it up. No document is listed as waiting for the owner to say whether it is the philosophy, so I mention nothing about that."
+        - "The Counsel line is there, so the skill says 'nothing more'. No first-session step runs."
+        - "Peer seat: no open-time step sends me to take a seat. The skill only says messages travel with Counsel on its own seat, named <repository>-counsel by convention (here fresh-repo-counsel), and that I read the channel's history instead of trusting my inbox only while the channel is broken. Reading the discussion notes at open applies only when there is no peer channel, and this repository has one, so I did not read them."
+        - "I did not open the product philosophy, its companion, or the value-documents skill. The skill sends me to value-documents only before I draft, change, locate or hand over a value document, and none of that happens at open."
+    q3_first_session_and_philosophy_reference:
+      first_session_md: "Not read. The skill sends me to it only when the Counsel line is missing from the section, and here it is present."
+      philosophy_reference_md: "Not read. The skill allows it only after a discussion has produced a philosophy draft ('never during it'). No draft exists at open."
+    q4_opening_words:
+      at_open: "Nothing. 'The owner speaks first, and Counsel restates it so the owner can check it.' The owner has not spoken yet, so I make no greeting and wait."
+      first_reply_once_owner_speaks: |
+        [A restatement of what the owner said, for the owner to check, put as person -> does -> experiences -> gains.]
+        One thing to mention once: this project has a product philosophy ("what ledgerling is for") but no engineering philosophy yet. An engineering philosophy would set how you want the project to look to whoever works on it later, and work here would be held to it. If you'd like, we can work one out in conversation, for as long as that takes. If not, I won't bring it up again.
+  blockers: []
+  questions_for_orchestrator: []
+  assumptions:
+    - "Out-of-scope docs: the product philosophy, its companion, the value-documents skill and both counsel references. The skill gives no reason to open any of them at open."
+    - "'Seats named by the convention the skill states' means fresh-repo-counsel, which matches the Counsel line in common.md."
+    - "Residual risk: the skill gives no explicit open-time step for taking the peer seat, so whether Counsel should take its seat when the session opens is unspecified."
+  rule_candidates: []
+  ```
+
+- 2026-10-07 Step 4: the Orchestrator reads the value documents. Dispatch (a fresh agent on Opus): "You are the Orchestrator session of the repository at [machine path redacted] (work only inside it; write nothing). The owner has asked for a small piece of work and no brief governs it. Before planning, do what [machine path redacted]/skills/orchestration-harness/SKILL.md Repository Rule Entry and `references/value-level-operation.md` (Documents) have you do about value documents in this repository, reading `skills/value-documents/SKILL.md` where the reference sends you; stop before any planning. Your final message: (1) whether value-level operation is on for this run and why; (2) each value document you read, where you found its ratification, and whether it is ratified (quote the record you relied on); (3) whether anything would be escalated or flagged as a missing ratification, and why or why not; (4) the files you read, in order. Use no machine path in the message." Reply, verbatim:
+
+  task_id: Task_value_docs_entry
+  status: done
+  summary: >
+    I ran Repository Rule Entry and the Documents step of the value-level operation reference for the fresh repository, and stopped before any planning. Value-level operation is on because common.md has a pointer to a product philosophy.
+    I read that philosophy and its companion. It is ratified, and nothing needs escalating or flagging. Nothing was written.
+    Risk profile: low (read-only). Validation depth: targeted.
+  files_changed: []
+  commands_run:
+    - command: "list the files in the fresh repository, excluding .git"
+      status: pass
+      note: "Found the rule suite, docs/product/what-ledgerling-is-for.md with its companion, README.md and src/ledgerling.py. There is no briefs directory."
+  validation_results:
+    - kind: manual
+      required: true
+      owner: worker
+      status: pass
+      evidence: "I followed the reads in SKILL.md Repository Rule Entry and in value-level-operation.md Documents (plus value-documents/SKILL.md, where it sends you). The answers below come from the files quoted."
+  tests: "None. The task only reads documents."
+  blockers: []
+  questions_for_orchestrator: []
+  assumptions:
+    - "This is a plan-mode run: the owner asked for a small piece of work and no goal envelope was mentioned."
+    - "The owner directing this work is also Ledgerling's product owner. No file says otherwise, and the companion records the ratification as 'the owner'."
+  findings:
+    1_value_level_operation: >
+      ON. common.md, under "Repository Reference Documents", has the pointer line
+      "Product philosophy: docs/product/what-ledgerling-is-for.md". In plan mode, a pointer to a product or engineering
+      philosophy turns value-level operation on even when no brief was handed over, and no brief was.
+      The engineering line, "Engineering philosophy: none yet. ...", is not a pointer. It turns nothing on or off and
+      is not mentioned to the person. With no brief, the run is audited against the product philosophy alone, so there is no Counsel carrier
+      for value questions and the user is asked in this session (The Carrier, last paragraph). The Counsel line and the Standing
+      Approvals relay entry in common.md are on record, but this run does not use them.
+    2_value_documents_read:
+      - document: "Product philosophy, docs/product/what-ledgerling-is-for.md"
+        ratification_found_in: "its companion beside it, docs/product/what-ledgerling-is-for-companion.md, section Ratification"
+        ratified: true
+        record_relied_on: "Version 1, ratified by the owner on 2026-10-07: \"Yes, this is what Ledgerling is for. Ratified.\""
+        note: >
+          The philosophy itself carries no ratification record, which is the form the value-documents skill expects. The companion's
+          Provenance says the flatmate analogy and the north-star question came from Counsel and were accepted. Ratification
+          covers the whole philosophy, so those parts count on the Version 1 record.
+      - document: "Engineering philosophy"
+        ratification_found_in: "not applicable: there is no pointer ('none yet'), so I read no file and probed no path"
+        ratified: "n/a"
+    3_escalation_or_missing_ratification: >
+      Nothing to escalate and no missing ratification. The one pointer names a file that exists and can be read, and its
+      companion holds a ratification record quoting the owner with a date. No brief was handed over, so no brief ratification needs to
+      reach the session, and nothing calls for asking for one. The engineering "none yet" line is not a pointer and the run
+      does not raise it. One thing I noticed, which needs no action: the philosophy's line "It aspires to settle a shared holiday ..."
+      sits slightly awkwardly beside the companion's "Gaps left out" entry, which leaves out any aspiration beyond one household. But
+      Version 1 was ratified with that text, the philosophy also says it "handles one household and one currency", and the run never
+      edits a philosophy or its companion. So I am not raising it as a question; at most it is a reading note for Counsel.
+    4_files_read_in_order:
+      - "orchestration-harness SKILL.md (Repository Rule Entry)"
+      - "orchestration-harness references/value-level-operation.md"
+      - "fresh repository: docs/coding-agent/rules/index.md"
+      - "fresh repository: docs/coding-agent/rules/common.md"
+      - "fresh repository: docs/coding-agent/rules/orchestrator.md"
+      - "value-documents SKILL.md"
+      - "fresh repository: docs/product/what-ledgerling-is-for.md"
+      - "fresh repository: docs/product/what-ledgerling-is-for-companion.md"
+    ordering_note: >
+      The reference ended up being read before the repository's common.md, because the task told me to read both up front. By the rule's order,
+      common.md decides whether the reference is read at all. It does turn value-level operation on here, so the outcome is the same.
+  rule_candidates: []
+  ```
+
+- 2026-10-07 Step 5: one Auditor dispatch by the fixed template. The mandate reads `docs/coding-agent/rules/common.md` of the repository it runs in, so the fixture's philosophy and companion were copied into this repository's working tree under `docs/product/`, an invented brief (`ledgerling-fixture-brief.md`, ratified "Yes, do it.", product basis the philosophy) and plan (`ledgerling-fixture-plan.md`, one task on `src/ledgerling.py`) placed under `briefs/active/` and `plans/active/` untracked, with a readings file, and the product-philosophy pointer line of `common.md` set to `docs/product/what-ledgerling-is-for.md` in the working tree only; all of it removed and the pointer restored after the verdict, nothing committed. Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/ledgerling-fixture-plan.md. Governing brief: docs/coding-agent/briefs/active/ledgerling-fixture-brief.md. Changes since: none." Verdict as returned (machine paths redacted):
+
+  ## Value Audit: Settle rounds to whole units (plan draft)
+
+  - Position: plan draft
+  - Documents read: [machine path redacted] [machine path redacted] [machine path redacted] [machine path redacted] (claims under review); docs/coding-agent/rules/common.md at HEAD (Standing Approvals section and pointer lines) and its working-tree diff
+  - Product basis: product philosophy (`docs/product/what-ledgerling-is-for.md`; ratification record in its companion: Version 1, owner, 2026-10-07, "Yes, this is what Ledgerling is for. Ratified.")
+  - Not audited: engineering side, which has no document (pointer line reads "none yet")
+  - Missing inputs: none
+  - Value documents changed in range: none (no range at plan draft). Noted for the record: the product-philosophy pointer line in common.md is changed in the uncommitted working tree from "none yet" to `docs/product/what-ledgerling-is-for.md`; the philosophy, its companion and the governing brief are untracked, not yet committed. The brief carries its ratification record ("Yes, do it.", owner, 2026-10-07) and states its product basis.
+  - DoD: `settle` prints whole numbers and one line saying the amounts are rounded | maps to the brief | cited | brief, gives: "When the month settles, each housemate sees one whole number, never cents." (told 2026-10-07: "Round to whole units and say so; nobody wants to owe 13.37."); philosophy: "when exactness and simplicity conflict, the tool rounds and says so." | -
+  - DoD: the ledger file's format is unchanged | maps to the brief | cited | philosophy: "Plain text wins over any database, because a ledger people can read without the tool is a ledger they trust"; "When in doubt, leave it out." | -
+  - Non-goal: add | maps to the brief | cited | brief, gives: "When the month settles, each housemate sees one whole number, never cents." (the brief asks for settle alone); philosophy: "When in doubt, leave it out." | -
+  - Non-goal: the ledger format | maps to the brief | cited | philosophy: "Plain text wins over any database, because a ledger people can read without the tool is a ledger they trust"; "When in doubt, leave it out." | -
+  - Non-goal: currencies | maps to the brief | cited | philosophy: "it says plainly that it handles one household and one currency"; "Left out on purpose: multiple currencies and recurring expenses, because both reintroduce the arithmetic the tool exists to hide." | -
+  - A1: rounding is to the nearest whole unit, half up | maps to the brief | inferred | extends brief "Round to whole units and say so" and philosophy "the tool rounds and says so"; no statement names a rounding rule; cheap to undo | -
+  - Task_1: Round the settle output | maps to the brief | cited | brief, gives: "When the month settles, each housemate sees one whole number, never cents."; philosophy: "the tool rounds and says so." | -
+  - Decision Log: no entries, no items.
+  - Human-only conditions pending: "Human-only: the owner's next month-end."
+  - Scenarios: none
+  - Reading compared: DoD 1: agrees (covered / cited). DoD 2 (ledger format unchanged): unread. Non-goal add: unread. Non-goal ledger format: unread. Non-goal currencies: unread. A1: agrees (extends / inferred). Task_1: unread.
+  - Findings compared: none found (readings file records "None yet")
+
+  No `ask-now` items: the brief and the philosophy decide every item on the audited side. No item is irreversible or outward-facing; no standing approval was relied on.
+
+  Remark outside the record (not a grade): the plan's owns path `src/ledgerling.py` does not exist in this repository (no `ledgerling*` file outside docs/). If this is intended as a fixture exercise that is fine; otherwise the Plan Gate's own checks should catch it.
+
+- 2026-10-07 Task_4 outcome, the Orchestrator's reading: scenario 1 shown (setup found the companion's record and recorded the pointer without asking; offered the relay-admission entry as an offer with the seat `fresh-repo-counsel` by convention; wrote nothing until the yes; on the yes wrote the entry with the quoted words and date and the Counsel line in one change; a fresh Counsel session found the line and did nothing more, reading neither reference). The fixture part of scenario 2 shown (the Orchestrator's Documents step and the Auditor each read the companion's record as the ratification, with no missing-ratification flag; the Auditor's `Missing inputs: none`). Not shown and the owner's to judge: the discussion itself and whether the reference improves a philosophy without shaping the discussion (scenario 2's human-only part), scenario 3 (a real merge on his acceptance), scenario 4. Two things noticed, carried to the owner as observations: with the Counsel line present the skill has no open-time step for sitting on the seat in a later session (the brief's "nothing more"); setup took `<repository>` from the folder name where the repository has no remote. The review of the branch follows.
+
 ## Decision Log
 - 2026-10-07 The hook means is not taken: the plugin has no hook mechanism and names no channel tool, so an adapter hook would bind it to one channel and fire in every session of that runtime; Counsel claims its seat following the first-session reference, once per repository. Recorded as a finding in the readings file (trivial: it changes nothing the owner experiences beyond one claim).
 - 2026-10-07 The companion is named `<philosophy-stem>-companion.md`, metadata only, an input to the audit; discussion stays in notes files the Auditor never opens, the engineering philosophy's beside it as `<philosophy-stem>-notes.md`; old-form philosophies are read as ratified until Counsel moves their record. (First drafted as a `-notes.md` companion carved out of the exclusion; the plan review found that one file cannot be an input to one reader and forbidden to another.)
