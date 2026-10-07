@@ -53,6 +53,11 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 - Dates in value documents are the owner's local calendar date, since the owner is the one ratifying; the channel's timestamps, which are in UTC, are left alone. **gives** *(agent-proposed; accepted 2026-10-07)*
 - The 30-minute expiry of the watch is the runtime's, not the harness's; re-arming it before a relay is the workaround until delivery is fixed, and nothing in the harness changes for it. *(agent-proposed; accepted 2026-10-07)*
 
+## Directed after the run was reported ready
+
+- A provisional mark does not stand in a philosophy's prose either; a statement of a philosophy that is not ready to settle is marked provisional in the companion file, with the rest of the metadata. **gives** *(agent-proposed 2026-10-08, after the closing audit noted that the form kept "marked provisional where it stands" for all four documents; his answer: "Both yes to 1 and 2.")*
+- At open, a Counsel session takes its seat on the peer channel where it does not already hold it, whether or not the Counsel line is present. **gives** *(agent-proposed 2026-10-08, after the run observed that with the Counsel line present the skill has no open-time step for the seat; his answer: "Both yes to 1 and 2.")*
+
 ## Limits
 
 - This brief changes the forms in the value-documents skill, the Counsel skill, the setup procedure and the Orchestrator's run-side text. Where it changes what an accepted decision record decides, that record returns to him for acceptance by name. **constraint** *(agent-proposed)*
