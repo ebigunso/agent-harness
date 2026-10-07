@@ -51,7 +51,13 @@ Repository Reference Documents also holds exactly one line for each of the two p
 
 `<what it gives>` is `work here is held to the behaviour the product owner wants from the product` for the product philosophy and `work here is held to how the owner wants the project to look` for the engineering philosophy. Only the first form is a pointer line; an existing pointer line in other wording keeps it. Set these lines only through `references/bootstrap-lifecycle.md` (Philosophy Lines), which also says what is reported.
 
-common.md may additionally include an optional Standing Approvals section (approvals given for all future runs), added or changed only as `orchestration-harness/references/value-level-operation.md` states.
+Repository Reference Documents may additionally hold one Counsel line, present only once the standing approval admitting Counsel's relays is recorded under Standing Approvals:
+
+- `Counsel: <identity> on the peer channel; relays admitted (Standing Approvals).`
+
+`<identity>` is the one the entry names, `<repository>-counsel` by convention or as the owner names it. Setup writes it with the entry (`references/bootstrap-lifecycle.md`, Counsel Relay Admission); the line records the admission, and the entry is what admits.
+
+common.md may additionally include an optional Standing Approvals section (approvals given for all future runs), added or changed only as `orchestration-harness/references/value-level-operation.md` states, the entry admitting Counsel's relays included.
 
 3) worker.md must include:
 - Repo-Specific Worker Notes
