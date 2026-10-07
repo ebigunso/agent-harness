@@ -37,6 +37,13 @@ Item | reading | statement relied on
 - Decision Log 2 (companion name; old form) | as Planner-added 1 and 2
 - Scenarios, the Orchestrator's expectation only: all four not yet at plan draft.
 
+#### The audit's comparison, plan draft (2026-10-07), as returned
+
+- `Reading compared: DoD 1-11 agrees; DoD 12 agrees (covered); Planner-added 1 diverges: Orchestrator "extends", audit "cited" (the brief's statement covers the companion's home, purpose and readers whole; only the filename is a how); Planner-added 2 agrees; Planner-added 3 agrees; Planner-added 4 agrees; Non-goals (ack contract; route; trivial work) agrees; Non-goals (template; grades; goal mode; other repositories' philosophies) agrees (covered); Design: no hook agrees in grade (Orchestrator "extends" for the departure, audit cited on the gives-statement it serves; the departure is compared below); Design: Counsel line beside the Standing Approvals entry agrees in substance (read under DoD 5, cited); Design: records agrees; A1 diverges: Orchestrator "extends", audit "cited" (brief 30 says "a stack by name"); A2 agrees; A3 agrees; Task_1-5 agrees; Decision Log 1 agrees as the Design line; Decision Log 2 agrees; Decision Log 3 unread.`
+- `Findings compared: Finding (hook means not taken): agrees, trivial. The owner experiences the same outcome, a seat taken before the first relay, and the brief's own text for runtimes without a hook already has Counsel claim it; a hook would have fired in Orchestrator sessions too. Ends cited.`
+
+Readings corrected after this comparison: the companion's home, purpose and readers are what the brief states and only the filename is a how; "a stack by name" is the brief's own phrase.
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.
