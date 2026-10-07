@@ -145,6 +145,12 @@
 
 ## Progress Log (append-only)
 - 2026-10-08 Brief committed on the run's branch; the plan starts from revision 099d78f.
+- 2026-10-08 Plan review (Codex reviewer): NEEDS_REVISION with three MAJOR and three MINOR findings, applied (see the Decision Log); re-review at 3cc5750 APPROVED with no finding open. Plan validator passes. The plan-draft audit follows; execution waits on the owner's answer to the hand-over question.
+- 2026-10-08 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md. Governing brief: docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md. Changes since: none.
+  ```
 
 ## Decision Log
 - 2026-10-08 Outside a brief the admitting gate is the user's approval or waiver, so a design change returns to the user with the plan review; the discoveries record's two pause cases widen by one (Planner-added 1). A revision is audited at plan draft on the whole revised plan (Planner-added 2).
