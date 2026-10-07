@@ -195,6 +195,12 @@
 
 ## Progress Log (append-only)
 - 2026-10-07 Brief committed on the run's branch; the plan starts from revision 8b36645.
+- 2026-10-07 Plan review (Codex reviewer): NEEDS_REVISION with four MAJOR and three MINOR findings, applied (see the Decision Log); a second round on one remaining MAJOR (the Auditor's companion lookup not exercised), applied; re-review at 9b506b4 APPROVED with no finding open. Plan validator passes.
+- 2026-10-07 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/first-use-in-a-fresh-repository-plan.md. Governing brief: docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md. Changes since: none.
+  ```
 
 ## Decision Log
 - 2026-10-07 The hook means is not taken: the plugin has no hook mechanism and names no channel tool, so an adapter hook would bind it to one channel and fire in every session of that runtime; Counsel claims its seat following the first-session reference, once per repository. Recorded as a finding in the readings file (trivial: it changes nothing the owner experiences beyond one claim).
