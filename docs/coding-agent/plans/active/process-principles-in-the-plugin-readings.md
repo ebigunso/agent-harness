@@ -28,6 +28,13 @@ Item | reading | statement relied on
 - Decision Log 2 (review applied; the hand-over condition unresolved and asked) | covered as mechanics; the hand-over question is the owner's
 - Scenarios, the Orchestrator's expectation only: all four not yet; no fixture is run; his next real run shows them.
 
+#### The audit's comparison, plan draft (2026-10-08), as returned
+
+- `Reading compared:` DoD 1 agrees; DoD 2 agrees; DoD 3 agrees; DoD 4 agrees; DoD 5 agrees; DoD 6 diverges (Orchestrator: covered by Limits constraint 1 and "no new text states a code norm"; auditor: inferred with direction, since the brief addresses new text only and keeping existing code norms against the stated neutrality is an extension); DoD 7 agrees; DoD 8 agrees; DoD 9 agrees; DoD 10 agrees (Orchestrator "covered as mechanics", auditor cited on the standing approval); Planner-added 1 agrees; Planner-added 2 diverges (Orchestrator: extends; auditor: cited, the means names the audit of the plan as it now stands and the position is how); Non-goals: code norms agrees, porting mechanism agrees, adapters' output format agrees, fixture agrees, template diverges (Orchestrator: covered; auditor: inferred, no brief statement names the template); Design agrees; A1 agrees; A2 agrees; Task_1 agrees; Task_2 agrees; Task_3 agrees; Decision Log 1 agrees; Decision Log 2a agrees; 2b agrees; 2c agrees; 2d diverges (Orchestrator: covered as mechanics; auditor: inferred); 2e agrees; 2f agrees.
+- `Findings compared: none found` (the readings file records no finding; the one departure from a means-adjacent wording noted on DoD 7, replacement in place of "revised", changes nothing anyone experiences from the feature: agrees, cited)
+
+Readings corrected after this comparison: keeping the existing code norms extends the brief, which speaks of new text; publication rests on the standing approval; the plan-draft position for a revision is what the means names; the template non-goal and the stance's reader list extend the brief.
+
 ## Findings
 
 - None yet.
