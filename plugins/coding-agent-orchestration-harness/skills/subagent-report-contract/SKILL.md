@@ -21,7 +21,7 @@ This skill standardizes the Worker subagent final output format so the Orchestra
 
 - `task_id`: the `Task_X` id from the Orchestrator prompt.
 - `status`: `done | blocked | failed`.
-- `summary`: 1-5 lines on what changed and what remains; when blocked or failed, expectation versus reality.
+- `summary`: 1-5 lines on what changed and what remains, including what was left out and why, what was not verified, and where the work scoped down, which the Orchestrator's final response reports; when blocked or failed, expectation versus reality.
 - `files_changed`: every file actually `modified | created | deleted`, each with a one-line intent; nothing else.
 - `commands_run`: each command with `pass | fail | skipped` and a note; emit it, though validators do not require it.
 - `validation_results`: the evidence list, one entry per validation item assigned in the task contract, with `kind: command | manual | e2e | review`, `required`, `owner: worker | reviewer | orchestrator | user`, `status: pass | fail | skipped`, and `evidence`.

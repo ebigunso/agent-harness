@@ -5,7 +5,7 @@ task_id: "Task_X"                 # from the Orchestrator prompt
 status: "done|blocked|failed"
 
 summary: |-
-  "1-5 lines. If blocked/failed: expected vs actual."
+  "1-5 lines: what changed and what remains, including what was left out and why, what was not verified, and where the work scoped down. If blocked/failed: expected vs actual."
 
 # Only files actually modified, created, or deleted.
 files_changed:
