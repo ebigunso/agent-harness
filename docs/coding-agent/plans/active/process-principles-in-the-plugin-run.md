@@ -20,4 +20,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md` | plan review closed and plan-draft audit holds nothing, 2026-10-08; authorization waits on the owner's answer to the hand-over condition | - |
+| `docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md` | authorized under the ratified brief 2026-10-08; in progress | - |
