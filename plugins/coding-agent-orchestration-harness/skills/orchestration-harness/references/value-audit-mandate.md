@@ -1,6 +1,6 @@
 # Value Audit Mandate
 
-This mandate governs every value audit. Each audit is a fresh-context Auditor dispatch that keeps nothing between audits; its mandate is grading accuracy, not the run's progress. It is dispatched by position: in a plan-mode run at plan draft and closeout for a plan, and at closeout alone for a small change built without a plan (Small Change); a goal-mode run's positions read as Goal-Mode Runs states.
+This mandate governs every value audit. Each audit is a fresh-context Auditor dispatch that keeps nothing between audits; its mandate is grading accuracy, not the run's progress. It is dispatched by position: in a plan-mode run at plan draft and closeout for a plan, and at plan draft again when the plan is revised or extended mid-run, graded as any draft is on the whole plan as it then stands, and at closeout alone for a small change built without a plan (Small Change); a goal-mode run's positions read as Goal-Mode Runs states.
 
 A verdict grades. It approves nothing by itself; plan approval is decided where the orchestration workflow's Plan Gate states it.
 

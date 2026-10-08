@@ -18,7 +18,7 @@ The run answers to the person directing the work, called the owner below. The pr
 ## The Value Audit
 
 - The auditor's rules and the dispatch wording are in `references/value-audit-mandate.md`. Each audit is a new Auditor dispatch whose whole prompt is that file's Fixed Dispatch Template with its fill-ins, verbatim: no packet, no context, no sentence before or after. It is never a Reviewer dispatch, and never an earlier auditor continued.
-- Positions, two for each plan, with no audit dispatched between them, and one for a small change built without a plan (`SKILL.md` Plan Gate), closeout:
+- Positions, two for each plan, with no audit dispatched between them except at plan draft on a revision of the plan (`references/lifecycle-gates.md` Replan Procedure, step 4), and one for a small change built without a plan (`SKILL.md` Plan Gate), closeout:
   - plan draft: after the Reviewer's plan review, before the plan is presented or executed.
   - closeout: as `references/completion-closeout.md` states.
 - Commit the handed-over brief on the run's branch first, then record in the plan's Progress Log the revision the plan starts from, which the closeout audit names, so that an unchanged brief is never inside an audited range.

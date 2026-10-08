@@ -66,7 +66,7 @@ Test decisions via deterministic seams, not globals. Avoid fragile setup; match 
 ## Durable-Code Hygiene
 
 - Prefer the smallest root-cause fix over suppressions, wrappers, or retries that hide the symptom; when a symptom patch is genuinely accepted, document the tradeoff.
-- Temporary lint suppressions and scaffolding carry a rationale plus explicit removal conditions.
+- A guard, a limit, or a compromise, a temporary lint suppression or scaffolding among them, states where it is added what it is for and when it could go, so the next agent can remove it when the need lapses. Where the repository's own text says otherwise, it wins ([SKILL.md](../SKILL.md#precedence)).
 - Keep roadmap/version labels out of durable code identifiers, comments, and user-facing errors; use stable domain language instead.
 
 ## Quick Review Pass (Minimal)
