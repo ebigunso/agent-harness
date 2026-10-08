@@ -12,6 +12,8 @@ depends_on: ["ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-direc
 
 # ADR-D-0051: Work under a ratified brief is a run of one or more units, plans or small changes; each unit is authorized on its own as its kind is and closes without being reported as ready; a run reported as ready stays open for the judgement of the person directing the work and takes the changes that person directs against its brief; the run closes once, when that person's acceptance of its stack reaches the session
 
+Revision of 2026-10-08 awaiting acceptance by name: the reason the rejected alternative "one plan extended by replans until the design is carried" lost. Until ebigunso accepts the revised record by name, the terms accepted on 2026-10-06 stand.
+
 ## Context and Problem Statement
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
@@ -39,7 +41,7 @@ Someone who hands over a design wants to come back to it built, not to a first p
 ## Rejected Alternatives
 
 - Each plan closes as ready for judgement, as a single plan does: it lost because the person directing the work would be asked to judge parts and to restart the work after each, when the design is judged by scenarios that only the whole shows; reopen if runs are found to reach closeout with results that person would have stopped at an earlier plan.
-- One plan extended by replans until the design is carried: it lost because additions would get an audit but no fresh plan review, and the plan every audit re-reads would grow without bound; reopen if drafting a new plan for each step is found to cost more than the review it buys.
+- One plan extended by replans until the design is carried: it lost because the plan every audit re-reads would grow without bound, and a run's design is judged by its scenarios, which a new plan for each step keeps legible; reopen if drafting a new plan for each step is found to cost more than the review it buys.
 - The run authorized once, its later units starting on the first unit's authorization: rejected outright; a verdict covers the unit it graded (ADR-D-0041, ADR-D-0055), and later units decide things no audit has seen.
 - Extending goal mode to designs a person judges: it lost because it gives one loop two kinds of end and changes how goal mode admits work; reopen if runs under a brief are found to need goal mode's per-iteration checks.
 - The run closes when it is reported as ready, and a change directed after that, or a small change, is a new run or stands outside any run: it lost because the brief would then govern something other than its run, and the change would be parted from the work it corrects; reopen if changes directed while a run is open are found not to correct the work the run did but to start work its brief did not ask for.
