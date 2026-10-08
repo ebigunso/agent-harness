@@ -1,6 +1,6 @@
 # Plan: Process principles in the plugin
 
-- status: draft
+- status: in_progress
 - generated: 2026-10-08
 - last_updated: 2026-10-08
 - work_type: docs
@@ -204,6 +204,7 @@
 
   How the Orchestrator applied it: no item is `ask-now` and none is `ungraded`. One item is marked `direction`: DoD 6, that the plugin keeps the code norms it already carries (plan-format rule 8, core-principles sections 1 and 2 and line 68, the long-horizon audit's deletion bias, ADR-D-0016) while the brief says the plugin stays neutral on code; it goes ahead as the brief's Limits have it and is shown to the owner at closeout. Inferred calls, as the verdict states them: DoD 6, Planner-added 1, the template non-goal, A2, Decision Log 1 and 2d. The plan review closed with no finding open and this verdict holds nothing; whether the plan is authorized under the ratified brief waits on one thing the verdict does not decide and the Plan Gate does: the brief's hand-over condition, "after the current run closes", asked of the owner through Counsel on 2026-10-08. Nothing is executed before his answer. On the auditor's note about the runtime's auto-loaded skill text in the dispatch, the Orchestrator rules as before that the verdict counts. The comparison set readings apart from grades in class only (DoD 6, DoD 10, Planner-added 2, the template non-goal, Decision Log 2d), corrected in the readings file with nothing to redo.
 
+- 2026-10-08 The owner's answer on the hand-over condition, relayed by Counsel (admitted by the standing approval of 2026-10-01), quoted in full: "The timing was fine." The hand-over stands; with the brief's ratification relayed, the plan review closed with no finding open and the plan-draft verdict holding nothing, the plan is authorized under the ratified brief; this records no approval by the owner. Status set to in progress; Task_1 dispatched. This branch sits on #84's tip as it was when the brief was committed (9db5f13); #84 has since gained small changes 1 to 3, which do not touch this plan's files.
 ## Decision Log
 - 2026-10-08 Outside a brief the admitting gate is the user's approval or waiver, so a design change returns to the user with the plan review; the discoveries record's two pause cases widen by one (Planner-added 1). A revision is audited at plan draft on the whole revised plan (Planner-added 2).
 - 2026-10-08 Plan review applied: ADR-D-0033 is on `main`, so it is replaced by a new complete record and retired, not revised; the hand-over's timing condition recorded as unresolved and asked of the owner; the repository-text-wins constraint carried, with the Precedence section as its home; the compatibility stance is `migrate` with the readers named; the reason line widened is core-principles 69, 68 untouched; the Design's alternative compared as stated.
