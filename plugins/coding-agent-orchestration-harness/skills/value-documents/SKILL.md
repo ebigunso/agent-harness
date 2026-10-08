@@ -69,7 +69,6 @@ Four document types in the target repository carry what the person directing the
 - It holds four things and nothing of the discussion: which statements Counsel originated, each accepted by the person entitled to ratify the philosophy; one ratification record per ratified version of the philosophy, that person's quoted words with the date; which statements are marked provisional, each named; and the gaps against the `counsel` skill's philosophy reference that that person left out, so they are not raised again.
 - That person ratifies the philosophy whole: every statement in a ratified version counts on that version's record, whoever originated it.
 - It is not a notes file. The Orchestrator and the auditor read it for a philosophy's ratification.
-- A philosophy ratified before companions existed, with its ratification record and tags inside it, is read as ratified until Counsel moves its record into a companion; a reader accepts the record in either place.
 
 ## Discussion notes
 
