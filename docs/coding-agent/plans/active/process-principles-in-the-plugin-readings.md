@@ -35,6 +35,20 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: keeping the existing code norms extends the brief, which speaks of new text; publication rests on the standing approval; the plan-draft position for a revision is what the means names; the template non-goal and the stance's reader list extend the brief.
 
+### `process-principles-in-the-plugin-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- Every item read under the plan-draft heading keeps its reading as corrected after that comparison, with these additions.
+- The text as built, each principle once at its place (plan-review snippet; Replan Procedure; final-response contract fed by the Worker summary; the Reviewer's Required Companion Check; core-principles line 69), the other places pointing | covered | brief, The process principles, all five; means: tighten rather than add; pass condition: present once at the place where it acts
+- The repository's text wins, once in Precedence, pointed to from the five places | covered | brief, Limits, third constraint
+- Records: ADR-D-0057 accepted by name (discoveries by anyone); ADR-D-0058 accepted by name (the Worker's line carried unchanged); ADR-D-0033 retired; ADR-D-0041 and ADR-D-0051 revised and accepted by name | covered | brief, pass condition on the record on discoveries; his words of 2026-10-08 (the sub-statement on findings by anyone; "Go with (a)"; the acceptances)
+- The owner's four answers in range (the hand-over timing; the sub-statement on findings by anyone; the separation of the Worker's line; the acceptances) | covered | his quoted words in the plan's Decision Log; the brief's amended second principle
+- Orchestrator rulings: "the person directing the work" kept; the small change outside ADR-D-0057; "during authorized work"; the two marked reasons kept on his acceptance; the two stale sentences outside owns corrected; the provider-root ruling made and withdrawn on review | covered as mechanics, or by his acceptance of the records as they stand
+- Worker judgement calls (Task_1 and Task_2), as the plan logs them | covered as mechanics; nothing beyond the brief's statements after the review's corrections
+- The existing code norms left as they are and named to the owner | extends | brief, Limits: "No stance on what code should be enters the plugin" (about new text); the plan-draft verdict's direction mark stands
+- Scenarios, the Orchestrator's expectation only: 1 to 4 not yet; the text is in place, no fixture was run, his next real run shows them.
+
 ## Findings
 
 - None yet.
