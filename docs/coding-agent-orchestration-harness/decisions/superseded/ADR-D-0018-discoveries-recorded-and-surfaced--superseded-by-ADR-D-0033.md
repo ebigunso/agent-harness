@@ -6,7 +6,7 @@ deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 supersedes: []
-superseded_by: ../ADR-D-0033-a-worker-acts-alone-only-within-the-acceptance-criteria.md
+superseded_by: ADR-D-0033-a-worker-acts-alone-only-within-the-acceptance-criteria--superseded-by-ADR-D-0058.md
 depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md"]
 ---
 
