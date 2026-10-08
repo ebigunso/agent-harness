@@ -94,6 +94,13 @@ Item | reading | statement relied on
 - The Orchestrator's call: small, no plan; a removal with no how-choice | covered | small-change brief: "The Orchestrator chooses, per change"
 - The Orchestrator's reading that his answer directs the removal of the run's own addition | extends | his words: "This case doesn't need to be explicitly mentioned"; the addition was the run's, not the brief's
 
+#### The audit's comparison, small change 3 closeout (2026-10-08), as returned
+
+- `Reading compared: C1-C6 (the text as built) agrees in grade (Orchestrator "covered"; audit cited), with one divergence in the support: the Orchestrator relies on "the owner's words of 2026-10-08 answering the value question" alongside the brief; the audit takes the brief statements alone, the words being an account outside the brief. C7 (the Orchestrator's reading that his answer directs the removal) diverges: Orchestrator "extends" on his words; audit cited on the brief's two statements, which cover the resulting text whole, the words themselves no support. C8 (small, no plan) diverges in class: Orchestrator "covered" on a small-change brief this audit was not pointed to; audit not audited (run procedure, engineering side, no document). C9, C10 unread. Scenarios: the Orchestrator recorded no expectation for this change; the audit's states are as at the last closed unit.`
+- `Findings compared: Finding 1 (the hook means not taken): agrees, trivial; nothing in this range touches it, and no departure from a means was noted on any item line. Finding 2 (an in-prose provisional mark in an old-form philosophy read by no reader): agrees, bears on the design; the range acts on it by dropping the old-form reading whole, so an old-form document is now not a ratified philosophy at all (a missing input) rather than one whose marks go unread. Ends cited (C1-C3).`
+
+Readings corrected after this comparison: the owner's relayed words are an account to the audit, the brief's statements covering the text built; the small-change call is run procedure, not a product item.
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.

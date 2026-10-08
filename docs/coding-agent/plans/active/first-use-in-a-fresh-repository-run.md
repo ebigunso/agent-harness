@@ -3,7 +3,7 @@
 - Governing brief: `docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md`
 - Run starts from revision: 8b36645
 - Readings file: `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-readings.md`. Changes file: `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md`.
-- State: reported ready 2026-10-07, and again 2026-10-08 after small changes 1 and 2 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack
+- State: reported ready 2026-10-07, and again 2026-10-08 after small changes 1 to 3 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack
 
 ## Scenarios
 
@@ -23,4 +23,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 | `docs/coding-agent/plans/completed/first-use-in-a-fresh-repository-plan.md` | authorized under the ratified brief 2026-10-07; closed 2026-10-07 | Scenarios: 1 demonstrated; 2 ready for the owner's judgement (checkable part demonstrated); 3 ready for the owner's judgement; 4 not yet; getting closer: yes (closeout verdict logged in full in the plan) |
 | Small change 1: a provisional mark lives in the companion, not in a philosophy's prose | directed 2026-10-08; closed 2026-10-08 | Scenarios: 1 demonstrated; 2, 3 ready for the owner's judgement; 4 not yet; getting closer: yes (verdict logged in full in the changes file) |
 | Small change 2: at open, Counsel takes its seat where it does not already hold it | directed 2026-10-08; closed 2026-10-08 | as small change 1 (one closing audit for both) |
-| Small change 3: the old-form reading of a philosophy is dropped | directed 2026-10-08; in progress | - |
+| Small change 3: the old-form reading of a philosophy is dropped | directed 2026-10-08; closed 2026-10-08 | Scenarios: 1 demonstrated; 2, 3 ready for the owner's judgement; 4 not yet; getting closer: yes (verdict logged in full in the changes file) |
