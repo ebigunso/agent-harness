@@ -75,3 +75,9 @@
 - Starts from revision: 876bee4.
 - The Orchestrator's call: small, no plan; the removal of one reading from four texts (value-documents, the mandate's inputs and Missing inputs, value-level-operation's Documents step, setup's detection), with no how-choice.
 - Worker report (one task, `done`, one YAML block, four files): the old-form reading removed from value-documents, the mandate (inputs, Missing inputs, the support sentence now "the brief, or for a philosophy its companion"), value-level-operation's Documents step and setup's detection; a philosophy's ratification is read from its companion only. Worker validation: package validator pass, smoke tests pass, `git diff --check` clean, template block byte-identical, grep finds no trace.
+- Review (Codex reviewer, at 4d3cb63): APPROVED, no finding.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md. Governing brief: docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md. Changes since: 876bee4.
+  ```

@@ -86,6 +86,14 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the Worker's old-form call extends the statements (no statement says what becomes of an in-prose mark in an old-form philosophy) and is a finding, recorded below.
 
+### Small change 3 (the old-form reading dropped), closeout
+
+Item | reading | statement relied on
+
+- The text as built: a philosophy's ratification read from its companion only; the old-form reading gone from the forms, the mandate, the Documents step and setup | covered | the owner's words of 2026-10-08 answering the value question; brief: "A philosophy is pure prose"; "The Orchestrator and the Auditor look there for the ratification"
+- The Orchestrator's call: small, no plan; a removal with no how-choice | covered | small-change brief: "The Orchestrator chooses, per change"
+- The Orchestrator's reading that his answer directs the removal of the run's own addition | extends | his words: "This case doesn't need to be explicitly mentioned"; the addition was the run's, not the brief's
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.
