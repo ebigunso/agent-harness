@@ -8,7 +8,7 @@ Run this checklist after each Worker wave, once the Integration Contract in `SKI
 - Aggregate `questions_for_orchestrator`.
 - Collect design alerts: entries in either list stating what is worked around, the cleaner alternative, and the cost delta (per `subagent-report-contract`).
 - When any aggregated item requests or implies a contract-shape or design ruling, you MUST read and apply `skills/orchestration-harness/references/lifecycle-gates.md#escalation-ruling` before answering it or dispatching further work.
-- Decide whether the Orchestrator can answer, the user must answer, or a follow-up Worker is needed.
+- Read each issue the reports surface as `skills/orchestration-harness/references/lifecycle-gates.md` Replan Procedure states, then decide whether the Orchestrator can answer, the user must answer, or a follow-up Worker is needed; a follow-up Worker builds only what is within the task as given or a revision that has passed that procedure.
 
 ## 2. Collect Rule, Lesson, and Harness Migration Candidates
 
