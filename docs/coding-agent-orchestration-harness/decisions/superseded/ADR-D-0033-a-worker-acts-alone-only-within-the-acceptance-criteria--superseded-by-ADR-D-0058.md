@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-13
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
-supersedes: ["superseded/ADR-D-0018-discoveries-recorded-and-surfaced--superseded-by-ADR-D-0033.md"]
-superseded_by: null
-depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
+supersedes: ["ADR-D-0018-discoveries-recorded-and-surfaced--superseded-by-ADR-D-0033.md"]
+superseded_by: ../ADR-D-0058-a-worker-acts-alone-only-within-the-acceptance-criteria.md
+depends_on: ["../ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "../ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
 ---
 
 # ADR-D-0033: A Worker acts alone only on what the acceptance criteria already decided; every other discovery is surfaced before action
+
+Retired on 2026-10-08. Replaced by ADR-D-0058 for what a Worker may act on alone; its clauses on the Orchestrator's handling of a discovery are superseded by ADR-D-0057.
 
 ## Context and Problem Statement
 

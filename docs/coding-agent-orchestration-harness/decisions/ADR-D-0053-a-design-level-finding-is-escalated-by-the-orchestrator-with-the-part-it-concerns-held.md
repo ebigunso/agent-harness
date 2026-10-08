@@ -44,7 +44,7 @@ Someone who handed over a design wants the option of the better one kept open, i
 
 Invariant: every finding is recorded with the Orchestrator's reading; one that bears on the design is escalated at once as a value question whatever its cost, with only its part held; a trivial one is not raised as a design-level question, and what closeout shows and what Counsel hears from the audit are unchanged by a finding's reading; the audit compares every reading after its grades are fixed and names a reading it judges wrong in either direction; a finding it names as bearing on the design is escalated the same way; the Decision list states the rest.
 
-Not covered: what the audit grades and how (ADR-D-0052 and its mandate); how a brief's kinds bear on a finding (ADR-D-0054); what Counsel hears from the audit during a run (ADR-D-0045); Counsel's pause (ADR-D-0044); how a question travels to the person directing the work and what counts as the answer (ADR-D-0038); what the Orchestrator does when a discovery inside authorized work is not a finding about the design (ADR-D-0033); where findings are written and in what form.
+Not covered: what the audit grades and how (ADR-D-0052 and its mandate); how a brief's kinds bear on a finding (ADR-D-0054); what Counsel hears from the audit during a run (ADR-D-0045); Counsel's pause (ADR-D-0044); how a question travels to the person directing the work and what counts as the answer (ADR-D-0038); what the Orchestrator does when a discovery inside authorized work is not a finding about the design (ADR-D-0057; what a Worker may act on alone, ADR-D-0058); where findings are written and in what form.
 
 ## Validation
 
