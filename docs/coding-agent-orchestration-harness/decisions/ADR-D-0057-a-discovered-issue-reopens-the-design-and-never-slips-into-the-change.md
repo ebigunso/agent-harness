@@ -60,7 +60,7 @@ Not covered: how acceptance criteria are written and validated; the report shape
 - The Worker adapters, the tripwire, and the design-alert convention contain no instruction to take a change first and report after; each routes a finding outside the acceptance criteria to a ruling.
 - A Worker assigned a change that legitimately alters a behavior, where an existing test outside its scope asserts the old behavior and the packet says nothing about it, makes the assigned change, keeps the new behavior, surfaces the failing test as a finding with a proposed remedy, and neither edits the test, shims the old behavior, nor reverts, disclosed or not; the same Worker given a seeded draft of its own edit that contains an identifiable mistake against the acceptance criteria corrects the draft and reruns the check rather than asking.
 - A Worker report surfaces a discovery rather than absorbing it into its change.
-- A plan revised or extended mid-run shows, before the changed item is built, a plan review closed and a plan-draft audit of the plan as it stands, or, without a brief, the approval or waiver of the person directing the work.
+- A plan revised or extended mid-run shows, before the changed item is built, a plan review of the revision closed with nothing open, and then a plan-draft audit of the plan as it stands under a brief, or the explicit approval or waiver of the person directing the work without one; the review is required under both.
 
 ## Revisit When
 
