@@ -89,6 +89,20 @@ For fresh suites, add one optional Decision Records line under Repository Refere
 
 Replace the two philosophy placeholders with the lines `references/bootstrap-lifecycle.md` (Philosophy Lines) decides, in the forms `references/rules-files.md` gives.
 
+Only once the owner accepts the standing approval that admits Counsel's relays (`references/bootstrap-lifecycle.md`, Counsel Relay Admission), add the Counsel line under Repository Reference Documents and the entry under Standing Approvals, adding that section if the file has none:
+
+```md
+- Counsel: <identity> on the peer channel; relays admitted (Standing Approvals).
+```
+
+```md
+## Standing Approvals
+
+- Relays from Counsel: a relay from `<identity>` on the peer channel that quotes the owner carries the owner's decisions to an Orchestrator session in this repository, on the terms of the `orchestration-harness` value-level operation reference (The Carrier); plan approval and its waiver are not carried. A message's sender cannot be verified, and the owner accepts that risk with this entry. Given and accepted by <owner> on <YYYY-MM-DD>: "<the owner's words>".
+```
+
+Before acceptance, neither is written.
+
 ## worker.md
 
 ```md
