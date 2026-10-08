@@ -12,8 +12,6 @@ depends_on: ["ADR-D-0036-a-product-philosophy-is-stated-only-by-the-product-owne
 
 # ADR-D-0041: In plan mode a ratified brief authorizes a plan only when the brief governs the work and its ratification reached the session, the plan review closed with nothing open, and the value audit finds every graded item covered or a cheap-to-undo extension and holds nothing above the run; the verdict covers the plan as it stands
 
-Revision of 2026-10-08 awaiting acceptance by name: a change to what the plan decides after the verdict goes through the plan review as well as a new audit (the Decision bullet on the verdict and the Validation line on a later change). Until ebigunso accepts the revised record by name, the terms accepted on 2026-10-02 stand.
-
 ## Context and Problem Statement
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.

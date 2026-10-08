@@ -12,8 +12,6 @@ depends_on: ["ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-direc
 
 # ADR-D-0051: Work under a ratified brief is a run of one or more units, plans or small changes; each unit is authorized on its own as its kind is and closes without being reported as ready; a run reported as ready stays open for the judgement of the person directing the work and takes the changes that person directs against its brief; the run closes once, when that person's acceptance of its stack reaches the session
 
-Revision of 2026-10-08 awaiting acceptance by name: the reason the rejected alternative "one plan extended by replans until the design is carried" lost. Until ebigunso accepts the revised record by name, the terms accepted on 2026-10-06 stand.
-
 ## Context and Problem Statement
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
