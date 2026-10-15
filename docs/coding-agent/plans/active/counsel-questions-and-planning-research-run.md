@@ -4,7 +4,8 @@
 - Hand-over: Counsel's relay of 2026-10-15 (01:23Z), admitted by the standing approval of 2026-10-01, quoting the owner's ratification of 2026-10-14: "I ratify the brief, hand it over now."
 - Run starts from revision: 25f9831 (the brief committed on the run's branch, on top of pull request 85's branch)
 - Readings file: `docs/coding-agent/plans/active/counsel-questions-and-planning-research-readings.md`.
-- State: candidate ready, awaiting the owner's judgement (reported ready 2026-10-15)
+- State: open for the owner's judgement; a change he directed on 2026-10-15 is being built (reported ready 2026-10-15)
+- Changes file: `docs/coding-agent/plans/active/counsel-questions-and-planning-research-changes.md`.
 
 ## Scenarios
 
@@ -22,3 +23,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
 | `docs/coding-agent/plans/completed/counsel-questions-and-planning-research-plan.md` | authorized under the ratified brief 2026-10-15; closed 2026-10-15 | Scenarios: 1 ready for the owner's judgement; 2 ready for the owner's judgement; 3 demonstrated; 4 demonstrated; getting closer: yes (closeout verdict logged in full in the plan) |
+| Small change 1 (`counsel-questions-and-planning-research-changes.md`): drops and departures reach the owner as framings at ratification | directed 2026-10-15; in progress | - |
