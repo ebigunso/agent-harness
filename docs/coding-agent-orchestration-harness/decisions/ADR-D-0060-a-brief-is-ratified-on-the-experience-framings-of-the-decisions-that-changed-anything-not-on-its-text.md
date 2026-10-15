@@ -7,7 +7,7 @@ consulted: []
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0046-value-discussion-is-conducted-from-the-viewpoint-of-a-persons-experience.md", "ADR-D-0059-while-a-brief-is-drafted-a-choice-reaches-the-person-directing-the-work-only-when-its-experience-framings-differ.md"]
+depends_on: ["ADR-D-0046-value-discussion-is-conducted-from-the-viewpoint-of-a-persons-experience.md", "ADR-D-0059-a-question-reaches-the-person-directing-the-work-only-when-its-experience-framings-differ.md"]
 ---
 
 # ADR-D-0060: A brief is ratified on the experience framings of the decisions in it that changed anything, not on its text, and the brief stays the record
@@ -36,7 +36,7 @@ Reading a long brief to ratify it is the same burden as reading a plan: showing 
 
 Invariant: a brief is ratified on the framings of the decisions in it that changed anything, not on its text; the brief stays the record for the run and the audit, with its tags; the Decision list states the rest.
 
-Not covered: which choices reach that person while a brief is drafted, and which are Counsel's to decide (ADR-D-0059); the form of a framing, which ADR-D-0046 states; the kind of a statement and who may change it (ADR-D-0054); the tags' names and definitions, which the document forms state; the wording of a framing.
+Not covered: which questions reach that person, whenever Counsel puts one, and which are Counsel's to decide (ADR-D-0059); the form of a framing, which ADR-D-0046 states; the kind of a statement and who may change it (ADR-D-0054); the tags' names and definitions, which the document forms state; the wording of a framing.
 
 ## Validation
 
@@ -50,4 +50,4 @@ Not covered: which choices reach that person while a brief is drafted, and which
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md`, "Counsel's questions while drafting (issue 90)". Related: ADR-D-0059 (which choices reach that person while drafting), ADR-D-0046 (the chain as the form of a framing), ADR-D-0054 (kinds of a brief's statements).
+Source of intent: `docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md`, "Counsel's questions while drafting (issue 90)". Related: ADR-D-0059 (which questions reach that person), ADR-D-0046 (the chain as the form of a framing), ADR-D-0054 (kinds of a brief's statements).
