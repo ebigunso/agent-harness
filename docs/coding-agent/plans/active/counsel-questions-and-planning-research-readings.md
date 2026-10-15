@@ -108,5 +108,12 @@ Item | reading | statement relied on
 - ADR-D-0059 accepted (owner's words relayed 2026-10-15) | covered as mechanics | the owner's acceptance by name
 - No decision record for the change | covered as mechanics | ADR-D-0060 already decides ratification on framings
 
+#### The audit's comparison, small change 1 closeout (2026-10-15), as returned
+
+Reading compared: L54 brief framings: agrees (covered / cited). "Cannot decide anything" kept: agrees (extends / inferred; the audit adds the direction mark). Philosophy steps kept: diverges (Orchestrator: covered as mechanics; audit: inferred, a product-side choice about what a ratifier is shown, resting on reading "too" against L23). value-documents L59: diverges (Orchestrator: extends; audit: cited, since the directed statement says exactly what the line now says). ADR-D-0059 accepted: diverges (Orchestrator: covered as mechanics on the owner's acceptance; audit: not audited, engineering side with no document, the acceptance carried by the admitted relay). No decision record: diverges (Orchestrator: covered as mechanics; audit: not audited, no engineering document). Orchestrator ruling keeping the Worker's call: unread. Small, no plan, one task: unread. Branch and pull request 91 text update: unread. Record-keeping lines: unread.
+Findings compared: none found (the Findings section is empty, and no item line notes a departure from a means).
+
+Readings corrected after this comparison: keeping a philosophy's steps is a product-side choice of what a ratifier is shown, resting on the statement's "too" read against the brief's framings; the value-documents line says what the statement says; the ADR-D-0059 acceptance and the no-record call are engineering-side mechanics with no document.
+
 ## Findings
 
