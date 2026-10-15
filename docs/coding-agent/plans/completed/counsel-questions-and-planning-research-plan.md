@@ -485,6 +485,7 @@
 
 - 2026-10-15 Owner's answer on ADR-D-0059, relayed by Counsel 2026-10-15, quoted: "For 0059, I'd like it to be extended to be any time rather than only brief writing time." Read as a change to the design (Replan Procedure step 1): the brief now states the framing test for any question Counsel puts to the owner, which Task_1 built for drafting time only. Impact: the Counsel skill's test sentence and its run-time contacts section, ADR-D-0059's title, decision, boundary and filename, ADR-D-0060's dependency line; value-documents unchanged. Plan delta: Task_5 (docs) added, Wave 2 becomes Task_3 and Task_5, Task_4 depends on Task_5; DoD 1, Scope and the run-time non-goal reworded. Not contract-shape, irreversible or outward-facing (text on a branch); no pause. ADR-D-0059 revised returns to the owner by name.
 - 2026-10-15 ADR-D-0060 accepted by the owner, relayed by Counsel 2026-10-15, quoted: "I accept ADR-D-0060." The ruling on statement kinds under ADR-D-0060 was told to him, not asked, by the framing test.
+- 2026-10-15 ADR-D-0059 accepted by the owner, relayed by Counsel 2026-10-15, quoted: "I accept ADR-D-0059." The text before him: the file at revision dda4205, revised to any time.
 
 ## Notes (Risks / Edge cases)
 - The Counsel skill is 3559 words; the four rules add sentences, not sections. If the Reviewer reports the skill unacceptably long, the remedy is tightening elsewhere in the same sections, not a reference file (Design).
