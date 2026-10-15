@@ -376,6 +376,11 @@
 - 2026-10-15 Wave 2 review (Codex reviewer, range ecc4b7e..32332dc): APPROVED, no finding. Task_5 done. Wave 3 dispatched: Task_4 (version 1.0.0) to a Claude Worker, the last change before the run is reported ready.
 - 2026-10-15 Wave 3 integrated. Task_4 (Claude Worker, Opus) done at c652589: the three manifests and the two marketplace plugin entries read `1.0.0`, five lines, nothing else; validators and smoke pass. Final review of the whole delta since 25f9831 dispatched to the Codex reviewer.
 - 2026-10-15 Final review of the whole delta (Codex reviewer, range 25f9831..c652589): NEEDS_REVISION, 1 MINOR, taken as fix; everything else PASS (each brief statement once at its place, no contradiction across the skills and adapters; Task_4 exactly five version lines; ADR-D-0059 and ADR-D-0060 against adr.md; no rule file; independent validate_harness_package, smoke and diff --check PASS). FINAL-F1: the dispatch lesson's prevention read as a general rule against opening a dispatch with a role, which the Auditor's Fixed Dispatch Template does by rule; the prevention scoped to fixture or scenario dispatches the Orchestrator writes, with fixed-text dispatches left to their own rules. The reviewer notes the closeout audit is to confirm ADR-D-0060's post-acceptance wording call. Delta re-review requested.
+- 2026-10-15 Final delta re-review (Codex reviewer, range 8073bd2..705278e): APPROVED, FINAL-F1 closed, no finding open. Task_4 done; all tasks done; Reviewer APPROVED on the whole delta. Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md. Governing brief: docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md. Changes since: 25f9831.
+  ```
 
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.
