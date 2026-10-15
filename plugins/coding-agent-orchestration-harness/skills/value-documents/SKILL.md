@@ -56,7 +56,7 @@ Four document types in the target repository carry what the person directing the
 - Each pass condition is marked agent-checkable or human-only. A human-only condition passes only by the owner's judgement of the result.
 - What the owner says the work must not do, or must ask before doing, is written into it as constraints and ratified with the brief.
 - It may carry core scenarios: a few scenarios the owner defines with Counsel beforehand, ratified with the brief. They are evidence of the experience, not its definition: a run that satisfies every one and misses the experience has not delivered the design. A run may add scenarios of its own; those are its reading of the design. A brief with no core scenarios has none; nobody writes them for the owner.
-- It may list what was discussed and left out on purpose, with why, each drop confirmed by the owner.
+- It may list what was discussed and left out on purpose, with why. A drop recorded there is ratified with the brief and shown to the owner as a framing where it changed anything.
 - It records its ratification by quoting the owner's words with the date.
 - The file on disk is the requirement, verbatim. A paraphrase of it in a plan or a message is not.
 - An amendment is ratified like the brief, and the file on disk governs.
