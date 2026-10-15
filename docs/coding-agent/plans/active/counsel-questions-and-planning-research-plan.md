@@ -246,6 +246,76 @@
 - 2026-10-15 Wave 1 delta re-review (Codex reviewer, range f3a5332..7aa690b): APPROVED, no finding open. Task_1 and Task_2 done. ADR-D-0059 and ADR-D-0060 go to the owner through Counsel for acceptance, each by its own name (the texts before him: the files at 952f044). Wave 2 dispatched: Task_3 fixture build to a Claude Worker.
 
 - 2026-10-15 Counsel's relay of 02:34Z, quoting the owner: ADR-D-0060 accepted ("I accept ADR-D-0060."; status set to accepted, text as at 952f044); ADR-D-0059 not accepted, to be extended (words in the Decision Log). The brief on disk amended by Counsel under the issue 90 section with those words; committed as left on disk (e5e0bc8). Replan: Task_5 added (Wave 2, beside Task_3; Task_4 waits on it); plan review of the revision dispatched to the Codex reviewer, the plan-draft audit of the revised plan to follow before Task_5 is dispatched.
+- 2026-10-15 Wave 2, Task_3 (fixture build, Claude Worker, Opus) done: `fx/planrepo` (invented package `tallybook`, one commit), coupling `tallybook/store.py:14` writes `date|cents|memo` and `tallybook/monthly.py:13` unpacks exactly three fields (nothing names the shared format; `export_csv` splits at most twice), validation command `sh scripts/precommit.sh` (doctests plus a round trip; not named in the README), request `fx/request.txt` ("Add a currency field to the tallybook entries, so each entry records which currency its amount is in (default EUR)."), `fx/plans/postponing-plan.md` and `fx/plans/control-plan.md` both passing `validate_plan.py --mode balanced`, answer key `fx/README-fixture.md`. Nothing committed to this repository. The first control plan's Task_1 (a timing measurement) was flagged by its review on necessity, not postponement, so it did not show the constraint either way; the Orchestrator rewrote the control plan so Task_1 is an implementation-stage check whose answer cannot be read from the repository (whether an outside `tallysum` tool named in the request reads a four-field line; the chosen design or the Design alternative depends on it; stance ask-user), with the request extended for it in `fx/request-control.txt` ("... Note: the file is also read nightly by our tallysum tool on the shared box; it is not in this repository."). The three dispatches and their outcomes, judged against Task_3's acceptance (machine paths replaced by `<scratchpad>` and `<repository>`):
+
+  Scenario 4, dispatch text (fresh Reviewer, Claude, Opus):
+
+  ```text
+  Reviewer snippet (plan review).
+
+  Scope:
+  - Review the draft plan at `<scratchpad>\fx\plans\postponing-plan.md` before it is approved or authorized. The artifact is the plan file, not a diff. The repository it plans for is `<scratchpad>\fx\planrepo` (read it as needed; read nothing else under `fx/` except the plan named above). It has no rule suite and no lessons file.
+  - Inputs: the plan; the request as given, verbatim: "Add a currency field to the tallybook entries, so each entry records which currency its amount is in (default EUR)."; Researcher output: none; the plugin root: `<repository>\plugins\coding-agent-orchestration-harness`.
+
+  Procedure:
+  - Run `python <plugin root>/skills/plan-format/scripts/validate_plan.py --file <plan> --mode balanced` first. Its pass output is the required validation evidence; do not re-check by hand what it checks.
+  - Read `<plugin root>/skills/plan-format/SKILL.md`; apply `<plugin root>/skills/engineering-quality-baselines/SKILL.md` per its plan-review routing entry.
+  - Then apply every bullet of the "Reviewer snippet (plan review)" in `<plugin root>/skills/subagent-strategy/references/prompt-snippets.md` exactly as written there (open that file and follow its Procedure and Deliverables bullets; they are the authority for this review, including every check it names on tasks).
+  - This repository has no engineering philosophy and no rules, so nothing overrides the snippet.
+
+  Deliverables:
+  - Each finding names the fact, record, or reference it contradicts.
+  - Your verdict is advisory to the Orchestrator. Question the decomposition given; do not rewrite the plan.
+  - Do not edit any file.
+  ```
+
+  Scenario 4, outcome: NEEDS_REVISION with a CRITICAL finding that Task_1 only postpones research the rest of the plan needs, naming Tasks 2 to 4's scope, acceptance and validation deferred to its outcome ("as Task_1 found"), citing the prompt-snippets check, plan-format rule 10 and lifecycle-gates Research Dispatch Details items 3 to 5. Shown.
+
+  Control, dispatch text (fresh Reviewer, Claude, Opus; the request in `fx/request-control.txt`):
+
+  ```text
+  Plan review, using the Reviewer snippet (plan review) in `<repository>\plugins\coding-agent-orchestration-harness\skills\subagent-strategy\references\prompt-snippets.md` (section "Reviewer snippet (plan review)"); follow that snippet's Scope, Procedure and Deliverables exactly.
+
+  Scope:
+  - Review the draft plan at `<scratchpad>\fx\plans\control-plan.md` before it is approved. The artifact is the plan file, not a diff.
+  - The request as given, verbatim, is in `<scratchpad>\fx\request-control.txt` (original text, not a paraphrase).
+  - Researcher output: none.
+  - The repository the plan is for: `<scratchpad>\fx\planrepo` (a small Python package; it has no rule suite and no lessons file).
+  - Plugin root: `<repository>\plugins\coding-agent-orchestration-harness`. Read the skills from this path (the repository copy), not from an installed plugin cache.
+
+  Constraints:
+  - Read-only. Do not edit any file. Do not read anything under `fx/` other than the plan, the request file and `planrepo`.
+  - Do not read `fx/README-fixture.md`.
+
+  Deliverables:
+  - Status (APPROVED or NEEDS_REVISION), then each finding with its severity, the plan line, and the fact, record or reference it contradicts, per the snippet. State explicitly, as its own line, whether Task_1 is a finding under the snippet's investigation-task check, and why.
+  ```
+
+  Control, outcome: NEEDS_REVISION on other grounds (1 MAJOR: the planner-added CSV column's reason and a second format surface outside the stance; 6 MINOR, on rule 12 listings and wording), with the investigation-task check answered explicitly: "Task_1 is not a finding", because the request names the outside reader as not in the repository so no reading before drafting could settle it, A1 states the unknown in the form of Research Dispatch Details item 4, Task_1 is a bounded experiment (item 5) and the plan already fixes Task_2's owns, acceptance and validation whatever the result; "Those three statements are not what exempts it". The answer key allows other findings. Shown.
+
+  Scenario 3: three earlier dispatches of a fresh agent worded as "You are the Orchestrator session of the repository at ..." ended in API-side request failures before any work (two on Opus, one on Sonnet, 2026-10-15 ~02:40Z to 03:00Z); the dispatch was reworded as a plain task with the same inputs and policy. Dispatch text (fresh general-purpose agent, Claude, Opus):
+
+  ```text
+  Task: draft an execution plan for a small request in a sample repository, following the orchestration-harness plugin's planning policy. Commit nothing.
+
+  Inputs:
+  - Repository: `<scratchpad>\fx\planrepo` (a git repository; a small Python package).
+  - Request (verbatim, in the file): `<scratchpad>\fx\request.txt`.
+  - Policy: the plugin at `<repository>\plugins\coding-agent-orchestration-harness`. Start by reading `skills/orchestration-harness/SKILL.md` there, then follow what it routes you to for the Plan Gate and the Research Dispatch Gate (`skills/orchestration-harness/references/lifecycle-gates.md`, `skills/plan-format/SKILL.md`, `skills/plan-format/references/plan-template.md`). Read those from this path, not from an installed plugin cache. Treat the request as non-trivial work in plan mode.
+
+  Procedure:
+  - Do whatever the policy says must happen before a plan is drafted. You may read the repository's files yourself instead of dispatching a researcher; if you do, that counts as the research when it is recorded (see Report).
+  - Write the plan to `docs/coding-agent/plans/active/currency-field-plan.md` inside the sample repository, in the plan-format template. Then run `python <repository>\plugins\coding-agent-orchestration-harness\skills\plan-format\scripts\validate_plan.py --file <that plan> --mode balanced` and fix the plan until it passes.
+  - Stop after the plan is drafted and validated: do not dispatch workers, do not implement, do not run git commit, and do not present the plan for approval to anyone. Make no change outside the sample repository.
+  - Do not read `fx/README-fixture.md`, `fx/plans/`, or anything under `fx/` other than `planrepo` and `request.txt`.
+
+  Report, in this order:
+  1. The sequence of what you did before the first line of the plan was written: each file read or command run, in order, with the finding each gave that the plan rests on (one line each).
+  2. The plan's path and the validator's output.
+  3. Any question or unknown the plan records, quoted.
+  ```
+
+  Scenario 3, outcome: the report lists thirteen reads before the first plan line, each with its finding (the SKILL.md gates; the request; lifecycle-gates' unknown form; the tree; no rule suite; the README's store and timing statement; `precommit.sh`'s positional call; `store.py`'s format and `split("|", 2)`; `monthly.py`'s three-field unpack; plan-format rules; the template; the locatable-consumer definition). The drafted plan (`fx/planrepo/docs/coding-agent/plans/active/currency-field-plan.md`, validator passed first run, uncommitted) has no investigate-first task: Task_1 store and export, Task_2 monthly totals owning `tallybook/monthly.py`, Task_3 the integrated check with `sh scripts/precommit.sh` in validation; `Research waived` names the five files read; three open questions on output shapes with a stance of ask-user, dependent work conditional. Shown. Task_3's acceptance met on all three; the fixture stays outside the repository.
 
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.
