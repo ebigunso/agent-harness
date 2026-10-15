@@ -381,6 +381,7 @@
   ```text
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md. Governing brief: docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md. Changes since: 25f9831.
   ```
+- 2026-10-15 The closeout audit dispatch on Fable ended before returning any verdict: the account's Fable usage limit was reached (HTTP 429, rate_limit). No verdict exists, so a second dispatch is not a re-dispatch on unchanged inputs to get a different grade. The same fixed template, with nothing added, is dispatched to a fresh Auditor on Opus; the model differs from the run's routing for the Auditor, a routing change forced by availability, and the template, the mandate and the inputs are unchanged.
 
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.

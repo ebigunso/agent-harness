@@ -51,5 +51,24 @@ Item | reading | statement relied on
 
 Readings compared after this comparison: the audit grades the kind-marks ruling inferred and marks it direction, which the Orchestrator's "extends" reading agrees with in class; the owner sees it at closeout.
 
+### `counsel-questions-and-planning-research-plan.md`, closeout (changes since 25f9831)
+
+Written while the closeout audit was running, before its verdict returned.
+
+Item | reading | statement relied on
+
+- Counsel skill: the framing test at any question to the owner, drafting-time handling, conflict rule, reserved acts regardless (L29); run-contact clause pointing to it (L76) | covered | brief, issue 90, first and second gives-statements and the conflict gives-statement
+- Counsel skill: ratification on framings; partial yes and closeout list reworded; unassisted default (L51, L56, L57, L59) | covered | brief, issue 90, third and fourth gives-statements and the means
+- Value-documents skill: tag definitions and what ratification covers (L53, L65) | extends | brief, issue 90 means ("the tags stay in the brief for the audit"); the skill is not named
+- Research Dispatch Gate, lifecycle-gates steps 4 and 5, dispatch-guidance, plan-format rule 10, template Assumptions line | covered | brief, issue 86, gives-statements, constraint and means
+- Plan-review snippet check (prompt-snippets L75) | covered | brief, issue 86, third gives-statement and the constraint
+- Orchestrator adapters, one line each | covered | brief, issue 86 means (the gate is built on)
+- ADR-D-0059 (proposed, any time) | covered | brief, issue 90 amendment; returns to the owner by name
+- ADR-D-0060 (accepted) and its post-acceptance wording change on ADR-D-0059's scope | covered as mechanics | the owner's acceptance; adr.md Reworded after acceptance
+- Version 1.0.0 in five lines | covered | brief, Version
+- Fixture outcomes, scenarios 3 and 4 and the control (Progress Log) | covered | brief, pass conditions
+- Lessons entries (three) | covered as mechanics | orchestrator rules (lessons are repository working guidance)
+- The ruling that kind marks are ratified with the brief on its framings | extends | brief, third gives-statement and the means; marked direction by the plan-draft audit
+
 ## Findings
 
