@@ -11,7 +11,7 @@
 - This is the first plan of the run recorded in `docs/coding-agent/plans/active/counsel-questions-and-planning-research-run.md`.
 
 ## Definition of Done
-- The Counsel skill states, where the conversation is held, that before a question reaches the owner while a brief is being drawn out Counsel writes it as an experience change (who, what they do, what they then experience, the options side by side); options that read the same at that level are Counsel's to decide, written into the brief tagged inferred or agent-proposed; options that read differently go to the owner in that form; the framing is the test. A conflict between statements Counsel itself drafted is resolved the same way when the discussion made the intent plain.
+- The Counsel skill states, where the conversation is held, that before a question reaches the owner while a brief is being drawn out Counsel writes it as an experience change (who, what they do, what they then experience, the options side by side); options that read the same at that level are Counsel's to decide, written into the brief tagged inferred or agent-proposed; options that read differently go to the owner in that form; the framing is the test. A conflict between statements Counsel itself drafted is resolved the same way when the discussion made the intent plain. The same test applies any time Counsel puts a question to the owner, not only while a brief is drafted (during a run, at closeout, in any discussion); the acts the owner reserved reach the owner regardless (brief amendment of 2026-10-15).
 - The Counsel skill states, where ratification is, that the owner is shown the experience framings for the decisions in the brief that changed anything, not the brief; the brief stays the record on disk for the run and the audit. The sentence that presents the full text again after a correction, and the closeout list of inferred lines, agree with this: the framings are what the owner sees, the tags stay in the brief for the audit.
 - The Counsel skill states that where the work could be done with or without the owner's help, the brief states the unassisted path as the default and the assisted path as the backup; Counsel does not ask which and at most tells the owner once that the backup may be needed.
 - No repository rule file carries any of these rules; the definitions of the brief's tags and of what ratification covers in the value-documents skill agree with ratification on framings.
@@ -26,8 +26,8 @@
 - The scenario 4 fixture also holds a control plan whose first task is a legitimate research deliverable by the brief's condition (a bounded check that is genuinely necessary because its answer cannot be read from the repository, with its question, expected evidence and effect on later work stated), and the plan review must not flag it. Needed because: the brief's constraint that research remains a legitimate deliverable is otherwise unchecked by the fixture, and a check that flags every research-first plan would meet scenario 4 while breaking the constraint.
 
 ## Scope / Non-goals
-- Scope: `skills/counsel/SKILL.md`; `skills/value-documents/SKILL.md` (tag definitions and what ratification covers); a decision record where the admission test passes on the framing test as a filter on what reaches the owner (whether ADR-D-0046 changes is decided by whether its own decision or boundary words are broken, not assumed); `skills/orchestration-harness/SKILL.md` (Research Dispatch Gate); `skills/orchestration-harness/references/lifecycle-gates.md` (Research Dispatch Details); `skills/orchestration-harness/references/dispatch-guidance.md` (Researcher dispatch); `skills/plan-format/SKILL.md` and `references/plan-template.md`; `skills/subagent-strategy/references/prompt-snippets.md` (plan-review snippet; the Researcher snippets); the Orchestrator adapters where they restate the gate; the three plugin manifests and the two marketplace plugin entries for the version; a fixture in a temporary directory.
-- Non-goals: issues 87, 88 and 89; the both-ways line on matters differing from what the owner believes was agreed; any repository rule file; the fixed audit dispatch template; validators for prose (ADR-I-0007); the run-time test of what reaches the owner from a run (Contacts with a run; `value-level-operation.md` Asking The Owner), which stays as it is; the audit's closeout list of marked items (ADR-D-0042), a different mechanism from the brief's inferred lines.
+- Scope: `skills/counsel/SKILL.md`; `skills/value-documents/SKILL.md` (tag definitions and what ratification covers); a decision record where the admission test passes on the framing test as a filter on what reaches the owner, revised to any time by Task_5 (whether ADR-D-0046 changes is decided by whether its own decision or boundary words are broken, not assumed); `skills/orchestration-harness/SKILL.md` (Research Dispatch Gate); `skills/orchestration-harness/references/lifecycle-gates.md` (Research Dispatch Details); `skills/orchestration-harness/references/dispatch-guidance.md` (Researcher dispatch); `skills/plan-format/SKILL.md` and `references/plan-template.md`; `skills/subagent-strategy/references/prompt-snippets.md` (plan-review snippet; the Researcher snippets); the Orchestrator adapters where they restate the gate; the three plugin manifests and the two marketplace plugin entries for the version; a fixture in a temporary directory.
+- Non-goals: issues 87, 88 and 89; the both-ways line on matters differing from what the owner believes was agreed; any repository rule file; the fixed audit dispatch template; validators for prose (ADR-I-0007); the level test of what reaches the owner from a run (Contacts with a run; `value-level-operation.md` Asking The Owner), which stays as it is: the framing test is placed beside it by Task_5, not in place of it; the audit's closeout list of marked items (ADR-D-0042), a different mechanism from the brief's inferred lines.
 
 ## Design
 - Chosen: each rule tightens the sentence nearest to where it acts. Issue 90: the framing test enters "How a conversation goes" beside the sentence that already puts every question as the chain, and the ratification and unassisted-default rules enter "Drafting and ratification", with the two sentences that conflict (present the full text again; the closeout list of inferred lines) reworded to agree; the value-documents definitions of inferred, agent-proposed and ratification are tightened so that a line Counsel decided and the owner ratified on its framing has its support. Issue 86: the Research Dispatch Gate's two lines say what the research is for and when it is enough; the procedure in lifecycle-gates carries the unknown's form and the research task's three statements; the plan template's Assumptions line carries the unknown's form; the plan-review snippet gains one check.
@@ -138,7 +138,7 @@
   - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
   - .claude-plugin/marketplace.json
   - .github/plugin/marketplace.json
-- depends_on: [Task_1, Task_2, Task_3]
+- depends_on: [Task_1, Task_2, Task_3, Task_5]
 - description: |
   The plugin's version becomes `1.0.0` (A1) in the three manifests and the two marketplace plugin entries; nothing else changes. This is the last change before the run is reported ready.
 - acceptance:
@@ -154,9 +154,31 @@
     owner: reviewer
     detail: "Final review of the branch's whole delta since 25f9831"
 
+### Task_5: Counsel's questions at any time
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/counsel/SKILL.md
+  - docs/coding-agent-orchestration-harness/decisions/**
+- depends_on: [Task_1]
+- description: |
+  The brief's amendment of 2026-10-15 (issue 90 section, second statement): the framing test applies any time Counsel puts a question to the owner, not only while a brief is drafted; the acts the owner reserved still reach the owner regardless. The sentence group Task_1 placed beside the chain sentence is reworded so the test governs every question to the owner, with what happens to a choice that is Counsel's while a brief is drafted (decided, written into the brief, tagged) kept there; "Contacts with a run" names the same test for a question brought to the owner during a run, in one clause pointing to that sentence group, with the level test and the reserved acts unchanged. ADR-D-0059 is revised in place (proposed, not on `main`): title, decision, boundary and filename widened from "while a brief is drafted" to any time, the reserved acts named as not covered, the source of intent pointing at the amendment; ADR-D-0060's `depends_on` carries the new filename. Nothing else is touched; no rule file.
+- acceptance:
+  - The amended statement can be pointed to in exactly one sentence group of the Counsel skill; "Contacts with a run" points to it without restating it; the level test and the reserved acts in that section are unchanged in substance.
+  - ADR-D-0059 holds one decision, meets `durable-docs-authoring/references/adr.md`, has a filename of at most 135 characters, and every link in ADR-D-0059 and ADR-D-0060 resolves; ADR-D-0059 stays `proposed` and is named in the report so it returns to the owner by name.
+  - `docs/coding-agent/rules/*.md` unchanged.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "From plugins/coding-agent-orchestration-harness/: python scripts/validate_harness_package.py; python scripts/run_validation_smoke_tests.py; git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff review against the brief's amended statement: the test once at its place, the run-time clause pointing to it; the revised record against adr.md"
+
 ## Task Waves (explicit parallel dispatch sets)
 - Wave 1: Task_1, Task_2
-- Wave 2: Task_3
+- Wave 2: Task_3, Task_5
 - Wave 3: Task_4
 
 ## E2E / Visual Validation Spec
@@ -223,10 +245,15 @@
 - 2026-10-15 Wave 1 review (Codex reviewer, range 5d6f3a2..f3a5332): FINDINGS, 1 MAJOR and 2 MINOR, all taken as fix. W1-F1: the plan-review check added "because the plan shows its answer cannot be had before drafting", a condition the brief does not state; the clause removed by the Orchestrator (5f36a93). W1-F2: ADR-D-0059 bundled two decisions; a follow-up Worker split it: ADR-D-0059 holds the drafting-question test and the conflict rule, ADR-D-0060 ratification on framings, each admitted on its own. W1-F3: the proposals logged in the Decision Log below. Worker question, ruled: ADR-D-0054 has a statement's kind ratified with the statement, while ADR-D-0060 has the owner ratify on framings; the brief itself settles it (the brief stays the record, its tags stay in it, and ratification covers the whole brief as the value-documents text now states), so the kinds are ratified with the brief as ratified on its framings; an Orchestrator ruling, cheap to undo, no question sent. Delta re-review requested.
 - 2026-10-15 Wave 1 delta re-review (Codex reviewer, range f3a5332..7aa690b): APPROVED, no finding open. Task_1 and Task_2 done. ADR-D-0059 and ADR-D-0060 go to the owner through Counsel for acceptance, each by its own name (the texts before him: the files at 952f044). Wave 2 dispatched: Task_3 fixture build to a Claude Worker.
 
+- 2026-10-15 Counsel's relay of 02:34Z, quoting the owner: ADR-D-0060 accepted ("I accept ADR-D-0060."; status set to accepted, text as at 952f044); ADR-D-0059 not accepted, to be extended (words in the Decision Log). The brief on disk amended by Counsel under the issue 90 section with those words; committed as left on disk (e5e0bc8). Replan: Task_5 added (Wave 2, beside Task_3; Task_4 waits on it); plan review of the revision dispatched to the Codex reviewer, the plan-draft audit of the revised plan to follow before Task_5 is dispatched.
+
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.
 - 2026-10-15 Proposal, ADR-D-0059 (proposed, awaiting the owner's acceptance by name): "While a brief is drafted, a choice reaches the person directing the work only when its options, written as experience changes, read differently; a choice whose framings read the same is Counsel's to decide". Decision: Counsel frames each drafting choice as an experience change and the framing is the test; same-reading options are Counsel's to decide, write into the brief and tag; differing ones go to the person directing the work in that form; a conflict between Counsel-drafted statements is resolved the same way. Constraint on future work: nothing may have Counsel ask about a choice whose framings read the same, or judge which questions are the owner's before framing them. Why: a person who would see at once from the experience that a choice does not affect them should not be asked it.
 - 2026-10-15 Proposal, ADR-D-0060 (proposed, awaiting the owner's acceptance by name): "A brief is ratified on the experience framings of the decisions in it that changed anything, not on its text, and the brief stays the record". Decision: at ratification the person directing the work is shown the framings of the decisions that changed anything, not the brief; the brief and its tags stay the record for the run and the audit. Constraint on future work: nothing may make ratification depend on reading the brief, or on a list of its tagged decisions. Why: reading a long brief to ratify it is the same burden as reading a plan.
+
+- 2026-10-15 Owner's answer on ADR-D-0059, relayed by Counsel 2026-10-15, quoted: "For 0059, I'd like it to be extended to be any time rather than only brief writing time." Read as a change to the design (Replan Procedure step 1): the brief now states the framing test for any question Counsel puts to the owner, which Task_1 built for drafting time only. Impact: the Counsel skill's test sentence and its run-time contacts section, ADR-D-0059's title, decision, boundary and filename, ADR-D-0060's dependency line; value-documents unchanged. Plan delta: Task_5 (docs) added, Wave 2 becomes Task_3 and Task_5, Task_4 depends on Task_5; DoD 1, Scope and the run-time non-goal reworded. Not contract-shape, irreversible or outward-facing (text on a branch); no pause. ADR-D-0059 revised returns to the owner by name.
+- 2026-10-15 ADR-D-0060 accepted by the owner, relayed by Counsel 2026-10-15, quoted: "I accept ADR-D-0060." The ruling on statement kinds under ADR-D-0060 was told to him, not asked, by the framing test.
 
 ## Notes (Risks / Edge cases)
 - The Counsel skill is 3559 words; the four rules add sentences, not sections. If the Reviewer reports the skill unacceptably long, the remedy is tightening elsewhere in the same sections, not a reference file (Design).
