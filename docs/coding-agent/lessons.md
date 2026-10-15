@@ -1309,8 +1309,9 @@ Fix applied:
 - The dispatch was reworded as a plain task: what to draft, where, which policy files to read first and by path, what not to do, and what to report in what order. The same inputs ran at the first attempt and gave the record the scenario needed.
 
 Prevention:
-- Word a dispatch as a task with inputs, procedure and a report shape, not as an identity the agent is to assume. A scenario that needs "what a session would do" is shown by having the agent follow the session's policy by path and report its steps in order.
-- When a dispatch fails the same way twice before any work, change the wording, not the model.
+- For a fixture or scenario dispatch the Orchestrator writes itself, where casting the agent as a session has failed before any tool call: word it as a task with inputs, procedure and a report shape. A scenario that needs "what a session would do" is shown by having the agent follow the session's policy by path and report its steps in order.
+- When such a dispatch fails the same way twice before any work, change the wording, not the model.
+- This does not reach a dispatch whose text a rule fixes, such as the Auditor's Fixed Dispatch Template, which is sent verbatim as its own rules state.
 
 Evidence:
 - The plan's Progress Log, Task_3, 2026-10-15, scenario 3.
