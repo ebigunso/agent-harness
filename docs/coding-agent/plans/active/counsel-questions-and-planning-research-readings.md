@@ -95,5 +95,18 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the reserved-acts sentence extends the owner's words (the brief's clause on it is Counsel's reading, unratified); lifecycle-gates item 5's "only when" extends the constraint; ADR-D-0060's acceptance rests on the owner's quoted words; its wording after acceptance and the lessons entries are not audited, having no engineering document; the scenario 3 dispatch's rewording extends the pass condition, since it points the agent at the gate.
 
+### `counsel-questions-and-planning-research-changes.md`, small change 1, closeout (changes since cf4d618)
+
+Written before the closing audit was dispatched.
+
+Item | reading | statement relied on
+
+- Counsel SKILL.md L54, a brief's drops and departures as framings at ratification, only where they changed anything, no list | covered | brief, "Directed after the run was reported ready", first statement
+- Counsel SKILL.md L54, "if no departure changed anything, say that the brief cannot decide anything" kept | extends | the same statement ("Counsel does not list the statements"): one remark, not a list
+- Counsel SKILL.md L54, a philosophy's steps kept in their own sentence | covered as mechanics | the statement concerns a brief; L57 keeps a philosophy's full text
+- value-documents SKILL.md L59, a recorded drop ratified with the brief, shown as a framing where it changed anything | extends | the same statement; L65 (ratification covers the whole brief)
+- ADR-D-0059 accepted (owner's words relayed 2026-10-15) | covered as mechanics | the owner's acceptance by name
+- No decision record for the change | covered as mechanics | ADR-D-0060 already decides ratification on framings
+
 ## Findings
 

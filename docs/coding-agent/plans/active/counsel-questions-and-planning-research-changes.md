@@ -15,4 +15,9 @@
 - Worker report (one task, `done`, one YAML block, two files) at a1627a2: Counsel SKILL.md L54 now opens with a brief's drops and departures reaching the owner at ratification as experience framings beside the brief's other decisions, only where they changed anything, with no list of statements; a philosophy keeps its steps in a sentence of its own (drops listed with why and confirmed, departures listed); the question on what the work must not do or must ask before doing is unchanged, now opening "Before asking for ratification, ask". value-documents L59: a drop recorded in a brief is ratified with the brief and shown to the owner as a framing where it changed anything. Counsel skill 3834 to 3898 words. Worker validation: package validator pass, smoke tests pass, `git diff --check` clean; no rule file and no decision record touched.
   - Judgement calls (Worker): "cannot decide anything" kept for a brief, adapted to the framings: if no departure changed anything, Counsel says the brief cannot decide anything (one remark, not a list), so a brief that only restates the conventional answer still warns the owner.
   - Orchestrator ruling: the call kept, for the review to judge against the statement's "Counsel does not list the statements".
-- Review dispatched to the Codex reviewer.
+- Review (Codex reviewer, range 56673b5..a1627a2): APPROVED, no finding open.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Opus; Fable was at the account's usage limit earlier the same day, so the run's closeout audit also ran on Opus):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/counsel-questions-and-planning-research-changes.md. Governing brief: docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md. Changes since: cf4d618.
+  ```
