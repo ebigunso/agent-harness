@@ -37,6 +37,10 @@ Issue 90 is the source; the shape below came from discussion on 2026-10-14 and g
 
 - The plugin's version becomes 1.0 once everything in the stack has landed and the Counsel session design is shipped. This brief is the last piece of that stack, so the bump is made in this work, as the last change before the stack is reported ready. **gives** *(told 2026-10-14: "Version should be bumped to 1.0 once everything lands and the Counsel session design is shipped." The placement in this run is Counsel's reading; the stack is pull requests 72, 73 and 75 to 85 plus this work.)*
 
+## Directed after the run was reported ready
+
+- What was dropped or departed from in the discussion reaches the owner at ratification as experience framings too, and only where it changed anything; Counsel does not list the statements. **gives** *(agent-proposed 2026-10-15, after the closing audit marked that the Counsel skill still had Counsel list the dropped or departed statements before ratification, beside the framings; his answer: "Yes, change it.")*
+
 ## Limits
 
 - A matter that differs from what the owner believes was agreed is not made a standing reason to ask him during a run. **constraint** *(told 2026-10-14, declining Counsel's proposal of such a line: "'What I think I agreed' only lives in my mind, which you can only assume, and if you could correctly assume what I thought then you'd probably be able to warn or correct me at that moment. If there was a gap there, nothing can catch that until I look at it and notice. Asking me every time is being overly cautious, and bog down day to day work. I'd leave it be for now, but if you want to prevent it further, then the place to apply a fix is at discussion and brief writing time rather than during a work.")*
