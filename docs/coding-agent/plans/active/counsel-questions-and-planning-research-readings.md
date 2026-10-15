@@ -32,5 +32,24 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the value-documents edit extends the brief, which names no such file; publication rests on the standing approval; the control plan enforces the brief's constraint; the means names no closeout list, so A2 extends it; A3 is engineering-side mechanics with no document.
 
+### `counsel-questions-and-planning-research-plan.md`, plan draft revised (Task_5 added, 2026-10-15)
+
+Written after the audit of the revised plan returned, not before it: the Orchestrator dispatched that audit without writing these, so its comparison reads these items as unread. They are the Orchestrator's readings as they stood at the dispatch, set down afterwards.
+
+Item | reading | statement relied on
+
+- DoD 1 as amended (the test applies any time Counsel puts a question to the owner; reserved acts reach the owner regardless) | covered | brief, issue 90 section, second gives-statement (amendment of 2026-10-15, the owner's words)
+- Non-goal: the level test of what reaches the owner from a run stays, the framing test beside it | covered | the amendment's reserved-acts clause, marked as Counsel's reading
+- Task_5 (the test governs every question; "Contacts with a run" points to it; ADR-D-0059 revised in place; ADR-D-0060's dependency follows) | covered | the amendment
+- Decision Log: the owner's answer read as a change to the design; Task_5 added | covered | the amendment; Replan Procedure as mechanics
+- Decision Log: ADR-D-0060 accepted; the ruling on kind marks told to the owner | extends | brief, third gives-statement and the means (the brief stays the record, the tags stay); the kind marks are not named by any statement
+
+#### The audit's comparison, plan draft revised (2026-10-15), as returned
+
+- Reading compared: the readings file carries one heading for this plan at plan draft (the first draft's readings, with the first audit's comparison and a correction line beneath); no readings were written for the revised plan. DoD 1 agrees; DoD 2 agrees; DoD 3 agrees; DoD 4 diverges (Orchestrator: covered on the constraint and the means; audit: inferred, no brief statement names the value-documents skill) though the correction line below the table concedes it extends; DoD 5 agrees; DoD 6 agrees; DoD 7 agrees; DoD 8 agrees; DoD 9 agrees; DoD 10 diverges (Orchestrator: "covered as mechanics"; audit: cited on the publish standing approval, the item being outward-facing), correction line concedes; Planner-added 1 diverges (Orchestrator: extends; audit: cited on the constraint), correction line concedes; A1 agrees; A2 diverges (Orchestrator: covered by the means; audit: inferred, the means names no closeout list), correction line concedes; A3 diverges (Orchestrator: covered as mechanics on orchestrator rules and adr.md; audit: not audited, engineering side with no document), correction line concedes; Non-goal issues 87-89 agrees; Non-goal both-ways line agrees; Non-goal rule files unread; Non-goal fixed audit dispatch template unread; Non-goal validators for prose unread; Non-goal level test stays unread; Non-goal ADR-D-0042 list unread; Task_1 unread; Task_2 unread; Task_3 unread; Task_4 unread; Task_5 unread; Decision Log relays admitted unread; Decision Log ADR-D-0059 proposal unread; Decision Log ADR-D-0060 proposal unread; Decision Log owner's answer and replan unread; Decision Log ADR-D-0060 accepted and the kind-marks ruling unread. (The "Design" line is not an item under this mandate and is not compared.)
+- Findings compared: none found (the Findings section is empty; no departure from a means was noted on any item line)
+
+Readings compared after this comparison: the audit grades the kind-marks ruling inferred and marks it direction, which the Orchestrator's "extends" reading agrees with in class; the owner sees it at closeout.
+
 ## Findings
 
