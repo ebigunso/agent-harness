@@ -21,4 +21,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md` | drafting | - |
+| `docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md` | authorized under the ratified brief 2026-10-15; in progress | - |

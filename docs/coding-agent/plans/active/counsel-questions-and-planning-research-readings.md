@@ -25,5 +25,12 @@ Item | reading | statement relied on
 - Non-goals (issues 87 to 89; the both-ways line) | covered | brief, Limits and Left out on purpose
 - Design (tighten in place, no new reference) | covered | brief, the constraint "live in the Counsel skill" and the means "the gate is the place it builds on"
 
+#### The audit's comparison, plan draft (2026-10-15), as returned
+
+- Reading compared: DoD 1 agrees; DoD 2 agrees; DoD 3 agrees; DoD 4 diverges (Orchestrator: covered on the constraint and the means; audit: inferred, since no brief statement names the value-documents skill and the edit extends the gives and the means); DoD 5 agrees; DoD 6 agrees; DoD 7 agrees; DoD 8 agrees; DoD 9 agrees; DoD 10 diverges (Orchestrator: "covered as mechanics"; audit: cited on the publish standing approval, the item being outward-facing); Planner-added 1 diverges (Orchestrator: extends; audit: cited on the constraint, which the check enforces); A1 agrees; A2 diverges (Orchestrator: covered by the means; audit: inferred, the means does not name which closeout list); A3 diverges (Orchestrator: covered as mechanics on orchestrator rules and adr.md; audit: not audited, engineering side with no document); Non-goals 87-89 and the both-ways line agree; Non-goal rule files unread; Non-goal fixed audit dispatch template unread; Non-goal validators for prose unread; Non-goal run-time test unread; Non-goal ADR-D-0042 list unread; Task_1 unread; Task_2 unread; Task_3 unread; Task_4 unread; Decision Log entry unread. (The Orchestrator's "Design" line is not an item under this mandate and is not compared.)
+- Findings compared: none found (the Findings section is empty; no departure from a means was noted on any item line)
+
+Readings corrected after this comparison: the value-documents edit extends the brief, which names no such file; publication rests on the standing approval; the control plan enforces the brief's constraint; the means names no closeout list, so A2 extends it; A3 is engineering-side mechanics with no document.
+
 ## Findings
 
