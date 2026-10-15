@@ -36,6 +36,13 @@ Item | reading | statement relied on
 - `last_updated` moved | not a product item | the rule suite's metadata
 - Scenarios expected: none of the run's scenarios is touched; getting closer: unchanged
 
+#### The audit's comparison, standing-approval entry closeout (2026-10-15), as returned
+
+- `Reading compared:` item 1 (the entry's content): agrees (covered / cited, same statement); item 2 (the acceptance taken in the Orchestrator session): diverges, Orchestrator "covered" on common.md's Standing Approvals paragraph (an ordinary rule, which is not support for a product-side item and does not speak to the route), auditor "ask-now" on brief lines 52 and 123 (the entry reaches him through Counsel with a link; an Orchestrator-session ruling is unratified); item 10 (the Orchestrator writing the entry): diverges on class, Orchestrator "not a product item" on a common.md rule, auditor "cited" on brief lines 49 and 193 (no stop either way); item 3 (`last_updated`): agrees (not a product item / not audited); unread: item 5 (C6 closed in the first-use changes file), item 6 (first-use run record), item 7 (readings file), item 8 (untracked files), item 9 (a push, if any), rulings 12, 13, 14. On scenarios: Orchestrator "getting closer: unchanged", auditor "yes" with the reason above.
+- `Findings compared:` none found (the Findings section reads "None yet"; no means statement bears on this change, so no departure from a means is noted on any item line)
+
+Readings corrected after this comparison: the route by which a standing approval takes effect is the brief's (through Counsel, with a link to the file), not the rule section's form alone; an acceptance in the Orchestrator session does not meet it.
+
 ## Findings
 
 - None yet.
