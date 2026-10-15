@@ -1260,3 +1260,57 @@ Prevention:
 
 Evidence:
 - The closeout audits of the design-led long runs run, the audit-positions run and the fixture run of the setup plan, 2026-10-04 and 2026-10-05; the first verdict after the change opened the file once, after grading.
+
+## 2026-10-15 - A Decision Record's Filename Is Also A Path The Smoke Test Copies  [tags: documentation, adr, troubleshooting]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md`, Task_1, Wave 1.
+- A record is named by its title in kebab case, and the title states the decision as a sentence.
+
+Symptom:
+- The package smoke test, which copies the repository into the system temporary directory, failed on Windows for a new record whose filename was over about 135 characters: the copied path crossed the platform's path length limit. The validators on the repository itself passed.
+
+Fix applied:
+- The Worker shortened the filename, keeping the title in the heading in full.
+
+Prevention:
+- Keep a record's filename at or under 135 characters; the heading carries the full title. A validator that copies the tree runs against the longest path it will create, not the longest path in place.
+
+Evidence:
+- Task_1 Worker report, 2026-10-15; ADR-D-0059's filename.
+
+## 2026-10-15 - A Control For "Research Stays Legitimate" Asks What The Repository Cannot Answer  [tags: validation, planning, fixture]
+
+Context:
+- A fixture checked that plan review flags a plan whose first task postpones research the rest of the plan needs, and does not flag a research task that is a legitimate deliverable.
+
+Symptom:
+- The first control plan's research task measured a timing bound the README promised. The review did not flag it as postponement, but flagged it on necessity: the measurement served nothing in the request, so the control did not show the constraint either way.
+
+Fix applied:
+- The control's research task became a check whose answer is not in the repository (whether an outside reader named in the request accepts the new line), with the request extended to name that reader, the unknown stated in Assumptions in the form the gate asks, and the dependent task written as conditional on it. The review then answered the investigation check explicitly: not a finding, and said why.
+
+Prevention:
+- A control for this check needs a question that no reading before drafting could settle, that the request itself raises, and that later work is written as conditional on. A task that is merely bounded and well stated is judged on necessity first, and a control that fails on necessity shows nothing about postponement.
+- Ask the reviewer to answer the check under test as its own line; a verdict on the whole plan does not separate the check from the rest.
+
+Evidence:
+- The plan's Progress Log, Task_3, 2026-10-15: two control reviews.
+
+## 2026-10-15 - A Dispatch That Opens By Casting The Agent As A Session Failed Before It Began  [tags: troubleshooting, delegation, tooling]
+
+Context:
+- A fixture scenario needed a fresh agent to draft a plan the way an Orchestrator session would, with the plugin's policy read by path.
+
+Symptom:
+- Three dispatches that opened with "You are the Orchestrator session of the repository at ..." ended in request-side failures before any tool call, on two models. The Orchestrator's own messages that quoted the dispatch were stopped the same way.
+
+Fix applied:
+- The dispatch was reworded as a plain task: what to draft, where, which policy files to read first and by path, what not to do, and what to report in what order. The same inputs ran at the first attempt and gave the record the scenario needed.
+
+Prevention:
+- Word a dispatch as a task with inputs, procedure and a report shape, not as an identity the agent is to assume. A scenario that needs "what a session would do" is shown by having the agent follow the session's policy by path and report its steps in order.
+- When a dispatch fails the same way twice before any work, change the wording, not the model.
+
+Evidence:
+- The plan's Progress Log, Task_3, 2026-10-15, scenario 3.
