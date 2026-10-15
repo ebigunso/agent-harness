@@ -111,6 +111,13 @@ Item | reading | statement relied on
 - The stack rebased and pushed before the build, on the operator's word in the Orchestrator session | not a product item | run procedure; the operator's answer in session, not a brief statement
 - Scenarios expected: unchanged (2 stays ready for the owner's judgement; the reference's effect on a discussion is his to see); getting closer: yes
 
+#### The audit's comparison, small change 4 closeout (2026-10-15), as returned
+
+- `Reading compared: C1 agrees (covered / cited). C2 agrees (covered / cited). C3 agrees in class (Orchestrator "not a product item; run procedure, engineering side, no document"; audit not audited). C4, C5, C8, C9 unread. C6 diverges: Orchestrator "not a product item; run procedure; the operator's answer in session, not a brief statement"; audit ask-now under step 1, the rewrite of open pull requests' branches being outward-facing with no standing approval covering it and the in-session answer an account the audit cannot take as support. C7 unread (the section states the push as done; the audit grades it cited on the 2026-09-30 standing approval, pending). Scenarios: Orchestrator "unchanged (2 stays ready for the owner's judgement); getting closer: yes"; audit the same states and the same answer: agrees.`
+- `Findings compared: Finding 1 (the hook means not taken): agrees, trivial; nothing in this range touches it, and no departure from a means was noted on any item line (the change follows the means line as amended). Ends cited. Finding 2 (an in-prose provisional mark in an old-form philosophy read by no reader): agrees, bears on the design; closed by small change 3, nothing in this range touches it. Ends cited (small change 3, C1-C3).`
+
+Readings corrected after this comparison: rewriting the branches of open pull requests is outward-facing, and an answer given in the Orchestrator session is an account to the audit, not support; it goes to the owner as a question rather than standing as run procedure.
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.
