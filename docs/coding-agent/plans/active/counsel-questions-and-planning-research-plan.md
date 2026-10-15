@@ -168,6 +168,12 @@
 ## Progress Log
 - 2026-10-15 Plan drafted from the two Researchers' reports; this plan starts from revision 25f9831 (the brief committed first). Codex peers pinged: the reviewer answered available.
 - 2026-10-15 Plan review (Codex reviewer, at b6aff90): FINDINGS, 1 MAJOR and 2 MINOR, all taken as fix. F1: scenario 3 must show research before the first draft, not be judged from the finished plan (DoD 8 and Task_3 acceptance). F2: the record is not predetermined; the admission test runs on the new decision and ADR-D-0046 changes only where its own words are broken (Scope, Task_1). F3: the three statements of a research task exempt nothing by themselves; the brief's legitimacy condition is the test (DoD 7, Planner-added 1, Task_2 and Task_3). Re-review requested.
+- 2026-10-15 Plan re-review (Codex reviewer, at d4b06bf): APPROVED, no finding open.
+- 2026-10-15 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md. Governing brief: docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md. Changes since: none.
+  ```
 
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.
