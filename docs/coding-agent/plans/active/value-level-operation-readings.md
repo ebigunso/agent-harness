@@ -26,6 +26,16 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the records' wording changes are decision records changed after acceptance, not mechanics; the declines and the ADR-D-0020 observation rest on this brief's "the rest not" and "Each decision record is still accepted on its own"; the small-change call rests on this brief's "How is the Orchestrator's", not on the small-change brief, which does not govern this run.
 
+### Directed change: a standing approval for rebasing unmerged pull requests, closeout
+
+Item | reading | statement relied on
+
+- The common.md entry: unmerged pull requests' branches may be rebased and force-pushed without asking first; merges not covered | covered | brief, "Directed while the stack was open for his judgement", last statement: "The branches of unmerged pull requests may be rebased and force-pushed without asking him; they are not final until merged. A standing approval records it."; "Merges are not covered" repeats the first entry, and "Delivery and judgement" keeps merging on his acceptance
+- The entry's acceptance taken in the Orchestrator session ("Accept the entry"), since the relayed words grant the approval but do not accept an entry's wording | covered | common.md, Standing Approvals: an entry is in effect only once it records the giver's acceptance of the entry, quoted with the date, and is committed
+- The Orchestrator writing the entry itself | not a product item | only the Orchestrator edits rule files (common.md, Repo Safety / Boundaries)
+- `last_updated` moved | not a product item | the rule suite's metadata
+- Scenarios expected: none of the run's scenarios is touched; getting closer: unchanged
+
 ## Findings
 
 - None yet.
