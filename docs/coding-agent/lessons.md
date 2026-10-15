@@ -1315,3 +1315,24 @@ Prevention:
 
 Evidence:
 - The plan's Progress Log, Task_3, 2026-10-15, scenario 3.
+
+## 2026-10-15 - A Small Change That Changes What The Product Does Still Goes To A Worker  [tags: workflow, delegation, orchestration, correction]
+
+Context:
+- A change the owner directed while a run was open for his judgement: remove one clause from a reference Counsel checks a philosophy's draft against, in words his direction gave.
+
+Symptom:
+- The Orchestrator classed the build as trivial because it was one clause with no how-choice, and made the edit itself. The review found that the edit changes which gaps Counsel puts to the owner, a meaningful behaviour change, so the Plan Gate's trivial criteria did not hold.
+
+Root cause:
+- Two separate calls were run together: small (no plan needed) and trivial (no Worker needed). A short, fully specified edit satisfies the first; the second asks whether the behaviour or design changes, and the length of the diff does not answer that.
+
+Fix applied:
+- The changes file's account was corrected and the finding logged; the edit was kept, since it was correct and rebuilding it through a Worker would add nothing.
+
+Prevention:
+- For a small change under a brief, decide "small" and "trivial" separately. A change directed because it alters what the product does is not trivial however short it is: dispatch a Worker, unless the owner has said to do it as trivial work.
+- This repeats the 2026-05-17 lesson on self-implementation in a smaller form; read the two together.
+
+Evidence:
+- `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md`, Small change 4, review finding FU4-F1.
