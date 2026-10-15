@@ -66,7 +66,7 @@ Design assumptions:
 - When the user explicitly requests language/framework depth, decompose implementation tasks by that depth (for example, API/data/model/UI/test slices).
 - If a plan intentionally mixes abstraction levels (for example, feature-level and file-level tasks), add a final harmonization pass before review to verify naming, boundaries, and validation coverage remain coherent.
 
-10) Plan altitude: a plan states what, why, and constraints, and leaves how to the Worker; it does not restate what the Worker can discover cheaply. This does not override user-requested decomposition depth (rule 9).
+10) Plan altitude: a plan states what, why, and constraints, and leaves how to the Worker; it does not restate what the Worker can discover cheaply. Its tasks are written from the findings of the research done before drafting (`orchestration-harness` Research Dispatch Gate); an unknown that research could not resolve is stated as that gate's details say, not left to an investigate-first task. This does not override user-requested decomposition depth (rule 9).
 
 11) ADR-producing tasks: use "propose an ADR if the admission test passes" per `durable-docs-authoring/references/adr.md`; do not enumerate record contents in acceptance criteria. Such a task may be a Worker's, as that reference allows.
 
