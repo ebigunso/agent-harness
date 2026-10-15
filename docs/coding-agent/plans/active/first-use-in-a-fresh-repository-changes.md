@@ -134,3 +134,9 @@
 - Built by the Orchestrator at 1ab098e: item 5 now reads "What it aspires to: the legitimate future that extension is measured against."; nothing put in its place. Orchestrator validation: package validator pass, smoke tests pass, `git diff --check` clean.
 - Review (Codex reviewer, range f8daf84..1ab098e): NEEDS_REVISION on one MINOR procedural finding, the implementation passing. FU4-F1: the edit changes the gaps Counsel's check lists for the owner to fill, a meaningful behaviour change, so it was not trivial work the Orchestrator may handle directly (the Plan Gate's trivial criteria, which hold unchanged for a small change under a brief); being small and fully specified made it a small change without a plan, not a build without a Worker. Remedy, as the review gives it: correct this account and record the routing miss with its prevention; the deletion is right and is neither reverted nor rebuilt through a Worker.
   - Orchestrator ruling: the finding is accepted. The account above is corrected; the lesson is in `docs/coding-agent/lessons.md` (2026-10-15, "A Small Change That Changes What The Product Does Still Goes To A Worker"). The edit stands as built.
+- Re-review (Codex reviewer, range 31a731f..3aa0890): APPROVED, FU4-F1 closed, no finding open.
+- Closing audit, dispatch text (to a fresh Auditor dispatch):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md. Governing brief: docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md. Changes since: 2aa9ed5.
+  ```
