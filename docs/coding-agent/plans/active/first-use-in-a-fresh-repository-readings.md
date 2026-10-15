@@ -101,6 +101,16 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the owner's relayed words are an account to the audit, the brief's statements covering the text built; the small-change call is run procedure, not a product item.
 
+### Small change 4 (no honest fallback asked of a philosophy), closeout
+
+Item | reading | statement relied on
+
+- The text as built: item 5 of the philosophy reference asks only for the legitimate future that extension is measured against; nothing put in place of the fallback | covered | brief, "Directed after the run was reported ready", last statement: "The default form of a philosophy never requires a temporary statement of that kind; one appears only where something requires it, and even then is kept out as much as possible"; the amended derivation line of "A reference for the philosophy"
+- Not adding a sentence on when a temporary statement may appear | covered | same statement: a sentence asking for one would bring the kind of statement back into the default form
+- The Orchestrator's call: small, no plan, edit made by the Orchestrator | not a product item | run procedure, engineering side, no document
+- The stack rebased and pushed before the build, on the operator's word in the Orchestrator session | not a product item | run procedure; the operator's answer in session, not a brief statement
+- Scenarios expected: unchanged (2 stays ready for the owner's judgement; the reference's effect on a discussion is his to see); getting closer: yes
+
 ## Findings
 
 - The brief's means on a session-start hook claiming Counsel's seat is not taken: the plugin has no hook mechanism and names no channel tool; the seat is claimed by Counsel following the first-session reference, once per repository. Reading: trivial; it changes nothing the owner experiences beyond one claim per repository, which the brief's own text for runtimes without a hook already asks of Counsel.
