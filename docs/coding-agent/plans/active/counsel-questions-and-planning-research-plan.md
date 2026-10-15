@@ -317,6 +317,11 @@
 
   Scenario 3, outcome: the report lists thirteen reads before the first plan line, each with its finding (the SKILL.md gates; the request; lifecycle-gates' unknown form; the tree; no rule suite; the README's store and timing statement; `precommit.sh`'s positional call; `store.py`'s format and `split("|", 2)`; `monthly.py`'s three-field unpack; plan-format rules; the template; the locatable-consumer definition). The drafted plan (`fx/planrepo/docs/coding-agent/plans/active/currency-field-plan.md`, validator passed first run, uncommitted) has no investigate-first task: Task_1 store and export, Task_2 monthly totals owning `tallybook/monthly.py`, Task_3 the integrated check with `sh scripts/precommit.sh` in validation; `Research waived` names the five files read; three open questions on output shapes with a stance of ask-user, dependent work conditional. Shown. Task_3's acceptance met on all three; the fixture stays outside the repository.
 - 2026-10-15 Plan revision review (Codex reviewer, at 82908a0): FINDINGS, 1 MINOR, taken as fix. R-F1: Task_5's acceptance set a filename length cap the brief, rules and lessons did not state, an undeclared planner-added requirement; the cap removed, the smoke test (which copies the tree) being the required check that catches a path too long. The investigation-task check on Task_5 answered not applicable. Delta re-review requested.
+- 2026-10-15 Plan revision delta re-review (Codex reviewer, at 574b70a): APPROVED, no finding open. Plan-draft audit of the revised plan, dispatch text (to a fresh Auditor dispatch on Fable):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md. Governing brief: docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md. Changes since: none.
+  ```
 
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.
