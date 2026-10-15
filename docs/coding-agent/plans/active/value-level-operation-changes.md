@@ -92,3 +92,9 @@
 - Built by the Orchestrator at 2f3432d (the entry, and this account).
 - Review (Codex reviewer, range 094a4af..2f3432d): NEEDS_REVISION. The entry itself passes (within the brief statement, merges kept uncovered, giver, dated acceptance and commit as the section asks). RULE-F1, MAJOR: the account skipped the closing value audit with no waiver that applies; a change he directs while the run is open is reviewed and audited at its close, and his acceptance of the entry's wording does not waive the audit. RULE-F2, MINOR: `last_updated` in common.md not moved to the edit's date.
   - Orchestrator ruling: both accepted. The account above now keeps the audit; `last_updated` set to 2026-10-15.
+- Re-review (Codex reviewer, range 2f3432d..f3c236f): APPROVED, RULE-F1 and RULE-F2 closed, no finding open.
+- Closing audit, dispatch text (to a fresh Auditor dispatch; readings written first, ea11f68):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/value-level-operation-changes.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 5950f30.
+  ```
