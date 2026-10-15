@@ -70,5 +70,30 @@ Item | reading | statement relied on
 - Lessons entries (three) | covered as mechanics | orchestrator rules (lessons are repository working guidance)
 - The ruling that kind marks are ratified with the brief on its framings | extends | brief, third gives-statement and the means; marked direction by the plan-draft audit
 
+#### The audit's comparison, closeout (2026-10-15), as returned
+
+- Reading compared:
+- Counsel L29 test, drafting-time handling and conflict rule: agrees (covered / cited).
+- Counsel L29 reserved-acts sentence: diverges. Orchestrator: covered on the issue 90 gives-statements. Audit: inferred, because the brief's reserved-acts clause carries no ratification and the sentence extends the owner's L21 words.
+- Counsel L76: agrees.
+- Counsel L51, L56, L57, L59: agree.
+- value-documents L53 and L65: agree (extends / inferred); the audit adds the direction mark on L65.
+- Gate, lifecycle-gates item 4, dispatch-guidance, rule 10, template: agree.
+- lifecycle-gates item 5: diverges. Orchestrator: covered. Audit: inferred, because "only when" makes L33's cases an exclusive list.
+- Plan-review snippet check: agrees.
+- Adapters: agree.
+- ADR-D-0059: agrees.
+- ADR-D-0060 accepted: diverges. Orchestrator: covered as mechanics. Audit: cited on L23 and L26, with the acceptance carried under the relay entry.
+- ADR-D-0060 wording after acceptance: diverges. Orchestrator: covered as mechanics. Audit: not audited, the changed words named.
+- Version `1.0.0`: agrees.
+- Version ordering: unread.
+- Fixture outcomes: the control rewrite agrees. The scenario 3 dispatch rewording diverges: Orchestrator covered, audit inferred, because the wording points the agent at the gate.
+- Lessons entries: diverges. Orchestrator: covered as mechanics on orchestrator rules. Audit: not audited, the engineering side having no document.
+- Kind-marks ruling: agrees (extends / inferred, direction).
+- Plan items (DoD 1-10, Planner-added 1, the non-goals, A1-A3, Task_1-Task_5, Decision Log entries) and the remaining judgement calls (snippet repetition, adapter length, the ADR split, the W1-F1 gloss, the L54 compatibility ruling, R-F1, FINAL-F1, the verdicts-count and re-dispatch rulings): unread under the closeout heading.
+- Findings compared: none found. The Findings section is empty, and no item line notes a departure from a means.
+
+Readings corrected after this comparison: the reserved-acts sentence extends the owner's words (the brief's clause on it is Counsel's reading, unratified); lifecycle-gates item 5's "only when" extends the constraint; ADR-D-0060's acceptance rests on the owner's quoted words; its wording after acceptance and the lessons entries are not audited, having no engineering document; the scenario 3 dispatch's rewording extends the pass condition, since it points the agent at the gate.
+
 ## Findings
 

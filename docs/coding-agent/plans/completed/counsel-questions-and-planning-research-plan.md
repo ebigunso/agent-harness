@@ -1,6 +1,6 @@
 # Plan: Counsel's questions while drafting, and research before a plan
 
-- status: in_progress
+- status: done
 - generated: 2026-10-15
 - last_updated: 2026-10-15
 - work_type: docs
@@ -382,6 +382,101 @@
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md. Governing brief: docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md. Changes since: 25f9831.
   ```
 - 2026-10-15 The closeout audit dispatch on Fable ended before returning any verdict: the account's Fable usage limit was reached (HTTP 429, rate_limit). No verdict exists, so a second dispatch is not a re-dispatch on unchanged inputs to get a different grade. The same fixed template, with nothing added, is dispatched to a fresh Auditor on Opus; the model differs from the run's routing for the Auditor, a routing change forced by availability, and the template, the mandate and the inputs are unchanged.
+
+- 2026-10-15 Closeout audit (fresh Auditor on Opus), verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
+
+  - Position: closeout
+  - Documents read: [machine path redacted]\plugins\coding-agent-orchestration-harness\skills\orchestration-harness\references\value-audit-mandate.md (instructions); [machine path redacted]\plugins\coding-agent-orchestration-harness\skills\value-documents\SKILL.md (instructions); [machine path redacted]\docs\coding-agent\briefs\active\counsel-questions-and-planning-research-brief.md (whole, plus its diff since 25f9831); [machine path redacted]\docs\coding-agent\rules\common.md (pointer lines and Standing Approvals; the file has not changed since 25f9831 and matches HEAD); [machine path redacted]\docs\coding-agent\plans\active\counsel-questions-and-planning-research-plan.md (whole, Progress Log and Decision Log included, read as claims); the run record [machine path redacted]\docs\coding-agent\plans\active\counsel-questions-and-planning-research-run.md (Scenarios section). The diff `git diff 25f9831` over plugins/, .claude-plugin/, .github/, docs/coding-agent-orchestration-harness/decisions/ (ADR-D-0059, ADR-D-0060, and ADR-D-0060 compared between 952f044 and HEAD), docs/coding-agent/lessons.md and the first-use brief, every command with both exclude pathspecs. Read only to understand the work, never as support: counsel SKILL.md L40-64; the fixture files under [machine path redacted] (planrepo\docs\coding-agent\plans\active\currency-field-plan.md, plans\postponing-plan.md). Never opened: docs/coding-agent/briefs/active/value-level-operation-notes.md (changed in range and in the working tree), design-led-long-runs-notes.md, .claude/pr67body.tmp (pull request text, an account of the work), .claude/settings.local.json (local runtime settings, outside the product), fx/README-fixture.md. The readings file was opened once, after the grades were fixed.
+  - Product basis: brief in the product owner's words (brief L6: "the product owner's own words in the two issues and in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository")
+  - Not audited: the engineering side, which has no document (common.md L13: "Engineering philosophy: none yet"). The product philosophy line (L12) also reads "none yet", so the product side runs on the brief alone.
+  - Missing inputs: none. The brief is under `active/`. L3 carries the ratification record: "ratified by ebigunso on 2026-10-14 ('I ratify the brief, hand it over now.')". The product basis is at L6.
+  - Value documents changed in range:
+  - docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md: L21 was added (e5e0bc8). It carries its own record, the owner's words of 2026-10-15: "For 0059, I'd like it to be extended to be any time rather than only brief writing time." The record covers "any time". Its reserved-acts clause is marked in the brief as "Counsel's reading of what he kept before" and has no ratification of its own, so no grade below relies on it.
+  - docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md: one statement was added in the working tree and is not committed. It belongs to another initiative and no item of this run relies on it. Observation, not a grade: it says a philosophy's ratification "is read from its companion only", which reverses value-documents SKILL.md L73 ("a reader accepts the record in either place"). This range left L73 untouched.
+  - Pointer lines removed or changed: none.
+
+  Items (item | mapping | grade | support | ask-now text / direction):
+
+  Plan
+  - DoD 1 (the framing test any time, the conflict rule, reserved acts regardless) | maps to the brief | cited | brief L20 gives: "Before a question reaches the owner ... Counsel writes it as an experience change ... The framing is itself the test"; L21 gives, with its record of 2026-10-15: "The same test applies any time Counsel puts a question to the owner"; L22 gives: "A conflict between statements Counsel itself drafted is Counsel's to resolve the same way" | -
+  - DoD 2 (ratification on framings; L57 and L59 agree) | maps | cited | L23 gives: "At ratification the owner is shown the experience framings ... not the brief itself. The brief stays the record on disk for the run and the audit"; L26 means: "a list of tagged decisions at ratification and at closeout, is replaced by the framings ... the tags stay in the brief for the audit" | -
+  - DoD 3 (the unassisted path is the default) | maps | cited | L24 gives: "the brief states the unassisted path as the default and the assisted path as the backup. Counsel does not ask which" | -
+  - DoD 4 (no rule file carries the rules; the value-documents definitions agree) | maps (the rule-file half); the value-documents half extends | inferred | L25 constraint: "These rules live in the Counsel skill ... and not in a repository's rules"; the value-documents half extends L20, L23 and L26 means; cheap to undo | -
+  - DoD 5 | maps | cited | L30 gives: "Before an execution plan is drafted, the investigation needed ... is done ... Depth stays proportional"; L34 means: "the existing Research Dispatch Gate is the place it builds on" | -
+  - DoD 6 | maps | cited | L31 gives: "the plan states what remains unknown, why, and what decision or evidence is needed; dependent work is conditional or awaits replanning"; L33 constraint: "such a task states the question it answers, the expected evidence, and how its outcome affects later work" | -
+  - DoD 7 | maps | cited | L32 gives: "Plan review flags an investigation-first plan when that task merely postpones research"; L33 constraint | -
+  - DoD 8 | maps | cited | L56: "scenarios 3 and 4 are shown on a fixture where one can be made" | -
+  - DoD 9 | maps | cited | L38 gives: "The plugin's version becomes 1.0 ... as the last change before the stack is reported ready" | -
+  - DoD 10 (publish the branch, open the pull request, nothing merged) | maps (L14: "ship with the current stack") | cited | Outward-facing; it passes step 1 on common.md Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner ... Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: 'The common rule proposed, accepted.'" The entry is committed and carries its record. A file cannot show that the words were said. | -
+  - Planner-added 1 (the control plan) | maps | cited | L33 constraint | -
+  - Non-goals: issues 87, 88 and 89 | cited | L43 | -; the both-ways line | cited | L42 | -; rule files | cited | L25 | -
+  - Non-goals: the fixed audit dispatch template; validators for prose; ADR-D-0042's list | maps (scope held) | inferred | they extend L34 means, the L56 validators condition and L26 means respectively; cheap to undo | -
+  - Non-goal: the run's level test stays, with the framing test beside it | maps | inferred | extends L21 ("during a run") and L42; cheap to undo | -
+  - A1 (`1.0.0` in five files) | maps | inferred | extends L38; cheap to undo | -
+  - A2 | maps | inferred | extends L26 means, which names no closeout list | -
+  - A3 | internal mechanics | not audited | no engineering document; step 1 passes: proposing a record on a branch is cheap to undo, and acceptance keeps its own rule | -
+  - Task_1, Task_2, Task_5 | maps | cited | L20-L26 and L30-L34 as quoted above; Task_5 on L21 | -
+  - Task_3 | maps | cited | L56, and scenarios 3 and 4 (L51-L52) | -
+  - Decision Log: relays admitted | maps (who decides) | cited | Standing Approvals: "a relay from the agmsg identity `agent-harness-counsel` that quotes the person directing the work carries that person's decisions ... plan approval and its waiver are not carried ... Given and accepted ... ebigunso ... on 2026-10-01 ... 'I accept ADR-D-0038 and the standing approval entry.'" A file cannot show that the words were said. | -
+  - Decision Log: ADR-D-0059 and ADR-D-0060 proposals; the replan for the owner's answer on ADR-D-0059 | maps | cited | L20, L22, L23, L26; L21 with its record | -
+
+  Changes in range
+  - Counsel SKILL.md L29: the framing test at any question to the owner, the drafting-time handling, the conflict rule | maps | cited | L20, L21, L22 as quoted | -
+  - Counsel SKILL.md L29, last sentence: "The acts the owner reserved reach the owner regardless of the test." | maps | inferred | It extends the owner's L21 words ("any time") and L20 ("Before a question reaches the owner"): reserved acts are not questions the test filters. It keeps the acts the skill already reserves (L58, L76). It does not rest on the brief's own reserved-acts clause, which carries no ratification. It tightens rather than loosens, and is cheap to undo. | -
+  - Counsel SKILL.md L76: a question from a run passes the framing test first | maps | cited | L21: "during a run, at closeout, in any discussion" | -
+  - Counsel SKILL.md L51 (unassisted default) | maps | cited | L24 | -
+  - Counsel SKILL.md L56 (ratification on framings) | maps | cited | L23 | -
+  - Counsel SKILL.md L57 ("present the framings again, or a philosophy's full text") | maps | cited | L23 for briefs; philosophies keep their prior behaviour | -
+  - Counsel SKILL.md L59 (the closeout list of inferred lines replaced) | maps | cited | L26 means; L23 | -
+  - value-documents SKILL.md L53 (tag definitions widened to cover acceptance at ratification) | maps | inferred | extends L20 ("decided, written into the brief, and tagged inferred or agent-proposed"), L23 and L26; cheap to undo | -
+  - value-documents SKILL.md L65 (ratification on framings covers the whole brief; a statement not shown as a framing has the support of an inferred statement ratified with the brief) | maps | inferred | extends L23 ("The brief stays the record on disk for the run and the audit") and L20; cheap to undo | direction: statements the owner never sees now bind runs and support audit grades, on Counsel's judgement of what "changed anything". The owner set this direction in L20 and L23; the support rule that carries it is the run's extension.
+  - orchestration-harness SKILL.md, Research Dispatch Gate | maps | cited | L30 gives ("its findings are used to write concrete tasks with meaningful scope, dependencies, acceptance criteria and validation"); L34 means | -
+  - lifecycle-gates.md item 4 | maps | cited | L31 | -
+  - lifecycle-gates.md item 5 ("Research is a task of the plan only when ...") | maps | inferred | The brief's L33 says research "remains a legitimate deliverable when" those cases hold. "Only when" turns the cases into an exclusive list, which extends L33 together with L30, under which research the plan needs is done before drafting. Its last sentence is cited on L32 and L33. Cheap to undo. | -
+  - plan-format SKILL.md rule 10; plan-template.md Assumptions line | maps | cited | L30, L31, L34 | -
+  - prompt-snippets.md, the plan-review investigation check | maps | cited | L32 gives; L33 constraint; "The three statements alone exempt nothing" follows L33's conjunction | -
+  - dispatch-guidance.md; agents/Orchestrator.md; claude/agents/harness-orchestrator.md | maps | cited | L30 and L34; the adapters match the gate text | -
+  - Version `1.0.0` in three manifests and two marketplace entries | maps | cited | L38; not outward-facing until it ships | -
+  - Version ordering: c652589 is the last change to the plugin package; 705278e (lessons.md) and plan-record commits follow it | maps | inferred | This reads L38's "the last change before the stack is reported ready" as the last change to what the version names. Nothing in the package changed after the bump. Cheap to undo. | -
+  - ADR-D-0059 (new, proposed, any time; reserved acts not covered) | maps | cited | L20, L21, L22. Its acceptance is still the owner's, by name, and nothing in range discharges it. | -
+  - ADR-D-0060 (new; accepted in range, c93f4f3) | maps | cited | L23; L26 means. The acceptance is the owner's quoted "I accept ADR-D-0060.", carried under the 2026-10-01 relay entry quoted above (the entry carries the words; it does not discharge the acceptance). A file cannot show that the words were said. | -
+  - ADR-D-0060 wording changed after acceptance (32332dc; text accepted at 952f044) | decision record | not audited | The changed words: the depends_on filename of ADR-D-0059; under Not covered, "which choices reach that person while a brief is drafted" became "which questions reach that person, whenever Counsel puts one"; under More Information, "which choices reach that person while drafting" became "which questions reach that person". None of these changes ADR-D-0060's decision, boundary, reasons or reopen conditions, because the record never decided which questions reach the owner. | -
+  - lessons.md, three entries (filename length; the control for "research stays legitimate"; dispatch wording) | internal mechanics | not audited | no engineering document; step 1 passes (repository text, cheap to undo) | -
+
+  Judgement calls at closeout
+  - Wave 1: the snippet repeats the legitimacy test briefly and points to its home | internal mechanics | not audited | - | -
+  - Wave 1: each adapter line grew by about 120 characters, still one line | internal mechanics | not audited | - | -
+  - Wave 1: ADR-D-0059 held two decisions, later split into 0059 and 0060 (W1-F2) | internal mechanics | not audited | - | -
+  - Wave 1: the gloss "the plan shows its answer cannot be had before drafting", kept and then removed (W1-F1, 5f36a93) | maps | cited | the removal returns the check to L33's condition | -
+  - Wave 1: counsel SKILL.md L54 (drops and departures listed before ratification) left as compatible | maps | inferred | It extends L23 and L26: the departure list is neither the brief's text nor its list of tagged decisions. L23, though, has the owner shown framings for the decisions that changed anything, and L54 still says "list the statements". Cheap to undo. | direction: what the owner reads at ratification is the experience L23 sets.
+  - Wave 1 ruling: a statement's kind marks are ratified with the brief as ratified on its framings | maps | inferred | extends L23 and L26 means; no brief statement names kind marks; cheap to undo | direction: what a ratification on framings covers sits at the level of the owner's reading surface.
+  - Task_3: the control plan rewritten as an implementation-stage check, with the request extended in fx/request-control.txt | maps (how a pass condition is checked) | cited | L33 constraint; L56 | -
+  - Task_3: the scenario 3 dispatch reworded as a plain task that follows the policy by path ("Do whatever the policy says must happen before a plan is drafted"), with a report of the steps taken before drafting | maps (how a pass condition is checked) | inferred | It extends L56, and the brief fixes no dispatch form. The wording points the agent at the gate and asks for its steps before drafting, so the fixture shows the policy is followed when pointed at; it shows less that an unprompted session follows it. The human-only condition on real runs stays pending, and the fixture does not settle it. Cheap to undo. | -
+  - Wave 2 ruling: ADR-D-0060 reworded after acceptance does not return to the owner | decision record | not audited | the changed words are named on the ADR-D-0060 item above; the ruling agrees with this audit | -
+  - Plan revision review R-F1: the filename cap removed from Task_5; FINAL-F1: the lesson scoped to fixture dispatches | internal mechanics | not audited | - | -
+  - Rulings that the plan-draft verdicts count, and the closeout audit re-dispatched on Opus after the Fable 429 | internal mechanics of the run's audit routing | not audited | Neither touches a stop, a pass condition of the brief or who decides. The dispatch received here is the fixed template, with nothing added. | -
+
+  - Human-only conditions pending: "scenarios 1 and 2 in his next Counsel discussion; whether plans in his next real run were concrete on first draft"
+  - Scenarios (prior state from the run record: all `not yet`):
+  - 1: ready for the owner's judgement. The rules are at counsel SKILL.md L29 and L76. Observe in his next Counsel discussion on the plugin as changed on this branch.
+  - 2: ready for the owner's judgement. The rules are at counsel SKILL.md L51, L56, L57 and L59, with value-documents L65. Observe at his next brief ratification.
+  - 3: demonstrated. Observe at …\scratchpad\fx\planrepo\docs\coding-agent\plans\active\currency-field-plan.md:
+    - Its tasks name `tallybook/monthly.py`'s three-field unpack and `sh scripts/precommit.sh`, with no investigate-first task.
+    - `Research waived` names the five files read, and the unknowns are stated as Q1-Q3 with dependent work conditional (A3).
+    - The agent's step-by-step report exists only in the Progress Log.
+    - The dispatch pointed the agent at the gate.
+    - The fixture sits in a session scratchpad outside the repository and may not persist.
+  - 4: demonstrated. Observe at …\scratchpad\fx\plans\postponing-plan.md, whose Task_1 is a `research` task that Tasks 2-4 wait on for scope, acceptance and validation. By its wording the prompt-snippets check flags it. The reviewer's NEEDS_REVISION, and the control's "Task_1 is not a finding", exist only in the Progress Log; re-running the logged dispatch reproduces them.
+  - Getting closer: yes. All four scenarios moved from `not yet`: 3 and 4 are shown on a fixture whose plan files I read, and the rules for 1 and 2 are in the Counsel skill, waiting only on the owner.
+  Summary for the Orchestrator: no `ask-now` and no `ungraded`. Three items carry the `direction` mark, so the owner sees them at closeout:
+  - value-documents L65: support for statements not shown as framings.
+  - The ruling that counsel L54's lists are compatible with ratification on framings.
+  - The ruling that kind marks are ratified with the brief on its framings.
+
+  ADR-D-0059 still waits for the owner's acceptance by name. Paths: [machine path redacted]\docs\coding-agent\plans\active\counsel-questions-and-planning-research-plan.md; [machine path redacted]\docs\coding-agent\plans\active\counsel-questions-and-planning-research-readings.md; [machine path redacted]\docs\coding-agent\plans\active\counsel-questions-and-planning-research-run.md.
+
+  How the Orchestrator applied it: no item is `ask-now`, none is `ungraded`; closeout proceeds. Three items carry `direction` and go to the owner through Counsel in the material sent after Counsel's first read, as the verdict states them: value-documents L65 (support for statements not shown as framings); the ruling that counsel L54's lists are compatible with ratification on framings; the ruling that kind marks are ratified with the brief on its framings. The verdict agrees with the Orchestrator's call that ADR-D-0060's change after acceptance is wording only (its decision, boundary, reasons and reopen conditions unchanged), so it does not return to the owner; it is listed in the final response. ADR-D-0059 waits for the owner's acceptance by name. Scenarios copied into the run record. The Orchestrator's closeout readings were written while the audit ran, before its verdict returned; the comparison reads most plan items as unread under the closeout heading, the readings having covered the changes in range. Design document: the repository keeps none for this field (`common.md` Repository Reference Documents lists the plugin README for layout only), so that step does nothing. Decision Log sweep: the decisions that pass the admission test have records (ADR-D-0059, ADR-D-0060); none is missing.
+- 2026-10-15 Plan closed: all tasks done, required validation pass, Reviewer APPROVED on the whole delta, closeout audit holds nothing. Moved to `docs/coding-agent/plans/completed/`. The run is reported ready (`candidate ready`): the branch is published on the stack under the standing approval of 2026-09-30, the pull request opened, the note sent to Counsel; nothing merged.
 
 ## Decision Log
 - 2026-10-15 Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`; the hand-over acted on as Counsel's relay of 2026-10-15 quoting the owner's ratification of 2026-10-14.

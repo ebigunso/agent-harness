@@ -1264,7 +1264,7 @@ Evidence:
 ## 2026-10-15 - A Decision Record's Filename Is Also A Path The Smoke Test Copies  [tags: documentation, adr, troubleshooting]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/counsel-questions-and-planning-research-plan.md`, Task_1, Wave 1.
+- Plan: `docs/coding-agent/plans/completed/counsel-questions-and-planning-research-plan.md`, Task_1, Wave 1.
 - A record is named by its title in kebab case, and the title states the decision as a sentence.
 
 Symptom:
