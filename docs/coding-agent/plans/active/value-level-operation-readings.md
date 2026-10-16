@@ -43,6 +43,24 @@ Item | reading | statement relied on
 
 Readings corrected after this comparison: the route by which a standing approval takes effect is the brief's (through Counsel, with a link to the file), not the rule section's form alone; an acceptance in the Orchestrator session does not meet it.
 
+### Small change 2: the codebase checked for leftovers and clean-up candidates, closeout
+
+Item | reading | statement relied on
+
+- The sweep of the whole tracked tree, split in two, read-only | covered | brief, "Directed while the stack was open for his judgement", last statement: "Before the stack is merged, the codebase is checked for leftovers and clean-up candidates that should be deleted or handled, and they are dealt with, so that the stack can be called clean and done."
+- Each candidate judged by the Orchestrator against his standing words (evidence removed once its claim is recorded; nothing kept because deleting felt wrong; additions carry their reason) | covered | the same statement; Counsel's relay of 2026-10-16: what is a leftover is the Orchestrator's to judge against his standing words
+- Taken: the plugin README's pointer to `docs/` paths absent from the package (A1) | covered | the statement; common.md, Boundaries: content under `plugins/` carries no references to `docs/` paths absent from the plugin package
+- Taken: stale paths, status lines and metadata corrected (D1 to D4, D6, D7, D9, D16) | covered | the statement ("handled")
+- Taken: orchestrator.md's interim sentence for an installed plugin without the Auditor agent dropped (D8) | covered | the statement; the sentence's own condition no longer holds once the stack ships the Auditor agent
+- Taken: lessons whose every prevention line is held by a rule or skill removed with a drain note (D10, D13; ten after SC2-F1), a lesson cut to the part that still holds (D11), the Tags header matched (D14) | covered | the statement; lessons.md's own drain convention ("Promotion drain note (2026-07-23)")
+- Taken: three raw survey, triage and audit outputs deleted, their citing plans naming the commit that last holds each (D15) | covered | his standing words: evidence is removed once its claim is recorded
+- Not taken: A2 (bytecode in ignored folders), D17 (a run record's note that a fixture may not persist) | covered | the statement asks for leftovers in the codebase; neither is one
+- Not taken: five open candidate blocks in lessons.md (three repository rule candidates, one harness migration candidate, the 2026-10-01 one whose prevention has no full home) | covered | each carries its reason; promoting a rule is not a clean-up; they reach him in the ready note, through Counsel, so he can say if he wants them handled now
+- Deferred to the merge step: D5 and the moves of three briefs of runs whose records are completed | covered | plan-format: a finished plan moves to `plans/completed/`; brief, "Delivery and judgement": merging waits for his acceptance, so the move is done with it
+- The rule-file items built by the Orchestrator, the rest by a Worker | not a product item | only the Orchestrator edits rule files (common.md, Boundaries); a Worker for the rest (lessons.md, 2026-10-15)
+- Two lessons recorded (every prevention sentence has a home; the validator writes bytecode) | not a product item | lessons.md, How to use
+- Scenarios expected: none of the run's scenarios is touched; getting closer: yes, the stack can be judged clean, which is what he asked before giving the go-ahead to merge
+
 ## Findings
 
 - None yet.
