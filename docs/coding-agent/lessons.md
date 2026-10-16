@@ -1115,6 +1115,46 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md`, Small change 4, review finding FU4-F1.
 
+## 2026-10-16 - A Lesson Is Applied Only When Every Prevention Sentence Has A Home  [tags: review, documentation, correction]
+
+Context:
+- A clean-up before a stack's merge: lessons and candidate blocks whose rule is already in a rule file or a plugin reference are removed under the log's drain convention.
+
+Symptom:
+- The Orchestrator ruled a candidate block and two lessons already applied at one line of `adr.md`. The Worker, checking each sentence, found that line holds only the first sentence; the second ("ask for the reason before writing the record") and the Counsel-relay half have no home.
+
+Root cause:
+- The home was matched against the headline sentence of the prevention, not every sentence.
+
+Fix applied:
+- The block and both lessons kept; the ruling corrected in the run's changes file.
+
+Prevention:
+- Before ruling that a lesson or candidate is already applied, quote the line that holds each of its prevention sentences; remove it only when every sentence has one.
+
+Evidence:
+- `docs/coding-agent/plans/active/value-level-operation-changes.md`, Small change 2, D12 and D13.
+
+## 2026-10-16 - The Package Validator Writes Bytecode, So A Run Of It Is Not Read-Only  [tags: validation, tooling, delegation]
+
+Context:
+- A read-only sweep dispatched to the Codex worker ran `validate_harness_package.py` for a baseline.
+
+Symptom:
+- The run refreshed an ignored `__pycache__` file beside the plugin's scripts, though the dispatch was read-only and `PYTHONDONTWRITEBYTECODE=1` was set.
+
+Root cause:
+- The validator calls `py_compile.compile`, and the smoke runner compiles five scripts the same way; an explicit compile writes bytecode whatever the environment says.
+
+Fix applied:
+- None to the tools: the files are ignored and never ship. The worker reported it and ran the smoke tests in a disposable copy.
+
+Prevention:
+- A dispatch that must leave the tree untouched runs the validator and the smoke tests in a disposable copy, or says that ignored bytecode may be written.
+
+Evidence:
+- `docs/coding-agent/plans/active/value-level-operation-changes.md`, Small change 2, A2.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
