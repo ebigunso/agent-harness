@@ -1242,3 +1242,21 @@ Prevention:
 
 Evidence:
 - Third plan of the design-led long runs brief, 2026-10-05, found by the Orchestrator when reaching the closeout.
+
+## 2026-10-05 - An Auditor Told What Not To Read Still Reads It When It Works From A Listing  [tags: validation, audit, input-boundary]
+
+Context:
+- The value audit keeps one file, the run's readings file, unread until its grades are fixed. The mandate said so, and gave the pattern to exclude.
+
+Symptom:
+- Four Auditor dispatches in two days opened a readings file before grading and had to return void, two of them one after the other on the same position. Each had printed several files in one command, taken from a file listing, before applying the boundary.
+
+Fix applied:
+- The mandate opens with a First Step: read the mandate alone, write down the paths not to open from name-only listings, open one named path at a time, and copy the exact exclude pathspecs.
+
+Prevention:
+- When an instruction forbids reading something that sits beside the things to read, put the instruction first, make the reader list what it will not open before it opens anything, and give the exact command form. A sentence inside a longer list of rules does not hold against a batch read.
+- A position that returns void twice for the same cause is not cleared by a third dispatch on the same text; change the text or the input.
+
+Evidence:
+- The closeout audits of the design-led long runs run, the audit-positions run and the fixture run of the setup plan, 2026-10-04 and 2026-10-05; the first verdict after the change opened the file once, after grading.
