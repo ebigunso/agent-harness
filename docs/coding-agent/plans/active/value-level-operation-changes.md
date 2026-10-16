@@ -160,3 +160,9 @@
   - Counsel committed its notes file (0eaba25); D18 closed.
 - Review (Codex reviewer, range d8e762c..4d02daa, notes excluded): NEEDS_REVISION. SC2-F1, MINOR: the drain removed "Dispatch To Registered Peers, Never Spawn New Ones", but one prevention clause ("If a registered peer is silent, tell the user and ask") is not held at orchestrator.md, which has the silence reported and a fallback declared, not the user asked. Everything else passed: the other ten removals checked against their homes, every taken item as ruled, D15 and D16 paths, D6 and D8, the not-taken rulings, line endings, validator and smoke tests in a disposable copy.
   - Orchestrator ruling: accepted. The lesson is restored where it stood, as at d8e762c, and its line removed from the drain note; no rule added to justify a drain.
+- Re-review (Codex reviewer, range 4d02daa..b2930ab): APPROVED, SC2-F1 closed, no finding open. Readings written (15f51f3).
+- Closing audit, dispatch text (to a fresh Auditor dispatch):
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/value-level-operation-changes.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 95dedfd.
+  ```
