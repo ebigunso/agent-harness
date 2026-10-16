@@ -464,3 +464,9 @@ Formed from the Orchestrator's candidate-ready note of 04:06 UTC and the brief o
 
 - Built on pull request 91 as directed: the philosophy reference asks only for what the philosophy aspires to; nothing asks for a temporary statement. Review approved after one procedural finding (the Orchestrator made the edit itself rather than through a Worker; lesson recorded). The brief change is Counsel's.
 - The stack was found not to carry small change 3 above pull request 84; on his word in the Orchestrator session it was rebased and force-pushed. The closing audit holds that as ask-now: rewriting the heads of two open pull requests is outward-facing and no standing approval covers it; the Orchestrator's account of his word is its own writing. Goes to him: his word in the session closes it; whether restacking should be a standing approval is his to say.
+
+## Counsel's read of the clean-up (small change 2 of the first run), 2026-10-16
+
+- Built on his direction, pushed to pull request 91; review approved, closing audit held nothing. Deletions only, plus corrections of stale paths and dates; nothing added. One assertion: the goal-mode design document's status set to current, which the audit noted and he is told of.
+- Open lesson proposals kept, not cleaned: five candidate rules added during this stack and thirteen older ones. Whether to handle them now goes to him; Counsel's view: after the merge, as their own small piece, since promoting a rule is a decision and not a clean-up.
+- At merge the briefs and their notes move to completed with the run files; Counsel checks that before he merges.
