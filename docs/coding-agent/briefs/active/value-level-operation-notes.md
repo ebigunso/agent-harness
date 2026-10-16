@@ -154,6 +154,8 @@ Kept at ebigunso's request of 2026-10-03: "keep notes about things that could go
 
 ### What ships and what stays local
 
+- 2026-10-06: "Test artifacts that doesn't serve a purpose after they are used while building a feature, should be removed rather than left in place. Those are different from test code that catches regressions." Asked whether it should be a rule now: "No recorded rule required yet."
+
 - 2026-10-01: "Make it work both ways, if the Counsel session is with Claude or with Codex, or anything else for that matter." Gloss: plugin text assumes no particular model or runtime.
 - 2026-10-02, on model routing: such best practices "could get old quickly as model capabilities advance". Gloss: the plugin carries what stays true as models change; dated observations about models live in the workspace's rule files and are re-observed at a model upgrade. Now built.
 - 2026-10-02, on the privacy hook: "just make it a local thing. It doesn't have to go with the plugin. I'd like to have it in all repositories I work on, but it's not for everyone else." Gloss: his personal practice is not a plugin feature; the plugin is for its users, his machine setup is his.
@@ -346,3 +348,119 @@ Formed from the Orchestrator's candidate-ready note of 2026-10-05 15:32 UTC and 
 - The four marked items are one decision and its edge: how setup recognises a philosophy (a tracked document that names itself and carries a ratification), and that where several documents fit it records none and writes the none-yet line, naming the files once in the report. The audit's own observation: a repository holding his philosophy and a vendored one then ends at none yet, which his words of 2026-10-06 speak against. Goes to him as a question.
 - The Auditor's first step was breached by the auditor in the first closeout dispatch (plan and brief read before the mandate; the readings file opened only after grading). The Orchestrator ruled that verdict counts; a second verdict stands beside it. Shown to him; no decision asked.
 - Nothing in the marks contradicts the first read.
+
+## Counsel's first read of the several-fit follow-up, 2026-10-06, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 2026-10-05 16:02 UTC and the brief's statement only. Not final.
+
+- Fits his statement as reported: several fitting documents are held, named as awaiting his word, and brought for him to pick; none of them leaves the philosophy none yet and the files are not brought again.
+- Shown on a fixture holding a repository's own philosophy and a vendored one. Not shown: his pick applied, and a later refresh.
+- The note's own observation: with several candidates the report lists paths and does not say that one sits in a vendored project, though it says so for a single doubtful document. Low: the path shows where a file sits, and he judges it in use.
+
+## Counsel's finalized read of the several-fit follow-up, 2026-10-06
+
+- The closeout verdict marked nothing and no decision record changed. The first read stands unchanged.
+- All work handed over is closed. The stack for his trial and judgement is pull requests 72, 73 and 75 to 82, unmerged.
+
+## Owed at his acceptance of the stack (added 2026-10-06)
+
+- When he accepts the stack, confirm before he merges that the briefs and their notes have moved to `briefs/completed/` on the top branch. His words, 2026-10-06: "leaving as is is fine. Just make sure it's not forgotten. I've seen cases where plans were left active on merge before, so accidents can happen."
+
+## Counsel's first read of the small-change candidate, 2026-10-06, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 06:06 UTC and the brief only. Not final.
+
+- Fits the brief and the three accepted records as reported: the may-wording, the per-change choice, the two fixed checks, trivial unchanged; a run of units that stays open for his directed changes and closes on acceptance; the merged case starting a run under a handed-over brief.
+- Learned, as the note states: a revised record carries no mark on disk of its re-acceptance by name, so that pass condition cannot be checked from the records. Worth telling him; it touches how his acceptances are traced.
+- Also in the branch on his word: the fixture folder removed; the old plan from the first initiative closed and moved to completed.
+- The value-document changes named are Counsel's.
+
+## Counsel's finalized read of the small-change candidate, 2026-10-06, after the audit's marked items
+
+- Seven marked lines, five decisions, all graded inferred and cheap to undo. Three restate what he directed (the run ends on acceptance; the post-acceptance pre-merge case left open; the small change logged).
+- One contradicts a record he accepted: the run record gains a section the Orchestrator writes for each small change, while ADR-D-0051 as revised keeps "the record holds only what audits stated" in its decision and invariant. The audit and the review both note it and leave it for him. Medium: a built text departing from an accepted record's invariant. Counsel's view: keep the invariant and move the Orchestrator's trace into the readings file, which is already its writing; goes to him as a question.
+- One is worth his knowing: his word reaches the middle size only through a brief with his quoted words, and for a brief already merged, through a new brief Counsel hands over. Built as he was told, and not objected to; the merged case is heavier than his words required. Low; judged in use.
+
+## Counsel's read of small change 1 under the small-change brief, 2026-10-06
+
+- The first small change built under the new text: no plan, one review, one closing audit that held nothing, pushed onto pull request 83 with no branch of its own. It does what he said: the run record holds only what audits stated; the trace lives in a changes file beside it.
+- Scenario 1 of the brief is demonstrated by it. The human-only condition, whether it felt proportionate, is his.
+- No record changed; the value-document change is Counsel's.
+
+## Owed after the fresh-repository run closes (added 2026-10-07)
+
+- Hand `process-principles-in-the-plugin-brief.md` to the Orchestrator once the run under `first-use-in-a-fresh-repository-brief.md` has closed, relaying his ratification in full: "I ratify the brief, hand it over after the current run closes." Not before. Done: handed over 2026-10-08 after pull request 84 was reported ready.
+
+## Counsel's first read of the fresh-repository candidate, 2026-10-08, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 2026-10-07 17:06 UTC and the brief only. Not final.
+
+- Fits the brief statement by statement: prose philosophy with a companion holding provenance, one ratification per version and the gaps left out; the philosophy reference read only after a draft, listing gaps and supplying no wording; merge on his acceptance by name; Counsel's own seat; no acknowledgement rule; setup offering relay admission and writing the Counsel line in common.md only; two open-time lines with a first-session reference; opening before setup; the outside view in environment-neutral form; local dates.
+- One addition of the run's own: a philosophy in the old form (tags and in-document ratification) is read as ratified until its record is moved. Sensible for the two repositories that already have one.
+- The skill grew from 3304 to 3518 words; the one-time procedure accounts for +3 net, the rest is the seat, the outside view and the companion. The pass condition was on the one-time procedure only, so it holds; the growth is worth his knowing.
+- Learned, as the note states: with the Counsel line present there is no open-time step for taking the seat in a later session, so a second Counsel session in the same repository may again sit on the wrong seat; setup takes the repository name from the folder where no remote exists; a revised record carries no trace of its re-acceptance. The first is a real gap against the report's first failure and goes to him.
+- Scenarios: 1 shown on a fixture; 2 shown in its checkable part; 3 ready on this stack; 4 not yet. The discussion and the reference's effect on quality are his to judge.
+- No value document changed in the run. Records: ADR-D-0035 revised and accepted by name; ADR-D-0038 wording only; ADR-D-0057 withdrawn.
+
+## Counsel's finalized read of the fresh-repository candidate, 2026-10-08, after the audit's marked items
+
+- Two marked items. One is settled: the second reason in ADR-D-0035, which he accepted as it stands. The other goes to him: the form keeps "a statement not ready to settle is marked provisional where it stands" for all four documents, so a philosophy's prose may still carry a provisional mark; the audit notes his model rejected per-line marks. Counsel's view: the mark belongs in the companion, with the rest of the metadata.
+- The seat gap is confirmed from three sides (the audit's residual, the fixture's fresh Counsel, the Orchestrator's observation): with the Counsel line present, the skill has no open-time step for taking the seat, and whether the seat persists per repository is unknown. The hook means covers only runtimes with a session-start hook. Goes to him as a small change: take the seat at open where not already held.
+- The re-acceptance trace is the record standard's question, set aside for that discussion.
+- Nothing in the marks contradicts the first read. The process-principles brief was handed over at 2026-10-08 after this run was reported ready.
+
+## Counsel's read of small changes 1 and 2 under the fresh-repository brief, 2026-10-08
+
+- Both built as small changes on pull request 84: no plan, one review, one closing audit that held and marked nothing. The provisional mark lives in the companion; Counsel takes its seat at every open. Counsel's two earlier wordings in the brief that said "nothing more" at open are amended to agree with his later statement.
+- One value question from the audit's comparison goes to him: whether an in-prose provisional mark in an old-form philosophy is read until its record is moved, as its in-document ratification is.
+
+## Counsel's read of small change 3 under the fresh-repository brief, 2026-10-08
+
+- Built on his answer that no old-form philosophy exists: the run's grandfather line is dropped and a philosophy's ratification is read from its companion only. No plan, one review, one closing audit that held and marked nothing, on pull request 84.
+- His words on it are now in the brief under Directed after the run was reported ready, so the statement governs later work by itself.
+- The process-principles run has started on top of pull request 84.
+
+## Counsel's first read of the process-principles candidate, 2026-10-08, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 08:01 UTC and the brief only. Not final.
+
+- Fits the brief: five principles, each once at the place where it acts, as what the agent does; the three-way reading and the gate for a revised plan; reports naming what was left out; evidence named at the closing review, regression tests excepted; additions carrying their reason; the repository's text winning where it says otherwise; no new code norm.
+- Learned, as the note states: the plugin already carries code norms of its own, left as they are because the brief's constraint spoke of new text; the audit marked that as bearing on direction. His brief kept code norms out of the plugin on principle; which norms the plugin already states, and whether they should stay, goes to him once the audit's lines are in hand.
+- Scenarios: all four not yet; his next real run shows them.
+- Records as relayed: ADR-D-0057 and 0058 accepted, ADR-D-0041 and 0051 revised and accepted, ADR-D-0033 retired. The value-document change is Counsel's.
+
+## Counsel's finalized read of the process-principles candidate, 2026-10-08, after the audit's marked items
+
+- One marked item: the plugin's existing code norms were left as they are, since the brief's constraint spoke of new text, while the brief also says the plugin stays neutral on code norms. The audit names them: plan-format rule 8 (a plan touching a contract declares break, preserve, migrate or ask-user), core-principles sections 1 and 2 (stability owed only to locatable consumers, with the boundary-crossing case routed to the user; small, cohesive, reversible changes) and its line on the smallest root-cause fix, the long-horizon audit's deletion bias, and ADR-D-0016 (protection requires a demonstrable consumer). Counsel's reading from a quick look: most of these are process in disguise, asking for a declaration, a locatable consumer, or a route to the user, and they already resolve the owned/not-owned tension by routing; the deletion bias and ADR-D-0016 are the ones nearest to a stance. Goes to him as a question: keep, as the older process layer, or revisit as a later brief. Counsel's view: keep now, revisit if his next real run shows one of them pushing against a repository's norm.
+- No other mark. Nothing contradicts the first read.
+
+## Ruling on the plugin's existing code norms, 2026-10-14
+
+- Asked whether the code norms the plugin already carries (plan-format rule 8, core-principles sections 1 and 2 and the root-cause line, the long-horizon deletion bias, ADR-D-0016) stay or are revisited now, he said: "Leave these as is for now." Revisit if a real run shows one pushing against a repository's norm.
+
+## His ruling on the both-ways line, 2026-10-14
+
+- Counsel proposed, for the brief on issue 90, that a matter differing from what he believes was agreed always comes to him, however small. He declined: "'What I think I agreed' only lives in my mind, which you can only assume, and if you could correctly assume what I thought then you'd probably be able to warn or correct me at that moment. If there was a gap there, nothing can catch that until I look at it and notice. Asking me every time is being overly cautious, and bog down day to day work. I'd leave it be for now, but if you want to prevent it further, then the place to apply a fix is at discussion and brief writing time rather than during a work." Counsel's earlier self-imposed test (a matter differing from what he thinks was agreed is never low) is withdrawn as a rule during a run; the lesson moves to drafting: make the agreement explicit in the brief at the time, so nothing is left in his mind alone.
+
+## Counsel's first read of the issue 90 and 86 candidate, 2026-10-15, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note of 04:06 UTC and the brief only. Not final.
+
+- Fits the brief as reported: the framing test any time Counsel asks, reserved acts reaching him regardless; ratification on framings; the unassisted default; research before a plan, unknowns stated, plan review flagging a postponing first task and sparing a genuine one; version 1.0.0. Pull request 91 on top of 85.
+- ADR-D-0059 is revised in place to "any time" and still proposed; the reserved acts sit in its "not covered" line as reaching him regardless, which matches what was relayed. ADR-D-0060 took a wording-only change after acceptance and does not return.
+- Learned: a fresh agent cast as an Orchestrator session failed three times before working when worded as a task pointing at the policy by path. Whether his next real run drafts concrete plans unprompted is his to judge.
+- The value-document change named (the "any time" statement) is Counsel's.
+
+## Counsel's finalized read of the issue 90 and 86 candidate, 2026-10-15, after the audit's marked items
+
+- Three marked items, none ask-now. Two are what he chose and are told, not asked: statements he never sees as framings still bind the run and support the audit, since the brief stays the record (his words of 2026-10-14); kind marks are ratified with the brief as ratified on its framings (told to him 2026-10-15, no objection).
+- One goes to him: the Counsel skill still has Counsel list the statements dropped or departed from before ratification, so at ratification he would read a list of statements as well as the framings. That is the reading he objected to. Proposed: drops and departures are shown as framings too, and only where they changed anything.
+
+## Counsel's read of the small change on drops and departures, 2026-10-15
+
+- Built as directed on pull request 91: a brief's drops and departures reach him as framings at ratification, only where they changed anything. A philosophy keeps its listed drops and departures, since a philosophy is his own reading surface and he reads it whole; that scoping is the run's and is told to him, not asked. The value-document change named is Counsel's. ADR-D-0059 is recorded accepted. All handed-over work is closed; the stack is his.
+
+## Counsel's read of small change 4 under the fresh-repository brief, 2026-10-15
+
+- Built on pull request 91 as directed: the philosophy reference asks only for what the philosophy aspires to; nothing asks for a temporary statement. Review approved after one procedural finding (the Orchestrator made the edit itself rather than through a Worker; lesson recorded). The brief change is Counsel's.
+- The stack was found not to carry small change 3 above pull request 84; on his word in the Orchestrator session it was rebased and force-pushed. The closing audit holds that as ask-now: rewriting the heads of two open pull requests is outward-facing and no standing approval covers it; the Orchestrator's account of his word is its own writing. Goes to him: his word in the session closes it; whether restacking should be a standing approval is his to say.
