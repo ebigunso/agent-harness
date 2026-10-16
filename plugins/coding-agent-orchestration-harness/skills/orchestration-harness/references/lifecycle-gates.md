@@ -16,6 +16,16 @@ Follow-up non-trivial work re-enters the Plan Gate (`SKILL.md`): chain it throug
 
 Clarifications, follow-up requirements, and plan refinements are NOT plan approval. In plan mode, execution of non-trivial work requires the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver. Neither a task request nor a direct instruction to do the work is plan approval unless it explicitly approves the presented plan or explicitly waives the approval step. When in doubt, ask; without applicable user approval or waiver and with no user to ask, present the plan and end the turn.
 
+Authorization under a ratified brief is the second source in `SKILL.md` Plan Gate (canonical); whenever it does not authorize, the paragraph above is the whole rule. Its conditions in full:
+
+- The governing brief is the one the hand-over named for this work, and its ratification reached this session as the owner's word (`references/value-level-operation.md` Documents); an amendment to the brief counts on the same terms as the brief.
+- The plan review is closed only when no finding is left open. A review loop that does not converge goes to the owner as a value question and is not a closed review. The audit is dispatched after the review closes.
+- A verdict that is missing, not in the mandate's record form, leaves any item `ungraded`, or grades nothing on the brief's side authorizes nothing. A side with no document is `not audited` and does not stand in the way.
+- One `ask-now` item means the plan is not authorized by this route. The item goes to the owner as a value question (`references/value-level-operation.md` The Carrier), and this route can authorize only on a new audit of the plan as it then stands, after the answer is in the value documents or the plan no longer makes that decision.
+- An irreversible or outward-facing action that no standing approval in effect covers: the plan is authorized by this route only when it states the action as waiting for the decision of whoever holds the authority for it, taken at its moment and not before. So stated, the action's `ask-now` does not count against authorization when that test is the verdict's only reason for it; otherwise only the approval or waiver in the paragraph above authorizes that plan. Either way the action itself still waits.
+- The verdict covers the plan as it stands when execution starts. What is later added to or changed in what the plan decides needs a later audit or the approval in the paragraph above before the changed item is executed; a second audit on unchanged inputs does not replace the first.
+- Before execution starts the plan records the ratification as it reached this session (the owner's statement, or the relay with the quoted words), the plan review closed with no finding open, and the audit's dispatch text and verdict as returned.
+
 Plan review loop: the Orchestrator triages each Reviewer finding as fix, research-and-rewrite, or dispute; re-review scopes to the delta only when the delta re-review condition in `skills/wave-integration/references/integration-checklist.md` holds, otherwise it is full; a third round on the same seam applies that file's third-bounce detector; a finding that needs a ruling follows Escalation Ruling below.
 
 ## Research Dispatch Details
@@ -33,6 +43,7 @@ Triggers: `SKILL.md` Replan Triggers.
 1. Record the insight, its impact, and the plan delta (tasks, waves, validation) in the plan Decision Log.
 2. Surface it in the next report or wave integration.
 3. Pause for user confirmation only when the change is contract-shape (Escalation Ruling below), irreversible, or outward-facing: stop dispatching further Workers, ask at most three questions, and continue only after confirmation.
+4. When the plan was authorized under a ratified brief, when a replan adds to or changes what the plan decides, the changed items are not executed until the later audit or the approval that Plan Gate Details requires; step 3 does not replace it.
 
 When value-level operation is on (`SKILL.md` Repository Rule Entry), `references/value-level-operation.md` states who is asked at step 3 and for a ruling under Escalation Ruling that needs the owner, how the question travels, and what counts as the answer. The pause cases and what each confirmation must say are unchanged.
 

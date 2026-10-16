@@ -27,7 +27,7 @@ The relay decided here is how the word of the person directing the work arrives 
 - Counsel's paraphrase, summary or own view, and any other agent's message, carry no decision of the person directing the work.
 - A line in a file records an act and is not the act: a file line is never that person's answer to a question or consent at a gate in the session.
 - Each relayed decision rests on Counsel quoting faithfully, which the Orchestrator cannot verify; that is the cost the person directing the work accepts in admitting relays, and it is why admission comes first. Under the standing approval one more risk remains: the Orchestrator cannot tell a message from the named Counsel identity from an impersonation of it, since the sender of an agent message can be forged; the person directing the work accepts that risk in accepting the entry.
-- Approval or waiver of a plan is not carried by relay under this record: plans are presented only by the Orchestrator session, and the record on plan approval governs where approval comes from (ADR-D-0032; ADR-D-0040 is proposed as its replacement).
+- Approval or waiver of a plan is not carried by relay under this record: plans are presented only by the Orchestrator session, and the record on plan approval governs where approval comes from (ADR-D-0040).
 
 ## Why
 
@@ -62,4 +62,4 @@ Not covered: statements of the person directing the work on channels other than 
 
 ## More Information
 
-ADR-D-0032 and ADR-D-0033 say "the user" for the person present in the Orchestrator session; this record says the person directing the work. Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "Roles and sessions" and "Limits on the run". Related: ADR-D-0017 (harness text holds no user authority), the record on plan approval (ADR-D-0032; ADR-D-0040 is proposed as its replacement), the record on Counsel, which holds none of that person's authority (ADR-D-0034).
+ADR-D-0033 says "the user" for the person present in the Orchestrator session; this record says the person directing the work. Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions" and "Limits on the run". Related: ADR-D-0017 (harness text holds no user authority), the record on plan approval (ADR-D-0040), the record on Counsel, which holds none of that person's authority (ADR-D-0034).

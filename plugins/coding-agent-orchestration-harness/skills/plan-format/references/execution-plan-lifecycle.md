@@ -25,7 +25,7 @@ This reference describes how execution plans are maintained over time.
 
 ## 2) Approve
 
-- status: `draft` → `approved`
+- status: `draft` → `approved`, when execution is authorized as `orchestration-harness` Plan Gate states (the user's approval or waiver, or a ratified brief).
 - Record key approvals/constraints in Decision Log if needed.
 
 ## 3) Execute

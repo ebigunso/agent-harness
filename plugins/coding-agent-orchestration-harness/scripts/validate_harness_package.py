@@ -126,7 +126,7 @@ def check_role_map(errors: list[str]) -> None:
         ROOT / "agents" / "Researcher.md",
         ROOT / "agents" / "Worker.md",
         ROOT / "agents" / "Reviewer.md",
-        ROOT / "agents" / "harness-counsel.md",
+        ROOT / "agents" / "Counsel.md",
         ROOT / "claude" / "agents" / "harness-orchestrator.md",
         ROOT / "claude" / "agents" / "harness-researcher.md",
         ROOT / "claude" / "agents" / "harness-worker.md",

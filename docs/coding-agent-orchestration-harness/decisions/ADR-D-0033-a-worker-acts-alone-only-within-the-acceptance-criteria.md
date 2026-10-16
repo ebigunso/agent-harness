@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 supersedes: ["superseded/ADR-D-0018-discoveries-recorded-and-surfaced--superseded-by-ADR-D-0033.md"]
 superseded_by: null
-depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0032-plan-approval-is-never-self-granted.md"]
+depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
 ---
 
 # ADR-D-0033: A Worker acts alone only on what the acceptance criteria already decided; every other discovery is surfaced before action
@@ -18,7 +18,7 @@ A Worker executes one task inside a scope, without the picture the plan was writ
 
 ## Decision
 
-The acceptance criteria of the task are the line. A Worker acts on its own only to make its own change satisfy what the acceptance criteria state, correcting its own edit and rerunning its own checks. Anything a failure or a reading reveals that the acceptance criteria did not decide is surfaced with a proposed remedy, deletion included, and the Worker acts on it only after the Orchestrator rules; disclosure after the fact is not authorization. The Orchestrator may pre-rule foreseeable cases in the task packet. Material discoveries are still written into the plan record and surfaced at the next report or integration point. Within work the user has already authorized, the Orchestrator seeks the user's confirmation for a discovery only when it is a contract-shape change or an irreversible or outward-facing action; the initial approval of a plan and every other consent gate stay governed by their own records (ADR-D-0032 for plan approval), and a Worker's request for an Orchestrator ruling is not a request for human authorization.
+The acceptance criteria of the task are the line. A Worker acts on its own only to make its own change satisfy what the acceptance criteria state, correcting its own edit and rerunning its own checks. Anything a failure or a reading reveals that the acceptance criteria did not decide is surfaced with a proposed remedy, deletion included, and the Worker acts on it only after the Orchestrator rules; disclosure after the fact is not authorization. The Orchestrator may pre-rule foreseeable cases in the task packet. Material discoveries are still written into the plan record and surfaced at the next report or integration point. Within work the user has already authorized, the Orchestrator seeks the user's confirmation for a discovery only when it is a contract-shape change or an irreversible or outward-facing action; the initial approval of a plan and every other consent gate stay governed by their own records (ADR-D-0040 for plan approval), and a Worker's request for an Orchestrator ruling is not a request for human authorization.
 
 ## Why
 
@@ -48,4 +48,4 @@ Not covered: how acceptance criteria are written and validated; the report shape
 
 ## More Information
 
-Replaces ADR-D-0018 in full; the surfacing obligation and the Orchestrator's two user-confirmation cases carry over unchanged. Related: ADR-D-0004 (Worker probes versus Reviewer evidence), ADR-D-0032 (plan approval comes only from the user).
+Replaces ADR-D-0018 in full; the surfacing obligation and the Orchestrator's two user-confirmation cases carry over unchanged. Related: ADR-D-0004 (Worker probes versus Reviewer evidence), ADR-D-0040 (plan approval).

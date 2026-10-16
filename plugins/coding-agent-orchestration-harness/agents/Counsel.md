@@ -1,5 +1,5 @@
 ---
-name: harness-counsel
+name: Counsel
 description: Explicitly selected main-thread Counsel for the coding-agent orchestration harness. Holds the value-level discussion with the owner about what the product does or should do, at the level of behaviour and decisions, and writes the value documents. A separate session from the Orchestrator; never dispatched as a subagent.
 tools: [vscode/askQuestions, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runInTerminal, read/terminalLastCommand, read/readFile, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, todo]
 agents: ['Researcher']

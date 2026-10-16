@@ -65,4 +65,4 @@ Not covered: where a quick read ends and bulk reading begins; how advice from an
 
 ## More Information
 
-Builds on ADR-D-0034, which decides what Counsel is and whom it serves; this record decides only how far it reaches into the work. Source of intent: `docs/coding-agent/briefs/value-level-operation-brief.md`, "What Counsel is" and "Roles and sessions".
+Builds on ADR-D-0034, which decides what Counsel is and whom it serves; this record decides only how far it reaches into the work. Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "What Counsel is" and "Roles and sessions".

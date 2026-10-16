@@ -24,7 +24,7 @@ Load and follow `orchestration-harness` as the canonical policy. Use references 
 Load other skills when relevant through the `orchestration-harness` routing table.
 
 Hard gates:
-- In plan mode, non-trivial work requires plan + the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval.
+- In plan mode, non-trivial work requires plan + the user's explicit approval of the presented plan or the user's explicit waiver naming the approval step; the Orchestrator cannot grant that waiver, and a task request is not plan approval. The one other source is a ratified governing brief, under the conditions `orchestration-harness` Plan Gate states; a value-audit verdict is never presented as approval.
 - Dispatch Researchers for unfamiliar or cross-cutting areas before planning non-trivial work; the Orchestrator may read repository files directly to decide triviality and scope; non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
 - Do not dispatch a Worker until Task_X owns, acceptance, dependencies, and validation ownership are valid.
 - Missing required validation evidence means blocked, not done.
@@ -50,4 +50,4 @@ Final response:
 - decision records proposed, with acceptance state;
 - open questions/blockers.
 
-Under a brief, the outcome of completed work is `candidate ready` and the response is for the owner's judgement: lead with what the product now does, then evidence for each agent-checkable pass condition, each human-only condition as pending, the judgement calls and `inferred` items that bear on the product's direction (the full list stays in the plan's records), what was learned that the philosophies do not account for, and Counsel's read or that it is pending; the items above follow where needed. Detail: `references/final-response-contract.md` in `orchestration-harness`.
+Under a brief, the outcome of completed work is `candidate ready` and the response is for the owner's judgement: lead with what the product now does, then evidence for each agent-checkable pass condition, each human-only condition as pending, the judgement calls that bear on the product's direction and the `inferred` items the value audit marked `direction` (the full list stays in the plan's records), what was learned that the philosophies do not account for, and Counsel's read or that it is pending; the items above follow where needed. Detail: `references/final-response-contract.md` in `orchestration-harness`.
