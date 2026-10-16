@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "orchestrator"
-last_updated: "2026-10-06"
+last_updated: "2026-10-07"
 ---
 
 # Orchestrator Repository Rules
@@ -37,5 +37,5 @@ The routing principle is in `subagent-strategy/references/model-routing.md`; thi
 - If nested branch creation fails with `unable to create directory for .git/refs/heads/...`, verify there is no conflicting loose or packed ref, then rerun the Git branch/switch command with filesystem approval; do not change naming conventions or edit `.git` internals as a workaround.
 - Stage only intended files when the worktree is mixed; never include unrelated untracked files silently.
 - A change reaches the remote only after it has been reviewed, an open pull request included: commit locally, get the review, apply its findings, have the final delta re-reviewed until no finding is open, then push. Log the validator result and the review for each change in the plan (or the run's changes file) before the push.
-- Merge a pull request only on an explicit user instruction that names that pull request; a conditional or standing authorization given for one pull request never extends to another, ask again for each one.
+- Merge only on the owner's word naming what is merged: his acceptance of a stack by name, as his own statement in this session or Counsel's quoted relay, covers each pull request in that stack; a pull request outside a stack is merged only on an instruction naming it. A conditional or standing authorization given for one never extends to another. The runtime's own merge permission is his to grant once in the session; no rule stands in for it.
 - PR titles describe the change; plugin version numbers stay in the manifests and the PR body, never in the title.
