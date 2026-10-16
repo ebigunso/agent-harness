@@ -372,6 +372,31 @@ Prevention:
 Evidence:
 - Reachability report finding 1, 2026-09-06; plan Progress Log Wave 1 and Task_2 acceptance.
 
+## 2026-09-06 - Dispatch To Registered Peers, Never Spawn New Ones  [tags: orchestration, delegation, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/frontier-model-guidance-refresh-plan.md` (audit probes and plan review).
+- Roles involved: Orchestrator
+
+Symptom:
+- The Orchestrator spawned two new Codex peers (`astra-probe`, `plan-reviewer`) with `spawn.sh` for probe runs and plan review instead of sending the work to the registered `agent-harness-*` peers; the user deleted the extra roles afterwards.
+
+Root cause:
+- The registered peers had not answered an earlier ping, and the reflex was to create capacity rather than report the silence and ask.
+
+Fix applied:
+- Wave 1 work sent to `agent-harness-worker`; spawned roles torn down.
+
+Prevention:
+- Send agmsg work only to peers already registered and running in the agmsg app; automatic delivery works only for those sessions. If a registered peer is silent, tell the user and ask, rather than spawning or going headless.
+- Sanctioned exception: a pure-baseline ablation probe may run as an ephemeral headless `codex exec` with skills and the user loader disabled, because it is a measurement instrument, not dispatch.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: Route agmsg dispatch to the registered `agent-harness-*` peers only; never create new peers for a task.
+
+Evidence:
+- User correction 2026-09-06 ("send work towards already registered peers ... rather than spinning up new ones").
+
 ## 2026-09-06 - Dry-Check The Published Invocation And Every Exit Path  [tags: validation, tooling, review]
 
 Context:
@@ -1166,6 +1191,5 @@ Removed from this log on 2026-10-16, each prevention line already held by a rule
 - "Keep ADR Metadata And Language Durable" (2026-05-09) → durable-docs-authoring `adr.md` Form (no time-relative wording), `adr-template.md` (`consulted` as durable identities), `authoring-rules.md` (durable roles or named people)
 - "Avoid Overfitting Validators To Skill Prose" (2026-05-11) → docs/coding-agent/rules/orchestrator.md Repo-Specific Orchestrator Policies
 - "No Version Numbers In PR Titles" (2026-09-05) → docs/coding-agent/rules/orchestrator.md Repo-Specific Integration / Git Policy
-- "Dispatch To Registered Peers, Never Spawn New Ones" (2026-09-06) → docs/coding-agent/rules/orchestrator.md Models And Peers In This Workspace (registered peers only, silent peer reported, headless `codex exec` only as a measurement instrument)
 - "Merge Authorization Is Per Pull Request, Never A Standing Condition" (2026-09-10) → docs/coding-agent/rules/orchestrator.md Repo-Specific Integration / Git Policy (merge only on the owner's word naming what is merged)
 - "Implementation-Time Artifacts Must Not Ship Inside Skill Contents" (2026-09-10) → docs/coding-agent/rules/orchestrator.md Repo-Specific Orchestrator Policies (rule and Reviewer-packet question)
