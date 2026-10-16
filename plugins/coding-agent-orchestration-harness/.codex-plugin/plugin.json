@@ -1,6 +1,6 @@
 {
   "name": "coding-agent-orchestration-harness",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "An orchestration harness for managing and coordinating multiple coding agents in a workflow.",
   "author": {
     "name": "ebigunso"
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Coding Agent Orchestration Harness",
     "shortDescription": "Plan, delegate, implement, and review coding tasks with a reusable agent harness.",
-    "longDescription": "Provides a coding-agent orchestration harness with shared orchestration instructions and researcher, worker, and reviewer roles.",
+    "longDescription": "Provides a coding-agent orchestration harness with shared orchestration instructions, researcher, worker, and reviewer roles, and a counsel skill for a separate value-level discussion session with the owner.",
     "developerName": "ebigunso",
     "category": "Productivity",
     "capabilities": [

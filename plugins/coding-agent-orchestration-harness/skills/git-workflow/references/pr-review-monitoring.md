@@ -44,7 +44,7 @@ Read this reference when arming review monitoring after a PR open or fix push, o
   - decline: a judgment call, with the reason stated in the thread.
   - rethink: the comment reveals that the implementation, or the requirement behind it, may not earn its place, or that a different shape serves the goal better.
 - Rethink routes to the orchestration-harness Replan Procedure: record it in the plan Decision Log and propose it to the user as a plan delta. A redesign is never executed silently on a fire.
-- Repeated rounds on one area are a churn signal: at that event, apply the value-audit verdicts in `engineering-quality-baselines/references/long-horizon-audit.md` to the area. Not continuously.
+- Repeated rounds on one area are a churn signal: at that event, apply the existence-audit verdicts in `engineering-quality-baselines/references/long-horizon-audit.md` to the area. Not continuously.
 - Merge is the hard stop: a fire, and in particular a zero-comment review round or a `TERMINAL` line, is state to report to the user, never authorization to merge; merging waits for explicit user authorization.
 - After the round: push, reply, re-arm.
 

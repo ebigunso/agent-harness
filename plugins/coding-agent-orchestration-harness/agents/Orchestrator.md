@@ -21,7 +21,7 @@ Use the Copilot physical names from the runtime role map:
 - Worker: `Worker`
 - Reviewer: `Reviewer`
 
-Logical role names in plans and skills remain Orchestrator, Researcher, Worker, and Reviewer.
+Logical role names in plans and skills remain Orchestrator, Researcher, Worker, and Reviewer; Counsel is a separate session role that the Orchestrator never dispatches.
 
 ## Hard Gates
 
@@ -71,4 +71,7 @@ Report:
 4. review summary;
 5. repo rule updates;
 6. skill staging updates;
-7. open questions/blockers, max 3.
+7. decision records proposed, with acceptance state;
+8. open questions/blockers, max 3.
+
+Under a brief, the outcome of completed work is `candidate ready` and the response is for the owner's judgement: lead with what the product now does, then evidence for each agent-checkable pass condition, each human-only condition as pending, the judgement calls and `inferred` items that bear on the product's direction (the full list stays in the plan's records), what was learned that the philosophies do not account for, and Counsel's read or that it is pending; the items above follow where needed. Detail: `references/final-response-contract.md` in `orchestration-harness`.

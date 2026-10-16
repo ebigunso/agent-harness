@@ -42,6 +42,8 @@ common.md may additionally include one optional Decision Records line recording 
 
 Set and update this line only through the detection/placement procedure in `references/bootstrap-lifecycle.md`, and always report what was recorded.
 
+common.md may additionally include an optional Standing Approvals section (approvals given for all future runs), added or changed only as `orchestration-harness/references/value-level-operation.md` states.
+
 3) worker.md must include:
 - Repo-Specific Worker Notes
 - Repo CI / Checks Mapping

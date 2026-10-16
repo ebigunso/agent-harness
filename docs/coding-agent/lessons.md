@@ -995,3 +995,177 @@ Prevention:
 
 Evidence:
 - PR #71 review commits: ab257e3, e3c05cb, badf522, ab743b8, b430246, 11bd23b, each one push behind the head at review time.
+
+## 2026-09-30 - A Plan That Cites An Amendable Requirement By Position Drifts When It Is Amended  [tags: planning, review, scope-owns]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: Task_6 and Task_7 acceptance; found by the first live value audit
+- Roles involved: Orchestrator, Counsel (brief author), value auditor
+
+Symptom:
+- Task acceptance named the brief's statements by position ("the first three bullets", "the last two bullets"). The brief was amended several times during the run, gained bullets, and two statements were then carried by no task's acceptance; two task descriptions still stated what an amendment had replaced.
+
+Root cause:
+- Positional references to a document another session amends; and rulings that followed each amendment were sent to Workers without amending the plan text in the same edit (the 2026-09-06 lesson on acceptance bullets, repeated).
+
+Fix applied:
+- Acceptance now names the statements it carries; stale descriptions corrected; the audit is re-dispatched at the closeout position.
+
+Prevention:
+- Acceptance criteria name or quote the requirement statements they carry, never their position.
+- After each amendment of the requirement document, re-read the plan's task text against it before sending the delta to a Worker.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: A ruling or requirement amendment that changes what a task must do amends that task's description and acceptance in the plan in the same action that dispatches the change.
+
+Evidence:
+- Plan-draft value audit verdict, plan Progress Log, 2026-09-30.
+
+## 2026-09-30 - A Standing Record Is Contradicted Only When Its Closure Words Are Broken  [tags: planning, documentation, adr]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: plan draft and Task_3
+- Roles involved: Orchestrator, Researchers, Worker, Reviewer
+
+Symptom:
+- The plan listed ADR-D-0003, ADR-D-0022 and ADR-D-0033 as contradicted and scheduled replacements; the admission test and the record review found all three stand, and two drafted replacements were dropped.
+
+Root cause:
+- "Contradicted" was judged on literal wording (a list of four roles; "routes agents to that skill"; "the two cases") and not on the reading already in force or on the record's own scoping clauses.
+
+Fix applied:
+- Replacements dropped; the plan's Decision Log records the three as not admitted.
+
+Prevention:
+- When a plan marks a standing record as contradicted, it cites the closure words in the Decision or Invariant ("only", "no other", "every") that the design breaks, under the reading existing text already applies; a bare enumeration is not one. A replacement whose own text says the decision is unchanged fails admission.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: as the first prevention line.
+
+Evidence:
+- Task_3 Worker report and ADR review, 2026-09-30.
+
+## 2026-09-30 - A Fix That Changes Who May Do Something Is Applied On Both Sides Of The Hand-Off  [tags: review, skill-maintenance]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: second wave review fixes; final review
+- Roles involved: Orchestrator, Workers, Reviewer
+
+Symptom:
+- A review fix (a philosophy's pointer line is added only on the owner's word) landed in the Orchestrator-side reference but not in the Counsel-side skill that tells Counsel what to send, so the two sides of the hand-off disagreed. Separately, one ruling on how a relayed consent may arrive was applied to the gate that raised it and not to the other gates the plan routed the same way.
+
+Root cause:
+- Fixes and rulings were scoped to the file or the gate the finding named, not to every place that states the same fact.
+
+Fix applied:
+- The Counsel skill now relays the location as the owner's quoted words; the plan states one carrier rule for every consent gate.
+
+Prevention:
+- When a fix or ruling changes who may do or authorize something, search the fact across the plugin and the plan, and apply it to both the producer and the consumer in the same delta.
+- When several records are proposed together, the review packet asks for a pairwise read of their Decisions and Invariants.
+- Harness migration candidate:
+  - category: review
+  - proposed_home: skills-maintenance/references/final-ambiguity-pass.md
+  - generalized_rule: a change to a permission or hand-off rule is checked at every file that states either side of it.
+
+Evidence:
+- Final review of the first pull request, 2026-09-30; plan review round 2.
+
+## 2026-09-30 - Whitespace And Frontmatter Checks Miss New Files  [tags: troubleshooting, validation]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Roles involved: Workers, Reviewer
+
+Symptom:
+- `git diff --check` passed while the only files a task edited were untracked; a Worker's first agent description held a colon-space in an unquoted YAML scalar and both validators passed.
+
+Root cause:
+- `git diff --check` reads tracked content only; the package validator checks that frontmatter exists, not that it parses.
+
+Fix applied:
+- Workers checked new files by path and parsed agent frontmatter with a YAML loader.
+
+Prevention:
+- Troubleshooting note/candidate:
+  - symptom: a whitespace or frontmatter defect in a new file passes the required checks
+  - cause: the file is untracked, or the frontmatter is never parsed
+  - safe steps: search the new file for trailing whitespace by path; parse agent and skill frontmatter with a YAML loader after editing a description.
+
+Evidence:
+- Task_2 and Task_6 Worker reports, 2026-09-30.
+
+## 2026-09-30 - Record The Owner's Answer Against The Held Item Before Acting On It  [tags: orchestration, validation, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: Task_8, before the first pull request opened
+- Roles involved: Orchestrator, Reviewer
+
+Symptom:
+- A value audit held the push and the pull request for the owner. The owner's answer arrived by relay and was written into the brief by the Counsel session, and the Orchestrator queued the push while the plan's Decision Log still said the item was held.
+
+Root cause:
+- The answer was acted on from the message that carried it; the step that records it against the item was skipped because the commit that followed touched the brief and a rule file only.
+
+Fix applied:
+- The answer is logged in the Decision Log against the item with its date and the owner's statement admitting relays; the delta review caught it before anything was pushed.
+
+Prevention:
+- Before acting on a released hold, check that the plan's Decision Log carries the owner's quoted answer against that item; the record comes before the act.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: as the prevention line.
+
+Evidence:
+- Delta re-review before the first pull request, 2026-09-30.
+
+## 2026-10-01 - A Ruling Is Provenance, Never The Reason  [tags: documentation, adr, correction]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: the proposed decision records read by the owner
+- Roles involved: Orchestrator, Worker (records), owner
+
+Symptom:
+- Rejected alternatives in a proposed record gave the owner's ruling as the reason they lost ("the owner kept them off limits", "the owner declined"). The owner's correction, quoted: "Me declining or ruling, in itself should not be treated as the reason for a decision. A reason behind it should always be present."
+
+Root cause:
+- Rulings arrived by relay with the decision but without the reasoning behind it, and the drafting instruction said to give only reasons on disk; the ruling was the only thing on disk.
+
+Fix applied:
+- The reasons as the owner gave them in discussion were written into the alternatives, with the ruling kept as provenance; `durable-docs-authoring/references/adr.md` gains the rule under Form.
+
+Prevention:
+- A rejected alternative states why it lost; a person's ruling or decline is provenance (who, quoted, when), never the reason. When a ruling arrives without its reason, ask for the reason before writing the record.
+- Repo rule candidate:
+  - audience: orchestrator
+  - proposed rule: as the prevention line; the Counsel skill's relay carries the reason with the ruling where one was given.
+
+Evidence:
+- Owner correction relayed by Counsel, 2026-10-01, on ADR-D-0035.
+
+## 2026-10-01 - Revisit When Names The Unexercised Premise, Not The First Use  [tags: documentation, adr, review]
+
+Context:
+- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Task/Wave: the three records split from the plan-approval draft (ADR-D-0040 to ADR-D-0042)
+- Roles involved: Orchestrator (author), Reviewer
+
+Symptom:
+- Two drafts wrote "the first use on a real initiative is the check of this record" under Revisit When. That names the occasion on which the record will be checked, which the record standard forbids, not the premise whose failure reopens it.
+
+Root cause:
+- `durable-docs-authoring/references/adr.md` stated the rule and gave the expiring-fact form, but no form for a premise nothing has exercised yet; the accepted ADR-D-0038 had the right shape (the date on which nothing had exercised it, and what failure reopens) and was not consulted.
+
+Fix applied:
+- Both lines restated as the unexercised premise and what reopens; `adr.md` Form now gives that case with the forbidden phrase as the counter-example.
+
+Prevention:
+- For a premise not yet exercised, write the date on which nothing had exercised it and what failure reopens the record; never the occasion. Before drafting a Revisit When, read the newest accepted record's for the shape.
+
+Evidence:
+- Reviewer findings on the split records, 2026-10-01; `adr.md` Form, Revisit When rule.

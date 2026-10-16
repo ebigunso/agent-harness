@@ -31,7 +31,7 @@ Append a plan Progress Log entry with:
 
 ## 4. Decide Next Dispatch
 
-Third-bounce detector: if a follow-up dispatch would be the third attempt to fix the same seam, stop and apply the value-audit appendix in `skills/engineering-quality-baselines/references/long-horizon-audit.md` before dispatching again.
+Third-bounce detector: if a follow-up dispatch would be the third attempt to fix the same seam, stop and apply the existence-audit verdicts in `skills/engineering-quality-baselines/references/long-horizon-audit.md` before dispatching again. In a run under a brief, a review loop that reaches this point is also evidence against the brief: escalate it as a value question per `skills/orchestration-harness/references/value-level-operation.md` (The Carrier).
 
 Dispatch follow-up Workers when:
 
@@ -49,3 +49,10 @@ Dispatch Reviewer when:
 Low-risk internal delta re-review: when a follow-up wave changed only files already reviewed, introducing no new contracts, boundaries, or validation surfaces, the Reviewer re-dispatch may scope to the delta diff instead of the full wave.
 
 The packet for the chosen review kind is built per the Routes section of `SKILL.md`.
+
+## 5. When Value-Level Operation Is On
+
+Skip this section when it is off (`orchestration-harness` `SKILL.md`, Repository Rule Entry).
+
+- Judgement calls (input; nothing waits on it): under the label `Judgement calls`, add to the Progress Log entry every `assumptions` entry, from every report in the wave, that records a choice the acceptance criteria left open. They are kept in the plan in full; which of them closeout shows is `skills/orchestration-harness/references/completion-closeout.md`'s. Workers are asked for nothing new.
+- Wave-boundary value audit: once this wave's review is complete, dispatch it and act on its verdict per `skills/orchestration-harness/references/value-level-operation.md` before dispatching the next wave.

@@ -100,6 +100,7 @@ def check_skills(errors: list[str]) -> None:
         "wave-integration",
         "runtime-adapter-contract",
         "rulebook",
+        "counsel",
     ]
     for name in required:
         path = skills_dir / name / "SKILL.md"
@@ -125,10 +126,12 @@ def check_role_map(errors: list[str]) -> None:
         ROOT / "agents" / "Researcher.md",
         ROOT / "agents" / "Worker.md",
         ROOT / "agents" / "Reviewer.md",
+        ROOT / "agents" / "harness-counsel.md",
         ROOT / "claude" / "agents" / "harness-orchestrator.md",
         ROOT / "claude" / "agents" / "harness-researcher.md",
         ROOT / "claude" / "agents" / "harness-worker.md",
         ROOT / "claude" / "agents" / "harness-reviewer.md",
+        ROOT / "claude" / "agents" / "harness-counsel.md",
         ROOT / "codex" / "agent-templates" / "harness_researcher.toml",
         ROOT / "codex" / "agent-templates" / "harness_worker.toml",
         ROOT / "codex" / "agent-templates" / "harness_reviewer.toml",
@@ -141,10 +144,12 @@ def check_role_map(errors: list[str]) -> None:
         "Researcher",
         "Worker",
         "Reviewer",
+        "Counsel",
         "harness-orchestrator",
         "harness-researcher",
         "harness-worker",
         "harness-reviewer",
+        "harness-counsel",
         "harness_researcher",
         "harness_worker",
         "harness_reviewer",

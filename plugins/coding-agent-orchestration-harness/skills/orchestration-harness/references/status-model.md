@@ -47,3 +47,4 @@ the Worker report records `status: skipped` plus waiver evidence in `evidence`.
 - A required validation that was not run can be treated as `waived` in plan/closeout state only when explicit waiver evidence exists.
 - In Worker YAML, that same situation is represented as `status: skipped` plus waiver evidence.
 - Plan `done` and blocked conditions: `SKILL.md` Validation Gate and Completion Closeout Gate.
+- `candidate ready` is a final-response outcome only, used in place of `done` for a run under a brief whose required work and validation are complete: the work is finished and the result awaits the owner's judgement. It is never a plan status, a Worker report status, a validation state or a closeout-summary value; the plan of such a run has status `done`. Conditions: `references/completion-closeout.md`.

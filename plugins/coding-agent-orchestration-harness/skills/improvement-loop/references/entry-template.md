@@ -4,7 +4,7 @@
 Context:
 - Plan: <plan file or “none”>
 - Task/Wave: <Task_X or wave name>
-- Roles involved: Orchestrator | Researcher | Worker | Reviewer
+- Roles involved: Orchestrator | Researcher | Worker | Reviewer | Counsel
 
 Symptom:
 - <1–3 bullets describing what went wrong>

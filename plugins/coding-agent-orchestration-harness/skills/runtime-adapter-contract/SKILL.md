@@ -20,7 +20,7 @@ Runtime adapters include:
 - Shared policy remains canonical in shared skills and references.
 - Enforcement-critical role workflow and output contracts are intentionally replicated across Copilot agent instructions, Claude subagent system prompts, and Codex `developer_instructions`.
 - This replication is deliberate because runtime instruction blocks enforce role boundaries more reliably than thread-level skill reads alone.
-- When shared replicated text changes in one adapter, update all three runtime copies and diff their instruction bodies to confirm sync outside intentional runtime-specific blocks.
+- When shared replicated text changes in one adapter, update all three runtime copies and diff their instruction bodies to confirm sync outside intentional runtime-specific blocks. Counsel has two copies, the Copilot and Claude agents, and no Codex copy.
 - Runtime mechanics, tool names, connector policy, and platform-specific loading details may diverge.
 - Keep role physical names mapped in `skills/orchestration-harness/references/runtime-role-map.md`.
 - Keep Codex `AGENTS.md` loaders and snippets loader-only; inert role-template `developer_instructions` may carry the replicated role contract.
