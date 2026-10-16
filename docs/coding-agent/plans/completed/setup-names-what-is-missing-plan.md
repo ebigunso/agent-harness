@@ -6,7 +6,7 @@
 - work_type: docs
 
 ## Goal
-- The harness gives what the governing brief `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` states.
+- The harness gives what the governing brief `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` states.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is the only plan of the run recorded in `docs/coding-agent/plans/active/setup-names-what-is-missing-run.md`.
 
@@ -44,7 +44,7 @@
 - justification: the locatable consumers are this repository and Character Memory. An existing pointer line keeps its form and meaning. A repository set up earlier gains the lines at its next refresh and nothing in it stops working before that. A line that says a philosophy is missing is not a pointer, so value-level operation stays off where it was off.
 
 ## Context (workspace)
-- Governing brief: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`, ratified 2026-10-05 ("I ratify the brief, hand it over after the run closes."), handed over by Counsel's relay of 2026-10-05, taken up after the audit-positions change on his word.
+- Governing brief: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`, ratified 2026-10-05 ("I ratify the brief, hand it over after the run closes."), handed over by Counsel's relay of 2026-10-05, taken up after the audit-positions change on his word.
 - Run record: `docs/coding-agent/plans/completed/setup-names-what-is-missing-run.md`. Readings file: `docs/coding-agent/plans/completed/setup-names-what-is-missing-readings.md` (both under `active/` until the run closed). This plan starts from revision: 6935b2c3.
 - Research: a Researcher report received in session on 2026-10-05; not on disk, so nothing here rests on it alone. Facts the plan relies on, each checkable in the tree: setup is the rulebook's full bootstrap, followed as text (`skills/rulebook/references/bootstrap-lifecycle.md`); it detects a decision-record convention among tracked files, records it without asking, reports what it recorded and flags a contradiction at refresh; the section "Repository Reference Documents" is required and its lines are free; the rule that a pointer line is added only on the owner's word is in `value-documents/SKILL.md` and `value-level-operation.md` and in no decision record; Counsel reads no rule file when it opens; no fixture repository exists.
 - The audits of this run: this plan's draft and its close.
@@ -203,7 +203,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 - 2026-10-05 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: none.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md. Changes since: none.
   ```
 
 - 2026-10-05 Plan-draft audit, first dispatch, verdict as returned (the two comparison lines are logged in the readings file, not here):
@@ -214,7 +214,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`; `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact); `docs/coding-agent/rules/common.md` at HEAD (pointer lines and "Standing Approvals" only); after grading, `docs/coding-agent/plans/active/setup-names-what-is-missing-readings.md`
+  Documents read: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`; `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact); `docs/coding-agent/rules/common.md` at HEAD (pointer lines and "Standing Approvals" only); after grading, `docs/coding-agent/plans/active/setup-names-what-is-missing-readings.md`
 
   Product basis: brief in the product owner's words (the brief says "ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository"; ratification record present, dated 2026-10-05)
 
@@ -273,7 +273,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`; `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact); `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only); after grading, `docs/coding-agent/plans/active/setup-names-what-is-missing-readings.md`
+  Documents read: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`; `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact); `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only); after grading, `docs/coding-agent/plans/active/setup-names-what-is-missing-readings.md`
 
   Product basis: brief in the product owner's words (the brief says "ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository"; ratification record present, dated 2026-10-05: "I ratify the brief, hand it over after the run closes.")
 
@@ -342,7 +342,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 - 2026-10-05 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: 6935b2c3.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md. Changes since: 6935b2c3.
   ```
 
 - 2026-10-05 Closeout audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -361,7 +361,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
   Position: closeout
 
   Documents read:
-  - `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`
+  - `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`
   - `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact)
   - `docs/coding-agent/plans/active/setup-names-what-is-missing-run.md` (prior scenario states)
   - `docs/coding-agent/rules/common.md` ("Repository Reference Documents" and "Standing Approvals", and its diff)
@@ -481,7 +481,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 - 2026-10-06 Closeout audit, second dispatch, the built text having changed since the first (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: 6935b2c3.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md. Governing brief: docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md. Changes since: 6935b2c3.
   ```
 
 - 2026-10-06 Closeout audit, second dispatch, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -502,7 +502,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
   Position: closeout
 
   Documents read:
-  - `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` and its diff
+  - `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` and its diff
   - `docs/coding-agent/plans/active/setup-names-what-is-missing-plan.md` (artifact, in full)
   - `docs/coding-agent/plans/active/setup-names-what-is-missing-run.md` (prior scenario states)
   - `docs/coding-agent/rules/common.md` (its diff, and the "Standing Approvals" section)
@@ -518,7 +518,7 @@ Task_2 waits for the owner's acceptance of the record, or for the admission test
 
   Missing inputs: none
 
-  Value documents changed in range: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`. One gives-statement was added under "A philosophy that already exists" (a document that may belong to something else is held for the person's confirmation). It carries its own ratification record, his quoted words dated 2026-10-06 ("I take neither. I think it is better if the setup procedure notices such a problem, it holds the decision and brings up the findings for confirmation. ..."), so it counts as support. Whether the words were said is not something a file can show. No pointer line was removed or changed; two none-yet lines were added to `common.md`. The fixture documents are test fixtures kept without their ratification lines, not philosophies of this repository.
+  Value documents changed in range: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`. One gives-statement was added under "A philosophy that already exists" (a document that may belong to something else is held for the person's confirmation). It carries its own ratification record, his quoted words dated 2026-10-06 ("I take neither. I think it is better if the setup procedure notices such a problem, it holds the decision and brings up the findings for confirmation. ..."), so it counts as support. Whether the words were said is not something a file can show. No pointer line was removed or changed; two none-yet lines were added to `common.md`. The fixture documents are test fixtures kept without their ratification lines, not philosophies of this repository.
 
   Items (`item | maps | grade | support | reasons / mark`):
 

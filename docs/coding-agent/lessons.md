@@ -17,75 +17,31 @@ Purpose:
 - tooling
 - scope-owns
 - skill-maintenance
+- adr
+- assumptions
+- audit
+- contract
+- correction
+- documentation
+- environment
+- fixture
+- gate-miss
+- git-workflow
+- input-boundary
+- orchestration
+- privacy
+- runtime-adapters
+- skills
+- state
+- troubleshooting
+- worker
+- workflow
 
 ## Entries
-
-## 2026-05-13 - Avoid Tool-Specific Catch-All Rule Sections  [tags: assumptions, review, skill-maintenance]
-
-Context:
-- Task: refine reviewer rule suite bootstrap template and bootstrapped repository reviewer rules.
-- Roles involved: Orchestrator
-
-Symptom:
-- The reviewer rule template used `Copilot Finding Prevention` as a durable section heading.
-
-Root cause:
-- A design-time review source was promoted into the durable repository rule taxonomy, creating a broad tool-specific bucket that could collect unrelated memos instead of routing them to better sections.
-
-Fix applied:
-- Replaced the section with `Review Heuristics` and `Recurring Misses And Prevention`, and updated lifecycle sidecar section identifiers accordingly.
-
-Prevention:
-- Durable rule sections should describe the repository convention or review semantics, not the tool or reviewer that surfaced the issue.
-- Use `Recurring Misses And Prevention` only for generalized reusable prevention rules; route mechanical checks, risk taxonomy, evidence requirements, and global candidates to their own sections.
-
-## 2026-05-13 - Validate Exact Enum Sources, Not Broad Tokens  [tags: validation, review, tooling]
-
-Context:
-- Plan: docs/coding-agent/plans/completed/rule-suite-bootstrap-lifecycle-plan.md
-- Task/Wave: Reviewer closeout for Task_10 package validation
-- Roles involved: Orchestrator, Reviewer
-
-Symptom:
-- Package validation claimed to verify `rule_candidates[].audience: reviewer`, but only checked that contract files contained the broad string `reviewer`.
-
-Root cause:
-- The structural validator used substring presence as a proxy for the exact enum source, so it could pass from unrelated `reviewer` tokens such as validation owners.
-
-Fix applied:
-- Tightened `validate_harness_package.py` to inspect the exact `ALLOWED_AUDIENCE` set and the explicit schema/contract audience line.
-
-Prevention:
-- For enum or schema expansion checks, validate the exact enum source or contract field instead of broad token presence.
-- Repo rule candidate:
-  - audience: orchestrator
-  - proposed rule: When adding package validation for enum/schema changes, check the exact enum owner or contract field rather than a broad substring.
-  - scope: harness package validators and contract fixtures.
-
-## 2026-05-13 - Use Feature Branch Naming And Escalate Nested Ref Creation  [tags: tooling, git, workflow]
-
-Context:
-- Task: create a branch for rule-suite bootstrap lifecycle work.
-- Roles involved: Orchestrator
-
-Symptom:
-- Creating `codex/rule-suite-bootstrap-lifecycle` failed in the sandbox with `unable to create directory for .git/refs/heads/...`; creating `feature/2026-05-13/rule-suite-bootstrap-lifecycle` failed the same way until the Git command was rerun with approved filesystem access.
-
-Root cause:
-- The branch names were valid. The failure came from sandboxed writes to nested Git ref paths under `.git/refs/heads/`, not from a naming conflict or invalid branch format.
-
-Fix applied:
-- Verified no loose or packed `codex` ref existed, reran nested branch creation with approval, and switched to `feature/2026-05-13/rule-suite-bootstrap-lifecycle`.
-
-Prevention:
-- Prefer `feature/YYYY-MM-DD/<feature-name>` branch names in this repository unless the user requests another convention.
-- When a nested branch name fails with `unable to create directory for .git/refs/heads/...`, inspect refs briefly, then rerun the Git branch/switch command with filesystem approval instead of changing naming conventions.
-- Do not manually edit `.git` internals to work around nested ref creation failures.
 
 ## 2026-04-26 - Keep Skill Content Version Agnostic  [tags: skill-maintenance, assumptions]
 
 Context:
-- Plan: docs/coding-agent/plans/completed/add-review-remediation-loop-skill-plan.md
 - Task/Wave: follow-up correction
 - Roles involved: Orchestrator
 
@@ -115,7 +71,7 @@ Evidence:
 ## 2026-04-28 - Keep Runtime Agent Templates Out of Live Discovery Paths  [tags: planning, validation, tooling]
 
 Context:
-- Plan: docs/coding-agent/plans/active/add-codex-runtime-support-plan.md
+- Plan: docs/coding-agent/plans/completed/add-codex-runtime-support-plan.md
 - Task/Wave: multi-runtime plugin restructure follow-up correction
 - Roles involved: Orchestrator
 
@@ -153,67 +109,10 @@ Prevention:
 - When adapting hand-off documents, distinguish normative requirements from examples or stale assumptions.
 - Preserve locally verified runtime behavior unless a change is required by acceptance criteria or new validation evidence.
 
-## 2026-05-09 - Avoid Compatibility Wrappers Without Clear Need  [tags: planning, scope-owns, skill-maintenance]
-
-Context:
-- Plan: docs/coding-agent/plans/completed/add-codex-runtime-support-plan.md
-- Task/Wave: post-implementation correction
-- Roles involved: Orchestrator
-
-Symptom:
-- The bootstrap update kept `install_codex_agents.py` as a compatibility wrapper even though the canonical `install_codex_harness.py` entrypoint was sufficient.
-
-Root cause:
-- The plan preserved backward compatibility by default without confirming there was an actual supported external contract for the older script name.
-
-Fix applied:
-- Removed the extra wrapper and updated docs/plan references to use only the canonical script.
-
-Prevention:
-- Before adding or retaining compatibility shims, verify a concrete compatibility requirement exists. If not, prefer one canonical entrypoint and document it clearly.
-
-## 2026-05-09 - Keep Maintainer Rationale Out Of Runtime Skill Instructions  [tags: skill-maintenance, assumptions, documentation]
-
-Context:
-- File: plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md
-- Task/Wave: post-implementation correction
-- Roles involved: Orchestrator
-
-Symptom:
-- A source-of-truth section added to `SKILL.md` read like implementation/maintenance rationale rather than runtime instructions an agent should follow when invoking the skill.
-
-Root cause:
-- The change mixed architectural documentation with always-on agent operating policy.
-
-Fix applied:
-- Proposed moving the design rationale into ADR-style documentation and keeping only concise runtime-relevant routing/precedence language in `SKILL.md`.
-
-Prevention:
-- For first-party skills, keep `SKILL.md` limited to trigger/scope boundaries, core runtime rules, and progressive-disclosure pointers. Put design rationale, history, and maintenance decisions in ADRs or maintainer references.
-
-## 2026-05-09 - Keep ADR Metadata And Language Durable  [tags: documentation, assumptions]
-
-Context:
-- Files: docs/coding-agent-orchestration-harness/decisions/*.md
-- Task/Wave: ADR correction
-- Roles involved: Orchestrator
-
-Symptom:
-- ADRs used a personal display name, generic `Codex` for the consulted agent, and context-sensitive terms such as `current`.
-
-Root cause:
-- ADRs were written from the immediate chat context instead of as durable project records.
-
-Fix applied:
-- Updated ADR metadata to use `ebigunso` as decider and `GPT-5.5` as consulted model, and replaced context-sensitive wording with durable path/filename descriptions.
-
-Prevention:
-- For ADRs, use stable actor identifiers, explicit model names when AI consultation is recorded, and avoid time-relative language unless the decision depends on a dated state.
-
 ## 2026-05-09 - Preserve Exact ADR Consultation Provenance  [tags: documentation, assumptions]
 
 Context:
-- Plan: docs/coding-agent/plans/active/architecture-rationale-and-shared-references-plan.md
+- Plan: docs/coding-agent/plans/completed/architecture-rationale-and-shared-references-plan.md
 - Task/Wave: planning correction
 - Roles involved: Orchestrator
 
@@ -234,7 +133,7 @@ Prevention:
   - When answering ADR metadata questions, verify the real consulted model/person for that decision instead of carrying forward a previous ADR's consulted value.
 
 Evidence:
-- `docs/coding-agent/plans/active/architecture-rationale-and-shared-references-plan.md` now specifies `GPT-5.5 Pro` in the open question resolution and assumptions.
+- `docs/coding-agent/plans/completed/architecture-rationale-and-shared-references-plan.md` now specifies `GPT-5.5 Pro` in the open question resolution and assumptions.
 
 ## 2026-05-11 - Route Runtime Agents Through Plugin Skills  [tags: assumptions, runtime-adapters, skill-maintenance]
 
@@ -254,24 +153,6 @@ Fix applied:
 Prevention:
 - When editing runtime agent prompts, word shared review/checklist routing as “use/read the relevant plugin skill/reference” rather than assuming repository-relative paths are available from the runtime agent's project directory.
 - Keep direct file-path references primarily inside plugin skills/references and Orchestrator dispatch packets that are known to be interpreted in the plugin context.
-
-## 2026-05-11 - Avoid Overfitting Validators To Skill Prose  [tags: validation, skill-maintenance, planning]
-
-Context:
-- Plan: docs/coding-agent/plans/active/integrate-latent-risk-review-routing-plan.md
-- Roles involved: Orchestrator
-
-Symptom:
-- The plan considered adding static validation for latent-risk skill/reference internals and prompt-bloat heuristics.
-
-Root cause:
-- The validation scope mixed package-structure checks with prose-quality and skill-internal checks that are better handled through review.
-
-Fix applied:
-- Updated the plan so validators are added only for manifest, bootstrap, path, or package-structure requirements; skill prose and adapter prompt-bloat checks stay in human/Reviewer review.
-
-Prevention:
-- Before adding validators for skill changes, distinguish objective package integrity from editable skill prose. Prefer Reviewer checks for wording, criteria quality, and prompt-bloat concerns unless a structural packaging contract is at risk.
 
 ## 2026-05-17 - Discuss Worker Dispatch Waivers Before Self-Implementation  [tags: workflow, delegation, orchestration, correction]
 
@@ -348,7 +229,7 @@ Prevention:
 ## 2026-09-05 - Skill Content Carries Only What The Tool Cannot Teach  [tags: skill-maintenance, planning, review]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/gh-stack-awareness-plan.md` (drafting, pre-approval).
+- Plan: `docs/coding-agent/plans/completed/gh-stack-awareness-plan.md` (drafting, pre-approval).
 - Roles involved: Orchestrator, Codex Reviewer (plan review)
 
 Symptom:
@@ -376,7 +257,7 @@ Evidence:
 ## 2026-09-05 - Use The Bundled Watcher, Never A Hand-Rolled Poll  [tags: orchestration, tooling, correction]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/pr-watch-discoverability-plan.md`, Wave 1 dispatch.
+- Plan: `docs/coding-agent/plans/completed/pr-watch-discoverability-plan.md`, Wave 1 dispatch.
 - Roles involved: Orchestrator
 
 Symptom:
@@ -398,34 +279,10 @@ Prevention:
 Evidence:
 - Session 2026-09-05; user correction "Use the bundled monitor script from agmsg".
 
-## 2026-09-05 - No Version Numbers In PR Titles  [tags: git-workflow, correction]
-
-Context:
-- Plan: pr-watch-discoverability and gh-stack-awareness closeouts (PRs #53, #54).
-- Roles involved: Orchestrator
-
-Symptom:
-- PR titles carried a trailing "(v0.14.0)" / "(v0.14.1)", copied from older PR titles in the log.
-
-Root cause:
-- Pattern-matched the historical title style instead of asking what the title is for; the version already lives in the manifests and the PR body.
-
-Fix applied:
-- Titles rewritten without the version suffix.
-
-Prevention:
-- PR titles describe the change; version numbers stay in manifests and the PR body.
-- Repo rule candidate:
-  - audience: orchestrator
-  - proposed rule: Do not put plugin version numbers in PR titles.
-
-Evidence:
-- User correction 2026-09-05.
-
 ## 2026-09-05 - Test Membership Removal When Emitted Tokens Are Re-Fed  [tags: validation, review, state]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/pr-watch-discoverability-plan.md`, Task_3 and Task_4.
+- Plan: `docs/coding-agent/plans/completed/pr-watch-discoverability-plan.md`, Task_3 and Task_4.
 - Roles involved: Worker (Codex), Reviewer (Codex), Orchestrator
 
 Symptom:
@@ -591,60 +448,6 @@ Prevention:
 
 Evidence:
 - User corrections 2026-09-06; ADR review rounds on PR #57; Task_1 review of the standard revision plan.
-
-## 2026-09-10 - Merge Authorization Is Per Pull Request, Never A Standing Condition  [tags: git, orchestration, correction]
-
-Context:
-- Plan: `docs/coding-agent/plans/completed/frontier-guidance-follow-ups-plan.md` and `docs/coding-agent/plans/completed/adr-corpus-audit-plan.md`
-- Task/Wave: pull requests #61 and #62
-- Roles involved: Orchestrator
-
-Symptom:
-- The user authorized a merge of one open pull request on a condition (merge once Copilot review passes, its clock objection being a false positive). The Orchestrator carried that condition forward and merged later pull requests #61 and #62 on it without a fresh instruction.
-
-Root cause:
-- A per-PR authorization was read as a standing rule because the condition (Copilot approval) recurred; the scope of the authorization was never restated when the next PR opened.
-
-Fix applied:
-- Recorded here; rule added to `docs/coding-agent/rules/orchestrator.md`. The merged pull requests stand as the user's call to keep or revert.
-
-Prevention:
-- Repo rule candidate:
-  - audience: orchestrator
-  - proposed rule: Merge a pull request only on an explicit instruction from the user that names that pull request; a conditional or standing authorization given for one pull request does not extend to any other, and the Orchestrator asks again for each one.
-- Residual risk / waiver:
-  - none
-
-Evidence:
-- User correction 2026-09-10; merge log for #61 (2026-09-08) and #62 (2026-09-09).
-
-## 2026-09-10 - Implementation-Time Artifacts Must Not Ship Inside Skill Contents  [tags: skill-maintenance, packaging, correction]
-
-Context:
-- Plan: none (user observation across recent pull requests)
-- Task/Wave: plugin contents under `plugins/coding-agent-orchestration-harness/skills/`
-- Roles involved: Orchestrator, Worker, Reviewer
-
-Symptom:
-- A self-test script for the PR comment watcher (`skills/git-workflow/scripts/pr-comment-watch-selfcheck.sh`, added in #53) lives inside the skill directory, is referenced by nothing at runtime, and ships with the skill.
-
-Root cause:
-- Scripts written to check an implementation during a task were committed next to the runtime script they tested; no review step asked whether a file inside `skills/` is read or run by a session.
-
-Fix applied:
-- Recorded here; removal scope confirmed with the user before deleting (see the plan or PR that carries the removal).
-
-Prevention:
-- Repo rule candidate:
-  - audience: common
-  - proposed rule: A file under `skills/` must be one a session reads or runs at runtime (SKILL.md, references, runtime scripts the skill text invokes); self-tests, fixtures, dry checks, and other implementation-time artifacts live outside the skill tree or are deleted when the task closes.
-- Dispatch/plan guardrail (optional):
-  - Reviewer packets for skill changes ask, for every added non-Markdown file under `skills/`, what runtime text invokes it.
-- Residual risk / waiver:
-  - none
-
-Evidence:
-- User correction 2026-09-10; reference scan of `skills/` on 2026-09-10 found the self-check script as the only unreferenced tracked file.
 
 ## 2026-09-10 - A Measurement Runner Publishes Its Evidence Only After The Containment Snapshot  [tags: validation, tooling, review]
 
@@ -1173,7 +976,7 @@ Evidence:
 ## 2026-10-04 - A Verdict Logged Verbatim Is Swept For Machine Paths Before It Is Committed  [tags: privacy, validation, orchestration]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/design-led-long-runs-plan.md`
+- Plan: `docs/coding-agent/plans/completed/design-led-long-runs-plan.md`
 - Task/Wave: the audit verdicts logged in the Progress Log
 - Roles involved: Orchestrator, Auditor, Reviewer
 
@@ -1238,7 +1041,7 @@ Fix applied:
 - The closeout audit covers the plan's whole range; the miss is recorded in the plan.
 
 Prevention:
-- After a wave's review closes, the next action is the wave-boundary audit dispatch, and the next wave's Worker dispatch comes only after its verdict is logged. When waves are reordered, write the audit into the new order explicitly. Overtaken the same day: the owner amended the brief so that the value audit runs at a plan's draft and close only. What stays of this lesson: a required gate is written into the order of work when the order changes, not left to memory.
+- A required gate is written into the order of work when the order changes, not left to memory.
 
 Evidence:
 - Third plan of the design-led long runs brief, 2026-10-05, found by the Orchestrator when reaching the closeout.
@@ -1260,3 +1063,133 @@ Prevention:
 
 Evidence:
 - The closeout audits of the design-led long runs run, the audit-positions run and the fixture run of the setup plan, 2026-10-04 and 2026-10-05; the first verdict after the change opened the file once, after grading.
+
+## 2026-10-15 - A Decision Record's Filename Is Also A Path The Smoke Test Copies  [tags: documentation, adr, troubleshooting]
+
+Context:
+- Plan: `docs/coding-agent/plans/completed/counsel-questions-and-planning-research-plan.md`, Task_1, Wave 1.
+- A record is named by its title in kebab case, and the title states the decision as a sentence.
+
+Symptom:
+- The package smoke test, which copies the repository into the system temporary directory, failed on Windows for a new record whose filename was over about 135 characters: the copied path crossed the platform's path length limit. The validators on the repository itself passed.
+
+Fix applied:
+- The Worker shortened the filename, keeping the title in the heading in full.
+
+Prevention:
+- Keep a record's filename at or under 135 characters; the heading carries the full title. A validator that copies the tree runs against the longest path it will create, not the longest path in place.
+
+Evidence:
+- Task_1 Worker report, 2026-10-15; ADR-D-0059's filename.
+
+## 2026-10-15 - A Control For "Research Stays Legitimate" Asks What The Repository Cannot Answer  [tags: validation, planning, fixture]
+
+Context:
+- A fixture checked that plan review flags a plan whose first task postpones research the rest of the plan needs, and does not flag a research task that is a legitimate deliverable.
+
+Symptom:
+- The first control plan's research task measured a timing bound the README promised. The review did not flag it as postponement, but flagged it on necessity: the measurement served nothing in the request, so the control did not show the constraint either way.
+
+Fix applied:
+- The control's research task became a check whose answer is not in the repository (whether an outside reader named in the request accepts the new line), with the request extended to name that reader, the unknown stated in Assumptions in the form the gate asks, and the dependent task written as conditional on it. The review then answered the investigation check explicitly: not a finding, and said why.
+
+Prevention:
+- A control for this check needs a question that no reading before drafting could settle, that the request itself raises, and that later work is written as conditional on. A task that is merely bounded and well stated is judged on necessity first, and a control that fails on necessity shows nothing about postponement.
+- Ask the reviewer to answer the check under test as its own line; a verdict on the whole plan does not separate the check from the rest.
+
+Evidence:
+- The plan's Progress Log, Task_3, 2026-10-15: two control reviews.
+
+## 2026-10-15 - A Dispatch That Opens By Casting The Agent As A Session Failed Before It Began  [tags: troubleshooting, delegation, tooling]
+
+Context:
+- A fixture scenario needed a fresh agent to draft a plan the way an Orchestrator session would, with the plugin's policy read by path.
+
+Symptom:
+- Three dispatches that opened with "You are the Orchestrator session of the repository at ..." ended in request-side failures before any tool call, on two models. The Orchestrator's own messages that quoted the dispatch were stopped the same way.
+
+Fix applied:
+- The dispatch was reworded as a plain task: what to draft, where, which policy files to read first and by path, what not to do, and what to report in what order. The same inputs ran at the first attempt and gave the record the scenario needed.
+
+Prevention:
+- For a fixture or scenario dispatch the Orchestrator writes itself, where casting the agent as a session has failed before any tool call: word it as a task with inputs, procedure and a report shape. A scenario that needs "what a session would do" is shown by having the agent follow the session's policy by path and report its steps in order.
+- When such a dispatch fails the same way twice before any work, change the wording, not the model.
+- This does not reach a dispatch whose text a rule fixes, such as the Auditor's Fixed Dispatch Template, which is sent verbatim as its own rules state.
+
+Evidence:
+- The plan's Progress Log, Task_3, 2026-10-15, scenario 3.
+
+## 2026-10-15 - A Small Change That Changes What The Product Does Still Goes To A Worker  [tags: workflow, delegation, orchestration, correction]
+
+Context:
+- A change the owner directed while a run was open for his judgement: remove one clause from a reference Counsel checks a philosophy's draft against, in words his direction gave.
+
+Symptom:
+- The Orchestrator classed the build as trivial because it was one clause with no how-choice, and made the edit itself. The review found that the edit changes which gaps Counsel puts to the owner, a meaningful behaviour change, so the Plan Gate's trivial criteria did not hold.
+
+Root cause:
+- Two separate calls were run together: small (no plan needed) and trivial (no Worker needed). A short, fully specified edit satisfies the first; the second asks whether the behaviour or design changes, and the length of the diff does not answer that.
+
+Fix applied:
+- The changes file's account was corrected and the finding logged; the edit was kept, since it was correct and rebuilding it through a Worker would add nothing.
+
+Prevention:
+- For a small change under a brief, decide "small" and "trivial" separately. A change directed because it alters what the product does is not trivial however short it is: dispatch a Worker, unless the owner has said to do it as trivial work.
+- This repeats the 2026-05-17 lesson on self-implementation in a smaller form; read the two together.
+
+Evidence:
+- `docs/coding-agent/plans/completed/first-use-in-a-fresh-repository-changes.md`, Small change 4, review finding FU4-F1.
+
+## 2026-10-16 - A Lesson Is Applied Only When Every Prevention Sentence Has A Home  [tags: review, documentation, correction]
+
+Context:
+- A clean-up before a stack's merge: lessons and candidate blocks whose rule is already in a rule file or a plugin reference are removed under the log's drain convention.
+
+Symptom:
+- The Orchestrator ruled a candidate block and two lessons already applied at one line of `adr.md`. The Worker, checking each sentence, found that line holds only the first sentence; the second ("ask for the reason before writing the record") and the Counsel-relay half have no home.
+
+Root cause:
+- The home was matched against the headline sentence of the prevention, not every sentence.
+
+Fix applied:
+- The block and both lessons kept; the ruling corrected in the run's changes file.
+
+Prevention:
+- Before ruling that a lesson or candidate is already applied, quote the line that holds each of its prevention sentences; remove it only when every sentence has one.
+
+Evidence:
+- `docs/coding-agent/plans/completed/value-level-operation-changes.md`, Small change 2, D12 and D13.
+
+## 2026-10-16 - The Package Validator Writes Bytecode, So A Run Of It Is Not Read-Only  [tags: validation, tooling, delegation]
+
+Context:
+- A read-only sweep dispatched to the Codex worker ran `validate_harness_package.py` for a baseline.
+
+Symptom:
+- The run refreshed an ignored `__pycache__` file beside the plugin's scripts, though the dispatch was read-only and `PYTHONDONTWRITEBYTECODE=1` was set.
+
+Root cause:
+- The validator calls `py_compile.compile`, and the smoke runner compiles five scripts the same way; an explicit compile writes bytecode whatever the environment says.
+
+Fix applied:
+- None to the tools: the files are ignored and never ship. The worker reported it and ran the smoke tests in a disposable copy.
+
+Prevention:
+- A dispatch that must leave the tree untouched runs the validator and the smoke tests in a disposable copy, or says that ignored bytecode may be written.
+
+Evidence:
+- `docs/coding-agent/plans/completed/value-level-operation-changes.md`, Small change 2, A2.
+
+## Promotion drain note (2026-10-16)
+
+Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
+- "Avoid Tool-Specific Catch-All Rule Sections" (2026-05-13) → docs/coding-agent/rules/reviewer.md Recurring Misses And Prevention ("Durable rule sections should describe repository convention or review semantics"); rulebook `rule-suite-templates.md` reviewer section descriptions and `rules-files.md` (harness-global ideas go out as migration candidates)
+- "Validate Exact Enum Sources, Not Broad Tokens" (2026-05-13) → docs/coding-agent/rules/orchestrator.md Repo-Specific Orchestrator Policies; docs/coding-agent/rules/reviewer.md Recurring Misses And Prevention
+- "Use Feature Branch Naming And Escalate Nested Ref Creation" (2026-05-13) → docs/coding-agent/rules/orchestrator.md Repo-Specific Integration / Git Policy (branch naming; nested ref creation, `.git` internals)
+- "Avoid Compatibility Wrappers Without Clear Need" (2026-05-09) → docs/coding-agent/rules/reviewer.md Review Risk Hotspots (entrypoint intent and admission); engineering-quality-baselines `SKILL.md` Drift Tripwires (compatibility shim)
+- "Keep Maintainer Rationale Out Of Runtime Skill Instructions" (2026-05-09) → docs/coding-agent/rules/orchestrator.md Repo-Specific Orchestrator Policies
+- "Keep ADR Metadata And Language Durable" (2026-05-09) → durable-docs-authoring `adr.md` Form (no time-relative wording), `adr-template.md` (`consulted` as durable identities), `authoring-rules.md` (durable roles or named people)
+- "Avoid Overfitting Validators To Skill Prose" (2026-05-11) → docs/coding-agent/rules/orchestrator.md Repo-Specific Orchestrator Policies
+- "No Version Numbers In PR Titles" (2026-09-05) → docs/coding-agent/rules/orchestrator.md Repo-Specific Integration / Git Policy
+- "Merge Authorization Is Per Pull Request, Never A Standing Condition" (2026-09-10) → docs/coding-agent/rules/orchestrator.md Repo-Specific Integration / Git Policy (merge only on the owner's word naming what is merged)
+- "Implementation-Time Artifacts Must Not Ship Inside Skill Contents" (2026-09-10) → docs/coding-agent/rules/orchestrator.md Repo-Specific Orchestrator Policies (rule and Reviewer-packet question)

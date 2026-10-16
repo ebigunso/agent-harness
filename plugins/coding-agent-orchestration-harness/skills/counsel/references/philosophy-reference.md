@@ -8,7 +8,7 @@ A gap check, read only after the discussion has produced a draft of a philosophy
 2. The scene and the measure: who, in what situation, experiences what; the single measure of success, and the failure that counts whatever else is right.
 3. The core distinction or principles, few and named, each with its reason; where two goods conflict, which wins and why.
 4. How it behaves, stated as what someone experiences, by analogy to a person where that helps.
-5. What it aspires to: the legitimate future that extension is measured against, and the honest fallback until then.
+5. What it aspires to: the legitimate future that extension is measured against.
 6. What it must not be: refusals, each countering a comfortable default.
 7. Success as observable behaviour: a short list one could watch for.
 8. A north star: one question every decision is held to, and the tie-break when in doubt.

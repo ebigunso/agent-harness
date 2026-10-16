@@ -6,7 +6,7 @@
 - work_type: docs
 
 ## Goal
-- The harness gives what the governing brief `docs/coding-agent/briefs/active/value-level-operation-brief.md` states, as amended on 2026-10-05, in its section "Value audit": in a run of plans the audit runs at each plan's draft and at each plan's close, and nowhere between; a plan review catches a plan that is unacceptably long.
+- The harness gives what the governing brief `docs/coding-agent/briefs/completed/value-level-operation-brief.md` states, as amended on 2026-10-05, in its section "Value audit": in a run of plans the audit runs at each plan's draft and at each plan's close, and nowhere between; a plan review catches a plan that is unacceptably long.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is the only plan of the run recorded in `docs/coding-agent/plans/active/audit-at-plan-draft-and-close-run.md`.
 
@@ -37,7 +37,7 @@
 - justification: the consumers that can be located are this repository's own runs and Character Memory with the plugin installed; the owner asked for the change in cadence by amendment. A plan-mode run stops dispatching an audit at wave boundaries. Preserved: a goal-mode run's audit moments, and the fixed dispatch template, whose `wave boundary` value keeps its one remaining consumer, an assessment event in a goal run.
 
 ## Context (workspace)
-- Governing brief: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, ratified 2026-09-30; the amendment of 2026-10-05 carries the owner's quoted words beside it, and Counsel relayed on 2026-10-05 his word on when it is built: "Yes, do it first before the next one prepared."
+- Governing brief: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, ratified 2026-09-30; the amendment of 2026-10-05 carries the owner's quoted words beside it, and Counsel relayed on 2026-10-05 his word on when it is built: "Yes, do it first before the next one prepared."
 - Run record: `docs/coding-agent/plans/completed/audit-at-plan-draft-and-close-run.md`. Readings file: `docs/coding-agent/plans/completed/audit-at-plan-draft-and-close-readings.md` (both under `active/` until the run closed). This plan starts from revision: 2e237902.
 - Where the position is stated today: `value-level-operation.md` (the list of positions; "Record the revision at each wave's dispatch as well"), `value-audit-mandate.md` (the artifact "wave boundary and closeout"; the first paragraph), `wave-integration/references/integration-checklist.md` (the wave-boundary audit step). The goal-run section of the mandate uses the template's `wave boundary` fill-in for an assessment event and stays.
 - Research waived: the five places were found by search of the plugin, the decision records and the rule files; no record or rule file states the position.
@@ -108,7 +108,7 @@
 - 2026-10-05 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: none.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md. Governing brief: docs/coding-agent/briefs/completed/value-level-operation-brief.md. Changes since: none.
   ```
 
 - 2026-10-05 Plan-draft audit, verdict as returned (the two comparison lines are logged in the readings file, not here):
@@ -116,7 +116,7 @@
   Value audit verdict record (plan draft). Every graded item is `cited`; there is no `ask-now` and no `ungraded` item. The engineering side has no document, so its items are `not audited`.
 
   - `Position: plan draft`
-  - `Documents read: docs/coding-agent/briefs/active/value-level-operation-brief.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md; docs/coding-agent/rules/common.md (sections "Repository Reference Documents" for pointer lines and "Standing Approvals", checked against HEAD, file unmodified in the working tree); instructions only: plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md, plugins/coding-agent-orchestration-harness/skills/value-documents/SKILL.md`
+  - `Documents read: docs/coding-agent/briefs/completed/value-level-operation-brief.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md; docs/coding-agent/rules/common.md (sections "Repository Reference Documents" for pointer lines and "Standing Approvals", checked against HEAD, file unmodified in the working tree); instructions only: plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md, plugins/coding-agent-orchestration-harness/skills/value-documents/SKILL.md`
   - `Product basis: brief in the product owner's words` ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository yet.")
   - `Not audited: engineering side; common.md carries no pointer line to an engineering philosophy (nor to a product philosophy), so internal-mechanics items have no document`
   - `Missing inputs: none`
@@ -155,7 +155,7 @@
 - 2026-10-05 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md. Governing brief: docs/coding-agent/briefs/active/value-level-operation-brief.md. Changes since: 2e237902.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md. Governing brief: docs/coding-agent/briefs/completed/value-level-operation-brief.md. Changes since: 2e237902.
   ```
 - 2026-10-05 Closeout audit, first dispatch: returned ungraded by the auditor itself. It named the readings file as an explicit path in a range diff, so the file was printed before any grade; it recognised the breach, graded nothing and asked for a fresh dispatch. Nothing is logged as a verdict and the run record is unchanged. A gate on the position: the same template is dispatched again, new (text as above). This is the second auditor in two days to open a readings file before grading; recorded in the readings file as a finding, with the auditor's suggestion that the mandate give the literal exclude pathspecs to copy.
 
@@ -164,11 +164,11 @@
   Value audit verdict record (closeout). Every graded item is `cited` or `inferred`; there is no `ask-now` and no `ungraded` item. The engineering side has no document, so its items are `not audited`. No judgement call is marked `direction`.
 
   - `Position: closeout`
-  - `Documents read: docs/coding-agent/briefs/active/value-level-operation-brief.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-run.md (run record, for prior scenario states); the range 2e237902..working tree, read with git under exclude pathspecs for docs/coding-agent/briefs/*-notes.md and docs/coding-agent/**/*-readings.md; docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md (untracked, in range); docs/coding-agent/rules/common.md at HEAD (sections "Repository Reference Documents" and "Standing Approvals"; file unmodified in the working tree); to understand the changes only: completion-closeout.md, lifecycle-gates.md and value-level-operation.md of the orchestration-harness skill (searched for what still depends on a wave-boundary audit); instructions only: plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md, plugins/coding-agent-orchestration-harness/skills/value-documents/SKILL.md; after grading only: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-readings.md`
+  - `Documents read: docs/coding-agent/briefs/completed/value-level-operation-brief.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-plan.md; docs/coding-agent/plans/active/audit-at-plan-draft-and-close-run.md (run record, for prior scenario states); the range 2e237902..working tree, read with git under exclude pathspecs for docs/coding-agent/briefs/*-notes.md and docs/coding-agent/**/*-readings.md; docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md (untracked, in range); docs/coding-agent/rules/common.md at HEAD (sections "Repository Reference Documents" and "Standing Approvals"; file unmodified in the working tree); to understand the changes only: completion-closeout.md, lifecycle-gates.md and value-level-operation.md of the orchestration-harness skill (searched for what still depends on a wave-boundary audit); instructions only: plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-audit-mandate.md, plugins/coding-agent-orchestration-harness/skills/value-documents/SKILL.md; after grading only: docs/coding-agent/plans/active/audit-at-plan-draft-and-close-readings.md`
   - `Product basis: brief in the product owner's words` ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository yet.")
   - `Not audited: engineering side; common.md at HEAD carries no pointer line to an engineering philosophy (nor to a product philosophy), so internal-mechanics items have no document`
   - `Missing inputs: none`
-  - `Value documents changed in range: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md (new, untracked in the working tree; it carries a ratification record dated 2026-10-05; it is not the governing brief and no item of this plan relies on it). The governing brief is unchanged in the range (its amendment is the start revision 2e237902 itself). No pointer line removed or changed.`
+  - `Value documents changed in range: docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md (new, untracked in the working tree; it carries a ratification record dated 2026-10-05; it is not the governing brief and no item of this plan relies on it). The governing brief is unchanged in the range (its amendment is the start revision 2e237902 itself). No pointer line removed or changed.`
 
   Items (`item | scope | grade | support | notes`):
 
@@ -224,7 +224,7 @@
   - The dispatch text matched the fixed template. The session also carried harness-injected skill and hook text (engineering-quality-baselines, ponytail) and a reviewer-role system prompt; none is an account of the work, so the audit was graded. The mandate's record form was used, not the reviewer output format.
   - Agent-checkable evidence I produced myself: `validate_harness_package.py` passed, `run_validation_smoke_tests.py` exited 0, `git diff --check` over the range is clean. The branch is on no remote and has no pull request, so nothing is merged.
   - For the brief's line that the closeout audit calls whether a stack has anything undecided that needs him: nothing in this range is undecided. What waits for him is the merge and the four human-only conditions.
-  - Discussion notes were not opened. `docs/coding-agent/briefs/active/design-led-long-runs-notes.md` is modified in the working tree and was excluded from every content command. The readings file was opened once, after the grades were fixed.
+  - Discussion notes were not opened. `docs/coding-agent/briefs/completed/design-led-long-runs-notes.md` is modified in the working tree and was excluded from every content command. The readings file was opened once, after the grades were fixed.
   - The plan's Context quotes a relay ("Yes, do it first before the next one prepared."). It is not in the governing brief and no grade relies on it.
   - The untracked brief `setup-names-what-is-missing-brief.md` is uncommitted. A later run it governs should commit it before recording its start revision, as the mandate expects.
   - `.claude/pr67body.tmp` and `.claude/settings.local.json` are untracked and not ignored. The settings file holds machine-specific paths, so they need to stay out of any commit that is pushed.

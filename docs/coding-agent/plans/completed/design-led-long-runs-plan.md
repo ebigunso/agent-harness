@@ -1,12 +1,12 @@
 # Plan: Design-led long runs
 
-- status: completed
+- status: done
 - generated: 2026-10-04
 - last_updated: 2026-10-04
 - work_type: mixed
 
 ## Goal
-- The harness gives what `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` states: a design held in a brief is carried over as many plans as it takes without the owner, the run keeps itself to the value documents and stops when it stops getting closer, a better design noticed mid-flight reaches the owner while the affected part waits, independent judgement of the Orchestrator's work is a role of its own, and Counsel's policy is written to give the brief's core scenarios 5 to 9, which stay the owner's to judge in first use.
+- The harness gives what `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` states: a design held in a brief is carried over as many plans as it takes without the owner, the run keeps itself to the value documents and stops when it stops getting closer, a better design noticed mid-flight reaches the owner while the affected part waits, independent judgement of the Orchestrator's work is a role of its own, and Counsel's policy is written to give the brief's core scenarios 5 to 9, which stay the owner's to judge in first use.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is the first plan of the run. It carries the brief form, Counsel's discussion and the Auditor role, and proposes the one decision record that role needs. The run across plans itself (the brief's "The run", "Keeping to the philosophy without you", "A better design noticed mid-flight" and "Closeout") is the work of the run's second plan, drafted when this one closes; the Definition of Done below marks which items are this plan's.
 
@@ -55,7 +55,7 @@
 - Related files/areas: `plugins/coding-agent-orchestration-harness/` (skills `orchestration-harness`, `value-documents`, `counsel`, `plan-format`, `subagent-strategy`, `runtime-adapter-contract`, `codex-harness-bootstrap`; `agents/`, `claude/agents/`, `codex/`; manifests; `scripts/`), `README.md`, `docs/coding-agent/rules/`, `docs/coding-agent-orchestration-harness/decisions/` and `design/goal-mode-design.md`.
 - Existing patterns or references: the goal assessor and the value audit (fixed location-only templates, mandates in references); plan chaining through the Plan Gate (`lifecycle-gates.md`); the item hold for `ask-now` and the carrier (`value-level-operation.md`).
 - Research: three Researcher reports received in session on 2026-10-04 (the run across plans; the Auditor split; Counsel and the forms).
-- Governing brief: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; ratification relayed by Counsel on 2026-10-04 quoting the owner: "I ratify the brief, hand it to the Orchestrator." Relays are admitted by the Standing Approvals entry in `docs/coding-agent/rules/common.md` naming `agent-harness-counsel`.
+- Governing brief: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; ratification relayed by Counsel on 2026-10-04 quoting the owner: "I ratify the brief, hand it to the Orchestrator." Relays are admitted by the Standing Approvals entry in `docs/coding-agent/rules/common.md` naming `agent-harness-counsel`.
 - Run starts from revision: 263b0f08 (the head of pull request #75).
 - Run record: `docs/coding-agent/plans/active/design-led-long-runs-run.md`.
 - Design record consulted and deviations from its acceptance: ADR-D-0009, D-0011, D-0027 to D-0031, D-0034 to D-0049, ADR-I-0007. Contradicted: ADR-D-0030 (replaced by R1, this plan). Contradicted in part by the second plan: ADR-D-0039 ("its summary or account of the work is not given to the auditor"; rewritten there and re-accepted by name). Read and kept: ADR-D-0041 (each plan authorized as it stands), ADR-D-0042 and ADR-D-0045 (what reaches the owner and Counsel during a run), ADR-D-0036 (product values only from the product owner).
@@ -263,7 +263,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 - 2026-10-04 Plan review round 1 (Claude Reviewer): NEEDS_REVISION, four MAJORs (the committed reading against ADR-D-0039; Task_7 not satisfiable; Task_1's completion against its dependents; the closing note on unaccepted records) and ten MINORs. Round 2: NEEDS_REVISION, one MAJOR (R3 described as an amendment to ADR-D-0039, which the record rules do not allow) and six MINORs; applied: only R1 is proposed here, the run's other records move to the second plan where their design is settled, with ADR-D-0039 to be rewritten there; A2's answer and a decline of R1 have routes. Round 1 applied: the plan now ends at the Auditor role and the run's second plan carries the run across plans; proposing and landing records are separate tasks; "lands" is defined; publication is at run end; the watch-list touches are named.
 
 - 2026-10-04 Plan review round 2 delta: the one MAJOR and the MINORs applied; the Reviewer said a check of the named lines was enough and no third full round was needed; the review is closed with nothing open.
-- 2026-10-04 Value audit, plan draft (dispatch 1). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/design-led-long-runs-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: none." Dispatched to a Claude Reviewer-profile subagent with fresh context. Verdict as returned:
+- 2026-10-04 Value audit, plan draft (dispatch 1). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/design-led-long-runs-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: none." Dispatched to a Claude Reviewer-profile subagent with fresh context. Verdict as returned:
 
   Value audit verdict. One `ask-now` (the self-demonstration requirement); everything else on the brief's side is `cited` or `inferred`, plus the merge, which is `ask-now` only on the outward-facing test and is stated as waiting.
 
@@ -273,7 +273,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -348,7 +348,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -427,7 +427,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact, identical to HEAD 5cc0a698); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact, identical to HEAD 5cc0a698); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -509,7 +509,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact, identical to HEAD 5b3d7c03); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact, identical to HEAD 5b3d7c03); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -594,7 +594,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact, identical to HEAD 4d7f5df1); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md` (the artifact, identical to HEAD 4d7f5df1); `docs/coding-agent/rules/common.md` at HEAD (sections "Repository Reference Documents" and "Standing Approvals" only)
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -666,7 +666,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
 - 2026-10-04 Wave 1, Task_1: R1 drafted as proposed ADR-D-0050 (independent judgement of the Orchestrator's work is held by the Auditor; replaces ADR-D-0030). Record review by the Codex reviewer peer: NEEDS_REVISION with one MINOR (a wrong filename in depends_on, fixed); admission, form, full replacement and consistency with ADR-D-0029, 0031, 0039, 0048, 0049 and the goal-mode references passed; it listed the live pointers to repair at retirement (the reviewer rule file, ADR-D-0029, 0031, 0039, 0048, the archived ADR-D-0012). Sent to the owner through Counsel with assumption A1 stated and the question on assumption A2. The owner said in this session that the Codex peers now run GPT-6.1-Sol and may be dispatched freely; the rule file says so.
 
-- 2026-10-04 Value audit, wave boundary after Wave 1 (dispatch 6). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: wave boundary. Plan: docs/coding-agent/plans/active/design-led-long-runs-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: 263b0f08." Dispatched to a Claude Reviewer-profile subagent on the strongest model, fresh context. Verdict as returned:
+- 2026-10-04 Value audit, wave boundary after Wave 1 (dispatch 6). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: wave boundary. Plan: docs/coding-agent/plans/active/design-led-long-runs-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: 263b0f08." Dispatched to a Claude Reviewer-profile subagent on the strongest model, fresh context. Verdict as returned:
 
   Value audit verdict, wave boundary. One `ask-now` counts as a stop: DoD 5 (second plan) still says a repeated divergence stops the affected part, which the amended brief now contradicts. The merge is `ask-now` on the outward-facing test only and is stated as waiting. Everything else on the product side is `cited` or `inferred`. Nothing in the range has reached the remote.
 
@@ -678,7 +678,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: wave boundary
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md`; `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only); the changes `263b0f08..working tree` with the notes pathspec excluded, including `docs/coding-agent/plans/active/design-led-long-runs-run.md` and the untracked `.claude/pr67body.tmp` and `.claude/settings.local.json` (neither is part of this work; no item)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md`; `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only); the changes `263b0f08..working tree` with the notes pathspec excluded, including `docs/coding-agent/plans/active/design-led-long-runs-run.md` and the untracked `.claude/pr67body.tmp` and `.claude/settings.local.json` (neither is part of this work; no item)
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -686,7 +686,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Missing inputs: none
 
-  Value documents changed in range: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (new in range at c657be02, so committed after the start revision 263b0f08; amended in 72930df8 and 1d46b33f). It carries its ratification record ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04) and each of the four amendments carries the owner's quoted words with the date, so its statements count as support. No pointer line was added, removed or changed (`common.md` is unchanged in range).
+  Value documents changed in range: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (new in range at c657be02, so committed after the start revision 263b0f08; amended in 72930df8 and 1d46b33f). It carries its ratification record ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04) and each of the four amendments carries the owner's quoted words with the date, so its statements count as support. No pointer line was added, removed or changed (`common.md` is unchanged in range).
 
   Items, plan:
 
@@ -761,7 +761,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
   - **Nothing has landed or left the machine:** all twelve commits in the range are absent from every remote branch; ADR-D-0050 is `proposed` and ADR-D-0030 is still in place. The A2-dependent wording change is therefore still local, as the plan requires.
   - **Forms ahead of the mandate:** the brief form now says a means does not bind, while the audit mandate does not yet read kind marks. The plan carries this to the second plan. If pull request A ships before that, the audit grades a means as an ordinary statement; that is stricter, not looser.
   - **Scenarios 5 to 9:** nothing in the range claims them met. A closeout that counts them on Task_2's review would loosen a human-only condition.
-  - **Not opened:** `docs/coding-agent/briefs/active/design-led-long-runs-notes.md` (new in range) and `value-level-operation-notes.md` (changed in range and modified in the working tree). The plan's Design, Compatibility and Notes sections were read as claims; they are not items.
+  - **Not opened:** `docs/coding-agent/briefs/completed/design-led-long-runs-notes.md` (new in range) and `value-level-operation-notes.md` (changed in range and modified in the working tree). The plan's Design, Compatibility and Notes sections were read as claims; they are not items.
 
   How the Orchestrator applied it: the one stop is a second-plan line of the Definition of Done that still carried the repeat-stop the owner's answer replaced; nothing built in this plan depends on it, and the owner has already answered, so the line is reworded to his amended statement and the Design section's watch-list wording is brought to the amended list. The merge waits. The lines that hit the amended watch list, all recorded by the auditor as unsure, were sent to Counsel. On the auditor's note about the cost setting: the owner typed it in this session; it is recorded as an unratified ruling in the initiative's discussion notes so Counsel can carry it into a document if he wants it there.
 
@@ -775,7 +775,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
 - 2026-10-04 Review of Task_3 and of the ADR-D-0030 retirement (Codex reviewer peer): NEEDS_REVISION with two MINORs, both applied by the Orchestrator: the three Auditor adapters carried one sentence restating a procedure of the value audit mandate (it came from the Orchestrator's own dispatch packet), now removed, the bodies still identical; the archived ADR-D-0012's retirement line now points on to ADR-D-0050. Adapter parity, frontmatter, every agent list, the manifests, the unchanged Reviewer and Counsel adapters, both dispatch templates and the retirement mechanics passed. The role lists it left to Task_4 are covered by Task_4's approved review.
 
-- 2026-10-04 Value audit, closeout of this plan (dispatch 7). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/design-led-long-runs-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: 263b0f08." Dispatched on the strongest model, fresh context, on the Reviewer's agent type (the installed plugin predates the Auditor agent). Verdict as returned:
+- 2026-10-04 Value audit, closeout of this plan (dispatch 7). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/design-led-long-runs-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: 263b0f08." Dispatched on the strongest model, fresh context, on the Reviewer's agent type (the installed plugin predates the Auditor agent). Verdict as returned:
 
   Value audit verdict, closeout. No `ask-now` is a stop on this plan's work. The only `ask-now` is the merge of the stack, held on the outward-facing test alone and stated in the plan as waiting. Everything else on the product side is `cited` or `inferred`. One thing must be carried out of this plan: ADR-D-0036 is reworded, set back to `proposed`, and not accepted, so nothing that depends on it may reach the remote yet.
 
@@ -787,7 +787,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Position: closeout
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md`; `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only); the changes `263b0f08..working tree` with the notes pathspec excluded, including `docs/coding-agent/plans/active/design-led-long-runs-run.md` and the untracked `.claude/settings.local.json` (agmsg session hooks only; no item). The untracked `.claude/pr67body.tmp` was not opened: by its name it is pull request text, an account.
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/design-led-long-runs-plan.md`; `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only); the changes `263b0f08..working tree` with the notes pathspec excluded, including `docs/coding-agent/plans/active/design-led-long-runs-run.md` and the untracked `.claude/settings.local.json` (agmsg session hooks only; no item). The untracked `.claude/pr67body.tmp` was not opened: by its name it is pull request text, an account.
 
   Product basis: brief in the product owner's words ("product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.")
 
@@ -795,7 +795,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
 
   Missing inputs: none
 
-  Value documents changed in range: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (new in range at c657be02; amended in 72930df8 and 1d46b33f). It carries its ratification record ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04), and each amendment carries the owner's quoted words with the date, so its statements count as support. No pointer line was added, removed or changed (`common.md` is unchanged in range).
+  Value documents changed in range: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (new in range at c657be02; amended in 72930df8 and 1d46b33f). It carries its ratification record ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04), and each amendment carries the owner's quoted words with the date, so its statements count as support. No pointer line was added, removed or changed (`common.md` is unchanged in range).
 
   Items, plan:
 
@@ -892,7 +892,7 @@ Pull requests, stacked on #75 in this order: (A) Task_2; (B) Task_3, Task_4, Tas
   - **The cost setting and the acceptance of ADR-D-0050** rest on words the plan quotes; no document I may rely on carries them. I graded on the brief's statements. The cost line reads as his setting to change, which is what the brief gives.
   - **Design document wording:** `goal-mode-design.md` now says the assessor is a role of its own, and two sentences later still calls "a fourth named role" the recorded upgrade path. That is an internal inconsistency for the final review, not a value item.
   - **Forms ahead of the mandate:** the brief form says a means does not bind; the audit mandate does not yet read kind marks, so I graded every statement as an ordinary one. That is stricter, not looser, and the plan carries it to the second plan.
-  - **Not opened:** `docs/coding-agent/briefs/active/design-led-long-runs-notes.md` and `value-level-operation-notes.md` (both modified in the working tree), and `.claude/pr67body.tmp`. The plan's Design, Compatibility and Notes sections were read as claims; they are not items.
+  - **Not opened:** `docs/coding-agent/briefs/completed/design-led-long-runs-notes.md` and `value-level-operation-notes.md` (both modified in the working tree), and `.claude/pr67body.tmp`. The plan's Design, Compatibility and Notes sections were read as claims; they are not items.
 
   How the Orchestrator applied it: nothing is a stop on this plan's work; the merge waits. Scenarios found moved by this plan: none demonstrated, as predicted. The open thread it names, ADR-D-0036 reworded and not accepted, is carried out of this plan into the run record: nothing depending on it reaches the remote before the owner accepts it by name. The two lines that newly hit the watch list (the ADR-D-0036 rewording; the landing entry) were sent to Counsel as the verdict states them. The design document's leftover sentence calling a fourth role the upgrade path is corrected. The marked `direction` items stay for the run's closeout.
 

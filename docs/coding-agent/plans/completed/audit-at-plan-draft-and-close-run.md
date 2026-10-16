@@ -1,6 +1,6 @@
 # Run record: The value audit at a plan's draft and close
 
-- Governing brief: `docs/coding-agent/briefs/active/value-level-operation-brief.md` (the amendment of 2026-10-05 to its section "Value audit")
+- Governing brief: `docs/coding-agent/briefs/completed/value-level-operation-brief.md` (the amendment of 2026-10-05 to its section "Value audit")
 - Run starts from revision: 2e237902
 - State: closed 2026-10-05; candidate ready, awaiting the owner's judgement
 

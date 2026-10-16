@@ -6,7 +6,7 @@
 - work_type: docs
 
 ## Goal
-- The harness gives what the governing brief `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` states in the statement added on 2026-10-06 under "A philosophy that already exists": where more than one document fits, setup records nothing by itself and does not write the philosophy down as simply missing; it holds, shows the person the candidates, and the person picks.
+- The harness gives what the governing brief `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` states in the statement added on 2026-10-06 under "A philosophy that already exists": where more than one document fits, setup records nothing by itself and does not write the philosophy down as simply missing; it holds, shows the person the candidates, and the person picks.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is the only plan of the run recorded in `docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md`. It follows the run that closed on 2026-10-06 (`docs/coding-agent/plans/completed/setup-names-what-is-missing-plan.md`), whose closed plan is not reopened.
 
@@ -37,7 +37,7 @@
 - justification: the several-fit behaviour changes on the owner's word. The locatable consumers are this repository and Character Memory; neither holds a line written by the several-fit branch, since the text that wrote it has not been released.
 
 ## Context (workspace)
-- Governing brief: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`, ratified 2026-10-05; the statement of 2026-10-06 on several fitting documents carries the owner's quoted words: "Yes, hold and ask when several fit."
+- Governing brief: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`, ratified 2026-10-05; the statement of 2026-10-06 on several fitting documents carries the owner's quoted words: "Yes, hold and ask when several fit."
 - Run record: `docs/coding-agent/plans/completed/setup-holds-when-several-fit-run.md`. Readings file: `docs/coding-agent/plans/completed/setup-holds-when-several-fit-readings.md` (both under `active/` until the run closed). This plan starts from revision: 34cb534.
 - Where the behaviour is stated today: `bootstrap-lifecycle.md`, Philosophy Lines ("More than one, wherever each sits: record none and write the none-yet line."; the report's clause on "the files found where more than one fitted"); `rules-files.md`, the awaiting form with one path.
 - Research waived: the change is confined to the section this run's predecessor wrote, read in full before drafting.
@@ -110,7 +110,7 @@
 - 2026-10-06 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: none.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md. Governing brief: docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md. Changes since: none.
   ```
 
 - 2026-10-06 Plan-draft audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -126,7 +126,7 @@
 
   `Position: plan draft`
 
-  `Documents read: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md; docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md; docs/coding-agent/rules/common.md (Repository Reference Documents for pointer lines, Standing Approvals); docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md. Read to understand, not as support: plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md (Philosophy Lines), rules-files.md (line forms), counsel/SKILL.md line 33, orchestration-harness/references/completion-closeout.md (Closeout Under Value-Level Operation). Instructions: value-audit-mandate.md, value-documents/SKILL.md.`
+  `Documents read: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md; docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md; docs/coding-agent/rules/common.md (Repository Reference Documents for pointer lines, Standing Approvals); docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md. Read to understand, not as support: plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md (Philosophy Lines), rules-files.md (line forms), counsel/SKILL.md line 33, orchestration-harness/references/completion-closeout.md (Closeout Under Value-Level Operation). Instructions: value-audit-mandate.md, value-documents/SKILL.md.`
 
   `Product basis: brief in the product owner's words` (the brief: "product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."; ratification record present: "I ratify the brief, hand it over after the run closes.", 2026-10-05; the several-fit statement carries its own record: "Yes, hold and ask when several fit.", 2026-10-06)
 
@@ -178,7 +178,7 @@
 - 2026-10-06 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md. Governing brief: docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md. Changes since: 34cb534.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md. Governing brief: docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md. Changes since: 34cb534.
   ```
 
 - 2026-10-06 Closeout audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -198,7 +198,7 @@
 
   `Position: closeout`
 
-  `Documents read: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md; docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md; docs/coding-agent/rules/common.md (Repository Reference Documents for pointer lines; Standing Approvals); docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md; the range 34cb534..working tree by git diff with the two exclude pathspecs (counsel/SKILL.md, rulebook/references/bootstrap-lifecycle.md, rulebook/references/rules-files.md, tests/.../fixtures/setup-philosophy/**). Read to understand, not as support: docs/coding-agent/plans/completed/setup-names-what-is-missing-run.md; the Counsel lines of orchestration-harness/references/completion-closeout.md; the headings of tests/.../setup-philosophy/RUN-2026-10-05.md. Instructions: value-audit-mandate.md, value-documents/SKILL.md.`
+  `Documents read: docs/coding-agent/plans/active/setup-holds-when-several-fit-plan.md; docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md; docs/coding-agent/rules/common.md (Repository Reference Documents for pointer lines; Standing Approvals); docs/coding-agent/plans/active/setup-holds-when-several-fit-run.md; the range 34cb534..working tree by git diff with the two exclude pathspecs (counsel/SKILL.md, rulebook/references/bootstrap-lifecycle.md, rulebook/references/rules-files.md, tests/.../fixtures/setup-philosophy/**). Read to understand, not as support: docs/coding-agent/plans/completed/setup-names-what-is-missing-run.md; the Counsel lines of orchestration-harness/references/completion-closeout.md; the headings of tests/.../setup-philosophy/RUN-2026-10-05.md. Instructions: value-audit-mandate.md, value-documents/SKILL.md.`
 
   `Product basis: brief in the product owner's words` (the brief: "product basis: the product owner's own words in this ratified brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."; ratification record present: "I ratify the brief, hand it over after the run closes.", 2026-10-05; the several-fit statement carries its own record: "Yes, hold and ask when several fit.", 2026-10-06)
 

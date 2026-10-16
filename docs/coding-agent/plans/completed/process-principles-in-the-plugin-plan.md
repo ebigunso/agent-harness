@@ -6,9 +6,9 @@
 - work_type: docs
 
 ## Goal
-- The harness gives what the governing brief `docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md` states: five process principles present once each in the plugin text at the place where it acts, as what the agent does and not what code must be; the record on discoveries brought in line with the second principle.
+- The harness gives what the governing brief `docs/coding-agent/briefs/completed/process-principles-in-the-plugin-brief.md` states: five process principles present once each in the plugin text at the place where it acts, as what the agent does and not what code must be; the record on discoveries brought in line with the second principle.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
-- This is the first plan of the run recorded in `docs/coding-agent/plans/active/process-principles-in-the-plugin-run.md`.
+- This is the first plan of the run recorded in `docs/coding-agent/plans/completed/process-principles-in-the-plugin-run.md`.
 
 ## Definition of Done
 - Plan review asks, of each piece of a design, what it is for (the thing in the goal it serves; for a piece that prevents something, the situation and how likely it is in everyday use) and what it costs (debt, operational complexity, effect on future change, blast radius relative to the task); a preventive piece that does not make its case is a finding, and so is a smaller design the questions point to. Stated once, where the plan-review check lives; the Plan Gate points to it.
@@ -42,8 +42,8 @@
 - justification: the report schema's keys and parse validity are preserved, so every existing report stays valid; what changes is the meaning producers and readers give the text (the Worker writing a summary; the Orchestrator integrating it and running the replan procedure; the Reviewer at plan review and final review; the Auditor grading a revision at plan draft; the Orchestrator adapters restating the replan action); each reader's text changes in this plan, so no layer carries the old meaning.
 
 ## Context (workspace)
-- Governing brief: `docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md`. Ratification reached this session on 2026-10-08 as Counsel's relay quoting the owner: "I ratify the brief, hand it over after the current run closes." Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`. Hand-over condition unresolved at drafting: his words make the hand-over follow the close of the fresh-repository run, and under the text in the stack a run closes on his acceptance of its stack, which has not arrived; Counsel handed over at "reported ready" on its own reading. Asked of him through Counsel on 2026-10-08; nothing of this plan is executed until his answer makes the hand-over his.
-- Run record: `docs/coding-agent/plans/active/process-principles-in-the-plugin-run.md`. Readings file: `docs/coding-agent/plans/active/process-principles-in-the-plugin-readings.md`. Both stay under `active/` until the run closes on the owner's acceptance of its stack; this plan moves to `completed/` at its close. This plan starts from revision: 099d78f.
+- Governing brief: `docs/coding-agent/briefs/completed/process-principles-in-the-plugin-brief.md`. Ratification reached this session on 2026-10-08 as Counsel's relay quoting the owner: "I ratify the brief, hand it over after the current run closes." Relays admitted by the Standing Approvals entry of 2026-10-01 in `common.md`. Hand-over condition unresolved at drafting: his words make the hand-over follow the close of the fresh-repository run, and under the text in the stack a run closes on his acceptance of its stack, which has not arrived; Counsel handed over at "reported ready" on its own reading. Asked of him through Counsel on 2026-10-08; nothing of this plan is executed until his answer makes the hand-over his.
+- Run record: `docs/coding-agent/plans/completed/process-principles-in-the-plugin-run.md`. Readings file: `docs/coding-agent/plans/completed/process-principles-in-the-plugin-readings.md`. Both stay under `active/` until the run closes on the owner's acceptance of its stack; this plan moves to `completed/` at its close. This plan starts from revision: 099d78f.
 - Research: a Researcher mapped each principle to the text that states it in part (file and line) and found the record on discoveries: ADR-D-0033 (accepted 2026-09-13 and on `main`, so changed only by replacement), which agrees on the Worker's side and differs on the Orchestrator's (it lets a discovery be ruled into the current change, sorts nothing, re-runs no review, and caps the return to the user at two cases). ADR-D-0041 says a post-verdict change needs a later audit or the first source, with no plan review. ADR-D-0051's rejected alternative gives "no fresh plan review" as a reason, which the guard makes false.
 - Existing code norms named to the owner, left as they are: plan-format rule 8 (compatibility stance); core-principles §1 and §2 (locatable consumer; small, cohesive, reversible changes; smallest root-cause fix); long-horizon-audit's deletion bias; ADR-D-0016.
 - Research waived for dispatch: the Researcher's map is the basis of the Scope and Tasks.
@@ -149,7 +149,7 @@
 - 2026-10-08 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md. Governing brief: docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md. Changes since: none.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md. Governing brief: docs/coding-agent/briefs/completed/process-principles-in-the-plugin-brief.md. Changes since: none.
   ```
 
 - 2026-10-08 Plan-draft audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -220,7 +220,7 @@
 - 2026-10-08 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md. Governing brief: docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md. Changes since: 099d78f.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/process-principles-in-the-plugin-plan.md. Governing brief: docs/coding-agent/briefs/completed/process-principles-in-the-plugin-brief.md. Changes since: 099d78f.
   ```
 - 2026-10-08 Closeout audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
 
@@ -233,7 +233,7 @@
   - `Product basis: brief in the product owner's words` (brief line 6: "the product owner's own words in this ratified brief. ebigunso owns the harness"; line 3: "I ratify the brief, hand it over after the current run closes.")
   - `Not audited: engineering side, no engineering philosophy (common.md line 13 reads "none yet", not a pointer line)`
   - `Missing inputs: none` (099d78f resolves; the brief is under `active/` with ratification record and product basis)
-  - `Value documents changed in range:` docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md (one sub-statement added under the second principle, "This applies to anything found during a run by anyone", carrying its ratification record: told 2026-10-08, "findings treated this way shouldn't be limited to what a worker finds, but anything that is found during a run, including what Orchestrator itself finds, and any other dispatched agent." It counts as support); docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md (another initiative's brief, one gives-statement added with a ratification record of 2026-10-08; not a governing brief of this run and relied on for nothing here); docs/coding-agent/briefs/active/value-level-operation-notes.md modified in the working tree, a notes file, not opened. No pointer line removed or changed.
+  - `Value documents changed in range:` docs/coding-agent/briefs/completed/process-principles-in-the-plugin-brief.md (one sub-statement added under the second principle, "This applies to anything found during a run by anyone", carrying its ratification record: told 2026-10-08, "findings treated this way shouldn't be limited to what a worker finds, but anything that is found during a run, including what Orchestrator itself finds, and any other dispatched agent." It counts as support); docs/coding-agent/briefs/completed/first-use-in-a-fresh-repository-brief.md (another initiative's brief, one gives-statement added with a ratification record of 2026-10-08; not a governing brief of this run and relied on for nothing here); docs/coding-agent/briefs/completed/value-level-operation-notes.md modified in the working tree, a notes file, not opened. No pointer line removed or changed.
 
   Items (five fields, ` | `-separated):
 

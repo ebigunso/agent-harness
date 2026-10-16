@@ -56,4 +56,4 @@ Not covered: what Counsel is responsible for and the level it works at (ADR-D-00
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "How a conversation with Counsel should go". Related: ADR-D-0034 (Counsel's level), ADR-D-0036 (the philosophy documents), ADR-D-0047 (the documents a discussion produces), ADR-D-0043 (what Counsel says to the Orchestrator, which this record does not change).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "How a conversation with Counsel should go". Related: ADR-D-0034 (Counsel's level), ADR-D-0036 (the philosophy documents), ADR-D-0047 (the documents a discussion produces), ADR-D-0043 (what Counsel says to the Orchestrator, which this record does not change).

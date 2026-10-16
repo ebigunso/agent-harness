@@ -10,7 +10,7 @@
 
 ## Definition of Done
 - All Normative scope items landed at their homes with required wiring; every event-triggered rule has an explicit imperative route at its binding moment (no reliance on semantic skill selection).
-- The warrant criteria implement the root-test-first structure (2026-07-24 Decision Log entry); the template content is faithful to the companion survey's accepted patches (`adr-corpus-survey.md`, same folder — its five criteria survive as recognition signals).
+- The warrant criteria implement the root-test-first structure (2026-07-24 Decision Log entry); the template content is faithful to the companion survey's accepted patches (`adr-corpus-survey.md`, removed on 2026-10-16 and kept in git history, last version in commit `7fcf680` — its five criteria survive as recognition signals).
 - Version 0.10.0 in all three manifests; full validator set green; Codex Reviewer APPROVED against the trigger-chain, budget, and survey-fidelity bars.
 
 ## Scope / Non-goals
@@ -18,7 +18,7 @@
 - Non-goals: repo-side pointer lines for CM/agent-harness and any CME bootstrap conversation (post-merge follow-ups in those repos); authoring CME's five identified foundational ADRs (optional later work, user-initiated); adopting the template patches back into CM's own template (their call, later); adapter edits; report-contract changes (workers never author decision records — owned by model-routing); any placement automation script (placement is an orchestrator file-write during the interactive bootstrap; automation-last).
 
 ## Context (workspace)
-- Companion evidence: `docs/coding-agent/plans/active/adr-corpus-survey.md` — 56-ADR classification (55/56 draft-criteria recall; the exception drives the negative criteria), CME negative-space analysis (three-home boundary), template-pattern findings (notably 0/56 supersedes-field usage).
+- Companion evidence: `docs/coding-agent/plans/completed/adr-corpus-survey.md` (removed on 2026-10-16, kept in git history, last version in commit `7fcf680`) — 56-ADR classification (55/56 draft-criteria recall; the exception drives the negative criteria), CME negative-space analysis (three-home boundary), template-pattern findings (notably 0/56 supersedes-field usage).
 - Design discussion: user-approved shape 2026-07-23 — criteria/format split; pointer-not-mirror config; CM-based template; bootstrap placement gated on user approval; steady state is always a pointer into the repo.
 - Constraints: v0.9.1 wiring discipline (imperative routes at binding moments; always-read budget weighed hardest); rule-writing-style evidenced scope; skills-maintenance final ambiguity pass before completion.
 

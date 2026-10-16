@@ -1,9 +1,9 @@
 # Run record: A middle size for a small change
 
-- Governing brief: `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`
 - Run starts from revision: 12b1892
-- Readings file: `docs/coding-agent/plans/active/middle-size-for-a-small-change-readings.md`. Changes file: `docs/coding-agent/plans/active/middle-size-for-a-small-change-changes.md`.
-- State: reported ready 2026-10-06, and again 2026-10-06 after small change 1 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack
+- Readings file: `docs/coding-agent/plans/completed/middle-size-for-a-small-change-readings.md`. Changes file: `docs/coding-agent/plans/completed/middle-size-for-a-small-change-changes.md`.
+- State: reported ready 2026-10-06, and again 2026-10-06 after small change 1 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack Closed 2026-10-16 on his acceptance of the stack, relayed by Counsel, quoted in full: "Good. Go for merge on the stack, PR 72 ~ 91."; its files moved to completed with its brief.
 
 ## Scenarios
 

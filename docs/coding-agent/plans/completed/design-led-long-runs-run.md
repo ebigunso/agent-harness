@@ -1,6 +1,6 @@
 # Run record: Design-led long runs
 
-- Governing brief: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`
 - Run starts from revision: 263b0f08
 - State: closed 2026-10-05; candidate ready, awaiting the owner's judgement
 

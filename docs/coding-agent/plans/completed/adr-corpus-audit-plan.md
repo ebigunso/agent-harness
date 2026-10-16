@@ -24,7 +24,7 @@
 - justification: inbound pointers inside this repository are repaired in the same commit as each move (Task_2). A citation from another repository to the old path does not follow a move; the moved file keeps its header naming the replacement, and repairing external citations is that repository's obligation when it runs the audit handoff. No external citer is known on 2026-09-06.
 
 ## Context (workspace)
-- Related files/areas: twenty-four live records and two retired ones on the PR #57 branch at commit `227fa65`; `docs/coding-agent/plans/completed/adr-corpus-survey.md` (an earlier survey of another repository's records, not this corpus).
+- Related files/areas: twenty-four live records and two retired ones on the PR #57 branch at commit `227fa65`; `docs/coding-agent/plans/completed/adr-corpus-survey.md` (an earlier survey of another repository's records, not this corpus; removed on 2026-10-16, kept in git history, last version in commit `7fcf680`).
 - Existing patterns or references: the records shaped under the criteria on PR #57 (ADR-D-0017 through ADR-D-0021) are the exemplars; `superseded/` mechanics and the retirement header form are in `durable-docs-authoring/references/adr.md` after the standard revision lands.
 - Design record consulted and deviations from its acceptance: none applies.
 

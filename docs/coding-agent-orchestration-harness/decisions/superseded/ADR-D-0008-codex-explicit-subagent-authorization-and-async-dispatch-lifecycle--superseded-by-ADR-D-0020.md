@@ -148,8 +148,8 @@ Additional validation:
 
 ## More Information
 
-- `docs/coding-agent-orchestration-harness/decisions/ADR-D-0001-canonical-harness-workflow-location.md`
-- `docs/coding-agent-orchestration-harness/decisions/ADR-I-0002-codex-bootstrap-and-loader-strategy.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md`
 - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md`
 - `plugins/coding-agent-orchestration-harness/skills/subagent-strategy/SKILL.md`
 - `plugins/coding-agent-orchestration-harness/skills/subagent-strategy/references/async-dispatch-lifecycle.md`

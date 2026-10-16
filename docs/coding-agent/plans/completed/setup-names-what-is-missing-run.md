@@ -1,6 +1,6 @@
 # Run record: Setup names what is missing
 
-- Governing brief: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md`
 - Run starts from revision: 6935b2c3
 - State: closed 2026-10-06; candidate ready, awaiting the owner's judgement
 

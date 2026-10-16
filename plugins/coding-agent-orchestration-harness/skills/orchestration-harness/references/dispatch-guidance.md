@@ -32,7 +32,7 @@ Researcher must not:
 - edit plan files;
 - call nested subagents.
 
-Ask Researcher for focused findings, relevant files, risks, existing patterns, and planning recommendations.
+Ask Researcher for focused findings toward what the research before a plan establishes (`SKILL.md` Research Dispatch Gate), with relevant files, risks, existing patterns, and planning recommendations.
 
 ## Worker Dispatch
 

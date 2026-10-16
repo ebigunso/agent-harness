@@ -62,4 +62,4 @@ Not covered: when a quoted relay counts as that person's decision and what admit
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions". Related: ADR-D-0034 (Counsel's role), ADR-D-0038 (the relay), ADR-D-0044 (the pause), ADR-D-0035 (Counsel's reach).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Roles and sessions". Related: ADR-D-0034 (Counsel's role), ADR-D-0038 (the relay), ADR-D-0044 (the pause), ADR-D-0035 (Counsel's reach).

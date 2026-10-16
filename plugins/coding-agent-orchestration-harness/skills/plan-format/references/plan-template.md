@@ -53,7 +53,7 @@ Never hard-wrap prose mid-sentence in committed plan/doc files — keep one sent
 - Q3:
 
 ## Assumptions
-- A1: <claim> — source: <file:line | design record path | unverified, checked by Task_N>
+- A1: <claim> — source: <file:line | design record path | unverified: why it is unresolved; needs <decision or evidence>, from <Task_N or whom>; dependent tasks conditional on it or awaiting replanning>
 - A2:
 - Hypothesis (only for fix-shaped plans where the cause is not yet established): <cause> ; falsified by: <observation>
 

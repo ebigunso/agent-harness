@@ -1,6 +1,6 @@
 # Run record: Setup holds and asks when several documents fit
 
-- Governing brief: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` (the statement of 2026-10-06 on several fitting documents)
+- Governing brief: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` (the statement of 2026-10-06 on several fitting documents)
 - Run starts from revision: 34cb534
 - State: closed 2026-10-06; candidate ready, awaiting the owner's judgement
 

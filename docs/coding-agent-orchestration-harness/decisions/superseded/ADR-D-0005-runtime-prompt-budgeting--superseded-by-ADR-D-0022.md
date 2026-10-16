@@ -75,6 +75,6 @@ This keeps shared behavior centralized while allowing each runtime adapter to fi
 
 ## More Information
 
-- `docs/coding-agent-orchestration-harness/decisions/ADR-D-0001-canonical-harness-workflow-location.md`
-- `docs/coding-agent-orchestration-harness/decisions/ADR-I-0002-codex-bootstrap-and-loader-strategy.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md`
 - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md`

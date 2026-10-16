@@ -6,7 +6,7 @@
 - work_type: docs
 
 ## Goal
-- The harness gives what the sections "The run", "Keeping to the philosophy without you", "A better design noticed mid-flight" and "Closeout" of `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` state, as amended on 2026-10-04.
+- The harness gives what the sections "The run", "Keeping to the philosophy without you", "A better design noticed mid-flight" and "Closeout" of `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` state, as amended on 2026-10-04.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is the second plan of the run recorded in `docs/coding-agent/plans/active/design-led-long-runs-run.md`. The first plan (`docs/coding-agent/plans/completed/design-led-long-runs-plan.md`) carried the brief form, Counsel's discussion and the Auditor role.
 
@@ -54,7 +54,7 @@
 - Related files/areas: `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/` and `skills/plan-format/`; `agents/Orchestrator.md`, `claude/agents/harness-orchestrator.md`; the three manifests; `docs/coding-agent-orchestration-harness/decisions/`.
 - Existing patterns or references: the item hold for `ask-now` and the carrier in `value-level-operation.md`; plan chaining through the Plan Gate in `lifecycle-gates.md`; the roadmap note in `plan-format/references/execution-plan-lifecycle.md`; goal mode's committed prediction and independent assessor as the precedent for prediction and stall, read and not edited.
 - Research: the Researcher report on the run across plans, received in session on 2026-10-04 and recorded as received in the first plan's Context; not on disk, so nothing here rests on it alone. Carried items are in the run record.
-- Governing brief: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; ratification relayed by Counsel on 2026-10-04 quoting the owner: "I ratify the brief, hand it to the Orchestrator." Amendments of 2026-10-04 carry the owner's quoted words beside each.
+- Governing brief: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; ratification relayed by Counsel on 2026-10-04 quoting the owner: "I ratify the brief, hand it to the Orchestrator." Amendments of 2026-10-04 carry the owner's quoted words beside each.
 - Run record: `docs/coding-agent/plans/active/design-led-long-runs-run.md`. Readings file: `docs/coding-agent/plans/active/design-led-long-runs-readings.md` (created 2026-10-05, once ADR-D-0052 was accepted). Run starts from revision: 263b0f08. This plan starts from revision: c329ac42.
 - Design record consulted and deviations from its acceptance: ADR-D-0027 to D-0029 and D-0031 (goal mode; read, kept), ADR-D-0039 (contradicted in one sentence; replaced in full by R3, put to the owner by name), ADR-D-0045 (kept: nothing is added to what the audit sends Counsel during a run, and a finding travels as a question the Orchestrator escalates because it needs the owner, which that record leaves unchanged), ADR-D-0040 and D-0041 (each plan authorized as they say; kept), ADR-D-0042 (what the closeout shows; kept), ADR-D-0044 (Counsel's pause; kept), ADR-D-0050 (the Auditor; kept).
 
@@ -217,7 +217,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
 - 2026-10-04 Plan review round 2 (Claude Reviewer on Opus): NEEDS_REVISION, three MAJORs (the run closed without condition while Q1 was open; the reading sat in the plan, where the auditor would read it before grading; findings the audit catches reached Counsel only, not the owner, and nothing held their part) and five MINORs. Applied: Task_5 closes the run only on Q1 answered that goal mode stays; the reading lives in the run record; the Orchestrator escalates every design-bearing finding itself, the audit's catches included, so ADR-D-0045 stands and its replacement is dropped; the stop is its own record; only forward scenario changes count.
 - 2026-10-04 Plan review round 1 (Claude Reviewer on Opus): NEEDS_REVISION, four MAJORs (the scope of keeping to the philosophy left goal mode out in silence; the stall test rested on the Orchestrator's own prediction; ADR-D-0039 could not be rewritten in place once the stack merges; the finding route contradicted ADR-D-0045) and six MINORs. Applied: the goal-mode conflict is an open question for the owner; the audit judges whether a plan brought the run closer and the prediction is only a claim; ADR-D-0039 and ADR-D-0045 are replaced in full by records put to the owner; names fixed for both text tasks; the watch list addressed; the missing planner-added items listed.
 
-- 2026-10-04 Value audit, plan draft (dispatch 1 for this plan). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: none." Dispatched on the strongest model, fresh context. Verdict as returned, except that an absolute path on the Orchestrator's machine is replaced by `[machine path redacted]`:
+- 2026-10-04 Value audit, plan draft (dispatch 1 for this plan). Dispatch text, verbatim: "You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: none." Dispatched on the strongest model, fresh context. Verdict as returned, except that an absolute path on the Orchestrator's machine is replaced by `[machine path redacted]`:
 
   Position: plan draft
   Documents read: `[machine path redacted]\docs\coding-agent\briefs\active\design-led-long-runs-brief.md`; `[machine path redacted]\docs\coding-agent\plans\active\run-across-plans-plan.md` (the artifact); `[machine path redacted]\docs\coding-agent\rules\common.md` (sections "Repository Reference Documents" for pointer lines and "Standing Approvals" only, at HEAD, file unmodified in the working tree)
@@ -287,7 +287,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
 - 2026-10-04 Value audit, plan draft (dispatch 2 for this plan), same dispatch text verbatim. Verdict as returned, with any absolute machine path redacted:
 
   Position: plan draft
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (from disk); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact); `docs/coding-agent/rules/common.md` at HEAD, sections "Repository Reference Documents" (pointer lines) and "Standing Approvals" only
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (from disk); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact); `docs/coding-agent/rules/common.md` at HEAD, sections "Repository Reference Documents" (pointer lines) and "Standing Approvals" only
   Product basis: brief in the product owner's words ("ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."); ratification record present ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04)
   Not audited: engineering side; `common.md` carries no pointer line to an engineering philosophy, so that side has no document
   Missing inputs: none
@@ -363,7 +363,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
   Paths in the record are relative to the repository root, `[machine path redacted]`. The record below is for the Progress Log.
 
   Position: plan draft
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (on disk; identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact; identical to HEAD); `docs/coding-agent/rules/common.md` at HEAD, sections "Repository Reference Documents" (pointer lines) and "Standing Approvals" only. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md`, and a search of `value-level-operation.md` for its stops. No discussion notes were opened.
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (on disk; identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact; identical to HEAD); `docs/coding-agent/rules/common.md` at HEAD, sections "Repository Reference Documents" (pointer lines) and "Standing Approvals" only. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md`, and a search of `value-level-operation.md` for its stops. No discussion notes were opened.
   Product basis: brief in the product owner's words ("ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."); ratification record present ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04)
   Not audited: engineering side; `common.md` carries no pointer line to an engineering philosophy, so that side has no document
   Missing inputs: none
@@ -447,7 +447,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
 - 2026-10-04 Wave-boundary audit after Wave 2, dispatch text (to a fresh Auditor dispatch on Fable; this run's audits run under the text in force until ADR-D-0052 lands, so no reading is written for it):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: wave boundary. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: c329ac42.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: wave boundary. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: c329ac42.
   ```
 
 - 2026-10-04 Wave-boundary audit after Wave 2, verdict as returned (machine paths redacted):
@@ -459,11 +459,11 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
   Paths are relative to the repository root, `[machine path redacted]`. The record below is for the Progress Log.
 
   Position: wave boundary
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (on disk, identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact, whole file); `docs/coding-agent/rules/common.md` at HEAD, pointer lines and "Standing Approvals" only (unchanged in range); `git diff c329ac42` to the working tree with both exclude pathspecs, covering the plugin, the decision records, the brief, `lessons.md` and the run record. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md`, and the kind-mark lines of `value-documents/SKILL.md`. Not opened: `docs/coding-agent/briefs/active/value-level-operation-notes.md` (modified, uncommitted; discussion notes), `.claude/pr67body.tmp` (untracked; pull request text), `.claude/settings.local.json` (untracked; local runtime settings, no part of the product).
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (on disk, identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact, whole file); `docs/coding-agent/rules/common.md` at HEAD, pointer lines and "Standing Approvals" only (unchanged in range); `git diff c329ac42` to the working tree with both exclude pathspecs, covering the plugin, the decision records, the brief, `lessons.md` and the run record. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md`, and the kind-mark lines of `value-documents/SKILL.md`. Not opened: `docs/coding-agent/briefs/completed/value-level-operation-notes.md` (modified, uncommitted; discussion notes), `.claude/pr67body.tmp` (untracked; pull request text), `.claude/settings.local.json` (untracked; local runtime settings, no part of the product).
   Product basis: brief in the product owner's words ("ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."); ratification record present ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04)
   Not audited: engineering side; `common.md` carries no pointer line to an engineering philosophy, so that side has no document
   Missing inputs: none
-  Value documents changed in range: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`, five changes; no pointer line was removed or changed.
+  Value documents changed in range: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, five changes; no pointer line was removed or changed.
   - Kind-marks line, the means clause reworded: carries no words of its own; the same amendment is recorded with his words under "A better design noticed mid-flight" ("Yeah I think that approach is better.", 2026-10-04). Counted as support.
   - "A plan that departs from a means ... is not a breach": amendment with his quoted words and date. Counted.
   - Limits, goal-mode exception and directly handled trivial work: each with his quoted words and date ("Changes to goal mode can happen for that point. The watch list stands corrected."; "I agree. Trivial work stays as it is today."). Counted.
@@ -583,7 +583,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
 - 2026-10-05 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: c329ac42.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: c329ac42.
   ```
 
 - 2026-10-05 Closeout audit, first dispatch, verdict as returned (machine paths redacted; the two comparison lines and the auditor's remarks that quote the readings are logged in the readings file, not here):
@@ -595,12 +595,12 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
   Paths are relative to the repository root, `[machine path redacted]`. The record below is for the Progress Log, except the two comparison lines, which go in the readings file.
 
   Position: closeout
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (on disk, identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact, whole file); `docs/coding-agent/rules/common.md` at HEAD, "Repository Reference Documents" and "Standing Approvals" only (unchanged in range); `git diff c329ac42` to the working tree with both exclude pathspecs, covering the plugin, the decision records, both briefs, `lessons.md` and the run record. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states), the current `value-level-operation.md`, the location lines of `value-documents/SKILL.md`. Not opened: `docs/coding-agent/briefs/active/value-level-operation-notes.md` (modified, uncommitted; discussion notes), `docs/coding-agent/briefs/active/design-led-long-runs-notes.md` (changed in range; discussion notes), `.claude/pr67body.tmp` and `.claude/settings.local.json` (untracked; pull request text and local settings). `docs/coding-agent/plans/active/design-led-long-runs-readings.md` was opened once, after the grades were fixed.
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (on disk, identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact, whole file); `docs/coding-agent/rules/common.md` at HEAD, "Repository Reference Documents" and "Standing Approvals" only (unchanged in range); `git diff c329ac42` to the working tree with both exclude pathspecs, covering the plugin, the decision records, both briefs, `lessons.md` and the run record. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states), the current `value-level-operation.md`, the location lines of `value-documents/SKILL.md`. Not opened: `docs/coding-agent/briefs/completed/value-level-operation-notes.md` (modified, uncommitted; discussion notes), `docs/coding-agent/briefs/completed/design-led-long-runs-notes.md` (changed in range; discussion notes), `.claude/pr67body.tmp` and `.claude/settings.local.json` (untracked; pull request text and local settings). `docs/coding-agent/plans/active/design-led-long-runs-readings.md` was opened once, after the grades were fixed.
   Product basis: brief in the product owner's words ("ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."); ratification record present ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04)
   Not audited: engineering side; `common.md` carries no pointer line to an engineering philosophy, so that side has no document
   Missing inputs: none
   Value documents changed in range: no pointer line was removed or changed. Two briefs changed.
-  - `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`:
+  - `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`:
     - Kind-marks line, means clause reworded: no words of its own; restates the amendment under "A better design noticed mid-flight" ("Yeah I think that approach is better.", 2026-10-04). Counted.
     - "Whether a run is getting closer is a judgement, not a count" (new gives) and the means beside it reworded: amendment 2026-10-05 with his quoted words ("You should send the actual requirement we agreed on."). Counted.
     - "A plan that departs from a means ... is not a breach": his quoted words, 2026-10-04. Counted.
@@ -609,7 +609,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
     - Limits, the goal-mode exception and directly handled trivial work: his quoted words, 2026-10-04. Counted.
     - Scenario 9 reworded, the watch list removed, four statements in its place: his quoted words, 2026-10-05 ("Yes, remove the watch list and take the rest."). Counted. The brief now has no watch list, so every watch field below is "-".
     - Agent-checkable pass condition on goal mode reworded: restates his Limits answer; counted under "Wording that restates an answer of yours needs no second yes". No grade in this range rests on it.
-  - `docs/coding-agent/briefs/active/value-level-operation-brief.md`: one parenthesis added ("Superseded in part on 2026-10-05: he removed the watch list ..."). It carries no quoted words of its own and points to the other brief. It is not the governing brief and no grade rests on it. The file does not show who wrote the change.
+  - `docs/coding-agent/briefs/completed/value-level-operation-brief.md`: one parenthesis added ("Superseded in part on 2026-10-05: he removed the watch list ..."). It carries no quoted words of its own and points to the other brief. It is not the governing brief and no grade rests on it. The file does not show who wrote the change.
 
   The earlier verdicts logged in the plan were read as claims and not relied on.
 
@@ -727,7 +727,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
 - 2026-10-05 Divergence corrected at closeout: the comparison found the Orchestrator's reading and the grade apart on the three amendments of 2026-10-05 carried to the next plan. Going back to the brief: it gives that a brief carries no watch list and that Counsel hears from the audit of nothing but provisional items, and nothing in it says a ratified statement may be contradicted by new text while its building waits. Redone: the two lines this plan itself added that restated the watch-list report (`value-level-operation.md`, Findings; ADR-D-0053, the trivial-finding bullet) now point to what a verdict sends to Counsel without naming the watch list, so this plan adds nothing the amended brief contradicts; the rest of the watch list's removal stays with the next plan as an extension, which is how the audit graded it. Also from the auditor's remarks: the list of stops now names the position gates with the item gates; the closeout list of reworded records gains ADR-D-0046 and ADR-D-0053. A second reading is written and the closeout audit is dispatched again, new:
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: c329ac42.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/run-across-plans-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: c329ac42.
   ```
 - 2026-10-05 Closeout audit, second dispatch: returned ungraded by the auditor itself. It opened the readings file among its first reads, before any grade, recognised the breach of the mandate, stopped, graded nothing and asked to be dispatched again in a fresh context; it had not read the plan or any diff content. Nothing is logged as a verdict and the run record is unchanged. A gate on the position: the same template is dispatched again, new (third dispatch, text as above). Kept as a finding for the next plan: the readings file sits beside the run record and shows in the range's file list, and only the mandate's instruction keeps an auditor from opening it.
 
@@ -749,7 +749,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
 
   Position: closeout
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` (on disk, identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact, whole file); `docs/coding-agent/rules/common.md` at HEAD, "Repository Reference Documents" and "Standing Approvals" only (unchanged in range); `git diff c329ac42` to the working tree with exclude pathspecs for the notes and readings files, covering the plugin, the decision records, both briefs, `lessons.md` and the run record. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states). Not opened: `docs/coding-agent/briefs/active/value-level-operation-notes.md` (modified, uncommitted), `docs/coding-agent/briefs/active/design-led-long-runs-notes.md` (changed in range), `.claude/pr67body.tmp` and `.claude/settings.local.json` (untracked). `docs/coding-agent/plans/active/design-led-long-runs-readings.md` opened once, after grading.
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` (on disk, identical to HEAD); `docs/coding-agent/plans/active/run-across-plans-plan.md` (the artifact, whole file); `docs/coding-agent/rules/common.md` at HEAD, "Repository Reference Documents" and "Standing Approvals" only (unchanged in range); `git diff c329ac42` to the working tree with exclude pathspecs for the notes and readings files, covering the plugin, the decision records, both briefs, `lessons.md` and the run record. Read to understand, never as support: `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states). Not opened: `docs/coding-agent/briefs/completed/value-level-operation-notes.md` (modified, uncommitted), `docs/coding-agent/briefs/completed/design-led-long-runs-notes.md` (changed in range), `.claude/pr67body.tmp` and `.claude/settings.local.json` (untracked). `docs/coding-agent/plans/active/design-led-long-runs-readings.md` opened once, after grading.
 
   Product basis: brief in the product owner's words ("ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository."); ratification record present ("I ratify the brief, hand it to the Orchestrator.", 2026-10-04)
 
@@ -758,7 +758,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
   Missing inputs: none
 
   Value documents changed in range: no pointer line removed or changed. Two briefs changed.
-  - `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`:
+  - `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`:
     - Kind-marks line, means clause reworded: no words of its own; restates the amendment under "A better design noticed mid-flight" ("Yeah I think that approach is better.", 2026-10-04). Counted.
     - "Whether a run is getting closer is a judgement, not a count" (new gives): amendment 2026-10-05 with his quoted words ("You should send the actual requirement we agreed on."). Counted. The means beside it is reworded with no words of his for the rewording; it restates the same amendment and a means does not bind.
     - "A plan that departs from a means ... is not a breach": his quoted words, 2026-10-04. Counted.
@@ -767,7 +767,7 @@ Task_4 waits for the owner; Wave 2 is written and reviewed locally meanwhile. Un
     - Limits, the goal-mode exception and directly handled trivial work: his quoted words, 2026-10-04. Counted.
     - Scenario 9 reworded, the watch list removed, four statements in its place: his quoted words, 2026-10-05 ("Yes, remove the watch list and take the rest."). Counted. The brief has no watch list, so every watch field below is "-".
     - Agent-checkable pass condition on goal mode reworded to carry the exception: quotes his Limits answer with the date; counted under "Wording that restates an answer of yours needs no second yes from you". No grade in this range rests on it.
-  - `docs/coding-agent/briefs/active/value-level-operation-brief.md`: one parenthesis added ("Superseded in part on 2026-10-05: he removed the watch list ..."). No quoted words of its own; it points to the other brief. Not the governing brief; no grade rests on it. The file does not show who wrote the change; it arrived in the same commit as the governing brief's watch-list amendment.
+  - `docs/coding-agent/briefs/completed/value-level-operation-brief.md`: one parenthesis added ("Superseded in part on 2026-10-05: he removed the watch list ..."). No quoted words of its own; it points to the other brief. Not the governing brief; no grade rests on it. The file does not show who wrote the change; it arrived in the same commit as the governing brief's watch-list amendment.
 
   Items (item | mapping | grade | support | reasons / direction | watch):
 
