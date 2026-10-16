@@ -46,4 +46,4 @@ Not covered: the cadence schedule, the three hardenings' exact wording, and the 
 
 ## More Information
 
-Replaces ADR-D-0012 together with ADR-D-0029. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillar 4. Role identities: ADR-D-0003. Merge gate: ADR-D-0031.
+Replaces ADR-D-0012 together with ADR-D-0029. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillar 4. Role identities: ADR-D-0048. Merge gate: ADR-D-0031.

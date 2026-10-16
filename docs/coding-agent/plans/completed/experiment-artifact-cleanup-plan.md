@@ -44,7 +44,7 @@
   - docs/coding-agent/experiments/**
   - .gitattributes
   - docs/coding-agent-orchestration-harness/decisions/ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md
-  - docs/coding-agent-orchestration-harness/decisions/ADR-D-0022-workflow-mechanics-have-one-home.md
+  - docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0022-workflow-mechanics-have-one-home--superseded-by-ADR-D-0049.md
   - docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0032-plan-approval-is-never-self-granted--superseded-by-ADR-D-0040.md
 - depends_on: []
 - description: |

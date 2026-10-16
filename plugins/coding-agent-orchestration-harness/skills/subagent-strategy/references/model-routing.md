@@ -10,7 +10,7 @@ Use this reference when more than one model is available for delegation. Route e
 
 A model shows a strength through its results on this kind of work in this workspace; that observation is the routing key. A model that has shown a strength is called a writing-strength, detail-strength, or long-context model below.
 
-Illustration, dated 2026-09-15: in this workspace the Claude models have shown the writing strength and the Codex models the detail-scrutiny strength. No illustration is recorded for long-context reading; route on it only after observing it. Re-observe when a model changes and replace this illustration with a newly dated one.
+Which models have shown which strength, and which models and peers a workspace has, is a dated observation that belongs to the workspace, not to this reference: it is recorded in the repository's rule files (`docs/coding-agent/rules/orchestrator.md`), which the Orchestrator reads at the start of every session, and routing follows what is recorded there. Where nothing is recorded for a strength, route on it only after observing it, and record the observation with its date. A model change is an occasion to re-observe and replace the record with a newly dated one.
 
 ## Routing by work type
 

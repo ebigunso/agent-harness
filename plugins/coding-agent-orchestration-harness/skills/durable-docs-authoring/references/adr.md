@@ -21,7 +21,7 @@ Two further boundaries: records shape the repository's product domain, so decisi
 ## Form
 
 - **One decision per record.** Test: could this record be retired on its own without touching another decision? A bundle is split before it is written.
-- **The why is prose.** Present tense, a sentence or two, the fork and the reason one branch won. Evidence lives with the experiment; when a premise is a measured fact that will expire, Revisit When names the models and the date of the check, nothing more.
+- **The why is prose.** Present tense, a sentence or two, the fork and the reason one branch won. Where a decision has a consequence for a person, saying who would experience what by it often states the reason best; no form is required. Evidence lives with the experiment; when a premise is a measured fact that will expire, Revisit When names the models and the date of the check, nothing more.
 - **The why names the statement served.** Where the repository's `docs/coding-agent/rules/common.md` "Repository Reference Documents" points to a product philosophy or an engineering philosophy, the why names the statement in it that the decision serves.
 - **Intent altitude.** The record does not mirror implementation wording, code or normative prose; the constraint is stated so that any rewording of the implementation that preserves it stays valid. Exact strings, formats, and thresholds are "not covered" and live in skill text or configuration.
 - **No time-relative wording.** Name models, people, dates, and pull requests. "Current", "older", "the fleet", "now" expire silently.
@@ -45,7 +45,7 @@ Record-plus-rule pairs are the expected shape for enforced contracts; the homes 
 
 ## Acceptance
 
-A record binds future work, so a human accepts it on its own, never by implication.
+A record binds future work, so a human accepts it on its own, never by implication. On its own means named individually: one statement may accept several records when it names each, and a statement that names none (all of them, the proposed ones) accepts none.
 
 1. When the admission test passes, state the proposal in conversation and in the plan Decision Log in the same action: title, the decision in one line, the constraint it places on future work, the why.
 2. Draft on the writing-strength side per `subagent-strategy/references/model-routing.md`.

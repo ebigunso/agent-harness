@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-05-09
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md
 ---
 
 # ADR-D-0003: Keep Logical Roles Stable While Namespacing Runtime Agent Identities
+
+Retired on 2026-10-03. Replaced by ADR-D-0048.
 
 ## Context and Problem Statement
 

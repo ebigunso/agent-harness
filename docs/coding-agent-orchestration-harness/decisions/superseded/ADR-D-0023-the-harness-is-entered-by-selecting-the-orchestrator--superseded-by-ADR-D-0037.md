@@ -5,7 +5,7 @@ date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0002-explicit-orchestrator-entrypoint--superseded-by-ADR-D-0023.md"]
+supersedes: ["ADR-D-0002-explicit-orchestrator-entrypoint--superseded-by-ADR-D-0023.md"]
 superseded_by: ../ADR-D-0037-a-session-role-is-entered-by-an-explicit-act-of-the-person-opening-it.md
 ---
 

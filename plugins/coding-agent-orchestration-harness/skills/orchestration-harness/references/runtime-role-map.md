@@ -10,6 +10,14 @@ Logical roles are stable. Physical agent names may vary by runtime.
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
 | Counsel | Counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the person directing the work |
 
+## Home Of Each Session Role
+
+A session holds one role and takes its mechanics from that role's home. It never loads another role's home; what the roles share is in a home of its own that names no role's procedure.
+
+- Orchestrator, and the Researcher, Worker and Reviewer it dispatches: the `orchestration-harness` skill and its references.
+- Counsel: the `counsel` skill and its references.
+- The forms of the value documents have a home of their own, the `value-documents` skill, which both role homes point to and which points to neither.
+
 ## Rules
 
 - Counsel is a separate session the person directing the work opens, never a subagent: no role dispatches it, and it dispatches only the Researcher. Its policy is the `counsel` skill; a Counsel session never loads `orchestration-harness`.
