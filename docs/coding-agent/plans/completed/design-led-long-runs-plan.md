@@ -1,6 +1,6 @@
 # Plan: Design-led long runs
 
-- status: completed
+- status: done
 - generated: 2026-10-04
 - last_updated: 2026-10-04
 - work_type: mixed

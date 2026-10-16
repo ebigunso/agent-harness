@@ -162,4 +162,4 @@ Additional validation:
 - `plugins/coding-agent-orchestration-harness/skills/rulebook/references/skill-candidates-file.md`
 - `plugins/coding-agent-orchestration-harness/skills/subagent-report-contract/SKILL.md`
 - `plugins/coding-agent-orchestration-harness/skills/subagent-report-contract/scripts/validate_worker_report.py`
-- `docs/coding-agent-orchestration-harness/decisions/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0006-repository-rule-suite-bootstrap-lifecycle--superseded-by-ADR-D-0024.md`

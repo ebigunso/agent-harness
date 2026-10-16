@@ -179,5 +179,5 @@ Additional validation:
 - `plugins/coding-agent-orchestration-harness/skills/rulebook/references/rules-files.md`
 - `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md`
 - `plugins/coding-agent-orchestration-harness/agents/Reviewer.md`
-- `docs/coding-agent-orchestration-harness/decisions/ADR-D-0005-runtime-prompt-budgeting.md`
-- `docs/coding-agent-orchestration-harness/decisions/ADR-I-0003-contract-first-validation-strategy.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md`
+- `docs/coding-agent-orchestration-harness/decisions/superseded/ADR-I-0003-contract-first-validation-strategy--superseded-by-ADR-I-0007.md`

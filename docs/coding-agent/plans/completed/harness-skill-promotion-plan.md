@@ -9,7 +9,7 @@
 - Promote the surviving high-value improvement themes from the CharacterMemory / CharacterMemoryEvals staging surfaces into first-party harness skills, at the homes and with the wiring verified by the three-layer triage, trimmed by the 2026-07-23 Tier A value audit (bloat-averse cut list applied).
 
 ## Definition of Done
-- All post-audit surviving items (see Normative scope) landed at their verified homes with required wiring (companion docs: `harness-skill-promotion-triage.md` for content evidence + homes; the value-audit cut list in this plan's Decision Log is authoritative where they conflict).
+- All post-audit surviving items (see Normative scope) landed at their verified homes with required wiring (companion docs: `harness-skill-promotion-triage.md` for content evidence + homes, removed on 2026-10-16 and kept in git history, last version in commit `7745439`; the value-audit cut list in this plan's Decision Log is authoritative where they conflict).
 - Every newly added always-applied or event-triggered rule has an explicit mandatory route at its binding moment (triage Trigger-chain table; item A verified as already landed in v0.8.1, not re-added).
 - Role-body edits stay byte-synchronized across the three runtimes; Codex AGENTS loader unchanged.
 - Version 0.9.0 in all three manifests; full validator set green; Codex Reviewer APPROVED.
@@ -19,7 +19,7 @@
 - Non-goals (cut by value audit, residuals noted): P3 producer/consumer reconciliation (already covered nearly verbatim by existing shards; residual metric-stage table → CME repo rules); P5c validator/fixture/smoke machinery for `design_alerts` (convention approach instead; revisit only if machine-parsed ruling automation is ever wanted); P5d adapter-body stop-alert text (absorbed into the single strengthened tripwire response sentence); P7 design-review and next-phase triggers + Plan-Gate lead-in rewording (duplicate existing Plan Gate and long-horizon-audit text); single h as a new runbook (2 lines into adapter-maintenance-checklist instead); P2 test-authoring cross-link and canary-producer bullet (latter → repo rule). Also unchanged non-goals: target-repo follow-ups; Orchestrator child-route normalization; triage KEEP REPO-LOCAL items.
 
 ## Context (workspace)
-- Companion docs: `harness-skill-promotion-triage.md` (Rev 3 homes/evidence), `harness-trigger-audit-register.md` (wiring baseline, landed in v0.8.1 / PR #40).
+- Companion docs: `harness-skill-promotion-triage.md` (Rev 3 homes/evidence), `harness-trigger-audit-register.md` (wiring baseline, landed in v0.8.1 / PR #40); both removed on 2026-10-16 and kept in git history, last version in commit `7745439`.
 - Value audit: Claude Tier A subagent, 2026-07-23 — per-item EARNS-ITS-PLACE/OVERSIZED/DELETE verdicts; cut list in Decision Log. Expensive-layer budget after cuts: ~8–10 always-read/adapter lines, no new validator code, no new fixture files.
 - Repo reference docs consulted: rules suite rules-20260513-b80f05e; `improvement-loop/references/promotion-guidelines.md`; ADR-D-0007.
 

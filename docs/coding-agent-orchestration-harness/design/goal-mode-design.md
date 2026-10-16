@@ -1,9 +1,9 @@
 # Goal Mode: Governed Long-Horizon Autonomy
 
-- status: draft (for discussion; not yet a decision record)
+- status: current (the design document for goal mode; its decisions are recorded in the ADRs that cite it)
 - role: design document — owns the goal-mode architecture and its governance model; implementation sequencing and per-runtime mechanics are companion material at the end
 - created: 2026-07-16
-- last_updated: 2026-07-16
+- last_updated: 2026-10-16
 - terminology frozen in this document: plan mode, goal mode, goal condition, gap, authority envelope, progress obligation, stall, assessor, iteration journal, checkpoint, graded escalation, irreversibility criterion, completion report
 
 ## Governing claim

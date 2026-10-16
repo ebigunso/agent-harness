@@ -85,9 +85,3 @@ Useful flags:
 - `--user-instructions add|skip|ask` controls the user-scope loader block.
 
 Normal installs write `.coding-agent-orchestration-harness-install.json` in the target agents directory by default. Use `--no-write-manifest` only when manifest creation is intentionally unwanted.
-
-## ADRs
-
-Design and implementation decisions are recorded under:
-
-`../../docs/coding-agent-orchestration-harness/decisions/`
