@@ -2,6 +2,8 @@
 
 Use this structure for user-facing closeout after harness work.
 
+Whatever the outcome, under a brief or not, the response says what was left out and why, what was not verified, and where the work scoped down, out loud rather than quietly building more to be safe; it does not describe what was done in a way that cannot be faulted. Where the repository's own text says otherwise, it wins (`engineering-quality-baselines` Precedence).
+
 1. Outcome: `done` or `blocked`, per `SKILL.md` Validation Gate; `candidate ready` in place of `done` when a run under a brief is reported ready (below).
 2. Changed files/artifacts: only those from the completed work.
 3. Validation summary: each required check as `pass`, `fail`, `skipped` with reason, or `waived` with evidence; name checks that could not run.

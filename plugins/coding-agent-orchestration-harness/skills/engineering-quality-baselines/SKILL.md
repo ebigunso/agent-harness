@@ -75,3 +75,4 @@ Stop condition: stop only when acceptance is fully met, all required validations
 - This skill guides engineering decisions, checks, and evidence expectations.
 - Repository-local documents define canonical required commands, mandatory validations, and policy precedence.
 - If there is any conflict, follow repository-local required validation mappings and governance docs.
+- Where a repository's engineering philosophy or rules say otherwise on any of the process principles the harness states (the plan review's two questions, the reading of a discovered issue, what a report says it left out or did not verify, evidence artifacts left behind, and the reason an addition carries), the repository's text is the legible authority and wins.

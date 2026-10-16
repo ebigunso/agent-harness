@@ -30,6 +30,7 @@ If any relevant architecture, language, framework, or repository-required valida
 Before final approval, confirm:
 - Required validation gates were actually executed.
 - Evidence is concrete (commands, outputs, artifacts, or review notes).
+- No evidence artifact (a test output, a probe result, a captured sample, or the like) is left in the change or lying in the working tree, untracked files included, once its claim is recorded: each one found is a finding, unless the change makes the case that future work rests on it. Regression tests are not evidence artifacts. Where the repository's own text says otherwise, it wins ([SKILL.md](../SKILL.md#precedence)).
 - Any explicitly waived checks reference the canonical required-check waiver template in [testing-validation.md](testing-validation.md#canonical-required-check-waiver-template).
 
 ## Latent-Risk Companion Check
