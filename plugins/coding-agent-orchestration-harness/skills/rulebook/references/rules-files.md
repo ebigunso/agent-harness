@@ -46,8 +46,8 @@ Repository Reference Documents also holds exactly one line for each of the two p
 
 - Pointer: `<Product | Engineering> philosophy: <path>`
 - None yet: `<Product | Engineering> philosophy: none yet. Once it exists, <what it gives>. To start one, open a Counsel session.`
-- None yet, after an objection: `<Product | Engineering> philosophy: none yet; <path> is not it. Once it exists, <what it gives>. To start one, open a Counsel session.`
-- Awaiting: `<Product | Engineering> philosophy: not settled. <path> may be it and awaits the owner's word.`
+- None yet, after an objection: `<Product | Engineering> philosophy: none yet; <path> is not it[, nor is <path> ...]. Once it exists, <what it gives>. To start one, open a Counsel session.`
+- Awaiting: `<Product | Engineering> philosophy: not settled. <path>[ or <path> ...] may be it and awaits the owner's word.`
 
 `<what it gives>` is `work here is held to the behaviour the product owner wants from the product` for the product philosophy and `work here is held to how the owner wants the project to look` for the engineering philosophy. Only the first form is a pointer line; an existing pointer line in other wording keeps it. Set these lines only through `references/bootstrap-lifecycle.md` (Philosophy Lines), which also says what is reported.
 
