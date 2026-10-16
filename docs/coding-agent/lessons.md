@@ -999,7 +999,7 @@ Evidence:
 ## 2026-09-30 - A Plan That Cites An Amendable Requirement By Position Drifts When It Is Amended  [tags: planning, review, scope-owns]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Task/Wave: Task_6 and Task_7 acceptance; found by the first live value audit
 - Roles involved: Orchestrator, Counsel (brief author), value auditor
 
@@ -1025,7 +1025,7 @@ Evidence:
 ## 2026-09-30 - A Standing Record Is Contradicted Only When Its Closure Words Are Broken  [tags: planning, documentation, adr]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Task/Wave: plan draft and Task_3
 - Roles involved: Orchestrator, Researchers, Worker, Reviewer
 
@@ -1050,7 +1050,7 @@ Evidence:
 ## 2026-09-30 - A Fix That Changes Who May Do Something Is Applied On Both Sides Of The Hand-Off  [tags: review, skill-maintenance]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Task/Wave: second wave review fixes; final review
 - Roles involved: Orchestrator, Workers, Reviewer
 
@@ -1077,7 +1077,7 @@ Evidence:
 ## 2026-09-30 - Whitespace And Frontmatter Checks Miss New Files  [tags: troubleshooting, validation]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Roles involved: Workers, Reviewer
 
 Symptom:
@@ -1101,7 +1101,7 @@ Evidence:
 ## 2026-09-30 - Record The Owner's Answer Against The Held Item Before Acting On It  [tags: orchestration, validation, correction]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Task/Wave: Task_8, before the first pull request opened
 - Roles involved: Orchestrator, Reviewer
 
@@ -1126,7 +1126,7 @@ Evidence:
 ## 2026-10-01 - A Ruling Is Provenance, Never The Reason  [tags: documentation, adr, correction]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Task/Wave: the proposed decision records read by the owner
 - Roles involved: Orchestrator, Worker (records), owner
 
@@ -1151,7 +1151,7 @@ Evidence:
 ## 2026-10-01 - Revisit When Names The Unexercised Premise, Not The First Use  [tags: documentation, adr, review]
 
 Context:
-- Plan: `docs/coding-agent/plans/active/value-level-operation-plan.md`
+- Plan: `docs/coding-agent/plans/completed/value-level-operation-plan.md`
 - Task/Wave: the three records split from the plan-approval draft (ADR-D-0040 to ADR-D-0042)
 - Roles involved: Orchestrator (author), Reviewer
 

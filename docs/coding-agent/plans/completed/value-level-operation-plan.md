@@ -1,8 +1,8 @@
 # Plan: Value-level operation of the harness
 
-- status: in_progress
+- status: done
 - generated: 2026-09-30
-- last_updated: 2026-10-03
+- last_updated: 2026-10-06
 - work_type: mixed
 
 ## Goal
@@ -1366,6 +1366,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Exception report: DL13b's line is unchanged from the previous verdict and was sent to Counsel after dispatch 5; under the rule that an unchanged line is not re-sent, it is not sent again.
   - The seven `direction` items (P8, A5, DL10, DL13b, DL28b, DL30b, W2) are what the closeout shows; sent to Counsel after its first read and listed in the final response. The Orchestrator selects none.
   - Plan hygiene: Task_11, Task_12 and Task_13 are now defined in the Tasks section with a Wave 6, and the pull-request paragraph names the third pull request. The brief gaps go to Counsel. The lesson candidate on delegated decisions in the brief goes to Counsel as well.
+- 2026-10-06 Plan closed and moved to completed. Its work and its closeout audit finished on 2026-10-03, and the one item the audit held is the merge, which waits for the owner and is no task of this plan; the file had been left in the active folder by oversight, found on 2026-10-06 after the owner asked that nothing be forgotten there.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
