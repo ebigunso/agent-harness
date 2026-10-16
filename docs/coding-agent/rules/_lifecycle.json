@@ -26,7 +26,7 @@
         "Justfile",
         "Taskfile.yml",
         "plugins/coding-agent-orchestration-harness/scripts/**",
-        "plugins/coding-agent-orchestration-harness/tests/fixtures/**",
+        "tests/coding-agent-orchestration-harness/**",
         "plugins/coding-agent-orchestration-harness/skills/*/scripts/**"
       ],
       "affects": [
