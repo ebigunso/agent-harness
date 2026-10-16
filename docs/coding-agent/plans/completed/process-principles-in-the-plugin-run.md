@@ -1,9 +1,9 @@
 # Run record: Process principles in the plugin
 
-- Governing brief: `docs/coding-agent/briefs/active/process-principles-in-the-plugin-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/process-principles-in-the-plugin-brief.md`
 - Run starts from revision: 099d78f
-- Readings file: `docs/coding-agent/plans/active/process-principles-in-the-plugin-readings.md`.
-- State: reported ready 2026-10-08 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack
+- Readings file: `docs/coding-agent/plans/completed/process-principles-in-the-plugin-readings.md`.
+- State: reported ready 2026-10-08 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack Closed 2026-10-16 on his acceptance of the stack, relayed by Counsel, quoted in full: "Good. Go for merge on the stack, PR 72 ~ 91."; its files moved to completed with its brief.
 
 ## Scenarios
 

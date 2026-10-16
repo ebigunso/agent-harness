@@ -52,4 +52,4 @@ Not covered: the terms in which the discussion itself is conducted (ADR-D-0046);
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "How a conversation with Counsel should go". Related: ADR-D-0046 (the discussion), ADR-D-0036 (the philosophy documents).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "How a conversation with Counsel should go". Related: ADR-D-0046 (the discussion), ADR-D-0036 (the philosophy documents).

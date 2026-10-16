@@ -54,4 +54,4 @@ Not covered: trivial work and its tripwires (ADR-D-0040 leaves them uncovered); 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/small-change-from-his-word-brief.md`, "Who it is for and why", "The middle size", "A small change and the run" and "Limits". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0041 (when a ratified brief authorizes a plan), ADR-D-0052 (the value audit), ADR-D-0051 (a run of units, of which a small change is one).
+Source of intent: `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "Who it is for and why", "The middle size", "A small change and the run" and "Limits". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0041 (when a ratified brief authorizes a plan), ADR-D-0052 (the value audit), ADR-D-0051 (a run of units, of which a small change is one).

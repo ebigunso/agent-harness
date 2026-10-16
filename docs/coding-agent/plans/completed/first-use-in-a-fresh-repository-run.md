@@ -1,9 +1,9 @@
 # Run record: First use in a fresh repository
 
-- Governing brief: `docs/coding-agent/briefs/active/first-use-in-a-fresh-repository-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/first-use-in-a-fresh-repository-brief.md`
 - Run starts from revision: 8b36645
-- Readings file: `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-readings.md`. Changes file: `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md`.
-- State: reported ready 2026-10-07, again 2026-10-08 after small changes 1 to 3, and again 2026-10-15 after small change 4 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack
+- Readings file: `docs/coding-agent/plans/completed/first-use-in-a-fresh-repository-readings.md`. Changes file: `docs/coding-agent/plans/completed/first-use-in-a-fresh-repository-changes.md`.
+- State: reported ready 2026-10-07, again 2026-10-08 after small changes 1 to 3, and again 2026-10-15 after small change 4 (candidate ready); open for the owner's judgement; closes on his acceptance of its stack Closed 2026-10-16 on his acceptance of the stack, relayed by Counsel, quoted in full: "Good. Go for merge on the stack, PR 72 ~ 91."; its files moved to completed with its brief.
 
 ## Scenarios
 

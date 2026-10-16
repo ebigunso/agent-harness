@@ -51,4 +51,4 @@ Not covered: the acts the person directing the work reserved (irreversible or ou
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md`, "Counsel's questions while drafting (issue 90)", including its statement of 2026-10-15 that the test applies any time Counsel puts a question to the person directing the work. Related: ADR-D-0046 (the chain as the form of the discussion), ADR-D-0034 (Counsel holds none of that person's authority), ADR-D-0054 (kinds of a brief's statements), ADR-D-0060 (ratification on framings).
+Source of intent: `docs/coding-agent/briefs/completed/counsel-questions-and-planning-research-brief.md`, "Counsel's questions while drafting (issue 90)", including its statement of 2026-10-15 that the test applies any time Counsel puts a question to the person directing the work. Related: ADR-D-0046 (the chain as the form of the discussion), ADR-D-0034 (Counsel holds none of that person's authority), ADR-D-0054 (kinds of a brief's statements), ADR-D-0060 (ratification on framings).

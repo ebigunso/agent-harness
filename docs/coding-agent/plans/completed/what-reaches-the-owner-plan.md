@@ -6,7 +6,7 @@
 - work_type: docs
 
 ## Goal
-- The harness gives what the governing brief `docs/coding-agent/briefs/active/design-led-long-runs-brief.md` states in its sections "Decision records in a run", "What reaches you, and what does not" and "Watch list" (all three amendments of 2026-10-05), and in the goal-mode exception of its Limits.
+- The harness gives what the governing brief `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md` states in its sections "Decision records in a run", "What reaches you, and what does not" and "Watch list" (all three amendments of 2026-10-05), and in the goal-mode exception of its Limits.
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is the third and last plan of the run recorded in `docs/coding-agent/plans/active/design-led-long-runs-run.md`. Its closeout is the run's closeout.
 
@@ -48,7 +48,7 @@
 - justification: the locatable consumers of the verdict record are this repository's plans and Character Memory with the plugin installed; no validator, test or fixture parses verdict lines, and a logged verdict is history that is not reread by a tool. Briefs that carry a watch list are this repository's two, both amended by the owner. A goal run in a repository with no philosophy has no value audit and is untouched.
 
 ## Context (workspace)
-- Governing brief: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; ratification relayed by Counsel on 2026-10-04 quoting the owner: "I ratify the brief, hand it to the Orchestrator." Amendments of 2026-10-04 and 2026-10-05 carry his quoted words beside each.
+- Governing brief: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; ratification relayed by Counsel on 2026-10-04 quoting the owner: "I ratify the brief, hand it to the Orchestrator." Amendments of 2026-10-04 and 2026-10-05 carry his quoted words beside each.
 - Run record: `docs/coding-agent/plans/completed/design-led-long-runs-run.md`. Readings file: `docs/coding-agent/plans/completed/design-led-long-runs-readings.md` (both under `active/` until the run closed). Run starts from revision: 263b0f08. This plan starts from revision: cc97211b.
 - Left by the second plan (`docs/coding-agent/plans/completed/run-across-plans-plan.md`): the plugin text for the three amendments; the replacement of ADR-D-0045; the held finding on the one-sided comparison of findings, whose part (the comparison in the mandate and in ADR-D-0053) is not changed until the owner has accepted the change to that record; the finding that only instruction keeps an auditor from the readings file; the closeout list of records reworded after acceptance (ADR-D-0036, 0038, 0040, 0041, 0042, 0044, 0045, 0046, 0050, 0053); two judgement calls marked `direction` for the run's closeout; the owner's go of 2026-10-04 to rebuild the unpushed commits, logged with his quoted words in the second plan's Decision Log ("The commit rebuild can happen as well."); the brief's "Not taken" is the standing approval for future rebuilds, not this go.
 - Research: two Researcher reports received in session on 2026-10-05 (goal mode and the value documents; an inventory of every place the three amendments touch). Not on disk, so nothing here rests on them alone; each Worker reads the files.
@@ -233,7 +233,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 - 2026-10-05 Plan-draft audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/what-reaches-the-owner-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: none.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: docs/coding-agent/plans/active/what-reaches-the-owner-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: none.
   ```
 
 - 2026-10-05 Plan-draft audit, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -244,7 +244,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 
   Position: plan draft
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/what-reaches-the-owner-plan.md` (artifact); `docs/coding-agent/rules/common.md` (sections "Standing Approvals" and "Repository Reference Documents" only, at HEAD; the file is unmodified)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/what-reaches-the-owner-plan.md` (artifact); `docs/coding-agent/rules/common.md` (sections "Standing Approvals" and "Repository Reference Documents" only, at HEAD; the file is unmodified)
 
   Product basis: brief in the product owner's words
 
@@ -318,7 +318,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 - 2026-10-05 Closeout audit, dispatch text (to a fresh Auditor dispatch on Fable):
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/what-reaches-the-owner-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: cc97211b.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/what-reaches-the-owner-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: cc97211b.
   ```
 
 - 2026-10-05 Closeout audit, first dispatch, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -329,7 +329,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 
   Position: closeout
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/what-reaches-the-owner-plan.md` (artifact); `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states); `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only; unchanged in range); the changes cc97211b..working tree, read with git under the two exclude pathspecs; `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` (header only, to name it below)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/what-reaches-the-owner-plan.md` (artifact); `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states); `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals" only; unchanged in range); the changes cc97211b..working tree, read with git under the two exclude pathspecs; `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` (header only, to name it below)
 
   Product basis: brief in the product owner's words
 
@@ -337,7 +337,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 
   Missing inputs: none
 
-  Value documents changed in range: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` (new, untracked; its header carries a ratification record dated 2026-10-05 and says it is handed to nobody yet and governs no run; no item here relies on it). The governing brief is unchanged since cc97211b. No pointer line was removed or changed.
+  Value documents changed in range: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` (new, untracked; its header carries a ratification record dated 2026-10-05 and says it is handed to nobody yet and governs no run; no item here relies on it). The governing brief is unchanged since cc97211b. No pointer line was removed or changed.
 
   Items, plan:
 
@@ -437,7 +437,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 - 2026-10-05 Corrections after the first closeout verdict. Readings: the fixes made in review (a gate that suspends a goal loop with no question, departures compared in both directions, the carrier's line covering goal mode) are extensions of the brief, not things it states, and the brief form's silence on a watch list is what the brief states; the readings are corrected and nothing in those items is redone, since the audit let each through as built. Findings the audit named: that a value question stops a whole goal loop was put to the owner in ADR-D-0056, which states the departure, and he accepted that record by name, so no part is held; that a wording-only call had no confirmation where no audit runs is settled from the brief's own means by adding a check, which tightens: where no value audit runs, the Reviewer's final review confirms the call. Text changed on the auditor's remarks: the record standard now says a merged record still changes only as the line on merged records allows; goal mode's sentence on loosening names the pass condition with the stop and who decides. The three wave boundaries with no audit stay as recorded and are shown at closeout. A new brief the auditor found untracked in the working tree, `setup-names-what-is-missing-brief.md`, is Counsel's and is not touched or committed by this run. The changed sentences go to the Reviewer, a third reading is written, and the closeout audit is dispatched again, new:
 
   ```text
-  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/what-reaches-the-owner-plan.md. Governing brief: docs/coding-agent/briefs/active/design-led-long-runs-brief.md. Changes since: cc97211b.
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/what-reaches-the-owner-plan.md. Governing brief: docs/coding-agent/briefs/completed/design-led-long-runs-brief.md. Changes since: cc97211b.
   ```
 
 - 2026-10-05 Closeout audit, second dispatch, verdict as returned (machine paths redacted; the two comparison lines are logged in the readings file, not here):
@@ -454,7 +454,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 
   Position: closeout
 
-  Documents read: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/what-reaches-the-owner-plan.md` (artifact, whole); `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states); `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals"; unchanged in range); the changes cc97211b..working tree, read with git under both exclude pathspecs; `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` (header only, to name it below)
+  Documents read: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`; `docs/coding-agent/plans/active/what-reaches-the-owner-plan.md` (artifact, whole); `docs/coding-agent/plans/active/design-led-long-runs-run.md` (prior scenario states); `docs/coding-agent/rules/common.md` at HEAD ("Repository Reference Documents" and "Standing Approvals"; unchanged in range); the changes cc97211b..working tree, read with git under both exclude pathspecs; `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` (header only, to name it below)
 
   Product basis: brief in the product owner's words
 
@@ -462,7 +462,7 @@ Wave 1's two tasks own disjoint files. Task_3 and Task_4 wait for the owner's ac
 
   Missing inputs: none
 
-  Value documents changed in range: `docs/coding-agent/briefs/active/setup-names-what-is-missing-brief.md` (new, untracked; its header carries a ratification record dated 2026-10-05, names Counsel as drafter, and says it is handed to nobody yet and governs no run; no item relies on it). The governing brief is unchanged since cc97211b. No pointer line was removed or changed.
+  Value documents changed in range: `docs/coding-agent/briefs/completed/setup-names-what-is-missing-brief.md` (new, untracked; its header carries a ratification record dated 2026-10-05, names Counsel as drafter, and says it is handed to nobody yet and governs no run; no item relies on it). The governing brief is unchanged since cc97211b. No pointer line was removed or changed.
 
   Items, plan:
 

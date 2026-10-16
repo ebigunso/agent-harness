@@ -1,11 +1,11 @@
 # Run record: Counsel's questions while drafting, and research before a plan
 
-- Governing brief: `docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/counsel-questions-and-planning-research-brief.md`
 - Hand-over: Counsel's relay of 2026-10-15 (01:23Z), admitted by the standing approval of 2026-10-01, quoting the owner's ratification of 2026-10-14: "I ratify the brief, hand it over now."
 - Run starts from revision: 25f9831 (the brief committed on the run's branch, on top of pull request 85's branch)
-- Readings file: `docs/coding-agent/plans/active/counsel-questions-and-planning-research-readings.md`.
-- State: candidate ready, awaiting the owner's judgement (reported ready 2026-10-15; reported ready again 2026-10-15 after small change 1)
-- Changes file: `docs/coding-agent/plans/active/counsel-questions-and-planning-research-changes.md`.
+- Readings file: `docs/coding-agent/plans/completed/counsel-questions-and-planning-research-readings.md`.
+- State: candidate ready, awaiting the owner's judgement (reported ready 2026-10-15; reported ready again 2026-10-15 after small change 1) Closed 2026-10-16 on his acceptance of the stack, relayed by Counsel, quoted in full: "Good. Go for merge on the stack, PR 72 ~ 91."; its files moved to completed with its brief.
+- Changes file: `docs/coding-agent/plans/completed/counsel-questions-and-planning-research-changes.md`.
 
 ## Scenarios
 

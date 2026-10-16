@@ -1138,7 +1138,7 @@ Prevention:
 - This repeats the 2026-05-17 lesson on self-implementation in a smaller form; read the two together.
 
 Evidence:
-- `docs/coding-agent/plans/active/first-use-in-a-fresh-repository-changes.md`, Small change 4, review finding FU4-F1.
+- `docs/coding-agent/plans/completed/first-use-in-a-fresh-repository-changes.md`, Small change 4, review finding FU4-F1.
 
 ## 2026-10-16 - A Lesson Is Applied Only When Every Prevention Sentence Has A Home  [tags: review, documentation, correction]
 
@@ -1158,7 +1158,7 @@ Prevention:
 - Before ruling that a lesson or candidate is already applied, quote the line that holds each of its prevention sentences; remove it only when every sentence has one.
 
 Evidence:
-- `docs/coding-agent/plans/active/value-level-operation-changes.md`, Small change 2, D12 and D13.
+- `docs/coding-agent/plans/completed/value-level-operation-changes.md`, Small change 2, D12 and D13.
 
 ## 2026-10-16 - The Package Validator Writes Bytecode, So A Run Of It Is Not Read-Only  [tags: validation, tooling, delegation]
 
@@ -1178,7 +1178,7 @@ Prevention:
 - A dispatch that must leave the tree untouched runs the validator and the smoke tests in a disposable copy, or says that ignored bytecode may be written.
 
 Evidence:
-- `docs/coding-agent/plans/active/value-level-operation-changes.md`, Small change 2, A2.
+- `docs/coding-agent/plans/completed/value-level-operation-changes.md`, Small change 2, A2.
 
 ## Promotion drain note (2026-10-16)
 

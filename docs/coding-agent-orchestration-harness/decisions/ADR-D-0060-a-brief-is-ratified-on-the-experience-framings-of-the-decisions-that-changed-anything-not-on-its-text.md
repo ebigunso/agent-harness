@@ -50,4 +50,4 @@ Not covered: which questions reach that person, whenever Counsel puts one, and w
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/counsel-questions-and-planning-research-brief.md`, "Counsel's questions while drafting (issue 90)". Related: ADR-D-0059 (which questions reach that person), ADR-D-0046 (the chain as the form of a framing), ADR-D-0054 (kinds of a brief's statements).
+Source of intent: `docs/coding-agent/briefs/completed/counsel-questions-and-planning-research-brief.md`, "Counsel's questions while drafting (issue 90)". Related: ADR-D-0059 (which questions reach that person), ADR-D-0046 (the chain as the form of a framing), ADR-D-0054 (kinds of a brief's statements).

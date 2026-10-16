@@ -62,4 +62,4 @@ Not covered: the brief's form, its provenance tags and its scenarios, which the 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`, its kind marks, "What a design is" and "A better design noticed mid-flight". This record fixes nothing the brief states as a means; that an unmarked statement binds is the run's own addition, made so that briefs written before kinds existed read as they did. Related: ADR-D-0053 (findings), ADR-D-0041 (authorization), ADR-D-0052 (the audit).
+Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, its kind marks, "What a design is" and "A better design noticed mid-flight". This record fixes nothing the brief states as a means; that an unmarked statement binds is the run's own addition, made so that briefs written before kinds existed read as they did. Related: ADR-D-0053 (findings), ADR-D-0041 (authorization), ADR-D-0052 (the audit).

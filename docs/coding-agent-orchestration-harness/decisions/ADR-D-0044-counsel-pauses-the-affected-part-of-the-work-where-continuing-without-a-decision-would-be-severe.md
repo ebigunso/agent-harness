@@ -64,4 +64,4 @@ Not covered: what else Counsel may say to an Orchestrator session and where its 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions". ADR-D-0034 says Counsel gives no direction on how the work is done and holds none of that person's authority; the Decision above states why a pause is neither. Related: ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0052 (the value audit's held items), ADR-D-0038 (that person's word).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Roles and sessions". ADR-D-0034 says Counsel gives no direction on how the work is done and holds none of that person's authority; the Decision above states why a pause is neither. Related: ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0052 (the value audit's held items), ADR-D-0038 (that person's word).
