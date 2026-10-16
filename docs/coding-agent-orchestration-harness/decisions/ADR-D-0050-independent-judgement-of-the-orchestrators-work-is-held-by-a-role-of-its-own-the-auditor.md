@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["superseded/ADR-D-0030-the-assessor-is-a-reviewer-dispatch-profile-not-a-fourth-role--superseded-by-ADR-D-0050.md"]
 superseded_by: null
-depends_on: ["ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "ADR-D-0039-the-orchestrator-never-grades-its-own-run-against-the-value-documents.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
+depends_on: ["ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
 # ADR-D-0050: Independent judgement of the Orchestrator's work (the value audit and the in-loop goal assessment) is held by a role of its own, the Auditor, apart from the Reviewer that checks the work for the Orchestrator
@@ -16,7 +16,7 @@ depends_on: ["ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "A
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
 
-Two judgements of the Orchestrator's own work are made by a dispatch with fresh context that the Orchestrator cannot frame: the in-loop assessment of a goal run (ADR-D-0029) and the value audit (ADR-D-0039). Both were packaged as dispatch profiles of the Reviewer role, so in every runtime they run on the Reviewer's agent, with the Reviewer's model. The Reviewer also checks the work for the Orchestrator: plan review, wave and final review, evidence. The two kinds of work differ in nature: one checks work against a packet the Orchestrator wrote, the other judges the Orchestrator from the documents alone. Sharing an agent ties them to one model, so whoever chooses models must put the strongest one on all review work because the judgement needs it. The fork is whether independent judgement stays a dispatch profile of the Reviewer or becomes a role of its own.
+Two judgements of the Orchestrator's own work are made by a dispatch with fresh context that the Orchestrator cannot frame: the in-loop assessment of a goal run (ADR-D-0029) and the value audit (ADR-D-0052). Both were packaged as dispatch profiles of the Reviewer role, so in every runtime they run on the Reviewer's agent, with the Reviewer's model. The Reviewer also checks the work for the Orchestrator: plan review, wave and final review, evidence. The two kinds of work differ in nature: one checks work against a packet the Orchestrator wrote, the other judges the Orchestrator from the documents alone. Sharing an agent ties them to one model, so whoever chooses models must put the strongest one on all review work because the judgement needs it. The fork is whether independent judgement stays a dispatch profile of the Reviewer or becomes a role of its own.
 
 ## Decision
 
@@ -44,7 +44,7 @@ Someone who sets up the harness can put a model suited to each kind of work on i
 
 Invariant: the value audit and the in-loop goal assessment are dispatched to the Auditor, a read-only role apart from the Reviewer, by a fixed location-only template logged verbatim; the Auditor's adapters restate no mandate; cadence of the in-loop assessment is verified before merge; the harness fixes no model for any role; the Decision list states the rest.
 
-Not covered: what the value audit grades and against what (ADR-D-0039 and its mandate); what the in-loop assessment judges (ADR-D-0029 and its mandate); the cadence schedule and the template texts, which their references own; the Auditor's physical names, which the role map states by each runtime's convention (ADR-D-0048); how a runtime lets a model be chosen for an agent; goal mode's admission, loop, stall rule and completion report, which are unchanged.
+Not covered: what the value audit grades and against what (ADR-D-0052 and its mandate); what the in-loop assessment judges (ADR-D-0029 and its mandate); the cadence schedule and the template texts, which their references own; the Auditor's physical names, which the role map states by each runtime's convention (ADR-D-0048); how a runtime lets a model be chosen for an agent; goal mode's admission, loop, stall rule and completion report, which are unchanged.
 
 ## Validation
 
@@ -63,4 +63,4 @@ Not covered: what the value audit grades and against what (ADR-D-0039 and its ma
 
 ## More Information
 
-Replaces ADR-D-0030 in full: its invariant (the mandate in the reference, the dispatch text fixed and journaled, cadence verified at the merge gate) is carried, and its decision that the assessor is not a role of its own is reversed; the fourth role it named as an upgrade path is taken here for a different reason, model choice. Settles what ADR-D-0039 left open, whether the audit is a dispatch profile of another role or a role of its own. Source of intent: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`, "Roles and models". Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillar 4. Related: ADR-D-0029 (the independent assessor), ADR-D-0031 (the merge gate), ADR-D-0039 (the value audit), ADR-D-0048 (role identities), ADR-D-0049 (one home per role's mechanics).
+Replaces ADR-D-0030 in full: its invariant (the mandate in the reference, the dispatch text fixed and journaled, cadence verified at the merge gate) is carried, and its decision that the assessor is not a role of its own is reversed; the fourth role it named as an upgrade path is taken here for a different reason, model choice. Settles what the record ADR-D-0052 replaced left open, whether the audit is a dispatch profile of another role or a role of its own. Source of intent: `docs/coding-agent/briefs/active/design-led-long-runs-brief.md`, "Roles and models". Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillar 4. Related: ADR-D-0029 (the independent assessor), ADR-D-0031 (the merge gate), ADR-D-0052 (the value audit), ADR-D-0048 (role identities), ADR-D-0049 (one home per role's mechanics).

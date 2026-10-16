@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0039-the-orchestrator-never-grades-its-own-run-against-the-value-documents.md", "ADR-D-0041-a-ratified-brief-authorizes-a-plan-only-through-a-closed-plan-review-and-a-value-audit-that-holds-nothing-above-the-run.md"]
+depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0041-a-ratified-brief-authorizes-a-plan-only-through-a-closed-plan-review-and-a-value-audit-that-holds-nothing-above-the-run.md"]
 ---
 
 # ADR-D-0042: Every extension the value audit lets through and every judgement call of a run is recorded in the run's records, and at closeout the person directing the work is shown only those the audit marked as bearing on the product's direction
@@ -16,7 +16,7 @@ depends_on: ["ADR-D-0039-the-orchestrator-never-grades-its-own-run-against-the-v
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
 
-Under ADR-D-0041 a plan may start with items that no value document states, when the value audit judges each a cheap-to-undo extension of statements it names; the audit grades a result on the same terms (ADR-D-0039). A run also makes judgement calls of its own: the choices Workers report and the rulings the Orchestrator makes. All of these are decisions made below the level at which the person directing the work was consulted, and that person has to be able to see them afterwards without reading every plan. The fork is how much of this reaches that person at closeout, and who chooses it.
+Under ADR-D-0041 a plan may start with items that no value document states, when the value audit judges each a cheap-to-undo extension of statements it names; the audit grades a result on the same terms (ADR-D-0052). A run also makes judgement calls of its own: the choices Workers report and the rulings the Orchestrator makes. All of these are decisions made below the level at which the person directing the work was consulted, and that person has to be able to see them afterwards without reading every plan. The fork is how much of this reaches that person at closeout, and who chooses it.
 
 ## Decision
 
@@ -29,7 +29,7 @@ Under ADR-D-0041 a plan may start with items that no value document states, when
 
 ## Why
 
-The person directing the work shapes direction at product level and should see what was decided for the product in that person's absence, not every structural choice a run made; shown everything, that person is back to reading plans. The party that made the extensions and the rulings cannot be the one that decides which of them that person sees, for the same reason it does not grade its own run (ADR-D-0039): any account it gives chooses what the judge sees. The unmarked ones are still written down, so nothing is lost, only not pushed.
+The person directing the work shapes direction at product level and should see what was decided for the product in that person's absence, not every structural choice a run made; shown everything, that person is back to reading plans. The party that made the extensions and the rulings cannot be the one that decides which of them that person sees, for the same reason it does not grade its own run (ADR-D-0052): any account it gives chooses what the judge sees. The unmarked ones are still written down, so nothing is lost, only not pushed.
 
 ## Rejected Alternatives
 
@@ -43,7 +43,7 @@ The person directing the work shapes direction at product level and should see w
 
 Invariant: every extension and every judgement call is in the run's records; the closeout shows the person directing the work only those the value audit marked as bearing on the product's direction, as the audit stated them; the Orchestrator neither chooses nor annotates them; the Decision list states the rest.
 
-Not covered: what an extension is and when it lets a plan start (ADR-D-0041); the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0039 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0039); the form of the closeout note and the rest of what it carries; where in the run's records the extensions and the judgement calls are written.
+Not covered: what an extension is and when it lets a plan start (ADR-D-0041); the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0052 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0052); the form of the closeout note and the rest of what it carries; where in the run's records the extensions and the judgement calls are written.
 
 ## Validation
 
@@ -60,4 +60,4 @@ Not covered: what an extension is and when it lets a plan start (ADR-D-0041); th
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run" and "Lifecycle". Related records: ADR-D-0039 (the value audit), ADR-D-0041 (extensions as a condition of authorization), ADR-D-0040 (the sources of authorization).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run" and "Lifecycle". Related records: ADR-D-0052 (the value audit), ADR-D-0041 (extensions as a condition of authorization), ADR-D-0040 (the sources of authorization).

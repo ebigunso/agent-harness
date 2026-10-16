@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-10-01
 deciders: ["ebigunso"]
@@ -9,7 +9,7 @@ supersedes: []
 superseded_by: null
 ---
 
-# ADR-D-0036: A product philosophy is written and amended only by the product owner, may pre-exist whoever directs the work, and where none exists no product value is inferred on the product owner's behalf
+# ADR-D-0036: A product philosophy is stated and amended only by the product owner, may pre-exist whoever directs the work, and where none exists no product value is inferred on the product owner's behalf
 
 ## Context and Problem Statement
 
@@ -34,7 +34,7 @@ Only the product owner is entitled to state the product's values, and a philosop
 
 ## Rejected Alternatives
 
-- A product philosophy exists only where the person directing the work owns the product: rejected outright; a product's philosophy is written by its owner before any given piece of work, so it can exist for a product the person directing the work does not own, and a rule that denies it would ignore a document that governs.
+- A product philosophy exists only where the person directing the work owns the product: rejected outright; a product's philosophy is stated by its owner before any given piece of work, so it can exist for a product the person directing the work does not own, and a rule that denies it would ignore a document that governs.
 - Counsel inferring product values for an absent product owner from the request: rejected outright; a product's values are the product owner's to state.
 - Grading a pre-existing product philosophy as cited only, with no inferred grade: it lost because the philosophy was written to be reasoned from, and refusing to reason from it would stop the run on what the product owner already answered; reopen if the product owner, shown inferred items, regularly rejects them.
 - Grading a request as received with inferred grades: rejected outright; a request states a goal, not values to reason from.
@@ -44,7 +44,7 @@ Only the product owner is entitled to state the product's values, and a philosop
 
 Invariant: the product values are stated and amended only by the product owner; where no product philosophy exists nothing is inferred on the product owner's behalf, and the product side is graded only on what the product owner ratified; the Decision list states the rest.
 
-Not covered: the forms and locations of the philosophies and the brief, which the value-documents reference owns; how a product-level question travels from the person directing the work to the product owner and back; how the audit records a grade and what the Orchestrator does with one, which ADR-D-0039 and the run-side procedure own; what Counsel is and whom it serves (ADR-D-0034).
+Not covered: the forms and locations of the philosophies and the brief, which the value-documents reference owns; how a product-level question travels from the person directing the work to the product owner and back; how the audit records a grade and what the Orchestrator does with one, which ADR-D-0052 and the run-side procedure own; what Counsel is and whom it serves (ADR-D-0034).
 
 ## Validation
 
@@ -59,4 +59,4 @@ Not covered: the forms and locations of the philosophies and the brief, which th
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions", "Documents, in the target repository" and "Value audit". Related: the record on Counsel (ADR-D-0034), the record on the value audit (ADR-D-0039).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions", "Documents, in the target repository" and "Value audit". Related: the record on Counsel (ADR-D-0034), the record on the value audit (ADR-D-0052).

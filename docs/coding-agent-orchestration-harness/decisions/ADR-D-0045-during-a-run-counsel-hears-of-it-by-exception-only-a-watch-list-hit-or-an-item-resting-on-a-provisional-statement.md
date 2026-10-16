@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0039-the-orchestrator-never-grades-its-own-run-against-the-value-documents.md", "ADR-D-0044-counsel-pauses-the-affected-part-of-the-work-where-continuing-without-a-decision-would-be-severe.md"]
+depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0044-counsel-pauses-the-affected-part-of-the-work-where-continuing-without-a-decision-would-be-severe.md"]
 ---
 
 # ADR-D-0045: During a run Counsel hears of it by exception only, from the value audit: an item that hits the brief's watch list, or an item let through that rests on a statement marked provisional
@@ -25,13 +25,13 @@ Counsel may pause the affected part of a run where continuing without the decisi
 - The audit checks each item it grades against the watch list and names each hit, with the entry it hit, in its verdict.
 - The second source is an item the audit lets through, graded as covered or as a cheap-to-undo extension, that rests on a statement the documents mark provisional.
 - In a run under a brief the Orchestrator sends each such item to Counsel at once, as the verdict states it and with nothing added, and the work proceeds; a line already sent is not sent again while it is unchanged.
-- A report adds no gate and removes none: the item's grade and the gates of the audit's position apply as they stand (ADR-D-0039), so an item held for a decision above the run still waits, and an item free to go ahead stops only if Counsel judges continuing severe and pauses it (ADR-D-0044). A hit is not itself a stop, and it is not a grade.
+- A report adds no gate and removes none: the item's grade and the gates of the audit's position apply as they stand (ADR-D-0052), so an item held for a decision above the run still waits, and an item free to go ahead stops only if Counsel judges continuing severe and pauses it (ADR-D-0044). A hit is not itself a stop, and it is not a grade.
 - Everything else the audit marks reaches that person at closeout as ADR-D-0042 states, and Counsel's first read of a result is formed without it. Reporting an extension that rests on a provisional statement during the run is a limited exception to extensions being shown at closeout, which ADR-D-0042 chose over showing them as they are made: it goes to Counsel, not to that person, and reaches that person during the run only if Counsel raises it.
 - The Orchestrator neither selects what is reported nor decides that a hit is too small to send: the list is that person's, and the finding is the audit's.
 
 ## Why
 
-A pause is only as good as Counsel's chance to notice in time, and Counsel cannot notice what it never sees. What it should see is decided before the run by the person whose attention is being spared, in a list short enough that a hit means something, and by the one mark already in the documents that says a statement is not yet settled. The audit finds the hits because it already reads every item at fixed positions and is the party the Orchestrator cannot frame (ADR-D-0039); the Orchestrator choosing what Counsel hears would be an account of its own work.
+A pause is only as good as Counsel's chance to notice in time, and Counsel cannot notice what it never sees. What it should see is decided before the run by the person whose attention is being spared, in a list short enough that a hit means something, and by the one mark already in the documents that says a statement is not yet settled. The audit finds the hits because it already reads every item at fixed positions and is the party the Orchestrator cannot frame (ADR-D-0052); the Orchestrator choosing what Counsel hears would be an account of its own work.
 
 ## Rejected Alternatives
 
@@ -45,7 +45,7 @@ A pause is only as good as Counsel's chance to notice in time, and Counsel canno
 
 Invariant: during a run Counsel is sent only the items the value audit names as watch-list hits or as let through on a provisional statement, as the verdict states them, at once; a report changes no gate, and work free to proceed does so unless Counsel pauses; the watch list is short, written by the person directing the work with Counsel and ratified with the brief; the Orchestrator selects nothing; the Decision list states the rest.
 
-Not covered: the pause itself and its severities (ADR-D-0044); what Counsel may say to the Orchestrator (ADR-D-0043); the audit's grades, positions and dispatch (ADR-D-0039); what is shown at closeout (ADR-D-0042); questions the Orchestrator escalates, which are unchanged; the form of the watch list in the brief and of the hit in the verdict record; how many entries a handful is; how a report travels between sessions.
+Not covered: the pause itself and its severities (ADR-D-0044); what Counsel may say to the Orchestrator (ADR-D-0043); the audit's grades, positions and dispatch (ADR-D-0052); what is shown at closeout (ADR-D-0042); questions the Orchestrator escalates, which are unchanged; the form of the watch list in the brief and of the hit in the verdict record; how many entries a handful is; how a report travels between sessions.
 
 ## Validation
 
@@ -62,4 +62,4 @@ Not covered: the pause itself and its severities (ADR-D-0044); what Counsel may 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions". Related: ADR-D-0044 (the pause this serves), ADR-D-0039 (the value audit), ADR-D-0042 (what the audit marks for closeout), ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0035 (Counsel's reach).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions". Related: ADR-D-0044 (the pause this serves), ADR-D-0052 (the value audit), ADR-D-0042 (what the audit marks for closeout), ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0035 (Counsel's reach).

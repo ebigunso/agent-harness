@@ -1191,3 +1191,20 @@ Prevention:
 
 Evidence:
 - Final review by the Codex reviewer peer, 2026-10-04, on the range from the run's start revision.
+
+## 2026-10-04 - A Changed Label Is Traced Through Its Producer, Its Consumer And The Record's Validation  [tags: review, contract, orchestration]
+
+Context:
+- The audit's comparison line had an outcome renamed when a brief amendment changed which departures from a means are raised.
+
+Symptom:
+- The mandate could still emit a design-bearing departure as not recorded, while the run-side text held only on the other label, so that case would have passed with no escalation and no hold.
+
+Fix applied:
+- The comparison has three named outcomes, and the run side holds on each design-bearing one.
+
+Prevention:
+- When an emitted label or outcome changes, list every case the producer can emit and check each against the consumer's branches and the decision record's Validation lines, in the same change.
+
+Evidence:
+- Second-round Wave 2 review by the Codex reviewer peer, 2026-10-04.

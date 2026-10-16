@@ -11,12 +11,13 @@ A verdict grades. It approves nothing by itself; plan approval is decided where 
 - Artifact by position:
   - plan draft: the plan file.
   - wave boundary and closeout: the plan file, plus everything between the revision the dispatch names and the working tree, committed or not, untracked files included. The auditor reads those changes with git itself.
-- Never an input: the Orchestrator's summary or account of the work in any form, and the discussion notes (`docs/coding-agent/briefs/*-notes.md`).
+- Never an input: the Orchestrator's summary or account of the work in any form, the discussion notes (`docs/coding-agent/briefs/*-notes.md`), and the run's readings file (`docs/coding-agent/plans/**/*-readings.md`), which is opened only after the grades are fixed (After Grading).
 - Readings that do not get around that line:
   - The plan file is the Orchestrator's writing. Read all of it, Progress Log and Decision Log included, as claims under review. None of it is support: a source the plan gives for an item, a statement it quotes from a document, and an earlier audit's verdict logged in it are each checked against the document itself or disregarded.
   - Commit messages, pull request text, Worker reports and review findings are accounts of the work. Grade what the diff does.
   - Other repository files may be read to understand what a change does, never as support for it.
   - Discussion notes stay unread when they sit beside the brief, when the brief, the plan or a philosophy links to them, and when they are part of the changes. Every git command that prints content over the range carries an exclude pathspec for `docs/coding-agent/briefs/*-notes.md`, and a notes file listed as untracked is not opened.
+  - The readings file stays unread until the grades are fixed, wherever it sits, whatever links to it, and when it is part of the changes. Every git command that prints content over the range carries an exclude pathspec for `docs/coding-agent/plans/**/*-readings.md`, and a readings file listed as untracked is not opened. Nothing in it supports, changes or reopens a grade.
   - A dispatch that carries anything beyond the fixed template has already put an account into context. Return it ungraded, naming the extra text; the audit is dispatched again in a fresh context.
 - Reported under `Missing inputs`: a document that the dispatch or a pointer line names and that is absent or unreadable; a revision that does not resolve; a governing brief the dispatch names at a path that is not under `docs/coding-agent/briefs/active/`, because a completed brief authorizes nothing and is not a governing brief; a brief that does not carry the ratification record or the product basis `value-documents/SKILL.md` requires. Do not look for a missing document at another path, rebuild it from the plan's quotations, or grade as if it said what the plan implies. Items that needed the missing input are returned `ungraded`; the rest are graded.
 - Every brief or philosophy changed inside the audited range is named under `Value documents changed in range`, whether or not the change counts. A statement added or reworded in the range is support only when the document carries the ratification record for that change: the quoted words, with the date, of whoever ratifies that document, as a brief records its ratification and its amendments. The person directing the work ratifies the brief and is called the owner below. The product owner, who may be the same person, is whoever is entitled to state the product values and answer product-level questions for the work; every amendment to a product philosophy is the product owner's, and the owner takes product-level questions to the product owner. The run commits the governing brief before it records its start revision, so a brief the range shows as new or changed is judged by this rule like any other.
@@ -32,6 +33,8 @@ A verdict grades. It approves nothing by itself; plan approval is decided where 
 - The one exception: step 1's irreversible-or-outward-facing test runs on every item before `not audited` is assigned, and an item it catches is `ask-now` on either side. An item a standing approval covers stays `not audited`, and the verdict quotes the approval.
 - With an engineering philosophy alone, only that side is audited, and the plan is approved by the user as the Plan Gate states.
 - Scope test, when the dispatch names a brief: every user-facing item either maps to the brief or is scope expansion.
+- A brief's statements count by the kind its marks give them. A gives-statement and a constraint are graded against as any statement is, and a statement with no kind binds. A means supports an item that follows it, as any statement does. An item that departs from a means is graded on the gives-statement the means serves: the departure is not a conflict between statements and not a want of support. Note the departure in the item's line, beside the gives-statement quoted, naming the means, so that the comparison covers it.
+- At a plan's closeout under a brief, state each scenario of the run (the brief's and those the run added) in one of three states: `not yet`, `demonstrated` (with how to observe it), or `ready for the owner's judgement`. Take each scenario's prior state from the run record the plan's Context section names, which holds only what audits stated, and then judge whether the run is getting closer to the design, on the evidence in the range and the record, giving the reason in a sentence. The burden of proof is on continuing: where the evidence does not show the run getting closer, the answer is that it is not. A scenario's state moving forward is evidence toward that judgement and so is its absence; no number of plans without a demonstrated scenario decides it either way, and what the Orchestrator expects of a later plan is not evidence. The run record changes only when a plan closes, so every closeout audit of one plan, a repeated one included, compares with the states the last closed plan left; before the run's first plan closes, every scenario's prior state is `not yet`.
 - At closeout, the judgement calls in the run's records are items too: each choice a Worker reported (the Progress Log entries labelled `Judgement calls`) and each ruling the Orchestrator made (its Decision Log entries and the rulings its Progress Log records). Give each the grade or record value any other item would get, and mark it `direction` when it is a decision at the level of the product philosophy or the engineering philosophy. The mark is independent of that value: a `cited`, an `inferred`, an `ask-now` and a `not audited` judgement call can each carry it, and an `ask-now` one keeps its reasons and its value question beside the mark. The closeout shows the owner the marked ones and no others, so the mark is the auditor's and never the Orchestrator's.
 
 ## Grades
@@ -56,6 +59,7 @@ Terms the order relies on:
 Relaxations that do not count:
 
 - Grading an item `cited` because the plan, a task or the Orchestrator says a document covers it. The auditor finds the statement in the document or the item is not `cited`.
+- Taking the readings file as support, or changing or reopening a grade after it is opened. It is a claim compared once the grades are fixed.
 - Grading `inferred` what is not cheap to undo, because the extension looks obviously right.
 - Treating a brief, a philosophy, a plan line or an ordinary rule as a standing approval, however plainly it states the intent.
 - Reading the request as received generously so that an item comes out `cited`. Covers means the request says it; what the product owner would surely have wanted is `ask-now`.
@@ -66,9 +70,16 @@ The two errors weigh the same. For a decision that can be undone, grading `ask-n
 
 Every `ask-now` carries a value question answerable without reading the plan, a diff or code: what the product would do or decide either way. It is never phrased as a choice between implementations. A product-side question is the product owner's to answer and reaches them through the owner.
 
+## After Grading
+
+Once every grade is fixed, open the readings file the plan's Context section names once, for the comparison only, and report it on its own lines. With no readings file, both comparison lines read `none found` and nothing else changes.
+
+- `Reading compared:` for each item graded, the Orchestrator's reading under the heading for this plan and this position against the grade (`covered` against `cited`, `extends` against `inferred`, `needs the owner` against `ask-now`): `agrees`, or `diverges` with both readings. An item the Orchestrator did not read is `unread`.
+- `Findings compared:` for each finding under `Findings`: `agrees`, or `bears on the design though read as trivial`. A finding bears on the design when acting on it would change what someone experiences from the feature; what acting on it would cost is not the measure. A departure from a means noted on an item line is compared by the same test whether or not a finding was recorded for it: one that changes what someone experiences is `bears on the design though read as trivial` when a finding recorded it as trivial and `bears on the design and not recorded` when no finding recorded it; one that changes nothing anyone experiences is `agrees`, recorded or not, and ends with its grade.
+
 ## Verdict Record
 
-Return all of the following for the plan's Progress Log:
+Return all of the following. The Orchestrator logs it in the plan's Progress Log, except the `Reading compared:` and `Findings compared:` lines, which it logs in the readings file and never in a plan:
 
 - `Position: <position>`
 - `Documents read: <paths>`
@@ -78,6 +89,9 @@ Return all of the following for the plan's Progress Log:
 - `Value documents changed in range: <paths, and each pointer line removed or changed> | none`
 - One line per item, six fields separated by ` | `: ``<item> | <maps to the brief / internal mechanics / scope expansion; "-" for a user-facing item when no brief is named> | <cited / inferred / ask-now / ungraded / not audited> | <document and quoted statement for each statement or standing approval relied on, with "provisional" beside each so marked> | <for ask-now: each reason and the value question; for inferred, and at closeout for a judgement call whatever its grade or record value: direction when it bears on the product's direction, after any ask-now text, else "-"> | <watch: followed by the entry hit, or "-">``
 - `Human-only conditions pending: <each, as the brief words it> | none`
+- `Scenarios: <each scenario and its state: not yet / demonstrated, with how to observe it / ready for the owner's judgement>; getting closer: <yes / no, with the reason> | none` (the line is `none` except at a plan's closeout under a brief)
+- `Reading compared: <per item: agrees / diverges, with both readings / unread> | none found`
+- `Findings compared: <per recorded finding, and per departure from a means noted on an item line: agrees / bears on the design though read as trivial / bears on the design and not recorded> | none found`
 
 ## Fixed Dispatch Template
 
@@ -87,4 +101,4 @@ The following is the only sanctioned dispatch wording. Its fill-ins are the posi
 You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: <plan draft | wave boundary | closeout>. Plan: <path>. Governing brief: <path | none>. Changes since: <git revision | none>.
 ```
 
-`Governing brief` is `none` only when no brief governs the run. `Changes since` is `none` only at plan draft. The Orchestrator logs the actual dispatch text verbatim in the plan's Progress Log, followed by the verdict record as returned.
+`Governing brief` is `none` only when no brief governs the run. `Changes since` is `none` only at plan draft. The Orchestrator logs the actual dispatch text verbatim in the plan's Progress Log, followed by the verdict record as returned without its two comparison lines, which go in the readings file.

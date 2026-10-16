@@ -11,6 +11,7 @@ The run answers to the person directing the work, called the owner below. The pr
 - The governing brief is the one the hand-over names, never one chosen by looking in `docs/coding-agent/briefs/`. Only a brief under `docs/coding-agent/briefs/active/` can govern a run: a hand-over that names a brief anywhere else, a completed one included, hands over no governing brief, and the answer to it says so. A run handed no brief has none and is audited against the philosophies alone; a run under a brief in a repository with no philosophy is audited against the brief alone.
 - The owner's word, here and below, is the owner's own statement in this session or an admitted relay (The Carrier says when a relay is admitted). A brief governs only once its ratification has reached this session as the owner's word. A status line in the brief records that act and is not it, and a hand-over that arrives as an agent message before relays are admitted turns nothing on and adds no pointer line: ask for the ratification first, and plan on the brief only after it.
 - A run under a brief records in the plan's Context section the brief's path and the ratification as it reached this session.
+- A brief's statements bind by the kind its marks give them. A gives-statement and a constraint bind; a statement with no kind binds too. A means is a way settled in discussion to get what a gives-statement asks for: the run builds from it and may better it. A plan or change that departs from a means records the departure as a finding (Findings); it reaches the owner only when it changes what someone experiences, and otherwise the audit grades the item against what the means was for and nothing more follows.
 - A pointer line (the path, and which philosophy it is) is added, removed or repointed only on the owner's word, never on another agent's message and never by looking for a philosophy at any path; a product philosophy pointer is added on the owner's word whoever wrote the philosophy, and an amendment to one goes to the product owner through the owner. A pointer that names an absent or unreadable file is escalated; it is never deleted or repointed to make a verdict gradeable.
 - The Orchestrator and its subagents never edit a philosophy or a brief.
 
@@ -21,8 +22,13 @@ The run answers to the person directing the work, called the owner below. The pr
   - plan draft: after the Reviewer's plan review, before the plan is presented or executed.
   - wave boundary: after each wave's integration and review are complete. `Changes since` is the revision recorded when that wave was dispatched.
   - closeout: as `references/completion-closeout.md` states.
-- Commit the handed-over brief on the run's branch first, then record in the plan's Progress Log the revision the run starts from, which the closeout audit names, so that an unchanged brief is never inside an audited range. Record the revision at each wave's dispatch as well.
-- Log each dispatch text, and the verdict as returned, verbatim in the Progress Log.
+- Commit the handed-over brief on the run's branch first, then record in the plan's Progress Log the revision the plan starts from, which the closeout audit names, so that an unchanged brief is never inside an audited range. Record the revision at each wave's dispatch as well.
+- Log each dispatch text, and the verdict as returned, verbatim in the Progress Log, except the verdict's `Reading compared:` and `Findings compared:` lines: those are logged in the readings file under that position's heading and never in a plan, so that no later audit reads them before it grades.
+
+## The Readings File
+
+- What the Orchestrator writes for the audit to compare lives in the run's readings file, `docs/coding-agent/plans/active/<run>-readings.md`, beside the run record; a run on a philosophy alone keeps one too and has no run record. Each plan's Context section records the file's path, and under a brief the run record's. Its sections are `Readings` and `Findings`. None of it is written into a plan or the run record, and none of it is ever shown to the auditor in a dispatch: the mandate opens the file only after the grades are fixed, to compare.
+- Before each audit dispatch, under a brief or on a philosophy alone, write the reading under `Readings`: a heading naming the plan and the position, then one line per item the audit will grade: the item, `covered` (the value documents cover it), `extends` (it extends them) or `needs the owner`, and the statement relied on.
 
 ## Acting On A Verdict
 
@@ -36,6 +42,8 @@ Each part of a verdict is an input (nothing waits on it), a gate on one item (th
 - `ungraded`, an entry under `Missing inputs`, or a verdict that is absent or not in the mandate's record form (gate on the position): correct an input that is the Orchestrator's own (a path or revision in the dispatch) and dispatch again, new. Never supply the missing content in the dispatch. A brief, a philosophy or a pointer line is never changed to make a verdict gradeable: that input is escalated.
 - A verdict returned ungraded because the dispatch carried extra text (gate on the position): dispatch again with the template alone.
 - `Value documents changed in range` (gate on the item when the run itself made the change, otherwise input): a change made by the Orchestrator or a subagent is escalated, and nothing relies on the changed text until the owner answers.
+- `Reading compared:` (input): each item where the reading diverges from the grade is corrected inside the run. Go back to the brief and the philosophies, re-derive what the item is for, and redo the item, so that the artifact changes (dispatching again on unchanged inputs is still not a remedy); the next audit grades the changed artifact. At closeout there is no later position, so the change is reviewed where it needs review and the closeout audit is dispatched again, new, before the plan closes. The item's own grade applies as it stands meanwhile. A difference is no stop, however often it happens, and no remedy refreshes, resets or hands off the Orchestrator's working context.
+- `Findings compared:` (gate on the part concerned, for each finding or departure from a means the line gives as bearing on the design, whether read as trivial or not recorded): each of those is escalated and its part held, as Findings below states for one read as bearing on the design. A finding the line gives as `agrees` changes nothing: a trivial one stays unraised, and one already escalated stays held until the owner answers.
 
 An `ask-now` the owner has answered:
 
@@ -47,12 +55,23 @@ Never alter, override or skip a grade. A grade that looks wrong goes to the owne
 
 At plan draft the verdict is input to the plan and is never approval, whatever its grades; whether the plan is authorized under the ratified brief or approved by the user is as `SKILL.md` Plan Gate states.
 
+## Findings
+
+- Anything noticed during the work that suggests a better design exists is a finding. Record it at once in the readings file under `Findings`, with the Orchestrator's reading: bears on the design, or trivial.
+- A finding bears on the design when acting on it would change what someone experiences from the feature. A departure from a means is read by the same test and is trivial when it changes nothing anyone experiences. What acting on it would cost is not the measure, in either direction.
+- One read as bearing on the design is escalated at once as a value question, as The Carrier states, carrying the question and not an account of the run. The part of the work it concerns is held until the owner answers, and the rest of the run continues. Record the question sent and the part held beside the finding; the answer is recorded as every owner decision is.
+- One read as trivial is not escalated as a design-level question, however cheap acting on it would be; it stays in the readings file. A finding's reading changes nothing else: what a verdict sends to Counsel (Acting On A Verdict) and what closeout shows are unchanged.
+
+## Stops
+
+Keeping to the value documents stops work for these alone: an item or a position the audit holds (the gates of Acting On A Verdict), the part a finding concerns (Findings), a run the audit finds has stopped getting closer (`references/completion-closeout.md` states when), and Counsel's pause (The Carrier). A difference between the Orchestrator's reading and a grade is none of them. The consent gates The Carrier lists keep their own rules.
+
 ## Asking The Owner
 
 - What goes to the owner is limited to questions that need a decision at the level of the product or engineering philosophy, the level that sets the product's direction. Workers choose within the bounds of their task, the Orchestrator settles what falls outside them, and those choices and rulings are kept in the plan's records in full.
 - That limit is about questions of judgement. The acts the owner reserved still reach the owner: an irreversible or outward-facing action, a merge, a decision record, a change to either philosophy, a standing approval. An irreversible or outward-facing action comes back even when the brief or a philosophy covers it, because a brief covers the intent and not the moment; the only exception is a standing approval.
 - Before escalating a question that can be undone, search the documents for the answer. Stopping on what they answer is a defect; skipping a decision that needed the owner is a harness failure. Each stop is right or wrong on its own and there is no target number of them: where the documents decide everything, the run never stops.
-- Where a direction can be reasonably inferred from the documents and is cheap to undo (as the mandate defines it), keep going and log it as an Orchestrator ruling in the plan's records. The closeout audit grades it and marks whether it bears on direction, and it is reported to the owner only if marked.
+- Where a direction can be reasonably inferred from the documents and is cheap to undo (as the mandate defines it), keep going and log it as an Orchestrator ruling in the plan's records. The closeout audit grades it and marks whether it bears on direction, and it is reported to the owner only if marked. A finding that bears on the design (Findings) is outside this rule: it is escalated and its part held even where the documents support the change and the item is graded `cited`.
 - What is documented decides, and a gap at the level of direction is what to escalate. The product's phase, its maturity and what seems to be at stake set nothing.
 - None of this removes a consent gate The Carrier lists or lowers a grade.
 

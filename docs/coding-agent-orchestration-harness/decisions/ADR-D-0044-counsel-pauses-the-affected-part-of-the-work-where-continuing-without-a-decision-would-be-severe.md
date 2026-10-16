@@ -47,7 +47,7 @@ A stop is different from a direction: waiting costs time and can be undone, whil
 
 Invariant: Counsel pauses only where continuing would be severe, only the affected part, with a stated reason and with the matter raised to that person at the same moment; the Orchestrator session holds that part until that person answers or Counsel withdraws the pause, and does not judge it; a pause directs nothing and is no decision of that person; the Decision list states the rest.
 
-Not covered: what else Counsel may say to an Orchestrator session and where its advice goes (ADR-D-0043); how a matter comes to Counsel's notice while a run is under way (ADR-D-0045); what the value audit holds, a separate stop that is unchanged (ADR-D-0039); when that person's answer counts as that person's word (ADR-D-0038); the wording of a pause notice; how the pause travels between sessions.
+Not covered: what else Counsel may say to an Orchestrator session and where its advice goes (ADR-D-0043); how a matter comes to Counsel's notice while a run is under way (ADR-D-0045); what the value audit holds, a separate stop that is unchanged (ADR-D-0052); when that person's answer counts as that person's word (ADR-D-0038); the wording of a pause notice; how the pause travels between sessions.
 
 ## Validation
 
@@ -64,4 +64,4 @@ Not covered: what else Counsel may say to an Orchestrator session and where its 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions". ADR-D-0034 says Counsel gives no direction on how the work is done and holds none of that person's authority; the Decision above states why a pause is neither. Related: ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0039 (the value audit's held items), ADR-D-0038 (that person's word).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Roles and sessions". ADR-D-0034 says Counsel gives no direction on how the work is done and holds none of that person's authority; the Decision above states why a pause is neither. Related: ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0052 (the value audit's held items), ADR-D-0038 (that person's word).

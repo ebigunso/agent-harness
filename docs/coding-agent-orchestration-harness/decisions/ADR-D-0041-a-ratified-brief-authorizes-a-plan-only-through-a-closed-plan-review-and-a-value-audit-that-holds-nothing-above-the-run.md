@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0036-a-product-philosophy-is-written-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md", "ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay.md", "ADR-D-0039-the-orchestrator-never-grades-its-own-run-against-the-value-documents.md", "ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
+depends_on: ["ADR-D-0036-a-product-philosophy-is-stated-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md", "ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
 ---
 
 # ADR-D-0041: In plan mode a ratified brief authorizes a plan only when the brief governs the work and its ratification reached the session, the plan review closed with nothing open, and the value audit finds every graded item covered or a cheap-to-undo extension and holds nothing above the run; the verdict covers the plan as it stands
@@ -16,7 +16,7 @@ depends_on: ["ADR-D-0036-a-product-philosophy-is-written-only-by-the-product-own
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
 
-ADR-D-0040 names the ratified brief, carried to the work through the value audit, as the second source of authorization and leaves the conditions to a record per mode. In plan mode the unit of work is a plan, reviewed by a Reviewer and graded by the value audit (ADR-D-0039) before execution. The fork is which conditions on the brief, the review and the verdict must hold together for the plan to start without the person directing the work reading it, and what the verdict then covers.
+ADR-D-0040 names the ratified brief, carried to the work through the value audit, as the second source of authorization and leaves the conditions to a record per mode. In plan mode the unit of work is a plan, reviewed by a Reviewer and graded by the value audit (ADR-D-0052) before execution. The fork is which conditions on the brief, the review and the verdict must hold together for the plan to start without the person directing the work reading it, and what the verdict then covers.
 
 ## Decision
 
@@ -31,7 +31,7 @@ ADR-D-0040 names the ratified brief, carried to the work through the value audit
 - The verdict is on the plan as it stands when execution starts: what is added to or changed in what the plan decides after the verdict is not authorized by that verdict and needs a later audit or the first source, and a second audit on unchanged inputs does not replace the first.
 - A verdict that is missing, malformed, leaves any item ungraded, or grades nothing on the brief's side authorizes nothing.
 - One item that requires a decision above the run means the second source does not authorize the plan: the item goes to the person directing the work, or to the product owner through that person, as a value question, and the second source can authorize only on a new audit of the plan as it then stands, after the answer is in the value documents or the plan no longer makes that decision.
-- A plan that contains an irreversible or outward-facing action that no standing approval in effect covers (ADR-D-0039) is authorized by the second source only when the plan states the action as taken on the decision of the one who holds the authority for it at its moment and not before; an action so stated does not count against the third condition; otherwise only the first source authorizes that plan.
+- A plan that contains an irreversible or outward-facing action that no standing approval in effect covers (ADR-D-0052) is authorized by the second source only when the plan states the action as taken on the decision of the one who holds the authority for it at its moment and not before; an action so stated does not count against the third condition; otherwise only the first source authorizes that plan.
 - Under either source the action itself waits: authorizing a plan lets no item go ahead that the value audit holds for a decision above the run.
 
 ## Why
@@ -43,14 +43,14 @@ The brief carries the authority of the person directing the work only as far as 
 - Only items covered by a statement count, and any extension sends the plan to the person directing the work: it stops the run where a direction can be reasonably inferred from what was documented; reopen if that person, shown such extensions at closeout, regularly rejects them.
 - The audit runs before the plan review closes: the audit would grade items the review is about to change, and the verdict would bind a plan that no longer exists; reopen if plan reviews come to leave the plan's decisions untouched.
 - A verdict missing a side's grades authorizes the other side: rejected outright; the plan is one unit of work, and half a verdict is no verdict on it.
-- The verdict follows the plan through later changes: rejected outright; the Orchestrator would decide which changes need no new audit, which is the judgement ADR-D-0039 keeps from it.
+- The verdict follows the plan through later changes: rejected outright; the Orchestrator would decide which changes need no new audit, which is the judgement ADR-D-0052 keeps from it.
 - An irreversible action in a plan always sends the plan to the first source: it makes every plan with a publish or a merge in it one the person directing the work must read; reopen if an action stated as waiting for its decision is found executed before that decision.
 
 ## Decision Boundary
 
 Invariant: in plan mode the second source authorizes a plan only through a governing brief whose ratification reached the session, a plan review closed with nothing open, and a value audit that grades every item on each side that has a document, finds each covered or a cheap-to-undo extension, and holds none above the run; the verdict covers the plan as it stood when execution started, and no item the audit holds goes ahead on either source; the Decision list states the rest.
 
-Not covered: the sources of authorization themselves and what is never one (ADR-D-0040); goal mode; the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0039 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0039); what the product side is graded against where no product philosophy exists (ADR-D-0036); what is shown of the extensions at closeout (ADR-D-0042); merge authorization; how the plan records the ratification and the verdict; the wording of the Plan Gate and the lifecycle reference.
+Not covered: the sources of authorization themselves and what is never one (ADR-D-0040); goal mode; the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0052 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0052); what the product side is graded against where no product philosophy exists (ADR-D-0036); what is shown of the extensions at closeout (ADR-D-0042); merge authorization; how the plan records the ratification and the verdict; the wording of the Plan Gate and the lifecycle reference.
 
 ## Validation
 
@@ -60,10 +60,10 @@ Not covered: the sources of authorization themselves and what is never one (ADR-
 
 ## Revisit When
 
-- Plans started under the second source turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions first, as ADR-D-0039 says; a miss on the conditions reopens this record.
+- Plans started under the second source turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions first, as ADR-D-0052 says; a miss on the conditions reopens this record.
 - An action a plan stated as waiting for its decision is found executed before that decision.
 - On 2026-09-30 the three conditions had been met together by no run on any runtime; a run that meets them and is later found to have needed the first source reopens this record.
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run", "Value audit" and "Lifecycle". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0039 (the value audit), ADR-D-0038 (how the ratification reaches the session), ADR-D-0036 (the product side's documents), ADR-D-0042 (extensions at closeout).
+Source of intent: `docs/coding-agent/briefs/active/value-level-operation-brief.md`, "Stops during a run", "Value audit" and "Lifecycle". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0052 (the value audit), ADR-D-0038 (how the ratification reaches the session), ADR-D-0036 (the product side's documents), ADR-D-0042 (extensions at closeout).
