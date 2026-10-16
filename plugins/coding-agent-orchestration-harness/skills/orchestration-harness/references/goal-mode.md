@@ -66,6 +66,8 @@ The gap reading (how the countable gap is measured) and the credibility bar for 
 
 Likewise, weakening any named invariant (deleting a failing test, relaxing an assertion, touching the measurement harness) is treated as leaving the envelope: escalate, never absorb. Proxy metrics (cheaper intermediate signals) may inform the journal but are never load-bearing.
 
+A change that loosens a stop, a pass condition or who decides is likewise ask-now; tightening any of them is free.
+
 ## Graded Escalation
 
 Four levels replace plan mode's binary proceed/blocked:
@@ -87,6 +89,16 @@ An independent assessor (a fresh-context Auditor dispatch; mandate and fixed dis
 - a slow heartbeat as the maximum gap, so assessment never stops entirely.
 
 Assessment evidence at this cadence is part of the completion report (template: `references/goal-templates.md`); completion cannot be claimed without it.
+
+## Value Audit
+
+In a repository that has a philosophy (`SKILL.md` Repository Rule Entry), the value audit also grades the run, each time as its own Auditor dispatch beside the assessor's and never combined with it. Run side: `references/value-level-operation.md` Goal-Mode Runs. It is dispatched:
+
+- on the envelope, after the Reviewer's pass on the goal-condition checklist and before the user ratifies it;
+- on each event on which the assessor is due (Assessment Cadence);
+- on the completion report, over the whole range since the revision the run started from.
+
+An item the audit holds is an ask-now (Graded Escalation), and the question surfaced is the verdict's value question. The journal records that stop and the question put, as it records any ask-now, and no grade, support or other part of a verdict.
 
 ## Goals/ Lifecycle Convention
 

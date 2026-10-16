@@ -1,6 +1,6 @@
 ---
 name: value-documents
-description: The forms of the value documents a target repository carries (product philosophy, engineering philosophy, initiative brief with its watch list, discussion notes), what each means, where each lives, and who may write or change each. Use when drafting, changing, locating, handing over, reading or grading against one of them. It is the home of no session role and holds no role's procedure; any procedure of a role appearing in it is misuse.
+description: The forms of the value documents a target repository carries (product philosophy, engineering philosophy, initiative brief, discussion notes), what each means, where each lives, and who may write or change each. Use when drafting, changing, locating, handing over, reading or grading against one of them. It is the home of no session role and holds no role's procedure; any procedure of a role appearing in it is misuse.
 ---
 
 # Value Documents
@@ -52,17 +52,18 @@ Four document types in the target repository carry what the person directing the
 - Each statement may also carry a kind mark: gives (what the work must give), constraint (fixed regardless), or means (a way, settled in discussion, to get what a gives-statement asks for). Gives and constraints bind. A means is ratified with the brief like any other statement and does not bind: the run builds from it. The mark is on the statement, not a layout: a brief keeps whatever sections state its concept best, and a means stays beside the thing it serves. A statement with no kind mark binds, so a brief with none is read with every statement binding.
 - It traces to statements in the product philosophy where there is one, and to the request as received where there is not. It states which of three it is, so the auditor and the Orchestrator can tell without asking: it traces to a product philosophy; or it is ratified in the owner's words where the owner is the product owner; or it carries the request as received from a product owner who is not the owner, in which case the product owner's words are kept as received and Counsel adds nothing to them as product value.
 - Each pass condition is marked agent-checkable or human-only. A human-only condition passes only by the owner's judgement of the result.
-- It may carry a watch list: a short list, a handful of entries, of the things the owner would want to hear about at once if they came up during the run. The owner writes it with Counsel and it is ratified with the brief. Each entry names the thing watched for in its own words. A brief with no watch list has none; nobody writes one for the owner.
+- What the owner says the work must not do, or must ask before doing, is written into it as constraints and ratified with the brief.
 - It may carry core scenarios: a few scenarios the owner defines with Counsel beforehand, ratified with the brief. They are evidence of the experience, not its definition: a run that satisfies every one and misses the experience has not delivered the design. A run may add scenarios of its own; those are its reading of the design. A brief with no core scenarios has none; nobody writes them for the owner.
 - It may list what was discussed and left out on purpose, with why, each drop confirmed by the owner.
 - It records its ratification by quoting the owner's words with the date.
 - The file on disk is the requirement, verbatim. A paraphrase of it in a plan or a message is not.
 - An amendment is ratified like the brief, and the file on disk governs.
 - A new philosophy, and an amendment to a brief or to either philosophy, carries its own ratification record, the owner's quoted words with the date, beside the statement it adds or changes.
+- Wording that restates an answer of the owner's is ratified by that answer, which is its ratification record, and needs no second yes. What Counsel infers beyond an answer is tagged inferred and has no ratification record of its own, so it is no support for the audit. A statement tagged inferred that the owner ratified with the brief keeps its support.
 
 ## Discussion notes
 
 - Unratified. One file per initiative, with typed entries: facts, assumptions, decisions, open questions.
-- The Orchestrator writes three kinds of entry: an open question for Counsel when the setup has no peer channel; an exception report for Counsel (a watch hit or a provisional-statement item, as the audit's verdict states it) when the setup has no peer channel; and a value-level ruling given in the Orchestrator session, recorded as unratified.
+- The Orchestrator writes three kinds of entry: an open question for Counsel when the setup has no peer channel; an exception report for Counsel (an item let through on a statement marked provisional, as the audit's verdict states it) when the setup has no peer channel; and a value-level ruling given in the Orchestrator session, recorded as unratified.
 - No entry is grounds for a plan or a grade, and no entry is the owner's answer.
 - The auditor never reads them.

@@ -48,7 +48,7 @@ Final response:
 - validation summary;
 - review summary;
 - rule/skill updates;
-- decision records proposed, with acceptance state;
+- decision records proposed, with acceptance state, and those whose wording changed after acceptance, one line each, asking nothing;
 - open questions/blockers.
 
 Under a brief, work is a run of one or more plans: a plan closes without `candidate ready` and the run continues into its next plan. When the run closes after its last plan, the outcome is `candidate ready` and the response is for the owner's judgement: lead with behaviour, one scenario of the brief at a time with its state and how to observe it (a scenario only the owner can judge is ready for the owner's judgement, never met; scenarios the run added as its own reading), then evidence for each agent-checkable pass condition, each human-only condition as pending, the judgement calls and `inferred` items the closeout audit of each plan marked `direction`, as the verdict states them (the full list stays in the plans' records), the design document updated or that none is kept for the field, what was learned that the philosophies do not account for, and the items above follow where needed. Detail: `references/final-response-contract.md` in `orchestration-harness`.

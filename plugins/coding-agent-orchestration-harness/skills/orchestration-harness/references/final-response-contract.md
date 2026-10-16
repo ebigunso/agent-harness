@@ -8,7 +8,7 @@ Use this structure for user-facing closeout after harness work.
 4. Review summary: Reviewer status (`APPROVED`, `NEEDS_REVISION`, `FAILED`, or waived with evidence) for non-trivial work; flows, viewports, and artifact paths when UI/E2E evidence was run.
 5. Repo rule updates, or none.
 6. Skill staging updates, or none.
-7. ADRs proposed, with acceptance state, or none — `durable-docs-authoring/references/adr.md`.
+7. ADRs proposed, with acceptance state, or none; then each ADR whose wording changed after acceptance, one line each (the record and what changed), asking nothing — `durable-docs-authoring/references/adr.md`.
 8. Questions or blockers, max 3; omit when none.
 
 Prefer short paragraphs; use lists only for parallel items.
@@ -24,4 +24,4 @@ When a run under a brief closes (`references/completion-closeout.md`) with its r
 - The design document updated at run closeout, or that the repository keeps none for the field.
 - What was learned that the philosophies do not account for, or none.
 
-Items 2 to 8 above follow that list where they are needed; decision records proposed are always listed. A run without a brief uses items 1 to 8 as they stand. When such a run was audited (value-level operation on through a philosophy alone), it keeps `done` or `blocked` and lists after item 7 the items the value audit marked `direction`, as above.
+Items 2 to 8 above follow that list where they are needed; decision records proposed, and those reworded after acceptance, are always listed. A run without a brief uses items 1 to 8 as they stand. When such a run was audited (value-level operation on through a philosophy alone), it keeps `done` or `blocked` and lists after item 7 the items the value audit marked `direction`, as above.

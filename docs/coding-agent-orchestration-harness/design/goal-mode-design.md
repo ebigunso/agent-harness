@@ -101,6 +101,10 @@ Goal completion is not merge authorization. Before the goal branch may merge, th
 
 The journal remains the backing audit trail; the report is the human interface to it. Merge stays behind the existing hard stop, informed by this report — the retrospective is cheap because the loop pre-asserted everything a retrospective would otherwise have to dig for.
 
+## The value audit in a goal run
+
+In a repository that has a philosophy, a goal run is also graded by the value audit (ADR-D-0056), as its own Auditor dispatch beside the assessor and never folded into it: on the envelope before ratification, on each event on which the assessor is due, and on the completion report over the whole range since the run's start revision. An item it holds is an ask-now, so the whole loop stops; a goal loop is one optimizer with no separable parts to hold. The audit's dispatches, verdicts and the Orchestrator's readings are kept in files beside the goal directory, and the journal records only a hold's stop and its question, so the assessor's evidence, mandate and fixed template are unchanged. The audit's fixed template is unchanged too; its mandate says how the fill-ins read for a goal run. The admission test, the stall rule and the completion rule are unchanged, the envelope is still ratified in the session, and a goal run in a repository with no philosophy is untouched.
+
 ## Runtime mapping (companion detail)
 
 The engine differs per platform; the governance above is engine-agnostic and lives in harness content, not in platform configuration.
