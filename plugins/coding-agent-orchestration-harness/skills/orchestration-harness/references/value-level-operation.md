@@ -16,7 +16,7 @@ The run answers to the person directing the work, called the owner below. The pr
 
 ## The Value Audit
 
-- The auditor's rules and the dispatch wording are in `references/value-audit-mandate.md`. Each audit is a new Reviewer-profile dispatch whose whole prompt is that file's Fixed Dispatch Template with its fill-ins, verbatim: no packet, no context, no sentence before or after. It is never the Reviewer that reviewed the plan or the wave, and never an earlier auditor continued.
+- The auditor's rules and the dispatch wording are in `references/value-audit-mandate.md`. Each audit is a new Auditor dispatch whose whole prompt is that file's Fixed Dispatch Template with its fill-ins, verbatim: no packet, no context, no sentence before or after. It is never a Reviewer dispatch, and never an earlier auditor continued.
 - Positions:
   - plan draft: after the Reviewer's plan review, before the plan is presented or executed.
   - wave boundary: after each wave's integration and review are complete. `Changes since` is the revision recorded when that wave was dispatched.

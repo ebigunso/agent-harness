@@ -1,6 +1,6 @@
 ---
 name: subagent-strategy
-description: Delegation and parallel-subagent strategy for Orchestrator. Use when you are deciding how to split work across Researcher/Worker/Reviewer, writing or refining subagent prompts, running parallel research/review, consolidating multiple subagent outputs, or when subagent calls are drifting in scope or getting bloated.
+description: Delegation and parallel-subagent strategy for Orchestrator. Use when you are deciding how to split work across Researcher/Worker/Reviewer/Auditor, writing or refining subagent prompts, running parallel research/review, consolidating multiple subagent outputs, or when subagent calls are drifting in scope or getting bloated.
 ---
 
 # Skill: subagent-strategy
@@ -19,6 +19,7 @@ This skill standardizes how the Orchestrator uses subagents to:
 - Use Workers for implementation tasks.
 - Use Researcher for read-only exploration and plan-fill inputs.
 - Use Reviewer for read-only review + E2E/visual evidence when required.
+- Use Auditor for the value audit and the in-loop goal assessment, dispatched with its fixed template only.
 
 2) One objective per subagent invocation
 - Every subagent call should have one objective and one deliverable shape.
@@ -28,7 +29,7 @@ This skill standardizes how the Orchestrator uses subagents to:
 - For complex or high-ambiguity work, run multiple Researcher calls in parallel.
 - Each Researcher call must have a narrow focus (e.g., validation/CI mapping only).
 
-4) Keep prompts bounded AND properly framed (short rationale is allowed)
+4) Keep prompts bounded AND properly framed (short rationale is allowed; an Auditor dispatch is the exception: its fixed template is the whole prompt)
 
 - Include the following prompt sections (short, explicit):
   - Objective
@@ -58,7 +59,7 @@ If the runtime setup uses multiple long-lived agents that stay alive across disp
 If multiple model platforms are available for delegation:
 - Read references/model-routing.md
 
-Before the first dispatch of a role (Researcher, Worker, or Reviewer) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless.
+Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.
 
 If you want concise prompt snippets to copy/adapt:
 - Read references/prompt-snippets.md

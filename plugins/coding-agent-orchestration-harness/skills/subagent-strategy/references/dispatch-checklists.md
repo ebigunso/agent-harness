@@ -54,7 +54,6 @@ Include:
   - require console/network notes if specified
 - When review-specific repository policy matters, include `docs/coding-agent/rules/reviewer.md` in the packet and name any relevant review hotspots from that file.
 - For plan review, the packet is the inputs the Reviewer snippet (plan review) in `prompt-snippets.md` names; no changed-files list.
-- For a value audit, nothing in this checklist applies, the optional items included: see the value audit dispatch entry in `prompt-snippets.md`.
 
 Optional (only if it materially steers decisions):
 - Context / Rationale
@@ -64,3 +63,6 @@ Optional (only if it materially steers decisions):
   - relevant latent-risk category
   - plugin skill and conditional reference to use
   - one sentence explaining why the category applies
+
+## Auditor dispatch checklist
+The whole prompt is the Fixed Dispatch Template of `orchestration-harness/references/value-audit-mandate.md` or `orchestration-harness/references/goal-assessor-mandate.md`, with its fill-ins, and nothing else: no packet, no context, no optional items.

@@ -128,6 +128,7 @@ Logical roles are stable, but physical runtime names may differ:
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
+| Auditor | Auditor | harness-auditor | harness_auditor |
 | Counsel | Counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the person directing the work |
 
 The canonical role map is `skills/orchestration-harness/references/runtime-role-map.md`.

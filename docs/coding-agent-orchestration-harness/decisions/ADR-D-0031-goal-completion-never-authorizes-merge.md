@@ -46,4 +46,4 @@ Not covered: the report's section list and wording, the retrospective procedure,
 
 ## More Information
 
-Replaces ADR-D-0013 in full; its report-enforcement-level clause is an application of ADR-I-0007. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillars 2 and 6. Cadence verification: ADR-D-0030.
+Replaces ADR-D-0013 in full; its report-enforcement-level clause is an application of ADR-I-0007. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillars 2 and 6. Cadence verification: ADR-D-0050.

@@ -9,6 +9,7 @@ Use this reference only when the assignment involves external services, Apps/con
 | Researcher | Prefer local repository evidence. Use connectors only when they materially improve research or plan-fill inputs. | Never. |
 | Worker | Do not use connectors or external-service MCP tools by default. Prefer Orchestrator-supplied context. Access requires explicit assignment for the Task_X; otherwise report the need in the Worker YAML instead of independently browsing account data. | Only when the Orchestrator explicitly assigns that exact action. |
 | Reviewer | Prefer local diffs, files, diagnostics, and validation evidence. Use connectors only when they materially improve review correctness or evidence verification. | Never. |
+| Auditor | No connectors or external-service MCP tools. Read the local inputs named by the mandate. | Never. |
 
 Do not access account-scoped data speculatively. If sensitive or unrelated data is encountered, summarize only what the assignment needs.
 
@@ -21,6 +22,7 @@ Keep context gathering read-only and limited to the assignment:
 | Researcher | Installed-account or installation checks; issue and PR discovery; PR comments, review submissions, and review context; repository metadata needed to plan work. |
 | Worker | GitHub context gathering only when explicitly assigned by the Orchestrator, limited to the Task_X. |
 | Reviewer | PR diffs and changed-file context; review comments and submissions; issue/PR acceptance context; validation evidence already attached to GitHub. |
+| Auditor | None; no GitHub connector access. |
 
 Creating PRs, changing PR state, requesting reviewers, resolving threads, dismissing reviews, editing issues, and other remote GitHub changes are subject to the role's mutation boundary above.
 
@@ -31,6 +33,7 @@ Use Gmail, calendar, chat, drive, or similar connectors only under these conditi
 - Researcher: the user request or Orchestrator assignment explicitly points to that service.
 - Worker: the assigned Task_X explicitly names that service and the needed action.
 - Reviewer: the Orchestrator assignment explicitly points to that service as review evidence.
+- Auditor: no connector access.
 
 Prefer read-only inspection. Do not archive, delete, label, move, send, or modify account data; the only role exception is a Worker explicitly assigned that exact action by the Orchestrator.
 

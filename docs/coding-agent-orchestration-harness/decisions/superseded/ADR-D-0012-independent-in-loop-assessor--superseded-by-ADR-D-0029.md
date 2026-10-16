@@ -13,7 +13,7 @@ superseded_by: ../ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md
 
 # ADR-D-0012: Independent In-Loop Assessor As A Reviewer Dispatch Profile
 
-Retired on 2026-09-08. Replaced by ADR-D-0029 and ADR-D-0030.
+Retired on 2026-09-08. Replaced by ADR-D-0029 and ADR-D-0030. ADR-D-0030 was itself replaced by ADR-D-0050 on 2026-10-04.
 
 ## Context and Problem Statement
 

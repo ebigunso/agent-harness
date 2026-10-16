@@ -1,6 +1,6 @@
 # Async Dispatch Lifecycle
 
-Use this reference only for runtimes that launch Researcher, Worker, or Reviewer agents asynchronously or as background processes.
+Use this reference only for runtimes that launch Researcher, Worker, Reviewer, or Auditor agents asynchronously or as background processes.
 
 This is Orchestrator-owned lifecycle guidance. It does not change subagent role behavior or report contracts.
 
@@ -18,7 +18,7 @@ If the runtime setup uses multiple long-lived agents that stay alive across disp
 
 Track enough state to avoid losing, duplicating, or misrouting background work:
 
-- logical role: Researcher, Worker, or Reviewer;
+- logical role: Researcher, Worker, Reviewer, or Auditor;
 - runtime physical agent name;
 - assigned objective or `Task_X`;
 - `owns` / scope boundaries;
