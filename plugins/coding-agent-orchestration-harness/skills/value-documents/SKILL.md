@@ -13,6 +13,7 @@ Four document types in the target repository carry what the person directing the
 - The owner's reading surface is three kinds of document: decision records, the product philosophy and the engineering philosophy. They shape later implementation decisions, so the owner reads them and objects to anything even slightly off.
 - Both philosophies sit above decision records. A conflict between the two philosophies is never inferred; the owner settles it, and the ruling is written into the engineering philosophy.
 - Neither philosophy need be complete up front. They grow from what each initiative forces into words and from verdicts on results, and are revised by discussion after implementation and measurement shed new light.
+- A philosophy says what the person who may change it ratified; it need not be in that person's wording. A statement Counsel originated is marked agent-proposed and, like every other, counts only on that person's ratification. A statement with no such mark is read as that person's own.
 - A statement that is not ready to settle is marked provisional where it stands.
 - None of these documents is required to take the form of the experience chain (a person with a given persona, does something, experiences something as a result, and so gains certain values). A document may use that framing where it helps communicate, and each states the concept the discussion settled on in whatever terms state it best. A product persona is the product owner's to state; Counsel supplies none and no values for one.
 
@@ -36,7 +37,7 @@ Four document types in the target repository carry what the person directing the
 - Standing. Only the product owner writes or amends it, and it may exist whoever directs the work. It states the behaviour the product owner wants from using the product, what the product owner wants out of it, and what the product owner does not want it to be.
 - Product values are the product owner's. Any amendment to a product philosophy is the product owner's to state. Where there is no product philosophy and the owner is not the product owner, a product-level judgement the request does not explicitly cover is likewise the product owner's and nobody else's; where a product philosophy exists, it is reasoned from. The engineering philosophy is unchanged by this.
 - Form: prose that gives a view to reason from, with success written as observable behaviour. No fixed fields and no length limit.
-- Its statements keep the product owner's wording. It never refers to the engineering philosophy.
+- It never refers to the engineering philosophy.
 
 ## Engineering philosophy
 
@@ -45,15 +46,19 @@ Four document types in the target repository carry what the person directing the
 
 ## Initiative brief
 
-- One initiative's acceptance. It states what and why, and contains no how.
+- One initiative's acceptance. It states what and why. How is the Orchestrator's, except where the brief states a means, or a mechanism that is itself what the owner cares about.
+- It holds the design: the experience someone gains from the feature. A design may be only a desired behaviour, which is open-ended, and may include a UI design. The design lives in the brief; no formal design document is written before the work.
 - Each statement carries a tag, told (someone said it), inferred (Counsel inferred it and nobody objected), or agent-proposed (Counsel originated it and it was accepted), and, for anything told or accepted, the quoted words of the person who said it with the date.
+- Each statement may also carry a kind mark: gives (what the work must give), constraint (fixed regardless), or means (a way, settled in discussion, to get what a gives-statement asks for). Gives and constraints bind. A means is ratified with the brief like any other statement and does not bind: the run builds from it. The mark is on the statement, not a layout: a brief keeps whatever sections state its concept best, and a means stays beside the thing it serves. A statement with no kind mark binds, so a brief with none is read with every statement binding.
 - It traces to statements in the product philosophy where there is one, and to the request as received where there is not. It states which of three it is, so the auditor and the Orchestrator can tell without asking: it traces to a product philosophy; or it is ratified in the owner's words where the owner is the product owner; or it carries the request as received from a product owner who is not the owner, in which case the product owner's words are kept as received and Counsel adds nothing to them as product value.
 - Each pass condition is marked agent-checkable or human-only. A human-only condition passes only by the owner's judgement of the result.
 - It may carry a watch list: a short list, a handful of entries, of the things the owner would want to hear about at once if they came up during the run. The owner writes it with Counsel and it is ratified with the brief. Each entry names the thing watched for in its own words. A brief with no watch list has none; nobody writes one for the owner.
+- It may carry core scenarios: a few scenarios the owner defines with Counsel beforehand, ratified with the brief. They are evidence of the experience, not its definition: a run that satisfies every one and misses the experience has not delivered the design. A run may add scenarios of its own; those are its reading of the design. A brief with no core scenarios has none; nobody writes them for the owner.
+- It may list what was discussed and left out on purpose, with why, each drop confirmed by the owner.
 - It records its ratification by quoting the owner's words with the date.
 - The file on disk is the requirement, verbatim. A paraphrase of it in a plan or a message is not.
 - An amendment is ratified like the brief, and the file on disk governs.
-- An amendment to a brief or to either philosophy carries its own ratification record, the owner's quoted words with the date, beside the statement it adds or changes.
+- A new philosophy, and an amendment to a brief or to either philosophy, carries its own ratification record, the owner's quoted words with the date, beside the statement it adds or changes.
 
 ## Discussion notes
 
