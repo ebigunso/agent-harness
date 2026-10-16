@@ -18,11 +18,10 @@ The run answers to the person directing the work, called the owner below. The pr
 ## The Value Audit
 
 - The auditor's rules and the dispatch wording are in `references/value-audit-mandate.md`. Each audit is a new Auditor dispatch whose whole prompt is that file's Fixed Dispatch Template with its fill-ins, verbatim: no packet, no context, no sentence before or after. It is never a Reviewer dispatch, and never an earlier auditor continued.
-- Positions:
+- Positions, two for each plan, with no audit dispatched between them:
   - plan draft: after the Reviewer's plan review, before the plan is presented or executed.
-  - wave boundary: after each wave's integration and review are complete. `Changes since` is the revision recorded when that wave was dispatched.
   - closeout: as `references/completion-closeout.md` states.
-- Commit the handed-over brief on the run's branch first, then record in the plan's Progress Log the revision the plan starts from, which the closeout audit names, so that an unchanged brief is never inside an audited range. Record the revision at each wave's dispatch as well.
+- Commit the handed-over brief on the run's branch first, then record in the plan's Progress Log the revision the plan starts from, which the closeout audit names, so that an unchanged brief is never inside an audited range.
 - Log each dispatch text, and the verdict as returned, verbatim in the Progress Log, except the verdict's `Reading compared:` and `Findings compared:` lines: those are logged in the readings file under that position's heading and never in a plan, so that no later audit reads them before it grades.
 
 ## The Readings File
@@ -32,7 +31,7 @@ The run answers to the person directing the work, called the owner below. The pr
 
 ## Acting On A Verdict
 
-Each part of a verdict is an input (nothing waits on it), a gate on one item (that item waits; the rest of the run need not), or a gate on the position (the plan is not presented, the next wave is not dispatched, or closeout does not proceed).
+Each part of a verdict is an input (nothing waits on it), a gate on one item (that item waits; the rest of the run need not), or a gate on the position (the plan is not presented, or closeout does not proceed).
 
 - `cited` (input): nothing to do.
 - `inferred` (input): the item goes ahead. Note it in the Progress Log as an inferred call, as the verdict's item line states it, mark included, marked provisional when the verdict marks a statement it relies on so.

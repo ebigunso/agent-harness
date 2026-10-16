@@ -1238,7 +1238,7 @@ Fix applied:
 - The closeout audit covers the plan's whole range; the miss is recorded in the plan.
 
 Prevention:
-- After a wave's review closes, the next action is the wave-boundary audit dispatch, and the next wave's Worker dispatch comes only after its verdict is logged. When waves are reordered, write the audit into the new order explicitly.
+- After a wave's review closes, the next action is the wave-boundary audit dispatch, and the next wave's Worker dispatch comes only after its verdict is logged. When waves are reordered, write the audit into the new order explicitly. Overtaken the same day: the owner amended the brief so that the value audit runs at a plan's draft and close only. What stays of this lesson: a required gate is written into the order of work when the order changes, not left to memory.
 
 Evidence:
 - Third plan of the design-led long runs brief, 2026-10-05, found by the Orchestrator when reaching the closeout.
