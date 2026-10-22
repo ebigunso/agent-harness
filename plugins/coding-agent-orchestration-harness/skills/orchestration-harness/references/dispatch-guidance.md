@@ -36,6 +36,8 @@ Researcher must not:
 
 Ask Researcher for focused findings toward what the research before a plan establishes (`SKILL.md` Research Dispatch Gate), with relevant files, risks, existing patterns, and planning recommendations.
 
+For a plan task of type `research`, include its `task_id`, title, acceptance criteria and the validation items it assigns to its executor, and ask for the task report the Researcher agent's Research task dispatch section states.
+
 ## Worker Dispatch
 
 Worker executes exactly one atomic Task_X, of any type but `research`; a research task goes to a Researcher (Researcher Dispatch above).

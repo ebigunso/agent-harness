@@ -40,7 +40,7 @@ Logical role names in plans and skills remain Orchestrator, Researcher, Worker, 
    - Required validation must name an owner.
 
 4. Validation Gate
-   - Worker-owned required validation must be evidenced in the Worker YAML report.
+   - Worker-owned required validation must be evidenced in the Worker YAML report; for a task of type `research`, in its Researcher's task report instead (`orchestration-harness/references/completion-closeout.md` Task_X Done Criteria).
    - Reviewer-owned required validation must be independently evidenced by Reviewer.
    - Missing required evidence means blocked, not done.
 

@@ -82,7 +82,7 @@ Dispatch Workers in parallel by default when dependencies are met and `owns` are
 
 Do not mark a Task_X or plan complete unless all required validation is satisfied. Required validation is required unless explicitly optional, waived by the user/Orchestrator with evidence, or owned by the user and acknowledged as pending.
 
-- Worker-owned required validation must be executed and evidenced in the Worker YAML report.
+- Worker-owned required validation must be executed and evidenced in the Worker YAML report; for a task of type `research`, in its Researcher's task report instead (`references/completion-closeout.md` Task_X Done Criteria).
 - Reviewer-owned required validation must be executed and evidenced by Reviewer.
 - Missing required evidence means blocked, not done.
 - Required validation skipped without waiver evidence blocks completion.
