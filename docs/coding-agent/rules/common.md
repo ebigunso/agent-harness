@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "common"
-last_updated: "2026-10-22"
+last_updated: "2026-10-23"
 ---
 
 # Common Repository Rules
@@ -54,7 +54,7 @@ This is the workspace's record of the options for dispatch that `subagent-strate
 - Research, the owner's setting of 2026-10-22: research goes to the stronger option with the strength it needs, cost notwithstanding, since research is where insight is valued. Forensic research goes to `agent-harness-researcher`; exploratory or design research to a Claude subagent on Fable. This holds for the Orchestrator and Counsel alike.
 - So, for the other roles, by default: correctness-tier review, checks and scripts whose acceptance is mechanical precision go to the Codex worker and reviewer seats; delegated prose implementation (skill text, references, READMEs) and design-tier review go to Claude subagents. Model choice never moves role ownership: plans and rule files stay with the Orchestrator. A decision record may be drafted by a Worker as `durable-docs-authoring/references/adr.md` states; the Orchestrator checks that the draft says what was decided. Prose a Codex seat authored is finalized under the Prose quality rules of `subagent-strategy/references/model-routing.md`.
 - Cost, the owner's setting, stated 2026-10-04 and his to change, for every role but research: Opus is an acceptable cheap model; Fable and Astra count as expensive. The worker and reviewer seats may be dispatched freely. So checking work (plan, wave and final review) and Worker tasks go to those seats or to Opus by the kind of work, and Fable is kept for what needs it: independent judgement of the Orchestrator's work.
-- The Auditor (the value audit and the in-loop goal assessment) is held here by a Claude subagent on Fable, apart from whoever holds the Reviewer; this is the owner's setting to change. Before it moves to another model, the candidates are compared on replayed past audits (brief of 2026-10-22, `choosing-where-research-goes`); the outcome is recorded here with its date. The researcher seat audits no run it helped shape.
+- The Auditor (the value audit and the in-loop goal assessment) is held here by a Claude subagent on Fable, apart from whoever holds the Reviewer; this is the owner's setting to change. Before it moves to another model, the candidates are compared on replayed past audits (brief of 2026-10-22, `choosing-where-research-goes`); the outcome is recorded here with its date. 2026-10-23: compared on five replayed audits against the owner's adjudication, Fable showed the strength (fewer stops he would not have made, fewer trivial findings brought to him, slightly better source support); the Auditor stays on Fable (`choosing-where-research-goes-auditor-comparison.md`). The researcher seat audits no run it helped shape.
 - Before the first dispatch of a run to a seat, whichever session dispatches sends that seat a message and confirms it answers. A seat that stays silent is reported to the user, with what was sent and when; its work is not given to a Claude subagent without saying so in the plan (or to Counsel's owner) and to the user, and the seat is tried again at the next dispatch that suits it.
 - Route agmsg dispatch only to the registered `agent-harness-*` seats; never spawn new seats or run headless sessions for dispatch. Ephemeral headless `codex exec` and `claude -p` sessions are allowed only as measurement instruments: ablation probes and the Auditor comparison's replays.
 
