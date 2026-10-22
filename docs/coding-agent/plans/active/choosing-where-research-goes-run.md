@@ -8,14 +8,14 @@
 
 ## Scenarios
 
-State is one of: not yet; demonstrated (with how to observe); ready for the owner's judgement.
+State is one of: not yet; demonstrated (with how to observe); ready for the owner's judgement. States are the Auditor's, copied from the closing verdict; the last audit stating scenarios is none so far (the plan-draft audits of 2026-10-22: Scenarios none). The fixture and replay outcomes are in the plan's Progress Log.
 
 | Scenario | State |
 | --- | --- |
-| 1. A plan here needs a forensic census before drafting: it goes to the Researcher role on the recorded detail-strength option, as its own dispatch with its own report; no Worker task carries it. | demonstrated on a fixture (Task_4, Progress Log); the real run is the owner's to judge |
+| 1. A plan here needs a forensic census before drafting: it goes to the Researcher role on the recorded detail-strength option, as its own dispatch with its own report; no Worker task carries it. | not yet |
 | 2. Counsel's check-up goes to the recorded researcher option and the report arrives without filling Counsel's session. | not yet |
-| 3. The plugin in a workspace with no peers and one model yields an in-session Researcher subagent, and nothing asks for a seat that is not there. | demonstrated on a fixture (Task_4, Progress Log) |
-| 4. Plan review flags research bundled into an implementation task. | demonstrated on a fixture (Task_4, Progress Log): the bundled plan flagged, the control not |
+| 3. The plugin in a workspace with no peers and one model yields an in-session Researcher subagent, and nothing asks for a seat that is not there. | not yet |
+| 4. Plan review flags research bundled into an implementation task. | not yet |
 | 5. The Auditor comparison: past audits replayed on both models in fresh sessions, the owner adjudicates once, and the rule file records which model showed the strength, dated. | not yet |
 
 ## Units

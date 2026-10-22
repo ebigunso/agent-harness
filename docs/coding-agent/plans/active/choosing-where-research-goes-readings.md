@@ -40,4 +40,3 @@ Every item not listed reads as above.
 - Planner-added 1 (the control: a task stating only the change, no step to read or find out first) | extends | brief, scenario 4; a check that flags every implementation task would show nothing
 - Task_2 (the snippet flags a task that reads, investigates or finds out first and then changes; not one stating only the change) | covered | as DoD 4
 - Task_4 (the bundled fixture worded in the brief's own words; the control a task stating only the change) | covered | brief, scenario 4; pass condition "scenarios 1, 4 and 5 are shown where one can be made"
-
