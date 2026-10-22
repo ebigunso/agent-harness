@@ -47,3 +47,8 @@
 - Where the statement stands in the brief: the same statement as small change 1, `docs/coding-agent/briefs/active/choosing-where-research-goes-brief.md`, "Directed after the run was reported ready" (committed b6d967f): "A plan task of type research closes on the Researcher's report ... nothing else in the run changes." The built text fails that statement for a research task with browser evidence; the fix makes it meet it, and keeps the Researcher's existing permission unchanged, so no new question goes to the owner. Finding recorded in the readings file as trivial.
 - Starts from revision: 11e635f.
 - The Orchestrator's call: small, no plan; one task, the two sentences only: the ownership reading for a research task holds when the only files it created are artifacts under the provider-defined artifact root; implementation and plan edits still fail it. Routed to the same Claude Worker on Opus; review by the Codex reviewer seat; closing audit on Fable.
+
+## Build and checks of small change 2
+
+- Worker report (the same Claude Worker on Opus, task SC2, `done`, one YAML block, two files, one line each) at 2175a7e: the ownership reading in the wave-integration contract and the `owns` sentence in completion-closeout now hold when the only files the research task created are artifacts under the provider-defined artifact root, as dispatch-guidance's Researcher Dispatch permits, and fail on any other edit. Required validation pass: package validator, smoke tests, `git diff --check`, no seat or model name; re-run by the Orchestrator before commit.
+  - Judgement calls (Worker): each pointer uses its file's existing path style; "the files the task created", as the dispatch worded it.
