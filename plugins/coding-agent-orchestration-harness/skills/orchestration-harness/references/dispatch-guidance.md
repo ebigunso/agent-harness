@@ -26,7 +26,9 @@ Researcher may:
 - read workspace files;
 - inspect docs/rules/plans;
 - run bounded UI research through a selected provider when it materially improves planning;
-- create artifacts only under the provider-defined artifact root when using browser/UI tooling.
+- create evidence in line with its task;
+- create artifacts only under the provider-defined artifact root when using browser/UI tooling;
+- modify an existing file only when the dispatch names that file as granted, specifically, where the research objective needs it; with no grant it is read-only.
 
 Researcher must not:
 
