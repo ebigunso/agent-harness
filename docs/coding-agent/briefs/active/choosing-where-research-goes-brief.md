@@ -47,6 +47,8 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 
 - A Researcher may gather evidence in line with its task, browser evidence included, and the task still closes on its report. What is prohibited for a read-only Researcher, which is the default, is modifying existing files outside the task's scope. The Orchestrator may grant permission to modify a named file, specifically, where touching it is necessary to complete the research objective. **gives** *(told 2026-10-23, asked whether a research task closes when its Researcher saved browser evidence (A) or only when it saved nothing (B): "Gathering evidence in line with the task at hand will be permitted for a researcher. Modifying existing files outside the task's scope is what should be prohibited for a read only research, which should be the default. But, permission to modify files can be granted specifically by the orchestrator, if touching said file is necessary to complete the research objective.")*
 
+- The Copilot review comments on pull request 92 are checked and each is addressed, by fixing the problem or by dismissing it, and in either case the comment is resolved. **gives** *(told 2026-10-23: "Have it check copilot comments on the PR and address them by either fixing the problem, or dismissing it, in either case resolving the comment.")*
+
 ## Limits
 
 - No seat, peer or model is assumed by the plugin; what a workspace has is only ever read from its own record. **constraint** *(told, see above)*
