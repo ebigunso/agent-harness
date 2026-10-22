@@ -52,3 +52,9 @@
 
 - Worker report (the same Claude Worker on Opus, task SC2, `done`, one YAML block, two files, one line each) at 2175a7e: the ownership reading in the wave-integration contract and the `owns` sentence in completion-closeout now hold when the only files the research task created are artifacts under the provider-defined artifact root, as dispatch-guidance's Researcher Dispatch permits, and fail on any other edit. Required validation pass: package validator, smoke tests, `git diff --check`, no seat or model name; re-run by the Orchestrator before commit.
   - Judgement calls (Worker): each pointer uses its file's existing path style; "the files the task created", as the dispatch worded it.
+- Review (Codex reviewer, 11e635f..0a512f4): APPROVED, no findings.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable), readings written first:
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/choosing-where-research-goes-changes.md. Governing brief: docs/coding-agent/briefs/active/choosing-where-research-goes-brief.md. Changes since: 11e635f.
+  ```
