@@ -90,3 +90,9 @@
 - The Orchestrator's ruling, corrected: on Codex a Researcher's write access is the parent session's, never the template's; a grant can be honoured only where the session can write, and a Researcher that cannot write a granted file says so in its report. The Claude and Copilot settings stand.
 - Round 3 (the same Worker, task SC2b, `done`, six files) at 5fa8f99: the Codex template's `sandbox_mode` restored to "read-only" (its value before the change); the three adapter bodies read "modify an existing file the dispatch does not name as granted; with no grant you modify no existing file, and if the session cannot write a granted file, say so in your report rather than working around it"; dispatch-guidance's "with no grant it is read-only" becomes "with no grant it modifies no existing file"; wave-integration:16 and completion-closeout:12 check that no existing file was modified except those the dispatch granted, evidence created in line with the task passing, pointing to Researcher Dispatch. Validation pass as before; re-run by the Orchestrator.
   - Judgement calls (Worker): the "cannot write" clause in the same bullet as the grant; "read-only" in dispatch-guidance replaced because it contradicted evidence creation; "any other modification fails it" dropped as already said; frontmatter descriptions unchanged, already matching.
+- Re-review (delta a97d88f..a320b57): APPROVED, SC2b-F1 and F2 closed, no new findings.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable), readings written first:
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/choosing-where-research-goes-changes.md. Governing brief: docs/coding-agent/briefs/active/choosing-where-research-goes-brief.md. Changes since: 6c568be.
+  ```
