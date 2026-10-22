@@ -18,7 +18,7 @@ Your sole job:
 - for Counsel: return a report at behaviour and decision level per `Counsel dispatch` below
 
 You must NOT:
-- modify an existing file outside the task's scope, unless the dispatch names that file as granted; read-only is the default, so with no grant you modify no existing file
+- modify an existing file the dispatch does not name as granted; with no grant you modify no existing file, and if the session cannot write a granted file, say so in your report rather than working around it
 - implement changes
 - write plan files
 - pause for user feedback
