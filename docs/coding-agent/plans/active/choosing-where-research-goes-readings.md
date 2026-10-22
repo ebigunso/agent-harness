@@ -61,6 +61,13 @@ Every plan item reads as at plan draft, revision 1. The calls made during the ru
 - Task_6: seven version fields in five files | covered | as DoD 7
 - Run record scenario states left at the last audit-stated state | covered as mechanics | completion-closeout.md, the run record
 
+### `choosing-where-research-goes-plan.md`, closeout, dispatched again after the owner's answer
+
+Every item reads as at the first closeout dispatch, except:
+
+- Task_5 case set: five positions replayed, the 2026-10-15 dispatch set aside as an availability case | covered | brief, "The Auditor's model, compared before it moves", with his answer of 2026-10-23: "Set them aside."
+- The owner's answer, recorded in the Decision Log | covered | as above
+
 ### Closeout audit, 2026-10-23: the verdict's comparison lines, as returned
 
 - Reading compared: `model-routing.md` rule and widened opening agrees; item 5's writer (A2) diverges (covered on non-value documents; audit: inferred); pointers in the gate, dispatch guidance, subagent-strategy, plan-format and both adapter pairs agrees; Counsel texts agrees; plan-review check agrees; the control (Planner-added 1) agrees; adr-template names agrees; `common.md` record (Task_3) agrees; handshake clause unread (audit: inferred); measurement-instrument line agrees; Auditor line agrees on the statement, the audit adding the case-set hold; `orchestrator.md` emptied agrees; ADR-D-0061 proposed agrees (extends; audit: inferred on the call, cited on the file); version (Task_6, DoD 7) agrees; comparison record agrees; Task_5 case set, the 2026-10-15 case as availability only, diverges (Orchestrator: covered by "the brief as corrected by Counsel"; audit: ask-now, the corrected clause carries no ratification record and the ratified words name the case); Wave 1 ruling on `prompt-budgeting.md` agrees; Task_4 ruling agrees; researcher seat compiling R3 unread (audit: cited); the decision points sent through Counsel agrees; the key read as Counsel's answers diverges (covered on his words; audit: inferred, "for the most part"); first Fable set re-run, Astra kept diverges in kind (covered as mechanics; audit: inferred, user-facing through the recorded outcome); elevated-sandbox stop unread (audit: cited); S3 adjusted unread (audit: inferred); outcome weighed by kind of miss agrees; A1-Astra read-order correction unread (audit: cited); run record states diverges in kind (covered as mechanics; audit: not audited); DoD 8 diverges (covered as mechanics, partly on Counsel's hand-over; audit: cited on the standing approval alone); the plan items as at revision 1 agree where they agreed then (DoD 8, Planner-added 2, A2, runtime names, adapter descriptions, prose validators diverging as logged at 2026-10-22).
