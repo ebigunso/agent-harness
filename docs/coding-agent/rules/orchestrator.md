@@ -2,7 +2,7 @@
 rule_schema_version: 2
 suite_id: "rules-20260513-b80f05e"
 rule_file: "orchestrator"
-last_updated: "2026-10-16"
+last_updated: "2026-10-22"
 ---
 
 # Orchestrator Repository Rules
@@ -17,18 +17,6 @@ last_updated: "2026-10-16"
 - Use `rulebook` for full rule-suite bootstrap, schema migration, targeted refresh, and repair. Do not run full bootstrap as a per-task ritual.
 - Propose a decision record only after the admission test in `durable-docs-authoring/references/adr.md` passes, present it for acceptance on its own, and never count plan approval or a merge as acceptance.
 - Keep implementation-time artifacts (self-tests, fixtures, dry checks) out of `skills/`; every file there is one a session reads or runs at runtime, and a Reviewer packet for a skill change asks what runtime text invokes each added non-Markdown file.
-
-## Models And Peers In This Workspace
-
-The routing principle is in `subagent-strategy/references/model-routing.md`; this section is the dated observation it routes on. Re-observe and redate it when a model changes.
-
-- Observation, dated 2026-09-15: the Claude models have shown the writing strength and the Codex (GPT) models the detail-scrutiny strength. Nothing is recorded for long-context reading; route on it only after observing it.
-- What this workspace has: Claude subagents dispatched from the Orchestrator session, and the registered Codex peers `agent-harness-worker` and `agent-harness-reviewer`, reached over agmsg in team `AgentHarness`.
-- So, by default: correctness-tier review, forensic research, checks and scripts whose acceptance is mechanical precision go to the Codex peers; delegated prose implementation (skill text, references, READMEs) and design-tier review go to Claude subagents. Model choice never moves role ownership: plans and rule files stay with the Orchestrator. A decision record may be drafted by a Worker as `durable-docs-authoring/references/adr.md` states; the Orchestrator checks that the draft says what was decided. Prose a Codex peer authored is finalized under the Prose quality rules of `subagent-strategy/references/model-routing.md`.
-- Cost, the owner's setting, stated 2026-10-04 and his to change: Opus is an acceptable cheap model; Fable and Astra count as expensive. The registered Codex peers run GPT-6.1-Sol (set by the owner on 2026-10-04 in place of Astra) and may be dispatched freely. So checking work (plan, wave and final review) and Worker tasks go to the Codex peers or to Opus by the kind of work, and Fable is kept for what needs it: independent judgement of the Orchestrator's work.
-- The Auditor (the value audit and the in-loop goal assessment) is held here by a Claude subagent on Fable, apart from whoever holds the Reviewer; this too is the owner's setting to change.
-- Before the first dispatch of a run, send each registered peer the run needs a message and confirm it answers. A peer that stays silent is reported to the user, with what was sent and when; its work is not given to a Claude subagent without saying so in the plan and to the user, and the peer is tried again at the next dispatch that suits it.
-- Route agmsg dispatch only to the registered `agent-harness-*` peers; never spawn new peers or run headless Codex for dispatch. Ephemeral headless `codex exec` is allowed only as a measurement instrument for ablation probes.
 
 ## Repo-Specific Integration / Git Policy
 
