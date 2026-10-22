@@ -31,3 +31,13 @@ Item | reading | statement relied on
 - Task_5 (five replays on two models, verbatim template, worktree as working directory, one adjudication over every item, Auditor line) | covered | brief, "The Auditor's model, compared before it moves" (gives and two constraints); the case set from R2; the 2026-10-15 case as availability only (the brief as corrected by Counsel)
 - Task_6 (version) | extends | as DoD 7
 - Routing line (Workers, reviews, audits; the closeout audit on the model the Auditor line names after Task_5) | covered | brief, "This repository" and "the Auditor moves or stays on that"; orchestrator.md L27 to L29
+
+### `choosing-where-research-goes-plan.md`, plan draft, revision 1 (after the audit held Planner-added 1)
+
+Every item not listed reads as above.
+
+- DoD 4 (plan review flags the brief's own example, a task that says to read the module first and then change it; a task stating only the change is not flagged) | covered | brief, "Plan review flags research bundled inside an implementation task" (gives); scenario 4, its example quoted as the case to flag
+- Planner-added 1 (the control: a task stating only the change, no step to read or find out first) | extends | brief, scenario 4; a check that flags every implementation task would show nothing
+- Task_2 (the snippet flags a task that reads, investigates or finds out first and then changes; not one stating only the change) | covered | as DoD 4
+- Task_4 (the bundled fixture worded in the brief's own words; the control a task stating only the change) | covered | brief, scenario 4; pass condition "scenarios 1, 4 and 5 are shown where one can be made"
+
