@@ -9,7 +9,7 @@ Done/blocked conditions: `SKILL.md` Validation Gate (canonical). Additionally co
 - Worker report status is `done`;
 - any files changed outside `owns` are limited to a minimal touch the Worker's own edit needs to meet the acceptance criteria or a change a packet pre-ruling names, reported either way.
 
-A task of type `research` closes on its Researcher's task report (the Researcher agent's Research task dispatch section), which stands in for the Worker report here and in the `SKILL.md` Validation Gate: its status is `done`, it answers each acceptance bullet with the evidence the answer rests on, and it evidences each required validation item the task assigns to its executor. A Researcher changes no files, so the `owns` check has nothing to confirm.
+A task of type `research` closes on its Researcher's task report (the Researcher agent's Research task dispatch section), which stands in for the Worker report here and in the `SKILL.md` Validation Gate: its status is `done`, it answers each acceptance bullet with the evidence the answer rests on, and it evidences each required validation item the task assigns to its executor. The `owns` check holds when the only files the task created are artifacts under the provider-defined artifact root, as `references/dispatch-guidance.md` Researcher Dispatch permits; any other edit fails it.
 
 Worker `done` does not imply plan `done`.
 
