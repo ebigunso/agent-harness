@@ -350,5 +350,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
 - 2026-10-23 Owner's answer to the closeout audit's ask-now on Task_5's case set (whether the 2026-10-15 Fable dispatch counts among the audits to replay or stands aside as an availability case that weighs nothing in the choice), relayed by Counsel, quoted in full: "Set them aside." (2026-10-23)
   - Plan delta: none; the five-case set stands, the Auditor line unchanged. Counsel carried his words into the brief (ece83ea).
 
+- 2026-10-23 ADR-D-0061 accepted by the owner, relayed by Counsel at 20:20Z, quoted in full: "I accept ADR-D-0061." (the text at 11e635f, unchanged since). Its status set to accepted; no other text of the record changed.
+
 ## Notes (Risks / Edge cases)
 - Risks: Counsel's dispatch by the rule needs a way to reach a seat; where the workspace records none, it falls to a subagent (scenario 3). The replays (Task_5) are expensive on both models; the brief accepts the cost.
