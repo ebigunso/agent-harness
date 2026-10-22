@@ -40,3 +40,28 @@ Every item not listed reads as above.
 - Planner-added 1 (the control: a task stating only the change, no step to read or find out first) | extends | brief, scenario 4; a check that flags every implementation task would show nothing
 - Task_2 (the snippet flags a task that reads, investigates or finds out first and then changes; not one stating only the change) | covered | as DoD 4
 - Task_4 (the bundled fixture worded in the brief's own words; the control a task stating only the change) | covered | brief, scenario 4; pass condition "scenarios 1, 4 and 5 are shown where one can be made"
+
+### `choosing-where-research-goes-plan.md`, closeout
+
+Every plan item reads as at plan draft, revision 1. The calls made during the run:
+
+- Task_1: the rule's opening widened so the section is read at every Researcher dispatch, not only where models differ | covered | brief, "What the plugin states", the rule read "wherever the Orchestrator or Counsel decides where research goes"
+- Task_1: pointers added at the gate, dispatch guidance, subagent-strategy, plan-format and both pairs of adapters, the rule stated once | covered | pass condition "stated once in the plugin at the place where dispatch is decided"
+- Task_1: ADR-D-0061 proposed | extends | no brief statement; the admission test; proposal only, acceptance the owner's
+- Task_1: adr-template's example model names made neutral | covered | pass condition "no plugin text names a seat or a model"
+- Wave 1 ruling: `prompt-budgeting.md`:5 "GPT-Oriented" left as a platform label | covered | A1, as audited (inferred) at plan draft
+- Task_2: the plan-review check answered as its own line | covered | brief, "Plan review flags research bundled inside an implementation task"; scenario 4
+- Task_3: the record moved into common.md as one section before Standing Approvals, orchestrator.md left without it | covered | brief, "This repository", the means into `common.md`, dated
+- Task_4: scenarios 1 and 3 dispatched to a fresh Claude subagent applying the written rule to two fixture workspaces; scenario 4 to the Codex reviewer seat | covered | brief pass condition "shown where one can be made"; scenario 1 on a fixture only as far as one can, human-only for the real run
+- Task_5: the decision points for the owner drawn from R3 where sources differ on something that would have stopped work, reached him or changed what was built, the agreement blocks confirmed together | covered | brief, "adjudicated by him once"; the grades against what he would have decided
+- Task_5: the key read as Counsel's answers as put to him, which he took ("your takes on each seems like the reasonable decision for the most part"), S1-d with his lean recorded | covered | his words as relayed, 2026-10-23
+- Task_5: the first Fable set re-run in a clean context after the review found extra context; Astra kept, its setup already meeting the corrected construction | covered as mechanics | the plan's construction-defect rule (PR-F6); brief, "fresh subagent session or ephemeral CLI session"
+- Task_5: Fable's outcome weighed on the kind of miss: an invented stop halts a run and reaches the owner, a read-order departure that opened no barred input changes no grade | extends | brief, the measures listed without weights; the owner's adjudication
+- Task_5: the Auditor stays on Fable, recorded in common.md dated 2026-10-23 | covered | brief, "the Auditor moves or stays on that"
+- Task_6: seven version fields in five files | covered | as DoD 7
+- Run record scenario states left at the last audit-stated state | covered as mechanics | completion-closeout.md, the run record
+
+## Findings
+
+- Fable, in every replay, opened the plan and the brief in one batch with the mandate, which today's mandate's First Step forbids; no barred input was opened and no grade rests on it | trivial: it changes nothing anyone experiences while the void rule covers the readings and notes
+- Astra held the closeout note to Counsel for approval in two cases, reading the standing approvals as not covering it | trivial: the Auditor stays on Fable, so no audit the owner sees reads this way
