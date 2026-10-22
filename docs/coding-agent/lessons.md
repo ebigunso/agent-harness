@@ -1180,6 +1180,47 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/value-level-operation-changes.md`, Small change 2, A2.
 
+## 2026-10-22 - A Replay Runner Checks Its Checkout Before It Starts A Session  [tags: tooling, troubleshooting, validation]
+
+Context:
+- The Auditor comparison replays past audits in detached worktrees at old commits, one fresh headless session per model, from a script in the session scratchpad on Windows.
+
+Symptom:
+- The first batch of ten sessions ran with no checkout: `git worktree add` failed on "Filename too long" under the long temporary path, the script sent its output to null, and every session started in the scratchpad. The Fable sessions spent a full audit's cost each on nothing; the Codex sessions failed at once. In the second batch, `git show <commit>:<path>` run from inside the deep worktree failed the same way, so the Codex sessions started without their role instructions.
+
+Root cause:
+- Windows path length without `core.longpaths`, and a runner that hid the error and did not check its own setup before spending.
+
+Fix applied:
+- Worktrees created with `git -c core.longpaths=true`; `git show` run from the repository root; the runner checks that the worktree's HEAD is the case's commit and stops otherwise; the void runs kept aside and every case re-run.
+
+Prevention:
+- A script that starts paid sessions checks each precondition it depends on (the checkout exists at the right commit, the role text is not empty) and stops before the first session when one fails; it never sends a setup command's errors to null.
+- Probe one case end to end before a batch.
+
+Evidence:
+- `docs/coding-agent/plans/active/choosing-where-research-goes-plan.md`, Task_5 in the Progress Log.
+
+## 2026-10-22 - A Fresh Codex Home Repeats The Elevated Sandbox Setup And Prompts The Owner  [tags: tooling, delegation, correction]
+
+Context:
+- Ephemeral `codex exec` measurement sessions ran from a temporary `CODEX_HOME` so that the global `AGENTS.md` loader (which routes a session to the Orchestrator role) stayed out of their context.
+
+Symptom:
+- With `[windows] sandbox = "elevated"` copied from the owner's configuration, each new home ran the elevated sandbox setup, and the owner got a Windows elevation prompt for each session: "Isn't there another way to do this without having to prompt me like this?"
+
+Root cause:
+- The elevated sandbox is set up once per Codex home; a fresh home per session repeats the setup, and the setup needs elevation.
+
+Fix applied:
+- The batch stopped; the replay configuration uses `sandbox = "unelevated"`, which keeps the read-only sandbox without elevation; the sessions re-run one at a time.
+
+Prevention:
+- Measurement sessions on Windows use the unelevated sandbox; anything that may raise a prompt on the owner's machine is probed once and named to the owner before a batch runs it.
+
+Evidence:
+- The owner's question in the Orchestrator session, 2026-10-22; Task_5 in the plan's Progress Log.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
