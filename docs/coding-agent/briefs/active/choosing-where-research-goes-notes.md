@@ -31,3 +31,8 @@ Formed from the Orchestrator's candidate-ready note and the brief only. Not fina
 ## Counsel's read of small change 1, 2026-10-23
 
 - Built as he directed ("Go with A."): a research task closes on the Researcher's report, which answers each acceptance bullet with evidence; closeout, wave integration and the validation gate take it as a Worker's; the closeout audit counts its reported choices as a Worker's. Nothing else changed. The brief change is Counsel's. The Copilot thread that raised it is answered and resolved.
+
+## Counsel's read of small change 2, 2026-10-23
+
+- Rebuilt to his rule: a Researcher gathers evidence in line with its task; read-only by default; modifies an existing file only when the dispatch names it as granted where the objective needs it; a research task closes on its report under that rule. The earlier screenshots-only build is superseded. The brief change is Counsel's.
+- Worth his knowing: the rule is kept by the Researcher's instructions, and on two runtimes the Researcher now holds the file tools a grant needs, so read-only is no longer held by tool restriction there; on Codex a Researcher can write only where the session that started it can. Same class as the enforcement question he set aside.
