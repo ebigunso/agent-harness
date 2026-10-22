@@ -1199,7 +1199,7 @@ Prevention:
 - Probe one case end to end before a batch.
 
 Evidence:
-- `docs/coding-agent/plans/active/choosing-where-research-goes-plan.md`, Task_5 in the Progress Log.
+- `docs/coding-agent/plans/completed/choosing-where-research-goes-plan.md`, Task_5 in the Progress Log.
 
 ## 2026-10-22 - A Fresh Codex Home Repeats The Elevated Sandbox Setup And Prompts The Owner  [tags: tooling, delegation, correction]
 
