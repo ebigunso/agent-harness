@@ -125,3 +125,9 @@
 
 - Worker report (the same Claude Worker on Opus, task SC3, `done`, one YAML block, one file) at 272ee69: `integration-checklist.md` section 4 adds that a follow-up for a plan task of type `research` is a Researcher dispatch, never a Worker's, pointing to model-routing.md "Choosing where research goes"; the Worker's check of the skill found a second route, section 1's "a follow-up Worker is needed", now "(for a research task, a Researcher, as section 4 states)". Required validation pass: package validator, smoke tests, `git diff --check`, no seat or model name; re-run by the Orchestrator before commit. The Worker reported Counsel's uncommitted brief change as not its own, left unopened.
   - Judgement calls (Worker): section 1's line taken as the "line elsewhere" the dispatch allowed, pointing to section 4; `wave-integration/SKILL.md`:26, a summary that routes nothing, left as it is.
+- Review (Codex reviewer, 9923fd6..b1fc672): APPROVED, no findings.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable), readings written first:
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/choosing-where-research-goes-changes.md. Governing brief: docs/coding-agent/briefs/active/choosing-where-research-goes-brief.md. Changes since: 0b12eab.
+  ```
