@@ -285,11 +285,20 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
   - Findings compared: none found
   - "No item is ask-now. The hold of the previous audit on Planner-added 1 is cleared by the revision: the flagged case is now the brief's own example as written, and the control bundles no reading step, so no pass condition is narrowed and no statements conflict."
 - 2026-10-22 The plan is authorized under the ratified brief: plan review APPROVED and a plan-draft audit that holds nothing. No item rests on a provisional statement, so no exception report goes to Counsel. Status: in_progress. Wave 1 dispatched: Task_1 and Task_2 to Claude Workers on Opus, in parallel; Task_3 built by the Orchestrator.
+- 2026-10-22 Wave 1 completed: [Task_1, Task_2, Task_3]
+  - Summary: Task_1 (2636ab9): the rule under `## Choosing where research goes` in model-routing.md, its opening widened to every Researcher dispatch, the record placed in common.md; pointers at the gate (both Orchestrator adapters identical), dispatch-guidance Researcher and Worker Dispatch, subagent-strategy Core rule 1 and routing condition, plan-format's type rule; Counsel's Limits and check-up lines and both Counsel adapters; adr-template's example names neutral; ADR-D-0061 proposed. Task_2 (54c45dc): the plan-review snippet's bundled-research check, answered as its own line; lifecycle-gates items 2 and 5. Task_3 (160441f): the record moved into common.md, orchestrator.md without it, `last_updated` 2026-10-22 in both; `_lifecycle.json` unchanged (no source pattern names the moved text).
+  - Validation evidence: both Worker reports valid, each `files_changed` inside its owns; package validator and smoke tests pass on the integrated tree; `git diff --check` clean, the new record checked with `--no-index`; zero-hit name search clean in every changed file.
+  - Notes: one pre-existing hit outside owns, `runtime-adapter-contract/references/prompt-budgeting.md`:5 "Copilot / GPT-Oriented Adapters", ruled out of scope under A1: it labels a runtime platform's adapters, not a model a workspace has. The Task_1 Worker staged its new record with `git add -N` to diff-check it and undid it at once; disclosed in its report, no effect on the tree.
 - 2026-10-22 11:04 R2 report received: eleven candidate positions with dispatch snapshots, Changes-since revisions and fidelity limits; the mandate's history per snapshot; the four premature-read dispatches (all 2026-10-05); the Q case's original objects reachable only by reflog; a recommended set of five replay cases plus the availability record, taken as Task_5's cases.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
-- (none yet)
+- 2026-10-22 Decision: ADR-D-0061 proposed by the Task_1 Worker (research goes to the Researcher role on an option chosen from the workspace's own record).
+  - Trigger / new insight: the admission test in `durable-docs-authoring/references/adr.md`, applied by the Worker; checked by the Orchestrator and at wave review.
+  - Plan delta (what changed): none.
+  - Tradeoffs considered: a default route to a peer researcher, which the owner rejected (brief, "What the plugin states").
+  - User approval: not yet; the record is presented for the owner's acceptance on its own, never by plan approval or merge.
+  - Record proposed: `docs/coding-agent-orchestration-harness/decisions/ADR-D-0061-research-goes-to-the-researcher-role-on-an-option-chosen-from-the-workspaces-own-record.md`; proposed
 
 ## Notes (Risks / Edge cases)
 - Risks: Counsel's dispatch by the rule needs a way to reach a seat; where the workspace records none, it falls to a subagent (scenario 3). The replays (Task_5) are expensive on both models; the brief accepts the cost.
