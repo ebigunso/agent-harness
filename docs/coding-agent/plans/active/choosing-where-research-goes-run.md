@@ -4,6 +4,7 @@
 - Hand-over: Counsel's relay of 2026-10-22 (10:41Z), admitted by the standing approval of 2026-10-01, quoting the owner's ratification of 2026-10-22: "I ratify the brief, hand it over now."
 - Run starts from revision: f62f739 (the brief committed on the run's branch, on top of main d3da303); Counsel corrected its own wording in the brief at 81fe274, the owner's words untouched.
 - Readings file: `docs/coding-agent/plans/active/choosing-where-research-goes-readings.md`.
+- Changes file: `docs/coding-agent/plans/active/choosing-where-research-goes-changes.md`.
 - State: reported ready (candidate ready), 2026-10-23; open for the owner's judgement.
 
 ## Scenarios
@@ -23,3 +24,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
 | `docs/coding-agent/plans/completed/choosing-where-research-goes-plan.md` | done 2026-10-23 (final review APPROVED; closeout audit, second dispatch, holds nothing) | Scenarios: 1 ready for the owner's judgement; 2 ready for the owner's judgement; 3 demonstrated; 4 demonstrated; 5 demonstrated; getting closer: yes, every scenario moved from not yet on evidence in the range (the plugin text, the record in common.md, the fixture and replay outcomes, the owner's answer closing the one hold), and nothing remains held. |
+| Small change 1: a research task closes on the Researcher's report (`docs/coding-agent/plans/active/choosing-where-research-goes-changes.md`) | closed 2026-10-23 (review APPROVED; closing audit holds nothing) | Scenarios: 1 ready for the owner's judgement; 2 ready for the owner's judgement; 3 demonstrated; 4 demonstrated; 5 demonstrated; getting closer: yes; no state moved, but the range removes a defect that would have kept scenario 1's own path (a research plan task) from closing under the harness's rules, on evidence in the diff (completion-closeout.md Task_X Done Criteria, the wave contract, the three Researcher adapters), and nothing regressed. |
