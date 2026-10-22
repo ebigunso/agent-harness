@@ -15,9 +15,9 @@ This skill standardizes how the Orchestrator uses subagents to:
 
 ## Core rules (always apply)
 
-1) Prefer subagents to preserve Orchestrator context
+1) Delegate to preserve Orchestrator context
 - Use Workers for implementation tasks.
-- Use Researcher for read-only exploration and plan-fill inputs.
+- Use Researcher for read-only exploration and plan-fill inputs; which option a Researcher runs on (a subagent or a peer, on which model) is chosen as references/model-routing.md "Choosing where research goes" states.
 - Use Reviewer for read-only review + E2E/visual evidence when required.
 - Use Auditor for the value audit and the in-loop goal assessment, dispatched with its fixed template only.
 
@@ -56,7 +56,7 @@ If the runtime launches subagents asynchronously or as background processes:
 If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel (team messaging, shared inbox):
 - Read references/persistent-peer-dispatch.md
 
-If multiple model platforms are available for delegation:
+Whenever a Researcher is dispatched, in a workspace with one model too, and whenever more than one model is available for delegation:
 - Read references/model-routing.md
 
 Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.

@@ -58,6 +58,7 @@ Gate procedure, edge cases, and plan lifecycle details: `references/lifecycle-ga
 
 - Before an execution plan is drafted, the investigation needed to decide what it should contain is done: the relevant current behaviour, the affected areas, the constraints and the validation approach, at a depth proportional to the change. It is enough when each task's scope, dependencies, acceptance and validation can be written concretely from its findings; an unknown it cannot resolve is stated as `references/lifecycle-gates.md` Research Dispatch Details says.
 - Dispatch Researchers for unfamiliar or cross-cutting areas; the Orchestrator may read repository files directly to decide triviality and scope, since a read is cheaper than a dispatch round-trip and the waiver keeps the choice reviewable. Non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
+- Which option a Researcher runs on (a subagent or a peer, on which model) is chosen as `subagent-strategy/references/model-routing.md` "Choosing where research goes" states.
 
 ### 3. Dispatch Integrity Gate
 

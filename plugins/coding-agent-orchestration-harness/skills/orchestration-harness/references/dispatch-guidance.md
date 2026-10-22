@@ -19,6 +19,8 @@ Avoid long narrative background that does not change deliverables.
 
 Researcher is research-only.
 
+Research, a plan task of type `research` included, goes to a Researcher, on the option chosen as `subagent-strategy/references/model-routing.md` "Choosing where research goes" states.
+
 Researcher may:
 
 - read workspace files;
@@ -36,7 +38,7 @@ Ask Researcher for focused findings toward what the research before a plan estab
 
 ## Worker Dispatch
 
-Worker executes exactly one atomic Task_X.
+Worker executes exactly one atomic Task_X, of any type but `research`; a research task goes to a Researcher (Researcher Dispatch above).
 
 Include:
 
