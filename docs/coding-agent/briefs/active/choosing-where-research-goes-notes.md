@@ -36,3 +36,7 @@ Formed from the Orchestrator's candidate-ready note and the brief only. Not fina
 
 - Rebuilt to his rule: a Researcher gathers evidence in line with its task; read-only by default; modifies an existing file only when the dispatch names it as granted where the objective needs it; a research task closes on its report under that rule. The earlier screenshots-only build is superseded. The brief change is Counsel's.
 - Worth his knowing: the rule is kept by the Researcher's instructions, and on two runtimes the Researcher now holds the file tools a grant needs, so read-only is no longer held by tool restriction there; on Codex a Researcher can write only where the session that started it can. Same class as the enforcement question he set aside.
+
+## Counsel's read of small change 3, 2026-10-23
+
+- On his direction on the Copilot comments: all three threads on pull request 92 were fixed and resolved, none dismissed; the last fix is this change, that a research task which comes back blocked is followed up by a Researcher, never a Worker. The brief change is Counsel's. Only his acceptance of pull request 92 remains.
