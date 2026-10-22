@@ -1261,6 +1261,26 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/choosing-where-research-goes-changes.md`, small change 2; the readings file's comparison lines for its closing audit.
 
+## 2026-10-23 - After A Gap In The Watch, Read The History From The Last Message Handled  [tags: tooling, correction]
+
+Context:
+- The Orchestrator stopped its peer-channel watch while only the owner's answers were outstanding, then restarted it for later work.
+
+Symptom:
+- Counsel's relay of the owner's acceptance of ADR-D-0061 arrived while the watch was off; the history checks that followed started from the time of the next expected message and skipped it, and the acceptance was reported to the owner as still pending until Counsel pointed it out.
+
+Root cause:
+- The history read was bounded by a guessed start time instead of by the last message the session had actually handled.
+
+Fix applied:
+- The acceptance was recorded (the record's status and the plan's Decision Log) as soon as Counsel named it.
+
+Prevention:
+- Whenever the watch restarts after a gap, read the channel history from the timestamp of the last message handled, not from a later guess, before acting on anything newer.
+
+Evidence:
+- The run's plan Decision Log entry of 2026-10-23 for ADR-D-0061.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
