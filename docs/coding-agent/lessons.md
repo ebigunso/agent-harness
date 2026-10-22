@@ -1221,6 +1221,26 @@ Prevention:
 Evidence:
 - The owner's question in the Orchestrator session, 2026-10-22; Task_5 in the plan's Progress Log.
 
+## 2026-10-23 - A Headless Claude Session Is Not A Clean Context Until Its Init Record Shows It  [tags: tooling, validation, correction]
+
+Context:
+- Fable measurement sessions ran as `claude -p` in a detached worktree, with hooks and three named plugins disabled and the role appended to the default system prompt, under a plan that required nothing else in their context.
+
+Symptom:
+- The Reviewer found that the sessions also carried the repository's auto-memory index (a worktree shares its repository's project memory), the account email and attribution lines, a skills list, the snapshot's git status with commit subjects, and connector tools; one verdict disclosed the extra text. The comparison record had called the setup isolated.
+
+Root cause:
+- Disabling named plugins and hooks leaves the default system prompt's dynamic sections, user settings, auto-memory and account connectors in place; the setup was asserted from its flags, not read from the session's own init record.
+
+Fix applied:
+- The runner gives the role as the whole system prompt (`--system-prompt-file`) with `--setting-sources project`, `--strict-mcp-config`, `--disable-slash-commands`, `--tools Bash Read Grep Glob`, auto-memory and claude.ai MCP off by environment, attribution empty; an Opus probe asked to list its context, and each run's init event, confirmed it. The five affected runs re-ran. The account email line remains (`--bare` needs an API key).
+
+Prevention:
+- Before a measurement batch, probe the exact session setup on a cheap model, asking it to list every block in its context, and check the init event's tools, MCP servers, skills and memory paths; the record states what the probe showed, not what the flags intend.
+
+Evidence:
+- Task_5 review finding T5-F1 and the 2026-10-23 entries in the plan's Progress Log.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
