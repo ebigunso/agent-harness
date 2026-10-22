@@ -12,3 +12,18 @@ Route: the Codex researcher seat `agent-harness-researcher` (GPT-6 Astra), asked
 ## His instinct before the scoring, 2026-10-23
 
 - Written down before the result so it can be checked against it: "My instinct is that Fable would be the better choice here. Let's see if I was right." The verdicts were blinded; his key was given without knowing which model wrote which.
+
+## Counsel's first read of the candidate, 2026-10-23, before seeing the audit's marked items
+
+Formed from the Orchestrator's candidate-ready note and the brief only. Not final.
+
+- Fits the brief as reported: one rule for where research goes, read at every Researcher dispatch, for the Orchestrator and Counsel alike; no seat, peer or model assumed; Counsel's Researcher read from common.md; plan review asking whether an implementation task finds out first; this repository's record of seats moved and the researcher seat registered on Astra; research to the stronger option cost notwithstanding; the Auditor compared on five replayed audits against his key and kept on Fable, recorded with the date. Version 1.1.0, pull request 92.
+- His instinct, written before the scoring, was Fable; the blind adjudication bore it out.
+- Not shown: scenarios 1 and 2 (his next real run here) and whether a session in another repository stops sending research to Workers.
+- The value-document changes named are Counsel's (the Auditor comparison section, the case-set correction, and his "Set them aside."), and the notes.
+
+## Counsel's finalized read of the candidate, 2026-10-23, after the audit's marked items
+
+- The closing audit holds nothing. Its marked items are ADR-D-0061 (his to accept by name), and two readings of the comparison that extend the brief: his "for the most part" read as taking every point of Counsel's key but the one he named; and the outcome weighed by the kind of miss, an invented stop halting a run, where the brief listed measures without weights. Both are told to him with the scores, not asked.
+- The scores against his key, fourteen points: Fable 10 matched, 1 invented stop, 1 invented finding, 2 missed marks; Astra 8 matched, 3 invented stops (the same reading repeated: a closeout note to Counsel and the runtime's commit subjects read as needing approval), 4 invented findings on one point, 1 missed mark, 1 unstated verification gap. Both held the one hold the key wanted; neither let through anything he would have stopped. Read order separated them only where the mandate said to read it alone first, with no barred input opened by either. What decided it: an invented stop halts a run and reaches him, and Astra's would recur in every run with a closeout note.
+- Nothing contradicts the first read. His instinct, written beforehand, was right.
