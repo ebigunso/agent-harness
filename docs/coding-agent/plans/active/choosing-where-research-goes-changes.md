@@ -18,3 +18,9 @@
 - Review (Codex reviewer, b6d967f..709c78d): CHANGES_REQUESTED, one minor finding, SC1-F1: the closeout audit's judgement-call items (`value-audit-mandate.md`:48) named only a Worker's reported choices, so a Researcher's choice on a research task fell outside the audit; the rest of the completion path works end to end; the Worker's six judgement calls and the round-2 ruling agreed.
 - Round 3 (the same Worker, task SC1, `done`, one file): line 48 now counts "each choice a Worker, or a Researcher on a plan task of type `research`, reported"; research before a plan and Counsel's research stay outside it. Validation pass as before; re-run by the Orchestrator.
   - Judgement calls (Worker): the clause names plan tasks of type `research` only, which is what limits it; integration-checklist section 5 read as taking a research task report's Assumptions part, as the review found.
+- Re-review (delta 709c78d..becc242): APPROVED, SC1-F1 closed, no new findings.
+- Closing audit, dispatch text (to a fresh Auditor dispatch on Fable, the model common.md's Auditor line names), readings written first:
+
+  ```text
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: docs/coding-agent/plans/active/choosing-where-research-goes-changes.md. Governing brief: docs/coding-agent/briefs/active/choosing-where-research-goes-brief.md. Changes since: b6d967f.
+  ```
