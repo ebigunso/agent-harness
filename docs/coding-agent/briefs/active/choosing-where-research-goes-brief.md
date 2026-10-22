@@ -41,6 +41,10 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 - The researcher seat that gave the consulting view does not audit a run it helped shape; research and audit contexts stay separate. **constraint** *(agent-proposed, from the consulting view kept in the notes; accepted with the above)*
 - The Orchestrator and Counsel sessions are not routed by this brief: which model opens them is the owner's choice at the time. The candidate noted for trial is Opus as the Orchestrator's default, Fable kept where planning is visibly better. *(told 2026-10-22, by taking Counsel's reading; nothing is built for it)*
 
+## Directed after the run was reported ready
+
+- A plan task of type research closes on the Researcher's report: its findings answer the task's acceptance, and closeout accepts that report for a research task as it accepts a Worker's for the rest; nothing else in the run changes. **gives** *(told 2026-10-23. The Copilot review of pull request 92 found that a research task, now never a Worker's, could not be closed, since a task closes only on a Worker's report; Counsel put the two ways to him (close on the Researcher's report; or research never a plan task) and recommended the first; his answer: "Go with A.")*
+
 ## Limits
 
 - No seat, peer or model is assumed by the plugin; what a workspace has is only ever read from its own record. **constraint** *(told, see above)*
