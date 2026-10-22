@@ -11,18 +11,20 @@
 - This is the first plan of the run recorded in `docs/coding-agent/plans/active/choosing-where-research-goes-run.md`.
 
 ## Definition of Done
-- The choice rule of the brief ("What the plugin states", items 1 to 6) is stated once in the plugin, in `skills/subagent-strategy/references/model-routing.md` under a heading `## Choosing where research goes`, and that reference is read whenever a Researcher is dispatched, a single-model workspace included; every other plugin text that decides or states where research goes points to it instead of saying "subagent".
+- The choice rule of the brief ("What the plugin states", items 1 to 6) is stated once in the plugin, in `skills/subagent-strategy/references/model-routing.md` under one heading of its own, and that reference is read whenever a Researcher is dispatched, a single-model workspace included; every other plugin text that decides or states where research goes points to it instead of saying "subagent".
 - Counsel's text (the `counsel` skill and the two Counsel adapters) says its read-only Researcher is the Researcher role on whichever option the workspace records, chosen by the same rule from the same record, and Counsel reads that record before it dispatches research.
 - The plugin names the record's place as `docs/coding-agent/rules/common.md`, the rule file both sessions read; no plugin text names a seat, a peer or a model.
 - A research task of a plan is dispatched to the Researcher role, never to a Worker; the plan-review snippet flags an implementation task that bundles the research its own scope or acceptance depends on, and does not flag a task that reads what it changes when the plan already decided the change.
 - This repository's `common.md` carries the record of options, dated: the three Codex seats with their models (`agent-harness-researcher` on GPT-6 Astra; `agent-harness-worker` and `agent-harness-reviewer` on GPT-6.1-Sol), the dated strength observations, the owner's cost setting of 2026-10-04 for the roles other than research, research to the strongest option with the strength cost notwithstanding (brief, "This repository"), the Auditor's model and the comparison's outcome; `orchestrator.md` no longer carries the section or a second copy of any line of it.
-- Scenarios 1, 3 and 4 are shown on a fixture and scenario 5 on replayed past audits, each outcome in the Progress Log; scenario 2 is left to the owner's next real run and said so.
+- Scenarios 1, 3 and 4 are shown on a fixture and scenario 5 on replayed past audits, each outcome in the Progress Log; scenarios 1 and 2 stay human-only for the owner's next real run in this repository (brief, Pass conditions), the fixture showing scenario 1 only as far as a fixture can, and the closeout says so.
 - The plugin's version is 1.1.0 in every file that states it, made as the last change before the run is reported ready.
 - Package validators and smoke tests pass; the branch has Reviewer `APPROVED`; value audits at plan draft and closeout are logged; the plan closes and the run is reported ready: branch published, pull request opened under the standing approval, note to Counsel, nothing merged.
 
 ## Planner-added requirements
 - The plan-review fixture for scenario 4 holds a control: an implementation task that reads the module it changes where the plan already decided what changes, and the review must not flag it. Needed because: a check that flags every "read then change" task meets scenario 4 while flagging ordinary implementation reading, which the brief does not ask to forbid.
 - Scenario 3 is shown on the same fixture as scenario 1 (one probe, two records: this repository's and a workspace with no record and one model). Needed because: the brief's constraint that no seat is assumed is otherwise checked only by reading, and a rule that silently needs a recorded seat would pass scenario 1 and break scenario 3.
+- The plugin's version becomes 1.1.0, as the last change before the run is reported ready. Needed because: an installed plugin is refreshed only when its version changes, so without it no workspace that has the plugin installed receives the rule; 1.1.0 because the change adds behaviour and breaks nothing; last, so that a later fix in the run does not ship under a version already published.
+- In the owner's adjudication (Task_5) the verdict items are shown without the model that gave them. Needed because: the brief judges the comparison by the grades against what he would have decided, never by agreement; a label invites judging the model rather than the grade.
 
 ## Scope / Non-goals
 - Scope: plugin text where research dispatch is decided or stated (R1 census, Context below): `skills/subagent-strategy/references/model-routing.md` and `SKILL.md`; `skills/orchestration-harness/SKILL.md` (Research Dispatch Gate), `references/dispatch-guidance.md`, `references/lifecycle-gates.md` (Research Dispatch Details); `skills/subagent-strategy/references/prompt-snippets.md` (plan-review snippet); `skills/plan-format/SKILL.md` (a research task's dispatch); `skills/counsel/SKILL.md`; `agents/Counsel.md`, `claude/agents/harness-counsel.md`; `agents/Orchestrator.md`, `claude/agents/harness-orchestrator.md` where they restate the gate; `skills/durable-docs-authoring/references/adr-template.md` (its example model names); the version files. This repository's `docs/coding-agent/rules/common.md`, `orchestrator.md` and `_lifecycle.json` if a source pattern changes. A decision record if the admission test passes. Fixtures in the Orchestrator's scratchpad.
@@ -70,7 +72,7 @@
   - docs/coding-agent-orchestration-harness/decisions/ (a new record only)
 - depends_on: []
 - description: |
-  State the brief's choice rule once, at model-routing.md `## Choosing where research goes`, and point to it from every place that decides where research goes. The brief's six items are the content; how they are worded is the Worker's, within the brief's words.
+  State the brief's choice rule once, in model-routing.md under one heading of its own (its wording the Worker's; named in the Worker's report so Task_2's pointer uses it), and point to it from every place that decides where research goes. The brief's six items are the content; how they are worded is the Worker's, within the brief's words.
 - acceptance:
   - model-routing.md carries the rule under that heading; its opening and the routing condition in subagent-strategy/SKILL.md make it read whenever a Researcher is dispatched, one model included; its record sentence names `docs/coding-agent/rules/common.md` as the file both the Orchestrator and Counsel read; item 5's recording is the Orchestrator's, Counsel passing its observation on (A2).
   - The Research Dispatch Gate (orchestration-harness SKILL.md and both Orchestrator adapters, kept in sync), dispatch-guidance.md Researcher Dispatch, subagent-strategy SKILL.md Core rule 1, and plan-format's rule on task types point to the rule; a plan task of type research is dispatched to the Researcher role, never a Worker.
@@ -98,7 +100,7 @@
   - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/lifecycle-gates.md
 - depends_on: []
 - description: |
-  Extend the plan-review snippet's investigation check (prompt-snippets.md:75) to an implementation task that carries the research its own scope, acceptance or validation depends on; Research Dispatch Details item 5 says research is never part of an implementation task, and item 2 points to model-routing.md `## Choosing where research goes` for which option a Researcher runs on.
+  Extend the plan-review snippet's investigation check (prompt-snippets.md:75) to an implementation task that carries the research its own scope, acceptance or validation depends on; Research Dispatch Details item 5 says research is never part of an implementation task, and item 2 points to the rule's section in model-routing.md (the two Workers are told the same working heading, `## Choosing where research goes`, and Task_1 keeps it unless its report says why not) for which option a Researcher runs on.
 - acceptance:
   - The snippet flags an implementation task (any type other than research) whose description has it find out what the change should be before making it, and does not flag reading what the task changes when the plan already states the change; the reviewer answers this check as its own line.
   - lifecycle-gates.md items 2 and 5 carry the two statements above; nothing else in the file changes.
@@ -122,7 +124,7 @@
 - description: |
   The Orchestrator moves `## Models And Peers In This Workspace` from orchestrator.md into common.md and brings it up to the brief's "This repository" section (rule files are the Orchestrator's to edit, common.md Repo Safety).
 - acceptance:
-  - common.md carries every item the Definition of Done lists for the record, dated; research goes to the researcher seat when the research wants detail strength and to a Claude subagent on the stronger model when it wants writing strength, cost notwithstanding; the handshake and registered-peers rules apply to any session that dispatches to a seat; ephemeral headless `codex exec` is allowed as a measurement instrument, the Auditor comparison's replays included.
+  - common.md carries every item the Definition of Done lists for the record, dated; research goes to the researcher seat when the research wants detail strength and to a Claude subagent on the stronger model when it wants writing strength, cost notwithstanding; the handshake and registered-peers rules apply to any session that dispatches to a seat; ephemeral headless `codex exec` and `claude -p` sessions are allowed as measurement instruments, the Auditor comparison's replays included.
   - orchestrator.md no longer carries the section; `last_updated` is 2026-10-22 in each file changed; `_lifecycle.json` changes only if a source pattern names the moved text.
 - validation:
   - kind: command
@@ -165,11 +167,12 @@
   - A1 audit-at-plan-draft-and-close closeout #1, 1327baa8, 2e237902: a premature-read case through a range diff.
   - S3 setup closeout #1, deaf3ac0, 6935b2c3: a clean grade table beside a design-bearing finding that held work; untracked inputs of the time are omitted and the case labelled adjusted.
   - The 2026-10-15 Fable dispatch (Q, 7017fbee) is recorded as an availability case only (HTTP 429): no replay recreates a quota.
-  Each replay: a detached worktree at the snapshot in the Orchestrator's scratchpad; the same dispatch text for both models, the historical fixed template with one disclosed added line naming the worktree as the repository and its plugin as the plugin root; each runtime's own Auditor adapter from that snapshot; Fable as a fresh `harness-auditor` subagent session, Astra as an ephemeral read-only `codex exec` session with the repository's loader instructions disabled; nothing else in either context. The researcher seat runs no replay (brief constraint). Read order is taken from each session's own record of tool calls.
-  After the replays, the points where the two verdicts differ, and each case's hold-or-pass outcome, go to the owner through Counsel once, unlabelled by model, for his decision; his answer is the key.
+  Each replay: a detached worktree at the snapshot in the Orchestrator's scratchpad, which is the session's working directory, so the repository and its plugin are found from where the session runs; the dispatch text is the historical fixed template verbatim with only its sanctioned fill-ins (the snapshot's mandate refuses anything more, 38a08712 `value-audit-mandate.md`:16 and :108); the role instructions are each runtime's own Auditor adapter at that snapshot, given as the session's role instructions; Fable as an ephemeral headless `claude -p` session, Astra as an ephemeral read-only `codex exec` session, both started in the worktree with nothing else in their context (the repository carries no loader file at the root). The researcher seat runs no replay (brief constraint). Read order is taken from each session's own event record.
+  The key: one adjudication by the owner, through Counsel, covering every case, after the replays: for each case a neutral list of the items and issues at stake (every item either verdict or the historical verdict raised, and what the record shows happened later), each without its source, with room to name what all of them missed; he says for each what he would have decided. His answer is the key for both models.
 - acceptance:
   - Ten replays run, or each that could not run is recorded with why; Fable and Astra had the same tree, dispatch text and tools in each case, any difference disclosed.
-  - The comparison record scores each replay on the brief's measures only: grades against the owner's key, missed and invented issues, source support, read order, completion; never polish or agreement with the Orchestrator.
+  - Each replay's dispatch text is byte-identical to the historical template with its fill-ins; a replay that returns ungraded for its dispatch is a defect of the replay, re-run, not a score.
+  - The comparison record scores each replay on the brief's measures only, against the owner's key for every item of every case, shared omissions included: grades, missed and invented issues, source support, read order, completion; never polish or agreement with the Orchestrator.
   - The owner's adjudication is quoted in the record; common.md's Auditor line states which model showed the strength, dated 2026-10-22 or the date of his answer, and the Auditor moves or stays on that.
   - Worktrees removed after the replays.
 - validation:
@@ -199,11 +202,11 @@
 
 ## Task Waves (explicit parallel dispatch sets)
 
-- Wave 1 (parallel): [Task_1, Task_2, Task_3]; wave review; value audit at the wave boundary.
+- Wave 1 (parallel): [Task_1, Task_2, Task_3]; wave review.
 - Wave 2 (parallel): [Task_4, Task_5]
 - Wave 3: [Task_6]; final review; closeout audit.
 
-Routing (common.md record, as moved by Task_3): Task_1 and Task_2 are skill prose, to Claude Workers on Opus; Task_3 is the Orchestrator's; Task_6 is mechanical, to the Codex worker seat; plan, wave and final review to the Codex reviewer seat; value audits to the Auditor on Fable.
+Routing (common.md record, as moved by Task_3): Task_1 and Task_2 are skill prose, to Claude Workers on Opus; Task_3 is the Orchestrator's; Task_6 is mechanical, to the Codex worker seat; plan, wave and final review to the Codex reviewer seat; the value audit at plan draft to the Auditor on Fable (the record as it stands); the closeout audit to the Auditor on the model common.md's Auditor line names after Task_5.
 
 ## Rollback / Safety
 - Every change is text on one branch; revert the branch. Task_5's replays run in worktrees and ephemeral sessions and change nothing in the repository but the comparison record and common.md.
@@ -215,6 +218,7 @@ Append-only editing rule (applies to both logs below): when appending an entry, 
 - 2026-10-22 10:52 Research before drafting: R1, a forensic census, dispatched to the Researcher role on the researcher seat `agent-harness-researcher` (detail strength), its own dispatch and report over agmsg; no Worker task carried it.
   - Summary: three layers of research statements (environment-agnostic role; subagent-worded dispatch defaults; a workspace record listing only the worker and reviewer seats); the candidate home `model-routing.md`; no Worker text forbids research; the investigate-first check lives only in the plan-review snippet; no plugin hit for seats, peers or agmsg, the only model names at `adr-template.md`:6; no validator pins the text to be changed.
 - 2026-10-22 10:55 R2 (past audits for the Auditor comparison) dispatched to the same seat; on the context-overflow case, Counsel corrected its own wording in the brief (81fe274): no audit overflowed its context; the 2026-10-15 usage-limit case is one of availability.
+- 2026-10-22 11:13 Plan review (Codex reviewer seat), round 1: NEEDS_REVISION, five findings, all taken: PR-F1 the replays keep the historical template verbatim and set the repository through the working directory; PR-F2 the owner's key covers every item of every case, shared omissions included; PR-F3 no audit at the wave boundary; PR-F4 the version and the unlabelled adjudication listed as planner-added, the rule's heading left to the Worker; PR-F5 the closeout audit follows the Auditor line as Task_5 leaves it. From its part 2: scenarios 1 and 2 kept human-only at closeout.
 - 2026-10-22 11:04 R2 report received: eleven candidate positions with dispatch snapshots, Changes-since revisions and fidelity limits; the mandate's history per snapshot; the four premature-read dispatches (all 2026-10-05); the Q case's original objects reachable only by reflog; a recommended set of five replay cases plus the availability record, taken as Task_5's cases.
 
 ## Decision Log (append-only; re-plans and major discoveries)
