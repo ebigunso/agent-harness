@@ -1241,6 +1241,26 @@ Prevention:
 Evidence:
 - Task_5 review finding T5-F1 and the 2026-10-23 entries in the plan's Progress Log.
 
+## 2026-10-23 - A Finding Is Read By What Acting On It Changes, Not By Whether The Owner Already Decided Around It  [tags: governance, correction]
+
+Context:
+- A review finding on a small change directed by the owner: the built text kept a research task that saved browser screenshots from closing; the fix let it close.
+
+Symptom:
+- The Orchestrator read the finding as trivial because the owner's statement ("closes on the Researcher's report") already covered the outcome, built the fix without asking, and the closing audit gave the finding as bearing on the design.
+
+Root cause:
+- The reading used the wrong test. A finding bears on the design when acting on it changes what someone experiences from the feature (`value-level-operation.md` Findings); whether an existing statement seems to cover the result is the audit's grading question, not the finding's reading.
+
+Fix applied:
+- The finding was escalated to the owner through Counsel and the change held, unpushed, until he answers.
+
+Prevention:
+- Read each finding by the experience test alone: if someone running the feature would meet a different result after the fix, it bears on the design and is escalated before the fix is built, however clearly a statement seems to cover it.
+
+Evidence:
+- `docs/coding-agent/plans/active/choosing-where-research-goes-changes.md`, small change 2; the readings file's comparison lines for its closing audit.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
