@@ -42,10 +42,10 @@ Plan review loop: the Orchestrator triages each Reviewer finding as fix, researc
 Gate: `SKILL.md` Research Dispatch Gate.
 
 1. The Orchestrator may read repository files and run searches to decide triviality, scope, and validation; reading is not a substitute for a Researcher on unfamiliar or cross-cutting areas.
-2. Dispatch one Researcher per narrow focus (see `subagent-strategy`); parallel Researchers for complex or high-ambiguity work.
+2. Dispatch one Researcher per narrow focus (see `subagent-strategy`); parallel Researchers for complex or high-ambiguity work; which option a Researcher runs on is chosen as `subagent-strategy/references/model-routing.md` Choosing where research goes states.
 3. When non-trivial work proceeds without a Researcher, record `Research waived: <reason>` in the plan before execution; the reason names what the Orchestrator read instead.
 4. A material unknown the research cannot resolve before drafting is stated in the plan's Assumptions: what is unknown, why it is unresolved, and what decision or evidence is needed. Work that depends on it is written as conditional on the answer or as awaiting replanning. It is never presented as settled behind a generic investigate-first task.
-5. Research is a task of the plan only when the request is itself an investigation, or when a bounded experiment or implementation-stage check is genuinely necessary. Such a task states the question it answers, the expected evidence, and how its outcome affects later work. Stating the three does not make a task legitimate; a task that only postpones the research the rest of the plan needs is not one.
+5. Research is never part of an implementation task. Research is a task of the plan only when the request is itself an investigation, or when a bounded experiment or implementation-stage check is genuinely necessary. Such a task states the question it answers, the expected evidence, and how its outcome affects later work. Stating the three does not make a task legitimate; a task that only postpones the research the rest of the plan needs is not one.
 
 ## Replan Procedure
 

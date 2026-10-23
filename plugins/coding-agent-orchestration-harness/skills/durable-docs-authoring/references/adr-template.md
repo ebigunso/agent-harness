@@ -3,7 +3,7 @@ status: proposed   # proposed until a human accepts the record on its own; then 
 adr_type: {design | implementation}
 date: YYYY-MM-DD
 deciders: []
-consulted: []   # durable identities: full model names or person names, never roles or platforms, e.g. "Claude Fable 5.1", "GPT-6 Astra"
+consulted: []   # durable identities: full model names or person names, never roles or platforms, e.g. "<provider> <model> <version>", "<person name>"
 informed: []
 supersedes: []        # current relative paths of records this one replaces in full; update when an archive move renames the target file
 superseded_by: null   # null while the record governs; the retired record carries the current relative path of its replacement

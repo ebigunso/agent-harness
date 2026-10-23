@@ -24,7 +24,7 @@ Design assumptions:
 - Must be `Task_1`, `Task_2`, ... (Task_X format)
 
 3) Each Task_X must include:
-- `type`: design | impl | test | docs | slides | research | review | chore
+- `type`: design | impl | test | docs | slides | research | review | chore; a task of type `research` is dispatched to the Researcher role, never a Worker, on the option chosen as `subagent-strategy/references/model-routing.md` "Choosing where research goes" states, and closes on the Researcher's report as `orchestration-harness/references/completion-closeout.md` Task_X Done Criteria states
 - `owns`: paths/globs the Worker is allowed to modify (keep narrow)
 - `depends_on`: list of Task_X IDs (or [])
 - `acceptance`: 2–6 concrete bullets

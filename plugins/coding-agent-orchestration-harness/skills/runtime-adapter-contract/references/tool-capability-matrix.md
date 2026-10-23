@@ -5,7 +5,7 @@ Tool names vary by runtime. This reference describes capability boundaries rathe
 | Logical role | Expected capabilities | Default restrictions |
 |---|---|---|
 | Orchestrator | read, search, ask user, edit plan/rules/docs, dispatch subagents, run validation commands, git coordination | owns shared-state Git mutations and plan lifecycle state |
-| Researcher | read, search, diagnostics, bounded UI research when assigned | no implementation edits; no plan-file writes |
+| Researcher | read, search, diagnostics, bounded UI research when assigned, create evidence in line with the task, modify a file the dispatch names as granted | read-only by default; no implementation edits; no plan-file writes |
 | Worker | read, search, edit within `owns`, run assigned validation, bounded UI probes for assigned UI/frontend work | no nested subagents; no shared-state Git mutations unless delegated |
 | Reviewer | read, search, diagnostics, run review/evidence checks, bounded UI/E2E evidence when required | no implementation edits |
 | Auditor | read, search, terminal inspection; follow the mandate named in its fixed location-only dispatch | read-only; dispatched only by the Orchestrator; no nested dispatch; no connectors |

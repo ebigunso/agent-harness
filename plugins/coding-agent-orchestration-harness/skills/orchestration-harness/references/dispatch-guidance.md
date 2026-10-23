@@ -19,12 +19,16 @@ Avoid long narrative background that does not change deliverables.
 
 Researcher is research-only.
 
+Research, a plan task of type `research` included, goes to a Researcher, on the option chosen as `subagent-strategy/references/model-routing.md` "Choosing where research goes" states.
+
 Researcher may:
 
 - read workspace files;
 - inspect docs/rules/plans;
 - run bounded UI research through a selected provider when it materially improves planning;
-- create artifacts only under the provider-defined artifact root when using browser/UI tooling.
+- create evidence in line with its task;
+- create artifacts only under the provider-defined artifact root when using browser/UI tooling;
+- modify an existing file only when the dispatch names that file as granted, specifically, where the research objective needs it; with no grant it modifies no existing file.
 
 Researcher must not:
 
@@ -34,9 +38,11 @@ Researcher must not:
 
 Ask Researcher for focused findings toward what the research before a plan establishes (`SKILL.md` Research Dispatch Gate), with relevant files, risks, existing patterns, and planning recommendations.
 
+For a plan task of type `research`, include its `task_id`, title, acceptance criteria and the validation items it assigns to its executor, and ask for the task report the Researcher agent's Research task dispatch section states.
+
 ## Worker Dispatch
 
-Worker executes exactly one atomic Task_X.
+Worker executes exactly one atomic Task_X, of any type but `research`; a research task goes to a Researcher (Researcher Dispatch above).
 
 Include:
 

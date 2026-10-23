@@ -176,6 +176,8 @@ Kept at ebigunso's request of 2026-10-03: "keep notes about things that could go
 
 ### Models and context
 
+- 2026-10-22, on research routing: "I set them up that way since I thought research is the one place where insight is valued highly. Cost concerns are there, but I prefer higher quality outcomes more than cheap sloppy ones." Counsel's gloss: cost is weighed per kind of work, and research is where quality wins.
+
 - 2026-10-02: "the privacy check probably is better handled by a GPT model doing the research or implementation." Borne out in this run: the Codex reviewer found real gaps the first passes missed. Gloss: detail scrutiny goes to the model that has shown that strength; a workspace observation, not plugin text.
 - 2026-10-02, on Counsel reading code in bulk: "it would quickly fill the context of the Counsel so that vital information not yet documented could get lost by session compaction, and that those code in the context could pull the Counsel away from the desired high level of abstraction." Gloss: a session's context is protected in proportion to how much undocumented knowledge it holds; bulk reading goes to a session that can afford to lose it.
 

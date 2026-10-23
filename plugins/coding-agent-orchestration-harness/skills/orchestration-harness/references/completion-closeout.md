@@ -9,6 +9,8 @@ Done/blocked conditions: `SKILL.md` Validation Gate (canonical). Additionally co
 - Worker report status is `done`;
 - any files changed outside `owns` are limited to a minimal touch the Worker's own edit needs to meet the acceptance criteria or a change a packet pre-ruling names, reported either way.
 
+A task of type `research` closes on its Researcher's task report (the Researcher agent's Research task dispatch section), which stands in for the Worker report here and in the `SKILL.md` Validation Gate: its status is `done`, it answers each acceptance bullet with the evidence the answer rests on, and it evidences each required validation item the task assigns to its executor. The `owns` check holds when the Researcher modified no existing file except those the dispatch granted (`references/dispatch-guidance.md` Researcher Dispatch); evidence it created in line with the task passes.
+
 Worker `done` does not imply plan `done`.
 
 ## Plan Done Criteria
@@ -22,7 +24,7 @@ Worker `done` does not imply plan `done`.
 ## Closeout Procedure
 
 1. Parse Worker and Reviewer outputs.
-2. Run Worker report validation when available.
+2. Run Worker report validation when available; a research task's Researcher report is checked against Task_X Done Criteria above instead.
 3. Confirm the `SKILL.md` Validation Gate and Completion Closeout Gate conditions hold, including targeted rule refresh when rule-source files were edited.
 4. Update Progress Log and Decision Log.
 5. Move completed active plan to `docs/coding-agent/plans/completed/` when applicable.

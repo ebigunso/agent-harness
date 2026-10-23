@@ -1180,6 +1180,107 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/value-level-operation-changes.md`, Small change 2, A2.
 
+## 2026-10-22 - A Replay Runner Checks Its Checkout Before It Starts A Session  [tags: tooling, troubleshooting, validation]
+
+Context:
+- The Auditor comparison replays past audits in detached worktrees at old commits, one fresh headless session per model, from a script in the session scratchpad on Windows.
+
+Symptom:
+- The first batch of ten sessions ran with no checkout: `git worktree add` failed on "Filename too long" under the long temporary path, the script sent its output to null, and every session started in the scratchpad. The Fable sessions spent a full audit's cost each on nothing; the Codex sessions failed at once. In the second batch, `git show <commit>:<path>` run from inside the deep worktree failed the same way, so the Codex sessions started without their role instructions.
+
+Root cause:
+- Windows path length without `core.longpaths`, and a runner that hid the error and did not check its own setup before spending.
+
+Fix applied:
+- Worktrees created with `git -c core.longpaths=true`; `git show` run from the repository root; the runner checks that the worktree's HEAD is the case's commit and stops otherwise; the void runs kept aside and every case re-run.
+
+Prevention:
+- A script that starts paid sessions checks each precondition it depends on (the checkout exists at the right commit, the role text is not empty) and stops before the first session when one fails; it never sends a setup command's errors to null.
+- Probe one case end to end before a batch.
+
+Evidence:
+- `docs/coding-agent/plans/completed/choosing-where-research-goes-plan.md`, Task_5 in the Progress Log.
+
+## 2026-10-22 - A Fresh Codex Home Repeats The Elevated Sandbox Setup And Prompts The Owner  [tags: tooling, delegation, correction]
+
+Context:
+- Ephemeral `codex exec` measurement sessions ran from a temporary `CODEX_HOME` so that the global `AGENTS.md` loader (which routes a session to the Orchestrator role) stayed out of their context.
+
+Symptom:
+- With `[windows] sandbox = "elevated"` copied from the owner's configuration, each new home ran the elevated sandbox setup, and the owner got a Windows elevation prompt for each session: "Isn't there another way to do this without having to prompt me like this?"
+
+Root cause:
+- The elevated sandbox is set up once per Codex home; a fresh home per session repeats the setup, and the setup needs elevation.
+
+Fix applied:
+- The batch stopped; the replay configuration uses `sandbox = "unelevated"`, which keeps the read-only sandbox without elevation; the sessions re-run one at a time.
+
+Prevention:
+- Measurement sessions on Windows use the unelevated sandbox; anything that may raise a prompt on the owner's machine is probed once and named to the owner before a batch runs it.
+
+Evidence:
+- The owner's question in the Orchestrator session, 2026-10-22; Task_5 in the plan's Progress Log.
+
+## 2026-10-23 - A Headless Claude Session Is Not A Clean Context Until Its Init Record Shows It  [tags: tooling, validation, correction]
+
+Context:
+- Fable measurement sessions ran as `claude -p` in a detached worktree, with hooks and three named plugins disabled and the role appended to the default system prompt, under a plan that required nothing else in their context.
+
+Symptom:
+- The Reviewer found that the sessions also carried the repository's auto-memory index (a worktree shares its repository's project memory), the account email and attribution lines, a skills list, the snapshot's git status with commit subjects, and connector tools; one verdict disclosed the extra text. The comparison record had called the setup isolated.
+
+Root cause:
+- Disabling named plugins and hooks leaves the default system prompt's dynamic sections, user settings, auto-memory and account connectors in place; the setup was asserted from its flags, not read from the session's own init record.
+
+Fix applied:
+- The runner gives the role as the whole system prompt (`--system-prompt-file`) with `--setting-sources project`, `--strict-mcp-config`, `--disable-slash-commands`, `--tools Bash Read Grep Glob`, auto-memory and claude.ai MCP off by environment, attribution empty; an Opus probe asked to list its context, and each run's init event, confirmed it. The five affected runs re-ran. The account email line remains (`--bare` needs an API key).
+
+Prevention:
+- Before a measurement batch, probe the exact session setup on a cheap model, asking it to list every block in its context, and check the init event's tools, MCP servers, skills and memory paths; the record states what the probe showed, not what the flags intend.
+
+Evidence:
+- Task_5 review finding T5-F1 and the 2026-10-23 entries in the plan's Progress Log.
+
+## 2026-10-23 - A Finding Is Read By What Acting On It Changes, Not By Whether The Owner Already Decided Around It  [tags: governance, correction]
+
+Context:
+- A review finding on a small change directed by the owner: the built text kept a research task that saved browser screenshots from closing; the fix let it close.
+
+Symptom:
+- The Orchestrator read the finding as trivial because the owner's statement ("closes on the Researcher's report") already covered the outcome, built the fix without asking, and the closing audit gave the finding as bearing on the design.
+
+Root cause:
+- The reading used the wrong test. A finding bears on the design when acting on it changes what someone experiences from the feature (`value-level-operation.md` Findings); whether an existing statement seems to cover the result is the audit's grading question, not the finding's reading.
+
+Fix applied:
+- The finding was escalated to the owner through Counsel and the change held, unpushed, until he answers.
+
+Prevention:
+- Read each finding by the experience test alone: if someone running the feature would meet a different result after the fix, it bears on the design and is escalated before the fix is built, however clearly a statement seems to cover it.
+
+Evidence:
+- `docs/coding-agent/plans/completed/choosing-where-research-goes-changes.md`, small change 2; the readings file's comparison lines for its closing audit.
+
+## 2026-10-23 - After A Gap In The Watch, Read The History From The Last Message Handled  [tags: tooling, correction]
+
+Context:
+- The Orchestrator stopped its peer-channel watch while only the owner's answers were outstanding, then restarted it for later work.
+
+Symptom:
+- Counsel's relay of the owner's acceptance of ADR-D-0061 arrived while the watch was off; the history checks that followed started from the time of the next expected message and skipped it, and the acceptance was reported to the owner as still pending until Counsel pointed it out.
+
+Root cause:
+- The history read was bounded by a guessed start time instead of by the last message the session had actually handled.
+
+Fix applied:
+- The acceptance was recorded (the record's status and the plan's Decision Log) as soon as Counsel named it.
+
+Prevention:
+- Whenever the watch restarts after a gap, read the channel history from the timestamp of the last message handled, not from a later guess, before acting on anything newer.
+
+Evidence:
+- The run's plan Decision Log entry of 2026-10-23 for ADR-D-0061.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:

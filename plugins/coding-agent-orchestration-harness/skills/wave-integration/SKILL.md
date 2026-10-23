@@ -13,6 +13,8 @@ The Orchestrator remains the only writer for shared plan lifecycle state. This s
 
 Apply the following to every Worker report in the wave, including malformed, `blocked`, and `failed` ones. A report that fails an item still enters the checklist for triage, corrective follow-up, or escalation; item 3 gates only Reviewer dispatch and final closeout.
 
+A plan task of type `research` reports through its Researcher's task report (the Researcher agent's Research task dispatch section) in place of a Worker report, and the contract applies to it with two readings: item 1 holds when the report names exactly one assigned Task_X and states its status, and item 2 holds when the Researcher modified no existing file except those the dispatch granted (`orchestration-harness/references/dispatch-guidance.md` Researcher Dispatch); evidence it created in line with the task passes. Items 3 to 5 apply as written.
+
 1. Parsed and validated: the report is one YAML block valid against `subagent-report-contract`, maps to exactly one assigned Task_X, and its status (`done`, `blocked`, `failed`) is recorded. A malformed report is a blocker: request a corrected report or dispatch follow-up work before review.
 2. Ownership reconciled: every `files_changed` path is inside the task's `owns`, or outside it only when minimal and explicitly explained. An unexplained cross-owns edit is a blocker.
 3. Required evidence present: every required Worker-owned validation item is `pass` or explicitly waived. `skipped` is not a waiver; missing evidence blocks progression to Reviewer dispatch and closeout, not the follow-up dispatch that obtains it.

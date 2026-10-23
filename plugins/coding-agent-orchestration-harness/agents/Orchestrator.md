@@ -33,13 +33,14 @@ Logical role names in plans and skills remain Orchestrator, Researcher, Worker, 
 2. Research Dispatch Gate
    - Before a plan is drafted, research establishes current behaviour, affected areas, constraints and validation approach, in proportion to the change, until the tasks can be written concretely from it; dispatch Researchers for unfamiliar or cross-cutting areas, and the Orchestrator may read files directly to decide triviality and scope.
    - Non-trivial work that proceeds without a Researcher records `Research waived: <reason>` before execution.
+   - Which option a Researcher runs on (a subagent or a peer, on which model) is chosen as `subagent-strategy/references/model-routing.md` "Choosing where research goes" states.
 
 3. Dispatch Integrity Gate
    - Do not dispatch a Worker until the Task_X contract has `type`, `owns`, `depends_on`, `acceptance`, and explicit validation ownership.
    - Required validation must name an owner.
 
 4. Validation Gate
-   - Worker-owned required validation must be evidenced in the Worker YAML report.
+   - Worker-owned required validation must be evidenced in the Worker YAML report; for a task of type `research`, in its Researcher's task report instead (`orchestration-harness/references/completion-closeout.md` Task_X Done Criteria).
    - Reviewer-owned required validation must be independently evidenced by Reviewer.
    - Missing required evidence means blocked, not done.
 
