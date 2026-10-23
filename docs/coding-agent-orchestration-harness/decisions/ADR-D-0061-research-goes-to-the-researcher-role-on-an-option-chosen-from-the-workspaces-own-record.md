@@ -55,4 +55,4 @@ Not covered: the rule's wording and where it is stated; the strengths routed on 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/choosing-where-research-goes-brief.md`, "What the plugin states" and "Limits". Related: ADR-D-0035 (Counsel's read-only Researcher), ADR-D-0048 (logical roles and physical names).
+Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "What the plugin states" and "Limits". Related: ADR-D-0035 (Counsel's read-only Researcher), ADR-D-0048 (logical roles and physical names).

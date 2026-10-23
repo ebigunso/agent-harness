@@ -1259,7 +1259,7 @@ Prevention:
 - Read each finding by the experience test alone: if someone running the feature would meet a different result after the fix, it bears on the design and is escalated before the fix is built, however clearly a statement seems to cover it.
 
 Evidence:
-- `docs/coding-agent/plans/active/choosing-where-research-goes-changes.md`, small change 2; the readings file's comparison lines for its closing audit.
+- `docs/coding-agent/plans/completed/choosing-where-research-goes-changes.md`, small change 2; the readings file's comparison lines for its closing audit.
 
 ## 2026-10-23 - After A Gap In The Watch, Read The History From The Last Message Handled  [tags: tooling, correction]
 
