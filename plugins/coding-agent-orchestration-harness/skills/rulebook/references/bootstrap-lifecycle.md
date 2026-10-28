@@ -69,7 +69,7 @@ Setup never writes, drafts, starts, templates or offers a form for a philosophy'
 
 ## Models Record
 
-At full bootstrap and at every targeted refresh, setup fills the workspace's record of options (`subagent-strategy/references/model-routing.md`, The record of options) in the Models And Peers In This Workspace section of `common.md`, in the form `references/rule-suite-templates.md` gives, dated the day it is written.
+At full bootstrap and at every targeted refresh, setup fills the workspace's record of options (`subagent-strategy/references/model-routing.md`, The record of options) for the Models And Peers In This Workspace section of `common.md`, in the form `references/rule-suite-templates.md` gives, dated the day it is filled. When it is written into `common.md` is set by the hold below.
 
 - Options: what the runtime offers: the session's own model, each model its subagent mechanism can be dispatched on, and each peer seat the workspace has, with the model it runs on and the role it can hold. Setup reads these from the runtime and the workspace.
 - Tendencies: for each family among the options, the workspace's own dated observation where the record holds one or the owner states one at the hold; it replaces the seed for that family. Otherwise the seed's entry (`subagent-strategy/references/model-tendencies-seed.md`) with the seed's date. A family neither covers is recorded as not yet observed.
@@ -79,8 +79,9 @@ The record is held as Philosophy Lines holds an awaiting line: its status line s
 
 - Setup cannot observe what the environment runs on (a subscription plan or a pay-as-you-go budget) or the owner's budget allowance. It asks him for both at the hold, unless the record already holds what he stated, writes what he states, and infers neither. It then shows him the filled record, these lines included, and asks him to confirm it. These are the step's only questions: which model a role goes to is the reasons' to decide, and the owner may change any line at the hold.
 - A confirmation that names no allowance is valid: the record says none was stated, and the walk in the Worker's reason (`model-routing.md`) finds the cost-bounded options.
-- On his confirmation the status line records who confirmed and the date. Nothing is dispatched by the record before then.
-- While a refresh's redated record awaits his confirmation, the last confirmed record, if any, governs dispatches; with none, nothing is dispatched on the record until he confirms.
+- Where `common.md` holds no confirmed record, setup writes the filled record there with its status line awaiting his word, and nothing is dispatched on it until he confirms.
+- Where `common.md` holds a confirmed record (a record in an older form counts as confirmed), a refresh leaves that section untouched and in force, shows the filled record in the refresh output as proposed, and writes it into `common.md`, replacing the confirmed one, only on his confirmation.
+- On his confirmation the status line records who confirmed and the date.
 
 A refresh re-resolves the record against the options as they are then, redates it and holds it again; the lines the owner stated carry over and are shown for him to keep or change. A record in an older form, routing by named strengths rather than by the reasons, is rewritten in this form: its dated observations and the lines the owner stated carry over into the lines that hold them, and a line this form has no place for is kept as it stands.
 

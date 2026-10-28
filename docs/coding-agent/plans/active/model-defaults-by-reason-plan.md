@@ -286,6 +286,8 @@
 - D6, 2026-10-28: while a refresh's redated record awaits confirmation, the last confirmed record, if any, governs dispatches; with none, nothing is dispatched on the record until he confirms. An Orchestrator ruling, inferred from the brief's item 5 (only the new result is held) and cheap to undo.
 - D7, 2026-10-28: ADR numbering. The other run's proposed records take ADR-D-0062 onward; this run's ADR-D-0062 is renumbered after them before the pull request opens.
 
+- D8, 2026-10-28: D6 is superseded by the fix for MDW-F1: the confirmed record stays in force in common.md until the owner confirms the proposal shown in the refresh's output.
+
 ## Notes (Risks / Edge cases)
 - A fixture shows what a fresh agent does with the text, not what setup does in his next repository; the human-only pass condition covers that.
 - Task_3 edits a rule file and is the Orchestrator's own (`common.md`, Repo Safety); it is dispatched to no Worker.

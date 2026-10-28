@@ -49,6 +49,7 @@ Run plugin validators from `plugins/coding-agent-orchestration-harness/` unless 
 
 This is the workspace's record of options for dispatch. Each role's reason is stated in `subagent-strategy/references/model-routing.md` (Reasons by role); this record says what this workspace has and which option each reason resolves to here. The Orchestrator and Counsel both read it. Re-observe and redate it when a model changes.
 
+- Status: recorded 2026-10-28; confirmed by ebigunso on 2026-10-29 (the resolutions below are his words of 2026-10-28, ratified with the brief `model-defaults-by-reason`).
 - What this workspace has, recorded 2026-10-22, models named 2026-10-28: Claude subagents dispatched from the Orchestrator or Counsel session, on Opus 5.5 or Fable 5.1; and three Codex peer seats reached over agmsg in team `AgentHarness`: `agent-harness-researcher` (Researcher role; GPT-6 Astra, set up by the owner on 2026-10-22), `agent-harness-worker` (Worker role) and `agent-harness-reviewer` (Reviewer role), both on GPT-6.1 Sol (set by the owner on 2026-10-04).
 - Observed tendencies: this workspace's observation of the Claude and GPT families is the one the plugin's seed carries (`subagent-strategy/references/model-tendencies-seed.md`, Claude observed 2026-10-28, GPT 2026-10-29); nothing else is recorded.
 - What the environment runs on: not recorded. The owner's cost setting below is what cost-bounded roles are judged against.

@@ -59,7 +59,7 @@ Not covered: the wording of each reason and of the research rule, and where they
 
 ## Revisit When
 
-- On 2026-10-28 each model release was changing which model fit a role and at what cost; if releases stop changing that, a default by name stops going out of date, and the rejected alias and no-default alternatives reopen.
+- On 2026-10-28 each model release was changing which model fit a role and at what cost; if releases stop changing that, a default by name stops going out of date, and the rejected alias alternative reopens.
 - On 2026-10-29 the harness provided no peer setup of its own, so whether a workspace has peers, and on which models, depended on that workspace alone; a peer setup the harness itself provides in every supported runtime reopens the rejected default route.
 - On 2026-10-29 no setup had yet resolved the reasons against a lineup; a setup found unable to fill a usable record from the reasons and the seed, or a dispatcher found reaching a worse option than its workspace's record shows, with the rule followed, reopens how the reasons and the rule are stated, not the decision.
 
