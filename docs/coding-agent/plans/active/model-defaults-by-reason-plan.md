@@ -72,7 +72,7 @@
 - description: |
   Write the five reasons in model-routing.md in place of the strength keys, the seed in its own reference, and bring the texts that use the old names to the new ones. The brief's "What the plugin states" is the content; wording is the Worker's and is not the owner's quoted.
 - acceptance:
-  - Each role's reason has the brief's three parts and, for each work type, the preferred tendency, the detrimental tendency and why; the Reviewer's reason chooses by the kind of finding the work wants at its stage and takes a different family only when that kind is its strength; no ordering of models is implied.
+  - Each role's reason has the brief's three parts and, for each work type, the preferred tendency, the detrimental tendency and why; the Reviewer's reason chooses by the kind of finding the work wants at its stage and takes a different family only when that kind is its strength; no ordering of models is implied. The Worker's reason states, once, the walk for a record confirmed without an allowance (brief, "Directed during the run"), and the Reviewer's points to it.
   - The seed is dated, at the provider level, Claude and GPT families only, tendencies only, no sources; it says a workspace's own dated observation replaces it for that family and the record is redated when a model changes.
   - "Choosing where research goes" keeps ADR-D-0061's rule and resolves by the Researcher's reason; Prose quality, Tiers and fallback, `adr.md`:54 and `prompt-budgeting.md`:5 read in the new terms; Counsel's text agrees where it reads the record.
   - A search of the plugin's rules for model names, family aliases, providers, seats and prices finds none outside the seed.
@@ -99,7 +99,7 @@
   Add setup's step for the models record: resolve each role's reason against the lineup the runtime offers and the seed, write the record into common.md with the date from a template section, and hold it for the owner's confirmation before anything is dispatched on it, as the philosophy step holds an unsettled pointer (Ruling R1 for the budget line and the walk).
 - acceptance:
   - Setup writes the record with its date and what the environment runs on, shows it, and no dispatch goes by it before the owner confirms; the budget allowance is his to state there; re-running setup redates the record.
-  - The walk for a confirmation without an allowance is stated where the Worker's reason is (Task_1's text) or where setup records the budget, once, and the other points to it.
+  - Setup's step points to the walk for a confirmation without an allowance, which Task_1 states with the Worker's reason; setup does not restate it.
   - The common.md template carries the record's section; rules-files.md describes it.
   - Nothing names a model, provider or price.
 - validation:
