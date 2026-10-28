@@ -22,6 +22,7 @@
 
 ## Planner-added requirements
 - The fixtures and probe outputs live in the Orchestrator's scratchpad, not in the repository. Needed because: they are one-off measurements of how a fresh agent reads the text, not checks a validator runs again (`common.md`, validation commands).
+- The seed is a reference file of its own, not a section of `model-routing.md`. Needed because: the brief keeps the routing rules free of provider names while the seed names providers as dated observations; a file boundary is where a search and a reader can see that line without excluding a section (Design).
 - The version is the next minor over the base branch when made, last. Needed because: an installed plugin is refreshed only when its version changes; another run (a quiet Orchestrator session under a brief) also changes the version, so the number is fixed when this change is made; last, so a later fix does not ship under a version already published.
 
 ## Scope / Non-goals
@@ -40,7 +41,7 @@
 ## Compatibility stance
 - surface: the routing vocabulary other texts use (`writing-strength`, `detail-strength`, `long-context`) and the workspace record's form in `common.md`.
 - stance: migrate
-- justification: the consumers are locatable: `adr.md`:54 and `model-routing.md`'s own later sections (R1 B; the search above); this repository's record, rewritten in this run; another workspace's record in the old form keeps routing until setup is re-run there, which redates it in the new form (brief, scenario 2).
+- justification: the consumers are locatable: `adr.md`:54 and `model-routing.md`'s own later sections (R1 B; the search above); this repository's record, rewritten in this run; another workspace's record in the old form is rewritten in the new form when setup is next run there (brief, scenario 2); nothing is promised for it before then.
 
 ## Context (workspace)
 - Governing brief: `docs/coding-agent/briefs/active/model-defaults-by-reason-brief.md`. Ratification as it reached this session: Counsel's relay of 2026-10-28 (16:17Z), quoting the owner on 2026-10-29: "I ratify both briefs, hand them over now." Relays are admitted by the Standing Approvals entry of 2026-10-01 in `common.md`.
@@ -173,6 +174,7 @@
 - Each task's commits are its own; reverting them restores the prior text. Nothing reaches the remote before review, and nothing is merged without the owner's acceptance naming the pull request.
 
 ## Progress Log (append-only)
+- 2026-10-28 17:03 Plan review dispatched to the reviewer seat with the plan-review snippet, at 4ad1a7f. 17:15 NEEDS_REVISION, one finding: MPR-F1 (minor) two drafting constraints unlisted (the seed in a file of its own; old-form records keep routing until setup is re-run). Triage: fix; the first listed with the Design's reason, the second dropped as unrequested. Validator: pass.
 - 2026-10-28 16:41 Research before drafting: R1, a forensic census, dispatched to the Researcher role on the researcher seat `agent-harness-researcher` (detail strength), its own dispatch and report over agmsg; no Worker task carried it. The seat disclosed reading files outside the dispatch's evidence scope (the other run's plan and run record, two rule files beyond the permitted section); none of its findings rests on them; no notes or readings file was opened for this task.
 - Run starts from revision: f852cee.
 
