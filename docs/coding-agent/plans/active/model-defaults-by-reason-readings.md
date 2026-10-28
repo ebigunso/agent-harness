@@ -31,4 +31,11 @@ Item | reading | statement relied on
 - Task_4 (fixture scenarios) | covered | as DoD 6
 - Task_5 (version) | extends | as DoD 7
 
+### `model-defaults-by-reason-plan.md`, plan draft, 2026-10-28: the verdict's comparison lines, as returned
+
+- Reading compared: DoD 1 agrees; DoD 2 agrees; DoD 3 agrees; DoD 4 agrees; DoD 5 agrees; DoD 6 agrees; DoD 7 diverges (Orchestrator: extends; auditor: not audited, internal mechanics with no engineering document); DoD 8 agrees; Planner-added fixtures in scratchpad diverges (Orchestrator: extends; auditor: not audited); Planner-added seed in its own file diverges (Orchestrator: covered by Limits; auditor: not audited, a file-structure choice the brief does not place); Planner-added version last diverges (extends vs not audited); Design agrees; Ruling R1 diverges (Orchestrator: covered by items 5 and 6, reading only the budget half; auditor: ask-now on the "cost notwithstanding ... repository only" half, which departs from item 1, and on the unstated case of a confirmation without an allowance); Ruling R2 agrees; Compatibility stance diverges (Orchestrator: covered by scenario 2; auditor: inferred, scenario 2 speaks of redating on re-run, not of the interval before); Assumption A1 agrees; Assumption A2 agrees; Task_1 agrees; Task_2 agrees; Task_3 agrees; Task_4 agrees; Task_5 diverges (extends vs not audited); runtime-identities non-goal, the other three non-goals and the Context decision-record item: unread.
+- Findings compared: none found (no findings recorded; the departure noted on R1 from item 1's Researcher cost setting changes what a fresh repository's research dispatch does, so it is "bears on the design and not recorded", grade ask-now).
+
 ## Findings
+
+- 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
