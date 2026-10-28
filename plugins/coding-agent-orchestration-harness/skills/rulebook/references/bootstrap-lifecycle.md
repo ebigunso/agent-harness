@@ -67,6 +67,23 @@ Report, in the bootstrap or refresh output, line by line and only for a line thi
 
 Setup never writes, drafts, starts, templates or offers a form for a philosophy's content, and infers none from the repository's code or documents: a philosophy comes only from discussion with the person entitled to state it.
 
+## Models Record
+
+At full bootstrap and at every targeted refresh, setup fills the workspace's record of options (`subagent-strategy/references/model-routing.md`, The record of options) in the Models And Peers In This Workspace section of `common.md`, in the form `references/rule-suite-templates.md` gives, dated the day it is written.
+
+- Options: what the runtime offers: the session's own model, each model its subagent mechanism can be dispatched on, and each peer seat the workspace has, with the model it runs on and the role it can hold. Setup reads these from the runtime and the workspace.
+- Tendencies: for each family among the options, the workspace's own dated observation where the record holds one or the owner states one at the hold; it replaces the seed for that family. Otherwise the seed's entry (`subagent-strategy/references/model-tendencies-seed.md`) with the seed's date. A family neither covers is recorded as not yet observed.
+- Resolutions: each role's reason (`model-routing.md`, Reasons by role) resolved against the options and their tendencies, one option per work type where the reason splits. A reason whose cost setting turns on what the environment runs on or on the allowance is resolved once the owner has stated them.
+
+The record is held as Philosophy Lines holds an awaiting line: its status line says it awaits the owner's word, the bootstrap or refresh output brings it to him, and his word decides.
+
+- Setup cannot observe what the environment runs on (a subscription plan or a pay-as-you-go budget) or the owner's budget allowance. It asks him for both at the hold, unless the record already holds what he stated, writes what he states, and infers neither. It then shows him the filled record, these lines included, and asks him to confirm it. These are the step's only questions: which model a role goes to is the reasons' to decide, and the owner may change any line at the hold.
+- A confirmation that names no allowance is valid: the record says none was stated, and the walk in the Worker's reason (`model-routing.md`) finds the cost-bounded options.
+- On his confirmation the status line records who confirmed and the date. Nothing is dispatched by the record before then.
+- While a refresh's redated record awaits his confirmation, the last confirmed record, if any, governs dispatches; with none, nothing is dispatched on the record until he confirms.
+
+A refresh re-resolves the record against the options as they are then, redates it and holds it again; the lines the owner stated carry over and are shown for him to keep or change. A record in an older form, routing by named strengths rather than by the reasons, is rewritten in this form: its dated observations and the lines the owner stated carry over into the lines that hold them, and a line this form has no place for is kept as it stands.
+
 ## Counsel Relay Admission
 
 Before Counsel's relays are admitted, the owner asks for setup in the Orchestrator session directly, since no relay is yet admitted to carry it; once relays are admitted, a later refresh he directs reaches the session as any decision does. At full bootstrap, and again only at a targeted refresh, when Repository Reference Documents has no Counsel line, the report offers the standing approval that admits Counsel's relays: the entry `references/rule-suite-templates.md` gives, on the terms of `orchestration-harness/references/value-level-operation.md` (The Carrier, Standing Approvals), naming Counsel's identity on the peer channel by the convention `<repository>-counsel` or as the owner names it. It is an offer, not something reported missing.
