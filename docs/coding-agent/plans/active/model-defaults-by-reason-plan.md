@@ -174,9 +174,9 @@
 - Each task's commits are its own; reverting them restores the prior text. Nothing reaches the remote before review, and nothing is merged without the owner's acceptance naming the pull request.
 
 ## Progress Log (append-only)
-- 2026-10-28 17:03 Plan review dispatched to the reviewer seat with the plan-review snippet, at 4ad1a7f. 17:15 NEEDS_REVISION, one finding: MPR-F1 (minor) two drafting constraints unlisted (the seed in a file of its own; old-form records keep routing until setup is re-run). Triage: fix; the first listed with the Design's reason, the second dropped as unrequested. Validator: pass.
 - 2026-10-28 16:41 Research before drafting: R1, a forensic census, dispatched to the Researcher role on the researcher seat `agent-harness-researcher` (detail strength), its own dispatch and report over agmsg; no Worker task carried it. The seat disclosed reading files outside the dispatch's evidence scope (the other run's plan and run record, two rule files beyond the permitted section); none of its findings rests on them; no notes or readings file was opened for this task.
 - Run starts from revision: f852cee.
+- 2026-10-28 17:03 Plan review dispatched to the reviewer seat with the plan-review snippet, at 4ad1a7f. 17:15 NEEDS_REVISION, one finding: MPR-F1 (minor) two drafting constraints unlisted (the seed in a file of its own; old-form records keep routing until setup is re-run). Triage: fix; the first listed with the Design's reason, the second dropped as unrequested. Validator: pass.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
