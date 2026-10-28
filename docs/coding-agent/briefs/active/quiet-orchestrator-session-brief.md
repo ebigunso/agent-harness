@@ -23,9 +23,13 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 - A brief, a hand-over or a dispatch instruction arriving as a message in the Orchestrator's session does not make the owner present there for questions; anyone may still talk to the session directly, and a question is answered where it was asked. **means** *(agent-proposed 2026-10-29, from his first words: the session is "handed instructions to load the orchestration-harness skill when being dispatched" and still asked in session)*
 - A run without Counsel, on a philosophy alone or with no brief, is unchanged: the run's own mode applies and the user is asked in that session. **constraint** *(told 2026-10-28: "Keeping the behavior as is for a run without a Counsel is fine.")*
 
+## Directed during the run
+
+- Work handed over through a brief that turns out to be search-shaped, its end state checkable but its structure found by iterating, may run in goal mode under the brief. Its goal and limits (what it may change, its budget, when it must stop) reach the owner through Counsel like every other question, and his relayed answer agreeing to them is what starts the loop; the brief itself still does not stand in for that agreement. This changes what can start a goal-mode run, and the earlier record stating that only an agreement in the Orchestrator's session starts one is revised accordingly. **gives** *(told 2026-10-29, answering the plan-draft audit's ask-now, put to him as three experiences, (a) plan mode under a brief, (b) the one question still asked in the session, (c) limits through Counsel: "For the first question, I'd take option C then.")*
+
 ## Limits
 
-- No new carrier and no new kind of message is added; what exists (the Carrier, the blocked report, the open question in the discussion notes where no channel exists) carries everything. **constraint** *(agent-proposed; follows from the above)*
+- No new carrier and no new kind of message is added; what exists (the Carrier, the blocked report, the open question in the discussion notes where no channel exists) carries everything, the goal-mode limits of Directed during the run included. **constraint** *(agent-proposed; follows from the above)*
 - Nothing here changes what the audit grades or what authorizes a plan under a brief. **constraint** *(agent-proposed; the brief route stays as ADR-D-0051 and the lifecycle gates state it)*
 
 ## Core scenarios

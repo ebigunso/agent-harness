@@ -16,7 +16,7 @@
 - The lines the brief names read under a brief as the Carrier or the blocked report, each at its own place: the Orchestrator's ownership of user questions (`SKILL.md`:24); the replan procedure's confirmation (`lifecycle-gates.md`:56); the final-response slot for questions (`final-response-contract.md` item 8 and its Under a brief carry-over, `SKILL.md` Final Response Summary, both Orchestrator adapters); the Carrier's list of consent gates (`value-level-operation.md`:95) no longer reads as the only kinds that go to Counsel. Counsel's own statement that plans are presented only by the Orchestrator session (`counsel/SKILL.md`:22) says that under a brief no plan is presented at all.
 - Counsel's receiving side matches the sending side (`counsel/SKILL.md`:73 and :77, which today hand back everything below the direction level): what only the owner can give, an act, a permission or an input that no statement of his covers and no one else can supply, is brought to him and not handed back; a question of judgement below the direction level still goes back to the Orchestrator to settle, and Counsel decides no implementation and uses none of the owner's authority (brief, "Who it is for and why": "Whatever needs him, of any kind, reaches him through Counsel").
 - A run without a brief, on a philosophy alone or with no value document, is unchanged (brief, constraint): its plan is presented and its user asked in the session.
-- Goal mode under a brief: held for the owner's answer to the value question of 2026-10-28 (Decision Log D1); built only after the plan is revised for that answer and passes its gate again (Replan Procedure step 4).
+- Goal mode under a brief (brief, "Directed during the run"): search-shaped work under a brief may run in goal mode; its goal and limits reach the owner by the Carrier, his relayed answer agreeing to them starts the loop, and the brief itself does not stand in for that agreement; a stop of the loop goes by the Carrier. The goal-mode texts (`goal-mode.md`, `goal-templates.md`, `goal-assessor-mandate.md`, `goal-condition-checklist.md`, `value-level-operation.md` L3 and Goal-Mode Runs, `SKILL.md` where it states the envelope's authority) say so; ADR-D-0056's statement that the envelope is ratified only in the session is revised as `durable-docs-authoring` states, and the revision goes to the owner for acceptance by name through Counsel (D3).
 - Scenarios 1, 2 and 5 are shown on a fixture with the outcome in the Progress Log, and scenario 4, the brief's constraint that a run without a brief is unchanged, on the same fixture; scenario 3 is shown on the same fixture where one can be made; the human-only pass condition stays pending and the closeout says so.
 - The plugin's version is 1.2.0 in every file that states it, made as the last change before the run is reported ready.
 - Package validators and smoke tests pass; the branch has Reviewer `APPROVED`; value audits at plan draft and closeout are logged; the plan closes and the run is reported ready: branch published, pull request opened under the standing approval, note to Counsel, nothing merged.
@@ -25,7 +25,7 @@
 - The plugin's version becomes 1.2.0, as the last change before the run is reported ready. Needed because: an installed plugin is refreshed only when its version changes, so no workspace receives the change otherwise; minor, since behaviour changes and nothing a consumer relies on breaks; last, so a later fix in the run does not ship under a version already published.
 
 ## Scope / Non-goals
-- Scope: the plugin texts in R1's census that, under a brief, ask the user in the session or present a plan there: `skills/orchestration-harness/SKILL.md` (Stable Role Model, Plan Gate, Final Response Summary); `references/value-level-operation.md` (The Carrier); `references/lifecycle-gates.md` (Plan Gate Details, Replan Procedure); `references/final-response-contract.md`; `agents/Orchestrator.md`, `claude/agents/harness-orchestrator.md` where they restate those; `skills/counsel/SKILL.md`:22, :73 and :77 (Counsel's receiving side); `skills/git-workflow/references/pr-review-monitoring.md`:46 (a redesign proposed "to the user as a plan delta"); the version files. A decision record if the admission test passes.
+- Scope: the plugin texts in R1's census that, under a brief, ask the user in the session or present a plan there: `skills/orchestration-harness/SKILL.md` (Stable Role Model, Plan Gate, Final Response Summary); `references/value-level-operation.md` (The Carrier); `references/lifecycle-gates.md` (Plan Gate Details, Replan Procedure); `references/final-response-contract.md`; `agents/Orchestrator.md`, `claude/agents/harness-orchestrator.md` where they restate those; `skills/counsel/SKILL.md`:22, :73 and :77 (Counsel's receiving side); `skills/git-workflow/references/pr-review-monitoring.md`:46 (a redesign proposed "to the user as a plan delta"); the goal-mode texts named in the Definition of Done; the version files. ADR-D-0056, revised for the owner's direction of 2026-10-29. A decision record if the admission test passes.
 - Non-goals: what the audit grades and what authorizes a plan under a brief (brief, Limits); any new carrier or kind of message (brief, Limits); runs without Counsel (brief, Left out); the generic operational asks R1 lists in other skills (troubleshooting, setup, git stacking, peer nudging, improvement-loop), which the default's reading rule covers without editing each; the Researcher, Worker, Reviewer and Auditor texts, which already put no question to the user (R1 part 4).
 
 ## Design
@@ -34,6 +34,7 @@
 - Alternative: edit each of the about thirty lines R1 lists to add "under a brief, by the Carrier".
   - structure: thirty restatements of one rule. evolution: every future ask line must remember the clause, and the census goes stale. verification: the same search, more places to miss. operation: none. human: a reader sees the clause everywhere and the default nowhere. safety: the same.
 - Why chosen: the brief locates the defect in the rule being an exception list rather than a default; the alternative keeps it an exception list, only a longer one.
+- Ruling R2 (goal mode under a brief): the Carrier applies to a goal-mode run under a brief as to a plan-mode one, so the limits and every stop travel by it; what the value audit grades in goal mode is unchanged (ADR-D-0056: a repository with a philosophy), as the brief's Limits keep it ("Nothing here changes what the audit grades").
 - Ruling R1 (merge permission): under a brief, the runtime's own permission to merge (`value-level-operation.md`:96 and its four copies) is not a question the Orchestrator asks; this is the brief's own rule applied to it (item 2: the final response names "what the turn ended blocked on, in place of questions"; item 4: "anyone may still talk to the session directly"). When a merge waits for it, the turn ends blocked naming it, and Counsel is told in the same message that reports the run's state; nothing in the session is phrased as a question. The permission itself stays the owner's to grant in the session, once and as a standing matter, as written; the plugin cannot carry a runtime grant.
 
 ## Compatibility stance
@@ -49,7 +50,7 @@
 - Design record consulted and deviations from its acceptance: ADR-D-0038 and ADR-D-0051 state that plan approval is not carried by relay; this plan keeps that (no plan is carried) and removes plan approval under a brief altogether, which a new record states if the admission test passes.
 
 ## Open Questions (max 3)
-- None in this session; the one value question is with Counsel (D1).
+- None.
 
 ## Assumptions
 - A1: the generic "ask the user" lines in other skills (R1 part 3) are covered by the default's reading rule and need no edit; the reviewer checks that none of them says "in this session" or otherwise defeats the reading — source: R1 parts 3 and 6 C; brief, item 3 (means).
@@ -67,15 +68,20 @@
   - plugins/coding-agent-orchestration-harness/claude/agents/harness-orchestrator.md
   - plugins/coding-agent-orchestration-harness/skills/counsel/SKILL.md
   - plugins/coding-agent-orchestration-harness/skills/git-workflow/references/pr-review-monitoring.md
-  - docs/coding-agent-orchestration-harness/decisions/ (a new record only)
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/goal-mode.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/goal-templates.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/goal-assessor-mandate.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/goal-condition-checklist.md
+  - docs/coding-agent-orchestration-harness/decisions/ (a new record, and ADR-D-0056 as the authoring rules allow a revision)
 - depends_on: []
 - description: |
-  Make the plugin say what the brief's "What the plugin states" says, by the Design above: the default once in The Carrier, the three moves once in Plan Gate Details, and the contradicting lines changed at their own places. Wording is the Worker's, within the brief's words. Goal-mode texts are out of this task (D1).
+  Make the plugin say what the brief's "What the plugin states" says, by the Design above: the default once in The Carrier, the three moves once in Plan Gate Details, and the contradicting lines changed at their own places. Wording is the Worker's, within the brief's words. The goal-mode texts are in this task (D3).
 - acceptance:
   - The Carrier opens with the default (brief items 2 to 4), including the message-arrival line; its consent-gate list keeps each gate's own rule and reads as gates the carrier reaches, not as the only kinds of question that go to Counsel; `value-level-operation.md`:97 no longer locates a plan under a brief in the session; Ruling R1 is stated where :96 is.
   - Plan Gate Details states the three moves once, beside the route's conditions; `SKILL.md` Plan Gate and `lifecycle-gates.md`:17, :19, :25 and :57 send a plan under a brief to no approval, waiver or asking, and the plan-mode rule's asking reads as for work no brief governs; both Orchestrator adapters' Plan Gate lines match.
   - `SKILL.md`:24, `lifecycle-gates.md`:56, `final-response-contract.md` item 8 and its Under a brief carry-over, `SKILL.md` Final Response Summary and both adapters' final-response lines read under a brief as the Carrier or the blocked report; `counsel/SKILL.md`:22 and `pr-review-monitoring.md`:46 agree.
   - `counsel/SKILL.md`:73 and :77 bring to the owner what only he can give (an act, a permission or an input no statement of his covers and no one else can supply) and still hand back a question of judgement below the direction level; Counsel decides no implementation and uses none of the owner's authority. The Orchestrator's side (`value-level-operation.md` Asking The Owner and the Carrier) names the same three kinds of what needs the owner: direction-level questions, the reserved acts, and what only he can give.
+  - Goal mode under a brief reads as the Definition of Done states, in every goal-mode text that names who agrees the envelope or where a stop is surfaced; ADR-D-0056 is revised for it as `durable-docs-authoring/references/adr.md` states.
   - A run without a brief reads exactly as before.
   - A decision record is proposed if the admission test in `durable-docs-authoring/references/adr.md` passes, filename at or under 135 characters.
 - validation:
@@ -90,7 +96,7 @@
   - kind: review
     required: true
     owner: reviewer
-    detail: "Diff review against the brief; a search of plugins/ for lines that, under a brief, ask the user in the session or present a plan there, R1's census lines included, finds none outside the held goal-mode texts"
+    detail: "Diff review against the brief; a search of plugins/ for lines that, under a brief, ask the user in the session or present a plan there, R1's census lines and the goal-mode texts included, finds none"
 
 ### Task_2: Scenarios on a fixture
 - type: test
@@ -189,5 +195,7 @@
 
 - D2, 2026-10-28: the plan-draft verdict's `Reading compared:` divergences corrected in the plan (Replan Procedure step 1: a change to the plan, not the design): scenario 4 is the brief's own constraint and core scenario, not a planner-added requirement (PAR-1); the scratchpad as the fixtures' place is internal mechanics, kept only as Task_2's `owns` (PAR-2); Ruling R1 rests on the brief's items 2 and 4 and assumption A2 is folded into it (DES-R1, A2). The revision goes through plan review and a new plan-draft audit together with the owner's answer on goal mode (D1).
 
+- D3, 2026-10-29: the owner's answer to D1 and to the plan-draft audit's ask-now on DoD-6 and D1, relayed by Counsel at 2026-10-28T17:37:20Z (admitted by the standing approval of 2026-10-01), quoting him on 2026-10-29: "For the first question, I'd take option C then." Counsel wrote it into the brief under "Directed during the run", with his words; the brief's amendment is committed with this revision. The plan is revised for it: the goal-mode texts and ADR-D-0056 join Task_1 (DoD 6, Ruling R2). The revision goes through plan review and a new plan-draft audit before anything is built (Replan Procedure step 4). D1's hold is ended by the answer.
+
 ## Notes (Risks / Edge cases)
 - A fixture probe shows what a fresh agent does with the text, not what a long session does; the human-only pass condition covers the latter.
