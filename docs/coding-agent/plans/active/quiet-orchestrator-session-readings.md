@@ -62,6 +62,34 @@ Item | reading | statement relied on
 - Reading compared: (against the heading "plan draft, second dispatch") DoD-1 agrees; DoD-2 agrees; DoD-3 agrees; DoD-4 agrees; DoD-5 agrees; DoD-6 agrees (covered / cited); DoD-7 agrees; DoD-8 agrees (extends / inferred); DoD-9 agrees; PAR-1 version agrees (extends / inferred); DES-1 agrees; DES-R1 agrees; DES-R2 agrees; A1 agrees; COMPAT agrees; Task_1 agrees; Task_2 agrees; Task_3 agrees (extends / inferred); NG-1, NG-2, NG-3, NG-4, NG-5 unread; D1 unread (its substance is read under DoD-6 of the first heading, agrees); D2 unread; D3 unread (its substance is read under DoD-6, agrees).
 - Findings compared: finding of 2026-10-28 (a goal-mode envelope ratified only in the session; nothing asked in session under this brief), read as bearing on the design: agrees (whether work under a brief can run in goal mode and whether he is asked in the session for it changes what he experiences); it is answered and recorded in the brief. No departure from a means is noted on any item line.
 
+### `quiet-orchestrator-session-plan.md`, closeout
+
+Item | reading | statement relied on
+
+- The Carrier's default (every question by the Carrier under a brief; nothing asked in the session; other ask lines read through it; a message arriving does not make the owner present) | covered | brief, items 2 to 4
+- The three moves stated once in Plan Gate Details; the approval and asking fallbacks under a brief removed (SKILL.md, lifecycle-gates, value-level-operation :97, both adapters) | covered | brief, item 1 and its pass condition
+- Ownership of questions, replan step 3, final-response item 8 and its carry-over, Final Response Summary, pr-review-monitoring :46 | covered | brief, item 3 (means)
+- Final response under a brief phrases nothing as a question to the reader, a scenario's how-to-observe included | covered | brief, scenario 5 and the pass condition
+- Counsel's receiving side (:22, :30, :73, :77) and Asking The Owner name three kinds; Counsel decides no implementation | covered | brief, "Who it is for and why"
+- Goal mode under a brief: envelope and stops by the Carrier; the Carrier in force for a goal run under a brief with no philosophy; what the audit grades unchanged | covered | brief, Directed during the run; Limits
+- Ruling R1 (merge permission: blocked report and Counsel told) | covered | brief, items 2 and 4
+- Ruling R2 (the Carrier for a goal run under a brief; audit unchanged) | covered | brief, Directed during the run; Limits
+- D4 (ADR-D-0040 and ADR-D-0041 replaced as part of Task_1) | covered | brief, Directed during the run ("the earlier record ... is revised accordingly") and item 1; durable-docs-authoring
+- D5 (record reasons rest on the brief) | covered | brief, "Who it is for and why", item 4, pass condition
+- D6 (no retirement before acceptance) | covered | the reserved act of accepting a record
+- D7 (retired filename length settled at retirement) | covered | internal to how a record is moved
+- ADR-D-0062 to ADR-D-0065 proposed, each to be accepted by name | covered | brief, Directed during the run; the owner's reserved act
+- Worker call: one new record for plan-approval removal and envelope agreement | covered | brief, items 1 and 2 as one default
+- Worker call: a goal run under a brief is a goal run plus the Carrier, not a unit of the brief's run | covered | brief, Directed during the run; Limits (what authorizes a plan unchanged)
+- Worker call: the mandate's "no brief governs a goal run" left as is | covered | brief, Limits ("Nothing here changes what the audit grades")
+- Worker call: in a repository with no philosophy a goal run under a brief applies Documents, Asking The Owner and The Carrier only | covered | brief, Directed during the run; Limits
+- Worker call: goal-mode.md keeps "a ratified brief itself authorizes no envelope" | covered | brief, Directed during the run ("the brief itself still does not stand in")
+- Worker call: lines asking before a brief governs left alone | covered | brief, item 4 and Limits
+- Worker call: ADR-D-0051 not reopened | covered | brief, Limits (what authorizes a plan under a brief unchanged)
+- Worker call: ADR-D-0040 and ADR-D-0041 replaced by two records | extends | internal to the records' form
+- Task_2's probes and outcomes | covered | brief, pass conditions
+- Version 1.2.0 | extends | planner-added; refresh of installed plugins
+
 ## Findings
 
 - 2026-10-28, from R1 (E; `goal-mode.md`:38, `value-level-operation.md`:3): a goal-mode envelope can be ratified only by the owner in the Orchestrator's session, and no brief stands in for it; under this brief nothing is asked in that session | bears on the design: whether work under a brief can run in goal mode, and whether he is asked anything in the session for it, changes what he experiences. Escalated to Counsel 2026-10-28T16:43:07Z as a value question with three options: (a) plan mode under a brief, (b) goal mode stays and its envelope is the one thing asked in session, (c) the envelope reaches him through Counsel. Part held: the goal-mode texts (`goal-mode.md`, `goal-templates.md`, `goal-assessor-mandate.md`, `goal-condition-checklist.md`, `value-level-operation.md` L3 and its Goal-Mode Runs section); the rest of the run continues.
