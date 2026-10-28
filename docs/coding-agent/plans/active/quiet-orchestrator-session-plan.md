@@ -145,6 +145,7 @@
 - 2026-10-28 16:43 Finding escalated to Counsel (readings file, Findings): goal mode under a brief. Part held: the goal-mode texts.
 - Run starts from revision: 55c08a4.
 - 2026-10-28 16:45 Plan review dispatched to the reviewer seat `agent-harness-reviewer` with the plan-review snippet, at cb25c26. 16:56 to 16:57 NEEDS_REVISION, two findings: QPR-F1 (major) Counsel's receiving side (`counsel/SKILL.md`:73, :77) hands back everything below the direction level, so an owner-only question that is no judgement call would come back instead of reaching him; QPR-F2 (minor) three drafting constraints unlisted (fixtures only in the scratchpad, outcomes copied verbatim, one commit per task). Triage: QPR-F1 fix (a DoD item, Task_1 acceptance and a Counsel probe in Task_2); QPR-F2 fix (the scratchpad listed with its reason; "verbatim" and the commit count dropped). Validator: pass.
+- 2026-10-28 17:01 Plan review round 2 at 9728b84 (delta cb25c26..9728b84): APPROVED, QPR-F1 and QPR-F2 closed, no new findings. The plan review is closed with no finding open.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - D1, 2026-10-28: goal mode under a brief is held for the owner's answer to the value question sent to Counsel at 16:43:07Z (options: plan mode under a brief; goal mode with its envelope agreed in the session; the envelope through Counsel). Plan revised for the answer when it arrives.
