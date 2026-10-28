@@ -1,6 +1,6 @@
 # Plan: Model defaults by reason
 
-- status: draft
+- status: in_progress
 - generated: 2026-10-28
 - last_updated: 2026-10-28
 - work_type: docs
@@ -279,6 +279,40 @@
   - Scenario 3 (a fixture record with a GPT-family worker and reviewer seat and Claude subagents): (1) production logic coding to `tide-worker`, asked for "literal, in-bounds execution"; (2) its review to `tide-reviewer`, asked for "the rigorous review ... Each finding is a real defect", with "I did not switch to Atlas Prime just because it is a different family"; (3) the design still being worked out to a Claude subagent on Atlas Prime; (4) its review to a Claude subagent, asked for "the wide-view review ... It does not ask for edge-case breakages or line-level defects". Each cites model-routing.md Reasons by role (Worker, Reviewer) and the seed. Expected outcome: met.
   - Scenario 1 (setup in a fresh repository whose runtime offers three models of one provider; the owner says nothing about models): partly met. The record is written with "Status: recorded 2026-10-29; awaits the owner's confirmation", the options and the seed's Claude entry; SHOWN TO SAM asks only "What does this environment run on" and "Is there a budget allowance", then for confirmation; nothing about which model a role goes to; nothing dispatched before he confirms. But every role resolves to a three-way tie ("Tendencies are recorded per family, so they do not tell Atlas Prime, Swift and Mini apart"), and the first dispatch is made on "my own tie-break, not something the text directs". Finding: in a one-family workspace the reasons cannot rank models within the family; escalated to Counsel as a value question.
 - 2026-10-28 18:52 Finding escalated to Counsel (readings file, Findings): in a one-family workspace the reasons cannot rank models within the family. Part held: setup's resolution of a role among options of one family (Task_2's Resolutions bullet) and scenario 1's state; the rest of the run continues.
+- 2026-10-28 19:12 The probe dispatch texts, verbatim. Each probe was a new Claude subagent (general-purpose, on Opus) whose whole prompt was one of the lines below; the files it names are reproduced after them as they stood (the scratchpad path shortened to `<probe dir>/`).
+  - Scenarios 1, 3, 5: Read these two files in order; together they are your whole task, and you follow them exactly: <probe dir>/common.md, then s<N>.md in the same directory.
+  - `<probe dir>/common.md`:
+    > You are a session working in a coding repository that uses the coding-agent orchestration harness plugin. Your operating policy is the plugin's own text, at <worktree>/plugins/coding-agent-orchestration-harness/ (follow its pointers; read whatever references the situation needs, and nothing outside that plugin directory unless the situation names a file). The repository, its people and the models named below are fictional and exist only in the situation; do not look for them on disk.
+    > Rules: read files only, edit nothing, run no git command, message no one, dispatch no subagent. Answer exactly in the form the situation asks, citing for each decision the plugin file and section that directs it.
+  - `<probe dir>/s1.md`:
+    > Situation: a fresh repository "tidepool" has no docs/coding-agent/rules/ yet. You are the Orchestrator, asked by the person directing the work, Sam, to set the repository up for the harness (the rulebook skill's bootstrap). Sam has said nothing about models.
+    > The runtime: this session runs on the model "Atlas Prime". Its subagent tool can dispatch subagents on "Atlas Prime", "Atlas Swift" and "Atlas Mini". All three are from the provider Anthropic (the Claude family). There are no peers and no other provider. Nothing about these models has been observed in this repository.
+    > Answer in this form:
+    > PART A, RECORD: the Models And Peers section exactly as you would write or show it at setup, with its status.
+    > PART A, SHOWN TO SAM: the text you show Sam at the hold, verbatim, including anything you ask him.
+    > PART B: Sam replies "Looks right, confirmed. We're on a team subscription; I won't set an allowance." The first task of the first plan is a Worker task whose acceptance judges a user-facing settings page's design and wording. Which option do you dispatch that Worker on, and why, step by step from the text?
+  - `<probe dir>/s3.md`:
+    > Situation: repository "tidepool". Its docs/coding-agent/rules/common.md "Models And Peers In This Workspace" reads:
+    > - Status: recorded 2026-10-20; confirmed by Sam on 2026-10-20.
+    > - What this workspace has: Claude subagents on "Atlas Prime" or "Atlas Swift"; a peer seat `tide-worker` (Worker role) and a peer seat `tide-reviewer` (Reviewer role), both on "Vector Pro" (provider OpenAI, the GPT family).
+    > - Observed tendencies: none of this workspace's own; the plugin's seed applies.
+    > - What the environment runs on: a team subscription. Budget allowance: Sam's, "both Atlas Prime and Vector Pro are fine for every role".
+    > - Resolutions: Worker: logic-oriented coding to `tide-worker`; design, writing and interface work to a Claude subagent on Atlas Prime. Reviewer: rigorous review to `tide-reviewer`; review of a design still being worked out to a Claude subagent on Atlas Prime.
+    > You are the Orchestrator. Four dispatches are due:
+    > (1) a Worker task: implement the ledger reconciliation algorithm to its spec; it will run in production.
+    > (2) the review of task (1).
+    > (3) a Worker task: draft the design of a new plugin system; the design is still being worked out and will be revised.
+    > (4) the review of task (3).
+    > Answer in this form, for each of (1) to (4): OPTION: <which option>; ASKED FOR: <what kind of finding or work the dispatch asks for>; WHY: <the reason from the text>.
+  - `<probe dir>/s5.md`:
+    > Situation: this is the real repository whose record is at <worktree>/docs/coding-agent/rules/common.md, section "Models And Peers In This Workspace" (read that section, and nothing else of that file is needed). A new run opens there under a ratified brief.
+    > Answer in this form, one line each, with OPTION and WHY from the record and the plugin's reasons:
+    > - The Orchestrator's own session:
+    > - The Auditor (a plan-draft value audit):
+    > - A Researcher, forensic census of where a setting is read across the code:
+    > - A Researcher, exploring design options for a new feature:
+    > - A Worker, logic-oriented coding task:
+    > - A Worker, writing skill text:
 ## Decision Log (append-only; re-plans and major discoveries)
 
 - D1, 2026-10-28: the plan-draft audit held Ruling R1. Its research-cost half was the Orchestrator's own line departing from the brief's item 1, redone to follow it; its other half (a confirmation without an allowance) is sent to Counsel as the verdict's value question, and the plan waits for the answer in the brief. The fixtures' place is dropped from Planner-added requirements (internal mechanics), kept as Task_4's `owns`.
