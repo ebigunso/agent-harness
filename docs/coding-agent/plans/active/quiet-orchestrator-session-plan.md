@@ -17,13 +17,11 @@
 - Counsel's receiving side matches the sending side (`counsel/SKILL.md`:73 and :77, which today hand back everything below the direction level): what only the owner can give, an act, a permission or an input that no statement of his covers and no one else can supply, is brought to him and not handed back; a question of judgement below the direction level still goes back to the Orchestrator to settle, and Counsel decides no implementation and uses none of the owner's authority (brief, "Who it is for and why": "Whatever needs him, of any kind, reaches him through Counsel").
 - A run without a brief, on a philosophy alone or with no value document, is unchanged (brief, constraint): its plan is presented and its user asked in the session.
 - Goal mode under a brief: held for the owner's answer to the value question of 2026-10-28 (Decision Log D1); built only after the plan is revised for that answer and passes its gate again (Replan Procedure step 4).
-- Scenarios 1, 2 and 5 are shown on a fixture with the outcome in the Progress Log, and scenario 4 as the control; scenario 3 is shown on the same fixture where one can be made; the human-only pass condition stays pending and the closeout says so.
+- Scenarios 1, 2 and 5 are shown on a fixture with the outcome in the Progress Log, and scenario 4, the brief's constraint that a run without a brief is unchanged, on the same fixture; scenario 3 is shown on the same fixture where one can be made; the human-only pass condition stays pending and the closeout says so.
 - The plugin's version is 1.2.0 in every file that states it, made as the last change before the run is reported ready.
 - Package validators and smoke tests pass; the branch has Reviewer `APPROVED`; value audits at plan draft and closeout are logged; the plan closes and the run is reported ready: branch published, pull request opened under the standing approval, note to Counsel, nothing merged.
 
 ## Planner-added requirements
-- Scenario 4 is shown on the same fixture as scenarios 1, 2 and 5, as a control. Needed because: a text that stops every question everywhere would pass 1, 2 and 5 and break the brief's constraint that a run without a brief is unchanged.
-- The fixtures and probe outputs live in the Orchestrator's scratchpad, not in the repository. Needed because: they are one-off measurements of how a fresh agent reads the text, not checks a validator runs again; `tests/` holds what the validators run (`common.md`, validation commands), and a fixture kept there would need upkeep with no consumer.
 - The plugin's version becomes 1.2.0, as the last change before the run is reported ready. Needed because: an installed plugin is refreshed only when its version changes, so no workspace receives the change otherwise; minor, since behaviour changes and nothing a consumer relies on breaks; last, so a later fix in the run does not ship under a version already published.
 
 ## Scope / Non-goals
@@ -36,7 +34,7 @@
 - Alternative: edit each of the about thirty lines R1 lists to add "under a brief, by the Carrier".
   - structure: thirty restatements of one rule. evolution: every future ask line must remember the clause, and the census goes stale. verification: the same search, more places to miss. operation: none. human: a reader sees the clause everywhere and the default nowhere. safety: the same.
 - Why chosen: the brief locates the defect in the rule being an exception list rather than a default; the alternative keeps it an exception list, only a longer one.
-- Ruling R1 (merge permission): under a brief, the runtime's own permission to merge (`value-level-operation.md`:96 and its four copies) is not a question the Orchestrator asks. When a merge waits for it, the turn ends blocked naming it, and Counsel is told in the same message that reports the run's state; nothing in the session is phrased as a question. The permission itself stays the owner's to grant in the session, once and as a standing matter, as written; the plugin cannot carry a runtime grant.
+- Ruling R1 (merge permission): under a brief, the runtime's own permission to merge (`value-level-operation.md`:96 and its four copies) is not a question the Orchestrator asks; this is the brief's own rule applied to it (item 2: the final response names "what the turn ended blocked on, in place of questions"; item 4: "anyone may still talk to the session directly"). When a merge waits for it, the turn ends blocked naming it, and Counsel is told in the same message that reports the run's state; nothing in the session is phrased as a question. The permission itself stays the owner's to grant in the session, once and as a standing matter, as written; the plugin cannot carry a runtime grant.
 
 ## Compatibility stance
 - surface: the Plan Gate's sources of authorization and the final response's question slot, as an Orchestrator reads them under a brief.
@@ -55,7 +53,6 @@
 
 ## Assumptions
 - A1: the generic "ask the user" lines in other skills (R1 part 3) are covered by the default's reading rule and need no edit; the reviewer checks that none of them says "in this session" or otherwise defeats the reading — source: R1 parts 3 and 6 C; brief, item 3 (means).
-- A2: the runtime's merge permission is the runtime's, not a question the plugin can route; Ruling R1 stands until the closeout audit grades it — source: R1 part 2 and part 7 E; `value-level-operation.md`:96.
 
 ## Tasks
 
@@ -98,7 +95,7 @@
 ### Task_2: Scenarios on a fixture
 - type: test
 - owns:
-  - the Orchestrator's scratchpad (fixtures and probe outputs; nothing in the repository)
+  - the Orchestrator's scratchpad (fixtures and probe outputs)
 - depends_on: [Task_1]
 - description: |
   Show scenarios 1, 2 and 5, and 4 as the control, by giving a fresh agent the plugin text at the branch head and a fixture state for each, and recording what it does. Scenario 3 on the same fixture where one can be made.
@@ -189,6 +186,8 @@
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - D1, 2026-10-28: goal mode under a brief is held for the owner's answer to the value question sent to Counsel at 16:43:07Z (options: plan mode under a brief; goal mode with its envelope agreed in the session; the envelope through Counsel). Plan revised for the answer when it arrives.
+
+- D2, 2026-10-28: the plan-draft verdict's `Reading compared:` divergences corrected in the plan (Replan Procedure step 1: a change to the plan, not the design): scenario 4 is the brief's own constraint and core scenario, not a planner-added requirement (PAR-1); the scratchpad as the fixtures' place is internal mechanics, kept only as Task_2's `owns` (PAR-2); Ruling R1 rests on the brief's items 2 and 4 and assumption A2 is folded into it (DES-R1, A2). The revision goes through plan review and a new plan-draft audit together with the owner's answer on goal mode (D1).
 
 ## Notes (Risks / Edge cases)
 - A fixture probe shows what a fresh agent does with the text, not what a long session does; the human-only pass condition covers the latter.
