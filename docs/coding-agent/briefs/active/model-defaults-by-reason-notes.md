@@ -105,6 +105,10 @@ This is the observation the seed records for the GPT family, dated and as his. I
 
 Applied: the plugin's reasons are its own prose in the form preferred tendency, detrimental tendency, why; his words stay in the brief as provenance only; the two test-run observations are left out; the Reviewer is chosen by the kind of finding the stage wants, and a different family follows from that, not from the difference itself.
 
+## Questions from the run
+
+- 2026-10-29, the plan-draft audit held as ask-now, the plan not authorized until the brief carries the answer. The verdict's question, verbatim: "When the owner confirms the record without naming an allowance, does the Worker go to the best fitting option regardless of cost, or does setup keep holding until an allowance is stated?" The Orchestrator also reported that a second question of the audit, on research's cost, came from a line of its own that had left the brief and was put back to the brief's words (research to the stronger option cost notwithstanding, in every repository); nothing of it comes to him. Brought to him as an experience framing the same day, with Counsel's third shape (no allowance: the cheapest option with the needed capability). His answer in two parts, 2026-10-29: "I'd lean towards your proposal, but only if the best option would be considered expensive by what budget the environment runs on. Today that is mostly true for any setup since the best models are expensive even on the biggest budget plan available, but this may change, so it should be checked against how expensive a model is compared to whatever subscription plan or pay as you go budget." Then, on the fallback: "the fall back should be the second best model, also judged for its cost, and so on until it lands on something acceptable." Written into the brief under Directed during the run and relayed.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:

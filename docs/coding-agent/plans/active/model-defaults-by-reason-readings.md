@@ -39,3 +39,4 @@ Item | reading | statement relied on
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
+  - Answered by the owner on 2026-10-29, relayed by Counsel (brief, Directed during the run): the walk down the fit ranking with a cost check against what the environment runs on. Hold ended; the plan is revised for it (D2).
