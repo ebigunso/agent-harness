@@ -56,7 +56,7 @@ If the runtime launches subagents asynchronously or as background processes:
 If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel (team messaging, shared inbox):
 - Read references/persistent-peer-dispatch.md
 
-Whenever a Researcher is dispatched, in a workspace with one model too, and whenever more than one model is available for delegation:
+Whenever a Researcher is dispatched, in a workspace with one model too, and whenever more than one model is available for a dispatch or a session:
 - Read references/model-routing.md
 
 Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.
