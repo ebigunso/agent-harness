@@ -190,6 +190,8 @@
   Scenarios: none
 - Acting on the verdict: DoD-6 and D1 `ask-now` (goal mode under a brief): the plan is not authorized by the brief route; the question is with Counsel since 16:43:07Z, and the verdict's value question is sent to Counsel as the audited form of the same question. Inferred calls, as the item lines state them: DoD-8, PAR-3 and Task_3 (version 1.2.0, last), each "extends the human-only pass condition ... an installed plugin receives the change only when its version changes"; cheap to undo before anything is published. No statement marked provisional. The auditor's two stated procedure deviations (plan and brief opened in the batch with the mandate; one grep printed three version lines) touched no barred file and are no void condition; not re-dispatched for them. `Reading compared:` divergences (PAR-1, PAR-2, DES-R1, A2) are corrected in the plan revision that also carries the owner's answer on goal mode; that revision goes back through plan review and a new plan-draft audit (Replan Procedure step 4).
 
+- 2026-10-28 17:45 Plan review round 3 at cbf2c9f (delta from 9728b84: the audit log and D2 corrections; the brief amendment and D3): APPROVED, no new findings. The plan review is closed with no finding open.
+
 ## Decision Log (append-only; re-plans and major discoveries)
 - D1, 2026-10-28: goal mode under a brief is held for the owner's answer to the value question sent to Counsel at 16:43:07Z (options: plan mode under a brief; goal mode with its envelope agreed in the session; the envelope through Counsel). Plan revised for the answer when it arrives.
 
