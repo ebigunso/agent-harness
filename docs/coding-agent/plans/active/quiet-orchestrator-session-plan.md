@@ -307,6 +307,7 @@
     > "The release step needs the registry publishing token for the project account, which only Dana holds and no statement of hers covers. Without it Task_4 cannot finish."
   - `<probe dir>/c2.md`:
     > "Should the CSV writer quote every field, or only fields that contain a comma or a quote? Both meet the brief."
+- 2026-10-28 19:15 Final review (reviewer seat, whole range 55c08a4..3a92c8a): NEEDS_REVISION, two record findings, no defect in the change: QF-F1 (minor) plan status still draft; QF-F2 (minor) Task_2's dispatch texts not logged. Both fixed at 75ddfae. Re-review 19:18 (delta 3a92c8a..75ddfae, whole range 55c08a4..75ddfae): APPROVED, no new findings; package validator, smoke tests, plan validator, git diff --check: pass. Closeout value audit dispatched (Changes since: 55c08a4, the revision the run starts from).
 ## Decision Log (append-only; re-plans and major discoveries)
 - D1, 2026-10-28: goal mode under a brief is held for the owner's answer to the value question sent to Counsel at 16:43:07Z (options: plan mode under a brief; goal mode with its envelope agreed in the session; the envelope through Counsel). Plan revised for the answer when it arrives.
 
