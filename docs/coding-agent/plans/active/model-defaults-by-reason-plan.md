@@ -178,6 +178,8 @@
 - Run starts from revision: f852cee.
 - 2026-10-28 17:03 Plan review dispatched to the reviewer seat with the plan-review snippet, at 4ad1a7f. 17:15 NEEDS_REVISION, one finding: MPR-F1 (minor) two drafting constraints unlisted (the seed in a file of its own; old-form records keep routing until setup is re-run). Triage: fix; the first listed with the Design's reason, the second dropped as unrequested. Validator: pass.
 
+- 2026-10-28 17:17 Plan review round 2 at fe28441 (and the log-order commit 12aa28e): APPROVED, MPR-F1 closed, no new findings. The plan review is closed with no finding open.
+
 ## Decision Log (append-only; re-plans and major discoveries)
 
 ## Notes (Risks / Edge cases)
