@@ -51,7 +51,7 @@ A record binds future work, so a human accepts it on its own, never by implicati
 A Worker may draft a record. It writes only what the governing brief or request and the plan's Decision Log state; where the reason for a decision is not written down, it reports the gap in its report's `questions_for_orchestrator` and invents nothing. The Orchestrator checks that the draft says what was decided and logs the proposal (step 1); a Reviewer checks the draft against this standard. Plans and rule files stay with the Orchestrator.
 
 1. When the admission test passes, state the proposal in conversation and in the plan Decision Log in the same action: title, the decision in one line, the constraint it places on future work, the why.
-2. Draft, or have a Worker draft, on the writing-strength side per `subagent-strategy/references/model-routing.md`.
+2. Draft, or have a Worker draft, on the option the Worker's reason fits for human-readable writing, per `subagent-strategy/references/model-routing.md`.
 3. Present the draft to the human by itself and ask for acceptance. Plan approval does not accept a record; merging a pull request does not accept a record. A no is terminal for that draft: record the decline in the Decision Log and do not re-propose.
 4. Land the record only after the explicit yes, and list every proposed record with its acceptance state in the final response and the pull request body under its own heading.
 
