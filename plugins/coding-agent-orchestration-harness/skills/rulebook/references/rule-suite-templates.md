@@ -88,7 +88,7 @@ This is the workspace's record of options that `subagent-strategy/references/mod
 - Status: recorded <YYYY-MM-DD>; <awaits the owner's confirmation | confirmed by <owner> on <YYYY-MM-DD>>.
 - Options: <each option the runtime offers: the session's own model, each model the subagent mechanism can be dispatched on, each peer seat; with its model and the role it can hold>.
 - Tendencies: <per family: the workspace's observation with its date | the seed's entry with the seed's date | not yet observed>.
-- Runs on: <which subscription plan, with its usage limits as the owner knows them | a pay-as-you-go budget and how large it is; as the owner states it | awaits the owner's word>.
+- Runs on: <which subscription plan, with its usage limits as the owner knows them | a pay-as-you-go budget and how large it is; as the owner states it | awaits the owner's word>; <where he named the plan or budget without its limits or size: researched limits: <what setup found, its source, the date found> | none found, <YYYY-MM-DD>>.
 - Budget allowance: <as the owner states it | none stated | awaits the owner's word>.
 - Orchestrator: <the option its reason resolves to>; rests on <the capability finding, where it was found, its date>.
 - Auditor: <the option its reason resolves to>; rests on <the capability finding, where it was found, its date>.
