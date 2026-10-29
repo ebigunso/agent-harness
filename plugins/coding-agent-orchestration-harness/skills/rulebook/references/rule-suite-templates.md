@@ -90,11 +90,11 @@ This is the workspace's record of options that `subagent-strategy/references/mod
 - Tendencies: <per family: the workspace's observation with its date | the seed's entry with the seed's date | not yet observed>.
 - Runs on: <which subscription plan, with its usage limits as the owner knows them | a pay-as-you-go budget and how large it is; as the owner states it | awaits the owner's word>.
 - Budget allowance: <as the owner states it | none stated | awaits the owner's word>.
-- Orchestrator: <the option its reason resolves to>.
-- Auditor: <the option its reason resolves to>.
-- Researcher: <the option its reason resolves to, per work type>.
-- Worker: <the option its reason resolves to, per work type>.
-- Reviewer: <the option its reason resolves to, per work type>.
+- Orchestrator: <the option its reason resolves to>; rests on <the capability finding, where it was found, its date>.
+- Auditor: <the option its reason resolves to>; rests on <the capability finding, where it was found, its date>.
+- Researcher: <per work type: the option its reason resolves to; rests on the capability finding, where it was found, its date>.
+- Worker: <per work type: the option its reason resolves to; rests on the capability finding, where it was found, its date>.
+- Reviewer: <per work type: the option its reason resolves to; rests on the capability finding, where it was found, its date>.
 ```
 
 Fill the Models And Peers In This Workspace section as `references/bootstrap-lifecycle.md` (Models Record) states.
