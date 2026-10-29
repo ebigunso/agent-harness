@@ -95,6 +95,11 @@ Item | reading | statement relied on
 - Task_5 (version) | internal mechanics | as DoD 7
 - D9 (the owner's answer of 2026-10-29 taken into DoD 1 and Task_1; Task_4 re-runs scenario 1) | covered | brief, "Directed during the run", second entry
 
+### `model-defaults-by-reason-plan.md`, plan draft, third dispatch, 2026-10-29: the verdict's comparison lines, as returned
+
+- Reading compared: DoD 1 agrees; DoD 2 agrees; DoD 3 agrees; DoD 4 agrees; DoD 5 agrees; DoD 6 agrees; DoD 7 agrees (both internal mechanics); DoD 8 agrees; Planner-added seed in its own file agrees; Planner-added most-costly-first order agrees (extends against inferred, same statements); Planner-added version last agrees; Design agrees; Ruling R1 agrees; Ruling R2 agrees; Compatibility stance agrees (extends against inferred); Assumption A1 agrees; Assumption A2 agrees; Task_1 agrees ("covered, the order extends" against cited with the order graded inferred on the planner-added line); Task_2 agrees; Task_3 agrees; Task_4 agrees; Task_5 agrees; D9 agrees; the four non-goals, the Context decision-record item, D1 to D8: unread.
+- Findings compared: the recorded finding of 2026-10-28 on a confirmation without an allowance (read as bearing on the design, answered by the owner, closed): agrees. The recorded finding of 2026-10-28 from the scenario 1 probe, a one-provider workspace tying every role (read as bearing on the design, answered by the owner, closed by D9): agrees. No departure from a means is noted on any item line (the FrontierCode citation and the redating rule are followed as stated).
+
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
