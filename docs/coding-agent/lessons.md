@@ -1281,6 +1281,66 @@ Prevention:
 Evidence:
 - The run's plan Decision Log entry of 2026-10-23 for ADR-D-0061.
 
+## 2026-10-29 - Adding A File As Intent-To-Add Is An Index Mutation  [tags: delegation, tooling, correction]
+
+Context:
+- Workers on the run "model defaults by reason" check their new files' whitespace before reporting, and shared-state Git mutations are the Orchestrator's.
+
+Symptom:
+- Two Workers ran `git add -N` on new files so that `git diff --check` would see them, then undid it; the index changed under a dispatch that forbade Git mutations.
+
+Root cause:
+- An intent-to-add entry reads as a harmless flag but writes the index, and the dispatch named commits and pushes as forbidden, not the index.
+
+Fix applied:
+- Each Worker restored the index; the Orchestrator checked it before committing, and later dispatches named `git add -N` as forbidden.
+
+Prevention:
+- A Worker dispatch that forbids Git mutations names `git add` of any kind, `-N` included; a new file's whitespace is checked with `git diff --no-index --check /dev/null <file>`, which touches no index.
+
+Evidence:
+- The run's plan Progress Log, the Task_1 report of 2026-10-28 18:05 (lesson candidate) and the dispatch texts of 2026-10-29.
+
+## 2026-10-29 - In A Worktree Counsel Also Writes, Stage By Name And Check The Commit  [tags: git, correction]
+
+Context:
+- Counsel writes the brief and its notes in the same worktree where the Orchestrator commits the run.
+
+Symptom:
+- A `git commit -a` swept an uncommitted notes edit of Counsel's into a run commit; later, a chained `git add` that failed on a path already moved left a closeout commit holding only the move, the rest unstaged.
+
+Root cause:
+- Staging by "everything changed" assumes every change is the Orchestrator's; a commit chained after a failing add still ran, because the chain joined it with `;`.
+
+Fix applied:
+- The notes edit was Counsel's own text and the privacy sweep was clean; the partial closeout commit, not yet pushed, was amended with the rest and its paths checked.
+
+Prevention:
+- Stage each path by name; join the add and the commit with `&&`; after every commit, read `git show --name-status HEAD` before moving on.
+
+Evidence:
+- The run's commits of 2026-10-28 (Task_3) and 2026-10-29 (closeout).
+
+## 2026-10-29 - An Order The Owner Did Not State Is Not Filled From A Proxy That Usually Tracks It  [tags: governance, correction]
+
+Context:
+- The owner directed that in a one-provider workspace a role's model is found "by the cost walk-down alone", which needs an order the brief did not give.
+
+Symptom:
+- The Orchestrator ruled the order most costly first, so a role with no cost ceiling took the most costly model; the owner corrected it: the order is what is most capable for the job, since cost and capability do not always pair up.
+
+Root cause:
+- Cost was taken as a stand-in for capability because they usually move together, and the reading was logged as an inferred call rather than put to him as a consequence he could see.
+
+Fix applied:
+- The reading was withdrawn (D11); the plugin orders by capability for the work, researched at setup where not readily available, with cost the check at each step.
+
+Prevention:
+- When a rule needs an order or a measure the brief does not give, name what it orders by in the owner's terms; where the candidate is a proxy for what he cares about, put the consequence to him through Counsel before building on it, not only in the closeout note.
+
+Evidence:
+- The run's plan Decision Log D9 and D11; the brief's "Directed during the run", third entry.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
