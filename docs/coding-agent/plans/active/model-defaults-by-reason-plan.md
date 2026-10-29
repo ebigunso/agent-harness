@@ -2,7 +2,7 @@
 
 - status: in_progress
 - generated: 2026-10-28
-- last_updated: 2026-10-28
+- last_updated: 2026-10-29
 - work_type: docs
 
 ## Goal
@@ -11,7 +11,7 @@
 - This is the first plan of the run recorded in `docs/coding-agent/plans/active/model-defaults-by-reason-run.md`.
 
 ## Definition of Done
-- `skills/subagent-strategy/references/model-routing.md` states, once, the reason for each role (Orchestrator, Auditor, Researcher, Worker, Reviewer) in the brief's three parts: the kind of capability, the split by work type where the owner's reasons split, and the cost setting; each written in the plugin's own words as the tendency preferred for that kind of work, the tendency detrimental to it, and why each is so; no quotation of the owner; no total ordering (brief, "What the plugin states", items 1 to 3). It replaces the strength keys ("Strengths routed on", "Routing by work type"); "Choosing where research goes" (ADR-D-0061) keeps its rule and resolves the Researcher by the new reason.
+- `skills/subagent-strategy/references/model-routing.md` states, once, the reason for each role (Orchestrator, Auditor, Researcher, Worker, Reviewer) in the brief's three parts: the kind of capability, the split by work type where the owner's reasons split, and the cost setting; each written in the plugin's own words as the tendency preferred for that kind of work, the tendency detrimental to it, and why each is so; no quotation of the owner; no total ordering (brief, "What the plugin states", items 1 to 3). It replaces the strength keys ("Strengths routed on", "Routing by work type"); "Choosing where research goes" (ADR-D-0061) keeps its rule and resolves the Researcher by the new reason. It also states that the reasons describe the ideal case and that, where the environment keeps part of a reason from applying, whatever part still applies is applied as best effort; and that where the observations cannot tell the options apart, as when every option is of one provider, a role's option is found by the cost walk-down alone (brief, "Directed during the run", 2026-10-29).
 - The plugin ships a seed observation in a reference of its own, dated and at the provider level, for the Claude and GPT families only, written as tendencies and never as what a family can or cannot do; a workspace's own dated observation replaces it for that family; the seed carries the observation and its date and no sources (brief, items 4 and Limits).
 - Setup (`skills/rulebook`) resolves the reasons against the lineup the runtime offers, fills the workspace record in `common.md` with the date, and holds it for the owner's confirmation before anything is dispatched on it; the record's form is in the rule-suite templates; the budget allowance is the owner's, stated in the record, and the plugin states no price and no cheap-or-expensive line (brief, items 5 and 6). Setup also records what the environment runs on (a subscription plan or a pay-as-you-go budget) and shows it with the record; when the owner confirms without naming an allowance, a cost-bounded role's option is found by walking down the fit ranking, taking the best-fitting option whose cost is acceptable against that budget, and otherwise the next, judged the same way (brief, "Directed during the run").
 - Every other plugin text that uses the old strength names (`model-routing.md` Prose quality and Tiers and fallback; `durable-docs-authoring/references/adr.md`:54) reads in the new reasons; no plugin rule names a model, family alias, provider, seat or price (`runtime-adapter-contract/references/prompt-budgeting.md`:5 "GPT-Oriented" heading included); the seed names providers only, as dated observations.
@@ -77,6 +77,7 @@
   - "Choosing where research goes" keeps ADR-D-0061's rule and resolves by the Researcher's reason; Prose quality, Tiers and fallback, `adr.md`:54 and `prompt-budgeting.md`:5 read in the new terms; Counsel's text agrees where it reads the record.
   - A search of the plugin's rules for model names, family aliases, providers, seats and prices finds none outside the seed.
   - A decision record is proposed if the admission test in `durable-docs-authoring/references/adr.md` passes, filename at or under 135 characters.
+  - Stated once in model-routing.md (D9): the reasons describe the ideal case, and where the environment keeps part of one from applying, whatever still applies is applied as best effort; where the observed tendencies do not tell the options apart for a work type (every option of one provider, say), the role's option is found by the cost walk-down alone, the walk's order taken from cost, the most costly option first. The proposed decision record carries it if it changes what the record decides.
 - validation:
   - kind: command
     required: true
@@ -327,6 +328,8 @@
 - D7, 2026-10-28: ADR numbering. The other run's proposed records take ADR-D-0062 onward; this run's ADR-D-0062 is renumbered after them before the pull request opens.
 
 - D8, 2026-10-28: D6 is superseded by the fix for MDW-F1: the confirmed record stays in force in common.md until the owner confirms the proposal shown in the refresh's output.
+
+- D9, 2026-10-29: the owner's answer to the finding escalated at 2026-10-28T18:23:53Z (one-provider workspace: the reasons cannot rank models within one family), relayed by Counsel at 2026-10-29T04:22:19Z (admitted by the standing approval of 2026-10-01), quoting him on 2026-10-29: "When there are only one provider to choose models from, using the cost walk-down only is the sensible choice. Basically, the plugin should name the base thought process for the ideal case, and where some environment restrictions prevent some parts to be fully applied, it should be applied in a best effort manner for anything that still is possible to apply." Counsel wrote it into the brief under "Directed during the run"; the brief's amendment is committed with this revision. Reading (step 1): a change to the design. Plan delta: DoD 1 and Task_1 gain the statement (a new acceptance bullet; Task_1 reopened for it, owns unchanged); Task_2 unchanged, setup resolving by model-routing.md without restating it; Task_4 re-runs scenario 1 on the revised text; waves unchanged otherwise. One inferred call: the walk's order where the observations tie is taken from cost, the most costly option first, since "the cost walk-down only" leaves cost as the only order; a role with no cost ceiling therefore takes the most costly option; cheap to undo (text). The hold on setup's resolution among options of one family ends with the answer. The revision goes through plan review and a new plan-draft audit before anything is built (Replan Procedure step 4).
 
 ## Notes (Risks / Edge cases)
 - A fixture shows what a fresh agent does with the text, not what setup does in his next repository; the human-only pass condition covers that.
