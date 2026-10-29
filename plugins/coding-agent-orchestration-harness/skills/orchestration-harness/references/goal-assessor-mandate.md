@@ -29,7 +29,7 @@ Use the run's evidence to ask all three questions:
 - Is the goal condition still measuring what the user meant: would satisfying the stated condition still deliver the intended outcome?
 - Should the goal be re-scoped, split, or abandoned in light of what the run has learned, applying the question-requirements-first discipline?
 
-A failed validity examination requires a goal-challenge escalation to the user with the evidence that prompted it. Stop at the ask-now level; never change, re-scope, reframe, split, or abandon the goal autonomously.
+A failed validity examination requires a goal-challenge escalation to the user (under a brief, to the owner by the Carrier, as `goal-mode.md` Authority Envelope states) with the evidence that prompted it. Stop at the ask-now level; never change, re-scope, reframe, split, or abandon the goal autonomously.
 
 ## Burden Of Proof
 

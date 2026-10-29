@@ -35,7 +35,7 @@ Before the loop starts, construct the goal condition with `references/goal-condi
 
 ## Authority Envelope
 
-A goal is never accepted bare. Negotiate an authority envelope — the boundary of the loop's autonomy — with the user, ratified once up front and recorded in the goal file (template: `references/goal-templates.md`). Only the user's ratification in the session authorizes an envelope; a ratified brief authorizes nothing in goal mode until a record states the conditions under which it would. It contains:
+A goal is never accepted bare. Negotiate an authority envelope — the boundary of the loop's autonomy — with the user, ratified once up front and recorded in the goal file (template: `references/goal-templates.md`). Only the user's ratification authorizes an envelope, given in the session or, under a governing brief, as stated below; a ratified brief itself authorizes no envelope until a record states the conditions under which it would. It contains:
 
 - Decision scope: paths, components, and operation classes the loop may change freely.
 - Progress obligation: progress is reduction in expected distance to the goal — there is no separate "movement" object. Measure it:
@@ -46,6 +46,8 @@ A goal is never accepted bare. Negotiate an authority envelope — the boundary 
 - Forbidden set, defined by the irreversibility criterion as a class, not a list: any action that is irreversible or outward-facing (merge, deploy, force-push, data deletion, publishing, external-service mutation) is outside the envelope. New action types are judged against the criterion, so the envelope does not rot as tooling grows.
 
 Inside the envelope the loop decides freely. At the boundary it escalates (see Graded Escalation). The envelope is itself immutable during the run — renegotiation is a human moment.
+
+Under a governing brief (`references/value-level-operation.md` Goal-Mode Runs), the user who ratifies the envelope and decides at every human moment is the owner, reached as that reference's The Carrier states. The goal and the envelope (what the loop may change, its budget, when it must stop) go to the owner by the Carrier, and the owner's relayed answer agreeing to them is what starts the loop. Every stop that waits for a human decision (an ask-now, a renegotiation, a goal `awaiting_decision`) is surfaced by the Carrier, and the session asks nothing. Where this reference and its templates say the user or the human, read the owner so reached.
 
 ## Iteration Lifecycle
 
@@ -74,7 +76,7 @@ Four levels replace plan mode's binary proceed/blocked:
 
 - proceed: in-envelope decision; act, journal briefly.
 - decide-and-journal: in-envelope but judgment-heavy; act, journal the decision with rationale, flag for retrospective review.
-- ask-now: envelope boundary hit (forbidden class, invariant pressure, budget exhaustion, self-audit failure, stall); stop the loop, surface the question, wait.
+- ask-now: envelope boundary hit (forbidden class, invariant pressure, budget exhaustion, self-audit failure, stall); stop the loop, surface the question (under a brief, by the Carrier: Authority Envelope), wait.
 - abort: safety condition (destructive surprise, evidence of data exposure, runaway behavior); stop, revert to the last good checkpoint, report.
 
 A goal condition is never just "the target is met": it is "the target is met, OR an ask-now/abort state is reached". Reaching a human moment is a successful termination of the loop, not a failure to grind through. This is the single most important defense against platform engines' native goal pressure.
