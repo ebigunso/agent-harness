@@ -22,6 +22,7 @@
 
 ## Planner-added requirements
 - The seed is a reference file of its own, not a section of `model-routing.md`. Needed because: the brief keeps the routing rules free of provider names while the seed names providers as dated observations; a file boundary is where a search and a reader can see that line without excluding a section (Design).
+- Where the observations tie, the cost walk-down takes the options from the most costly down, so a role with no cost ceiling takes the most costly option (Task_1, D9). Needed because: the brief directs "the cost walk-down alone" there, and a walk needs an order; with no fit order, cost is the only one left, and starting from the most costly keeps it a walk down from the top, as the brief's walk is, the brief itself reading the best models as the expensive ones ("Today the best models are expensive"). An inferred reading, not the owner's words, kept apart from his cost-only and best-effort direction.
 - The version is the next minor over the base branch when made, last. Needed because: an installed plugin is refreshed only when its version changes; another run (a quiet Orchestrator session under a brief) also changes the version, so the number is fixed when this change is made; last, so a later fix does not ship under a version already published.
 
 ## Scope / Non-goals
@@ -314,6 +315,7 @@
     > - A Researcher, exploring design options for a new feature:
     > - A Worker, logic-oriented coding task:
     > - A Worker, writing skill text:
+- 2026-10-29 04:27 Plan review of the revision (reviewer seat, delta 6bec32a..aac878b): NEEDS_REVISION, one finding: MPR-D9-F1 (minor) the most-costly-first order is planner-added but missing from Planner-added requirements. Triage: fix; listed there with its reason, marked as an inferred reading. Validator: pass.
 ## Decision Log (append-only; re-plans and major discoveries)
 
 - D1, 2026-10-28: the plan-draft audit held Ruling R1. Its research-cost half was the Orchestrator's own line departing from the brief's item 1, redone to follow it; its other half (a confirmation without an allowance) is sent to Counsel as the verdict's value question, and the plan waits for the answer in the brief. The fixtures' place is dropped from Planner-added requirements (internal mechanics), kept as Task_4's `owns`.
