@@ -15,6 +15,8 @@ Each role's reason names the kind of capability the role needs, splits it by wor
 - No option is best overall. Options are compared per kind of capability: the option that fits one work type best may fit another poorly, and a ranking for one work type says nothing of another.
 - A tendency is what an option tends to do when left to itself, not what it can or cannot do.
 - The fit ranking for a work type orders the recorded options by how closely their observed tendencies match the one that serves the work and avoid the one that harms it.
+- The reasons describe the ideal case. Where the environment keeps part of a reason from applying, whatever part still applies is applied, as best effort.
+- Where the observed tendencies do not tell the options apart for a work type (every option of one family, say, since tendencies are observed per family), the fit ranking gives no order, and the role's option is found by the cost walk-down alone: the walk in the Worker's cost setting below, with the options taken in order of cost, the most costly first, and each judged against the role's own cost setting as that walk judges it. A role with no cost ceiling (the Auditor, and the Researcher with its cost notwithstanding) therefore takes the most costly option; the Orchestrator's setting, and the Worker's and the Reviewer's, are each judged on the way down. Cost gives the order here only because the tendencies give none; a higher cost is never taken as a closer fit.
 
 ## Reasons by role
 
