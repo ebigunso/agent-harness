@@ -10,7 +10,7 @@ superseded_by: null
 depends_on: ["ADR-D-0035-counsel-reaches-into-the-work-only-by-quick-reads-a-read-only-researcher-and-consulted-advice.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
-# ADR-D-0062: Each role's option is chosen by a stated reason, resolved against the workspace's own dated record and, for a family the workspace has not observed, a dated seed of tendencies; research goes to the Researcher role, never into a Worker's task, by one rule for the Orchestrator and Counsel alike; the harness assumes no seat, peer or model and its rules name none
+# ADR-D-0066: Each role's option is chosen by a stated reason, resolved against the workspace's own dated record and, for a family the workspace has not observed, a dated seed of tendencies; research goes to the Researcher role, never into a Worker's task, by one rule for the Orchestrator and Counsel alike; the harness assumes no seat, peer or model and its rules name none
 
 Once accepted, this record replaces ADR-D-0061 in full.
 
