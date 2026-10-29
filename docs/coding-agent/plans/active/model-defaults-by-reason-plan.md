@@ -316,6 +316,7 @@
     > - A Worker, logic-oriented coding task:
     > - A Worker, writing skill text:
 - 2026-10-29 04:27 Plan review of the revision (reviewer seat, delta 6bec32a..aac878b): NEEDS_REVISION, one finding: MPR-D9-F1 (minor) the most-costly-first order is planner-added but missing from Planner-added requirements. Triage: fix; listed there with its reason, marked as an inferred reading. Validator: pass.
+- 2026-10-29 04:30 Plan review round 2 at cf17d1d: APPROVED, MPR-D9-F1 closed, no new findings. The plan review of the revision is closed with no finding open.
 ## Decision Log (append-only; re-plans and major discoveries)
 
 - D1, 2026-10-28: the plan-draft audit held Ruling R1. Its research-cost half was the Orchestrator's own line departing from the brief's item 1, redone to follow it; its other half (a confirmation without an allowance) is sent to Counsel as the verdict's value question, and the plan waits for the answer in the brief. The fixtures' place is dropped from Planner-added requirements (internal mechanics), kept as Task_4's `owns`.
