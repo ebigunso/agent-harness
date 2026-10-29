@@ -115,6 +115,15 @@ Applied: the plugin's reasons are its own prose in the form preferred tendency, 
 
 - 2026-10-29, the plan-draft audit of 05:10Z held one clause as ask-now: when he names only the kind of plan or budget, which model a Worker gets. The Orchestrator's three shapes: (a) as the text stands, the least costly model and a note that the limits are missing, work going ahead; (b) hold until the limits or size are stated; (c) the kind read as room for the most capable, stepping down when usage shows strain. Counsel added a fourth, mine: research the named plan's limits as the capability baseline is researched, falling to (a) only where they cannot be found. His answer: "I think researching where things are ambiguous is the right way to go." Written into the brief under Directed during the run and relayed.
 
+## Counsel's first read of the result, 2026-10-29
+
+Written before any part of the closeout audit's verdict was seen; facts from the Orchestrator's note reporting pull request 94 ready.
+
+- The note states the human-only pass condition as the brief states it: setup in another repository of his yields a usable record without his stating a model. Matches.
+- The note says nothing of what the result does beyond that; the plugin's content against the brief's gives (reasons per role in three parts, the two capability families, the seed as dated tendencies for Claude and GPT only, setup filling and showing the record, the cost walk-down ordered by capability, research of the baseline and of a named plan's limits) is to be read from the audit's marks, which were asked for.
+- One decision record, ADR-D-0066, replacing ADR-D-0061, goes to him for acceptance by name with its path.
+- Value documents changed during the run: the brief's section Directed during the run, every entry Counsel's, each carrying his words; no change by the run itself was reported.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
