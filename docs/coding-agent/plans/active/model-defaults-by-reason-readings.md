@@ -100,6 +100,38 @@ Item | reading | statement relied on
 - Reading compared: DoD 1 agrees; DoD 2 agrees; DoD 3 agrees; DoD 4 agrees; DoD 5 agrees; DoD 6 agrees; DoD 7 agrees (both internal mechanics); DoD 8 agrees; Planner-added seed in its own file agrees; Planner-added most-costly-first order agrees (extends against inferred, same statements); Planner-added version last agrees; Design agrees; Ruling R1 agrees; Ruling R2 agrees; Compatibility stance agrees (extends against inferred); Assumption A1 agrees; Assumption A2 agrees; Task_1 agrees ("covered, the order extends" against cited with the order graded inferred on the planner-added line); Task_2 agrees; Task_3 agrees; Task_4 agrees; Task_5 agrees; D9 agrees; the four non-goals, the Context decision-record item, D1 to D8: unread.
 - Findings compared: the recorded finding of 2026-10-28 on a confirmation without an allowance (read as bearing on the design, answered by the owner, closed): agrees. The recorded finding of 2026-10-28 from the scenario 1 probe, a one-provider workspace tying every role (read as bearing on the design, answered by the owner, closed by D9): agrees. No departure from a means is noted on any item line (the FrontierCode citation and the redating rule are followed as stated).
 
+### `model-defaults-by-reason-plan.md`, plan draft, fourth dispatch (the plan revised mid-run for the owner's correction of 2026-10-29 on the walk's order and the capability research, D11 and D12)
+
+Item | reading | statement relied on
+
+- DoD 1 (the five reasons once in model-routing.md, three parts, preferred and detrimental tendency and why, no quotation, no ordering; replacing the strength keys; Choosing where research goes keeps its rule; the reasons as the ideal case, best effort; the fit ranking by capability for the work, from the tendencies and what setup found each model can do, never by cost; uncapped roles take the most capable) | covered | brief, "What the plugin states" items 1 to 3, the pass condition, and "Directed during the run", entries of 2026-10-29 (gives)
+- DoD 2 (the seed: own reference, dated, provider level, Claude and GPT only, tendencies, replaced by a workspace observation, no sources) | covered | brief, item 4 (gives) and Limits (the evidence stays in the notes)
+- DoD 3 (setup fills the record with what the environment runs on, dated, and holds it for confirmation; budget the owner's; the walk when he names none; no price; what each model can do taken or researched before resolving, the first setup's research on the session's own model) | covered | brief, items 5 and 6 and "Directed during the run" (gives, told 2026-10-29); the first setup's research route from the existing chooser (model-routing.md, Choosing where research goes)
+- DoD 4 (old strength names brought to the new terms; no plugin rule names a model, alias, provider, seat or price) | covered | brief, Limits and pass condition
+- DoD 5 (this repository's record in the reason form with the owner's resolutions and the FrontierCode 2.0 citation; not shipped) | covered | brief, "This repository, as the first application" (gives; means for the citation) and Limits
+- DoD 6 (scenarios 1, 3, 5 on a fixture; 2 and 4 by reading; human-only pending) | covered | brief, pass conditions
+- DoD 7 (version, next minor over the base, last) | internal mechanics | planner-added; refresh of installed plugins
+- DoD 8 (validators, review, audits, reported ready, nothing merged) | covered | lifecycle; standing approval of 2026-09-30
+- Planner-added: the seed in a file of its own | internal mechanics | a file-structure choice; the brief's Limits keep provider names out of the rules
+- Planner-added: each resolution line names, dated, the capability finding it rests on | extends | brief, item 5 (the owner confirms the shown result) and item 7 (re-observed and redated when a model changes); cheap to undo
+- Planner-added: version, last | internal mechanics | as DoD 7
+- Design: reasons in model-routing.md, seed beside it, setup step with hold-and-confirm | covered | brief, items 1, 4, 5 and pass condition
+- Design, capability for the work (research at setup, the finding beside each resolution, no kept inventory) | covered | brief, "Directed during the run", entry of 2026-10-29 on research at setup
+- Ruling R1 (setup records what the environment runs on; nothing dispatched before confirmation; the walk for the Worker and the Reviewer when no allowance is named; research cost notwithstanding; the Auditor no ceiling) | covered | brief, item 1 (Researcher, Auditor, Reviewer), items 5 and 6, "Directed during the run"
+- Ruling R2 (the Orchestrator's reason recorded; its model is the session's) | covered | brief, item 1 (the Orchestrator's reason) and "This repository" (Orchestrator on Opus 5.5)
+- Compatibility stance migrate (old-form record rewritten when setup next runs) | extends | brief, item 5 and scenario 2; nothing said of the interval before
+- Assumption A1 (runtime identities and the named external skill stay) | extends | brief, Limits read as about model choice
+- Assumption A2 (family names beside providers in the seed) | covered | brief, item 4 names the Claude and GPT families
+- Task_1 (reasons, seed, pointers, the walk with the Worker's reason, ADR if admitted; reopened for the ideal case and best effort and the capability order, cost the check only) | covered | as DoD 1, 2, 4 and "Directed during the run", all entries
+- Task_2 (setup step; reopened for the capability finding taken or researched before resolving, the first setup's research route, the finding beside each resolution) | covered, the finding beside each resolution extends | as DoD 3; the planner-added line above
+- Task_3 (this repository's record; the Orchestrator's own) | covered | as DoD 5
+- Task_4 (fixture scenarios; scenario 1 again where cost and capability part ways, the finding readily available or researched) | covered | as DoD 6 and "Directed during the run", entries of 2026-10-29
+- Task_5 (version) | internal mechanics | as DoD 7
+- D9 (the owner's answer on one-provider workspaces) | covered | brief, "Directed during the run", second entry; its inferred most-costly-first call withdrawn by D11
+- D10 (the walk's cost judged against the stated plan or budget, fixed in place) | covered | brief, "Directed during the run", first entry ("checked against how expensive a model is compared to whatever subscription plan or pay as you go budget")
+- D11 (the owner's correction: capability orders the walk; the capability research at setup) | covered | brief, "Directed during the run", entries of 2026-10-29
+- D12 (the first setup's research on the session's own model; no separate inventory) | covered | the existing chooser's no-fitting-option case; the planner-added line above
+
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
