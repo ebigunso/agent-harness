@@ -1281,6 +1281,106 @@ Prevention:
 Evidence:
 - The run's plan Decision Log entry of 2026-10-23 for ADR-D-0061.
 
+## 2026-10-29 - Adding A File As Intent-To-Add Is An Index Mutation  [tags: delegation, tooling, correction]
+
+Context:
+- Workers on the run "model defaults by reason" check their new files' whitespace before reporting, and shared-state Git mutations are the Orchestrator's.
+
+Symptom:
+- Two Workers ran `git add -N` on new files so that `git diff --check` would see them, then undid it; the index changed under a dispatch that forbade Git mutations.
+
+Root cause:
+- An intent-to-add entry reads as a harmless flag but writes the index, and the dispatch named commits and pushes as forbidden, not the index.
+
+Fix applied:
+- Each Worker restored the index; the Orchestrator checked it before committing, and later dispatches named `git add -N` as forbidden.
+
+Prevention:
+- A Worker dispatch that forbids Git mutations names `git add` of any kind, `-N` included; a new file's whitespace is checked with `git diff --no-index --check /dev/null <file>`, which touches no index.
+
+Evidence:
+- The run's plan Progress Log, the Task_1 report of 2026-10-28 18:05 (lesson candidate) and the dispatch texts of 2026-10-29.
+
+## 2026-10-29 - In A Worktree Counsel Also Writes, Stage By Name And Check The Commit  [tags: git, correction]
+
+Context:
+- Counsel writes the brief and its notes in the same worktree where the Orchestrator commits the run.
+
+Symptom:
+- A `git commit -a` swept an uncommitted notes edit of Counsel's into a run commit; later, a chained `git add` that failed on a path already moved left a closeout commit holding only the move, the rest unstaged.
+
+Root cause:
+- Staging by "everything changed" assumes every change is the Orchestrator's; a commit chained after a failing add still ran, because the chain joined it with `;`.
+
+Fix applied:
+- The notes edit was Counsel's own text and the privacy sweep was clean; the partial closeout commit, not yet pushed, was amended with the rest and its paths checked.
+
+Prevention:
+- Stage each path by name; join the add and the commit with `&&`; after every commit, read `git show --name-status HEAD` before moving on.
+
+Evidence:
+- The run's commits of 2026-10-28 (Task_3) and 2026-10-29 (closeout).
+
+## 2026-10-29 - An Order The Owner Did Not State Is Not Filled From A Proxy That Usually Tracks It  [tags: governance, correction]
+
+Context:
+- The owner directed that in a one-provider workspace a role's model is found "by the cost walk-down alone", which needs an order the brief did not give.
+
+Symptom:
+- The Orchestrator ruled the order most costly first, so a role with no cost ceiling took the most costly model; the owner corrected it: the order is what is most capable for the job, since cost and capability do not always pair up.
+
+Root cause:
+- Cost was taken as a stand-in for capability because they usually move together, and the reading was logged as an inferred call rather than put to him as a consequence he could see.
+
+Fix applied:
+- The reading was withdrawn (D11); the plugin orders by capability for the work, researched at setup where not readily available, with cost the check at each step.
+
+Prevention:
+- When a rule needs an order or a measure the brief does not give, name what it orders by in the owner's terms; where the candidate is a proxy for what he cares about, put the consequence to him through Counsel before building on it, not only in the closeout note.
+
+Evidence:
+- The run's plan Decision Log D9 and D11; the brief's "Directed during the run", third entry.
+
+## 2026-11-02 - A Reading That Diverges From The Grade Is Corrected In The Artifact, Not Accepted As Graded  [tags: governance, correction]
+
+Context:
+- `value-level-operation.md` Acting On A Verdict: each item where the Orchestrator's reading diverges from the audit's grade is corrected inside the run, the item redone from what the brief says it is for so that the artifact changes; at closeout the change is reviewed again and the closeout audit dispatched again, new.
+
+Symptom:
+- The plan-draft and closeout verdicts of the quiet-session and model-defaults runs (2026-10-28 and 2026-10-29) had divergences acted on as "the auditor's grades accepted", and the plans closed on them. Found on 2026-11-02, at the closeout of the model-defaults run's small change, when the rule was reread.
+
+Root cause:
+- A divergence whose grade held nothing was read as needing no action, since the grade already reaches Counsel; the rule's point, that a divergence shows the Orchestrator's understanding of the item was off and the item itself needs redoing, was skipped.
+
+Fix applied:
+- The small change's divergences were re-derived from the brief and corrected in the record, then reviewed and audited again. The closed plans are not reopened; their divergences reached Counsel as the auditor graded them.
+
+Prevention:
+- On every verdict, read each `Reading compared:` divergence as a correction to make: go back to the brief, redo the item, and at closeout review and audit again before the unit closes. "Grade accepted" is never the acting line for a divergence.
+
+Evidence:
+- The model-defaults run's changes file, the closeout verdict of 2026-11-02 and its acting line; the two runs' completed plans, acting lines of their plan-draft and closeout verdicts.
+
+## 2026-11-02 - Moving A Record's Route Out Keeps The Commitment Behind It  [tags: governance, review, correction]
+
+Context:
+- Rewriting a decision record to intent altitude: the route a clause names goes to the plugin text, and the decision stays in the record.
+
+Symptom:
+- In the model-defaults run's rewrite, ADR-D-0067 first dropped ADR-D-0061's fallback route whole, and with it the guarantee that research never goes without a Researcher, and listed the research rule's factors as not covered. The review approved the route's removal; the closeout audit marked both losses as direction, and they were restored at intent.
+
+Root cause:
+- A whole clause was classed as mechanism because it named a route, without separating the commitment it carried (availability, what the rule weighs) from its embodiment (which model, in what order).
+
+Fix applied:
+- ADR-D-0067 keeps the factors and the availability at intent; the route, the order and the recording stay not covered.
+
+Prevention:
+- In an altitude rewrite, list each predecessor invariant on its own, separate from its embodiment, and check both destinations: the invariant in the record, the embodiment in the plugin text. A reviewer of such a rewrite checks the same pairing.
+
+Evidence:
+- The model-defaults run's changes file, IR-F1, the closeout verdict of 2026-11-02 and the re-review after it.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
