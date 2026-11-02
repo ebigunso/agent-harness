@@ -34,9 +34,9 @@ A goal-mode run in a repository that has a philosophy is to keep to the values o
 
 ## Rejected Alternatives
 
-- Judgement only at the two ends, the envelope before ratification and the run at completion: it lost because it keeps the run to the values of the person directing the work only at the ends, and drift during the loop shows only when the work is built; reopen if the audit's judgements inside the loop are found to hold nothing run after run.
+- Judgement only at the two ends of the run: it lost because it keeps the run to the values of the person directing the work only at the ends, and drift during the loop shows only when the work is built; reopen if the audit's judgements inside the loop are found to hold nothing run after run.
 - A record of each value audit kept where the assessor reads it, so that their number can be checked before merge: rejected outright; it puts audit material into the assessor's evidence.
-- A check before merge that the audit judged at every point inside the loop: it lost because the judgement at completion covers the whole run, so a point missed inside the loop is judged before anything merges; reopen if a completion judgement is found catching drift that a point missed inside the loop would have caught.
+- A check before merge that the audit judged at every point inside the loop: it lost because the judgement at completion covers the whole run, so a point missed inside the loop is judged with the rest of the run; reopen if a completion judgement is found catching drift that a point missed inside the loop would have caught.
 - The part a held item concerns waits and the rest of the loop continues, as in a run under a brief: it lost because a goal loop is one optimizer with no parts to set aside; reopen if goal runs are found stopped whole over a question the loop could have worked around.
 - One judgement carrying both the assessor's mandate and the audit's: rejected outright; it changes the assessor's inputs, which ADR-D-0050 and the brief's limit on goal mode keep.
 
