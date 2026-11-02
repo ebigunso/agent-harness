@@ -1341,6 +1341,26 @@ Prevention:
 Evidence:
 - The run's plan Decision Log D9 and D11; the brief's "Directed during the run", third entry.
 
+## 2026-11-02 - A Reading That Diverges From The Grade Is Corrected In The Artifact, Not Accepted As Graded  [tags: governance, correction]
+
+Context:
+- `value-level-operation.md` Acting On A Verdict: each item where the Orchestrator's reading diverges from the audit's grade is corrected inside the run, the item redone from what the brief says it is for so that the artifact changes; at closeout the change is reviewed again and the closeout audit dispatched again, new.
+
+Symptom:
+- The plan-draft and closeout verdicts of the quiet-session and model-defaults runs (2026-10-28 and 2026-10-29) had divergences acted on as "the auditor's grades accepted", and the plans closed on them. Found on 2026-11-02, at the closeout of the model-defaults run's small change, when the rule was reread.
+
+Root cause:
+- A divergence whose grade held nothing was read as needing no action, since the grade already reaches Counsel; the rule's point, that a divergence shows the Orchestrator's understanding of the item was off and the item itself needs redoing, was skipped.
+
+Fix applied:
+- The small change's divergences were re-derived from the brief and corrected in the record, then reviewed and audited again. The closed plans are not reopened; their divergences reached Counsel as the auditor graded them.
+
+Prevention:
+- On every verdict, read each `Reading compared:` divergence as a correction to make: go back to the brief, redo the item, and at closeout review and audit again before the unit closes. "Grade accepted" is never the acting line for a divergence.
+
+Evidence:
+- The model-defaults run's changes file, the closeout verdict of 2026-11-02 and its acting line; the two runs' completed plans, acting lines of their plan-draft and closeout verdicts.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
