@@ -52,3 +52,5 @@
 - 2026-11-02 11:31Z Re-review dispatched (delta f98a6d5..3579b98, whole change ec73895..3579b98).
 - 2026-11-02 11:37Z Re-review: CHANGES_REQUESTED, one narrow remainder of QIR-F1 (minor): two positional clauses in ADR-D-0063's rejected alternatives ("the envelope before ratification"; a missed point "judged before anything merges"). Confirmed: ADR-D-0063's decision, invariant and Not covered state scope and independence; ADR-D-0065 fixes the plan's identity, not an order; nothing lost against ADR-D-0041 and ADR-D-0056; QIR-F2 closed; privacy and validators pass.
 - Fixed by the Orchestrator, the fourth round on the same seam, as the reviewer's smallest fix states (two phrases): "Judgement only at the two ends of the run", and a missed point "judged with the rest of the run".
+- 2026-11-02 11:38Z Re-review dispatched (delta 3579b98..3cfe4d4, whole change ec73895..3cfe4d4).
+- 2026-11-02 11:40Z Re-review: APPROVED, no findings; QIR-F1 and QIR-F2 closed; nothing else changed in meaning; validators, `git diff --check` and privacy pass over the whole change.
