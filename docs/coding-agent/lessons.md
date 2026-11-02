@@ -1361,6 +1361,26 @@ Prevention:
 Evidence:
 - The model-defaults run's changes file, the closeout verdict of 2026-11-02 and its acting line; the two runs' completed plans, acting lines of their plan-draft and closeout verdicts.
 
+## 2026-11-02 - Moving A Record's Route Out Keeps The Commitment Behind It  [tags: governance, review, correction]
+
+Context:
+- Rewriting a decision record to intent altitude: the route a clause names goes to the plugin text, and the decision stays in the record.
+
+Symptom:
+- In the model-defaults run's rewrite, ADR-D-0067 first dropped ADR-D-0061's fallback route whole, and with it the guarantee that research never goes without a Researcher, and listed the research rule's factors as not covered. The review approved the route's removal; the closeout audit marked both losses as direction, and they were restored at intent.
+
+Root cause:
+- A whole clause was classed as mechanism because it named a route, without separating the commitment it carried (availability, what the rule weighs) from its embodiment (which model, in what order).
+
+Fix applied:
+- ADR-D-0067 keeps the factors and the availability at intent; the route, the order and the recording stay not covered.
+
+Prevention:
+- In an altitude rewrite, list each predecessor invariant on its own, separate from its embodiment, and check both destinations: the invariant in the record, the embodiment in the plugin text. A reviewer of such a rewrite checks the same pairing.
+
+Evidence:
+- The model-defaults run's changes file, IR-F1, the closeout verdict of 2026-11-02 and the re-review after it.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
