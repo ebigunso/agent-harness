@@ -22,10 +22,10 @@ ADR-D-0064 names the ratified brief, carried to the work through the value audit
 
 ## Decision
 
-- In plan mode the second source authorizes a plan only when three conditions hold together.
+- In plan mode the second source authorizes a plan only when three conditions hold together, all on the same unchanged plan, before it executes.
   - A brief governs the work and the person directing the work ratified it; an amendment to the brief counts on the same terms as the brief.
   - The Reviewer's plan review has closed with no finding left open.
-  - After that review, the value audit has graded every item of the plan on each side that has a value document, and judged each either covered by a statement in a value document or a cheap-to-undo extension of statements the verdict names, holding none for a decision above the run.
+  - The value audit, judging independently, has graded every item of that same plan on each side that has a value document, and judged each either covered by a statement in a value document or a cheap-to-undo extension of statements the verdict names, holding none for a decision above the run.
 - A plan some of whose items are such extensions, stated in no document, starts without the person directing the work seeing it.
 - The audit grades two sides: the product side, against the brief and the product philosophy as ADR-D-0036 states, and the engineering side, against the engineering philosophy. A side that has no value document is not graded and does not stand in the way: in a repository with a ratified brief and no engineering philosophy, the plan's internal mechanics (how the work is structured, not what the product does) are not audited, and the plan starts all the same, without any person having seen it.
 - The test for an irreversible or outward-facing action runs on every item on either side.
@@ -42,20 +42,20 @@ The brief carries the authority of the person directing the work only as far as 
 ## Rejected Alternatives
 
 - Only items covered by a statement count, and any extension sends the plan to the person directing the work: it stops the run where a direction can be reasonably inferred from what was documented; reopen if that person, shown such extensions at closeout, regularly rejects them.
-- The audit runs before the plan review closes: the audit would grade items the review is about to change, and the verdict would bind a plan that no longer exists; reopen if plan reviews come to leave the plan's decisions untouched.
+- A verdict on a version of the plan other than the one whose review closed, such as one graded while the review was changing it: it lost because the verdict would bind a plan it did not judge; reopen if plan reviews come to leave the plan's decisions untouched.
 - A verdict missing a side's grades authorizes the other side: rejected outright; the plan is one unit of work, and half a verdict is no verdict on it.
 - The verdict follows the plan through later changes: rejected outright; the Orchestrator would decide which changes need no new audit, which is the judgement ADR-D-0052 keeps from it.
 - An irreversible action in a plan always keeps the plan from starting until the person directing the work has read it: it makes every plan with a publish or a merge in it one that person must read; reopen if an action stated as waiting for its decision is found executed before that decision.
 
 ## Decision Boundary
 
-Invariant: in plan mode the second source authorizes a plan only through a ratified governing brief, a plan review closed with nothing open, and a value audit after it that grades every item on each side that has a document, finds each covered or a cheap-to-undo extension, and holds none above the run; an irreversible or outward-facing action counts only when stated as waiting for its moment; the verdict covers the plan as it stood when execution started, and a change after it needs fresh authorization from the same authority before it is built; no item the audit holds goes ahead on either source.
+Invariant: in plan mode the second source authorizes a plan only through a ratified governing brief, a plan review closed with nothing open and an independent value audit, both on the same unchanged plan before it executes, the audit grading every item on each side that has a document, finding each covered or a cheap-to-undo extension, and holding none above the run; an irreversible or outward-facing action counts only when stated as waiting for its moment; the verdict covers the plan as it stood when execution started, and a change after it needs fresh authorization from the same authority before it is built; no item the audit holds goes ahead on either source.
 
-Not covered: the sources of authorization themselves, what is never one, and what follows when this route does not authorize a plan (ADR-D-0064); which brief governs the work and what counts as its ratification having reached the session (ADR-D-0038 and the harness text); how a revision is reviewed and audited and at which position, which the harness text states; how a question the audit holds reaches the person directing the work or the product owner (ADR-D-0062); a small change built without a plan (ADR-D-0055); goal mode; the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0052 leaves them uncovered); the audit's procedure and how it is asked (ADR-D-0052); what the product side is graded against where no product philosophy exists (ADR-D-0036); what is shown of the extensions at closeout (ADR-D-0042); merge authorization; how the plan records the ratification and the verdict; the wording of the harness text that states the route.
+Not covered: the sources of authorization themselves, what is never one, and what follows when this route does not authorize a plan (ADR-D-0064); which brief governs the work and what counts as its ratification having reached the session (ADR-D-0038 and the harness text); how a revision is reviewed and audited and at which position, which the harness text states; whether the review or the audit runs first, and how they are scheduled, which the harness text states; how a question the audit holds reaches the person directing the work or the product owner (ADR-D-0062); a small change built without a plan (ADR-D-0055); goal mode; the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0052 leaves them uncovered); the audit's procedure and how it is asked (ADR-D-0052); what the product side is graded against where no product philosophy exists (ADR-D-0036); what is shown of the extensions at closeout (ADR-D-0042); merge authorization; how the plan records the ratification and the verdict; the wording of the harness text that states the route.
 
 ## Validation
 
-- Review of any change to the harness text asks: can a plan start on a ratified brief without a closed plan review, without a verdict after it that grades every item, or with an item the verdict holds above the run other than an action stated as waiting for its moment; and can a change to what a plan decides be built on the verdict given before it?
+- Review of any change to the harness text asks: can a plan start on a ratified brief without a closed plan review and a verdict that grades every item, both on that same unchanged plan, or with an item the verdict holds above the run other than an action stated as waiting for its moment; and can a change to what a plan decides be built on the verdict given before it?
 
 ## Revisit When
 

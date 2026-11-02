@@ -22,7 +22,7 @@ The value audit grades a plan-mode run against the value documents (ADR-D-0052),
 
 ## Decision
 
-- In a repository that has a philosophy, the value audit grades a goal-mode run as ADR-D-0052 states it, as a judgement of its own, independent of the Orchestrator and separate from the assessor, throughout the run: the envelope before it is ratified, the loop while it runs, and the whole run at its completion, before anything of it merges.
+- In a repository that has a philosophy, the value audit grades a goal-mode run as ADR-D-0052 states it, as a judgement of its own, independent of the Orchestrator and separate from the assessor, over the whole goal run, inside the loop as well as at its ends.
 - An item the audit holds stops the loop, as goal mode's own stop for a question does, until the decision is given.
 - Nothing of the audit reaches what the assessor reads beyond the stop it causes and the question it puts; the assessor's evidence and mandate are unchanged.
 - Goal mode's admission test, stall rule and completion rule are unchanged.
@@ -42,9 +42,9 @@ A goal-mode run in a repository that has a philosophy is to keep to the values o
 
 ## Decision Boundary
 
-Invariant: in a repository that has a philosophy, a goal run is held to the values of the person directing the work by the value audit, judging independently and apart from the assessor from the envelope through the loop to completion; an item it holds stops the loop; nothing of the audit reaches what the assessor reads beyond the stop and its question; the assessor, the admission test, the stall rule and the completion rule are unchanged; a goal run in a repository with no philosophy is not graded by the audit.
+Invariant: in a repository that has a philosophy, a goal run is held to the values of the person directing the work by the value audit, judging independently and apart from the assessor over the whole run, inside the loop as well as at its ends; an item it holds stops the loop; nothing of the audit reaches what the assessor reads beyond the stop and its question; the assessor, the admission test, the stall rule and the completion rule are unchanged; a goal run in a repository with no philosophy is not graded by the audit.
 
-Not covered: who agrees the envelope and on whose authority the loop starts, under a brief or not (ADR-D-0064, ADR-D-0027); at which points inside the loop the audit judges, how it is asked, where its verdicts and the Orchestrator's readings are kept and which records a stop may touch, which the harness text states; the grades, what they hold and the comparison with the Orchestrator's reading (ADR-D-0052 and the audit's mandate); how a held item's question reaches the person directing the work and how the answer is admitted (ADR-D-0062, ADR-D-0038); the hold on a change that loosens a stop, a pass condition or who decides inside a goal loop; the completion report and the check before merge (ADR-D-0031), which are unchanged.
+Not covered: who agrees the envelope and on whose authority the loop starts, under a brief or not (ADR-D-0064, ADR-D-0027); at which points of the run the audit judges, how it is asked, where its verdicts and the Orchestrator's readings are kept and which records a stop may touch, which the harness text states; the grades, what they hold and the comparison with the Orchestrator's reading (ADR-D-0052 and the audit's mandate); how a held item's question reaches the person directing the work and how the answer is admitted (ADR-D-0062, ADR-D-0038); the hold on a change that loosens a stop, a pass condition or who decides inside a goal loop; the completion report and the check before merge (ADR-D-0031), which are unchanged.
 
 ## Validation
 
