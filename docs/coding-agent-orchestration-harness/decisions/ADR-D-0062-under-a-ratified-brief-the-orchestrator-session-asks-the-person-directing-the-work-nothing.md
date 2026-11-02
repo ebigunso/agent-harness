@@ -43,9 +43,7 @@ Not covered: how a question reaches Counsel and what the Orchestrator does while
 
 ## Validation
 
-- Under a brief, no Orchestrator session phrases a question to the person directing the work, and its report names what is with Counsel and what the work waits on.
-- A run with no brief asks its user in the Orchestrator session.
-- Review of any change to the harness text asks: under a brief, does any line put a question to the person directing the work in the Orchestrator session?
+- Review of any change to the harness text asks: under a brief, does any line put a question to the person directing the work in the Orchestrator session, leave something that needs that person without a way to reach that person through Counsel, or report a question where it should name what is with Counsel; and does work no brief governs ask its user in that session?
 
 ## Revisit When
 
