@@ -23,8 +23,8 @@ Research can be done by whoever needs its answer: a Worker before it implements,
 ## Decision
 
 - Research is the Researcher role's work in every environment; it is never part of a Worker's task.
-- The Orchestrator and Counsel place a Researcher by one and the same rule.
-- A workspace whose record holds no option fitting the research still has research done by a Researcher.
+- The Orchestrator and Counsel place a Researcher by one and the same rule, which weighs what the research needs and how much cost may weigh in it (ADR-D-0066), and where its result is to be used.
+- A workspace whose record holds no option fitting the research still has research done by a Researcher, on an option the dispatcher can always run itself; research never waits for, or goes without, a Researcher for want of a recorded option.
 
 ## Why
 
@@ -38,9 +38,9 @@ Research bundled into a Worker's task, or kept in the dispatcher's own session b
 
 ## Decision Boundary
 
-Invariant: research is the Researcher role's work and never part of a Worker's task; one rule places a Researcher, for the Orchestrator and Counsel alike; where no recorded option fits, research is still a Researcher's.
+Invariant: research is the Researcher role's work and never part of a Worker's task; one rule places a Researcher, for the Orchestrator and Counsel alike, by what the research needs, how much cost may weigh in it, and where its result is to be used; where no recorded option fits, a Researcher the dispatcher can always run itself holds the role.
 
-Not covered: the rule's wording, its steps and where it is stated; what the rule weighs beyond the Researcher's reason (ADR-D-0066); which option holds the role where no recorded option fits, and what is recorded then; how plan review checks a plan for research bundled into another task; when research may be skipped and what a skip records.
+Not covered: the rule's wording, its steps and where it is stated; how the rule weighs those things and in what order; which of the dispatcher's own options holds the role where no recorded option fits, and what is recorded then; how plan review checks a plan for research bundled into another task; when research may be skipped and what a skip records.
 
 ## Validation
 
