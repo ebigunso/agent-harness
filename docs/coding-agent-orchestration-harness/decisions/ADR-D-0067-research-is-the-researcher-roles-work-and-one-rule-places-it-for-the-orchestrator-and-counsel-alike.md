@@ -24,7 +24,7 @@ Research can be done by whoever needs its answer: a Worker before it implements,
 
 - Research is the Researcher role's work in every environment; it is never part of a Worker's task.
 - The Orchestrator and Counsel place a Researcher by one and the same rule.
-- A workspace whose record holds no option fitting the research still has research done by a Researcher: the dispatcher's own model holds the role.
+- A workspace whose record holds no option fitting the research still has research done by a Researcher.
 
 ## Why
 
@@ -38,9 +38,9 @@ Research bundled into a Worker's task, or kept in the dispatcher's own session b
 
 ## Decision Boundary
 
-Invariant: research is the Researcher role's work and never part of a Worker's task; one rule places a Researcher, for the Orchestrator and Counsel alike; where no recorded option fits, the dispatcher's own model holds the role.
+Invariant: research is the Researcher role's work and never part of a Worker's task; one rule places a Researcher, for the Orchestrator and Counsel alike; where no recorded option fits, research is still a Researcher's.
 
-Not covered: the rule's wording, its steps and where it is stated; what the rule weighs beyond the Researcher's reason (ADR-D-0066); what is recorded when the dispatcher's own model holds the role; how plan review checks a plan for research bundled into another task; when research may be skipped and what a skip records.
+Not covered: the rule's wording, its steps and where it is stated; what the rule weighs beyond the Researcher's reason (ADR-D-0066); which option holds the role where no recorded option fits, and what is recorded then; how plan review checks a plan for research bundled into another task; when research may be skipped and what a skip records.
 
 ## Validation
 
