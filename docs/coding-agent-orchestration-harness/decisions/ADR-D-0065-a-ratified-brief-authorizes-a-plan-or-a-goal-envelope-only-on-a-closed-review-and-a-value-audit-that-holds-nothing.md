@@ -60,7 +60,7 @@ Not covered: the authorities themselves, what is never one, and that under a bri
 
 ## Revisit When
 
-- Units started on the ratified brief turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions first, as ADR-D-0052 says; a miss on these conditions reopens this record.
+- Units started on the ratified brief turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions before this record, as ADR-D-0052 says; a miss on these conditions reopens this record.
 - An action a unit stated as waiting for its decision is found executed before that decision.
 - On 2026-09-30 no run on any runtime had met these conditions together for a plan; a run that meets them and is later found to have needed the person directing the work to read the plan reopens this record.
 - On 2026-11-07 no goal envelope had been authorized on these conditions; a goal run so authorized and later found to have needed the person directing the work to read its envelope reopens this record.

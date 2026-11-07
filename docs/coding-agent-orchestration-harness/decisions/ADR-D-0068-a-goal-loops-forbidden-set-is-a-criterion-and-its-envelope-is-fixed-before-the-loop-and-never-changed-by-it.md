@@ -43,7 +43,7 @@ Not covered: who authorizes the envelope and on what conditions (ADR-D-0064, ADR
 ## Validation
 
 - Every goal carries its decision scope and its forbidden-set criterion before the loop starts.
-- A forbidden-class action taken autonomously is a critical defect at retrospective; a change to the envelope during the run without fresh authorization is an envelope violation.
+- A forbidden-class action taken autonomously is a critical defect; a change to the envelope during the run without fresh authorization is an envelope violation.
 
 ## Revisit When
 
@@ -52,4 +52,4 @@ Not covered: who authorizes the envelope and on what conditions (ADR-D-0064, ADR
 
 ## More Information
 
-Replaces ADR-D-0027 in full: everything it decided is carried except that the person directing the work ratifies the envelope, which this record leaves to ADR-D-0064 and ADR-D-0065. Source of intent for leaving it out: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`), "Directed during the run". Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, pillar 1. Related: ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a goal envelope), ADR-D-0063 (the value audit in a goal run), ADR-D-0011 and ADR-D-0028 (progress and stall), ADR-D-0029 (who judges continuation).
+Replaces ADR-D-0027 in full: everything it decided is carried except that the person directing the work ratifies the envelope, which this record leaves to ADR-D-0064 and ADR-D-0065. Source of intent for leaving it out: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`), "Directed during the run". Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, "Authority envelope". Related: ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a goal envelope), ADR-D-0063 (the value audit in a goal run), ADR-D-0011 and ADR-D-0028 (progress and stall), ADR-D-0029 (who judges continuation).

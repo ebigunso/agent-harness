@@ -34,7 +34,7 @@ The person directing the work shapes direction at product level instead of audit
 
 ## Rejected Alternatives
 
-- The person directing the work approves every unit of work, the only form ADR-D-0032 admitted: it keeps that person auditing each plan for drift; reopen if units started on the ratified brief turn out, when that person reads them afterwards, to be ones that person would have stopped, and the miss does not trace to how items are graded, which reopens the grade definitions first (ADR-D-0052).
+- The person directing the work approves every unit of work, the only form ADR-D-0032 admitted: it keeps that person auditing each plan for drift; reopen if units started on the ratified brief turn out, when that person reads them afterwards, to be ones that person would have stopped, and the miss does not trace to how items are graded, which reopens the grade definitions before this record (ADR-D-0052).
 - The ratification authorizes work on a philosophy alone, with no ratified brief: rejected outright; no ratification of that piece of work exists for the audit to carry.
 - A ratified brief authorizes every unit made under it, with no audit: rejected outright; the Orchestrator would be the judge of whether its own unit fits the brief.
 - Orchestrator self-waiver with a recorded reason and evidence: rejected outright; the record is written by the party the waiver benefits, so it constrains nothing.
@@ -57,7 +57,7 @@ Not covered: what counts as trivial; the conditions under which the ratification
 
 ## Revisit When
 
-- Units of work started on the ratified brief turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions first, as ADR-D-0052 says; any other reopens this record.
+- Units of work started on the ratified brief turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions before this record, as ADR-D-0052 says; any other reopens this record.
 - A supported runtime gains its own step that shows a unit to the person directing the work before execution, so that the request-as-approval alternative can be re-examined.
 - A mode needs an authority that is neither that person's own approval nor that person's ratified brief.
 - On 2026-10-29 no run under a brief had yet ended with nothing asked of the person directing the work in the Orchestrator session; a run under a brief found unable to do so without that person's own approval of a unit reopens this record.
