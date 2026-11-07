@@ -12,6 +12,8 @@ depends_on: ["ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-or
 
 # ADR-D-0062: Under a ratified brief the Orchestrator session asks the person directing the work nothing
 
+Proposed on 2026-10-29; awaiting acceptance by the person directing the work, by name.
+
 ## Context and Problem Statement
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
@@ -32,14 +34,14 @@ While a run under a ratified brief is in progress, the person directing the work
 
 ## Rejected Alternatives
 
-- Counsel carries some kinds of question (those at the level of direction and the named consent gates), and every other kind, the agreement to a goal envelope included, is asked in the Orchestrator session: rejected outright; the person directing the work would have to watch that session for every kind left off the list.
+- Counsel carries some kinds of question (those at the level of direction and the named consent gates), and every other kind is asked in the Orchestrator session: rejected outright; the person directing the work would have to watch that session for every kind left off the list.
 - A hand-over or an instruction arriving as a message counts as the person directing the work being present for questions: rejected outright; it is the reading under which a session handed its work by a message goes on to ask in that session.
 
 ## Decision Boundary
 
 Invariant: while a ratified brief governs a run, the Orchestrator session puts no question to the person directing the work; whatever needs that person reaches that person through Counsel, and the Orchestrator's report names what is with Counsel and what the work waits on in place of questions; no consent is loosened by it; a message's arrival does not make that person present; work no brief governs is unchanged.
 
-Not covered: how a question reaches Counsel and what the Orchestrator does while the work waits on an answer, which the harness text states; how the answer is admitted and what counts as it (ADR-D-0038); what Counsel does with what it receives (ADR-D-0043); what authorizes a unit of work under a brief, and that no plan is put to that person for approval (ADR-D-0064, ADR-D-0065); an act only that person can perform in the session itself, such as granting a runtime permission; the wording of the instructions that ask the user and of the Orchestrator's report.
+Not covered: how a question reaches Counsel and what the Orchestrator does while the work waits on an answer, which the harness text states; how the answer is admitted and what counts as it (ADR-D-0038); what Counsel does with what it receives (ADR-D-0043); what authorizes a unit of work under a brief, and that no unit, a goal envelope included, is put to that person for approval or agreement (ADR-D-0064, ADR-D-0065); an act only that person can perform in the session itself, such as granting a runtime permission; the wording of the instructions that ask the user and of the Orchestrator's report.
 
 ## Validation
 
@@ -52,4 +54,4 @@ Not covered: how a question reaches Counsel and what the Orchestrator does while
 
 ## More Information
 
-Source of intent: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`), "Who it is for and why", "What the plugin states", "Directed during the run" and "Limits". How a question travels, how the harness text's instructions that ask the user read under a brief, and what the Orchestrator does when the work cannot go on without an answer are the harness text's and change without this record. Related: ADR-D-0038 (the word of the person directing the work), ADR-D-0043 (Counsel speaks only in that person's words), ADR-D-0051 (the run), ADR-D-0064 (the sources of authorization), ADR-D-0065 (when a ratified brief authorizes a plan).
+Source of intent: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`), "Who it is for and why", "What the plugin states", "Directed during the run" and "Limits". How a question travels, how the harness text's instructions that ask the user read under a brief, and what the Orchestrator does when the work cannot go on without an answer are the harness text's and change without this record. Related: ADR-D-0038 (the word of the person directing the work), ADR-D-0043 (Counsel speaks only in that person's words), ADR-D-0051 (the run), ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a plan or a goal envelope).
