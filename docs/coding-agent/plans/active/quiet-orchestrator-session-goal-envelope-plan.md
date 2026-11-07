@@ -165,6 +165,7 @@
   - GE3-F1 (minor): Acting On A Verdict is not a list of corrections that make no decision, since a redo or a re-derivation can choose.
   - GE3-F2 (minor): D4's ban on any change to the goal condition or an invariant overreached the tighten-free contract and was an unlisted addition.
   - Triage: both fixed. D4 is now the brief's test (remedy already determined within the run's authority), carried out with the existing procedure, and the goal contract is left as `goal-mode.md` states it.
+- 2026-11-07 10:08 Plan review round 4 dispatched at 1145da8 (delta 279fa00..1145da8). 10:10 APPROVED: GE3-F1 and GE3-F2 closed, GE-F1 and GE-F2 still closed, no new findings. The plan review is closed with no finding open.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
