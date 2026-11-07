@@ -1281,6 +1281,26 @@ Prevention:
 Evidence:
 - The run's plan Decision Log entry of 2026-10-23 for ADR-D-0061.
 
+## 2026-11-07 - The Reading Is Written Before Every Audit Dispatch, Not Only Before The First Of A Run  [tags: governance, validation, correction]
+
+Context:
+- A later unit of a run under a brief: a plan drafted after the run's earlier units had their readings, revised through four review rounds, and then given its plan-draft value audit.
+
+Symptom:
+- The audit was dispatched with no reading under a heading for that plan and position, so its verdict could compare nothing: every item read unread.
+
+Root cause:
+- The review rounds ended in a dispatch made straight from the review's approval. The reading step was tied in practice to a run's first audit, not to every dispatch as `value-level-operation.md` Documents states.
+
+Fix applied:
+- The verdict's grades stand, because they do not depend on the reading. No reading was written afterwards, since one written after the grades is not a reading. The miss is recorded in the plan beside the verdict, and the readings file's heading for that position says no reading was written.
+
+Prevention:
+- Write the reading under its own heading as the step just before every audit dispatch, whatever the position and whichever unit of the run, and check the heading exists before sending the dispatch text.
+
+Evidence:
+- `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`, the Progress Log entry of the plan-draft verdict of 2026-11-07.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
