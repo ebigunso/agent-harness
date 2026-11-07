@@ -225,6 +225,7 @@
   - GEW-F2 (minor): the repeated-audit baseline sentence (D7) froze even an erroneous Changes since, and changed runs without a brief.
   - GEW-F3 (minor): ADR-D-0068 named a review occasion ("at retrospective") and a design section by ordinal ("pillar 1").
   - Triage: all three fixed by the same Workers, resumed. Task_1 (872564f): a remedy needing a changed envelope goes back through the route, and only a decision above the run goes by the Carrier; the baseline sentence is scoped to a brief and still lets a wrong revision be corrected. Task_2 (f9a9f4a): both phrases replaced, and the sweep found three ordinal "first"s in ADR-D-0064 and ADR-D-0065, now "before this record". Validators pass and the index stayed empty.
+- 2026-11-07 10:32 Review round 2 dispatched at 31f8c5b (delta 489a0c1..31f8c5b). 10:34 APPROVED: GEW-F1, GEW-F2 and GEW-F3 closed, no new findings. The three "before this record" edits keep ADR-D-0052's precedence. The review is closed. The closeout reading is written in the readings file before the closeout audit is dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - D5 (Task_1): the whole-envelope item in `goal-condition-checklist.md` applies under a brief only; runs without a brief keep the forbidden-set check alone (the brief's constraint that runs without a brief are unchanged).
