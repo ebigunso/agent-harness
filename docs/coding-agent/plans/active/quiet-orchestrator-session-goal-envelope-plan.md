@@ -1,4 +1,4 @@
-# Plan: A goal envelope under a brief authorized by the brief route
+# Plan: A goal run under a brief, authorized and graded on the brief
 
 - status: draft
 - generated: 2026-11-07
@@ -9,6 +9,8 @@
 - The harness gives what the governing brief `docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md` states in its entries of 2026-11-07 under Directed during the run:
   - under a brief, a goal-mode run starts without the owner's agreement, through Counsel or anywhere;
   - its envelope is authorized as a plan under a brief is;
+  - the value audit grades the whole goal run under a brief against the brief;
+  - a finding the run can remediate without any further decision is handled by the run, without stopping the loop or reaching the owner;
   - every record names the thing it means and not its position ("the second source");
   - wording is chosen so that its meaning does not change when something else changes.
 - The brief is the requirement and is not restated here. Where this plan and the brief differ, the brief governs and the difference is a plan defect.
@@ -21,14 +23,15 @@
   - the three moves apply when the route does not authorize;
   - a changed envelope goes back through the route, as a changed plan does.
 - The goal-mode texts say so: `goal-mode.md` Authority Envelope and Value Audit, `value-level-operation.md` (opening paragraph, Goal-Mode Runs, The Carrier's list of consent gates), `lifecycle-gates.md` Plan Gate Details, `SKILL.md` (Repository Rule Entry and Plan Gate), `goal-condition-checklist.md`, `goal-templates.md`. A stop of the loop under a brief still goes by the Carrier.
-- Under a brief, the value audit grades the envelope against the brief at its plan-draft position, in a repository with no philosophy as well, and the mandate's fill-in for that position names the governing brief (`value-audit-mandate.md`). The audit's other goal-run positions (the assessment events, completion) are unchanged: they run only where a philosophy exists, as written (D2).
+- Under a brief, the value audit grades the whole goal run against the brief, in a repository with no philosophy as well: the envelope before the loop starts, the run at each assessment event, and the completion report. The mandate's goal-run fill-ins name the governing brief under a brief (`value-audit-mandate.md`). With a philosophy and no brief, the audit reads as before.
+- Under a brief, an item the audit holds in a goal run that the run can remediate without any further decision is remediated by the run: the loop does not stop, the owner is not reached, and the audit is dispatched again new on what the remediation changed (D4). Only an item that needs a decision above the run stops the loop and goes by the Carrier.
 - A goal run without a brief reads exactly as before: the user ratifies the envelope in the session, and the audit runs only where a philosophy exists.
 - No plugin line touched by this unit points at a source, a step or a section by its position or order where it can name the thing (brief, the 2026-11-07 constraint). `SKILL.md` Plan Gate's "Second source" and `lifecycle-gates.md`'s "the second source" are among them.
 - `durable-docs-authoring` states the wording rule for every document the harness writes (planner-added).
 - The proposed records are rewritten for the direction, at intent altitude, one decision each, naming things rather than positions:
   - ADR-D-0064: under a brief, the ratification is the only authority for every unit, a goal envelope included.
   - ADR-D-0065: the brief route's conditions for a plan and for a goal envelope.
-  - ADR-D-0063: a goal run in a repository with no philosophy is not graded by the audit, except that under a brief its envelope is, by the brief route.
+  - ADR-D-0063: a goal run under a brief or in a repository with a philosophy is graded by the audit beside the assessor, over the whole run; under a brief, an item the run can remediate without a further decision does not stop the loop.
   - ADR-D-0062: its rejected alternative no longer names an agreement to an envelope.
   - A new record replaces the accepted ADR-D-0027. It keeps what ADR-D-0027 decides (the forbidden set is a criterion; the envelope is fixed before the loop and never changed by it) and leaves who authorizes it to ADR-D-0064. It is numbered ADR-D-0068 while pull requests 93 and 94 are both open, and renumbered at merge.
   - All stay proposed for the owner's acceptance by name; nothing is retired before it.
@@ -44,28 +47,29 @@
 - Non-goals:
   - what authorizes a plan under a brief, which is unchanged;
   - the assessor and its mandate, the stall and completion rules;
-  - runs without a brief;
+  - runs without a brief, a goal run on a philosophy alone included;
   - accepted records other than ADR-D-0027, which run "decision records at intent altitude" checks (told that ADR-D-0027 is now this run's);
   - a sweep of all plugin text for positional wording beyond the lines this unit touches. The rule in `durable-docs-authoring` governs later writing, and run "decision records at intent altitude" checks the records.
 
 ## Design
-- Chosen: a goal envelope under a brief goes through the route a plan under a brief already has, stated once in `lifecycle-gates.md` Plan Gate Details for both units. Goal-mode texts point there. The audit grades the envelope against the brief, and its other goal-run positions stay as written.
-  - structure: one route, one owner of its conditions. The envelope stands where the plan stands, and the Reviewer's pass on the condition and the envelope stands where the plan review stands.
-  - evolution: a later change to the route changes both modes at once. Deletion path: the envelope lines in Plan Gate Details.
+- Chosen: a goal envelope under a brief goes through the route a plan under a brief already has, stated once in `lifecycle-gates.md` Plan Gate Details for both units, and goal-mode texts point there. The audit's goal-run attachment widens from "a repository with a philosophy" to "under a brief or in a repository with a philosophy", at the positions it already has. A held item the run can remediate without a decision is handled the way a plan-mode run already handles one, by the corrections `value-level-operation.md` Acting On A Verdict lists, without stopping the loop.
+  - structure: one route, one owner of its conditions, and one list of self-remediable corrections shared by both modes. The envelope stands where the plan stands, and the Reviewer's pass on the condition and the envelope stands where the plan review stands.
+  - evolution: a later change to the route or to the corrections changes both modes at once. Deletion path: the envelope lines in Plan Gate Details and the brief clause in the audit's goal-run attachment.
   - verification: by reading and search. No probe (see below).
-  - operation: one audit dispatch at the envelope where none ran before in a repository with no philosophy.
-  - human: the owner is asked nothing to start a goal run, so goal mode costs him no more than plan mode does.
-  - safety: the irreversibility class stays outside every envelope, and an irreversible action still waits for its moment.
-- Alternative: the audit also grades a goal run under a brief against the brief at its assessment events and completion, in a repository with no philosophy as well.
-  - structure: the audit's goal-run attachment widens from "a repository with a philosophy" to "under a brief or with a philosophy".
-  - evolution: the loop's drift from the brief would show inside the loop, not only when the work is built.
-  - verification: the same.
-  - operation: an Auditor dispatch on every assessment event and at completion, growing with the run.
-  - human: the same at the start.
-  - safety: more stops of the whole loop.
-- Why chosen: the brief's 2026-11-07 entry narrows its Limits only for the envelope ("the audit grades a goal envelope under a brief as it grades a plan"), and the Limits otherwise keep what the audit grades. The alternative was put to Counsel on 2026-11-07 for the owner's check. If he directs it, it comes back through this plan's gate.
+  - operation: an Auditor dispatch at each assessment event and at completion, growing with the run, in a repository with no philosophy where none ran before. A remediable item costs a new audit instead of a stop.
+  - human: the owner is asked nothing to start a goal run, and only an item needing his decision reaches him.
+  - safety: the irreversibility class stays outside every envelope, and an irreversible action still waits for its moment. An item that needs a decision still stops the whole loop.
+- Alternative: the run gets its own list of self-remediable findings for goal mode, separate from the plan-mode corrections.
+  - structure: two lists of what the run may correct by itself.
+  - evolution: the lists drift apart.
+  - verification: two places to check.
+  - operation: the same.
+  - human: a reader meets two answers to one question.
+  - safety: the same, as long as both lists hold only corrections that make no decision.
+- Why chosen: the owner's words are "if a finding can be remediated without any additional decisions". The plan-mode corrections are already the harness's statement of which held items need no decision, so reusing them answers the same question once.
 - Ruling D1: the plan route's conditions apply to the envelope as written. Its review is the Reviewer's pass, widened to cover every clause of the envelope (planner-added).
-- Ruling D2: the audit's assessment-event and completion positions are unchanged.
+- Ruling D2: under a brief the audit runs at the goal-run positions it already has (envelope, each assessment event, completion), graded against the brief, and the mandate's goal-run fill-ins name the brief.
+- Ruling D4: a remediation of a held item in a goal run under a brief is the Orchestrator's correction of its own input or its own line, never a change to the envelope, the goal condition or an invariant. Those still go back through the route, or stop the loop. The journal records the remediation as it records any decision of the loop, and no grade or other part of a verdict.
 - Ruling D3: no fixture probe. The brief's scenarios do not cover goal mode, and the change is a route reused, not a new behaviour. The Reviewer's search for any line under a brief that still has the owner agree to an envelope is the check.
 
 ## Compatibility stance
@@ -74,12 +78,12 @@
 - justification: the consumers are Orchestrator sessions reading the plugin, and the owner, for whom the brief changes it. No goal run under a brief has yet run, so no recorded goal depends on the old start.
 
 ## Context (workspace)
-- Governing brief: as above. Ratification as it reached this session: Counsel's relay of 2026-10-28 (16:17Z), quoting the owner on 2026-10-29: "I ratify both briefs, hand them over now." The entries of 2026-11-07 reached this session by Counsel's relay of 2026-11-07 09:08Z, quoting the owner's words given beside each entry. Relays are admitted by the Standing Approvals entry of 2026-10-01 in `common.md`.
+- Governing brief: as above. Ratification as it reached this session: Counsel's relay of 2026-10-28 (16:17Z), quoting the owner on 2026-10-29: "I ratify both briefs, hand them over now." The entries of 2026-11-07 reached this session by Counsel's relay of 2026-11-07 09:08Z, quoting the owner's words given beside each entry; his check of the inferred entry and the self-remediation entry by Counsel's relay of 2026-11-07 10:02Z, quoting "Go with the whole run reading. And, if a finding can be remediated without any additional decisions, I'd like it automatically handled as well." Relays are admitted by the Standing Approvals entry of 2026-10-01 in `common.md`.
 - Run record and readings file: `docs/coding-agent/plans/active/quiet-orchestrator-session-run.md`, `docs/coding-agent/plans/active/quiet-orchestrator-session-readings.md`.
 - Research waived: the affected lines were found by search of `plugins/` for envelope, ratification and source wording on 2026-11-07. The area is the run's own text of 2026-10-28.
 
 ## Open Questions (max 3)
-- With Counsel since 2026-11-07: the envelope's route rests on the brief's entry of 2026-11-07 tagged inferred, which awaits the owner's check. The brief's constraint of 2026-10-29, as revised that day, keeps the mandate's goal-run wording until he checks it. An item that depends on an inferred statement with no ratification record is `ask-now` (`value-audit-mandate.md`, Missing inputs and support). So the plan-draft audit is dispatched once his check is in the brief, and not before.
+- None. The owner's check of the inferred entry reached the brief on 2026-11-07 (234ea83), in the whole-run form, with the self-remediation entry beside it.
 
 ## Assumptions
 - None.
@@ -104,7 +108,8 @@
 - acceptance:
   - Under a brief, the envelope is authorized by the brief route on a plan's conditions (D1), with nothing anywhere having the owner agree to it or relaying his answer to start the loop. The conditions are stated once, in Plan Gate Details. A changed envelope goes back through the route.
   - `goal-condition-checklist.md` has the Reviewer's pass cover every clause of the recorded envelope as well as the goal condition.
-  - Under a brief, the audit grades the envelope against the brief, philosophy or not, and the mandate's plan-draft fill-in for a goal run names the brief. The assessment-event and completion positions read as before (D2). Without a brief, everything reads as before.
+  - Under a brief, the audit grades the whole goal run against the brief at its envelope, assessment events and completion, philosophy or not, and the mandate's goal-run fill-ins name the brief (D2). Without a brief, everything reads as before.
+  - Under a brief, a held item the run can remediate by the corrections Acting On A Verdict lists is remediated and the audit dispatched again new, without stopping the loop or reaching the owner (D4). An item needing a decision stops the loop and goes by the Carrier.
   - No line touched names a source, step or section by its position or order where it can name the thing.
   - `durable-docs-authoring` states, once, that wording names the thing meant rather than its position, order or relation to something that can change.
 - validation:
@@ -155,8 +160,9 @@
   - Triage: GE-F1 fix (narrowed to the envelope; the widening became the Design's alternative, with Counsel for the owner's check). GE-F2 fix (the pass covers every clause of the envelope, listed as planner-added).
   - The finding also made plain that items resting on the inferred entry are `ask-now`, so the plan-draft audit waits for the owner's check (Open Questions). Validator: pass.
 - 2026-11-07 09:23 Plan review round 2 at c2c15cf (delta d8d4bc2..c2c15cf): APPROVED, GE-F1 and GE-F2 closed, no new findings. The plan review is closed with no finding open. The plan-draft audit waits for the owner's check of the inferred entry.
+- 2026-11-07 10:02 Counsel's relay: the owner checked the inferred entry in the whole-run form and added that a finding remediable without a further decision is handled by the run. Brief and notes committed (234ea83, b22859f). The plan revised for both: the audit grades the whole goal run under a brief (D2), and remediable held items do not stop the loop (D4, on the corrections Acting On A Verdict lists). The Design's alternative is now a separate goal-mode list of corrections.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
 ## Notes (Risks / Edge cases)
-- The inferred entry may come back changed from the owner's check. If it does, the plan is revised and reviewed again before the audit.
+- A remediation that quietly changes what the loop may do would bypass the route. D4 keeps envelope, condition and invariant changes out of remediation.
