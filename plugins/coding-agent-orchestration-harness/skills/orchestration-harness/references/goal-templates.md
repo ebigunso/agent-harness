@@ -9,7 +9,7 @@ Never hard-wrap prose mid-sentence in committed goal/journal files — keep one 
 Term glosses used throughout (graded escalation levels; full protocol in `references/goal-mode.md`):
 - proceed: in-envelope decision; act and journal briefly.
 - decide-and-journal: in-envelope but judgment-heavy; act, journal the decision with rationale, flag it for retrospective review.
-- ask-now: envelope boundary hit; stop the loop, surface the question to the user, wait. Reaching ask-now is a successful termination, not a failure.
+- ask-now: envelope boundary hit; stop the loop, surface the question to the user (under a brief, to the owner by the Carrier: `references/goal-mode.md` Authority Envelope), wait. Reaching ask-now is a successful termination, not a failure.
 - abort: safety condition; stop, revert to the last good checkpoint (the per-iteration commit on the goal branch), report.
 
 ---
@@ -21,7 +21,7 @@ Each goal is a directory: `docs/coding-agent/goals/active/<goal-id>/` containing
 Copy this structure into:
 - `docs/coding-agent/goals/active/<goal-id>/goal.md`
 
-The envelope (the user-ratified boundary of what the loop may decide alone) is immutable during the run; renegotiation is a human moment.
+The envelope (the user-ratified boundary of what the loop may decide alone; under a brief, authorized by the brief route with no one asked, as `references/goal-mode.md` Authority Envelope states) is immutable during the run; renegotiation is a human moment, and under a brief a changed envelope goes back through that route.
 
 ---
 
@@ -29,7 +29,7 @@ The envelope (the user-ratified boundary of what the loop may decide alone) is i
 # Goal: <Title>
 
 - status: draft | active | awaiting_decision | completed | aborted | abandoned
-  - ask-now sets `awaiting_decision`; the goal stays under `active/` until the human decides: resume (back to `active`), re-ratify (back to `active` with a new envelope), or abandon.
+  - ask-now sets `awaiting_decision`; the goal stays under `active/` until the human decides (under a brief, the owner, by the Carrier): resume (back to `active`), re-ratify (back to `active` with a new envelope; under a brief, one the brief route authorizes), or abandon.
   - terminal outcomes (`completed`, `aborted`, `abandoned`) archive the directory to `docs/coding-agent/goals/completed/` with the final status preserved here.
 - created: <YYYY-MM-DD>
 - last_updated: <YYYY-MM-DD>
