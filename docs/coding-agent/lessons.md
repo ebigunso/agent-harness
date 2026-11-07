@@ -767,6 +767,11 @@ Prevention:
   - follow-up (2026-09-16, ebigunso, after PR #71 opened): the comparison's axes were the diff-sized slice (dependencies, duplicated state, conversions). The mindset for writing and reviewing plans is the bigger picture: technical debt, fit with the project's philosophy or roadmap direction, testability where feasible, the cost of running the tests, and the cost of changing them when the design changes. Durable default: the design comparison walks the six lens groups `plan-format` rule 13 names (structure, evolution, verification, operation, human, safety), each lens a name with at most one clause; a fit claim names its source; plan review may open the three latent-risk references the snippet names for the Design section. Plan: `docs/coding-agent/plans/completed/design-comparison-horizon-plan.md`.
 - Residual risk / waiver:
   - A drafting model may still leave an addition untagged; the Reviewer's independent enumeration is the catch, and the user's scan of one section is the backstop. If an untagged addition passes both, the second occurrence promotes to a validator question.
+  - Occurrence (2026-11-07, `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`): two additions went unlisted.
+    - One passed the plan review because it was presented as resting on a brief entry tagged inferred.
+    - One was a ruling on a Worker's question, made after the plan was authorized.
+    - The closeout value audit's reading comparison and a later plan-text review caught both. The owner's scan was not reached, so this is not yet the occurrence the line above promotes.
+    - Extended prevention: every ruling on a Worker question that adds a requirement or constraint is listed under Planner-added requirements when it is made, and the section is reconciled after integration, not only at draft. A support claim is checked against the source as it stood before the change, so an edited implementation never justifies its own introduction.
 
 Evidence:
 - ebigunso's account in session on 2026-09-16; the files named above read in that session (no draft-time alternatives or provenance obligation found in `plan-format`, `orchestration-harness`, or `subagent-strategy`).
