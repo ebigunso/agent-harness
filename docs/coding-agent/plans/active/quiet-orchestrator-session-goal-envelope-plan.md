@@ -52,24 +52,24 @@
   - a sweep of all plugin text for positional wording beyond the lines this unit touches. The rule in `durable-docs-authoring` governs later writing, and run "decision records at intent altitude" checks the records.
 
 ## Design
-- Chosen: a goal envelope under a brief goes through the route a plan under a brief already has, stated once in `lifecycle-gates.md` Plan Gate Details for both units, and goal-mode texts point there. The audit's goal-run attachment widens from "a repository with a philosophy" to "under a brief or in a repository with a philosophy", at the positions it already has. A held item the run can remediate without a decision is handled the way a plan-mode run already handles one, by the corrections `value-level-operation.md` Acting On A Verdict lists, without stopping the loop.
-  - structure: one route, one owner of its conditions, and one list of self-remediable corrections shared by both modes. The envelope stands where the plan stands, and the Reviewer's pass on the condition and the envelope stands where the plan review stands.
+- Chosen: a goal envelope under a brief goes through the route a plan under a brief already has, stated once in `lifecycle-gates.md` Plan Gate Details for both units, and goal-mode texts point there. The audit's goal-run attachment widens from "a repository with a philosophy" to "under a brief or in a repository with a philosophy", at the positions it already has. A held item passes one test first, the brief's: is its remedy already determined within the run's authority, leaving no additional decision? If so, the run carries it out with the procedure `value-level-operation.md` Acting On A Verdict already has (drop the unsupported line, correct the input, dispatch the audit again, new), without stopping the loop.
+  - structure: one route, one owner of its conditions, and one correction procedure shared by both modes, entered only through the brief's test. The envelope stands where the plan stands, and the Reviewer's pass on the condition and the envelope stands where the plan review stands.
   - evolution: a later change to the route or to the corrections changes both modes at once. Deletion path: the envelope lines in Plan Gate Details and the brief clause in the audit's goal-run attachment.
   - verification: by reading and search. No probe (see below).
   - operation: an Auditor dispatch at each assessment event and at completion, growing with the run, in a repository with no philosophy where none ran before. A remediable item costs a new audit instead of a stop.
   - human: the owner is asked nothing to start a goal run, and only an item needing his decision reaches him.
   - safety: the irreversibility class stays outside every envelope, and an irreversible action still waits for its moment. An item that needs a decision still stops the whole loop.
-- Alternative: the run gets its own list of self-remediable findings for goal mode, separate from the plan-mode corrections.
-  - structure: two lists of what the run may correct by itself.
-  - evolution: the lists drift apart.
+- Alternative: the run gets its own catalogue of self-remediable findings for goal mode, separate from the plan-mode procedure.
+  - structure: two catalogues of what the run may correct by itself.
+  - evolution: the catalogues drift apart.
   - verification: two places to check.
   - operation: the same.
   - human: a reader meets two answers to one question.
-  - safety: the same, as long as both lists hold only corrections that make no decision.
-- Why chosen: the owner's words are "if a finding can be remediated without any additional decisions". The plan-mode corrections are already the harness's statement of which held items need no decision, so reusing them answers the same question once.
+  - safety: a catalogue can admit a remedy that makes a decision; a test cannot be outgrown that way.
+- Why chosen: the owner's words, "if a finding can be remediated without any additional decisions", are a test, not a list. The existing procedure carries out a remedy once the test holds. A redo that needs a new choice fails the test and keeps its route: review and the brief route, or a stop of the loop and the Carrier.
 - Ruling D1: the plan route's conditions apply to the envelope as written. Its review is the Reviewer's pass, widened to cover every clause of the envelope (planner-added).
 - Ruling D2: under a brief the audit runs at the goal-run positions it already has (envelope, each assessment event, completion), graded against the brief, and the mandate's goal-run fill-ins name the brief.
-- Ruling D4: a remediation of a held item in a goal run under a brief is the Orchestrator's correction of its own input or its own line, never a change to the envelope, the goal condition or an invariant. Those still go back through the route, or stop the loop. The journal records the remediation as it records any decision of the loop, and no grade or other part of a verdict.
+- Ruling D4: in a goal run under a brief, a held item is remediated by the run only when its remedy is already determined within the run's authority (the brief's 2026-11-07 test). The goal contract stays as `goal-mode.md` states it: tightening is free, loosening escalates, and a changed envelope goes back through the route. So no remediation widens or changes the envelope. The journal records the remediation as it records any decision of the loop, and no grade or other part of a verdict.
 - Ruling D3: no fixture probe. The brief's scenarios do not cover goal mode, and the change is a route reused, not a new behaviour. The Reviewer's search for any line under a brief that still has the owner agree to an envelope is the check.
 
 ## Compatibility stance
@@ -109,7 +109,7 @@
   - Under a brief, the envelope is authorized by the brief route on a plan's conditions (D1), with nothing anywhere having the owner agree to it or relaying his answer to start the loop. The conditions are stated once, in Plan Gate Details. A changed envelope goes back through the route.
   - `goal-condition-checklist.md` has the Reviewer's pass cover every clause of the recorded envelope as well as the goal condition.
   - Under a brief, the audit grades the whole goal run against the brief at its envelope, assessment events and completion, philosophy or not, and the mandate's goal-run fill-ins name the brief (D2). Without a brief, everything reads as before.
-  - Under a brief, a held item the run can remediate by the corrections Acting On A Verdict lists is remediated and the audit dispatched again new, without stopping the loop or reaching the owner (D4). An item needing a decision stops the loop and goes by the Carrier.
+  - Under a brief, a held item whose remedy is already determined within the run's authority is remediated with Acting On A Verdict's procedure and the audit dispatched again new, without stopping the loop or reaching the owner (D4). The text states the test, not a list of eligible findings. An item needing a decision stops the loop and goes by the Carrier.
   - No line touched names a source, step or section by its position or order where it can name the thing.
   - `durable-docs-authoring` states, once, that wording names the thing meant rather than its position, order or relation to something that can change.
 - validation:
@@ -161,8 +161,12 @@
   - The finding also made plain that items resting on the inferred entry are `ask-now`, so the plan-draft audit waits for the owner's check (Open Questions). Validator: pass.
 - 2026-11-07 09:23 Plan review round 2 at c2c15cf (delta d8d4bc2..c2c15cf): APPROVED, GE-F1 and GE-F2 closed, no new findings. The plan review is closed with no finding open. The plan-draft audit waits for the owner's check of the inferred entry.
 - 2026-11-07 10:02 Counsel's relay: the owner checked the inferred entry in the whole-run form and added that a finding remediable without a further decision is handled by the run. Brief and notes committed (234ea83, b22859f). The plan revised for both: the audit grades the whole goal run under a brief (D2), and remediable held items do not stop the loop (D4, on the corrections Acting On A Verdict lists). The Design's alternative is now a separate goal-mode list of corrections.
+- 2026-11-07 10:04 Plan review round 3 dispatched at 279fa00 (delta f533f99..279fa00). 10:07 NEEDS_REVISION, GE-F1 and GE-F2 still closed, two new findings:
+  - GE3-F1 (minor): Acting On A Verdict is not a list of corrections that make no decision, since a redo or a re-derivation can choose.
+  - GE3-F2 (minor): D4's ban on any change to the goal condition or an invariant overreached the tighten-free contract and was an unlisted addition.
+  - Triage: both fixed. D4 is now the brief's test (remedy already determined within the run's authority), carried out with the existing procedure, and the goal contract is left as `goal-mode.md` states it.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
 ## Notes (Risks / Edge cases)
-- A remediation that quietly changes what the loop may do would bypass the route. D4 keeps envelope, condition and invariant changes out of remediation.
+- A remediation that quietly changes what the loop may do would bypass the route. The goal contract already keeps that out: a changed envelope goes back through the route, and loosening escalates.
