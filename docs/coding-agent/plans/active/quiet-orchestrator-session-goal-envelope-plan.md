@@ -220,11 +220,16 @@
   - Task_1, done (e97c9a2): eight plugin files. Package validator and smoke tests pass, and git diff --check is clean. Adapters are unchanged, since they restate no changed line. Three questions, ruled in the Decision Log (D5 to D7); the follow-up edit to `value-audit-mandate.md` validated the same way.
   - Task_2, done (3bf43b8): ADR-D-0062 and ADR-D-0064 rewritten; ADR-D-0063 and ADR-D-0065 rewritten, retitled and renamed; ADR-D-0068 new, replacing ADR-D-0027. Validator pass; filename lengths 104, 132, 116, 128, 121; positional search clean; ADR-D-0068's admission test passes. The Worker reported one stray index write (`git add -N` on the new record), undone at once; the index was confirmed empty before the commit. Two questions, ruled in the Decision Log (D8, D9).
   - Wave integration: both reports map to one task each, every changed path is within owns, and every required Worker check passes. Reviewer dispatch next.
+- 2026-11-07 10:22 Review dispatched to the reviewer seat at 489a0c1 (range dbd49ed..489a0c1). 10:30 CHANGES_REQUESTED, three findings:
+  - GEW-F1 (major): goal-mode.md sent every held item that fails the remediation test to the owner by the Carrier, envelope revisions included, although under a brief a changed envelope goes back through the brief route.
+  - GEW-F2 (minor): the repeated-audit baseline sentence (D7) froze even an erroneous Changes since, and changed runs without a brief.
+  - GEW-F3 (minor): ADR-D-0068 named a review occasion ("at retrospective") and a design section by ordinal ("pillar 1").
+  - Triage: all three fixed by the same Workers, resumed. Task_1 (872564f): a remedy needing a changed envelope goes back through the route, and only a decision above the run goes by the Carrier; the baseline sentence is scoped to a brief and still lets a wrong revision be corrected. Task_2 (f9a9f4a): both phrases replaced, and the sweep found three ordinal "first"s in ADR-D-0064 and ADR-D-0065, now "before this record". Validators pass and the index stayed empty.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - D5 (Task_1): the whole-envelope item in `goal-condition-checklist.md` applies under a brief only; runs without a brief keep the forbidden-set check alone (the brief's constraint that runs without a brief are unchanged).
 - D6 (Task_1): under a brief, every clause of the recorded envelope is an item of the plan-draft audit, since the brief has the audit grade an envelope "as it grades a plan". Without a brief, the mandate's item list is unchanged.
-- D7 (Task_1): an audit dispatched again after a correction or remediation names the same Changes since as the audit it repeats. Kept, so that the held changes are audited again.
+- D7 (Task_1): an audit dispatched again after a correction or remediation names the same Changes since as the audit it repeats. Kept, so that the held changes are audited again. Qualified after GEW-F2: under a brief only, and a dispatch revision that is wrong or does not resolve is still corrected.
 - D8 (Task_2): ADR-D-0068 keeps ADR-D-0027's criterion and fixity as one decision, the boundary of the loop's autonomy set outside the loop. Splitting it would turn one accepted decision into two acceptance asks with nothing gained; the review checks it against the one-decision test.
 - D9 (Task_2): ADR-D-0063 states no reason for the remediation exception applying only under a brief. Nothing written supplies one beyond the brief's own scope (runs without a brief unchanged), so the record stays silent rather than invent one.
 
