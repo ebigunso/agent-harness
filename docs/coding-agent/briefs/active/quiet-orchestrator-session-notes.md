@@ -55,6 +55,17 @@ Written before any part of the closing audit's verdict was seen; facts from the 
 - Retirements: 0064 replaces 0040; 0065 replaces 0041; 0063 and 0064 together replace 0056; nothing retires before acceptance.
 - Value documents changed: the brief's Directed during the run, all Counsel's; the plugin text unchanged.
 
+Finished after the closing audit's material arrived (closeout audit of 2026-11-02, held nothing):
+
+- Nothing marked direction, nothing let through on a provisional statement, nothing inferred: every item graded cited on the brief's entry of 2026-11-02 or on the standing approval. The clauses kept at decision level in ADR-D-0065 (a plan of cheap-to-undo extensions starts unseen; an answer must be in the value documents before the route authorizes again) were decided by ADR-D-0041 already; Counsel's read above that 0065 still carries conditions at mechanism level stands as Counsel's view beside the audit's, and the choice is his.
+- One ungraded observation: the records keep 2026-10-29 as their date though rewritten 2026-11-02; the Orchestrator left it, since the decisions were taken that day. Counsel's read, mine: the standard's "no time-relative wording" is about naming dates, not which one; nothing for him.
+- The run itself changed no value document.
+
+## His reading of the rewritten records, 2026-11-07
+
+- ADR-D-0064: "I feel it's not the right choice to require my agreement to start a goal mode run. If I'm reading the decision correctly. It would introduce more churn, and could incentivize steering away from choosing goal mode as the shape to run, when that is the more appropriate choice. The current suite already leans towards writing plans, so further disincentivizing doesn't seem like a good choice to me." He read it correctly: the record keeps a goal envelope as the one unit under a brief needing his own agreement, which was his option (c) of 2026-10-29 when the choices offered were plan mode, asking in session, or agreement through Counsel; authorization by the brief route was not offered then because the brief's constraint kept what the audit grades unchanged. Counsel's inference, mine, written into the brief as inferred: with his agreement not sought, ADR-D-0064's own rule leaves the brief route as the only source, so the envelope is reviewed and audited against the brief as a plan is, which narrows that constraint. To be checked by him.
+- ADR-D-0065: "What it decides seems good. Just minor wording tweaks, where it says 'the second source', I think should be reworded to point at what exactly it is, so that the statement holds even if it becomes the first or third or the likes. This is something to be wary of when writing documents in general. Choose wording that would be less likely to change meaning when something else changes." Written into this brief as a gives and a constraint, and into the decision-records brief as a check criterion.
+
 ## The two edges, and his answers
 
 - Plan approval when the brief route does not authorize: Counsel offered carrying it through Counsel, or his looking in on the session for that case alone. He took neither: the question is not asked anywhere; the route authorizes or the plan is not yet one that can run.
