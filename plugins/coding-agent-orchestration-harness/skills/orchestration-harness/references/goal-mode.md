@@ -15,7 +15,7 @@ Cross-routes (do not duplicate; read when needed):
 - Goal mode inverts the assumption: the goal is the invariant and structure is discovered — attempt, observe, revise, attempt.
 - Each mode is correct for its work shape; forcing either onto the other's shape fails predictably (stale plans and permission-pumping in one direction, ungoverned scope drift in the other).
 - Both modes share one substrate: the role model, validation and evidence-integrity rules, lessons capture, and the skill library. Goal mode changes the lifecycle around the substrate, not the substrate.
-- When goal mode is selected at the Plan Gate position, envelope ratification replaces plan approval, the journal with checkpoint commits replaces the Task_X lifecycle, and the completion report with human retrospective replaces plan closeout; every other gate and safety property applies unchanged in both modes.
+- When goal mode is selected at the Plan Gate position, envelope ratification (under a governing brief, the envelope's authorization by the brief route: Authority Envelope) replaces plan approval, the journal with checkpoint commits replaces the Task_X lifecycle, and the completion report with human retrospective replaces plan closeout; every other gate and safety property applies unchanged in both modes.
 
 ## Mode-Selection Test
 
@@ -35,7 +35,7 @@ Before the loop starts, construct the goal condition with `references/goal-condi
 
 ## Authority Envelope
 
-A goal is never accepted bare. Negotiate an authority envelope — the boundary of the loop's autonomy — with the user, ratified once up front and recorded in the goal file (template: `references/goal-templates.md`). Only the user's ratification authorizes an envelope, given in the session or, under a governing brief, as stated below; a ratified brief itself authorizes no envelope until a record states the conditions under which it would. It contains:
+A goal is never accepted bare. Negotiate an authority envelope — the boundary of the loop's autonomy — with the user, ratified once up front and recorded in the goal file (template: `references/goal-templates.md`); under a governing brief it is drawn up and authorized instead as stated below. In a run no brief governs, only the user's ratification, given in the session, authorizes an envelope. It contains:
 
 - Decision scope: paths, components, and operation classes the loop may change freely.
 - Progress obligation: progress is reduction in expected distance to the goal — there is no separate "movement" object. Measure it:
@@ -47,7 +47,7 @@ A goal is never accepted bare. Negotiate an authority envelope — the boundary 
 
 Inside the envelope the loop decides freely. At the boundary it escalates (see Graded Escalation). The envelope is itself immutable during the run — renegotiation is a human moment.
 
-Under a governing brief (`references/value-level-operation.md` Goal-Mode Runs), the user who ratifies the envelope and decides at every human moment is the owner, reached as that reference's The Carrier states. The goal and the envelope (what the loop may change, its budget, when it must stop) go to the owner by the Carrier, and the owner's relayed answer agreeing to them is what starts the loop. Every stop that waits for a human decision (an ask-now, a renegotiation, a goal `awaiting_decision`) is surfaced by the Carrier, and the session asks nothing. Where this reference and its templates say the user or the human, read the owner so reached.
+Under a governing brief (`references/value-level-operation.md` Goal-Mode Runs), the Orchestrator draws up the goal and the envelope, and they are authorized by the brief route on a plan's conditions, as `references/lifecycle-gates.md` Plan Gate Details states for a plan and an envelope alike: no one is asked to agree to them, and a changed envelope, a renegotiated one included, goes back through that route. Where this reference and its templates say the envelope is ratified or re-ratified, or call its renegotiation a human moment, read it as authorized by that route. The user who decides at every human moment is the owner, reached as `references/value-level-operation.md` The Carrier states: every stop that waits for a human decision (an ask-now, a goal `awaiting_decision`) is surfaced by the Carrier, and the session asks nothing. Where this reference and its templates say the user or the human, read the owner so reached.
 
 ## Iteration Lifecycle
 
@@ -94,13 +94,13 @@ Assessment evidence at this cadence is part of the completion report (template: 
 
 ## Value Audit
 
-In a repository that has a philosophy (`SKILL.md` Repository Rule Entry), the value audit also grades the run, each time as its own Auditor dispatch beside the assessor's and never combined with it. Run side: `references/value-level-operation.md` Goal-Mode Runs. It is dispatched:
+Under a governing brief, the value audit also grades the whole run against the brief, in a repository with no philosophy too; in a run no brief governs, it does so in a repository that has a philosophy (`SKILL.md` Repository Rule Entry). Each time it is its own Auditor dispatch beside the assessor's and never combined with it. Run side: `references/value-level-operation.md` Goal-Mode Runs. It is dispatched:
 
-- on the envelope, after the Reviewer's pass on the goal-condition checklist and before the user ratifies it;
+- on the envelope, after the Reviewer's pass on the goal-condition checklist and before the user ratifies it, or under a brief, as the brief route's audit, before the loop starts (Authority Envelope);
 - on each event on which the assessor is due (Assessment Cadence);
 - on the completion report, over the whole range since the revision the run started from.
 
-An item the audit holds is an ask-now (Graded Escalation), and the question surfaced is the verdict's value question. The journal records that stop and the question put, as it records any ask-now, and no grade, support or other part of a verdict.
+An item the audit holds is an ask-now (Graded Escalation), and the question surfaced is the verdict's value question. On the envelope under a brief, a held item is met by the brief route's moves instead (`references/lifecycle-gates.md` Plan Gate Details). Under a brief, once the loop has started, a held item is first put to one test: is its remedy already determined within the run's authority, leaving no additional decision? When it is, the run carries out that remedy as `references/value-level-operation.md` Acting On A Verdict states and the audit is dispatched again, new; the loop does not stop and the owner is not reached. The envelope is the run's authority, so a remedy that would widen or change it fails the test. An item that fails the test is an ask-now, surfaced by the Carrier. The journal records that stop and the question put, as it records any ask-now, and a remediation as it records any decision of the loop, and no grade, support or other part of a verdict.
 
 ## Goals/ Lifecycle Convention
 
