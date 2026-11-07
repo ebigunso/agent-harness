@@ -1,6 +1,6 @@
 # Plan: A goal run under a brief, authorized and graded on the brief
 
-- status: draft
+- status: in progress
 - generated: 2026-11-07
 - last_updated: 2026-11-07
 - work_type: docs
@@ -215,8 +215,18 @@
   - Human-only conditions pending: "his next run under a brief in this repository ends with nothing asked of him in the Orchestrator's session."
   - Scenarios: none
 - Acting on the verdict: no item is ask-now, and the plan review closed with no finding open, so the brief route authorizes the plan as it stands at dbd49ed. Inferred calls, as the verdict's item lines state them: DoD 1a (the Reviewer's pass covers every envelope clause), DoD 1c (the three moves apply to the envelope), D4 detail (no remediation changes the envelope; the journal records it), the new record replacing ADR-D-0027 (direction: which accepted record is superseded sets who authorizes autonomous runs; for the owner's reading at acceptance), its interim number, the assessor non-goal, and the no-sweep non-goal. Missed step: the Orchestrator wrote no reading before this dispatch (value-level-operation.md Documents), so every item reads unread. The grades do not depend on the reading and stand; a reading written now, after the grades, would not be a reading, so none is added for this position. The closeout reading is written before the closeout dispatch. The procedural note (batch order) touched no notes or readings file before grading; the verdict is not void. The auditor's two wording notes on brief lines 28 and 43 go to Counsel as observations.
+- 2026-11-07 10:17 The two observations went to Counsel. 10:18 Counsel marked both brief entries revised, in its own wording with no new word of the owner's (f7c963f).
+- 2026-11-07 Wave 1 dispatched: Task_1 and Task_2 to Claude `harness-worker` subagents on Opus, in parallel (disjoint owns).
+  - Task_1, done (e97c9a2): eight plugin files. Package validator and smoke tests pass, and git diff --check is clean. Adapters are unchanged, since they restate no changed line. Three questions, ruled in the Decision Log (D5 to D7); the follow-up edit to `value-audit-mandate.md` validated the same way.
+  - Task_2, done (3bf43b8): ADR-D-0062 and ADR-D-0064 rewritten; ADR-D-0063 and ADR-D-0065 rewritten, retitled and renamed; ADR-D-0068 new, replacing ADR-D-0027. Validator pass; filename lengths 104, 132, 116, 128, 121; positional search clean; ADR-D-0068's admission test passes. The Worker reported one stray index write (`git add -N` on the new record), undone at once; the index was confirmed empty before the commit. Two questions, ruled in the Decision Log (D8, D9).
+  - Wave integration: both reports map to one task each, every changed path is within owns, and every required Worker check passes. Reviewer dispatch next.
 
 ## Decision Log (append-only; re-plans and major discoveries)
+- D5 (Task_1): the whole-envelope item in `goal-condition-checklist.md` applies under a brief only; runs without a brief keep the forbidden-set check alone (the brief's constraint that runs without a brief are unchanged).
+- D6 (Task_1): under a brief, every clause of the recorded envelope is an item of the plan-draft audit, since the brief has the audit grade an envelope "as it grades a plan". Without a brief, the mandate's item list is unchanged.
+- D7 (Task_1): an audit dispatched again after a correction or remediation names the same Changes since as the audit it repeats. Kept, so that the held changes are audited again.
+- D8 (Task_2): ADR-D-0068 keeps ADR-D-0027's criterion and fixity as one decision, the boundary of the loop's autonomy set outside the loop. Splitting it would turn one accepted decision into two acceptance asks with nothing gained; the review checks it against the one-decision test.
+- D9 (Task_2): ADR-D-0063 states no reason for the remediation exception applying only under a brief. Nothing written supplies one beyond the brief's own scope (runs without a brief unchanged), so the record stays silent rather than invent one.
 
 ## Notes (Risks / Edge cases)
 - A remediation that quietly changes what the loop may do would bypass the route. The goal contract already keeps that out: a changed envelope goes back through the route, and loosening escalates.
