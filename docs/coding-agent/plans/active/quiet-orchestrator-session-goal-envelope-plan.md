@@ -220,7 +220,7 @@
   - Task_1, done (e97c9a2): eight plugin files. Package validator and smoke tests pass, and git diff --check is clean. Adapters are unchanged, since they restate no changed line. Three questions, ruled in the Decision Log (D5 to D7); the follow-up edit to `value-audit-mandate.md` validated the same way.
   - Task_2, done (3bf43b8): ADR-D-0062 and ADR-D-0064 rewritten; ADR-D-0063 and ADR-D-0065 rewritten, retitled and renamed; ADR-D-0068 new, replacing ADR-D-0027. Validator pass; filename lengths 104, 132, 116, 128, 121; positional search clean; ADR-D-0068's admission test passes. The Worker reported one stray index write (`git add -N` on the new record), undone at once; the index was confirmed empty before the commit. Two questions, ruled in the Decision Log (D8, D9).
   - Wave integration: both reports map to one task each, every changed path is within owns, and every required Worker check passes. Reviewer dispatch next.
-- 2026-11-07 10:22 Review dispatched to the reviewer seat at 489a0c1 (range dbd49ed..489a0c1). 10:30 CHANGES_REQUESTED, three findings:
+- 2026-11-07 10:25 Review dispatched to the reviewer seat at 489a0c1 (range dbd49ed..489a0c1). 10:30 CHANGES_REQUESTED, three findings:
   - GEW-F1 (major): goal-mode.md sent every held item that fails the remediation test to the owner by the Carrier, envelope revisions included, although under a brief a changed envelope goes back through the brief route.
   - GEW-F2 (minor): the repeated-audit baseline sentence (D7) froze even an erroneous Changes since, and changed runs without a brief.
   - GEW-F3 (minor): ADR-D-0068 named a review occasion ("at retrospective") and a design section by ordinal ("pillar 1").
