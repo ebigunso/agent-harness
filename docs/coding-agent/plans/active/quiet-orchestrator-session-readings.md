@@ -180,6 +180,11 @@ Item | reading | statement relied on
 - The branch pushed and pull request 93's text brought up to date after this audit; nothing merged | covered | Standing Approvals in common.md, 2026-09-30: a finished, reviewed run may publish its branch and open pull requests; merges wait for the owner
 - The run reported ready again with the note to Counsel | covered | brief, Who it is for and why: whatever needs him reaches him through Counsel
 
+### The goal-run plan (quiet-orchestrator-session-goal-envelope-plan.md), closeout, second dispatch, 2026-11-07: void, the comparison lines as returned
+
+- Reading compared: none (readings file not opened)
+- Findings compared: none (readings file not opened)
+
 ## Findings
 
 - 2026-10-28, from R1 (E; `goal-mode.md`:38, `value-level-operation.md`:3): a goal-mode envelope can be ratified only by the owner in the Orchestrator's session, and no brief stands in for it; under this brief nothing is asked in that session | bears on the design: whether work under a brief can run in goal mode, and whether he is asked anything in the session for it, changes what he experiences. Escalated to Counsel 2026-10-28T16:43:07Z as a value question with three options: (a) plan mode under a brief, (b) goal mode stays and its envelope is the one thing asked in session, (c) the envelope reaches him through Counsel. Part held: the goal-mode texts (`goal-mode.md`, `goal-templates.md`, `goal-assessor-mandate.md`, `goal-condition-checklist.md`, `value-level-operation.md` L3 and its Goal-Mode Runs section); the rest of the run continues.

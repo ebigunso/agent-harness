@@ -1306,6 +1306,27 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`, the Progress Log entry of the plan-draft verdict of 2026-11-07.
 
+## 2026-11-07 - An Auditor That Batches Its First Reads Can Sweep In The Notes Beside The Brief  [tags: validation, governance, tooling]
+
+Context:
+- Value audits on Fable, dispatched with the fixed template, in a run whose brief and Counsel's notes sit in the same directory.
+
+Symptom:
+- Across one plan's three audits, each auditor opened the mandate together with the plan and the brief in one batch instead of the mandate alone first.
+- Two recorded it as a deviation that touched no excluded file. The third also opened the notes file in that batch, and returned its verdict void, every item ungraded.
+
+Root cause:
+- The mandate's first step (the mandate alone, then a names-only listing, then other files) is an instruction the auditor model reads after its first batch is already sent. Batching for speed defeats a rule that only works when it is read first.
+
+Fix applied:
+- The void verdict was logged and the audit dispatched again, new, in a fresh context, with the template alone (Acting On A Verdict: an absent or void verdict is a gate on the position, corrected by a new dispatch).
+
+Prevention:
+- Treat a recorded batch deviation in a verdict as a warning, not noise. A third occurrence across runs, or one more void, is a harness question: whether the Auditor agent definition itself, which the model reads before its first tool call, should carry the read-the-mandate-alone step. That is a plugin change and goes to the owner through Counsel as a proposal, not into a run's scope.
+
+Evidence:
+- `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`, the procedural notes of the plan-draft and first closeout verdicts and the void verdict of 2026-11-07.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
