@@ -142,6 +142,13 @@ Written before any part of the closing audit's verdict was seen; facts from the 
 - Together the two replace ADR-D-0061, which retires only when both are accepted. Both go to him by name with their paths.
 - Value documents changed: the brief's Directed during the run, the entry of 2026-11-02 included, all Counsel's. The plugin text is unchanged by the rewrite.
 
+Finished after the closing audit's material arrived (second closeout audit of 2026-11-02, held nothing):
+
+- One item marked direction, inferred: ADR-D-0067 rewords ADR-D-0061's fallback commitment from "the dispatcher's own model as a subagent" to "a Researcher the dispatcher can always run itself"; the specific option, the order of weighing and what is recorded move to Not covered, stated in the plugin text. Counsel's framing test, mine: in a workspace whose record names nothing fitting, research still goes to a Researcher either way, and the two wordings read the same at the level of what anyone experiences; the generalization is the altitude he asked for. Not a question for him; named to him as the line to look at when he reads 0067, since the audit asked that he see it.
+- Two further inferred items, cheap to undo: the research-skip clause moved to Not covered (0061 listed it there too); ADR-D-0061's retirement line names both replacing records, a two-record form the standard's single "Replaced by" does not name.
+- The first closeout dispatch had marked two items direction (the fallback's option and the research rule's factors left to plugin text); both were restored at decision level before the second dispatch. Recorded as the failure mode for the older-records run.
+- The run itself changed no value document.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
