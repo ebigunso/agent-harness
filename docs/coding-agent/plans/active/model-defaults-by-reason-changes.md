@@ -172,3 +172,6 @@
   - ADR-D-0067's Why is two sentences. Research left in a Worker's task or the dispatcher's session runs on that work's model, even where a better option exists, and a session no shared rule reaches keeps it there. Made the Researcher's work and placed by one rule, research goes to the option that suits it in every setup, and an option the dispatcher can always run holds the role where none fits.
   - Validators and `git diff --check` pass. One Worker asked about ADR-D-0066 showing as modified while it worked: that was the other Worker's concurrent correction, on its own file.
 - Ruling on MW-F2: accepted and fixed by the same correction.
+- 2026-11-08 10:27Z Re-review dispatched (delta fe8ba1b..9f1aa33, whole change b6ed0b7..9f1aa33).
+- 2026-11-08 10:28Z Re-review: APPROVED, no findings. MW-F1 and MW-F2 are closed. Each Why gives the fork and the winning reason in two sentences, and the condensing drops no decision. Only the Whys changed, and the changes file and the lesson describe the final result. Validators, `git diff --check` and privacy pass over the whole change.
+- The reading for the closeout audit is written in the readings file before dispatch, under "ADR-D-0066's Why stated in reasons of its own (small change, extended to ADR-D-0067), closeout".

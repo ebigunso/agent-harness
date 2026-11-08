@@ -240,6 +240,18 @@ Item | reading | statement relied on
 - Reading compared: ADR-D-0066 as before: agrees (covered / cited). ADR-D-0067 split out: agrees (covered / cited). ADR-D-0067 keeps ADR-D-0061's factors and availability at intent, route/order/recording not covered: agrees (extends / inferred, same statement; the auditor adds the direction mark for the reworded fallback commitment). ADR-D-0061 replaced jointly, retired whole: agrees (extends / inferred). Skip read as mechanism: agrees (extends / inferred). Seed kept inside ADR-D-0066: agrees (covered / cited). Two lessons: agrees (not audited / not audited). Both records proposed, to the owner by name: agrees (covered / cited, folded into the split item). Unread by the Orchestrator under this heading: the "what it may spend" addition to the record definition (cited); the separate-initiative scope ruling (cited); the lessons.md ruling not to reopen the closed plans (not audited); ADR-D-0067's filename (not audited, read under the first dispatch's heading only); the announced publish and PR text update (cited on standing approvals).
 - Findings compared: none found for this change (no finding is recorded under Findings for this small change; the five recorded findings belong to the plan unit and were compared at its closeout). No departure from a means is noted on any item line: the brief's two means (redating; the Opus trial closing into the record) are untouched by this change.
 
+### ADR-D-0066's Why stated in reasons of its own (small change, extended to ADR-D-0067), closeout
+
+Item | reading | statement relied on
+
+- ADR-D-0066's Why no longer cites the brief; it gives the decision's own reason in two sentences (a default by name goes out of date or breaks where the setup is absent; a reason resolved against the workspace's own record holds across setups and releases) | covered | brief, "Directed during the run", last entry (told 2026-11-08)
+- ADR-D-0067's Why the same (research left in a Worker's task or the dispatcher's session runs on that model, and a session no shared rule reaches keeps it; one rule and an always-runnable option put it where it fits in every setup) | covered | the same entry, as extended on 2026-11-08 to ADR-D-0067
+- Each Why a sentence or two, nothing outside the Why changed, nothing decided added or dropped | covered | the same entry ("the record states reasons of its own") with the entry of 2026-11-02 ("the altitude the record standard already states")
+- The five records on pull request 93 left to that run's own change | covered | the same entry's extension names ADR-D-0067 on this branch; the five belong to the other run's brief
+- A lesson occurrence: the brief added to the record standard's wording in the 2026-11-02 dispatch, and the fix's dispatch repeating the paraphrase | not audited | internal mechanics; no engineering philosophy
+- Both records still proposed, to go to the owner by name | covered | the owner's reserved act of accepting a record
+- The branch published and pull request 94's text brought up to date, announced | covered | common.md Standing Approvals (publishing a finished, reviewed run's branch and pull request; merges not covered)
+
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
