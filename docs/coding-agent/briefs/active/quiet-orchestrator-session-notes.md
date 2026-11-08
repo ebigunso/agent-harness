@@ -87,6 +87,16 @@ Finished after the closeout audit's material arrived (third dispatch of 2026-11-
 - Two observations, not holds: the text does not say whether the loop goes on inside its current envelope while a revised one is in the route, only that it does not act on the changed authority; his experience is the same either way. The wording rule sits in the durable-docs-authoring skill while his constraint names every document the harness writes; Counsel's read, mine: that skill is where the harness states how its durable documents are written, so the rule is where a writer looks; told to him, nothing asked.
 - The run itself changed no value document.
 
+## His direction on the Why sections, 2026-11-08
+
+- On reading ADR-D-0066 (pull request 94): "66 needs to stop citing the brief as authority in the why section. ADRs needs to state reasons beyond that." Asked whether the second sentence reaches ADR-D-0067 and the five records here: "Yes, apply it to 67 and the five on 93 as well." Written into the brief under Directed during the run, relayed in his words. The Orchestrator traced the citations to its own Worker dispatches of 2026-11-02, which had added "in the brief or in a philosophy" to the standard's requirement; the standard itself asks only for a philosophy and was not changed.
+
+## Counsel's read of the result after the Why rewrite, 2026-11-08
+
+First read, before the audit's material (the result and the audit's summary arrived in one message; the read of the records was made before the summary was read): the Why of each of ADR-D-0062, 0063, 0064, 0065 and 0068 is one or two sentences stating the fork and why the chosen branch wins, with no brief, entry or direction cited as the reason. Nothing outside the Whys changed. Nothing marked.
+
+Finished after the audit's material: review approved after two rounds; the closeout audit held nothing; nothing inferred or marked direction. One matter the Orchestrator puts to him, which Counsel carries as a value question: ADR-D-0063 keeps the value audit apart from the goal loop's assessor, and remedies a finding without a stop only under a brief; neither now has a written reason in the Why, since the clause restating the design-led long-runs brief's limit was removed at review and no reason was invented. The Decision holds both; the Why can state a reason if he has one, or the records stand. Counsel's advice, mine, given to him: the separation guards the assessor's independence (ADR-D-0029 and ADR-D-0050 already hold that the optimizer and its judge are kept apart), which is a reason of the record's own and not the brief's; the brief-only remedy follows from the brief being the only authority that can have already determined a remedy, where a philosophy states direction and decides nothing. Both are his to confirm or replace. The run changed no value document.
+
 ## The two edges, and his answers
 
 - Plan approval when the brief route does not authorize: Counsel offered carrying it through Counsel, or his looking in on the session for that case alone. He took neither: the question is not asked anywhere; the route authorizes or the plan is not yet one that can run.
