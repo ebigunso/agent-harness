@@ -31,7 +31,7 @@ The value audit grades a plan-mode run against the value documents (ADR-D-0052),
 
 ## Why
 
-A goal loop runs between human touchpoints, so left ungraded its drift from the brief or the philosophy shows only when the work is built; graded over the whole run, the drift shows while the loop runs. The audit judges apart from the assessor so that how the loop's continuation is judged stays unchanged, and under a brief the run carries out a remedy that is already determined, since stopping on it would wait for an answer nobody has to give.
+A goal loop runs between human touchpoints, so left ungraded its drift from the brief or the philosophy shows only when the work is built; graded over the whole run, the drift shows while the loop runs. Under a brief the run carries out a remedy that is already determined, since stopping on it would wait for an answer nobody has to give.
 
 ## Rejected Alternatives
 
