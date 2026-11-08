@@ -30,7 +30,7 @@ An Orchestrator session prepares a non-trivial unit of work (a plan, a small cha
 
 ## Why
 
-The person directing the work shapes direction at product level instead of auditing each plan (the value-level operation brief, "Who it is for and why"), so a brief that person ratified, checked against the work by a judge the Orchestrator cannot frame, carries that person's authority to it, and nothing that benefits from skipping approval can stand in for it. Under a brief that person never needs to look at the Orchestrator session, and a goal-mode run starts without that person's agreement, through Counsel or anywhere ("A quiet Orchestrator session under a brief", "Who it is for and why" and the entry of 2026-11-07 under "Directed during the run"); with no agreement sought, the ratification is the one authority left for every unit, so a goal envelope stands where a plan stands and goal mode is no costlier to choose than a plan where it is the fitting shape.
+Approving every unit keeps the person directing the work auditing each plan for drift, so a brief that person ratified carries that person's authority to a unit once a judge the Orchestrator cannot frame has checked the unit against it. Under a brief this is the only authority, a goal envelope included, since requiring that person's agreement to an envelope would put before every goal run a stop no plan has and make goal mode costlier to choose where it is the fitting shape.
 
 ## Rejected Alternatives
 

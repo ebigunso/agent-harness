@@ -31,7 +31,7 @@ The value audit grades a plan-mode run against the value documents (ADR-D-0052),
 
 ## Why
 
-Under a brief the whole goal run is held to the brief because drift from it shows during the loop and not only when the work is built, and a held item whose remedy needs no decision is the run's to carry out, since a stop would only wait on an answer nobody has to give, while an item needing a decision above the run still stops the loop ("A quiet Orchestrator session under a brief", "Directed during the run": the entry of 2026-11-07 on the whole-run reading and the entry of the same date on findings remediable without any additional decision). In a repository with a philosophy a goal run keeps to the values of the person directing the work as it goes (the design-led long runs brief, "Limits", its exception for goal mode). A goal loop is one optimizer with no separable parts to hold, so a held item stops the whole loop, a tightening goal mode leaves free; and the assessor's inputs must not change, so the audit's material is kept out of them.
+A goal loop runs between human touchpoints, so left ungraded its drift from the brief or the philosophy shows only when the work is built; graded over the whole run, the drift shows while the loop runs. The audit judges apart from the assessor so that how the loop's continuation is judged stays unchanged, and under a brief the run carries out a remedy that is already determined, since stopping on it would wait for an answer nobody has to give.
 
 ## Rejected Alternatives
 

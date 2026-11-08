@@ -27,7 +27,7 @@ A goal-mode loop acts autonomously between human touchpoints, so the boundary of
 
 ## Why
 
-A list is silently incomplete the day a new tool appears, and an envelope the loop may amend is not a boundary: the criterion keeps judging actions nobody enumerated, and fixing the envelope before the loop keeps the judgement of the loop's own permissions out of the optimizer's hands. The record leaves out who authorizes the envelope because under a ratified brief a goal-mode run starts with no agreement of the person directing the work ("A quiet Orchestrator session under a brief", the entries of 2026-11-07 under "Directed during the run"), so the boundary has to hold whichever authority stands behind it.
+A list of forbidden actions is silently incomplete the day a new tool appears, while a criterion keeps judging actions nobody enumerated; and an envelope the loop may amend is no boundary, since the party under goal pressure would be widening its own permissions. Who authorizes the envelope differs with whether a ratified brief governs the run, so the record leaves it out and the boundary holds whoever authorizes it.
 
 ## Rejected Alternatives
 

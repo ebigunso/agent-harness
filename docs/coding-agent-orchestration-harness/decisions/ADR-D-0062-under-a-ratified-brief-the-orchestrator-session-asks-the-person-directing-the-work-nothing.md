@@ -30,7 +30,7 @@ A person who hands over a ratified brief talks with Counsel and judges the resul
 
 ## Why
 
-While a run under a ratified brief is in progress, the person directing the work should never need to look at the Orchestrator session ("A quiet Orchestrator session under a brief", "Who it is for and why"). Counsel carrying only some kinds of question left every other kind, plan approval among them, to fall back to that session, so while a brief governs Counsel is the way to that person for every kind.
+A person who hands over a ratified brief leaves the run to go on without them, talking with Counsel and judging what is built. Any kind of question still asked in the Orchestrator session, plan approval among them, would make that person watch that session after all, so while a brief governs every kind reaches that person through Counsel.
 
 ## Rejected Alternatives
 

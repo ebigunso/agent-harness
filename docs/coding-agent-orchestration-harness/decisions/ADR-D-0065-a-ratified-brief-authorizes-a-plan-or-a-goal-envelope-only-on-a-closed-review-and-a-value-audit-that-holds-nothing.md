@@ -37,7 +37,7 @@ ADR-D-0064 makes the ratified governing brief, carried to the work by the value 
 
 ## Why
 
-The brief carries the authority of the person directing the work only as far as the unit actually fits it, and the party that wrote the unit cannot be the one who says it fits, so only a verdict that grades every item of the reviewed unit and holds none above the run can carry it, and only for the unit it judged. An item stated in no document but cheaply undone is let through because stopping on it would return that person to auditing each plan, which value-level operation exists to end (the value-level operation brief, "Who it is for and why" and "Stops during a run": where a direction can be reasonably inferred, the run keeps going). A goal envelope meets the conditions a plan meets because under a brief it is authorized as a plan is, with no one asked ("A quiet Orchestrator session under a brief", the entries of 2026-11-07 under "Directed during the run").
+The brief carries the authority of the person directing the work only as far as the unit actually fits it, and the party that wrote the unit cannot be the one who says it fits, so only a verdict that grades every item of the reviewed unit and holds none above the run can carry it, and only for the unit it judged. An item stated in no document but cheaply undone is let through, because stopping on it would return that person to auditing each plan.
 
 ## Rejected Alternatives
 
