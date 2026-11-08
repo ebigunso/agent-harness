@@ -771,6 +771,7 @@ Prevention:
     - The dispatch's acceptance said a record's why "names the statement it serves, in the brief or in a philosophy". The record standard names only a philosophy, and this repository has none, so "the brief" was the Orchestrator's addition.
     - A small change has no plan, so the dispatch had no Planner-added requirements section to list it in. The review and the closeout value audit both read it as the standard's own wording. Six proposed records across two runs then cited a brief as their authority.
     - The owner caught it on reading one record: "66 needs to stop citing the brief as authority in the why section. ADRs needs to state reasons beyond that." The owner's scan caught it, so this is not the occurrence the line above promotes.
+    - The dispatch for this fix repeated the fault. It paraphrased the Form's "a sentence or two" as "a few sentences", and the review caught it (MW-F1).
     - Extended prevention: when a dispatch for a small change restates a standard, it quotes the standard rather than paraphrasing it. Anything the dispatch requires beyond the owner's statement and the standard is listed in the changes file as an addition, with its reason.
 
 Evidence:
