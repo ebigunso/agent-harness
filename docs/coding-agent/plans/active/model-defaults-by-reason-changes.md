@@ -108,7 +108,7 @@
 - The change starts from revision: b6ed0b7 (the brief entry and Counsel's notes committed on the run's branch).
 - Whether his second sentence reaches other records (ADR-D-0067 on this branch, the five on pull request 93) or the record standard is with him through Counsel; this change touches ADR-D-0066 only.
 - Where the citation came from: the record standard (`adr.md` Form, "The why names the statement served") asks a why to name a statement only in a product or engineering philosophy the rules point to, and this repository has none. The Worker dispatch of 2026-11-02 (above) asked that the why name "the statement it serves, in the brief or in a philosophy"; the brief was the Orchestrator's addition, not the standard's, and the record followed it.
-- 2026-11-08 10:18Z Worker dispatched (Claude subagent `harness-worker` on Opus), text verbatim (checkout path shortened):
+- 2026-11-08 10:16Z Worker dispatched (Claude subagent `harness-worker` on Opus), text verbatim (checkout path shortened):
 
   Worker dispatch: the small change "ADR-D-0066's Why stated in reasons of its own" of the run in docs/coding-agent/plans/active/model-defaults-by-reason-changes.md (built without a plan; the owner's statement in the brief is the requirement). Role: Worker. Return one YAML report per the subagent-report-contract skill as your final message.
 
@@ -132,7 +132,34 @@
   Validation (required, worker-owned): from plugins/coding-agent-orchestration-harness/: py scripts/validate_harness_package.py and py scripts/run_validation_smoke_tests.py pass; git diff --check on the decisions/ directory.
 
   Report: the YAML report. In summary, the Why as it now reads, and for each reason in it the place that supports it (record section, brief section, or Decision Log entry).
-- 2026-11-08 10:20Z Worker report: done. The Why paragraph alone is rewritten, in four sentences: names go out of date or break where the setup is absent, and no default leaves each repository to state its models again; a reason found in the workspace's record serves every setup and outlasts releases; options are compared per kind of work because one ahead on one kind falls behind on another; a dated seed stands in where a workspace has observed nothing and gives way to the workspace's own dated observation. Each reason is traced to the record's Context, Rejected Alternatives or Revisit When, the brief's "Who it is for and why", or Decision Log D5. Package validator, smoke tests and `git diff --check` pass; the diff is one line of the record.
+- 2026-11-08 before 10:18Z Worker report: done. The Why paragraph alone is rewritten, in four sentences: names go out of date or break where the setup is absent, and no default leaves each repository to state its models again; a reason found in the workspace's record serves every setup and outlasts releases; options are compared per kind of work because one ahead on one kind falls behind on another; a dated seed stands in where a workspace has observed nothing and gives way to the workspace's own dated observation. Each reason is traced to the record's Context, Rejected Alternatives or Revisit When, the brief's "Who it is for and why", or Decision Log D5. Package validator, smoke tests and `git diff --check` pass; the diff is one line of the record.
 - Worker question: why the workspace's own observation replaces the seed is stated nowhere as a reason, so the clause rests on the record's own definition of the workspace's record, "its own dated account of the options it has". Ruling: the clause stands. It restates what the record already defines and adds no claim.
 - Left out by the Worker, and let stand: why an observation is a tendency rather than a capability, and why cost weighs per role. The acceptance does not ask for them, and the Why gives reasons for the decision's main forks, not for every clause.
 - Lesson: an occurrence added to `docs/coding-agent/lessons.md` "Requirements Added During Drafting Passed As The User's", for the brief added in the 2026-11-02 dispatch.
+- 2026-11-08 10:18Z Review dispatched to the Codex reviewer seat over agmsg (range b6ed0b7..e45f87d). It checks: the Why alone changed and cites no authority; each reason's support, with the ruling on the Worker's question open to challenge; `adr.md` Form and altitude; the accuracy of this section and of the lesson occurrence; privacy; the validators.
+- 2026-11-08 10:20Z (Counsel's relay) the owner extended the statement to ADR-D-0067: "Yes, apply it to 67 and the five on 93 as well." The brief entry is extended to match (8faa0b0). The five on pull request 93 are a change of that run.
+- 2026-11-08 10:21Z Worker dispatched for ADR-D-0067 (Claude subagent `harness-worker` on Opus), text verbatim (checkout path shortened):
+
+  Worker dispatch: the small change "ADR-D-0066's Why stated in reasons of its own" of the run in docs/coding-agent/plans/active/model-defaults-by-reason-changes.md, extended by the owner to ADR-D-0067 (built without a plan; the owner's statement in the brief is the requirement). Role: Worker. Return one YAML report per the subagent-report-contract skill as your final message.
+
+  Where to work: the worktree <worktree> (branch feature/2026-10-29/model-defaults-by-reason); every path is relative to it. Another Worker edits other records in another checkout; do not touch it.
+
+  Why: the owner said a decision record's Why must not cite a brief as its authority; a record has to state reasons beyond that. ADR-D-0066's Why was rewritten for it; he applied it to ADR-D-0067 too. ADR-D-0067's Why ends "This serves the first statement of the choosing-where-research-goes brief: ...", which cites the brief as its authority.
+
+  Owns
+  - docs/coding-agent-orchestration-harness/decisions/ADR-D-0067-*.md, the Why section only
+
+  Acceptance
+  - The Why states the decision's own reasons: why research is the Researcher role's work and never part of a Worker's task, why one rule places it for both dispatching sessions, and why a Researcher holds the role even where no recorded option fits. It names no brief, plan or other document as the authority, and gives no person's wish, ruling or direction as a reason. A consequence the person directing the work experiences is a reason; that they said so is not.
+  - Every reason given is one the record's other sections, the brief docs/coding-agent/briefs/*/choosing-where-research-goes-brief.md (its "Who it is for and why" in particular), the accepted ADR-D-0061 in decisions/, or the Decision Log of docs/coding-agent/plans/completed/model-defaults-by-reason-plan.md already support. Where a reason is not written down there, put the gap in questions_for_orchestrator and invent nothing.
+  - The Why stays prose of a few sentences, at the record's altitude: no plugin file names, steps, exact strings or model names.
+  - Nothing outside the Why changes, More Information's source-of-intent line included; filename and title unchanged.
+
+  Sources: the record as it stands; ADR-D-0066's rewritten Why, as a model of the form; plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md (Form); the sources named above. Do not open any *-notes.md or *-readings.md file.
+
+  Constraints: edit only owns; no Git commits or other shared-state Git mutations, `git add -N` and its dry run included. No machine-specific user names or paths in anything you write.
+
+  Validation (required, worker-owned): from plugins/coding-agent-orchestration-harness/: py scripts/validate_harness_package.py and py scripts/run_validation_smoke_tests.py pass; git diff --check on the decisions/ directory.
+
+  Report: the YAML report. In summary, the Why as it now reads, and for each reason in it the place that supports it.
+- 2026-11-08 before 10:23Z Worker report (ADR-D-0067): done. The Why alone is rewritten. Its reasons: research in a Worker's task or the dispatcher's session runs on that model even where a better option exists, and in the dispatcher's session it fills the context that session needs for its own work. One rule serves both sessions because a session the rule does not reach keeps research to itself, whatever the other follows. A Researcher holds the role where no recorded option fits because the harness cannot know what a workspace has. Each reason is traced to the record's Context and Rejected Alternatives, ADR-D-0061's Why, the choosing-where-research-goes brief's "Who it is for and why", choice rule, scenarios and Limits, or Decision Log D12. No questions. Package validator, smoke tests and `git diff --check` pass; the diff is one line of the record.
