@@ -252,6 +252,11 @@ Item | reading | statement relied on
 - Both records still proposed, to go to the owner by name | covered | the owner's reserved act of accepting a record
 - The branch published and pull request 94's text brought up to date, announced | covered | common.md Standing Approvals (publishing a finished, reviewed run's branch and pull request; merges not covered)
 
+### ADR-D-0066's Why stated in reasons of its own (small change, extended to ADR-D-0067), closeout, 2026-11-08: the verdict's comparison lines, as returned
+
+- Reading compared: (under "ADR-D-0066's Why stated in reasons of its own (small change, extended to ADR-D-0067), closeout") ADR-D-0066's Why: agrees (covered / cited). ADR-D-0067's Why: agrees (covered / cited). Each Why a sentence or two, nothing outside changed, nothing added or dropped: agrees (covered / cited, on the same two brief entries). The five records on pull request 93 left to that run: agrees (covered / cited). Lesson occurrence: agrees (not audited / not audited). Both records still proposed, to the owner by name: agrees (covered / cited; folded into the two Why items). Branch published and PR 94 text, announced: agrees (covered on standing approvals / cited). Unread by the Orchestrator: the ruling that the seed clause may rest on the record's own definition (cited, moot in the final text); the Worker's reasons left out of the Why, widened by the condensing (inferred).
+- Findings compared: none found for this change (no finding is recorded under Findings for this small change; the recorded findings belong to the plan unit and were compared at its closeout). No departure from a means is noted on any item line: the brief's two means (the redating rule; the Opus trial closing into the record) are untouched by this change.
+
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
