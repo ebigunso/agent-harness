@@ -1326,6 +1326,10 @@ Prevention:
 
 Evidence:
 - `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`, the procedural notes of the plan-draft and first closeout verdicts and the void verdict of 2026-11-07.
+- Further occurrences:
+  - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md` on pull request 94's branch.
+  - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/active/quiet-orchestrator-session-changes.md`.
+  - Neither was void. Counting runs, this is the third occurrence the prevention names, and the harness question went to the owner through Counsel as a proposal on 2026-11-08.
 
 ## Promotion drain note (2026-10-16)
 
