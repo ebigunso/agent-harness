@@ -29,7 +29,7 @@ The harness runs in workspaces whose setups differ, and the models on offer chan
 
 ## Why
 
-A default that names a model, an alias or a seat goes out of date as capabilities advance, costs drop and new model classes arrive, or breaks wherever that setup is absent; a reason that says what the work needs, found in the workspace's own record, serves every setup with the same text and outlasts every release. This serves the first statement of the model-defaults-by-reason brief: a repository that says nothing about models gets fitting dispatches at once, and a new model needs no edit to the harness.
+A default that names a model, an alias or a seat goes out of date as capabilities advance, costs drop and new model classes arrive, or breaks wherever that setup is absent, and no default at all leaves each repository to state its models again before its first dispatch goes where it should. A reason that says what a role's work needs, found in the workspace's own record, serves every setup with the same text and outlasts every release: someone who sets up the harness in a new repository and says nothing about models has fitting dispatches at once, and a new model class needs no edit to the harness. Options are compared per kind of work because an option ahead on one kind falls behind on another, so any single order would send some work to an option that fits it poorly. A dated seed stands in where a workspace has observed nothing, so that the first dispatch still has observations to resolve against; it carries its date because what fits a role changes with releases, and it gives way to the workspace's own dated observation, which is an account of the options that workspace actually has.
 
 ## Rejected Alternatives
 
