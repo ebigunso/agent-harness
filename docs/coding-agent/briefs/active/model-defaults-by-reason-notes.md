@@ -149,6 +149,16 @@ Finished after the closing audit's material arrived (second closeout audit of 20
 - The first closeout dispatch had marked two items direction (the fallback's option and the research rule's factors left to plugin text); both were restored at decision level before the second dispatch. Recorded as the failure mode for the older-records run.
 - The run itself changed no value document.
 
+## His direction on the Why sections, 2026-11-08
+
+- On reading ADR-D-0066: "66 needs to stop citing the brief as authority in the why section. ADRs needs to state reasons beyond that." Asked whether the second sentence reaches ADR-D-0067 and the five records on pull request 93: "Yes, apply it to 67 and the five on 93 as well." Written into the brief under Directed during the run, relayed in his words.
+
+## Counsel's read of the result after the Why rewrite, 2026-11-08
+
+First read, before the audit's summary was read: ADR-D-0066's Why states that a named default goes out of date and breaks where the setup is absent, while a reason resolved against the workspace's record holds across setups and releases; ADR-D-0067's Why states that research left inside a Worker's task or the dispatcher's session runs on whatever model that work runs on, and that one rule for both sessions places it where it suits, with an option the dispatcher can always run holding the role where none fits. Neither cites the brief. Nothing marked.
+
+Finished after the audit's material: review approved after two rounds; the closeout audit held nothing and every reading agreed. One item inferred: the reasons a Why leaves to the Decision and Rejected Alternatives, since the brief does not say whether every clause needs its reason in the Why. Counsel's framing test, mine: a reader finds the reason for each clause in the record either way; the two read the same, not a question for him. The run changed no value document.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
