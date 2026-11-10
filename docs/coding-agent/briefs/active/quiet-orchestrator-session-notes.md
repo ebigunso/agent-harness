@@ -127,6 +127,10 @@ He said, on reading the proposed record: "63 should let a run under a brief be g
 - No plugin text changed: the audit's instructions already graded such a run against both, and the record's old sentence was narrower than the text. The sentence Counsel tagged inferred in the brief is answered by that.
 - Review approved with no findings. The first closeout audit voided itself (it printed the readings file before grading); the second held nothing, with no item inferred.
 
+## His acceptance, 2026-11-11
+
+"I accept ADR-D-0062 to 0067 and pull request 93, as well as ADR-D-0068 through ADR-D-0070 and PR 94." Relayed to the Orchestrator in his words the same day. Of this run: the six records ADR-D-0062 to ADR-D-0067 and pull request 93.
+
 ## The two edges, and his answers
 
 - Plan approval when the brief route does not authorize: Counsel offered carrying it through Counsel, or his looking in on the session for that case alone. He took neither: the question is not asked anywhere; the route authorizes or the plan is not yet one that can run.
