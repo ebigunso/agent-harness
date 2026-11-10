@@ -1373,7 +1373,7 @@ Context:
 - Rewriting a decision record to intent altitude: the route a clause names goes to the plugin text, and the decision stays in the record.
 
 Symptom:
-- In the model-defaults run's rewrite, ADR-D-0067 (split on 2026-11-11 into ADR-D-0068 and ADR-D-0069) first dropped ADR-D-0061's fallback route whole, and with it the guarantee that research never goes without a Researcher, and listed the research rule's factors as not covered. The review approved the route's removal; the closeout audit marked both losses as direction, and they were restored at intent.
+- In the model-defaults run's rewrite, ADR-D-0067 (split on 2026-11-11 into the records now ADR-D-0069 and ADR-D-0070) first dropped ADR-D-0061's fallback route whole, and with it the guarantee that research never goes without a Researcher, and listed the research rule's factors as not covered. The review approved the route's removal; the closeout audit marked both losses as direction, and they were restored at intent.
 
 Root cause:
 - A whole clause was classed as mechanism because it named a route, without separating the commitment it carried (availability, what the rule weighs) from its embodiment (which model, in what order).
@@ -1399,7 +1399,7 @@ Root cause:
 - The record was grouped by its topic, research. Each fork was never varied alone, so two decisions joined by "and" in the title read as one.
 
 Fix applied:
-- The record is split into ADR-D-0068 and ADR-D-0069, and ADR-D-0069's Why gives the reason for its own fork with ADR-D-0068 held fixed.
+- The record is split in two (now ADR-D-0069 and ADR-D-0070), and the second record's Why gives the reason for its own fork with the first held fixed.
 
 Prevention:
 - For each fork a record's Context names, hold every other decision fixed and ask whether this one could go the other way. Each fork that could is a record of its own, and its Why argues against that alternative only. A title joined by "and" is a prompt to run the test. A reviewer of a record runs the same test.

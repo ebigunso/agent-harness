@@ -10,9 +10,9 @@ superseded_by: null
 depends_on: ["ADR-D-0035-counsel-reaches-into-the-work-only-by-quick-reads-a-read-only-researcher-and-consulted-advice.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
-# ADR-D-0069: The Orchestrator and Counsel place a Researcher by one and the same rule
+# ADR-D-0070: The Orchestrator and Counsel place a Researcher by one and the same rule
 
-Once accepted, this record, ADR-D-0067 and ADR-D-0068 together replace ADR-D-0061.
+Once accepted, this record, ADR-D-0068 and ADR-D-0069 together replace ADR-D-0061.
 
 ## Context and Problem Statement
 
@@ -22,7 +22,7 @@ A workspace may have one way to run a Researcher or several, and both the Orches
 
 ## Decision
 
-- The Orchestrator and Counsel place a Researcher by one and the same rule, which weighs what the research needs and how much cost may weigh in it (ADR-D-0067), and where its result is to be used.
+- The Orchestrator and Counsel place a Researcher by one and the same rule, which weighs what the research needs and how much cost may weigh in it (ADR-D-0068), and where its result is to be used.
 
 ## Why
 
@@ -46,4 +46,4 @@ Not covered: the rule's wording, its steps and where it is stated; how the rule 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061 once accepted, together with ADR-D-0067, which carries how a Researcher's option is chosen and that the harness assumes no seat, peer or model, and ADR-D-0068, which carries that research is the Researcher role's work and never part of a Worker's task. Related: ADR-D-0035 (Counsel's read-only Researcher), ADR-D-0048 (logical roles and physical names).
+Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061 once accepted, together with ADR-D-0068, which carries how a Researcher's option is chosen and that the harness assumes no seat, peer or model, and ADR-D-0069, which carries that research is the Researcher role's work and never part of a Worker's task. Related: ADR-D-0035 (Counsel's read-only Researcher), ADR-D-0048 (logical roles and physical names).

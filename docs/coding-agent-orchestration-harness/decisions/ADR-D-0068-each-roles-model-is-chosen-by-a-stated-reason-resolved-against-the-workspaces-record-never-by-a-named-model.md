@@ -10,9 +10,9 @@ superseded_by: null
 depends_on: ["ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
-# ADR-D-0067: Each role's model is chosen by a stated reason resolved against the workspace's record, never by a named model
+# ADR-D-0068: Each role's model is chosen by a stated reason resolved against the workspace's record, never by a named model
 
-Once accepted, this record, ADR-D-0068 and ADR-D-0069 together replace ADR-D-0061.
+Once accepted, this record, ADR-D-0069 and ADR-D-0070 together replace ADR-D-0061.
 
 ## Context and Problem Statement
 
@@ -55,4 +55,4 @@ Not covered: each reason's wording and parts, and where the reasons are stated; 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/model-defaults-by-reason-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061 once accepted, together with ADR-D-0068 and ADR-D-0069, which carry its research decisions. Related: ADR-D-0048 (logical roles and physical names), ADR-D-0050 (the Auditor role).
+Source of intent: `docs/coding-agent/briefs/active/model-defaults-by-reason-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061 once accepted, together with ADR-D-0069 and ADR-D-0070, which carry its research decisions. Related: ADR-D-0048 (logical roles and physical names), ADR-D-0050 (the Auditor role).
