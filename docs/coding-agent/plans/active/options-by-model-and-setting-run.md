@@ -5,7 +5,7 @@
 - Run starts from revision: 39af158 (the brief committed on the run's branch, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/options-by-model-and-setting-readings.md`.
 - Changes file: `docs/coding-agent/plans/active/options-by-model-and-setting-changes.md`.
-- State: reported ready (candidate ready), 2026-11-11: the plan is done, scenarios 1 and 3 are demonstrated on made-up lineups, and scenario 2 is not yet, since it asks for a run opened after the change. One finding bears on the design and is with the owner through Counsel (how far apart two settings must be to be recorded as options of their own). Open for the owner's judgement.
+- State: reported ready (candidate ready), 2026-11-11: the plan is done, scenarios 1 and 3 are demonstrated on made-up lineups, and scenario 2 is not yet, since it asks for a run opened after the change. One finding bears on the design and is with the owner through Counsel (how far apart two settings must be to be recorded as options of their own). Open for the owner's judgement. On his directions of 2026-11-11 (which settings the record lists, the unavailable-option cases, the Codex seats' settings) a small change is built and reviewed on the branch, unpublished: its closeout audit holds one item, the adequacy check on a named fallback, and that question is with him through Counsel with two more marked as direction.
 
 ## Scenarios
 
