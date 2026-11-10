@@ -22,7 +22,7 @@ A workspace may have one way to run a Researcher or several, and both the Orches
 
 ## Decision
 
-- The Orchestrator and Counsel place a Researcher by one and the same rule, which weighs what the research needs and how much cost may weigh in it (ADR-D-0068), and where its result is to be used.
+- The Orchestrator and Counsel place a Researcher by one and the same rule.
 
 ## Why
 
@@ -31,13 +31,13 @@ Where each session places a Researcher by its own judgement, a session that no s
 ## Rejected Alternatives
 
 - An in-session Researcher subagent named as the only option: it lost because research then stays in the dispatcher's session, or goes to a Worker on another model with its task, even where the workspace records an option that suits it better; reopen if workspaces are found to have no option beyond the in-session subagent.
-- Each dispatcher left to choose without a stated rule: it lost because research then lands inside Workers' tasks and in the dispatcher's own session by default, for want of a stated way to choose; rejected outright.
+- Each dispatcher left to choose without a stated rule: it lost because each session then places a Researcher its own way, whatever the other does, for want of a stated way to choose; rejected outright.
 
 ## Decision Boundary
 
-Invariant: one rule places a Researcher, for the Orchestrator and Counsel alike, by what the research needs, how much cost may weigh in it, and where its result is to be used.
+Invariant: one rule places a Researcher, for the Orchestrator and Counsel alike.
 
-Not covered: the rule's wording, its steps and where it is stated; how the rule weighs those things and in what order.
+Not covered: the rule's wording, its steps and where it is stated; what the rule weighs, how and in what order.
 
 ## Validation
 
