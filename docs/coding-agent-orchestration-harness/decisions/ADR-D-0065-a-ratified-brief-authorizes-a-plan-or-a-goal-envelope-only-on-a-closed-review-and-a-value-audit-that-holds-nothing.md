@@ -1,18 +1,16 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["ADR-D-0041-a-ratified-brief-authorizes-a-plan-only-through-a-closed-plan-review-and-a-value-audit-that-holds-nothing-above-the-run.md"]
+supersedes: ["superseded/ADR-D-0041-a-ratified-brief-authorizes-a-plan-only-through-a-closed-plan-review-and-a-value-audit--superseded-by-ADR-D-0065.md"]
 superseded_by: null
 depends_on: ["ADR-D-0036-a-product-philosophy-is-stated-only-by-the-product-owner-and-no-product-value-is-inferred-without-one.md", "ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0064-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
 ---
 
 # ADR-D-0065: A ratified brief authorizes a plan or a goal envelope only on a closed review and a value audit that holds nothing
-
-Proposed to replace ADR-D-0041; awaiting acceptance by the person directing the work, by name.
 
 ## Context and Problem Statement
 

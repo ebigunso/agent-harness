@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-10-29
 deciders: ["ebigunso"]
@@ -11,8 +11,6 @@ depends_on: ["ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-or
 ---
 
 # ADR-D-0062: Under a ratified brief the Orchestrator session asks the person directing the work nothing
-
-Proposed on 2026-10-29; awaiting acceptance by the person directing the work, by name.
 
 ## Context and Problem Statement
 

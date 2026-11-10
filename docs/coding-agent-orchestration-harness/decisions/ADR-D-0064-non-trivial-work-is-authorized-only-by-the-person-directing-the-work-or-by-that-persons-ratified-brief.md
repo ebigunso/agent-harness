@@ -1,18 +1,16 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md", "ADR-D-0056-a-goal-mode-run-in-a-repository-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor.md"]
+supersedes: ["superseded/ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-a-ratified-brief--superseded-by-ADR-D-0064.md", "superseded/ADR-D-0056-a-goal-mode-run-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor--superseded-by-ADR-D-0063.md"]
 superseded_by: null
 depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md", "ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop-and-never-changed-by-it.md"]
 ---
 
 # ADR-D-0064: Non-trivial work is authorized only by the person directing the work or by that person's ratified brief
-
-Proposed to replace ADR-D-0040, and ADR-D-0056 together with ADR-D-0063 and ADR-D-0067; awaiting acceptance by the person directing the work, by name.
 
 ## Context and Problem Statement
 

@@ -1,17 +1,15 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop.md"]
+supersedes: ["superseded/ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md"]
 superseded_by: null
 ---
 
 # ADR-D-0066: A goal loop's forbidden set is a criterion and its envelope is fixed before the loop and never changed by it
-
-Proposed to replace ADR-D-0027; awaiting acceptance by the person directing the work, by name.
 
 ## Context and Problem Statement
 

@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
 supersedes: ["ADR-D-0018-discoveries-recorded-and-surfaced--superseded-by-ADR-D-0033.md"]
 superseded_by: ../ADR-D-0058-a-worker-acts-alone-only-within-the-acceptance-criteria.md
-depends_on: ["../ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "../ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md"]
+depends_on: ["../ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-a-ratified-brief--superseded-by-ADR-D-0064.md"]
 ---
 
 # ADR-D-0033: A Worker acts alone only on what the acceptance criteria already decided; every other discovery is surfaced before action

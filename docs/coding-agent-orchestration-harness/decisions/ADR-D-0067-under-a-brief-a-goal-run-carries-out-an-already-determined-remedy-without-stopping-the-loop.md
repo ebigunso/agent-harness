@@ -1,18 +1,16 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["ADR-D-0056-a-goal-mode-run-in-a-repository-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor.md"]
+supersedes: ["superseded/ADR-D-0056-a-goal-mode-run-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor--superseded-by-ADR-D-0063.md"]
 superseded_by: null
 depends_on: ["ADR-D-0063-a-goal-mode-run-under-a-brief-or-with-a-philosophy-is-graded-over-the-whole-run-by-the-value-audit-beside-the-assessor.md", "ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop-and-never-changed-by-it.md"]
 ---
 
 # ADR-D-0067: Under a brief a goal run carries out an already determined remedy without stopping the loop
-
-Proposed to replace ADR-D-0056 together with ADR-D-0063 and ADR-D-0064; awaiting acceptance by the person directing the work, by name.
 
 ## Context and Problem Statement
 

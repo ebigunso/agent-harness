@@ -1082,7 +1082,7 @@ Fix applied:
 - The Worker shortened the filename, keeping the title in the heading in full.
 
 Prevention:
-- Keep a record's filename at or under 135 characters; the heading carries the full title. A validator that copies the tree runs against the longest path it will create, not the longest path in place.
+- Keep a record's filename at or under 135 characters; the heading carries the full title. A validator that copies the tree runs against the longest path it will create, not the longest path in place. The 135 characters are counted with the retirement suffix a record takes when it is superseded (26 characters): on 2026-11-11 three records under the limit while live crossed it on retirement and failed the smoke test, and their retired filenames were shortened in the slug.
 
 Evidence:
 - Task_1 Worker report, 2026-10-15; ADR-D-0059's filename.
