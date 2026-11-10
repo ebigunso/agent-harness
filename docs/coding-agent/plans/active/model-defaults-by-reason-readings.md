@@ -309,6 +309,11 @@ Item | reading | statement relied on
 - Built directly by the Orchestrator with the review seat, no Worker | not audited | internal mechanics; no engineering philosophy
 - The branch published and pull request 94's text brought up to date at this close | covered | common.md Standing Approvals
 
+### ADR-D-0070 states the one rule without what it weighs (small change), closeout, 2026-11-10 by the channel clock: the verdict's comparison lines, as returned
+
+- Reading compared: Decision and Invariant without the list: read covered, graded cited; agrees. Not covered names what the rule weighs: diverges. Read extends ("the wording is the run's"); graded cited, because the entry's "which is the rule's content and stays in the plugin text" already says the list is outside the record. An under-claim, not toward a stop. Second rejected alternative gives the record's own reason: read covered, graded cited; agrees. ADR-D-0069 unchanged, fallback bullet kept: read covered, graded cited; agrees. The factors restored on 2026-11-02 now leave on his word: read covered; graded cited as part of the first item; agrees. Built directly, no Worker: read not audited, record value not audited; agrees. Publication at this close: read covered, graded cited on the standing approvals; agrees. "No plugin text changed; the rule in the plugin still names what it weighs": read covered; not a separate item of this verdict (a non-change, checked under the first item), so no grade to compare. No graded item is unread.
+- Findings compared: none found for this change. The Findings section records no finding from it, and no item line notes a departure from a means.
+
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.
