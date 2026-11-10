@@ -1436,6 +1436,7 @@ Evidence:
   - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/completed/model-defaults-by-reason-changes.md` on pull request 94's branch.
   - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/completed/quiet-orchestrator-session-changes.md`.
   - Neither was void. Counting runs, this is the third occurrence the prevention names, and the harness question went to the owner through Counsel as a proposal on 2026-11-08.
+  - 2026-11-11: seven further audits across three runs opened their mandate together with other files, one of them void for printing the readings file. The owner accepted the proposal that day in a smaller form (the Auditor's definition states that its first tool call opens the mandate and nothing else; merged in version 1.2.0). Every audit of that day ran on the plugin as installed before that change, so none shows whether the sentence works. The review seat's suggestion, taken up: the Orchestrator checks the first call from the dispatch's own trace where the runtime shows it, and does not rely on the Auditor's disclosure alone.
 
 ## 2026-11-11 - One Decision Per Record Is Tested With The Neighbouring Decision Held Fixed  [tags: governance, review, correction]
 
@@ -1456,6 +1457,46 @@ Prevention:
 
 Evidence:
 - The model-defaults run's changes file, "ADR-D-0067 split in two and the proposed records renumbered", MS-F1 and the reviewer's own correction of 2026-11-10 by the channel clock.
+
+## 2026-11-11 - A Fixture Shows A Branch Only When The Wrong Text Would Fail It  [tags: validation, review, correction]
+
+Context:
+- Showing a scenario by giving a fresh agent the changed text and a made-up case, where the text has more than one branch.
+
+Symptom:
+- In the settings run, the fixture for the unavailable-option rule had two cases that ended on the same option. A dispatcher that ignored the option a resolution names and always walked the fit ranking would have passed both. The plan review had already asked for both branches (OPT-P4); the Orchestrator's fixture met the letter of that and the final review caught the rest (OPT-FINAL-F2).
+
+Root cause:
+- The cases were written to exercise each branch, and were not checked against the question of what a wrong text would do on them.
+
+Fix applied:
+- The record gained an option so the named destination and the walk's destination differ, and the fixture was run again.
+
+Prevention:
+- Before running a fixture, name for each branch the wrong behaviour it must rule out, and check that the case gives a different outcome under it. Two cases that end in the same place show one branch at most.
+
+Evidence:
+- `docs/coding-agent/plans/completed/options-by-model-and-setting-plan.md`, Progress Log, scenario 3's three runs; OPT-P4 and OPT-FINAL-F2.
+
+## 2026-11-11 - Two Verdicts From One Review Seat On One Revision: The Later One Stands Until The Seat Says Otherwise  [tags: review, governance]
+
+Context:
+- A persistent review seat on a peer channel, sent one review request.
+
+Symptom:
+- In the settings run the review seat sent APPROVED and, twenty-two seconds later, CHANGES_REQUESTED with two sound findings, both pinned at the same revision. The Orchestrator had dispatched the closeout audit on the first.
+
+Root cause:
+- The seat emitted an approval before it had finished its provenance and branch-discrimination checks, and did not mark the second message as superseding the first. The Orchestrator acted on a verdict within seconds of its arrival.
+
+Fix applied:
+- The Orchestrator took the later message as standing, stopped the audit before it returned, fixed both findings and asked the seat to say which message it stood by; it confirmed the later one.
+
+Prevention:
+- A second verdict on the same revision reopens the review whatever the first said; anything dispatched on the first is stopped and not used. The seat's own correction, recorded in its message: finish the checks before emitting approval, and mark a correction as superseding.
+
+Evidence:
+- The plan's Progress Log, the entries of 2026-11-10 19:16Z to 19:20Z by the channel clock.
 
 ## Promotion drain note (2026-10-16)
 
