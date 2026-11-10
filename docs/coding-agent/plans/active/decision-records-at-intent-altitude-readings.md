@@ -28,3 +28,6 @@ Item | reading | statement relied on
 - Findings compared: none found (the readings file records no findings, and no item line notes a departure from a means).
 
 ## Findings
+
+- 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
+- 2026-11-11, from Task_2 of the raised plan: the package checker fails on prose in four more places than the one his answer named | bears on the design: each blocks an equivalent rewording as the named one did, which ADR-I-0007 forbids. Escalated to Counsel with the unit's report as a question for the owner (bring all four in line, or say which are contracts). Part held: none; the named check is changed and the four are left as they are.

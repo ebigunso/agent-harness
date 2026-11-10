@@ -285,7 +285,7 @@ def check_latent_risk_references(errors: list[str]) -> None:
             fail(errors, f"{router}: referenced latent-risk file does not exist: {match}")
 
 
-def check_operational_routing_surfaces(errors: list[str]) -> None:
+def check_operational_routing_surfaces(errors: list[str], warnings: list[str]) -> None:
     packet = ROOT / "skills" / "wave-integration" / "references" / "reviewer-packet-template.md"
     snippets = ROOT / "skills" / "subagent-strategy" / "references" / "prompt-snippets.md"
     integration = ROOT / "skills" / "wave-integration" / "references" / "integration-checklist.md"
@@ -305,7 +305,7 @@ def check_operational_routing_surfaces(errors: list[str]) -> None:
             flags=re.DOTALL,
         )
         if not snippet_match:
-            fail(errors, f"{snippets}: missing Reviewer latent-risk snippet")
+            warn(warnings, f"{snippets}: could not locate Reviewer latent-risk snippet; review risk coverage manually")
         else:
             snippet = snippet_match.group(1)
             required = {
@@ -317,9 +317,9 @@ def check_operational_routing_surfaces(errors: list[str]) -> None:
             }
             for label, pattern in required.items():
                 if not re.search(pattern, snippet, flags=re.IGNORECASE):
-                    fail(errors, f"{snippets}: Reviewer latent-risk snippet missing {label}")
+                    warn(warnings, f"{snippets}: Reviewer latent-risk snippet missing {label}")
             if not re.search(r"build cfg/features|strict-CI", snippet, flags=re.IGNORECASE):
-                fail(errors, f"{snippets}: Reviewer latent-risk snippet missing build cfg/features or strict-CI")
+                warn(warnings, f"{snippets}: Reviewer latent-risk snippet missing build cfg/features or strict-CI")
 
     if not integration.exists():
         fail(errors, f"missing wave integration checklist: {integration}")
@@ -440,7 +440,7 @@ def main() -> int:
     check_reviewer_adapters(errors)
     check_worker_report_reviewer_audience(errors)
     check_latent_risk_references(errors)
-    check_operational_routing_surfaces(errors)
+    check_operational_routing_surfaces(errors, warnings)
     check_clean_split_guards(errors)
     check_adr_supersession(errors)
 

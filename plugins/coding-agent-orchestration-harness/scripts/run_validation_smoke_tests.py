@@ -132,6 +132,46 @@ def run_adr_supersession_smoke() -> bool:
     return ok
 
 
+def run_latent_risk_snippet_smoke() -> bool:
+    ok = True
+    with tempfile.TemporaryDirectory() as tmp:
+        plugin = Path(tmp) / "repo" / "plugins" / ROOT.name
+        shutil.copytree(ROOT, plugin)
+        script = plugin / "scripts" / "validate_harness_package.py"
+        snippets = plugin / "skills" / "subagent-strategy" / "references" / "prompt-snippets.md"
+        original = snippets.read_text(encoding="utf-8")
+        cases = [
+            ("unchanged", original, None),
+            (
+                "reworded topic",
+                original.replace("runtime model compatibility", "compatibility with the runtime model"),
+                "runtime model compatibility",
+            ),
+            (
+                "reworded heading",
+                original.replace("## Reviewer snippet (latent-risk routing)", "## Reviewer guidance for latent risks"),
+                "Reviewer latent-risk snippet",
+            ),
+        ]
+        for name, text, topic in cases:
+            snippets.write_text(text, encoding="utf-8")
+            cmd = [PY, str(script)]
+            print(f"+ {' '.join(cmd)} ({name})", flush=True)
+            result = subprocess.run(cmd, cwd=ROOT.parent.parent, capture_output=True, text=True)
+            print(result.stdout, end="")
+            print(result.stderr, end="", file=sys.stderr)
+            print(f"{name}: exit {result.returncode}", flush=True)
+            ok &= assert_condition(result.returncode == 0, f"{name}: expected exit 0")
+            if topic is None:
+                ok &= assert_condition("WARNING:" not in result.stderr, f"{name}: unexpected warning")
+            else:
+                ok &= assert_condition(
+                    any(line.startswith("WARNING:") and topic in line for line in result.stderr.splitlines()),
+                    f"{name}: expected a warning naming {topic}",
+                )
+    return ok
+
+
 def main() -> int:
     fixtures = TESTS / "fixtures"
     checks: list[tuple[list[str], int]] = [
@@ -167,6 +207,7 @@ def main() -> int:
         ok &= run(cmd, expected)
     ok &= run_bootstrap_smoke()
     ok &= run_adr_supersession_smoke()
+    ok &= run_latent_risk_snippet_smoke()
     return 0 if ok else 3
 
 
