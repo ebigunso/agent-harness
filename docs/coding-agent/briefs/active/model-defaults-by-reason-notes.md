@@ -256,6 +256,14 @@ The site describes them as: FrontierCode 2.0, agentic software engineering in op
 
 The Researcher's reading, its words: "Fable 5.2 Low scores above Opus 5.5 High on FrontierCode 2.0, AutomationBench-AA and Engineering, but below it on Terminal-Bench 4.0. Fable 5.2 High scores above both of the other settings on all four measurements. The FrontierCode 2.0 result supports the particular comparison you named for choosing the Orchestrator model, while the Terminal-Bench result prevents treating that as a win across every kind of agentic coding work."
 
+## Counsel's read after his word on ADR-D-0069 and ADR-D-0070, 2026-11-11
+
+He accepted Counsel's three marks: "Go with your takes on 69 and 70." One read, from the Orchestrator's report of 2026-11-10 18:03Z, which arrived with the outcomes in it (review approved with no findings; the closeout audit held nothing, no item inferred).
+
+- ADR-D-0069 is unchanged. ADR-D-0070's Decision and Invariant state only that the Orchestrator and Counsel place a Researcher by one and the same rule; Not covered names what the rule weighs as the plugin text's. The plugin's routing text still names all three factors, so no dispatch changes.
+- Removing the factors from the record reverses what the closeout audit of 2026-11-02 had restored to it. It rests on his acceptance of Counsel's take; told to him.
+- The audit's remark: the second rejected alternative now nearly restates itself ("left to choose without a stated rule" lost "because each session then places a Researcher its own way"). The consequence that makes it a loss is in the Why: an option better suited to the research goes unused. Brought to him with Counsel's advice, mine, to add that clause.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
