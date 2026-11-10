@@ -5,7 +5,7 @@
 - Run starts from revision: f852cee (the brief and Counsel's notes committed on the run's branch, on top of main c059ce6).
 - Readings file: `docs/coding-agent/plans/active/model-defaults-by-reason-readings.md`.
 - Changes file: `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md`.
-- State: reported ready (candidate ready), 2026-10-29, again 2026-11-02 after the change the owner directed (the proposed record rewritten to intent altitude), and again 2026-11-08 after his direction of that day (ADR-D-0066 and ADR-D-0067 state their Why in reasons of their own); open for the owner's judgement.
+- State: reported ready (candidate ready), 2026-10-29, again 2026-11-02 after the change the owner directed (the proposed record rewritten to intent altitude), and again 2026-11-08 after his direction of that day (ADR-D-0066 and ADR-D-0067 state their Why in reasons of their own). On 2026-11-11, at his direction, ADR-D-0066 was renumbered ADR-D-0067 and the record until then ADR-D-0067 was split into ADR-D-0068 and ADR-D-0069; rows below written before that day keep the old numbers. Open for the owner's judgement.
 
 ## Scenarios
 

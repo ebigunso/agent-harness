@@ -1373,7 +1373,7 @@ Context:
 - Rewriting a decision record to intent altitude: the route a clause names goes to the plugin text, and the decision stays in the record.
 
 Symptom:
-- In the model-defaults run's rewrite, ADR-D-0067 first dropped ADR-D-0061's fallback route whole, and with it the guarantee that research never goes without a Researcher, and listed the research rule's factors as not covered. The review approved the route's removal; the closeout audit marked both losses as direction, and they were restored at intent.
+- In the model-defaults run's rewrite, ADR-D-0067 (split on 2026-11-11 into ADR-D-0068 and ADR-D-0069) first dropped ADR-D-0061's fallback route whole, and with it the guarantee that research never goes without a Researcher, and listed the research rule's factors as not covered. The review approved the route's removal; the closeout audit marked both losses as direction, and they were restored at intent.
 
 Root cause:
 - A whole clause was classed as mechanism because it named a route, without separating the commitment it carried (availability, what the rule weighs) from its embodiment (which model, in what order).
