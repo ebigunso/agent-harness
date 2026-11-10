@@ -31,7 +31,7 @@ Where each session places a Researcher by its own judgement, a session that no s
 ## Rejected Alternatives
 
 - An in-session Researcher subagent named as the only option: it lost because research then stays in the dispatcher's session, or goes to a Worker on another model with its task, even where the workspace records an option that suits it better; reopen if workspaces are found to have no option beyond the in-session subagent.
-- Each dispatcher left to choose without a stated rule: it lost because each session then places a Researcher its own way, whatever the other does, for want of a stated way to choose; rejected outright.
+- Each dispatcher left to choose without a stated rule: it lost because each session then places a Researcher its own way, whatever the other does, even where the workspace has an option better suited to the research; rejected outright.
 
 ## Decision Boundary
 
