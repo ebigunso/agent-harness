@@ -174,6 +174,63 @@ The Orchestrator's report of 2026-11-10 16:48Z arrived with the review's and the
 - Review approved after one correction; the closeout audit held nothing. The six things the run settled without his word are graded as extending his statements. The run changed no value document.
 - Pull request 94 is not at its final state: his direction on Fable 5.2 reached the Orchestrator after this report and changes the workspace's record on the same branch.
 
+## Artificial Analysis figures for the cost line, read 2026-11-11
+
+Why: asked whether the record's cost line still holds with Fable 5.2 at low reasoning effort in the place Opus 5.5 held, he said: "the cost argument can be settled if you search for the cost vs intelligence and time vs intelligence benchmark results on Artificial Analysis." He also answered that day: "Yes, move to Fable 5.2 with high effort." (the Auditor and the Researcher's insight work) and "Move the Auditor now, no comparison needed."
+
+Who read them: the Researcher role on the peer seat `agent-harness-researcher` (GPT-6 Astra), dispatched by Counsel over the peer channel, read-only. Source: artificialanalysis.ai only, each model's own page, read 2026-11-11 (Asia/Tokyo). The pages identify Intelligence Index v5.0.1. Intelligence, cost per task, token prices, time per task, output speed and time to first answer token are the figures the pages display. Total index cost and end-to-end time are the unrounded values of the datasets embedded in the same pages. USD throughout.
+
+| ID | Label on the site | Page | Intelligence Index | Cost per task | Total index cost | Input / output per 1M tokens |
+|---|---|---|---:|---:|---:|---:|
+| A | Claude Fable 5.2 (Low, Default Fallback) | /models/claude-fable-5-2-low | 54 | 3.10 | 2861.7798750438624 | 8.00 / 40.00 |
+| B | Claude Fable 5.2 (High, Default Fallback) | /models/claude-fable-5-2-high | 62 | 9.08 | 7105.770618708859 | 8.00 / 40.00 |
+| C | Claude Opus 5.5 (High, Default Fallback) | /models/claude-opus-5-5-high | 52 | 3.46 | 2715.9800012757146 | 4.00 / 20.00 |
+| D | Claude Fable 5.1 (Low, Default Fallback) | /models/claude-fable-5-1-low | 39 | 4.47 | 3885.935028642357 | 10.00 / 50.00 |
+| E | Claude Fable 5.1 (Medium, Default Fallback) | /models/claude-fable-5-1-medium | 43 | 5.56 | 4896.576659417077 | 10.00 / 50.00 |
+| F | Claude Fable 5.1 (High, Default Fallback) | /models/claude-fable-5-1-high | 47 | 7.54 | 6617.890073737758 | 10.00 / 50.00 |
+| G | Claude Fable 5.1 (Xhigh, Default Fallback) | /models/claude-fable-5-1-xhigh | 50 | 10.85 | 10096.622784971296 | 10.00 / 50.00 |
+| H | Claude Fable 5.1 (Max, Default Fallback) | /models/claude-fable-5-1 | 49 | 12.99 | 13326.778522254179 | 10.00 / 50.00 |
+| I | GPT-6 Astra (Low) | /models/gpt-6-astra-low | 43 | 1.42 | 1650.7484149542447 | 10.00 / 50.00 |
+| J | GPT-6 Astra (Medium) | /models/gpt-6-astra-medium | 52 | 2.73 | 2638.289263719404 | 10.00 / 50.00 |
+| K | GPT-6 Astra (High) | /models/gpt-6-astra-high | 55 | 3.24 | 3203.9990980989687 | 10.00 / 50.00 |
+| L | GPT-6 Astra (Xhigh) | /models/gpt-6-astra-xhigh | 55 | 3.66 | 3746.2153585654264 | 10.00 / 50.00 |
+| M | GPT-6 Astra (Max) | /models/gpt-6-astra | 57 | 6.24 | 5661.179482563332 | 10.00 / 50.00 |
+| N | GPT-6.1 Sol (Low) | /models/gpt-6-1-sol-low | 35 | 0.16 | 237.90799854181154 | 2.00 / 10.00 |
+| O | GPT-6.1 Sol (Medium) | /models/gpt-6-1-sol-medium | 46 | 0.36 | 388.5687768506756 | 2.00 / 10.00 |
+| P | GPT-6.1 Sol (High) | /models/gpt-6-1-sol-high | 50 | 0.59 | 573.1677910130082 | 2.00 / 10.00 |
+| Q | GPT-6.1 Sol (Xhigh) | /models/gpt-6-1-sol-xhigh | 52 | 0.76 | 717.7081569486036 | 2.00 / 10.00 |
+| R | GPT-6.1 Sol (Max) | /models/gpt-6-1-sol | 55 | 1.27 | 1123.9739209537065 | 2.00 / 10.00 |
+
+| ID | Time per index task, min | Output speed, tok/s | Time to first answer token, s | End-to-end time, s |
+|---|---:|---:|---:|---:|
+| A | 6.5 | 92 | 8.73 | 66.75418154858342 |
+| B | 17.5 | 93 | 30.79 | 109.92921746225001 |
+| C | 9.5 | 105 | 24.49 | 106.7747722015722 |
+| D | 7.6 | 83 | 5.24 | 56.36778648528129 |
+| E | 9.9 | 81 | 8.24 | 72.84260559095836 |
+| F | 13.3 | 83 | 13.58 | 83.10333854023953 |
+| G | 19.4 | 83 | 58.37 | 188.562859202125 |
+| H | 22.5 | 87 | 166.95 | 391.68471855832286 |
+| I | 3.8 | 40 | 3.29 | 99.87419650091665 |
+| J | 6.9 | 43 | 5.69 | 112.56847905461113 |
+| K | 9.7 | 40 | 61.10 | 239.27059205539445 |
+| L | 11.4 | 39 | 107.70 | 318.39662489568144 |
+| M | 23.1 | 37 | 239.21 | 560.2278735114118 |
+| N | 1.8 | 55 | 2.52 | 63.104844797083274 |
+| O | 3.8 | 59 | 4.10 | 72.62337346045187 |
+| P | 6.5 | 58 | 32.53 | 134.3396866699982 |
+| Q | 9.3 | 54 | 62.08 | 192.99467906013896 |
+| R | 20.1 | 56 | 150.99 | 364.9323790487797 |
+
+What the site's measures are, as the Researcher reports its definitions:
+
+- Cost per task is an evaluation-weighted average after dividing each evaluation's cost by its task count. Total index cost sums the evaluations' token costs, cache and reasoning included, repeats excluded. The two can rank models differently.
+- Time per index task is modelled (task output tokens divided by end-to-end output speed, weighted over the evaluations), not a stopwatch measurement. No total time to run the whole index is published. End-to-end time is the site's mean over single-request workloads. Performance figures average the preceding five days.
+- No separately titled coding or agentic index is on the model pages; nothing was substituted for one. The Fable 5.1 pages mark that release deprecated.
+- How it was read: direct reads of the public model pages and the chart datasets embedded in them; no other source, no estimate, no interpolation.
+
+The Researcher's reading, its words: "Fable 5.2 Low costs less per weighted index task than Opus 5.5 High ($3.10 versus $3.46), but its total index-run cost is higher and its input/output token rates are $8/$40 versus $4/$20 per million. Its Intelligence Index score is higher, 54 versus 52, which does not imply a win on every individual coding task. Its listed time per index task is shorter (6.5 versus 9.5 minutes), its first-answer latency is lower (8.73 versus 24.49 seconds), and its published end-to-end value is also lower. Opus 5.5 High has the higher output speed, 105 versus 92 tokens per second. These figures support Fable 5.2 Low as a candidate for the former Opus role on weighted task cost, time and aggregate intelligence, while the total-run and token-price measures do not support calling it universally cheaper."
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
