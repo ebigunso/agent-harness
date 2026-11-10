@@ -241,6 +241,21 @@ One read, of the record itself; the Orchestrator's report of 2026-11-10 17:12Z a
 - Scenario 5 of the brief reworded by Counsel, tagged inferred: it named his words of 2026-10-28, and now names the record as he last set it.
 - The Orchestrator updated the pull request's text for the renumbering without a review or audit of that update, reading it as part of a reviewed run. Brought to him.
 
+## Artificial Analysis coding and agentic figures for the Orchestrator's row, read 2026-11-11
+
+Who read them: the Researcher role on `agent-harness-researcher` (GPT-6 Astra), a follow-up dispatched by Counsel, read-only. Source: the same three model pages on artificialanalysis.ai (`/models/claude-fable-5-2-low`, `/models/claude-fable-5-2-high`, `/models/claude-opus-5-5-high`), read 2026-11-11 02:15 JST. The first three rows are proportions on a 0 to 1 scale as the datasets embedded in the pages hold them; Engineering is the site's capability index score. The rendered chart tooltips were not seen.
+
+| Evaluation, as the site labels it | Fable 5.2 (Low) | Fable 5.2 (High) | Opus 5.5 (High) |
+|---|---:|---:|---:|
+| FrontierCode 2.0 | 0.384397474747475 | 0.491275757575758 | 0.359278535353535 |
+| Terminal-Bench 4.0 | 0.545454545454545 | 0.595959595959596 | 0.565656565656566 |
+| AutomationBench-AA | 0.6799749206673704 | 0.7135975994544773 | 0.6320677483186213 |
+| Engineering (Capability Indexes tab) | 61.5679425324675 | 69.6450651515152 | 57.8455251623377 |
+
+The site describes them as: FrontierCode 2.0, agentic software engineering in open-source repositories; Terminal-Bench 4.0, agentic coding and terminal use; AutomationBench-AA, agentic SaaS workflows.
+
+The Researcher's reading, its words: "Fable 5.2 Low scores above Opus 5.5 High on FrontierCode 2.0, AutomationBench-AA and Engineering, but below it on Terminal-Bench 4.0. Fable 5.2 High scores above both of the other settings on all four measurements. The FrontierCode 2.0 result supports the particular comparison you named for choosing the Orchestrator model, while the Terminal-Bench result prevents treating that as a win across every kind of agentic coding work."
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
