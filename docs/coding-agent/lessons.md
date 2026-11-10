@@ -1379,7 +1379,7 @@ Root cause:
 - A whole clause was classed as mechanism because it named a route, without separating the commitment it carried (availability, what the rule weighs) from its embodiment (which model, in what order).
 
 Fix applied:
-- ADR-D-0067 keeps the factors and the availability at intent; the route, the order and the recording stay not covered.
+- ADR-D-0067 keeps the factors and the availability at intent; the route, the order and the recording stay not covered. On 2026-11-11 the owner accepted that what the rule weighs is the rule's content, and the factors left the record on his word; the prevention below stands for any commitment he has not released.
 
 Prevention:
 - In an altitude rewrite, list each predecessor invariant on its own, separate from its embodiment, and check both destinations: the invariant in the record, the embodiment in the plugin text. A reviewer of such a rewrite checks the same pairing.
