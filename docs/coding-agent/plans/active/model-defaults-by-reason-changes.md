@@ -295,3 +295,5 @@
   - Held: the Auditor's resolution. The record itself says that before the Auditor moves to another model the candidates are compared on replayed past audits, and whether that comparison runs first is with him through Counsel. The Auditor stays on Fable 5.1 in the record until his answer.
   - Held: the cost line beyond the sentence already added. Counsel is having the figures he named researched and will send them; the line is settled from them.
   - The closeout audit of this change waits until both are in.
+- 2026-11-10 16:52Z by the channel clock, review of the record change (Codex seat `agent-harness-reviewer`), pinned at 0d0a44e: CHANGES_REQUESTED, one minor finding; every routing and content check passes.
+  - MO-F1 (minor): the record's Status line and its Resolutions heading still attributed every resolution to the owner's words of 2026-10-28, while three rows carry his setting of 2026-11-11. Orchestrator's ruling: accepted. The Status line keeps the first recording and confirmation as history and names the amendment of 2026-11-11; the heading refers to the dates on the rows. Returned to the review together with the Researcher's row moved since.
