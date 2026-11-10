@@ -184,46 +184,46 @@
 - 2026-11-10T16:47Z Workers dispatched (Claude subagents `harness-worker` on Opus), texts verbatim (checkout path shortened):
 
   > Task_1 (type: docs). Checkout: <main checkout>. Work only there, on the branch checked out. Do not commit, push or run any shared-state Git command except `git mv` if a rename is needed.
-  > 
+  >
   > Objective. Carry out three directions the owner accepted on 2026-11-11 for the proposed record ADR-D-0063. They are in the governing brief, `docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`, "Directed during the run", the last four entries (the fourth is another task's). Read those entries first; they are the requirement, quoted here:
   > 1. "ADR-D-0063's Why states the reason the value audit is kept apart from the goal loop's assessor: the assessor judges whether the loop is still closing its gap and the audit whether the work fits the value documents, continuation bears the burden of proof (ADR-D-0029), and a favourable grade among the assessor's inputs would argue for continuing." And, tagged inferred: "The record's rejected alternative that names the design-led long runs brief's limit as what keeps the assessor's inputs cites this reason instead."
   > 2. "The remedy carried out without a stop stays limited to runs under a brief in this pull request. The record says plainly that goal runs without a brief were not examined for it, and gives no reason invented for the limit."
   > 3. "ADR-D-0063 holds two decisions and is split in two proposed records: that the value audit grades a goal run over the whole run, apart from the assessor; and that under a brief a remedy already determined is carried out without a stop."
-  > 
+  >
   > Numbers, settled by the Orchestrator: the record on the value audit grading a goal run keeps ADR-D-0063 (its filename changes only if its title must). The record on the determined remedy is new, ADR-D-0067. ADR-D-0064, 0065 and 0066 keep their numbers.
-  > 
+  >
   > owns: `docs/coding-agent-orchestration-harness/decisions/ADR-D-0063-*.md` and the new `ADR-D-0067-*.md`; and in `ADR-D-0062-*.md`, `ADR-D-0064-*.md`, `ADR-D-0065-*.md`, `ADR-D-0066-*.md` of the same directory only the references to ADR-D-0063 (which now may need to name ADR-D-0067 instead or as well, and the joint replacement of ADR-D-0056). Nothing else; ADR-D-0056 and ADR-D-0029 are not touched.
-  > 
+  >
   > depends_on: [].
-  > 
+  >
   > Acceptance:
   > - Two proposed records exist, ADR-D-0063 and ADR-D-0067, each holding one decision. Test each fork with the other decision held fixed: each record's Why argues its own fork only. Each filename is at most 135 characters and follows the directory's naming.
   > - Every statement the present ADR-D-0063 decides, rejects, bounds or validates is in exactly one of the two, or in both only where both need it to be read alone (the terms, for example). Nothing is decided that the present record and the three quoted entries do not decide, and nothing decided is dropped.
   > - Direction 1 is in ADR-D-0063's Why and in the rejected alternative it names; direction 2 is stated plainly in ADR-D-0067. Invent no reason: where a decision is left with no reason in the present record or the quoted entries, say so in the report.
   > - Each record follows the record standard, `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md`. Read it before writing. In particular its Form: "The why is prose. Present tense, a sentence or two, the fork and the reason one branch won." No Why cites a brief as its authority.
   > - Cross-references agree across ADR-D-0062 to ADR-D-0067: `supersedes`, `depends_on`, the lines on replacing ADR-D-0056, Related lines and in-text numbers. Status stays proposed; dates and deciders stay.
-  > 
+  >
   > Validation (owner: worker, required: true, kind: command): every `ADR-D-00NN-....md` filename cited in the front matter of ADR-D-0062 to ADR-D-0067 exists in the directory; `git diff --stat` shows no file outside owns.
-  > 
+  >
   > Report: one YAML block per the subagent-report-contract skill, with every question or judgement call under questions.
 
   > Task_2 (type: docs, plugin text). Checkout: <main checkout>. Work only there, on the branch checked out. Do not commit, push or run any shared-state Git command.
-  > 
+  >
   > Objective. Carry out one direction the owner accepted on 2026-11-11, in the governing brief `docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`, "Directed during the run", the last entry, quoted: "The Auditor's agent definition states that the Auditor's first tool call opens the mandate named in the dispatch and nothing else. The rest of the reading order stays in the mandate; the wording fits both mandates the definition serves; the definition changes in every runtime adapter that carries it; no decision record is written for it; the change is carried on this pull request."
-  > 
+  >
   > Why it is wanted: across several audits the Auditor opened its mandate in one batch with the plan, the brief or git listings, though the mandate's own First Step asks that it be read alone first. The instruction sits in the mandate, which is read too late to govern the first call.
-  > 
+  >
   > owns: `plugins/coding-agent-orchestration-harness/agents/Auditor.md`, `plugins/coding-agent-orchestration-harness/claude/agents/harness-auditor.md`, `plugins/coding-agent-orchestration-harness/codex/agent-templates/harness_auditor.toml`; any other adapter file that carries the Auditor's definition, if you find one (name it in the report); and the plugin's changelog entry for the unreleased version on this branch, only if the repository's rules ask for an entry for this kind of change.
-  > 
+  >
   > depends_on: [].
-  > 
+  >
   > Acceptance:
   > - Each adapter's Auditor definition states that the first tool call opens the mandate named in the dispatch and nothing else, in one short statement placed where it is read before any tool is called.
   > - The wording fits every mandate the definition serves (find which mandates a dispatch may name; a phrase that belongs to one of them only does not appear). Nothing else of the reading order is added to the definition, and no mandate is changed.
   > - The adapters say the same thing; whatever check the repository has for adapter consistency or plugin validity passes.
-  > 
+  >
   > Validation (owner: worker, required: true, kind: command): the validation commands `docs/coding-agent/rules/` maps to changes under `plugins/` for agent definitions (read `docs/coding-agent/rules/index.md` to find them); report each with its result.
-  > 
+  >
   > Report: one YAML block per the subagent-report-contract skill, with every question or judgement call under questions.
 
 - 2026-11-10T16:51Z Worker reports integrated: both done, edits inside each task's owns, required checks pass.
@@ -233,3 +233,5 @@
   - Worker's question on the number: answered by the entry above; pull request 94's records moved to ADR-D-0068 to ADR-D-0070 before this report.
   - Task_2 (the Auditor's definitions). The three adapters (`agents/Auditor.md`, `claude/agents/harness-auditor.md`, `codex/agent-templates/harness_auditor.toml`) carry one added sentence after the line that names the mandate: "Your first tool call opens that mandate and nothing else." No mandate changed and nothing else of the reading order was added; no fourth adapter was found. Checks: `validate_harness_package.py` pass, `run_validation_smoke_tests.py` pass, `git diff --check` over `plugins/` pass.
   - Worker's calls, Orchestrator's ruling: kept, open to the review. The sentence sits beside the mandate reference and uses no word that belongs to one mandate only. No changelog entry, since the repository has no changelog. Not verifiable here: whether a live Auditor makes the mandate its first call; the next audit dispatch on the changed definition shows it, and this session's installed plugin is not the changed text.
+- 2026-11-10 16:56Z by the channel clock, review (Codex seat `agent-harness-reviewer`), pinned at 8b7453b: CHANGES_REQUESTED, one minor finding outside the records and the definitions; its checks of the split, the conservation, the reason against ADR-D-0029, the cross-references and the three definitions find nothing, and the package validator and smoke tests pass.
+  - QA-F1 (minor): fourteen blank quote lines in this file's dispatch log ended in a space, so `git diff --check` failed over the range. Orchestrator's ruling: accepted; the spaces are trimmed, no quoted word changes. Returned to the review.
