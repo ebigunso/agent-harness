@@ -289,7 +289,6 @@ Item | reading | statement relied on
 - The Status line and the Resolutions heading name the amendment of 2026-11-11 (MO-F1); what the workspace has gains Fable 5.2 | covered | the same entry with the record's own instruction to redate when a model changes
 - No model name enters the plugin's rules; no plugin text changes | covered | the brief's limit on model names in the plugin
 - Built directly by the Orchestrator with the review seat, no Worker; rule refresh waived | not audited | internal mechanics; no engineering philosophy
-- The three records renumbered ADR-D-0068 to ADR-D-0070, in range | covered | the numbering entry told 2026-11-11; which number each takes extends it
 - The branch published and pull request 94's text brought up to date, announced | covered | common.md Standing Approvals
 
 ## Findings
