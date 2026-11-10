@@ -23,6 +23,15 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 - Records a run in progress proposes or supersedes are left to that run: on 2026-11-02 ADR-D-0040, 0041, 0056, 0061 to 0066. **constraint** *(agent-proposed 2026-11-02, so that two runs do not rewrite the same record)*
 - Where the check finds that the standard's own form invites the detail (a section that asks for enumeration, a template that mirrors procedure), that is reported to the owner through Counsel as a value question; the standard is not changed by this work without his word. **constraint** *(agent-proposed 2026-11-02)*
 
+## Directed before the run was planned, 2026-11-11
+
+Each entry is an amendment with its own ratification record. The Orchestrator reported the census of the 49 accepted records (4 meeting the standard, 21 needing a rewrite at the same decision, 20 holding more than one decision, 1 operational only, 3 whose decision looks stale or contradicted; its Researcher's classifications, not yet checked) and asked how 60 to 70 records for acceptance should reach him. His answer, quoted whole: "Go with your takes on all three. Rewrites can go in without me reading it, as long as it doesn't materially change what the decision is about."
+
+- The records whose decision the check finds stale or contradicted reach him first, as value questions through Counsel, before the rest is rewritten, since his answers may change what the other records say. **gives** *(agent-proposed; Counsel's advice of 2026-11-11; accepted in the first sentence above)*
+- The rest reaches him in batches by area, each batch its own pull request and its own acceptance, of about ten records. **gives** *(agent-proposed; Counsel's advice of 2026-11-11; accepted in the first sentence above)*
+- A rewrite that does not materially change what its decision is about goes in without his reading it. **gives** *(told 2026-11-11: the second sentence above)* A record split in two or more, and a record the run cannot show to keep its decision, still reach him by name. *(inferred)* Whether a rewrite he does not read still waits for a statement of his naming it, as the record standard's Acceptance asks of every record, is not said by him and is put to him. *(open)*
+- The two runs whose records the constraint above left alone closed on 2026-11-11, so it now leaves no record out; and this work no longer runs beside them. *(inferred)*
+
 ## Limits
 
 - The work runs beside the two runs in progress, as he asked, and lands by its own acceptance. **constraint** *(told 2026-11-02: "as a parallel task")*
