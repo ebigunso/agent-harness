@@ -4,7 +4,7 @@
 - Hand-over: Counsel's relay of 2026-11-02, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of that day: "Nothing to add, I ratify the brief, hand it over." Not started until 2026-11-11; his word on the order of the waiting runs, relayed 2026-11-10 18:46Z by the channel clock: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: a54b7a9 (the brief with his directions and answers of 2026-11-11, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/decision-records-at-intent-altitude-readings.md`.
-- State: first plan drafted 2026-11-11; in review.
+- State: first plan authorized by the brief route 2026-11-11; in execution.
 
 ## How the work reaches the owner
 
@@ -39,4 +39,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/decision-records-at-intent-altitude-raised-plan.md` | drafted 2026-11-11 | - |
+| `docs/coding-agent/plans/active/decision-records-at-intent-altitude-raised-plan.md` | authorized 2026-11-11, in execution | - |
