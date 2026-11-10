@@ -97,6 +97,17 @@ First read, before the audit's material (the result and the audit's summary arri
 
 Finished after the audit's material: review approved after two rounds; the closeout audit held nothing; nothing inferred or marked direction. One matter the Orchestrator puts to him, which Counsel carries as a value question: ADR-D-0063 keeps the value audit apart from the goal loop's assessor, and remedies a finding without a stop only under a brief; neither now has a written reason in the Why, since the clause restating the design-led long-runs brief's limit was removed at review and no reason was invented. The Decision holds both; the Why can state a reason if he has one, or the records stand. Counsel's advice, mine, given to him: the separation guards the assessor's independence (ADR-D-0029 and ADR-D-0050 already hold that the optimizer and its judge are kept apart), which is a reason of the record's own and not the brief's; the brief-only remedy follows from the brief being the only authority that can have already determined a remedy, where a philosophy states direction and decides nothing. Both are his to confirm or replace. The run changed no value document.
 
+## Counsel's takes on ADR-D-0063's Why and the Auditor's read order, 2026-11-11
+
+He asked for Counsel's takes on the Orchestrator's two open matters of 2026-11-08 ("What is your takes on both?"). Given after a quick read of ADR-D-0063, ADR-D-0029 and the Auditor's agent definition, and accepted the same day: "Go with your takes on all four." The four are in the brief under "Directed during the run".
+
+Two corrections to the advice recorded in the section above, Counsel's own:
+
+- ADR-D-0050 is not a ground for keeping the audit apart from the assessor. Its Why is about choosing a model per role. ADR-D-0029 alone is the ground: continuation bears the burden of proof and the assessor reads only its named inputs.
+- The reason offered for the brief-only remedy, that only a brief can have already determined a remedy, is withdrawn. A philosophy can determine one too. The limit comes from this brief's subject, and his words of 2026-11-07 drew no such line; widening was put to him as an experience and he kept the limit for this pull request.
+
+Also given, and accepted with the rest: by the test he applied to ADR-D-0067, ADR-D-0063 holds two decisions, which is why a Why of a sentence or two had no room for the missing reasons.
+
 ## The two edges, and his answers
 
 - Plan approval when the brief route does not authorize: Counsel offered carrying it through Counsel, or his looking in on the session for that case alone. He took neither: the question is not asked anywhere; the route authorizes or the plan is not yet one that can run.
