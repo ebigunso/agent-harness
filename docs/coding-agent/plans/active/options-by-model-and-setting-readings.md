@@ -29,3 +29,5 @@ Item | reading | statement relied on
 - Findings compared: none found. The readings file's Findings section is empty, and no item line notes a departure from a means.
 
 ## Findings
+
+- 2026-11-11, from Task_3's scenario 1 fixture: the text has setup record as options of their own every pair of settings that differs in capability or in cost, however little, so the fixture's record lists a setting no role resolves to (reasoning effort medium, one index point and a thirtieth of the cost from high) | trivial: the brief's own statement is that two settings that differ for some role's work, or in cost, are two options, and its means (the settings worth telling apart, not every setting) is followed for settings that differ in neither; one more line in the record the owner confirms changes no dispatch. Not escalated.
