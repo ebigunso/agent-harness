@@ -4,7 +4,7 @@
 - Hand-over: Counsel's relay of 2026-11-10 18:38Z by the channel clock, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of 2026-11-11: "I ratify it." His word on the order of the waiting runs, relayed 18:46Z: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: 39af158 (the brief committed on the run's branch, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/options-by-model-and-setting-readings.md`.
-- State: plan drafted 2026-11-11; in review.
+- State: plan authorized by the brief route 2026-11-11; in execution.
 
 ## Scenarios
 
@@ -20,4 +20,4 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/options-by-model-and-setting-plan.md` | drafted 2026-11-11 | - |
+| `docs/coding-agent/plans/active/options-by-model-and-setting-plan.md` | authorized 2026-11-11, in execution | - |
