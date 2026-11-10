@@ -2,7 +2,7 @@
 
 Runtime adapters should preserve shared semantics while fitting each runtime's prompt behavior.
 
-## Copilot / GPT-Oriented Adapters
+## Copilot Adapters
 
 - May carry a medium-length Orchestrator kernel.
 - Keep the five hard gates visible.

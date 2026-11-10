@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-10-22
 deciders: ["ebigunso"]
 consulted: []
 informed: []
 supersedes: []
-superseded_by: null
-depends_on: ["ADR-D-0035-counsel-reaches-into-the-work-only-by-quick-reads-a-read-only-researcher-and-consulted-advice.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
+superseded_by: ../ADR-D-0068-each-roles-model-is-chosen-by-a-stated-reason-resolved-against-the-workspaces-record-never-by-a-named-model.md
+depends_on: ["../ADR-D-0035-counsel-reaches-into-the-work-only-by-quick-reads-a-read-only-researcher-and-consulted-advice.md", "../ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
 # ADR-D-0061: Research goes to the Researcher role, never into a Worker's task, on the option the workspace's own record shows suits it, chosen by one rule for the Orchestrator and Counsel alike; the harness assumes no seat, peer or model
+
+Retired on 2026-11-11. Replaced by ADR-D-0068, ADR-D-0069 and ADR-D-0070.
 
 ## Context and Problem Statement
 
