@@ -119,6 +119,14 @@ The Orchestrator's report of 2026-11-10 17:06Z arrived with the review's and the
 - The Auditor's definition gains one sentence in all three runtime adapters: "Your first tool call opens that mandate and nothing else." It fits both mandates. Not yet shown to work: the installed plugin still carried the old definition, and the audit that closed this change again opened its mandate with other files.
 - Review approved; the closeout audit held nothing. The run changed no value document.
 
+## Counsel's read after his word on ADR-D-0063 and the philosophy, 2026-11-11
+
+He said, on reading the proposed record: "63 should let a run under a brief be graded against the brief as well as the philosophy if it exists." One read, of the record; the Orchestrator's report of 2026-11-10 17:38Z arrived with the outcomes in it.
+
+- ADR-D-0063's Decision now reads: "Under a brief the run is graded against the brief, and against the repository's philosophy as well where it has one." The Invariant, the Validation question and the line on what changes from ADR-D-0056 say the same. It says what he said.
+- No plugin text changed: the audit's instructions already graded such a run against both, and the record's old sentence was narrower than the text. The sentence Counsel tagged inferred in the brief is answered by that.
+- Review approved with no findings. The first closeout audit voided itself (it printed the readings file before grading); the second held nothing, with no item inferred.
+
 ## The two edges, and his answers
 
 - Plan approval when the brief route does not authorize: Counsel offered carrying it through Counsel, or his looking in on the session for that case alone. He took neither: the question is not asked anywhere; the route authorizes or the plan is not yet one that can run.
