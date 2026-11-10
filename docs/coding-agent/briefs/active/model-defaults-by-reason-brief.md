@@ -64,7 +64,7 @@ Agent-proposed; ratified with the brief.
 2. A new model class ships: nothing in the plugin changes; setup re-run in a repository redates the record.
 3. A Worker task of logic-oriented coding for production: it goes to the option recorded for literal, in-bounds execution; its review goes to the option whose strength is the rigorous finding, whichever family that is. A design still being worked out: its review goes to the wide-view option, and edge-case breakages are not what it is asked for.
 4. A repository whose owner has observed something the seed does not say: the workspace observation replaces the seed for that family, dated.
-5. In this repository, a run opens after the change: the Orchestrator, Auditor, Researcher and Worker dispatches land where the owner's words of 2026-10-28 put them.
+5. In this repository, a run opens after the change: the Orchestrator, Auditor, Researcher and Worker dispatches land where the workspace's record puts them, as the owner last set it. *(reworded 2026-11-11, inferred: it read "where the owner's words of 2026-10-28 put them", and his words of 2026-11-11 on Fable 5.2 moved five of those resolutions; the scenario names the record he sets, so it holds when he sets it again)*
 
 ## Pass conditions
 

@@ -231,6 +231,16 @@ What the site's measures are, as the Researcher reports its definitions:
 
 The Researcher's reading, its words: "Fable 5.2 Low costs less per weighted index task than Opus 5.5 High ($3.10 versus $3.46), but its total index-run cost is higher and its input/output token rates are $8/$40 versus $4/$20 per million. Its Intelligence Index score is higher, 54 versus 52, which does not imply a win on every individual coding task. Its listed time per index task is shorter (6.5 versus 9.5 minutes), its first-answer latency is lower (8.73 versus 24.49 seconds), and its published end-to-end value is also lower. Opus 5.5 High has the higher output speed, 105 versus 92 tokens per second. These figures support Fable 5.2 Low as a candidate for the former Opus role on weighted task cost, time and aggregate intelligence, while the total-run and token-price measures do not support calling it universally cheaper."
 
+## Counsel's read of the record after the Fable 5.2 change, 2026-11-11
+
+One read, of the record itself; the Orchestrator's report of 2026-11-10 17:12Z arrived with the review's and the audit's outcome in it (review approved after one correction; the closeout audit held nothing).
+
+- The five resolutions read as he set them: the Orchestrator, the Worker's design, writing and interface work and the Reviewer's design review on Fable 5.2 at low reasoning effort, with Opus 5.5 at high reasoning effort only when Fable 5.2 is unavailable; the Auditor and the Researcher's insight and ideas on Fable 5.2 at high reasoning effort. The Auditor's row says it moved on his word without the comparison, and the comparison rule is left as written.
+- The cost line. Its first conclusion follows from the figures he named. Its second, that Fable 5.2 at high reasoning effort counts as expensive and is used only by research and the Auditor, is the run's conclusion written under a paragraph headed as his setting. Counsel's framing test, mine: a design review or a writing task that low effort does not carry either stays on low effort because the record bounds it, or may go to high effort; the two read differently, so it goes to him.
+- The Orchestrator's row gives no measurement for Fable 5.2, where the brief's means has the record cite FrontierCode 2.0 as the measurement nearest the Orchestrator's reason. Counsel asked the Researcher seat for the FrontierCode 2.0 figures for the two settings, 2026-11-11.
+- Scenario 5 of the brief reworded by Counsel, tagged inferred: it named his words of 2026-10-28, and now names the record as he last set it.
+- The Orchestrator updated the pull request's text for the renumbering without a review or audit of that update, reading it as part of a reviewed run. Brought to him.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
