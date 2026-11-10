@@ -24,6 +24,14 @@ Units planned, by area, each its own plan, pull request and closeout:
 | Authority, the audit and the run | ADR-D-0017, 0038, 0042, 0051, 0052, 0053, 0054, 0055, 0057, 0058, 0062, 0064, 0065 |
 | Roles, routing, runtimes and rules | ADR-D-0004, 0019, 0021, 0024, 0025, 0026, 0048, 0049, 0050, 0068, 0069, 0070, ADR-I-0006, ADR-I-0007 |
 
+## The check's result, record by record
+
+| Record | Result |
+| --- | --- |
+| ADR-D-0016 | raised; answered by the owner 2026-11-11; rewritten to ADR-D-0071 (proposed, awaiting his acceptance by name) |
+| ADR-D-0020 | raised; answered by the owner 2026-11-11; rewritten to ADR-D-0072 (proposed, awaiting his acceptance by name) |
+| ADR-I-0007 | raised; answered by the owner 2026-11-11: the record stands and the checker is brought in line with it; the record's own check against the standard follows in its area's unit |
+
 ## Scenarios
 
 State is one of: not yet; demonstrated (with how to observe); ready for the owner's judgement. States are the Auditor's, copied from the closing verdict.
