@@ -4,7 +4,7 @@
 - Hand-over: Counsel's relay of 2026-11-02, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of that day: "Nothing to add, I ratify the brief, hand it over." Not started until 2026-11-11; his word on the order of the waiting runs, relayed 2026-11-10 18:46Z by the channel clock: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: a54b7a9 (the brief with his directions and answers of 2026-11-11, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/decision-records-at-intent-altitude-readings.md`.
-- State: first plan authorized by the brief route 2026-11-11; in execution.
+- State: the first unit (the three raised decisions) is done and reported 2026-11-11; its two proposed records await the owner's acceptance by name. The four units by area are not started.
 
 ## How the work reaches the owner
 
@@ -34,17 +34,17 @@ Units planned, by area, each its own plan, pull request and closeout:
 
 ## Scenarios
 
-State is one of: not yet; demonstrated (with how to observe); ready for the owner's judgement. States are the Auditor's, copied from the closing verdict.
+State is one of: not yet; demonstrated (with how to observe); ready for the owner's judgement. States are the Auditor's, copied from the closing verdict: the raised plan's closeout audit of 2026-11-11.
 
 | Scenario | State |
 | --- | --- |
 | 1. A record whose Decision lists the route a question travels and the moves when it fails: rewritten as one decision (who may be asked, by whom) with the route left to the plugin text; title short enough to state the decision. | not yet |
 | 2. A record deciding two things that could be retired separately: split into two, each accepted by name. | not yet |
 | 3. A record that is a rule with a status field (an exact string, a threshold, a dispatch template): retired; its material confirmed present in the rule or skill text, or placed there. | not yet |
-| 4. A record whose decision the check finds no longer true: not rewritten; brought to the owner through Counsel. | not yet |
+| 4. A record whose decision the check finds no longer true: not rewritten; brought to the owner through Counsel. | demonstrated: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0016 and ADR-D-0020, both still accepted and unchanged, and the result table above, 2026-11-11 |
 
 ## Units
 
 | Unit | State | What its closeout audit found |
 | --- | --- | --- |
-| `docs/coding-agent/plans/active/decision-records-at-intent-altitude-raised-plan.md` | authorized 2026-11-11, in execution | - |
+| `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-raised-plan.md` | done 2026-11-11 (final review APPROVED; closeout audit holds nothing) | Scenarios: 1 (a Decision that lists a route, rewritten as one decision): not yet. 2 (a record deciding two things, split): not yet. 3 (a rule with a status field, retired, its material confirmed in the text): not yet. 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0016 and ADR-D-0020 at HEAD, both still `accepted` and unchanged since a54b7a9, and the run record's result table ("raised; answered by the owner 2026-11-11"). The raising itself predates the start revision, so it is seen in the brief, not in the range. Prior state of all four: not yet (no unit of the run has closed). Getting closer: yes. The brief puts the stale or contradicted records first because his answers may change what the others say. This unit turns his three answers into two proposed records and one checker change that the tree shows, changes nothing else, and records the check's result for 3 of the 49 records. It exercises none of scenarios 1 to 3, which cover the other 46 records, and neither proposed record is accepted yet. |
