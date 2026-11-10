@@ -159,6 +159,21 @@ First read, before the audit's summary was read: ADR-D-0066's Why states that a 
 
 Finished after the audit's material: review approved after two rounds; the closeout audit held nothing and every reading agreed. One item inferred: the reasons a Why leaves to the Decision and Rejected Alternatives, since the brief does not say whether every clause needs its reason in the Why. Counsel's framing test, mine: a reader finds the reason for each clause in the record either way; the two read the same, not a question for him. The run changed no value document.
 
+## His directions of 2026-11-11
+
+- On reading the proposed records: "67 has two decisions in one. Split them. Also, renumber the ADRs so the numbering skip within one PR is not there anymore." Written into the brief, relayed in his words.
+- On the model routing: "A new model, Fable 5.2 has come out and has changed the landscape slightly. Now, the spot previously occupied by Opus 5.5 should rather be routed to Fable 5.2 with low reasoning effort, and only when Fable 5.2 is unavailable, should fall back to Opus 5.5 with high effort." Written into the brief, relayed in his words. Put to him and open: whether the resolutions that name Fable 5.1 (the Auditor; the Researcher's insight and ideas) move as well.
+
+## Counsel's read of the result after the split, 2026-11-11
+
+The Orchestrator's report of 2026-11-10 16:48Z arrived with the review's and the audit's outcome in it, so this read was not formed before that material; it is one read, of the records themselves.
+
+- The record he read as ADR-D-0067 is now ADR-D-0069 (research is the Researcher role's work in every environment and never part of a Worker's task) and ADR-D-0070 (the Orchestrator and Counsel place a Researcher by one and the same rule). The record he read as ADR-D-0066 is ADR-D-0068. No Why cites a brief.
+- ADR-D-0069 keeps a second bullet: where no recorded option fits, a Researcher the dispatcher can always run holds the role. Counsel's reading, mine: it is what "in every environment" requires and not a second decision; his to judge when he reads the record.
+- ADR-D-0070, marked, mine: its second rejected alternative loses "because research then lands inside Workers' tasks", which is ADR-D-0069's matter, the same slip the review corrected in its Why; and its Decision lists what the rule weighs, one item of which ("where its result is to be used") has no reason in the Why. What the rule weighs is the rule's content, and the record's own Not covered leaves how it weighs to the plugin text.
+- Review approved after one correction; the closeout audit held nothing. The six things the run settled without his word are graded as extending his statements. The run changed no value document.
+- Pull request 94 is not at its final state: his direction on Fable 5.2 reached the Orchestrator after this report and changes the workspace's record on the same branch.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
