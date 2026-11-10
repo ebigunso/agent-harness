@@ -264,6 +264,10 @@ He accepted Counsel's three marks: "Go with your takes on 69 and 70." One read, 
 - Removing the factors from the record reverses what the closeout audit of 2026-11-02 had restored to it. It rests on his acceptance of Counsel's take; told to him.
 - The audit's remark: the second rejected alternative now nearly restates itself ("left to choose without a stated rule" lost "because each session then places a Researcher its own way"). The consequence that makes it a loss is in the Why: an option better suited to the research goes unused. Brought to him with Counsel's advice, mine, to add that clause.
 
+## His acceptance, 2026-11-11
+
+"I accept ADR-D-0062 to 0067 and pull request 93, as well as ADR-D-0068 through ADR-D-0070 and PR 94." Relayed to the Orchestrator in his words the same day. Of this run: the three records ADR-D-0068, ADR-D-0069 and ADR-D-0070 and pull request 94.
+
 ## Counsel's reads for the writing, 2026-10-29
 
 Mine, for discussion:
