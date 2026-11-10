@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md", "ADR-D-0041-a-ratified-brief-authorizes-a-plan-only-through-a-closed-plan-review-and-a-value-audit-that-holds-nothing-above-the-run.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md"]
+depends_on: ["ADR-D-0064-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md", "ADR-D-0065-a-ratified-brief-authorizes-a-plan-or-a-goal-envelope-only-on-a-closed-review-and-a-value-audit-that-holds-nothing.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md"]
 ---
 
 # ADR-D-0055: A small change the person directing the work stated in a ratified brief may be built without a plan, a plan review or a plan-draft audit, the Orchestrator choosing per change; it keeps the review of the change and one closing value audit, which holds it where it went beyond the statement, and nothing of it is published or reported as done before that audit holds nothing
@@ -16,12 +16,12 @@ depends_on: ["ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-direc
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
 
-The harness knows two sizes of work. Trivial work is handled directly, but only when it changes no behaviour; everything else is a plan, which takes a plan review, a plan-draft audit, the build, the review of the change, the closing audit, a branch and a pull request. ADR-D-0040 names the ratified brief, carried to the work through the value audit, as the second source of authorization, and ADR-D-0041 states the conditions under which it authorizes a plan. A change the person directing the work states always changes behaviour, so it is never trivial work, and with a plan as the only other unit even a one-sentence change takes the whole suite. The fork is whether such a change, when it is small, must have a plan, who decides that for each change, and what then stands between it and being reported as done.
+The harness knows two sizes of work. Trivial work is handled directly, but only when it changes no behaviour; everything else is a plan, which takes a plan review, a plan-draft audit, the build, the review of the change, the closing audit, a branch and a pull request. ADR-D-0064 names the ratified brief, carried to the work through the value audit, as the second source of authorization, and ADR-D-0065 states the conditions under which it authorizes a plan. A change the person directing the work states always changes behaviour, so it is never trivial work, and with a plan as the only other unit even a one-sentence change takes the whole suite. The fork is whether such a change, when it is small, must have a plan, who decides that for each change, and what then stands between it and being reported as done.
 
 ## Decision
 
-- The second source authorizes a small change without a plan, a plan review or a plan-draft audit when the person directing the work stated the change in a governing brief, or in an amendment to it, whose ratification reached the session on the terms ADR-D-0041 states for a plan; that person's statement in the brief then stands in place of the plan.
-- The Orchestrator chooses, per change, whether to draft a plan; when it drafts one, the plan path applies as ADR-D-0041 states. A plan is the right choice when the work needs more than one task, or when the statement leaves open a choice about how to do it that someone should see before it is built.
+- The second source authorizes a small change without a plan, a plan review or a plan-draft audit when the person directing the work stated the change in a governing brief, or in an amendment to it, whose ratification reached the session on the terms ADR-D-0065 states for a plan; that person's statement in the brief then stands in place of the plan.
+- The Orchestrator chooses, per change, whether to draft a plan; when it drafts one, the plan path applies as ADR-D-0065 states. A plan is the right choice when the work needs more than one task, or when the statement leaves open a choice about how to do it that someone should see before it is built.
 - Whichever it chooses, a small change keeps two checks: the review of the change, and one closing value audit that checks that what was built is what the statement said and nothing more. Where the change went beyond the statement, the audit holds it.
 - Nothing of the change is published or reported as done before that audit holds nothing.
 - Whether a change is small is the Orchestrator's call; the guard on that call is the closing audit. What counts as trivial work does not change: that class has no audit behind it.
@@ -41,7 +41,7 @@ For a change this small the full suite is often out of proportion, and the state
 
 Invariant: a small change stated by the person directing the work in a governing brief whose ratification reached the session may be built without a plan, a plan review or a plan-draft audit, the Orchestrator choosing per change, and takes the plan path when a plan is drafted; whichever is chosen it keeps the review of the change and one closing value audit, which holds it where it went beyond the statement; nothing of it is published or reported as done before that audit holds nothing; whether a change is small is the Orchestrator's call, guarded by that audit; what counts as trivial work does not change; a small change is a unit of the run its brief governs; the Decision list states the rest.
 
-Not covered: trivial work and its tripwires (ADR-D-0040 leaves them uncovered); how the Orchestrator judges that a change is small; how a small change is recorded, which is in the run's changes file, and how it closes and is reported as part of that run (ADR-D-0051); the branch and pull request it is published on; goal mode; the conditions under which the second source authorizes a plan (ADR-D-0041); the audit's procedure and the dispatch wording (ADR-D-0052).
+Not covered: trivial work and its tripwires (ADR-D-0064 leaves them uncovered); how the Orchestrator judges that a change is small; how a small change is recorded, which is in the run's changes file, and how it closes and is reported as part of that run (ADR-D-0051); the branch and pull request it is published on; goal mode; the conditions under which the second source authorizes a plan (ADR-D-0065); the audit's procedure and the dispatch wording (ADR-D-0052).
 
 ## Validation
 
@@ -54,4 +54,4 @@ Not covered: trivial work and its tripwires (ADR-D-0040 leaves them uncovered); 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "Who it is for and why", "The middle size", "A small change and the run" and "Limits". Related records: ADR-D-0040 (the sources of authorization), ADR-D-0041 (when a ratified brief authorizes a plan), ADR-D-0052 (the value audit), ADR-D-0051 (a run of units, of which a small change is one).
+Source of intent: `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "Who it is for and why", "The middle size", "A small change and the run" and "Limits". Related records: ADR-D-0064 (the sources of authorization), ADR-D-0065 (when a ratified brief authorizes a plan), ADR-D-0052 (the value audit), ADR-D-0051 (a run of units, of which a small change is one).

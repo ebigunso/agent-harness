@@ -767,6 +767,11 @@ Prevention:
   - follow-up (2026-09-16, ebigunso, after PR #71 opened): the comparison's axes were the diff-sized slice (dependencies, duplicated state, conversions). The mindset for writing and reviewing plans is the bigger picture: technical debt, fit with the project's philosophy or roadmap direction, testability where feasible, the cost of running the tests, and the cost of changing them when the design changes. Durable default: the design comparison walks the six lens groups `plan-format` rule 13 names (structure, evolution, verification, operation, human, safety), each lens a name with at most one clause; a fit claim names its source; plan review may open the three latent-risk references the snippet names for the Design section. Plan: `docs/coding-agent/plans/completed/design-comparison-horizon-plan.md`.
 - Residual risk / waiver:
   - A drafting model may still leave an addition untagged; the Reviewer's independent enumeration is the catch, and the user's scan of one section is the backstop. If an untagged addition passes both, the second occurrence promotes to a validator question.
+  - Occurrence (2026-11-07, `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`): two additions went unlisted.
+    - One passed the plan review because it was presented as resting on a brief entry tagged inferred.
+    - One was a ruling on a Worker's question, made after the plan was authorized.
+    - The closeout value audit's reading comparison and a later plan-text review caught both. The owner's scan was not reached, so this is not yet the occurrence the line above promotes.
+    - Extended prevention: every ruling on a Worker question that adds a requirement or constraint is listed under Planner-added requirements when it is made, and the section is reconciled after integration, not only at draft. A support claim is checked against the source as it stood before the change, so an edited implementation never justifies its own introduction.
   - Occurrence (2026-11-08, `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md`): an addition in a Worker dispatch for a small change built without a plan.
     - The dispatch's acceptance said a record's why "names the statement it serves, in the brief or in a philosophy". The record standard names only a philosophy, and this repository has none, so "the brief" was the Orchestrator's addition.
     - A small change has no plan, so the dispatch had no Planner-added requirements section to list it in. The review and the closeout value audit both read it as the standard's own wording. Six proposed records across two runs then cited a brief as their authority.
@@ -1083,7 +1088,7 @@ Fix applied:
 - The Worker shortened the filename, keeping the title in the heading in full.
 
 Prevention:
-- Keep a record's filename at or under 135 characters; the heading carries the full title. A validator that copies the tree runs against the longest path it will create, not the longest path in place.
+- Keep a record's filename at or under 135 characters; the heading carries the full title. A validator that copies the tree runs against the longest path it will create, not the longest path in place. The 135 characters are counted with the retirement suffix a record takes when it is superseded (26 characters): on 2026-11-11 three records under the limit while live crossed it on retirement and failed the smoke test, and their retired filenames were shortened in the slug.
 
 Evidence:
 - Task_1 Worker report, 2026-10-15; ADR-D-0059's filename.
@@ -1386,6 +1391,51 @@ Prevention:
 
 Evidence:
 - The model-defaults run's changes file, IR-F1, the closeout verdict of 2026-11-02 and the re-review after it.
+
+## 2026-11-07 - The Reading Is Written Before Every Audit Dispatch, Not Only Before The First Of A Run  [tags: governance, validation, correction]
+
+Context:
+- A later unit of a run under a brief: a plan drafted after the run's earlier units had their readings, revised through four review rounds, and then given its plan-draft value audit.
+
+Symptom:
+- The audit was dispatched with no reading under a heading for that plan and position, so its verdict could compare nothing: every item read unread.
+
+Root cause:
+- The review rounds ended in a dispatch made straight from the review's approval. The reading step was tied in practice to a run's first audit, not to every dispatch as `value-level-operation.md` Documents states.
+
+Fix applied:
+- The verdict's grades stand, because they do not depend on the reading. No reading was written afterwards, since one written after the grades is not a reading. The miss is recorded in the plan beside the verdict, and the readings file's heading for that position says no reading was written.
+
+Prevention:
+- Write the reading under its own heading as the step just before every audit dispatch, whatever the position and whichever unit of the run, and check the heading exists before sending the dispatch text.
+
+Evidence:
+- `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`, the Progress Log entry of the plan-draft verdict of 2026-11-07.
+
+## 2026-11-07 - An Auditor That Batches Its First Reads Can Sweep In The Notes Beside The Brief  [tags: validation, governance, tooling]
+
+Context:
+- Value audits on Fable, dispatched with the fixed template, in a run whose brief and Counsel's notes sit in the same directory.
+
+Symptom:
+- Across one plan's three audits, each auditor opened the mandate together with the plan and the brief in one batch instead of the mandate alone first.
+- Two recorded it as a deviation that touched no excluded file. The third also opened the notes file in that batch, and returned its verdict void, every item ungraded.
+
+Root cause:
+- The mandate's first step (the mandate alone, then a names-only listing, then other files) is an instruction the auditor model reads after its first batch is already sent. Batching for speed defeats a rule that only works when it is read first.
+
+Fix applied:
+- The void verdict was logged and the audit dispatched again, new, in a fresh context, with the template alone (Acting On A Verdict: an absent or void verdict is a gate on the position, corrected by a new dispatch).
+
+Prevention:
+- Treat a recorded batch deviation in a verdict as a warning, not noise. A third occurrence across runs, or one more void, is a harness question: whether the Auditor agent definition itself, which the model reads before its first tool call, should carry the read-the-mandate-alone step. That is a plugin change and goes to the owner through Counsel as a proposal, not into a run's scope.
+
+Evidence:
+- `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`, the procedural notes of the plan-draft and first closeout verdicts and the void verdict of 2026-11-07.
+- Further occurrences:
+  - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md` on pull request 94's branch.
+  - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/completed/quiet-orchestrator-session-changes.md`.
+  - Neither was void. Counting runs, this is the third occurrence the prevention names, and the harness question went to the owner through Counsel as a proposal on 2026-11-08.
 
 ## 2026-11-11 - One Decision Per Record Is Tested With The Neighbouring Decision Held Fixed  [tags: governance, review, correction]
 
