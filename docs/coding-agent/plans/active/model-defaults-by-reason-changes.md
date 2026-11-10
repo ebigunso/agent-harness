@@ -211,28 +211,28 @@
 - 2026-11-10T16:31Z Worker dispatched (Claude subagent `harness-worker` on Opus), text verbatim (checkout path shortened):
 
   > Task_1 (type: docs). Worktree: <worktree>. Work only there, on the branch checked out. Do not commit, push or run any other shared-state Git command except `git mv` for the renames below.
-  > 
+  >
   > Objective. The owner, on reading the proposed record ADR-D-0067: "67 has two decisions in one. Split them. Also, renumber the ADRs so the numbering skip within one PR is not there anymore." Split the record into two records that each hold one decision, and renumber this branch's proposed records to ADR-D-0067, ADR-D-0068 and ADR-D-0069.
-  > 
+  >
   > Numbers, settled by the Orchestrator (ADR-D-0066 now belongs to another pull request):
   > - The record now ADR-D-0066 (each role's model chosen by a stated reason) becomes ADR-D-0067. Its file is renamed and its number changes in its title. Nothing else in it changes except its references to the research record, which now name the two records below.
   > - The record now ADR-D-0067 becomes two records, ADR-D-0068 and ADR-D-0069.
   >   - ADR-D-0068: research is the Researcher role's work in every environment, never part of a Worker's task. It carries the third Decision bullet with it (where no recorded option fits, a Researcher the dispatcher can always run itself holds the role).
   >   - ADR-D-0069: the Orchestrator and Counsel place a Researcher by one and the same rule.
   >   If on reading you find the two decisions fall differently, split as you find and say so in the report.
-  > 
+  >
   > owns: `docs/coding-agent-orchestration-harness/decisions/ADR-D-0066-*.md`, `ADR-D-0067-*.md`, and the new `ADR-D-0068-*.md` and `ADR-D-0069-*.md` in the same directory. Nothing else; ADR-D-0061 is not touched (its retirement is applied at acceptance).
-  > 
+  >
   > depends_on: [].
-  > 
+  >
   > Acceptance:
   > - Three proposed records exist, ADR-D-0067, 0068 and 0069, each holding one decision; no file named ADR-D-0066 remains on this branch. Each filename is at most 135 characters and follows the directory's naming.
   > - Every statement the present ADR-D-0067 decides, rejects, bounds or validates is in exactly one of ADR-D-0068 and ADR-D-0069, or in both only where both need it to be read alone (the terms, for example). Nothing is decided that the present record does not decide, and nothing it decides is dropped.
   > - Each of the two records follows the record standard, `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md`. Read it before writing. In particular its Form: "The why is prose. Present tense, a sentence or two, the fork and the reason one branch won." No Why cites a brief as its authority; each states reasons of its own. Invent no reason: if a decision is left with no reason you can find in the present record, say so in the report and leave the Why to what is there.
   > - Cross-references agree: the three records' `supersedes`, `depends_on`, the "Once accepted, ... replace ADR-D-0061" line, Related lines and every in-text record number name the new numbers, and the three jointly replace ADR-D-0061. Status stays proposed; dates and deciders stay.
-  > 
+  >
   > Validation (owner: worker, required: true, kind: command): `grep -rn "ADR-D-0066" docs/coding-agent-orchestration-harness/decisions/` returns nothing; every `ADR-D-00NN-....md` filename cited in the three records' front matter exists in the directory.
-  > 
+  >
   > Report: one YAML block per the subagent-report-contract skill, with any question or judgement call under questions.
 
 - 2026-11-10T16:34Z Worker report integrated: done; one task, all edits inside its owns; both required checks pass (no ADR-D-0066 left in the decisions directory; every record filename cited in front matter exists).
