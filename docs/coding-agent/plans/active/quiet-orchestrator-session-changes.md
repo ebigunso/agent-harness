@@ -174,3 +174,62 @@
 - The change starts from revision: d1b3a0e (the brief entry committed on the run's branch).
 - Handled directly as trivial work, with no Worker, review or audit: the record's file is renamed, its number changes in its title, and the three records that cite it (ADR-D-0063, 0064, 0065) cite the new number. No other word of any record changes.
 - Not rewritten: the entries above in this file, the readings file, the completed plans and the brief keep the numbers in use when they were written. In them, before this entry, ADR-D-0068 means the record now numbered ADR-D-0066, and ADR-D-0066 and ADR-D-0067 mean pull request 94's records as then numbered.
+
+## ADR-D-0063's separation reason, its split, and the Auditor's first step
+
+- The owner's statements: the governing brief, Directed during the run, the last four entries (agent-proposed, accepted 2026-11-11). As they reached this session, Counsel's relay of 2026-11-10 16:45Z by the channel clock, admitted by the standing approval of 2026-10-01: asked Counsel's four questions on this run's two open matters of 2026-11-08, he said "Go with your takes on all four." The takes: ADR-D-0063's Why states the reason the audit is kept apart from the assessor, drawn from ADR-D-0029; the remedy without a stop stays limited to runs under a brief, the record saying plainly that goal runs without a brief were not examined; ADR-D-0063 is split in two; the Auditor's agent definition states that its first tool call opens the mandate and nothing else, in every adapter, with no decision record.
+- Built as a small change without a plan, in two tasks with disjoint owns dispatched together: the records, and the Auditor's definitions. The statements settle what changes. It goes on top of the run's branch, and pull request 93's text is brought up to date.
+- The change starts from revision: 3d2b315 (the brief entries and Counsel's notes committed on the run's branch).
+- Numbers, the run's to settle under his direction of the same day that no pull request's records skip a number: the record on the value audit grading a goal run keeps ADR-D-0063, and the record on the determined remedy takes ADR-D-0067, so this pull request's records run ADR-D-0062 to ADR-D-0067. Pull request 94's three records, renumbered ADR-D-0067 to ADR-D-0069 earlier today, move to ADR-D-0068 to ADR-D-0070.
+- 2026-11-10T16:47Z Workers dispatched (Claude subagents `harness-worker` on Opus), texts verbatim (checkout path shortened):
+
+  > Task_1 (type: docs). Checkout: <main checkout>. Work only there, on the branch checked out. Do not commit, push or run any shared-state Git command except `git mv` if a rename is needed.
+  > 
+  > Objective. Carry out three directions the owner accepted on 2026-11-11 for the proposed record ADR-D-0063. They are in the governing brief, `docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`, "Directed during the run", the last four entries (the fourth is another task's). Read those entries first; they are the requirement, quoted here:
+  > 1. "ADR-D-0063's Why states the reason the value audit is kept apart from the goal loop's assessor: the assessor judges whether the loop is still closing its gap and the audit whether the work fits the value documents, continuation bears the burden of proof (ADR-D-0029), and a favourable grade among the assessor's inputs would argue for continuing." And, tagged inferred: "The record's rejected alternative that names the design-led long runs brief's limit as what keeps the assessor's inputs cites this reason instead."
+  > 2. "The remedy carried out without a stop stays limited to runs under a brief in this pull request. The record says plainly that goal runs without a brief were not examined for it, and gives no reason invented for the limit."
+  > 3. "ADR-D-0063 holds two decisions and is split in two proposed records: that the value audit grades a goal run over the whole run, apart from the assessor; and that under a brief a remedy already determined is carried out without a stop."
+  > 
+  > Numbers, settled by the Orchestrator: the record on the value audit grading a goal run keeps ADR-D-0063 (its filename changes only if its title must). The record on the determined remedy is new, ADR-D-0067. ADR-D-0064, 0065 and 0066 keep their numbers.
+  > 
+  > owns: `docs/coding-agent-orchestration-harness/decisions/ADR-D-0063-*.md` and the new `ADR-D-0067-*.md`; and in `ADR-D-0062-*.md`, `ADR-D-0064-*.md`, `ADR-D-0065-*.md`, `ADR-D-0066-*.md` of the same directory only the references to ADR-D-0063 (which now may need to name ADR-D-0067 instead or as well, and the joint replacement of ADR-D-0056). Nothing else; ADR-D-0056 and ADR-D-0029 are not touched.
+  > 
+  > depends_on: [].
+  > 
+  > Acceptance:
+  > - Two proposed records exist, ADR-D-0063 and ADR-D-0067, each holding one decision. Test each fork with the other decision held fixed: each record's Why argues its own fork only. Each filename is at most 135 characters and follows the directory's naming.
+  > - Every statement the present ADR-D-0063 decides, rejects, bounds or validates is in exactly one of the two, or in both only where both need it to be read alone (the terms, for example). Nothing is decided that the present record and the three quoted entries do not decide, and nothing decided is dropped.
+  > - Direction 1 is in ADR-D-0063's Why and in the rejected alternative it names; direction 2 is stated plainly in ADR-D-0067. Invent no reason: where a decision is left with no reason in the present record or the quoted entries, say so in the report.
+  > - Each record follows the record standard, `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md`. Read it before writing. In particular its Form: "The why is prose. Present tense, a sentence or two, the fork and the reason one branch won." No Why cites a brief as its authority.
+  > - Cross-references agree across ADR-D-0062 to ADR-D-0067: `supersedes`, `depends_on`, the lines on replacing ADR-D-0056, Related lines and in-text numbers. Status stays proposed; dates and deciders stay.
+  > 
+  > Validation (owner: worker, required: true, kind: command): every `ADR-D-00NN-....md` filename cited in the front matter of ADR-D-0062 to ADR-D-0067 exists in the directory; `git diff --stat` shows no file outside owns.
+  > 
+  > Report: one YAML block per the subagent-report-contract skill, with every question or judgement call under questions.
+
+  > Task_2 (type: docs, plugin text). Checkout: <main checkout>. Work only there, on the branch checked out. Do not commit, push or run any shared-state Git command.
+  > 
+  > Objective. Carry out one direction the owner accepted on 2026-11-11, in the governing brief `docs/coding-agent/briefs/active/quiet-orchestrator-session-brief.md`, "Directed during the run", the last entry, quoted: "The Auditor's agent definition states that the Auditor's first tool call opens the mandate named in the dispatch and nothing else. The rest of the reading order stays in the mandate; the wording fits both mandates the definition serves; the definition changes in every runtime adapter that carries it; no decision record is written for it; the change is carried on this pull request."
+  > 
+  > Why it is wanted: across several audits the Auditor opened its mandate in one batch with the plan, the brief or git listings, though the mandate's own First Step asks that it be read alone first. The instruction sits in the mandate, which is read too late to govern the first call.
+  > 
+  > owns: `plugins/coding-agent-orchestration-harness/agents/Auditor.md`, `plugins/coding-agent-orchestration-harness/claude/agents/harness-auditor.md`, `plugins/coding-agent-orchestration-harness/codex/agent-templates/harness_auditor.toml`; any other adapter file that carries the Auditor's definition, if you find one (name it in the report); and the plugin's changelog entry for the unreleased version on this branch, only if the repository's rules ask for an entry for this kind of change.
+  > 
+  > depends_on: [].
+  > 
+  > Acceptance:
+  > - Each adapter's Auditor definition states that the first tool call opens the mandate named in the dispatch and nothing else, in one short statement placed where it is read before any tool is called.
+  > - The wording fits every mandate the definition serves (find which mandates a dispatch may name; a phrase that belongs to one of them only does not appear). Nothing else of the reading order is added to the definition, and no mandate is changed.
+  > - The adapters say the same thing; whatever check the repository has for adapter consistency or plugin validity passes.
+  > 
+  > Validation (owner: worker, required: true, kind: command): the validation commands `docs/coding-agent/rules/` maps to changes under `plugins/` for agent definitions (read `docs/coding-agent/rules/index.md` to find them); report each with its result.
+  > 
+  > Report: one YAML block per the subagent-report-contract skill, with every question or judgement call under questions.
+
+- 2026-11-10T16:51Z Worker reports integrated: both done, edits inside each task's owns, required checks pass.
+  - Task_1 (records). ADR-D-0063 keeps its file and title and holds that the value audit grades a goal run over the whole run, apart from the assessor; its Why and its rejected alternative on one judgement carrying both mandates state the reason drawn from ADR-D-0029, and that alternative no longer cites the design-led long runs brief. The new ADR-D-0067 holds that under a brief a remedy already determined is carried out without stopping the loop, and says plainly that goal runs without a brief were not examined for it, with no reason for the limit. ADR-D-0064 and ADR-D-0065 name ADR-D-0067 where they pointed at ADR-D-0063 for the remedy; ADR-D-0062 and ADR-D-0066 needed nothing. Checks: every record filename cited in the front matter of ADR-D-0062 to ADR-D-0067 exists; no file outside owns changed by the task.
+  - Worker's question, reasons missing: ADR-D-0067's Why covers only why a determined remedy does not stop the loop. No reason exists in the record split or in the owner's entries for the brief-only limit (as he directed), for the remedy being graded again, for an envelope-changing remedy being outside the run's authority (it rests on ADR-D-0066), or for a remediation reaching the assessor only as a decision of the loop. Orchestrator's ruling: none is added; the Why gives the reason for the fork the record decides, and nothing is invented.
+  - Worker's calls in the split, Orchestrator's ruling: intended, open to the review. That a remediation reaches the assessor only as a decision of the loop is in ADR-D-0067 alone. The old revisit condition on a remediation that made a decision goes to ADR-D-0067, and the dated fact that no goal run under a brief had been graded goes to ADR-D-0063's More Information. The rejected alternative's citation of ADR-D-0050 is dropped there with the brief's limit, and stays in the record's terms, depends_on and Related. ADR-D-0067 names ADR-D-0056 in supersedes, so ADR-D-0056 is replaced jointly by ADR-D-0063, ADR-D-0064 and ADR-D-0067. ADR-D-0067 carries the date of the decision it takes over, 2026-11-07.
+  - Worker's question on the number: answered by the entry above; pull request 94's records moved to ADR-D-0068 to ADR-D-0070 before this report.
+  - Task_2 (the Auditor's definitions). The three adapters (`agents/Auditor.md`, `claude/agents/harness-auditor.md`, `codex/agent-templates/harness_auditor.toml`) carry one added sentence after the line that names the mandate: "Your first tool call opens that mandate and nothing else." No mandate changed and nothing else of the reading order was added; no fourth adapter was found. Checks: `validate_harness_package.py` pass, `run_validation_smoke_tests.py` pass, `git diff --check` over `plugins/` pass.
+  - Worker's calls, Orchestrator's ruling: kept, open to the review. The sentence sits beside the mandate reference and uses no word that belongs to one mandate only. No changelog entry, since the repository has no changelog. Not verifiable here: whether a live Auditor makes the mandate its first call; the next audit dispatch on the changed definition shows it, and this session's installed plugin is not the changed text.
