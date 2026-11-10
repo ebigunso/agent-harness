@@ -244,3 +244,5 @@
   - MS-F1 (minor): ADR-D-0069's Why argued against research staying in a Worker's task or the dispatcher's session, which ADR-D-0068 already forbids, so it gave no reason why one rule wins over two sessions each placing a Researcher its own way.
   - 2026-11-10T16:39Z Orchestrator's ruling on MS-F1: accepted. ADR-D-0069's Why now holds ADR-D-0068 fixed and gives the reason the split record already had (a session no shared rule reaches places research its own way whatever the other does); nothing is invented. The Orchestrator made the two-sentence edit itself and returns it to the review.
   - The reviewer's lesson candidate (it approved the combined record on 2026-11-02 without holding the neighbouring decision fixed) is recorded with this change's lessons.
+- 2026-11-10T16:40Z by the channel clock, re-review at b96718f: APPROVED; MS-F1 closed, no new finding. The review is closed.
+- 2026-11-10T16:41Z The reading for the closeout audit written in the readings file, before the dispatch. A lesson recorded: "One Decision Per Record Is Tested With The Neighbouring Decision Held Fixed".

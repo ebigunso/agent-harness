@@ -257,6 +257,20 @@ Item | reading | statement relied on
 - Reading compared: (under "ADR-D-0066's Why stated in reasons of its own (small change, extended to ADR-D-0067), closeout") ADR-D-0066's Why: agrees (covered / cited). ADR-D-0067's Why: agrees (covered / cited). Each Why a sentence or two, nothing outside changed, nothing added or dropped: agrees (covered / cited, on the same two brief entries). The five records on pull request 93 left to that run: agrees (covered / cited). Lesson occurrence: agrees (not audited / not audited). Both records still proposed, to the owner by name: agrees (covered / cited; folded into the two Why items). Branch published and PR 94 text, announced: agrees (covered on standing approvals / cited). Unread by the Orchestrator: the ruling that the seed clause may rest on the record's own definition (cited, moot in the final text); the Worker's reasons left out of the Why, widened by the condensing (inferred).
 - Findings compared: none found for this change (no finding is recorded under Findings for this small change; the recorded findings belong to the plan unit and were compared at its closeout). No departure from a means is noted on any item line: the brief's two means (the redating rule; the Opus trial closing into the record) are untouched by this change.
 
+### ADR-D-0067 split in two and the proposed records renumbered (small change), closeout
+
+Item | reading | statement relied on
+
+- The record until now ADR-D-0067 is split into ADR-D-0068 (research is the Researcher role's work and never part of a Worker's task, with the Researcher that holds the role where no recorded option fits) and ADR-D-0069 (one rule places a Researcher for the Orchestrator and Counsel alike), each holding one decision | covered | brief, "Directed during the run", the first entry told 2026-11-11
+- Which two decisions the record held is not said by him; the run reads them from the record's title and Decision, and puts the fallback Researcher with the role record | extends | the same entry; he did not say which two
+- Nothing the split record decided is dropped and nothing new decided; each Why a sentence or two with no brief cited; ADR-D-0069's Why argues its own fork with ADR-D-0068 held fixed (MS-F1) | covered | the same entry, with the entries of 2026-11-02 (the record standard's altitude) and 2026-11-08 (reasons of the record's own)
+- Where each rejected alternative, validation question, Not covered item and the Revisit When went, and ADR-D-0069 having no Revisit When | extends | the same entry; the placement is the run's
+- The record until now ADR-D-0066 becomes ADR-D-0067, changed only in its number and pointers; this pull request's records run ADR-D-0067 to ADR-D-0069 | covered | the second entry told 2026-11-11, which leaves which record takes which number to the run
+- Dated entries in the changes, readings, plan and brief files keep the old numbers, with the mapping stated in the changes file; the run record's State line and one lesson carry both | extends | the same entry names the records, not the logs
+- A lesson: one decision per record tested with the neighbouring decision held fixed | not audited | internal mechanics; no engineering philosophy
+- All three records still proposed, to go to the owner by name | covered | the owner's reserved act of accepting a record
+- The branch published and pull request 94's text brought up to date, announced | covered | common.md Standing Approvals (publishing a finished, reviewed run's branch and pull request; merges not covered)
+
 ## Findings
 
 - 2026-10-28, from the plan-draft audit (Ruling R1): what setup does when the owner confirms the record without stating a budget allowance is not said by the brief | bears on the design: whether the Worker goes to the best fitting option regardless of cost or setup keeps holding changes what someone setting up a repository experiences. Escalated to Counsel 2026-10-28 as the verdict's value question. Part held: the budget line of setup's record step (Task_2) and the plan's authorization.

@@ -1387,6 +1387,26 @@ Prevention:
 Evidence:
 - The model-defaults run's changes file, IR-F1, the closeout verdict of 2026-11-02 and the re-review after it.
 
+## 2026-11-11 - One Decision Per Record Is Tested With The Neighbouring Decision Held Fixed  [tags: governance, review, correction]
+
+Context:
+- Writing or reviewing a decision record that covers one topic with more than one fork in it.
+
+Symptom:
+- ADR-D-0067 as proposed on 2026-11-02 held two decisions: that research is the Researcher role's work, and that one rule places a Researcher for the Orchestrator and Counsel alike. The Orchestrator proposed it, the review approved it and the audits held nothing. The owner caught it on reading: "67 has two decisions in one. Split them." After the split, the second record's Why still argued the first record's decision (MS-F1).
+
+Root cause:
+- The record was grouped by its topic, research. Each fork was never varied alone, so two decisions joined by "and" in the title read as one.
+
+Fix applied:
+- The record is split into ADR-D-0068 and ADR-D-0069, and ADR-D-0069's Why gives the reason for its own fork with ADR-D-0068 held fixed.
+
+Prevention:
+- For each fork a record's Context names, hold every other decision fixed and ask whether this one could go the other way. Each fork that could is a record of its own, and its Why argues against that alternative only. A title joined by "and" is a prompt to run the test. A reviewer of a record runs the same test.
+
+Evidence:
+- The model-defaults run's changes file, "ADR-D-0067 split in two and the proposed records renumbered", MS-F1 and the reviewer's own correction of 2026-11-10 by the channel clock.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
