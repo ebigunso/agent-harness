@@ -4,6 +4,7 @@
 - Hand-over: Counsel's relay of 2026-11-10 18:38Z by the channel clock, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of 2026-11-11: "I ratify it." His word on the order of the waiting runs, relayed 18:46Z: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: 39af158 (the brief committed on the run's branch, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/options-by-model-and-setting-readings.md`.
+- Changes file: `docs/coding-agent/plans/active/options-by-model-and-setting-changes.md`.
 - State: reported ready (candidate ready), 2026-11-11: the plan is done, scenarios 1 and 3 are demonstrated on made-up lineups, and scenario 2 is not yet, since it asks for a run opened after the change. One finding bears on the design and is with the owner through Counsel (how far apart two settings must be to be recorded as options of their own). Open for the owner's judgement.
 
 ## Scenarios
