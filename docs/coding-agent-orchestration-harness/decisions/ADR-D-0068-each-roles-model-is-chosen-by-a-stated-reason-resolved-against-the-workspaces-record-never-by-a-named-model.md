@@ -53,4 +53,4 @@ Not covered: each reason's wording and parts, and where the reasons are stated; 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/active/model-defaults-by-reason-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061, together with ADR-D-0069 and ADR-D-0070, which carry its research decisions. Related: ADR-D-0048 (logical roles and physical names), ADR-D-0050 (the Auditor role).
+Source of intent: `docs/coding-agent/briefs/completed/model-defaults-by-reason-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061, together with ADR-D-0069 and ADR-D-0070, which carry its research decisions. Related: ADR-D-0048 (logical roles and physical names), ADR-D-0050 (the Auditor role).

@@ -772,7 +772,7 @@ Prevention:
     - One was a ruling on a Worker's question, made after the plan was authorized.
     - The closeout value audit's reading comparison and a later plan-text review caught both. The owner's scan was not reached, so this is not yet the occurrence the line above promotes.
     - Extended prevention: every ruling on a Worker question that adds a requirement or constraint is listed under Planner-added requirements when it is made, and the section is reconciled after integration, not only at draft. A support claim is checked against the source as it stood before the change, so an edited implementation never justifies its own introduction.
-  - Occurrence (2026-11-08, `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md`): an addition in a Worker dispatch for a small change built without a plan.
+  - Occurrence (2026-11-08, `docs/coding-agent/plans/completed/model-defaults-by-reason-changes.md`): an addition in a Worker dispatch for a small change built without a plan.
     - The dispatch's acceptance said a record's why "names the statement it serves, in the brief or in a philosophy". The record standard names only a philosophy, and this repository has none, so "the brief" was the Orchestrator's addition.
     - A small change has no plan, so the dispatch had no Planner-added requirements section to list it in. The review and the closeout value audit both read it as the standard's own wording. Six proposed records across two runs then cited a brief as their authority.
     - The owner caught it on reading one record: "66 needs to stop citing the brief as authority in the why section. ADRs needs to state reasons beyond that." The owner's scan caught it, so this is not the occurrence the line above promotes.
@@ -1433,7 +1433,7 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`, the procedural notes of the plan-draft and first closeout verdicts and the void verdict of 2026-11-07.
 - Further occurrences:
-  - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md` on pull request 94's branch.
+  - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/completed/model-defaults-by-reason-changes.md` on pull request 94's branch.
   - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/completed/quiet-orchestrator-session-changes.md`.
   - Neither was void. Counting runs, this is the third occurrence the prevention names, and the harness question went to the owner through Counsel as a proposal on 2026-11-08.
 
