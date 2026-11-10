@@ -5,7 +5,7 @@
 - Run starts from revision: 55c08a4 (the brief and Counsel's notes committed on the run's branch, on top of main c059ce6).
 - Readings file: `docs/coding-agent/plans/active/quiet-orchestrator-session-readings.md`.
 - Changes file: `docs/coding-agent/plans/active/quiet-orchestrator-session-changes.md`.
-- State: reported ready (candidate ready), 2026-10-28; again 2026-11-02 after the change the owner directed (the proposed records rewritten to intent altitude); again 2026-11-07 after his direction of that day (a goal run under a brief authorized and graded on the brief), and again 2026-11-08 after his direction of that day (the five proposed records state their Why in reasons of their own). Open for the owner's judgement.
+- State: reported ready (candidate ready), 2026-10-28; again 2026-11-02 after the change the owner directed (the proposed records rewritten to intent altitude); again 2026-11-07 after his direction of that day (a goal run under a brief authorized and graded on the brief), and again 2026-11-08 after his direction of that day (the five proposed records state their Why in reasons of their own). On 2026-11-11, at his direction, the envelope record was renumbered from ADR-D-0068 to ADR-D-0066 so the proposed records run ADR-D-0062 to ADR-D-0066; rows below written before that day keep the old number. Open for the owner's judgement.
 
 ## Scenarios
 
