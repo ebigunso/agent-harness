@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-lo
 superseded_by: null
 ---
 
-# ADR-D-0068: A goal loop's forbidden set is a criterion and its envelope is fixed before the loop and never changed by it
+# ADR-D-0066: A goal loop's forbidden set is a criterion and its envelope is fixed before the loop and never changed by it
 
 Proposed to replace ADR-D-0027; awaiting acceptance by the person directing the work, by name.
 
