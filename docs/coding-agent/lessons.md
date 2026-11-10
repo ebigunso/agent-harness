@@ -767,7 +767,7 @@ Prevention:
   - follow-up (2026-09-16, ebigunso, after PR #71 opened): the comparison's axes were the diff-sized slice (dependencies, duplicated state, conversions). The mindset for writing and reviewing plans is the bigger picture: technical debt, fit with the project's philosophy or roadmap direction, testability where feasible, the cost of running the tests, and the cost of changing them when the design changes. Durable default: the design comparison walks the six lens groups `plan-format` rule 13 names (structure, evolution, verification, operation, human, safety), each lens a name with at most one clause; a fit claim names its source; plan review may open the three latent-risk references the snippet names for the Design section. Plan: `docs/coding-agent/plans/completed/design-comparison-horizon-plan.md`.
 - Residual risk / waiver:
   - A drafting model may still leave an addition untagged; the Reviewer's independent enumeration is the catch, and the user's scan of one section is the backstop. If an untagged addition passes both, the second occurrence promotes to a validator question.
-  - Occurrence (2026-11-07, `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`): two additions went unlisted.
+  - Occurrence (2026-11-07, `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`): two additions went unlisted.
     - One passed the plan review because it was presented as resting on a brief entry tagged inferred.
     - One was a ruling on a Worker's question, made after the plan was authorized.
     - The closeout value audit's reading comparison and a later plan-text review caught both. The owner's scan was not reached, so this is not yet the occurrence the line above promotes.
@@ -1304,7 +1304,7 @@ Prevention:
 - Write the reading under its own heading as the step just before every audit dispatch, whatever the position and whichever unit of the run, and check the heading exists before sending the dispatch text.
 
 Evidence:
-- `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`, the Progress Log entry of the plan-draft verdict of 2026-11-07.
+- `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`, the Progress Log entry of the plan-draft verdict of 2026-11-07.
 
 ## 2026-11-07 - An Auditor That Batches Its First Reads Can Sweep In The Notes Beside The Brief  [tags: validation, governance, tooling]
 
@@ -1325,10 +1325,10 @@ Prevention:
 - Treat a recorded batch deviation in a verdict as a warning, not noise. A third occurrence across runs, or one more void, is a harness question: whether the Auditor agent definition itself, which the model reads before its first tool call, should carry the read-the-mandate-alone step. That is a plugin change and goes to the owner through Counsel as a proposal, not into a run's scope.
 
 Evidence:
-- `docs/coding-agent/plans/active/quiet-orchestrator-session-goal-envelope-plan.md`, the procedural notes of the plan-draft and first closeout verdicts and the void verdict of 2026-11-07.
+- `docs/coding-agent/plans/completed/quiet-orchestrator-session-goal-envelope-plan.md`, the procedural notes of the plan-draft and first closeout verdicts and the void verdict of 2026-11-07.
 - Further occurrences:
   - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/active/model-defaults-by-reason-changes.md` on pull request 94's branch.
-  - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/active/quiet-orchestrator-session-changes.md`.
+  - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/completed/quiet-orchestrator-session-changes.md`.
   - Neither was void. Counting runs, this is the third occurrence the prevention names, and the harness question went to the owner through Counsel as a proposal on 2026-11-08.
 
 ## Promotion drain note (2026-10-16)
