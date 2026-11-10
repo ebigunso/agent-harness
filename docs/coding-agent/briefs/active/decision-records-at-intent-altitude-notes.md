@@ -16,4 +16,15 @@ Framings shown 2026-11-02: the reader after a later change; outcome untouched; a
 
 ## Questions from the run
 
-(none yet)
+- 2026-11-11, before the run was planned: how 60 to 70 records for acceptance reach him; the three raised decisions (ADR-D-0016, ADR-D-0020, ADR-I-0007); whether an unread rewrite still waits for his naming it. His answers are in the brief with his words.
+- 2026-11-11, with the first unit: whether four further places where the checker fails on prose are brought in line with ADR-I-0007; whether a repository-internal change made with its consumers unverified is reported in every kind of run. Brought to him with Counsel's advice.
+
+## Counsel's read of the first unit, 2026-11-11
+
+One read, of the two proposed records; the Orchestrator's report of 2026-11-10 22:16Z arrived with the outcomes in it (review approved at plan, wave and final after fixes; the value audits at plan draft and closeout held nothing). Pull request 96, nothing merged, nothing retired.
+
+- ADR-D-0071 says what he decided on ADR-D-0016: protection needs a consumer that can be shown, and where one cannot be verified he is asked only about a surface that crosses the repository's boundary. Its Why is two sentences and cites no brief.
+- Marked, mine: its title joins two clauses, and his own answer of 2026-11-11 changed the second (who is asked) while the first (the evidence requirement) held. By the test he applied to the record he read as ADR-D-0067, that reads as two decisions. The run read one. His to judge.
+- The reopen condition on the rejected "ask in every case" was derived by the run and sets when that question returns to him; the audit marks it as direction. Counsel's framing: it returns when changes made on the evidence of no consumer found are seen to break something inside a repository, or it never returns. Brought to him.
+- ADR-D-0072 says a loader-routed session holds the Orchestrator role and that the policy being in context confers nothing, leaving the other ways in to ADR-D-0037. One decision with its boundary. Nothing marked.
+- The checker now warns where it failed on the Reviewer's prompt snippet; ADR-I-0007 is unchanged.
