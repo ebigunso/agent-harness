@@ -108,6 +108,17 @@ Two corrections to the advice recorded in the section above, Counsel's own:
 
 Also given, and accepted with the rest: by the test he applied to ADR-D-0067, ADR-D-0063 holds two decisions, which is why a Why of a sentence or two had no room for the missing reasons.
 
+## Counsel's read of the result after the split and the Auditor change, 2026-11-11
+
+The Orchestrator's report of 2026-11-10 17:06Z arrived with the review's and the audit's outcome in it, so this is one read, of the records and the definition themselves, not a read formed before that material.
+
+- Numbers: the proposed records run ADR-D-0062 to ADR-D-0067 with none skipped. The envelope record he read as ADR-D-0068 is ADR-D-0066; the record split from ADR-D-0063 is ADR-D-0067.
+- ADR-D-0063 keeps one decision, the value audit grading a goal run over the whole run apart from the assessor. Its Why gives the separation reason as he accepted it: the two judge different things, continuation bears the burden of proof (ADR-D-0029), and a favourable grade among the assessor's inputs would argue for continuing. Its rejected alternative on one judgement carrying both mandates gives the same reason and cites no brief.
+- ADR-D-0067 holds the remedy carried out without a stop under a brief. Its fourth Decision bullet says goal runs without a brief were not examined for it and gives no reason for the limit, as he accepted. Its Why is one sentence, on its own decision.
+- The three clauses of ADR-D-0067 the Orchestrator reports as having no written reason (the remedy graded again; a remedy changing the envelope outside the run's authority; a remediation reaching the assessor only as a decision of the loop). Counsel's framing test, mine: each is a bound on the one decision and its ground is in a record the clause cites or depends on (ADR-D-0066 for the envelope, ADR-D-0063's Why for the assessor's inputs); a later reader finds it either way. Not a question for him; pointed out to him when he reads the record.
+- The Auditor's definition gains one sentence in all three runtime adapters: "Your first tool call opens that mandate and nothing else." It fits both mandates. Not yet shown to work: the installed plugin still carried the old definition, and the audit that closed this change again opened its mandate with other files.
+- Review approved; the closeout audit held nothing. The run changed no value document.
+
 ## The two edges, and his answers
 
 - Plan approval when the brief route does not authorize: Counsel offered carrying it through Counsel, or his looking in on the session for that case alone. He took neither: the question is not asked anywhere; the route authorizes or the plan is not yet one that can run.
