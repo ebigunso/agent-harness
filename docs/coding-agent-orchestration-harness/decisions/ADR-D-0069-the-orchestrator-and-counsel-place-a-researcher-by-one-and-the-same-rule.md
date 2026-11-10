@@ -26,7 +26,7 @@ A workspace may have one way to run a Researcher or several, and both the Orches
 
 ## Why
 
-A session that no shared rule reaches keeps research in a Worker's task or its own session, on whatever model that work runs on, whatever the other session does, even where the workspace has an option better suited to it. Placed by one rule for both sessions, research goes to the option that suits it in every setup, whichever session sends it.
+Where each session places a Researcher by its own judgement, a session that no shared rule reaches places it its own way whatever the other does, even where the workspace has an option better suited to the research. Placed by one rule for both sessions, a Researcher goes to the option that suits the research whichever session sends it.
 
 ## Rejected Alternatives
 
