@@ -34,9 +34,12 @@ Rules for writing and restructuring durable documentation: product/strategy/poli
 - If a document needs a sentence explaining why its filename or title should not be taken literally, treat that as a defect signal: rename or restructure instead of preserving the mismatch with disclaimer prose.
 - When renaming, update live and historical references to the canonical path and remove the defensive disclaimer.
 
+8) Name the thing, not where it stands
+- Refer to a thing by what it is, not by its position, its order or its relation to something that can change ("the second source", "the bullet above", "the latest record"): name the source, the step or the section itself, so that the sentence keeps its meaning when the other thing moves, is reordered or is replaced.
+
 ## Before finalizing
 
-8) Coherence and emphasis check
+9) Coherence and emphasis check
 - First screen: does the opening screen show the main story (governing claim plus top ideas), not a flat inventory?
 - Agreement: do title, filename, metadata role, and opening paragraph all describe the same document role? If they disagree, resolve the mismatch — do not document around it.
 - Sweep for time-relative words and session-relative actor words ("the user") and confirm each is durable by role, named, or explicitly date-anchored.

@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0041-a-ratified-brief-authorizes-a-plan-only-through-a-closed-plan-review-and-a-value-audit-that-holds-nothing-above-the-run.md", "ADR-D-0053-a-design-level-finding-is-escalated-by-the-orchestrator-with-the-part-it-concerns-held.md"]
+depends_on: ["ADR-D-0065-a-ratified-brief-authorizes-a-plan-or-a-goal-envelope-only-on-a-closed-review-and-a-value-audit-that-holds-nothing.md", "ADR-D-0053-a-design-level-finding-is-escalated-by-the-orchestrator-with-the-part-it-concerns-held.md"]
 ---
 
 # ADR-D-0054: A brief's statements bind by kind: what the work must give and its constraints bind, a means does not, and a plan that departs from a means is graded on what the means serves, never held as a conflict, and reaches the person directing the work only when it changes what that person would experience
@@ -45,7 +45,7 @@ Someone who settled a way of doing something in discussion wants it used unless 
 
 Invariant: gives-statements and constraints bind; a means supports an item that follows it and never holds an item that departs from it; a departure is raised to the person directing the work only when it changes what that person would experience, and is otherwise settled by its grade; a statement with no kind binds; the Decision list states the rest.
 
-Not covered: the brief's form, its provenance tags and its scenarios, which the document forms state; how a finding is recorded, escalated and compared (ADR-D-0053); the grade names and their definitions, which the audit's mandate owns; the conditions for authorizing a plan (ADR-D-0041); the philosophies, whose statements have no kinds.
+Not covered: the brief's form, its provenance tags and its scenarios, which the document forms state; how a finding is recorded, escalated and compared (ADR-D-0053); the grade names and their definitions, which the audit's mandate owns; the conditions for authorizing a plan (ADR-D-0065); the philosophies, whose statements have no kinds.
 
 ## Validation
 
@@ -62,4 +62,4 @@ Not covered: the brief's form, its provenance tags and its scenarios, which the 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, its kind marks, "What a design is" and "A better design noticed mid-flight". This record fixes nothing the brief states as a means; that an unmarked statement binds is the run's own addition, made so that briefs written before kinds existed read as they did. Related: ADR-D-0053 (findings), ADR-D-0041 (authorization), ADR-D-0052 (the audit).
+Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, its kind marks, "What a design is" and "A better design noticed mid-flight". This record fixes nothing the brief states as a means; that an unmarked statement binds is the run's own addition, made so that briefs written before kinds existed read as they did. Related: ADR-D-0053 (findings), ADR-D-0065 (authorization), ADR-D-0052 (the audit).

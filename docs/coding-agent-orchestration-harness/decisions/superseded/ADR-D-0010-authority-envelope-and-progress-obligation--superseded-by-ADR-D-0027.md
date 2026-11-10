@@ -8,7 +8,7 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: ../ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop.md
+superseded_by: ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md
 ---
 
 # ADR-D-0010: Authority Envelope With Irreversibility Criterion And Progress Obligation

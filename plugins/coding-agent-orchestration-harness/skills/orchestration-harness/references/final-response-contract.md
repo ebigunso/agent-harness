@@ -11,13 +11,13 @@ Whatever the outcome, under a brief or not, the response says what was left out 
 5. Repo rule updates, or none.
 6. Skill staging updates, or none.
 7. ADRs proposed, with acceptance state, or none; then each ADR whose wording changed after acceptance, one line each (the record and what changed), asking nothing — `durable-docs-authoring/references/adr.md`.
-8. Questions or blockers, max 3; omit when none.
+8. Questions or blockers, max 3; omit when none. Under a brief this item asks nothing: it names what is with Counsel and what the turn ended blocked on (`references/value-level-operation.md` The Carrier).
 
 Prefer short paragraphs; use lists only for parallel items.
 
 ## Under a brief
 
-When a run under a brief is reported ready (`references/completion-closeout.md`), after its last unit has closed or after a change the owner directed while it was open, with its required work and validation complete, the outcome is `candidate ready`, in exactly those two words, and the response is written for the owner's judgement of the result. After the outcome it leads with behaviour, then lists the rest in this order:
+When a run under a brief is reported ready (`references/completion-closeout.md`), after its last unit has closed or after a change the owner directed while it was open, with its required work and validation complete, the outcome is `candidate ready`, in exactly those two words, and the response is written for the owner's judgement of the result. It phrases nothing as a question to the reader, a scenario's how to observe it included: that says what to do and what to look for. After the outcome it leads with behaviour, then lists the rest in this order:
 
 - Behaviour: what the product now does, one scenario of the brief at a time, each with its state from the run record (`not yet`, `demonstrated`, `ready for the owner's judgement`) and how to observe it, in terms the owner can judge without a plan, a diff or code; then the scenarios the run added, as the run's own reading of the design. A scenario only the owner can judge is `ready for the owner's judgement`, never met. Scenarios are evidence of the experience, not its definition: the response does not claim the design delivered because every scenario is demonstrated. Implementation detail is neither the default nor prohibited: give it only where the owner's judgement needs it, and state that reason with it.
 - Evidence for each agent-checkable pass condition of the brief.
@@ -27,4 +27,4 @@ When a run under a brief is reported ready (`references/completion-closeout.md`)
 - The design document updated when the run is reported ready, or that the repository keeps none for the field.
 - What was learned that the philosophies do not account for, or none.
 
-Items 2 to 8 above follow that list where they are needed; decision records proposed, and those reworded after acceptance, are always listed. A run without a brief uses items 1 to 8 as they stand. When such a run was audited (value-level operation on through a philosophy alone), it keeps `done` or `blocked` and lists after item 7 the items the value audit marked `direction`, as above.
+Items 2 to 8 above follow that list where they are needed, item 8 as it reads under a brief; decision records proposed, and those reworded after acceptance, are always listed. A run without a brief uses items 1 to 8 as they stand. When such a run was audited (value-level operation on through a philosophy alone), it keeps `done` or `blocked` and lists after item 7 the items the value audit marked `direction`, as above.

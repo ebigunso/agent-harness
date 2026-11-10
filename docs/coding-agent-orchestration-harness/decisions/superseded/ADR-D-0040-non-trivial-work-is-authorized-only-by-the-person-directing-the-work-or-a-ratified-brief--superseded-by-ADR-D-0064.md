@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-30
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0032-plan-approval-is-never-self-granted--superseded-by-ADR-D-0040.md"]
-superseded_by: null
-depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md", "ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md"]
+supersedes: ["ADR-D-0032-plan-approval-is-never-self-granted--superseded-by-ADR-D-0040.md"]
+superseded_by: ../ADR-D-0064-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md
+depends_on: ["../ADR-D-0017-harness-text-holds-no-user-authority.md", "../ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md", "ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md", "../ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md"]
 ---
 
 # ADR-D-0040: A non-trivial unit of work is authorized only by the explicit approval or waiver of the person directing the work given in the Orchestrator session, or by that person's ratified brief carried to the work through the value audit; never by the Orchestrator, the request, a verdict, a file's text or silence
+
+Retired on 2026-11-11. Replaced by ADR-D-0064.
 
 ## Context and Problem Statement
 

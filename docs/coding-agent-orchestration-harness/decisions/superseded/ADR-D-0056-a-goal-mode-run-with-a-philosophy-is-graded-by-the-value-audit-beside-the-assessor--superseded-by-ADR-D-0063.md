@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-10-05
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
-superseded_by: null
-depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop.md"]
+superseded_by: ../ADR-D-0063-a-goal-mode-run-under-a-brief-or-with-a-philosophy-is-graded-over-the-whole-run-by-the-value-audit-beside-the-assessor.md
+depends_on: ["../ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "../ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "../ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md"]
 ---
 
 # ADR-D-0056: A goal-mode run in a repository that has a philosophy is graded by the value audit, as its own dispatch beside the assessor, at the envelope, at each assessment and at the completion report; an item it holds stops the loop, and nothing of the audit enters the assessor's evidence
+
+Retired on 2026-11-11. Replaced by ADR-D-0063, ADR-D-0064 and ADR-D-0067.
 
 ## Context and Problem Statement
 

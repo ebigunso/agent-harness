@@ -7,7 +7,7 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["superseded/ADR-D-0033-a-worker-acts-alone-only-within-the-acceptance-criteria--superseded-by-ADR-D-0058.md"]
 superseded_by: null
-depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0040-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md", "ADR-D-0057-a-discovered-issue-reopens-the-design-and-never-slips-into-the-change.md"]
+depends_on: ["ADR-D-0019-remove-harness-content-only-with-class-matched-evidence.md", "ADR-D-0064-non-trivial-work-is-authorized-only-by-the-person-directing-the-work-or-by-that-persons-ratified-brief.md", "ADR-D-0057-a-discovered-issue-reopens-the-design-and-never-slips-into-the-change.md"]
 ---
 
 # ADR-D-0058: A Worker acts alone only on what the acceptance criteria already decided; every other discovery is surfaced before action
