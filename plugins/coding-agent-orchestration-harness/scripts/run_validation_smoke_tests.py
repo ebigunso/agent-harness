@@ -135,26 +135,28 @@ def run_adr_supersession_smoke() -> bool:
 def run_latent_risk_snippet_smoke() -> bool:
     ok = True
     with tempfile.TemporaryDirectory() as tmp:
-        plugin = Path(tmp) / "repo" / "plugins" / ROOT.name
+        plugin = Path(tmp).resolve() / "repo" / "plugins" / ROOT.name
         shutil.copytree(ROOT, plugin)
         script = plugin / "scripts" / "validate_harness_package.py"
         snippets = plugin / "skills" / "subagent-strategy" / "references" / "prompt-snippets.md"
-        original = snippets.read_text(encoding="utf-8")
+        heading = "## Reviewer snippet (latent-risk routing)"
+        topic = "runtime model compatibility"
         cases = [
-            ("unchanged", original, None),
-            (
-                "reworded topic",
-                original.replace("runtime model compatibility", "compatibility with the runtime model"),
-                "runtime model compatibility",
-            ),
-            (
-                "reworded heading",
-                original.replace("## Reviewer snippet (latent-risk routing)", "## Reviewer guidance for latent risks"),
-                "Reviewer latent-risk snippet",
-            ),
+            ("unchanged", heading, topic, None),
+            ("reworded topic", heading, "compatibility with the runtime model", topic),
+            ("reworded heading", "## Reviewer guidance for latent risks", topic, "Reviewer latent-risk snippet"),
         ]
-        for name, text, topic in cases:
-            snippets.write_text(text, encoding="utf-8")
+        for name, case_heading, case_topic, expected_warning in cases:
+            snippets.write_text(
+                f"{case_heading}\n\n"
+                f"- {case_topic}\n"
+                "- public API compatibility\n"
+                "- diagnostics\n"
+                "- entrypoint intent\n"
+                "- collection semantics\n"
+                "- build cfg/features\n",
+                encoding="utf-8",
+            )
             cmd = [PY, str(script)]
             print(f"+ {' '.join(cmd)} ({name})", flush=True)
             result = subprocess.run(cmd, cwd=ROOT.parent.parent, capture_output=True, text=True)
@@ -162,12 +164,15 @@ def run_latent_risk_snippet_smoke() -> bool:
             print(result.stderr, end="", file=sys.stderr)
             print(f"{name}: exit {result.returncode}", flush=True)
             ok &= assert_condition(result.returncode == 0, f"{name}: expected exit 0")
-            if topic is None:
-                ok &= assert_condition("WARNING:" not in result.stderr, f"{name}: unexpected warning")
+            snippet_warnings = [
+                line for line in result.stderr.splitlines() if line.startswith(f"WARNING: {snippets}:")
+            ]
+            if expected_warning is None:
+                ok &= assert_condition(not snippet_warnings, f"{name}: unexpected snippet warning")
             else:
                 ok &= assert_condition(
-                    any(line.startswith("WARNING:") and topic in line for line in result.stderr.splitlines()),
-                    f"{name}: expected a warning naming {topic}",
+                    any(expected_warning in line for line in snippet_warnings),
+                    f"{name}: expected a snippet warning naming {expected_warning}",
                 )
     return ok
 
