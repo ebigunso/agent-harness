@@ -1,18 +1,16 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-10-29
 deciders: ["ebigunso"]
 consulted: []
 informed: []
-supersedes: ["ADR-D-0061-research-goes-to-the-researcher-role-on-an-option-chosen-from-the-workspaces-own-record.md"]
+supersedes: ["superseded/ADR-D-0061-research-goes-to-the-researcher-role-on-an-option-chosen-from-the-workspaces-own-record--superseded-by-ADR-D-0068.md"]
 superseded_by: null
 depends_on: ["ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
 # ADR-D-0069: Research is the Researcher role's work in every environment and never part of a Worker's task
-
-Once accepted, this record, ADR-D-0068 and ADR-D-0070 together replace ADR-D-0061.
 
 ## Context and Problem Statement
 
@@ -49,4 +47,4 @@ Not covered: which of the dispatcher's own options holds the role where no recor
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061 once accepted, together with ADR-D-0068, which carries how a Researcher's option is chosen and that the harness assumes no seat, peer or model, and ADR-D-0070, which carries the one rule by which the Orchestrator and Counsel place a Researcher. Related: ADR-D-0048 (logical roles and physical names).
+Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061, together with ADR-D-0068, which carries how a Researcher's option is chosen and that the harness assumes no seat, peer or model, and ADR-D-0070, which carries the one rule by which the Orchestrator and Counsel place a Researcher. Related: ADR-D-0048 (logical roles and physical names).
