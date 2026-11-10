@@ -1478,25 +1478,27 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/options-by-model-and-setting-plan.md`, Progress Log, scenario 3's three runs; OPT-P4 and OPT-FINAL-F2.
 
-## 2026-11-11 - Two Verdicts From One Review Seat On One Revision: The Later One Stands Until The Seat Says Otherwise  [tags: review, governance]
+## 2026-11-11 - Two Verdicts Under One Review Identity On One Revision: Check Who Sent Each  [tags: review, governance, tooling, correction]
 
 Context:
-- A persistent review seat on a peer channel, sent one review request.
+- A persistent review seat on a peer channel, sent one review request, in a team where more than one session can take a seat's name.
 
 Symptom:
-- In the settings run the review seat sent APPROVED and, twenty-two seconds later, CHANGES_REQUESTED with two sound findings, both pinned at the same revision. The Orchestrator had dispatched the closeout audit on the first.
+- In the settings run two messages arrived under the review seat's name twenty-two seconds apart, both pinned at the same revision: APPROVED, then CHANGES_REQUESTED with two sound findings. The Orchestrator had dispatched the closeout audit on the first.
+- The first did not come from the review seat. The researcher seat's session, asked which of several identities it should use, had been answered with the reviewer's name by mistake, and sent that approval under it. The researcher seat reported this itself forty minutes later and withdrew the approval. The owner's words, as that seat relayed them: "Wait, you are the researcher. I think I made a mistake when I answered the question."
 
 Root cause:
-- The seat emitted an approval before it had finished its provenance and branch-discrimination checks, and did not mark the second message as superseding the first. The Orchestrator acted on a verdict within seconds of its arrival.
+- The channel shows the name a message was sent under, not the session that sent it, and nothing told the Orchestrator that a second session held the reviewer's name. The Orchestrator acted on a verdict within seconds of its arrival, and first read the pair as one seat changing its mind.
 
 Fix applied:
-- The Orchestrator took the later message as standing, stopped the audit before it returned, fixed both findings and asked the seat to say which message it stood by; it confirmed the later one.
+- The Orchestrator took the later message as standing, stopped the audit before it returned, fixed both findings and asked the review seat which message it stood by. After the researcher seat's correction, the approval of 19:16Z is recorded as withdrawn and as never having been Reviewer evidence. The review seat's own verdicts stand: its CHANGES_REQUESTED at that revision and its APPROVED of the fixed one.
 
 Prevention:
-- A second verdict on the same revision reopens the review whatever the first said; anything dispatched on the first is stopped and not used. The seat's own correction, recorded in its message: finish the checks before emitting approval, and mark a correction as superseding.
+- A second verdict on the same revision reopens the review whatever the first said; anything dispatched on the first is stopped and not used.
+- Two verdicts under one name close together are first a question of who sent each. A seat that finds itself holding more than one identity says which it is using before it sends a verdict, and a verdict from a session that is not the review seat is no review, however sound.
 
 Evidence:
-- The plan's Progress Log, the entries of 2026-11-10 19:16Z to 19:20Z by the channel clock.
+- `docs/coding-agent/plans/completed/options-by-model-and-setting-plan.md`, Progress Log, the entries of 2026-11-10 19:16Z to 19:20Z by the channel clock, read with the correction in `docs/coding-agent/plans/active/options-by-model-and-setting-changes.md`.
 
 ## Promotion drain note (2026-10-16)
 
