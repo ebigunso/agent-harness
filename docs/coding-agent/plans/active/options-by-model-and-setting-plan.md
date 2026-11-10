@@ -32,15 +32,17 @@
 - Non-goals: the reasons by role; any resolution in this repository's record; the seed's entries; recording every setting of every model (brief, "Left out on purpose"); how a runtime adapter passes a setting to a dispatch, beyond the plugin's text saying the dispatch runs at it wherever the runtime lets the dispatch choose.
 
 ## Design
-- Chosen: the setting becomes part of what an option is, in the one place options are defined (`model-routing.md`, The record of options), and every statement about options then covers it without being rewritten one by one. The unavailable-option rule is stated once, for all roles, in the same reference's Tiers and fallback section, and the research rule's step for "no recorded option fits" stays as the Researcher's case of a different question (nothing fits, as against the fitting option being unavailable).
-- Alternative: keep an option as a seat or subagent on a model, and add the setting as a second thing a resolution names, with its own capability and cost statements beside the option's.
-- structure: the chosen design keeps one owner for what is ranked and costed (the option); the alternative makes two (the option and its setting), and the fit ranking and the walk would each need a rule for combining them. Chosen has fewer conversions.
-- evolution: a runtime that adds another setting is covered by the chosen design's definition of a setting; under the alternative each new kind of setting adds a dimension to every statement. Concept count: chosen adds one definition, the alternative a parallel vocabulary.
-- verification: both are checked by reading and by the fixture; the chosen design gives the fixture one thing to look for (two options for one model).
-- operation: the record grows by one option per setting worth telling apart under either; the brief's means bounds it.
-- human: under the chosen design the person confirming the record reads one list of options; under the alternative, options and a table of settings.
+- Fixed by the brief and not compared: an option is a seat or a subagent, on a model, at a setting, and everything said of options holds of options so understood.
+- The remaining choice is how that definition, and the rule for an unavailable option, are carried through the texts that use them.
+- Chosen: both are stated once, in `model-routing.md` (the definition in The record of options, the unavailable-option rule in Tiers and fallback, for all roles). Setup's texts, the dispatch texts and the `counsel` skill use the terms and point there. The research rule's step for "no recorded option fits" stays as it is, as the Researcher's case of a different question (nothing fits, as against the fitting option being unavailable).
+- Alternative: each text that acts on an option carries what it needs in full: setup's Models Record restates what a setting is and which settings to record, each dispatch text restates that a dispatch runs at the resolution's setting, and each role's reason carries its own unavailable-option line.
+- structure: chosen has one owner for the definition and one for the rule, and the other texts depend on that stable place; the alternative duplicates both across four or five files, with a conversion to keep in step at every edit.
+- evolution: a runtime that adds a kind of setting, or a change to the unavailable-option rule, is one edit under the chosen design and one per file under the alternative; the alternative's blast radius is every text that restates. Concept count is the same; the chosen design has the shorter deletion path.
+- verification: both are checked by reading and by the fixture. Under the chosen design the review checks one statement and the pointers to it; under the alternative it checks that every restatement agrees.
+- operation: no runtime cost under either. A dispatcher under the chosen design reads one more reference where it did not already; the routing reference is already read whenever more than one model is available.
+- human: the alternative lets a reader of one file act without following a pointer; the chosen design asks for the pointer and in return cannot disagree with itself.
 - safety: neither changes a trust boundary or what a dispatch may reach.
-- Why chosen wins: the brief's second statement says everything the plugin already says of options holds of options so understood, which is the chosen design stated as a requirement.
+- Why chosen wins: the record of options already has one home in the plugin, `model-routing.md`, which the other texts point to, and the brief's limits (no model, no level of reasoning effort in the rules) are checked most surely against one statement.
 
 ## Compatibility stance
 - preserve. The record of options in a workspace's `common.md` is a persisted form with locatable consumers: this repository's record, and any workspace set up since version 1.3.0. A record that names no setting stays valid and in force; a refresh brings it into the form with settings, as a refresh already rewrites an older form (`bootstrap-lifecycle.md`, Models Record, last paragraph). No record is invalidated by the change.
@@ -126,7 +128,7 @@
 - acceptance:
   - This repository's record is read against the new form: no resolution changes; any line whose form the changed text now asks for differently (the options this workspace has, say) is brought into it, and what was changed is logged with the reason.
   - Scenario 1: a fresh agent given only the plugin's text and a made-up lineup with one model at more than one setting fills a record that lists the differing settings as options of their own, each with its finding and cost, and resolves a cost-bounded role to the stronger model's lower setting where that is the fit its cost setting accepts. The prompt and the outcome are in the Progress Log.
-  - Scenario 3: a fresh agent given only the plugin's text, a record and the statement that a Worker's resolved option is unavailable names the option the task goes to and reports which ran it and why. The prompt and the outcome are in the Progress Log.
+  - Scenario 3, both branches on one made-up record: a fresh agent given only the plugin's text, the record and the statement that a Worker's resolved option is unavailable (a) takes the option the resolution names for that case, where it names one; and (b) where the resolution names nothing, takes the next option in the fit ranking that the role's cost setting accepts, passing over a higher-ranked option the cost setting rejects. In each it reports which option ran the task and why. The prompts and the outcomes are in the Progress Log.
   - Scenario 2 is shown by reading: each resolution in this repository's record names a setting, and the changed text has a dispatch run at it.
 - validation:
   - kind: manual
@@ -146,7 +148,8 @@
 - description: |
   The Orchestrator's own task: the next minor version over `main` at the time it is made, in every file that states it.
 - acceptance:
-  - Every file that states the plugin's version states the next minor version over `main`, and no file states another.
+  - The version is the next minor version over `main` at the time it is made.
+  - Every file that states the plugin's version states that version, and no file states another.
 - validation:
   - kind: command
     required: true
@@ -154,7 +157,8 @@
     detail: a search for the old and the new version across the repository outside `docs/`; `py -I scripts/validate_harness_package.py` and `py -I scripts/run_validation_smoke_tests.py`.
 
 ## Task Waves (explicit parallel dispatch sets)
-- Wave 1: Task_1, Task_2 (disjoint owns; Task_2 uses Task_1's definition by name and is reconciled with it at integration)
+- Wave 1: Task_1, Task_2
+- The first wave's two tasks have disjoint owns; the setup task uses the routing task's definition by name and is reconciled with it at integration.
 - Wave 2: Task_3
 - Wave 3: Task_4
 
@@ -164,6 +168,7 @@
 ## Progress Log (append-only)
 
 ## Decision Log (append-only; re-plans and major discoveries)
+- 2026-11-11 Plan review (Codex seat `agent-harness-reviewer`, pinned at 7f3481f): CHANGES_REQUESTED, four minor findings, all accepted. OPT-P1: the wave line repeated its task IDs in a note, failing the plan validator; the note is a line of its own. OPT-P2: the version task had one acceptance bullet; it has its two checks. OPT-P3: the Design compared the brief's own requirement against not meeting it; it now holds the option's identity fixed and compares how the definition and the unavailable-option rule are carried through the texts. OPT-P4: the fixture for scenario 3 could pass on one branch of the rule; it now shows both, the passing over of a cost-rejected option included. The review's inventory finds no requirement unlisted under Planner-added requirements, and confirms the owns, the compatibility stance and the handling of a decision record.
 
 ## Notes (Risks / Edge cases)
 - The research rule's step 5 (no recorded option fits) and the new unavailable-option rule answer different questions; the risk is a reader taking them for one rule stated twice. Task_1's acceptance asks that they not contradict, and the review checks that they are told apart.
