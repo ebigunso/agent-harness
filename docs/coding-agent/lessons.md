@@ -1436,6 +1436,7 @@ Evidence:
   - Another run: the second closeout audit of 2026-11-02 in `docs/coding-agent/plans/completed/model-defaults-by-reason-changes.md` on pull request 94's branch.
   - This run: the closeout audit of 2026-11-08 in `docs/coding-agent/plans/completed/quiet-orchestrator-session-changes.md`.
   - Neither was void. Counting runs, this is the third occurrence the prevention names, and the harness question went to the owner through Counsel as a proposal on 2026-11-08.
+  - 2026-11-11: seven further audits across three runs opened their mandate together with other files, one of them void for printing the readings file. The owner accepted the proposal that day in a smaller form (the Auditor's definition states that its first tool call opens the mandate and nothing else; merged in version 1.2.0). Every audit of that day ran on the plugin as installed before that change, so none shows whether the sentence works. The review seat's suggestion, taken up: the Orchestrator checks the first call from the dispatch's own trace where the runtime shows it, and does not rely on the Auditor's disclosure alone.
 
 ## 2026-11-11 - One Decision Per Record Is Tested With The Neighbouring Decision Held Fixed  [tags: governance, review, correction]
 
@@ -1456,6 +1457,48 @@ Prevention:
 
 Evidence:
 - The model-defaults run's changes file, "ADR-D-0067 split in two and the proposed records renumbered", MS-F1 and the reviewer's own correction of 2026-11-10 by the channel clock.
+
+## 2026-11-11 - A Fixture Shows A Branch Only When The Wrong Text Would Fail It  [tags: validation, review, correction]
+
+Context:
+- Showing a scenario by giving a fresh agent the changed text and a made-up case, where the text has more than one branch.
+
+Symptom:
+- In the settings run, the fixture for the unavailable-option rule had two cases that ended on the same option. A dispatcher that ignored the option a resolution names and always walked the fit ranking would have passed both. The plan review had already asked for both branches (OPT-P4); the Orchestrator's fixture met the letter of that and the final review caught the rest (OPT-FINAL-F2).
+
+Root cause:
+- The cases were written to exercise each branch, and were not checked against the question of what a wrong text would do on them.
+
+Fix applied:
+- The record gained an option so the named destination and the walk's destination differ, and the fixture was run again.
+
+Prevention:
+- Before running a fixture, name for each branch the wrong behaviour it must rule out, and check that the case gives a different outcome under it. Two cases that end in the same place show one branch at most.
+
+Evidence:
+- `docs/coding-agent/plans/completed/options-by-model-and-setting-plan.md`, Progress Log, scenario 3's three runs; OPT-P4 and OPT-FINAL-F2.
+
+## 2026-11-11 - Two Verdicts Under One Review Identity On One Revision: Check Who Sent Each  [tags: review, governance, tooling, correction]
+
+Context:
+- A persistent review seat on a peer channel, sent one review request, in a team where more than one session can take a seat's name.
+
+Symptom:
+- In the settings run two messages arrived under the review seat's name twenty-two seconds apart, both pinned at the same revision: APPROVED, then CHANGES_REQUESTED with two sound findings. The Orchestrator had dispatched the closeout audit on the first.
+- The first did not come from the review seat. The researcher seat's session, asked which of several identities it should use, had been answered with the reviewer's name by mistake, and sent that approval under it. The researcher seat reported this itself forty minutes later and withdrew the approval. The owner's words, as that seat relayed them: "Wait, you are the researcher. I think I made a mistake when I answered the question."
+
+Root cause:
+- The channel shows the name a message was sent under, not the session that sent it, and nothing told the Orchestrator that a second session held the reviewer's name. The Orchestrator acted on a verdict within seconds of its arrival, and first read the pair as one seat changing its mind.
+
+Fix applied:
+- The Orchestrator took the later message as standing, stopped the audit before it returned, fixed both findings and asked the review seat which message it stood by. After the researcher seat's correction, the approval of 19:16Z is recorded as withdrawn and as never having been Reviewer evidence. The review seat's own verdicts stand: its CHANGES_REQUESTED at that revision and its APPROVED of the fixed one.
+
+Prevention:
+- A second verdict on the same revision reopens the review whatever the first said; anything dispatched on the first is stopped and not used.
+- Two verdicts under one name close together are first a question of who sent each. A seat that finds itself holding more than one identity says which it is using before it sends a verdict, and a verdict from a session that is not the review seat is no review, however sound.
+
+Evidence:
+- `docs/coding-agent/plans/completed/options-by-model-and-setting-plan.md`, Progress Log, the entries of 2026-11-10 19:16Z to 19:20Z by the channel clock, read with the correction in `docs/coding-agent/plans/active/options-by-model-and-setting-changes.md`.
 
 ## Promotion drain note (2026-10-16)
 
