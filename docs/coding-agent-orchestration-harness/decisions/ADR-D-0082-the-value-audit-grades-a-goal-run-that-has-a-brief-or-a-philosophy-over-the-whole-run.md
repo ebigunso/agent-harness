@@ -7,7 +7,7 @@ consulted: ["Claude Opus 5.5", "Claude Fable 5.2"]
 informed: []
 supersedes: ["ADR-D-0063-a-goal-mode-run-under-a-brief-or-with-a-philosophy-is-graded-over-the-whole-run-by-the-value-audit-beside-the-assessor.md"]
 superseded_by: null
-depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop-and-never-changed-by-it.md"]
+depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0084-no-goal-loop-starts-without-an-authority-envelope.md"]
 ---
 
 # ADR-D-0082: The value audit grades a goal run that has a brief or a philosophy over the whole run
@@ -21,7 +21,7 @@ ADR-D-0052 states the value audit for a plan-mode run and leaves goal mode out. 
 ## Decision
 
 - A goal run under a brief, or in a repository that has a philosophy, is graded by the value audit over the whole run: its envelope, its loop while the loop runs, and its result. Under a brief the run is graded against the brief, and against the repository's philosophy as well where there is one. A goal run with neither a brief nor a philosophy is not graded by the value audit.
-- An item the audit holds stops the whole loop until the decision is given. The one exception is the one ADR-D-0067 states, under a brief.
+- An item the audit holds stops the whole loop until the decision is given. The one exception, under a brief, is an item whose remedy is already determined within the run's authority (ADR-D-0067).
 
 ## Why
 

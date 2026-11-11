@@ -7,7 +7,7 @@ consulted: ["Claude Opus 5.5", "Claude Fable 5.2"]
 informed: []
 supersedes: ["ADR-D-0063-a-goal-mode-run-under-a-brief-or-with-a-philosophy-is-graded-over-the-whole-run-by-the-value-audit-beside-the-assessor.md"]
 superseded_by: null
-depends_on: ["ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md"]
+depends_on: ["ADR-D-0080-whether-a-goal-loop-continues-is-judged-by-a-party-other-than-the-optimizer.md", "ADR-D-0081-a-goal-loop-whose-continuation-the-evidence-does-not-justify-stops-and-escalates.md", "ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md"]
 ---
 
 # ADR-D-0083: Nothing of a value audit reaches what a goal loop's assessor reads but a stop and its question
