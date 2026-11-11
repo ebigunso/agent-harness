@@ -114,6 +114,8 @@
 - Nothing accepted is touched: the new records are proposed files, and removing them restores the folder. If a record is not written, the Orchestrator renumbers the rest before review so that no number is skipped within the pull request.
 
 ## Progress Log (append-only)
+- 2026-11-11T07:13Z Plan review requested of the Codex seat `agent-harness-reviewer` over agmsg. 07:18Z CHANGES REQUESTED, GM-P1 to GM-P7; 07:21Z CHANGES REQUESTED on the revision, GM-R1; 07:22Z APPROVED at 51c442f, no findings remain. The changes are in the Decision Log.
+- 2026-11-11T07:24Z The reading is written in the readings file before the plan-draft audit is dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-11-11 Plan review (Codex review seat) returned CHANGES REQUESTED on the first draft, which held all nine goal-mode records and fifteen new ones in one unit, with acceptance and retirement as a task after the closeout audit. Changed: the area is two units and this plan holds the five rewrites (GM-P6, GM-P2); acceptance, retirement and reference repair leave the plan and follow it as a change of its own with its own review and audit (GM-P5, and the absence search's scope with it, GM-P7); each record gets an outcome before writing and a new record is proposed only if the admission test passes (GM-P3); a changed count is reported and re-scoped, never written outside owns (GM-P4); each task carries its own validation items (GM-P1).
