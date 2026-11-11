@@ -58,7 +58,7 @@ His words of 2026-11-11 on reading the two proposed records ADR-D-0071 and ADR-D
 
 - Each of the two records names, in its `consulted` field, the model he talked with about the decision and the model that wrote the record. **gives** *(told 2026-11-11, the words above)* The model he talked with is Counsel's own, Claude Fable 5.2; which model wrote each record is the Orchestrator's to state from its dispatches. *(Counsel's statement of fact, its own)*
 - The contents of both records stand as he read them, the run's wording of "accessible" and "settles" in ADR-D-0072 included. *(told 2026-11-11, the first sentence above)*
-- His words name no record, and the record standard has a record accepted by a statement that names it; whether these words are his acceptance of the two is put to him. *(open)*
+- His words name no record, and the record standard has a record accepted by a statement that names it; whether these words are his acceptance of the two was put to him. After the Orchestrator reported the field filled in both records (`consulted: ["Claude Fable 5.2"]`), he accepted by name. *(told 2026-11-11: "I accept ADR-D-0071 and ADR-D-0072, and pull request 96.")* Pull request 96 is this run's first unit; the run goes on, so the brief stays active. *(inferred)*
 - The same holds of every record this run writes after these two: its `consulted` field names the models talked with and the model that wrote it. *(inferred; he spoke of the two records before him)*
 
 ## Limits
