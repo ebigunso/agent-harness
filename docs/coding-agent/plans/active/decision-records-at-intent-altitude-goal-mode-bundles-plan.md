@@ -1,6 +1,6 @@
 # Plan: Decision records at intent altitude, the goal-mode records that hold more than one decision
 
-- status: draft 2026-11-11 (revised after plan review BUNDLE-P1)
+- status: draft 2026-11-11 (revised after plan review BUNDLE-P1 and BUNDLE-R1)
 - generated: 2026-11-11
 - last_updated: 2026-11-11
 - work_type: docs
@@ -61,7 +61,7 @@
 - Research: the census is this plan's research. `Research waived: the census covers the four records line by line, and each Worker checks its record again before writing.`
 
 ## Open Questions (max 3)
-- None that holds the plan. With the owner through Counsel, and not this plan's to settle: whether ADR-D-0076 is accepted now or together with ADR-D-0079.
+- None. Settled by the owner on 2026-11-11 (brief, Directed during the run): ADR-D-0076 is accepted together with the record of this unit that holds the clause removed from it, not before. Its acceptance stays outside this plan.
 
 ## Assumptions
 - The census's counts hold. Where a Worker's test gives another count for its record, it writes nothing for that record and reports; the Orchestrator re-scopes and renumbers.
@@ -176,6 +176,7 @@
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-11-11 Plan review (Codex review seat): CHANGES REQUESTED at 43dc34c, one minor finding. BUNDLE-P1: the Design said a changed count disturbs only one Worker's range, which the plan's own rule against skipped numbers makes false. The comparison now states the cost: later numbers move and every citation between the new records is repaired by the Orchestrator before review, checked by meaning.
+- 2026-11-11 Second plan review: BUNDLE-P1 closed; BUNDLE-R1 (minor): Open Questions still called the timing of ADR-D-0076's acceptance open, which the brief's entry committed since then settles. Replaced with the settled dependency.
 
 ## Notes (Risks / Edge cases)
 - The owner's test may find a count other than the census's for any of the four; the census was made before the test was stated. The plan's numbers are a starting assignment, not a requirement.
