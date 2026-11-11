@@ -4,7 +4,7 @@
 - Hand-over: Counsel's relay of 2026-11-02, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of that day: "Nothing to add, I ratify the brief, hand it over." Not started until 2026-11-11; his word on the order of the waiting runs, relayed 2026-11-10 18:46Z by the channel clock: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: a54b7a9 (the brief with his directions and answers of 2026-11-11, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/decision-records-at-intent-altitude-readings.md`.
-- State: the first unit (the three raised decisions) is done and reported 2026-11-11, with two small changes he directed on it, both done 2026-11-11: the checker's four other places and reporting an internal change in every kind of run; and the proposed ADR-D-0071 widened and split. Three proposed records await his acceptance by name: ADR-D-0071, ADR-D-0072, ADR-D-0073. The four units by area are not started.
+- State: the first unit (the three raised decisions) is done and reported 2026-11-11, with the changes he directed on it the same day: the checker's four other places and reporting an internal change in every kind of run; the proposed ADR-D-0071 widened and split; the proposed ADR-D-0072 taken out. Two proposed records await his acceptance by name: ADR-D-0071 and ADR-D-0073. The four units by area are not started.
 
 ## How the work reaches the owner
 
@@ -29,7 +29,7 @@ Units planned, by area, each its own plan, pull request and closeout:
 | Record | Result |
 | --- | --- |
 | ADR-D-0016 | raised; answered by the owner 2026-11-11 and amended by him the same day; rewritten to ADR-D-0071 and ADR-D-0073 (both proposed, awaiting his acceptance by name) |
-| ADR-D-0020 | raised; answered by the owner 2026-11-11; rewritten to ADR-D-0072 (proposed, awaiting his acceptance by name) |
+| ADR-D-0020 | raised; answered by the owner 2026-11-11; its rewrite, the proposed ADR-D-0072, was taken out of this run on his word the same day: a decision of another initiative will replace the record, which stands accepted and unchanged until then, its overtaken sentence included. The number ADR-D-0072 is not reused by this run. |
 | ADR-I-0007 | raised; answered by the owner 2026-11-11: the record stands and the checker is brought in line with it; the record's own check against the standard follows in its area's unit |
 
 ## Scenarios
