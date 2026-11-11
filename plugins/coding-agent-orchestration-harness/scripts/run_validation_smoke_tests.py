@@ -132,6 +132,105 @@ def run_adr_supersession_smoke() -> bool:
     return ok
 
 
+def run_latent_risk_snippet_smoke() -> bool:
+    ok = True
+    with tempfile.TemporaryDirectory() as tmp:
+        plugin = Path(tmp).resolve() / "repo" / "plugins" / ROOT.name
+        shutil.copytree(ROOT, plugin)
+        script = plugin / "scripts" / "validate_harness_package.py"
+        snippets = plugin / "skills" / "subagent-strategy" / "references" / "prompt-snippets.md"
+        heading = "## Reviewer snippet (latent-risk routing)"
+        topic = "runtime model compatibility"
+        cases = [
+            ("unchanged", heading, topic, None),
+            ("reworded topic", heading, "compatibility with the runtime model", topic),
+            ("reworded heading", "## Reviewer guidance for latent risks", topic, "Reviewer latent-risk snippet"),
+        ]
+        for name, case_heading, case_topic, expected_warning in cases:
+            snippets.write_text(
+                f"{case_heading}\n\n"
+                f"- {case_topic}\n"
+                "- public API compatibility\n"
+                "- diagnostics\n"
+                "- entrypoint intent\n"
+                "- collection semantics\n"
+                "- build cfg/features\n",
+                encoding="utf-8",
+            )
+            cmd = [PY, str(script)]
+            print(f"+ {' '.join(cmd)} ({name})", flush=True)
+            result = subprocess.run(cmd, cwd=ROOT.parent.parent, capture_output=True, text=True)
+            print(result.stdout, end="")
+            print(result.stderr, end="", file=sys.stderr)
+            print(f"{name}: exit {result.returncode}", flush=True)
+            ok &= assert_condition(result.returncode == 0, f"{name}: expected exit 0")
+            snippet_warnings = [
+                line for line in result.stderr.splitlines() if line.startswith(f"WARNING: {snippets}:")
+            ]
+            if expected_warning is None:
+                ok &= assert_condition(not snippet_warnings, f"{name}: unexpected snippet warning")
+            else:
+                ok &= assert_condition(
+                    any(expected_warning in line for line in snippet_warnings),
+                    f"{name}: expected a snippet warning naming {expected_warning}",
+                )
+    return ok
+
+
+def run_clean_split_prose_smoke() -> bool:
+    cases = [
+        (
+            "Orchestrator prose",
+            ["agents/Orchestrator.md", "claude/agents/harness-orchestrator.md"],
+            "Stage cross-repository improvements for review.\n",
+            1,
+        ),
+        (
+            "improvement-loop prose",
+            ["skills/improvement-loop/SKILL.md"],
+            "---\nname: improvement-loop\n---\n\n"
+            "first-party skills and references (update the owning skill directly\n"
+            "an update to a first-party skill or reference when that skill is the durable owner\n",
+            2,
+        ),
+        (
+            "promotion-guidelines prose",
+            ["skills/improvement-loop/references/promotion-guidelines.md"],
+            "# Promotion\n\nStage changes for human review.\n",
+            1,
+        ),
+        (
+            "rule-template heading",
+            ["skills/rulebook/references/rule-suite-templates.md"],
+            "# Rule suite templates\n\n## Global Migration Candidates\n",
+            1,
+        ),
+    ]
+    ok = True
+    for name, paths, text, expected_warnings in cases:
+        with tempfile.TemporaryDirectory() as tmp:
+            plugin = Path(tmp).resolve() / "repo" / "plugins" / ROOT.name
+            shutil.copytree(ROOT, plugin)
+            for relative in paths:
+                (plugin / relative).write_text(text, encoding="utf-8")
+            cmd = [PY, str(plugin / "scripts" / "validate_harness_package.py")]
+            print(f"+ {' '.join(cmd)} ({name})", flush=True)
+            result = subprocess.run(cmd, cwd=ROOT.parent.parent, capture_output=True, text=True)
+            print(result.stdout, end="")
+            print(result.stderr, end="", file=sys.stderr)
+            print(f"{name}: exit {result.returncode}", flush=True)
+            ok &= assert_condition(result.returncode == 0, f"{name}: expected exit 0")
+            for relative in paths:
+                warnings = [
+                    line for line in result.stderr.splitlines() if line.startswith(f"WARNING: {plugin / relative}:")
+                ]
+                ok &= assert_condition(
+                    len(warnings) == expected_warnings,
+                    f"{name}: expected {expected_warnings} warnings for {relative}, got {len(warnings)}",
+                )
+    return ok
+
+
 def main() -> int:
     fixtures = TESTS / "fixtures"
     checks: list[tuple[list[str], int]] = [
@@ -167,6 +266,8 @@ def main() -> int:
         ok &= run(cmd, expected)
     ok &= run_bootstrap_smoke()
     ok &= run_adr_supersession_smoke()
+    ok &= run_latent_risk_snippet_smoke()
+    ok &= run_clean_split_prose_smoke()
     return 0 if ok else 3
 
 

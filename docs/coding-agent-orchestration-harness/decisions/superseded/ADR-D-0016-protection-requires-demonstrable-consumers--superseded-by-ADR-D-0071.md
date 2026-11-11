@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-01
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5"]
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0071-protection-is-owed-only-to-a-consumer-that-can-be-shown.md
 ---
 
 # ADR-D-0016: Protection requires demonstrable consumers
+
+Retired on 2026-11-11. Replaced by ADR-D-0071 and ADR-D-0072.
 
 ## Context and Problem Statement
 
