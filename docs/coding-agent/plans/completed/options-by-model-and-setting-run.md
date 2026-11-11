@@ -1,11 +1,11 @@
 # Run record: An option is a model at the setting it runs at
 
-- Governing brief: `docs/coding-agent/briefs/active/options-by-model-and-setting-brief.md`
+- Governing brief: `docs/coding-agent/briefs/completed/options-by-model-and-setting-brief.md`
 - Hand-over: Counsel's relay of 2026-11-10 18:38Z by the channel clock, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of 2026-11-11: "I ratify it." His word on the order of the waiting runs, relayed 18:46Z: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: 39af158 (the brief committed on the run's branch, on top of main 8d5f390).
-- Readings file: `docs/coding-agent/plans/active/options-by-model-and-setting-readings.md`.
-- Changes file: `docs/coding-agent/plans/active/options-by-model-and-setting-changes.md`.
-- State: reported ready (candidate ready), 2026-11-11: the plan is done, scenarios 1 and 3 are demonstrated on made-up lineups, and scenario 2 is not yet, since it asks for a run opened after the change. One finding bears on the design and is with the owner through Counsel (how far apart two settings must be to be recorded as options of their own). Open for the owner's judgement. On his directions of 2026-11-11 (which settings the record lists, the unavailable-option cases, the Codex seats' settings) a small change was built; its first closeout audit held one item, which he answered with three further answers the same day, and its second closeout audit holds nothing. Reported candidate ready again 2026-11-11; scenario 2 is still not yet.
+- Readings file: `docs/coding-agent/plans/completed/options-by-model-and-setting-readings.md`.
+- Changes file: `docs/coding-agent/plans/completed/options-by-model-and-setting-changes.md`.
+- State: reported ready (candidate ready), 2026-11-11: the plan is done, scenarios 1 and 3 are demonstrated on made-up lineups, and scenario 2 is not yet, since it asks for a run opened after the change. One finding bears on the design and is with the owner through Counsel (how far apart two settings must be to be recorded as options of their own). Open for the owner's judgement. On his directions of 2026-11-11 (which settings the record lists, the unavailable-option cases, the Codex seats' settings) a small change was built; its first closeout audit held one item, which he answered with three further answers the same day, and its second closeout audit holds nothing. Reported candidate ready again 2026-11-11; scenario 2 is still not yet. Accepted by the owner by name on 2026-11-11, as Counsel relayed at 07:04Z by the channel clock: "I accept pull request 95." He accepted knowing that scenario 2 and the human-only condition can be judged only after the merge and an update of the installed plugin. The run is closed; the brief, the notes and this run's files are under `completed/`.
 
 ## Scenarios
 
