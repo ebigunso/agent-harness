@@ -34,7 +34,7 @@ Runaway spend, thrash and unattended divergence share one core, continuing witho
 
 Invariant: no resource ceiling is load-bearing for termination; the stall escalation is.
 
-Not covered: how progress and stall are measured (ADR-D-0011), who judges them (ADR-D-0029), and the escalation levels, the kinds of ceiling and how one is recorded, which goal mode's text states.
+Not covered: how progress and stall are measured (ADR-D-0011), who judges them (ADR-D-0029), and the escalation levels, which goal mode's text states.
 
 ## Validation
 

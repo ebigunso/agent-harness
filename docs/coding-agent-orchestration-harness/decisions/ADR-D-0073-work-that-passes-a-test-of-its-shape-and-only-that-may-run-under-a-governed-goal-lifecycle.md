@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0009-goal-mode-as-second-operating-mode.md"]
 superseded_by: null
 ---
 
-# ADR-D-0073: Search-shaped work, and only that, runs under a governed goal lifecycle on the harness substrate
+# ADR-D-0073: Work that passes a test of its shape, and only that, may run under a governed goal lifecycle
 
 ## Context and Problem Statement
 
@@ -19,9 +19,9 @@ Coding-agent platforms ship goal engines (on 2026-07-16: `/goal` in Claude Code 
 
 ## Decision
 
-- Search-shaped work runs in goal mode, a lifecycle in which the goal is held fixed and the work's structure is discovered by attempting, observing and revising.
-- A person's oversight of that work is relocated, never removed: it moves from a gate before each decision to structure around the loop, before it starts, while it runs and after it ends.
-- Work goes to goal mode by a test of its shape, never by preference: its end state can be checked objectively, its structure cannot be known before it starts, and every irreversible or outward-facing action can be kept out of the loop. Where the test is in doubt, the work is planned. The test is applied as a gate before the work starts.
+- Work that passes a test of its shape, and only that, may run in goal mode, a lifecycle in which the goal is held fixed and the work's structure is discovered by attempting, observing and revising.
+- A person's oversight of that work is relocated, never removed: it moves from a gate before each decision to structure around the loop, before it starts, while it runs and after it ends. While the loop runs, its work stays recorded and cheap to undo, which is what makes review after the work sufficient.
+- The test is of the work's shape, never of preference: its end state can be checked objectively, its structure cannot be known before it starts, and every irreversible or outward-facing action can be kept out of the loop. Where the test is in doubt, the work is planned. The test is applied as a gate before the work starts.
 - Goal mode and plan mode run on the one substrate. Goal mode changes the lifecycle around the substrate and nothing in it.
 
 ## Why
@@ -35,13 +35,13 @@ A structure that cannot be known in advance cannot be approved in advance, so ho
 
 ## Decision Boundary
 
-Invariant: search-shaped work has a governed lifecycle of its own; work enters it only by the test of its shape and is planned where the test is in doubt; a person's oversight is relocated to structure around the loop and never removed; both lifecycles run on one substrate.
+Invariant: a governed goal lifecycle exists for work that passes the test of its shape; work enters it only by that test and is planned where the test is in doubt; a person's oversight is relocated to structure around the loop and never removed; the loop's work stays recorded and cheap to undo; both lifecycles run on one substrate.
 
-Not covered: the mechanisms that carry the oversight (what bounds the loop, what it records, who assesses it, what stands between its completion and a merge), which their own records and goal mode's text state; the wording of the test and the point in a session at which it is applied; who authorizes a goal run; which goal engine runs the loop.
+Not covered: the mechanisms that carry the rest of the oversight, each left to a record of its own: what bounds the loop (ADR-D-0066), who assesses it (ADR-D-0029, ADR-D-0050), and what stands between its completion and a merge (ADR-D-0075); that the loop's work stays recorded and cheap to undo is carried here, and the form of the record and the means of undoing are goal mode's text; the wording of the test and the point in a session at which it is applied; who authorizes a goal run; which goal engine runs the loop.
 
 ## Validation
 
-- Review of the guidance asks: is the test of shape applied as a gate before non-trivial work starts, and is work that could have been planned and was run toward a goal recorded as misuse?
+- Review of the guidance asks: is the test of shape applied as a gate before the work starts, and is work that could have been planned and was run toward a goal recorded as misuse?
 - Review of an edit to goal mode's guidance asks: does it refer to the substrate's validation, evidence and role rules, and redefine none of them?
 
 ## Revisit When
@@ -52,4 +52,4 @@ Not covered: the mechanisms that carry the oversight (what bounds the loop, what
 
 ## More Information
 
-Replaces ADR-D-0009 in full. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`.
+Replaces ADR-D-0009 in full. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`. Related: ADR-D-0066 (the loop's envelope), ADR-D-0029 and ADR-D-0050 (its assessment), ADR-D-0075 (what stands before a merge).
