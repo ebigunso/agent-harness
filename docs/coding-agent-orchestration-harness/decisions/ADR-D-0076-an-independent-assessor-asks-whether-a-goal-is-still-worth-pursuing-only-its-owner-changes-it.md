@@ -49,10 +49,10 @@ The decision is broken where:
 ## Revisit When
 
 - The premise that a goal run has no human moment between its start and its retrospective at which direction is re-checked no longer holds.
-- The premise that goals do go stale or prove wrongly framed during a run, often enough to be worth an examination at every assessment, no longer holds: run after run, the examination finds no goal to question. The record of 2026-07-16 names no trial of this premise.
+- The premise that goals do go stale or prove wrongly framed during a run, often enough to be worth an examination at every assessment, no longer holds: run after run, the examination finds no goal to question. ADR-D-0014, dated 2026-07-16, names no trial of this premise.
 - Challenges so frequent that they show goals are being constructed weakly do not reopen this record; they reopen how a goal is constructed before its loop starts, which goal mode's text states.
 - Wrong goals reaching the retrospective although the examination was made do not reopen this record; they reopen the examination's questions and the assessor's cadence, which goal mode's text states.
 
 ## More Information
 
-Replaces ADR-D-0014 in full, at the same decision. Related: ADR-D-0029 (the assessor), ADR-D-0074 (a stall, the other finding on which a loop stops and waits), ADR-D-0073 (the goal lifecycle). Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, the section on independent in-loop assessment.
+Replaces ADR-D-0014 in full, at the same decision. Related: ADR-D-0029 (the assessor), ADR-D-0074 (the stall rule), ADR-D-0073 (the goal lifecycle). Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, the section on independent in-loop assessment.
