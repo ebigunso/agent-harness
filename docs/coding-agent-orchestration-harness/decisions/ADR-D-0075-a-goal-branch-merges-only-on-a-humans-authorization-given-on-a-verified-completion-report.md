@@ -42,7 +42,7 @@ Not covered: the report's sections and wording, how the human's review is conduc
 The decision is broken where:
 
 - a goal branch merged without a human's authorization, or a loop's report that its goal was satisfied was taken as authorization to merge;
-- the report a human acted on was verified by the loop itself, or against something other than the journal;
+- the assertions of the report a human acted on had not been verified against the journal by a reviewer other than the loop;
 - a merge rested on a report that had not been verified, or on one with an assertion the verification did not bear out.
 
 ## Revisit When
