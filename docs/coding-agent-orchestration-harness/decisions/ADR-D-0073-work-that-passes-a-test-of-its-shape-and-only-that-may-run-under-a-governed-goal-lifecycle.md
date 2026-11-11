@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0009-goal-mode-as-second-operating-mode.md"]
+supersedes: ["superseded/ADR-D-0009-goal-mode-as-second-operating-mode--superseded-by-ADR-D-0073.md"]
 superseded_by: null
 ---
 

@@ -46,4 +46,4 @@ Not covered: the default strictness mode and its name, the warning categories, a
 
 ## More Information
 
-Replaces ADR-I-0003 in full. Applied by ADR-D-0031 (the completion report is reviewer-verified prose). Reference: `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/validation-strictness.md`.
+Replaces ADR-I-0003 in full. Applied by ADR-D-0075 (the completion report is reviewer-verified prose). Reference: `plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/validation-strictness.md`.

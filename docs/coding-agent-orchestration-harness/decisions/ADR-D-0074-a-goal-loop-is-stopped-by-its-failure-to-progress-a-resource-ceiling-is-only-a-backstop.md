@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0028-a-goal-loop-ends-on-stall-not-on-resource-consumption.md"]
+supersedes: ["superseded/ADR-D-0028-a-goal-loop-ends-on-stall-not-on-resource-consumption--superseded-by-ADR-D-0074.md"]
 superseded_by: null
 ---
 

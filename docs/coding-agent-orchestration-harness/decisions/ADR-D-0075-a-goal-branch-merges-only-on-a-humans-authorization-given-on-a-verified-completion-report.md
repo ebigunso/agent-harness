@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0031-goal-completion-never-authorizes-merge.md"]
+supersedes: ["superseded/ADR-D-0031-goal-completion-never-authorizes-merge--superseded-by-ADR-D-0075.md"]
 superseded_by: null
 ---
 

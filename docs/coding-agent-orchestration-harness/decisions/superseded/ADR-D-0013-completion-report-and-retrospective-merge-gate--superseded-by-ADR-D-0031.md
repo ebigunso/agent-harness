@@ -8,7 +8,7 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: ../ADR-D-0031-goal-completion-never-authorizes-merge.md
+superseded_by: ADR-D-0031-goal-completion-never-authorizes-merge--superseded-by-ADR-D-0075.md
 ---
 
 # ADR-D-0013: Self-Asserted Completion Report Behind A Human Retrospective Merge Gate
