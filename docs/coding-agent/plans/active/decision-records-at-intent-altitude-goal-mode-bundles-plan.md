@@ -173,6 +173,8 @@
 - Nothing accepted is touched: the new records are proposed files, and removing them restores the folder. If a record is not written or a count changes, the Orchestrator renumbers before review so that no number is skipped within the pull request, and repairs the citations between the new records.
 
 ## Progress Log (append-only)
+- 2026-11-11T08:45Z Plan review requested of the Codex seat `agent-harness-reviewer` over agmsg. 08:47Z CHANGES REQUESTED, BUNDLE-P1; 08:48Z CHANGES REQUESTED on the revision, BUNDLE-R1; 08:50Z APPROVED at 317bf68, no findings remain. The changes are in the Decision Log.
+- 2026-11-11T08:51Z The reading is written in the readings file before the plan-draft audit is dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-11-11 Plan review (Codex review seat): CHANGES REQUESTED at 43dc34c, one minor finding. BUNDLE-P1: the Design said a changed count disturbs only one Worker's range, which the plan's own rule against skipped numbers makes false. The comparison now states the cost: later numbers move and every citation between the new records is repaired by the Orchestrator before review, checked by meaning.
