@@ -25,11 +25,11 @@ ADR-D-0071 holds that protection is owed only to a consumer that can be shown. A
 
 ## Why
 
-Whether a consumer exists is a question of fact. Where the run can answer it by reading, asking spends the person's attention on something that was within reach, and only questions of direction should reach the person. Where nothing the run can read answers it, the person is the only source left, and acting without an answer is a guess either way: keeping the surface adds an obligation that may serve nobody, and breaking it may break someone the run cannot see. Being told of a change made on evidence that there is no consumer is what makes going ahead without asking safe, because the person can still correct it.
+Asking whether a consumer exists where the run can answer by reading spends the person's attention on something that was within reach, while where nothing the run can read answers it the person is the only source left and acting without an answer is a guess either way. Being told of a change made on evidence that there is no consumer is what makes going ahead without asking safe, because the person can still correct it.
 
 ## Rejected Alternatives
 
-- The repository's boundary as the test, the person asked about a surface that crosses it and a surface inside it changed and reported: it lost because where a surface sits only stands in for what the sources show, and is wrong in both directions. It asks about a boundary-crossing surface whose consumers the run can read, and it takes a surface's being inside the repository as the answer with nothing looked at. Reopen if changes to surfaces that cross a repository's boundary, made on sources taken to settle the question, are found to break consumers.
+- The repository's boundary as the test, the person asked about a surface that crosses it and a surface inside it changed and reported: it lost because where a surface sits is only a proxy for whether accessible sources settle the question, and it asks about a boundary-crossing surface whose consumers the run can read. Reopen if changes to surfaces that cross a repository's boundary, made on sources taken to settle the question, are found to break consumers.
 - Asking the person whenever no consumer has been found, whatever the sources show about there being none: it lost because where the sources give real evidence that there is none the question is already answered; reopen if changes made on that evidence are found to break consumers on either side of a repository's boundary.
 
 ## Decision Boundary
