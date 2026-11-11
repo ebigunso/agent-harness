@@ -29,6 +29,15 @@ One read, of the two proposed records; the Orchestrator's report of 2026-11-10 2
 - ADR-D-0072 says a loader-routed session holds the Orchestrator role and that the policy being in context confers nothing, leaving the other ways in to ADR-D-0037. One decision with its boundary. Nothing marked.
 - The checker now warns where it failed on the Reviewer's prompt snippet; ADR-I-0007 is unchanged.
 
+## Counsel's read of the goal-mode area's second unit, 2026-11-11
+
+Not a full read. The Orchestrator's report of 2026-11-11 09:58Z arrived with the outcomes in it (the Codex review seat approved the plan, the wave and a final delta after findings in each; audits at plan draft and closeout held nothing). Pull request 98, stacked on 97; nothing accepted, retired or merged.
+
+- What Counsel did: a mechanical check of the twelve proposed records (ADR-D-0076 to ADR-D-0087), and a reading of the Decision of ADR-D-0077 and of ADR-D-0087 and the Why of ADR-D-0082. It did not read the other nine in full, and said so to him.
+- The check: every Why is one or two sentences; none cites a brief as its authority (ADR-D-0082's Why names the brief as what a goal run may drift from, which is its subject); none has an Invariant prompt; each `consulted` field names the old record's entries and Claude Fable 5.2.
+- ADR-D-0087 carries the line taken out of ADR-D-0076, the named invariants, and that what a run learns against its goal is surfaced. ADR-D-0077 has the reading of the gap settled before the loop starts. Both as he decided.
+- Brought to him: the audit's matter of direction on a Revisit When premise that the run words from an old record's reason, for rewrites he does not read; and the Orchestrator's report that it built an extended plan without a fresh plan review and plan-draft audit.
+
 ## Counsel's read of the goal-mode area's first unit, 2026-11-11
 
 One read, of the proposed ADR-D-0076; the Orchestrator's report of 2026-11-11 08:09Z arrived with the outcomes in it (plan review passed after eight findings; the wave's review, by a Claude reviewer after the two Codex seats left the roster, passed after seven; audits at plan draft and both closeouts held nothing). Pull request 97, nothing merged.
