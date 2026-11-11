@@ -45,6 +45,8 @@ The Orchestrator brought the three records whose decision the check found at odd
 
 - Amended the same day, on ADR-D-0020: the proposed ADR-D-0072 comes out of this run and of pull request 96. ADR-D-0020 stays as it is, its overtaken sentence included, until a record of another initiative replaces it. **gives** *(agent-proposed; on reading ADR-D-0072 he opened a discussion on how a session comes to hold a role, and decided that Counsel is the default role, shipped for everyone, which a record of that initiative will state; Counsel's advice was to take ADR-D-0072 out so that he does not accept a record he would retire within days; accepted 2026-11-11: "Go with your takes on both.")* This sets aside, for ADR-D-0020 only, the answer above that its old sentence is corrected in this run's rewrite. *(inferred)*
 
+- With ADR-D-0072 gone from the run, the proposed ADR-D-0073 takes the number ADR-D-0072, so that the run's proposed records skip no number. **gives** *(told 2026-11-11, on the Orchestrator's offer to rename it before acceptance: "ADR numbering should be changed as offered."; and his direction of the same day on two other pull requests: "renumber the ADRs so the numbering skip within one PR is not there anymore.")*
+
 ## Directed during the run
 
 His answer of 2026-11-11 to two questions the Orchestrator raised with the first unit, each put to him as two experiences with Counsel's advice, quoted whole: "I'll take your advice on both questions."
