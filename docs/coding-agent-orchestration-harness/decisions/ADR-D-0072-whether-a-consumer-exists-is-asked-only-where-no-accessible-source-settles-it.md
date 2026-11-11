@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0016-protection-requires-demonstrable-consumers.md"]
 superseded_by: null
 ---
 
-# ADR-D-0073: The person directing the work is asked whether a consumer exists only where no accessible source settles it
+# ADR-D-0072: The person directing the work is asked whether a consumer exists only where no accessible source settles it
 
 ## Context and Problem Statement
 

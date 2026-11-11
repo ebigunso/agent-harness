@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: protection is anything a change adds or keeps so that existing behaviour stays as it is, a compatibility layer or a test assertion. A consumer is whoever or whatever relies on that behaviour.
 
-Agents add two kinds of protection nobody asked for: they keep existing interfaces alive through compatibility layers, and they pin behaviour with test assertions beyond what the change requires. Each reads as diligence, and each is a standing obligation on all later work: a surface that must keep working, an assertion that must keep passing. The fork is whether protection is good in itself or must be owed to someone. What happens where it cannot be established whether a consumer exists is decided in ADR-D-0073.
+Agents add two kinds of protection nobody asked for: they keep existing interfaces alive through compatibility layers, and they pin behaviour with test assertions beyond what the change requires. Each reads as diligence, and each is a standing obligation on all later work: a surface that must keep working, an assertion that must keep passing. The fork is whether protection is good in itself or must be owed to someone. What happens where it cannot be established whether a consumer exists is decided in ADR-D-0072.
 
 ## Decision
 
@@ -36,7 +36,7 @@ Protection with nobody behind it costs every later change and benefits no one, a
 
 Invariant: protection needs a consumer or contract that can be shown, never itself and never a hypothetical one.
 
-Not covered: what counts as showing a consumer; what is done about a consumer that is found; whether the person directing the work is asked where it cannot be established that a consumer exists (ADR-D-0073); the wording and location of the guidance.
+Not covered: what counts as showing a consumer; what is done about a consumer that is found; whether the person directing the work is asked where it cannot be established that a consumer exists (ADR-D-0072); the wording and location of the guidance.
 
 ## Validation
 
@@ -49,4 +49,4 @@ Not covered: what counts as showing a consumer; what is done about a consumer th
 
 ## More Information
 
-With ADR-D-0073, replaces ADR-D-0016 in full. This record carries its requirement that protection have a consumer that can be shown. What it decided for the case in which a consumer cannot be verified is ADR-D-0073's, and is changed there.
+With ADR-D-0072, replaces ADR-D-0016 in full. This record carries its requirement that protection have a consumer that can be shown. What it decided for the case in which a consumer cannot be verified is ADR-D-0072's, and is changed there.

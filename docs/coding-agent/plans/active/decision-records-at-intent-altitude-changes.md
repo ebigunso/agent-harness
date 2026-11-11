@@ -177,3 +177,9 @@ Small changes built without a plan under the governing brief, each from the owne
 - Handled directly by the Orchestrator as trivial: one proposed record's file is removed, nothing accepted changes, and no other file cites it. It starts from revision f7e924f.
 - 2026-11-11T06:37Z `docs/coding-agent-orchestration-harness/decisions/ADR-D-0072-a-session-routed-by-the-installed-loader-holds-the-orchestrator-role.md` removed. ADR-D-0020 is untouched and stays accepted; ADR-D-0037, which depends on it, is untouched. The run record's result for ADR-D-0020 and its State line say so. The number ADR-D-0072 is left unused by this run; ADR-D-0073 keeps its number. `validate_harness_package.py` passes. Pull request 96's text is brought up to date.
 
+## The record split from ADR-D-0071 renumbered ADR-D-0072
+
+- The owner's statement: the governing brief, the entry on the numbering. As it reached this session, Counsel's relay of 2026-11-11 06:54Z by the channel clock: shown the offer to renumber the proposed ADR-D-0073 so that no gap shows where the removed rewrite of ADR-D-0020 was, he said: "ADR numbering should be changed as offered."
+- Handled directly by the Orchestrator as trivial: a rename of one proposed record and its number in the two proposed records. It starts from the revision that commits the brief's entry.
+- 2026-11-11T06:56Z The record's file is `docs/coding-agent-orchestration-harness/decisions/ADR-D-0072-whether-a-consumer-exists-is-asked-only-where-no-accessible-source-settles-it.md`; its id and title, and ADR-D-0071's references to it, say ADR-D-0072. The run record follows. Entries above this one, and the readings file, call it ADR-D-0073 and call the removed rewrite of ADR-D-0020 ADR-D-0072, as they were written. No file outside those cites either number. `validate_harness_package.py` passes. Pull request 96's text is brought up to date.
+
