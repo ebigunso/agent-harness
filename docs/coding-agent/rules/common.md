@@ -9,8 +9,8 @@ last_updated: "2026-11-11"
 
 ## Repository Reference Documents
 
-- Product philosophy: none yet. Once it exists, work here is held to the behaviour the product owner wants from the product. To start one, open a Counsel session.
-- Engineering philosophy: none yet. Once it exists, work here is held to how the owner wants the project to look. To start one, open a Counsel session.
+- Product philosophy: docs/product-philosophy.md
+- Engineering philosophy: docs/engineering-philosophy.md
 - Counsel: `agent-harness-counsel` on the peer channel; relays admitted (Standing Approvals).
 - `plugins/coding-agent-orchestration-harness/README.md`: plugin layout, runtime paths, validators, Codex bootstrap commands, and ADR location.
 - Decision records: follow `docs/coding-agent-orchestration-harness/decisions/`; match the existing ADRs' numbering and sections.
