@@ -1,6 +1,6 @@
 # Plan: Decision records at intent altitude, the goal-mode records that hold more than one decision
 
-- status: draft 2026-11-11
+- status: draft 2026-11-11 (revised after plan review BUNDLE-P1)
 - generated: 2026-11-11
 - last_updated: 2026-11-11
 - work_type: docs
@@ -34,12 +34,12 @@
 - Chosen: one Worker for each old record, four in parallel, each owning a range of numbers fixed here.
 - Alternative: one Worker for all four, writing the records in sequence.
 - structure: under the chosen design the sibling records of one old record are written by one mind, and records of different old records cite each other only by the numbers this plan assigns; under the alternative every cross-citation is settled by the one writer as it goes.
-- evolution: a changed count in one record disturbs only that Worker's range under the chosen design, and the Orchestrator renumbers once before review; under the alternative the writer renumbers as it goes and a late finding in the first record delays the rest.
+- evolution: under the chosen design a changed count in one record moves every later number, since numbers may not skip: the Orchestrator renumbers the later records and repairs every citation between the new records before review, and checks each repaired citation by what it means, not by its number. No Worker enlarges its own range. Under the alternative the one writer numbers as it goes and that cost does not arise, but a late finding in the first record delays the rest.
 - verification: the review and the audit read the same ten records either way; the chosen design gives them four clause accounts to check, each against one old record.
 - operation: no runtime cost under either.
 - human: the owner reads the same records either way.
 - safety: neither changes a trust boundary.
-- Why chosen wins: the test is applied clause by clause to one old record at a time, which is the unit a Worker can hold whole; four in parallel finish in the time of one.
+- Why chosen wins: the test is applied clause by clause to one old record at a time, which is the unit a Worker can hold whole, and four in parallel finish in the time of one. The price is the renumbering and citation repair across all ranges when a count changes, which is the Orchestrator's, is done once, and is checked by the review.
 
 ## Compatibility stance
 - preserve, for this plan: it adds proposed files and changes no accepted record, filename or reference. The change that follows his acceptance retires records and repairs references, and states its own stance.
@@ -175,6 +175,7 @@
 ## Progress Log (append-only)
 
 ## Decision Log (append-only; re-plans and major discoveries)
+- 2026-11-11 Plan review (Codex review seat): CHANGES REQUESTED at 43dc34c, one minor finding. BUNDLE-P1: the Design said a changed count disturbs only one Worker's range, which the plan's own rule against skipped numbers makes false. The comparison now states the cost: later numbers move and every citation between the new records is repaired by the Orchestrator before review, checked by meaning.
 
 ## Notes (Risks / Edge cases)
 - The owner's test may find a count other than the census's for any of the four; the census was made before the test was stated. The plan's numbers are a starting assignment, not a requirement.
