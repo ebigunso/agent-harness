@@ -3,7 +3,7 @@
 - status: ratified by ebigunso on 2026-11-02 ("Nothing to add, I ratify the brief, hand it over."). Asked before ratifying whether there is anything the work must not do or must ask before doing, he added nothing.
 - handed to: agent-harness-orchestrator on 2026-11-02
 - drafted by: agent-harness-counsel, from discussion with ebigunso on 2026-11-02
-- product basis: the product owner's own words in this brief. ebigunso owns the harness; no product philosophy and no engineering philosophy exist for this repository.
+- product basis: the product owner's own words in this brief. ebigunso owns the harness. When the brief was ratified on 2026-11-02 the repository had no product philosophy and no engineering philosophy. He ratified both on 2026-11-11 (`docs/product-philosophy.md`, `docs/engineering-philosophy.md`); the brief predates them and still rests on his own words, and from the day the rule file points at them the run is graded against the brief and both. *(basis line brought up to date by Counsel on 2026-11-12, after the value audit named it as out of date)*
 - provenance tags: *(told)* = ebigunso said it; *(inferred)* = Counsel read it from his words; *(agent-proposed)* = Counsel originated it and he accepted it. His quoted words with the date stand beside each.
 - kind marks: **gives** (what the work must give him; it binds), **constraint** (fixed regardless), **means** (a way to get what a gives-statement asks for; the run builds from it and may better it).
 
