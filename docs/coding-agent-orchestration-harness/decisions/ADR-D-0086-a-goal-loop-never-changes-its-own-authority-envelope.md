@@ -33,7 +33,7 @@ An envelope the loop may amend is no boundary, since the party under goal pressu
 
 ## Decision Boundary
 
-Not covered: that a changed envelope is authorized afresh, as a new one is, and by whom (ADR-D-0065, ADR-D-0064); that an envelope exists before the loop starts and what it consists of (ADR-D-0084); how the forbidden set is defined (ADR-D-0085); the protection of the goal condition against change by the loop (ADR-D-0079); what the loop does when it meets its boundary and how a renegotiation is brought about, which goal mode's text states; how a goal run is graded against the value documents (ADR-D-0082).
+Not covered: that a changed envelope is authorized afresh, as a new one is, and by whom (ADR-D-0065, ADR-D-0064); that an envelope exists before the loop starts and what it consists of (ADR-D-0084); how the forbidden set is defined (ADR-D-0085); that the loop never changes its goal (ADR-D-0087); what the loop does when it meets its boundary and how a renegotiation is brought about, which goal mode's text states; how a goal run is graded against the value documents (ADR-D-0082).
 
 ## Validation
 
@@ -48,4 +48,4 @@ The decision is broken where:
 
 ## More Information
 
-Replaces ADR-D-0066 together with ADR-D-0084 and ADR-D-0085: this record holds that the loop never changes its envelope. ADR-D-0066's clause that a changed envelope is authorized afresh is not carried here; ADR-D-0065 holds it. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, "Authority envelope". Related: ADR-D-0084 (the envelope), ADR-D-0064 and ADR-D-0065 (who authorizes an envelope, and on what conditions), ADR-D-0079 (the goal condition's protection).
+Replaces ADR-D-0066 together with ADR-D-0084 and ADR-D-0085: this record holds that the loop never changes its envelope. ADR-D-0066's clause that a changed envelope is authorized afresh is not carried here; ADR-D-0065 holds it. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, "Authority envelope". Related: ADR-D-0084 (the envelope), ADR-D-0064 and ADR-D-0065 (who authorizes an envelope, and on what conditions), ADR-D-0087 (the loop never changes its goal).
