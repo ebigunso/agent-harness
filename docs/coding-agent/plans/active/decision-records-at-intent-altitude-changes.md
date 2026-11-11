@@ -94,3 +94,79 @@ Small changes built without a plan under the governing brief, each from the owne
 - 2026-11-11T05:49Z Both fixed by the same Worker, in ADR-D-0073 only. The Why is two sentences: asking where the run can answer by reading spends his attention on what was within reach, while where nothing readable answers it he is the only source left; being told is what makes going ahead safe. The boundary test lost because where a surface sits is only a proxy for whether accessible sources settle the question. Its reopen condition is unchanged. Checks rerun by the Orchestrator.
 - 2026-11-11T05:49Z Review: APPROVED at 5ccc225 for the whole change ded3c32..5ccc225; SPLIT-F1 and SPLIT-F2 closed, no findings remain. The required checks pass, run independently.
 - 2026-11-11T05:50Z The reading is written in the readings file before the closeout audit is dispatched.
+- 2026-11-11T05:50Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: d0daad7.
+- 2026-11-11T05:55Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict. Nothing is held: no item is `ask-now`. One judgement call carries the `direction` mark (item 4), and one reading diverges (item 3).
+  **Before the record**
+  - **Range audited:** d0daad7 to the working tree, clean at baec06b (four commits: ded3c32, 5f2e1a5, 5ccc225, baec06b).
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan; the section graded is "ADR-D-0071 widened and split", which records d0daad7 as its start.
+  - **Dispatch:** it matched the fixed template, with no extra text.
+  - **First step, departures:** 
+    - Before the mandate was open I ran one Glob that returned its file name only.
+    - Two commands printed more than one file: one `git diff` over `plugins/` (four files' diffs, with both exclude pathspecs), and one command printing the front matter of ADR-D-0071 at d0daad7 and at HEAD and of ADR-D-0016.
+    - Two Grep searches printed matching lines across files; the first excluded notes and readings files by glob, and the second covered `plugins/` only.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed.
+  **Verdict record**
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk, and its diff over the range)
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states)
+  - The diff d0daad7 to the working tree, with both exclude pathspecs.
+  - Read to understand the change, not as support: ADR-D-0071 and ADR-D-0073 at HEAD, and ADR-D-0016, all under `docs/coding-agent-orchestration-harness/decisions/`.
+  Product basis: brief in the product owner's words ("product basis: the product owner's own words in this brief. ebigunso owns the harness")
+  Not audited: the engineering side; `common.md` reads "Engineering philosophy: none yet", so it has no document. The product philosophy line also reads "none yet"; the product side is graded on the brief.
+  Missing inputs: none
+  Value documents changed in range: the governing brief, in commit ded3c32. No pointer line was removed or changed; `common.md` is unchanged in the range.
+  - One statement was added under "Directed during the run": "A check that requires or forbids a token a program reads elsewhere (a file name, a role name, a schema field name) where it is mentioned in a document only people and models read stays failing."
+  - It carries its record: told 2026-11-11, "Leave them failing." It is support.
+  - No grade below relies on it, and nothing in the range is built on it; the checker is unchanged in the range.
+  Statements quoted below, by short name:
+  - **Widening:** brief, "The three raised decisions, answered 2026-11-11": "what decides whether he is asked is whether the information within reach settles the question, not whether the surface crosses the repository's boundary. He is asked only where no accessible source of information settles whether a consumer exists." (told 2026-11-11: "71 should be widened, so that questions are raised only when any accessible information source does not settle the question, not at the moment it crosses repository boundaries.")
+  - **Split:** same section: "The proposed ADR-D-0071 is split in two records: that protection needs a consumer that can be shown, and when he is asked where a consumer cannot be verified." (told 2026-11-11: "Probably it should be split too.")
+  - **Goes ahead:** same section, the ADR-D-0016 answer: "inside the repository it goes ahead and says what it did."
+  - **Reporting:** brief, Directed during the run: "The plugin's text says that a change inside the repository made with its consumers unverified is reported in every kind of run, a goal-mode run and a small change without a plan included.", with its ground "being told is what makes going ahead without asking safe".
+  - **By name:** brief, Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each."
+  - **Not relied on anywhere:** the three sentences of those entries tagged inferred with no record of their own ("This replaces the boundary test in the entry above, in the record and in the plugin's text that states it"; "Which sources count as accessible ... are the run's to word"; the reading of "probably" as his direction).
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. ADR-D-0071 (proposed) reduced to the evidence requirement: title, Decision, Why, Rejected Alternatives, Decision Boundary, Validation and More Information lose the unverifiable case and point to ADR-D-0073 | maps to the brief | cited | Split | -
+  2. ADR-D-0073, new and proposed: the person directing the work is asked whether a consumer exists only where no accessible source settles it, the surface is then neither kept nor broken without an answer, and where the surface sits does not decide | maps to the brief | cited | Widening; Split | -
+  3. ADR-D-0073's second decision, with the Worker's judgement call that the reporting duty sits in ADR-D-0073: where accessible sources settle that there is no consumer, the change goes ahead without asking and is reported | maps to the brief | inferred | extends Goes ahead and Reporting, both worded for a change inside the repository, to any surface the sources settle; extends Split for which record carries it; cheap to undo | -
+     - Reporting more changes tightens what he is told; nothing is loosened beyond the Widening's own words.
+  4. Judgement call, the Orchestrator's ruling, written into ADR-D-0073's terms and the plugin's text: a source is accessible when the run can read it with the access it has; it settles the question when it shows a consumer or gives real evidence that there is none; absence of found consumers is real evidence "where the sources searched would show a consumer if there were one"; no list of sources is exhaustive | maps to the brief | inferred | extends Widening; cheap to undo | direction
+     - Why the mark: these words set when a question reaches him. The run judges whether what it can read is real evidence of no consumer, for a surface that crosses the repository's boundary as well.
+     - His words say "any accessible information source does not settle the question" and define neither term.
+  5. ADR-D-0073's derived Why, its two rejected alternatives with their reasons and reopen conditions (the boundary test; asking in every case, widened to either side of the boundary), its Validation and its Revisit When, including the two review fixes SPLIT-F1 and SPLIT-F2 | maps to the brief | inferred | extends Widening, the ground in Reporting, and the ground of the ADR-D-0016 answer ("only direction-level questions reach him"); cheap to undo | -
+     - None is his statement. They reach him with the record when it is put to him by name.
+  6. Judgement call, Orchestrator: both records stay proposed and reach him by name; ADR-D-0016 is not touched or retired | maps to the brief | cited | By name | -
+  7. Judgement call, Worker and review: the two decisions stand apart, each retirable with the other held fixed | maps to the brief | cited | Split | -
+     - My own reading of the two records agrees: ADR-D-0071 states only the evidence requirement, and ADR-D-0073 states only what happens where no consumer is shown.
+  8. `core-principles.md`, "Where no consumer is shown": where the sources the run can read settle that there is none, the change goes ahead and is reported whatever kind of run made it; where no accessible source settles it, the question is put to the person directing the work, under a plan as the `ask-user` stance | maps to the brief | cited | Widening; Reporting for the report | -
+     - The Widening states when he is asked, and the plugin's text is what makes a run ask, so the text following is that statement built.
+     - No sentence naming the boundary test is left in the plugin; my search found the phrase only in ADR-D-0073's rejected alternative.
+  9. Judgement call, Worker: the plugin's text gives two examples of sources beyond the repository (a dependent repository, a registry's list of dependents) and four of surfaces whose users nothing readable would show; the records give none | maps to the brief | inferred | extends Widening; cheap to undo | -
+     - This is the same matter as item 4 and is shown with it: the registry example is where a run would now go ahead on a boundary-crossing surface without asking.
+  10. Judgement call, Worker: the label "Surface classification" renamed "Where no consumer is shown" | maps to the brief | inferred | extends Widening ("not at the moment it crosses repository boundaries"); cheap to undo | -
+  11. Judgement call, Worker: the closing report's words change from "with its consumers unverified" to "with no consumer found" | maps to the brief | inferred | extends Reporting and Widening; cheap to undo | -
+      - The brief's Reporting statement still words the case as "inside the repository" with "consumers unverified". The built text reports every change that goes ahead on evidence of no consumer, which contains that case. I found no conflict in his quoted words.
+  12. The two review checks reworded to match (was the question put to the person directing the work; does the stance or the closing report say so) | maps to the brief | inferred | extends Widening and Reporting; cheap to undo | -
+  13. `plan-format/SKILL.md` rule 8 and the plan template's justification line: "A surface whose consumers no accessible source settles takes `ask-user`" | maps to the brief | cited | Widening | -
+      - No program reads the old or new justification string; my search of the tree found neither outside these files.
+  14. `final-response-contract.md`: the pointer now reads "a surface changed with no consumer found included, per "Where no consumer is shown"" | maps to the brief | cited | Reporting | -
+  15. Judgement call, Orchestrator: built as a small change without a plan | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  16. Judgement call, Orchestrator: the change goes on top of the run's branch | internal mechanics | not audited | the engineering side has no document; nothing of the range is on the remote by the local refs (branch ahead 4 of origin, origin at d0daad7), so nothing outward-facing has happened | -
+  17. Judgement call, Orchestrator: one writing Worker (Claude subagent on Fable 5.2 at low reasoning effort) for both records and the plugin text, reviewed by the Codex review seat | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  18. Judgement call, Orchestrator's dispatch: if the two decisions cannot stand apart, that is reported and not resolved in the text | maps to the brief | inferred | extends Split and By name; cheap to undo; it keeps the decision with him and the case did not arise | -
+  Decision records reworded after acceptance in the range: none. ADR-D-0071 was `status: proposed` at d0daad7 and is still; ADR-D-0073 is new and proposed; ADR-D-0016 is accepted and unchanged.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): ready for the owner's judgement, for one instance only. To observe: read ADR-D-0071 and ADR-D-0073 at HEAD, both `status: proposed`, each stating one decision and naming the other as not covered. What remains is his acceptance of each by name. The instance is the run's own proposed record, split on his word; none of the 20 accepted records the census classed as split has been split.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0016 and ADR-D-0020, both accepted and unchanged, and the run record's result table.
+  - Prior states, from the run record: 1 to 3 not yet, 4 demonstrated. Scenario 2 moved.
+  - Getting closer: yes. The range builds what he directed on reading the proposed record, in his words: the ask test is widened and the record is split in two that stand apart. The plugin's text states the new test once and no boundary test is left, so the two proposed records are true of the text they describe.
+  - Limits on that judgement: neither proposed record is accepted; none of the other 46 records has been checked; and this is the second small change on the first unit's records, with the four units by area not started.
+- Acting on the verdict: nothing is held, so the change closes. The item marked direction (what makes a source accessible and what settles the question, with the plugin's registry example) goes to the owner through Counsel. The reading is corrected where the audit's grade differs. ADR-D-0071 and ADR-D-0073 reach him by name with the passages the run derived.
