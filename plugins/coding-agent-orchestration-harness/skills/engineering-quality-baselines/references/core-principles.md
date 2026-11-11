@@ -30,16 +30,16 @@ These principles are intentionally repository-agnostic and language-neutral.
 - A consumer counts only if it is **locatable**: you can point at a call site, a dependent repo, a documented contract, or persisted data. Conceivable or categorical consumers ("downstream users", "external scripts may call this") do not count.
 - The artifact being justified cannot be its own consumer (a shim is not justified by its own docs; a test is not justified by the test suite).
 - **Reach**: a locatable consumer within the change's reach (same repo or task scope) is migration work — update it as part of the change. Only locatable consumers out of reach justify a compatibility layer.
-- **Surface classification** for the unverifiable case, applied to the surface actually being changed (not the repo as a whole):
-  - Repo-internal surface: absence of found consumers is real evidence; default to migrate or break. The change goes ahead without asking and is reported to the person directing the work, whatever kind of run made it: under a plan the Compatibility stance is that report; otherwise the run's closing report names the surface as changed with its consumers unverified.
-  - Boundary-crossing surface (published package APIs, network APIs, persisted or wire formats, externally invoked CLIs): consumers are presumed possible even when unfound; neither silently preserve nor silently break — route the question to the user in the plan.
+- **Where no consumer is shown** for the surface actually being changed (not the repo as a whole), what decides is whether the sources the run can read with the access it has settle whether one exists, not where the surface sits:
+  - The sources settle that there is none: absence of found consumers is real evidence where the sources searched would show a consumer if there were one, as a search of the repository does for a surface nothing outside it can reach, and as a dependent repository or a registry's list of dependents the run can read may for a surface that crosses the repository's boundary. Default to migrate or break. The change goes ahead without asking and is reported to the person directing the work, whatever kind of run made it: under a plan the Compatibility stance is that report; otherwise the run's closing report names the surface as changed with no consumer found.
+  - No accessible source settles it (for example a published package API, network API, persisted or wire format, or externally invoked CLI whose users nothing the run can read would show): neither silently preserve nor silently break — put the question to the person directing the work, under a plan as the `ask-user` stance.
 
 Review checks:
 - Are behavior changes intentional and clearly bounded?
 - Are interface and contract impacts explicit?
 - Does each preserved surface or compatibility layer map to a locatable, out-of-reach consumer?
-- For changed boundary-crossing surfaces with unverifiable consumers, was the decision routed to the user rather than defaulted?
-- For changed repo-internal surfaces with unverified consumers, does the Compatibility stance or the closing report say so?
+- For a changed surface whose consumers no accessible source settles, was the question put to the person directing the work rather than defaulted?
+- For a surface changed on evidence that it has no consumer, does the Compatibility stance or the closing report say so?
 
 ### 2) Keep Changes Small, Cohesive, and Reversible
 
