@@ -1,6 +1,6 @@
 # Plan: Decision records at intent altitude, the goal-mode records rewritten at the same decision
 
-- status: draft 2026-11-11 (revised after plan review GM-P1 to GM-P7)
+- status: draft 2026-11-11 (revised after plan review GM-P1 to GM-P7 and GM-R1)
 - generated: 2026-11-11
 - last_updated: 2026-11-11
 - work_type: docs
@@ -70,7 +70,7 @@
 - acceptance:
   - Before writing, each old record gets one of the outcomes in the Definition of Done. Only "one decision, admitted" leads to a new record; for any other outcome nothing is written for that record and the report says what was found and on what evidence.
   - Each new record states the old record's decision and nothing else, so that any rewording of the plugin's text that preserves it stays valid; no exact mechanics; the title states the decision; no wording names a thing by its position, order or relation to something else.
-  - Each Why is prose, present tense, a sentence or two, the fork and the reason one branch won, built from the old record's own reasons; every rejected alternative carries its reopen condition or is rejected outright, with why it lost. Where a reason or a reopen condition is written nowhere, the report lists what was derived, and nothing is passed off as the old record's.
+  - Each Why is prose, present tense, a sentence or two, the fork and the reason one branch won, built from the old record's own reasons; every rejected alternative carries its reopen condition or is rejected outright, with why it lost. A faithful restatement of a written reason, or what follows from one, is named in the report with its source. Where a reason or a reopen condition is written nowhere, the Worker invents nothing: it reports the gap under questions and does not write that record, which waits until the Orchestrator has the reason settled and recorded in the Decision Log.
   - Status proposed; `supersedes` names the old record; `consulted` carries over the old record's entries and adds the model writing the record; filename at most 109 characters.
   - The report accounts for every clause of each old record: carried into the new record, or left to plugin text quoted by file and line, or stated nowhere in the plugin.
 - validation:
@@ -94,7 +94,7 @@
 - acceptance:
   - Before writing, each old record gets one of the outcomes in the Definition of Done. Only "one decision, admitted" leads to a new record; for any other outcome nothing is written for that record and the report says what was found and on what evidence.
   - Each new record states the old record's decision and nothing else, so that any rewording of the plugin's text that preserves it stays valid; no exact mechanics; the title states the decision; no wording names a thing by its position, order or relation to something else.
-  - Each Why is prose, present tense, a sentence or two, the fork and the reason one branch won, built from the old record's own reasons; every rejected alternative carries its reopen condition or is rejected outright, with why it lost. Where a reason or a reopen condition is written nowhere, the report lists what was derived, and nothing is passed off as the old record's.
+  - Each Why is prose, present tense, a sentence or two, the fork and the reason one branch won, built from the old record's own reasons; every rejected alternative carries its reopen condition or is rejected outright, with why it lost. A faithful restatement of a written reason, or what follows from one, is named in the report with its source. Where a reason or a reopen condition is written nowhere, the Worker invents nothing: it reports the gap under questions and does not write that record, which waits until the Orchestrator has the reason settled and recorded in the Decision Log.
   - Status proposed; `supersedes` names the old record; `consulted` carries over the old record's entries and adds the model writing the record; filename at most 109 characters.
   - The report accounts for every clause of each old record: carried into the new record, or left to plugin text quoted by file and line, or stated nowhere in the plugin.
 - validation:
@@ -117,6 +117,7 @@
 
 ## Decision Log (append-only; re-plans and major discoveries)
 - 2026-11-11 Plan review (Codex review seat) returned CHANGES REQUESTED on the first draft, which held all nine goal-mode records and fifteen new ones in one unit, with acceptance and retirement as a task after the closeout audit. Changed: the area is two units and this plan holds the five rewrites (GM-P6, GM-P2); acceptance, retirement and reference repair leave the plan and follow it as a change of its own with its own review and audit (GM-P5, and the absence search's scope with it, GM-P7); each record gets an outcome before writing and a new record is proposed only if the admission test passes (GM-P3); a changed count is reported and re-scoped, never written outside owns (GM-P4); each task carries its own validation items (GM-P1).
+- 2026-11-11 Second plan review: GM-P1 to GM-P7 closed; GM-R1 raised on the revision, which had a Worker list what it derived where a reason is written nowhere. Changed to the standard's route: the Worker reports the gap and invents nothing, and the record waits until the reason is settled and recorded here.
 
 ## Notes (Risks / Edge cases)
 - A rewrite judged "same decision" by its writer may shift the decision's reach by a changed word. The clause account, the review against the old record and the closeout audit's record-by-record confirmation are the three checks; a record any of them cannot confirm reaches the owner by name.
