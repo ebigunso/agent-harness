@@ -183,3 +183,9 @@ Small changes built without a plan under the governing brief, each from the owne
 - Handled directly by the Orchestrator as trivial: a rename of one proposed record and its number in the two proposed records. It starts from the revision that commits the brief's entry.
 - 2026-11-11T06:56Z The record's file is `docs/coding-agent-orchestration-harness/decisions/ADR-D-0072-whether-a-consumer-exists-is-asked-only-where-no-accessible-source-settles-it.md`; its id and title, and ADR-D-0071's references to it, say ADR-D-0072. The run record follows. Entries above this one, and the readings file, call it ADR-D-0073 and call the removed rewrite of ADR-D-0020 ADR-D-0072, as they were written. No file outside those cites either number. `validate_harness_package.py` passes. Pull request 96's text is brought up to date.
 
+
+## The consulted field of the two proposed records
+
+- The owner's statement: the governing brief, Directed during the run, the entry on the consulted field. As it reached this session, Counsel's relay of 2026-11-11 07:00Z by the channel clock: shown the two proposed records ADR-D-0071 and ADR-D-0072 by name, he said: "I think the contents of the ADRs are fine. Name the model who I talked to, and have written the document, in the consulted section, then it is in an acceptable state." Counsel does not relay this as his acceptance of the two by name; that question is put to him.
+- Handled directly by the Orchestrator as trivial: one header field in each of two proposed records.
+- 2026-11-11T07:01Z Both records read `consulted: ["Claude Fable 5.2"]`. The model he talked with about these decisions is Counsel's, Claude Fable 5.2, by Counsel's statement; the model that wrote each record is the writing Worker's, Claude Fable 5.2 at low reasoning effort, by this run's dispatches. One name covers both, in the form the accepted records use. `validate_harness_package.py` passes. Neither record is accepted or retired on these words.

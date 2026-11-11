@@ -3,7 +3,7 @@ status: proposed
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
-consulted: []
+consulted: ["Claude Fable 5.2"]
 informed: []
 supersedes: ["ADR-D-0016-protection-requires-demonstrable-consumers.md"]
 superseded_by: null
