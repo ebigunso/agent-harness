@@ -59,7 +59,7 @@ Design assumptions:
 8) Compatibility stance:
 - If the plan touches a contract, interface, or persisted format, it MUST include a plan-level "Compatibility stance" section declaring one of: `break | preserve | migrate | ask-user`.
 - The stance must be justified by locatable consumers (per the locatable-consumer definition in `engineering-quality-baselines/references/core-principles.md`), not by hypothetical ones.
-- Boundary-crossing surfaces whose consumers cannot be verified default to `ask-user`.
+- A surface whose consumers no accessible source settles takes `ask-user` (the test is "Where no consumer is shown" in the same reference).
 - One plan-level stance suffices; add per-task stance notes only when stances differ across tasks.
 
 9) Decomposition depth + harmonization:
