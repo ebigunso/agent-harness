@@ -35,14 +35,15 @@ Oversight of a goal run comes after the work, which only works if the human's re
 
 ## Decision Boundary
 
-Invariant: completion of a goal run never authorizes a merge; a goal branch merges only on a human's authorization, and never on a completion report that is unverified or that verification against the journal did not bear out.
-
 Not covered: the report's sections and wording, how the human's review is conducted and how its outcomes feed the improvement loop, which goal mode's text states; which role verifies the report (ADR-D-0050); how a human's authorization to merge is given.
 
 ## Validation
 
-- Review before a goal branch merges asks: were the completion report's assertions verified against the journal by a reviewer other than the loop, and is that verification itself on record?
-- No goal branch merges on a report that is unverified or that the verification did not bear out.
+The decision is broken where:
+
+- a goal branch merged without a human's authorization, or a loop's report that its goal was satisfied was taken as authorization to merge;
+- the report a human acted on was verified by the loop itself, or against something other than the journal;
+- a merge rested on a report that had not been verified, or on one with an assertion the verification did not bear out.
 
 ## Revisit When
 

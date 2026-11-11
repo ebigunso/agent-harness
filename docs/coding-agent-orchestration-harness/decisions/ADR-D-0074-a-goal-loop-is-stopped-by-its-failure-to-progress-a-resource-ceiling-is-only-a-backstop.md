@@ -32,14 +32,16 @@ Runaway spend, thrash and unattended divergence share one core, continuing witho
 
 ## Decision Boundary
 
-Invariant: no resource ceiling is load-bearing for termination; the stall escalation is.
-
 Not covered: how progress and stall are measured (ADR-D-0011), who judges them (ADR-D-0029), and the escalation levels, which goal mode's text states.
 
 ## Validation
 
-- Stall escalations in the journal refer to the concrete history of the gap, not to narrative claims.
-- A goal file carries a ceiling only marked as a backstop; a run that ended on a ceiling is reviewed as a miss of stall detection.
+The decision is broken where:
+
+- a loop continued while it was not demonstrably reducing its expected distance to the goal;
+- a stall brought no escalation, or the loop went on past the escalation without waiting for the user;
+- a loop's stop at a stall escalation was counted as a failed termination;
+- a resource ceiling was the mechanism relied on to stop a loop that was not progressing.
 
 ## Revisit When
 
