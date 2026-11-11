@@ -41,6 +41,13 @@ The Orchestrator brought the three records whose decision the check found at odd
 - ADR-I-0007 (validators never fail on exact prose): the record stands and the checker is brought in line with it. The check that requires exact phrases in the Reviewer's prompt snippet warns at most, and whether the snippet covers those risks is a reviewer's judgement. **gives** *(agent-proposed; Counsel's advice, on the ground that blocking an equivalent rewording is what the record forbids; accepted 2026-11-11 in the words above)* This changes a checker, which is plugin work this brief did not foresee; it is in the run by his word above. *(inferred)*
 - The records rewritten for ADR-D-0016 and ADR-D-0020 state a decision other than the old record's wording, so they reach him by name and are not among the rewrites that go in unread. *(inferred)*
 
+## Directed during the run
+
+His answer of 2026-11-11 to two questions the Orchestrator raised with the first unit, each put to him as two experiences with Counsel's advice, quoted whole: "I'll take your advice on both questions."
+
+- Every place where the package checker fails on wording that only people and models read is brought in line with ADR-I-0007: it warns, and a reviewer judges. The checker keeps failing only where a program reads the exact string, which is a contract in that record's own sense. **gives** *(agent-proposed; the Orchestrator's question on four further places, a required phrase in the two Orchestrator adapters, two forbidden phrases in the improvement-loop skill, a required phrase in its promotion guidelines and a forbidden heading in the rule-suite templates; Counsel's advice as stated here; accepted 2026-11-11 in the words above)* Which of the four a program reads is the run's to establish. *(inferred)*
+- The plugin's text says that a change inside the repository made with its consumers unverified is reported in every kind of run, a goal-mode run and a small change without a plan included. **gives** *(agent-proposed; the Orchestrator's question after his answer on ADR-D-0016, since only a plan's compatibility stance says it today; Counsel's advice was yes, in this run, on the ground that being told is what makes going ahead without asking safe; accepted 2026-11-11 in the words above)*
+
 ## Limits
 
 - The work runs beside the two runs in progress, as he asked, and lands by its own acceptance. **constraint** *(told 2026-11-02: "as a parallel task")*
