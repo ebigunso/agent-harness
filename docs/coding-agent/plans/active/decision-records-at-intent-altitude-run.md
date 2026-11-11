@@ -4,7 +4,7 @@
 - Hand-over: Counsel's relay of 2026-11-02, admitted by the standing approval of 2026-10-01, quoting the owner's ratification of that day: "Nothing to add, I ratify the brief, hand it over." Not started until 2026-11-11; his word on the order of the waiting runs, relayed 2026-11-10 18:46Z by the channel clock: "Do the settings work first, then the decision records cleanup."
 - Run starts from revision: a54b7a9 (the brief with his directions and answers of 2026-11-11, on top of main 8d5f390).
 - Readings file: `docs/coding-agent/plans/active/decision-records-at-intent-altitude-readings.md`.
-- State: the first unit (the three raised decisions) is done and reported 2026-11-11, with the changes he directed on it the same day: the checker's four other places and reporting an internal change in every kind of run; the proposed ADR-D-0071 widened and split; the proposed rewrite of ADR-D-0020 taken out, and the record split from ADR-D-0071 given its number. Two proposed records await his acceptance by name: ADR-D-0071 and ADR-D-0072 (when he is asked whether a consumer exists). The four units by area are not started.
+- State: the first unit (the three raised decisions) is done 2026-11-11, with the changes he directed on it the same day. ADR-D-0071 and ADR-D-0072 are accepted by name and ADR-D-0016 is retired; pull request 96 is accepted by name and waits to merge. The four units by area are not started.
 
 ## How the work reaches the owner
 
@@ -28,7 +28,7 @@ Units planned, by area, each its own plan, pull request and closeout:
 
 | Record | Result |
 | --- | --- |
-| ADR-D-0016 | raised; answered by the owner 2026-11-11 and amended by him the same day; rewritten to ADR-D-0071 and ADR-D-0072 (both proposed, awaiting his acceptance by name) |
+| ADR-D-0016 | raised; answered by the owner 2026-11-11 and amended by him the same day; rewritten to ADR-D-0071 and ADR-D-0072, both accepted by name 2026-11-11; retired |
 | ADR-D-0020 | raised; answered by the owner 2026-11-11; its proposed rewrite was taken out of this run on his word the same day: a decision of another initiative will replace the record, which stands accepted and unchanged until then, its overtaken sentence included. That rewrite was numbered ADR-D-0072 while it was proposed; the number now belongs to the record split from ADR-D-0071. |
 | ADR-I-0007 | raised; answered by the owner 2026-11-11: the record stands and the checker is brought in line with it; the record's own check against the standard follows in its area's unit |
 
@@ -39,7 +39,7 @@ State is one of: not yet; demonstrated (with how to observe); ready for the owne
 | Scenario | State |
 | --- | --- |
 | 1. A record whose Decision lists the route a question travels and the moves when it fails: rewritten as one decision (who may be asked, by whom) with the route left to the plugin text; title short enough to state the decision. | not yet |
-| 2. A record deciding two things that could be retired separately: split into two, each accepted by name. | ready for the owner's judgement, for one instance only (the run's own proposed record, split on his word): read ADR-D-0071 and ADR-D-0072, both proposed, each stating one decision and naming the other as not covered; what remains is his acceptance of each by name, 2026-11-11 |
+| 2. A record deciding two things that could be retired separately: split into two, each accepted by name. | ready for the owner's judgement, for one instance only (the run's own proposed record, split on his word): read ADR-D-0071 and ADR-D-0072, both proposed, each stating one decision and naming the other as not covered; what remains is his acceptance of each by name, 2026-11-11 Both accepted by him by name 2026-11-11, after this state was copied. |
 | 3. A record that is a rule with a status field (an exact string, a threshold, a dispatch template): retired; its material confirmed present in the rule or skill text, or placed there. | not yet |
 | 4. A record whose decision the check finds no longer true: not rewritten; brought to the owner through Counsel. | demonstrated: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0016 and ADR-D-0020, both still accepted and unchanged, and the result table above, 2026-11-11 |
 
