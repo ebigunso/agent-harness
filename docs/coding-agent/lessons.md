@@ -1500,6 +1500,62 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/options-by-model-and-setting-plan.md`, Progress Log, the entries of 2026-11-10 19:16Z to 19:20Z by the channel clock, read with the correction in `docs/coding-agent/plans/active/options-by-model-and-setting-changes.md`.
 
+## 2026-11-11 - A Plan Extended Mid-Run Is Reviewed And Audited Again Before It Is Built On  [tags: governance, validation, correction]
+
+Context:
+- A run under a brief, a plan authorized by the brief route, and the owner's answers arriving through Counsel while the plan's wave is in review.
+
+Symptom:
+- In the goal-mode bundles' unit the owner answered four matters at once. The Orchestrator extended the plan on them (one record added, one narrowed, a record of an earlier unit edited, the plan's scope and table changed) and had the extension built and reviewed as part of the wave. No plan review and no plan-draft audit of the plan as extended was run. The closeout audit found it.
+
+Root cause:
+- The Orchestrator took his words as settling the extension. They settle what is built; they do not show that the plan as changed still fits them, which is what the gate checks. The small-change route (his statement, the changes file, a review and a closeout audit) was open and would have been a route with its gates; extending the plan in place was neither that nor a re-authorized plan.
+
+Prevention:
+- When a decision arrives mid-wave that adds, removes or re-scopes a task, choose a route before dispatching: a small change in the changes file with its own review and closeout audit, or the plan revised, reviewed and audited again at plan draft. Editing the plan's scope and dispatching on it is not a route.
+
+Evidence:
+- `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-goal-mode-bundles-plan.md`, Decision Log, the entry on the gate missed, and the closeout verdict's first point.
+
+## 2026-11-11 - A Way Round A Rule Does Not Make It The Same Decision As The Rule That Blocks The Way  [tags: governance, review, correction]
+
+Context:
+- Splitting a decision record by the owner's test: a clause belongs to the same decision only if it could not stand once the first is retired.
+
+Symptom:
+- The Orchestrator accepted a Worker's argument that a guard on loosening a goal's measures is "empty" where the loop may change its goal, and ruled the two one decision. The review seat applied the test and got two: with the prohibition on changing the goal retired, the guard on the measures still binds. The matter had to go back to the owner, who chose two records.
+- In the same unit the census's counts did not survive the test in two of four records: a consequence clause counted as a decision of its own (what a held item does), and a base clause both siblings presuppose not counted at all (that an envelope exists).
+
+Root cause:
+- "Could be circumvented" was read as "could not stand". A rule that another rule's absence would let someone get round still binds what it names. The census was made before the test was stated and counted by separate retirability.
+
+Prevention:
+- Apply the test in both directions for each pair of clauses, and ask of each only whether it still constrains what is built with the other gone, never whether it would still be effective. Expect "X, and what happens when X fails or holds" to be one decision, and a clause that every sibling presupposes to be a decision of its own. Count an area's records by the test before a plan assigns number ranges.
+
+Evidence:
+- The same plan, Decision Log (the ruling withdrawn on BUNDLE-W1-F1; the re-scopes of Task_3 and Task_4).
+
+## 2026-11-11 - A Decision Clause A Rewrite Leaves Out Needs A Named Record, And History Does Not Prove A File's Present Contents  [tags: governance, review, validation]
+
+Context:
+- Rewriting accepted decision records at intent altitude; and plugin text that lets a refresh replace a file it once placed.
+
+Symptom:
+- A rewrite left one clause of an old record's Decision to "the plugin's text" where no other record held it; once the old record retired, removing the constraint would have contradicted no record. The review caught it, and the owner kept the ruling that such a clause must be held by a named accepted record.
+- A refresh rule judged a placed file untouched from its commit history alone; a staged or unstaged edit does not show there, and the refresh could have replaced it unseen. The review caught it.
+- A check of new, untracked files with `git diff --check` passed without looking at them.
+
+Root cause:
+- "Stated somewhere" was taken for "held by a record", and "came from setup" for "is still setup's". `git diff --check` reads tracked changes only.
+
+Prevention:
+- For each clause of an old Decision that a rewrite does not carry, the clause account names the accepted record that holds it, or the clause is carried; "plugin only" is ruled before review.
+- A rule that overwrites a file on evidence of where it came from also checks the file as it stands, index and working tree included, and takes the ask-first route on any doubt.
+- New files are checked for whitespace against an empty file (`git diff --no-index --check /dev/null <file>`), not with `git diff --check`.
+
+Evidence:
+- `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-goal-mode-plan.md` (GM-W1); `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (REFRESH-F1).
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
