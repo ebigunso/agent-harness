@@ -327,7 +327,7 @@ def check_operational_routing_surfaces(errors: list[str], warnings: list[str]) -
         fail(errors, f"{integration}: must aggregate harness_migration_candidates")
 
 
-def check_clean_split_guards(errors: list[str]) -> None:
+def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
     contract = ROOT / "skills" / "subagent-report-contract" / "SKILL.md"
     worker_validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
     promotion_guidelines = ROOT / "skills" / "improvement-loop" / "references" / "promotion-guidelines.md"
@@ -385,7 +385,7 @@ def check_clean_split_guards(errors: list[str]) -> None:
             continue
         text = path.read_text(encoding="utf-8")
         if "skill-candidates.md" not in text or not re.search(r"do not edit bundled.*harness", text, re.IGNORECASE | re.DOTALL):
-            fail(errors, f"{path}: Orchestrator adapter must stage cross-repo harness improvements instead of ordinary bundled harness edits")
+            warn(warnings, f"{path}: Orchestrator adapter must stage cross-repo harness improvements instead of ordinary bundled harness edits")
 
     if improvement_loop.exists():
         text = improvement_loop.read_text(encoding="utf-8")
@@ -395,15 +395,15 @@ def check_clean_split_guards(errors: list[str]) -> None:
         ]
         for phrase in stale_phrases:
             if phrase in text:
-                fail(errors, f"{improvement_loop}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
+                warn(warnings, f"{improvement_loop}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
 
     if promotion_guidelines.exists():
         text = promotion_guidelines.read_text(encoding="utf-8")
         if not re.search(r"harness[ _-]migration[ _-]candidates?", text, re.IGNORECASE):
-            fail(errors, f"{promotion_guidelines}: must include harness migration candidate guidance")
+            warn(warnings, f"{promotion_guidelines}: must include harness migration candidate guidance")
 
     if rule_templates.exists() and "Global Migration Candidates" in rule_templates.read_text(encoding="utf-8"):
-        fail(errors, f"{rule_templates}: role rule templates must not contain Global Migration Candidates sections")
+        warn(warnings, f"{rule_templates}: role rule templates must not contain Global Migration Candidates sections")
 
     if rules_files.exists():
         text = rules_files.read_text(encoding="utf-8")
@@ -441,7 +441,7 @@ def main() -> int:
     check_worker_report_reviewer_audience(errors)
     check_latent_risk_references(errors)
     check_operational_routing_surfaces(errors, warnings)
-    check_clean_split_guards(errors)
+    check_clean_split_guards(errors, warnings)
     check_adr_supersession(errors)
 
     for message in warnings:

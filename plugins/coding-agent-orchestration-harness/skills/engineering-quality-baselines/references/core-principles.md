@@ -31,7 +31,7 @@ These principles are intentionally repository-agnostic and language-neutral.
 - The artifact being justified cannot be its own consumer (a shim is not justified by its own docs; a test is not justified by the test suite).
 - **Reach**: a locatable consumer within the change's reach (same repo or task scope) is migration work — update it as part of the change. Only locatable consumers out of reach justify a compatibility layer.
 - **Surface classification** for the unverifiable case, applied to the surface actually being changed (not the repo as a whole):
-  - Repo-internal surface: absence of found consumers is real evidence; default to migrate or break.
+  - Repo-internal surface: absence of found consumers is real evidence; default to migrate or break. The change goes ahead without asking and is reported to the person directing the work, whatever kind of run made it: under a plan the Compatibility stance is that report; otherwise the run's closing report names the surface as changed with its consumers unverified.
   - Boundary-crossing surface (published package APIs, network APIs, persisted or wire formats, externally invoked CLIs): consumers are presumed possible even when unfound; neither silently preserve nor silently break — route the question to the user in the plan.
 
 Review checks:
@@ -39,6 +39,7 @@ Review checks:
 - Are interface and contract impacts explicit?
 - Does each preserved surface or compatibility layer map to a locatable, out-of-reach consumer?
 - For changed boundary-crossing surfaces with unverifiable consumers, was the decision routed to the user rather than defaulted?
+- For changed repo-internal surfaces with unverified consumers, does the Compatibility stance or the closing report say so?
 
 ### 2) Keep Changes Small, Cohesive, and Reversible
 
