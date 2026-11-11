@@ -39,6 +39,8 @@ The decision is broken where:
 - an invariant the goal condition names was weakened during a run without its owner's decision;
 - a loop abandoned its goal on its own, or acted on what it learned against the goal without surfacing it.
 
+A tightening by the loop of how the gap to the goal is read, or of the bar a plateau argument must clear, does not break it (ADR-D-0079).
+
 ## Revisit When
 
 - The premise that a change of a goal is a decision about direction, which belongs to the goal's owner and never to the loop, no longer holds. ADR-D-0014, dated 2026-07-16, names no trial of this premise.
