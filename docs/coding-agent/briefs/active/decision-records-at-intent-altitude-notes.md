@@ -28,3 +28,12 @@ One read, of the two proposed records; the Orchestrator's report of 2026-11-10 2
 - The reopen condition on the rejected "ask in every case" was derived by the run and sets when that question returns to him; the audit marks it as direction. Counsel's framing: it returns when changes made on the evidence of no consumer found are seen to break something inside a repository, or it never returns. Brought to him.
 - ADR-D-0072 says a loader-routed session holds the Orchestrator role and that the policy being in context confers nothing, leaving the other ways in to ADR-D-0037. One decision with its boundary. Nothing marked.
 - The checker now warns where it failed on the Reviewer's prompt snippet; ADR-I-0007 is unchanged.
+
+## Counsel's read after his widening and split of ADR-D-0071, 2026-11-11
+
+He said of the proposed ADR-D-0071: "71 should be widened, so that questions are raised only when any accessible information source does not settle the question, not at the moment it crosses repository boundaries." and, asked whether it stays one record: "Probably it should be split too." One read, of ADR-D-0073; the Orchestrator's report of 2026-11-11 05:57Z arrived with the outcomes in it (review approved after two findings in ADR-D-0073 were fixed; the closeout audit held nothing).
+
+- ADR-D-0071 is reduced to the evidence requirement. ADR-D-0073 is new and carries when he is asked: only where no accessible source settles whether a consumer exists; where sources settle that there is none the change goes ahead and is reported; where the surface sits never decides. It says what he said. Its Why is two sentences and cites no brief. The run, the review and the audit each found the two records stand apart.
+- The audit marks as direction the run's wording of "accessible" (the run can read it with the access it has) and "settles" (it shows a consumer, or gives real evidence that there is none, which a search does only where the sources searched would show one). Counsel's framing test, mine: a run that reads a registry's dependents and finds none goes ahead and reports, or asks him first; the two read differently, so it goes to him.
+- Its second Decision line carries his "goes ahead and says what it did", which he said of a change inside the repository, to any surface the sources settle. That follows from his widening; pointed out to him.
+- The two reopen conditions and the Revisit When are derived by the run; pointed out to him.
