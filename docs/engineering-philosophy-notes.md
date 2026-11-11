@@ -110,6 +110,12 @@ Counsel's reading, its own:
 - His words, of the engineering and the product philosophy as they then stood: "Alright. The two philosophies looks good to me now."
 - Counsel did not take this as ratification. Both companions were brought up to date with the present text the same day, and he was then shown, before being asked to ratify: what was discussed and is not in either text; where each departs from the conventional answer; the gaps left against the philosophy reference; and what changes for running work once a rule file points at them.
 
+## Ratification and the pointer, 2026-11-11
+
+- He ratified both: "I ratify the engineering philosophy and the product philosophy." Recorded in each companion as version 1.
+- The Orchestrator committed the six files on a branch of their own (pull request 100) and waited for his own statement of the two paths before adding a pointer line.
+- Shown the two paths in one line and pull request 100 by name as what was waiting on him, he said: "Write the pointer in and merge." His sentence names neither path nor the pull request; both were in the list he answered. Counsel relayed it with that said plainly.
+
 ## Open
 
 - His reaction to the three points, and whether the idea stands first in the philosophy or beneath it as its reason.
