@@ -11,9 +11,9 @@ Versions the trials ran on: Claude Code 2.1.322 (terminal CLI, Windows), Codex C
 ## Answers to the plan's assumptions (2026-11-12)
 
 - A1 (Claude Code runs a plugin's named agent as the main session when the plugin's root `settings.json` sets it, on the surfaces people use): **held for the terminal CLI, observed**, in a non-interactive run and in a full terminal session started in the background. For the desktop app's Code tab and the IDE extensions it is **documented** as loading plugin `settings`, and was not tried. It is **not held** for cloud sessions and for claude.ai chat and Cowork, by documentation. Whom it reaches is listed under Claude Code below.
-- A2 (Copilot offers a documented way for installed text to make the built-in agent hold a role when none is chosen, other than a skill's description matching): **not held**. No page read documents a default custom agent or a plugin-supplied always-on instruction. Two undocumented candidates are named under Copilot below and were not tried.
+- A2 (Copilot offers a documented way for installed text to make the built-in agent hold a role when none is chosen, other than a skill's description matching): **unknown**. No page read documents a default custom agent. A plugin can carry a `sessionStart` hook whose output adds context to the session, which is documented; whether that gives every chat with no agent picked the default role, on every surface and for every way of installing, was not tried and is not documented. The facts are under Copilot below.
 - A3 (a session can be started in the Orchestrator role with a first message, without a person, by at least one means): **held, observed**, by the Claude CLI's background-session option with the Orchestrator agent, in a directory whose workspace trust had already been given. A second means was observed in Codex (a non-interactive run whose first message invokes the Orchestrator skill by name), which ends when its one turn ends.
-- A5 (a stopped session, and one that has something ready, can come to another session's attention without the owner saying anything, while that session stays free to answer him): **held for a watching session that is in the middle of a turn, observed**; **unknown by trial for a watching session that sits idle waiting for its user**, which the runtime's own tool description says is re-invoked the same way. The trial is under Watching a started session below.
+- A5 (a stopped session, and one that has something ready, can come to another session's attention without the owner saying anything, while that session stays free to answer him): **unknown as a whole by Task_1's trials**. One part was observed: a watching session that was a subagent in the middle of a turn was notified when its background poll saw the watched session become blocked. A second part was observed afterwards by the Orchestrator session itself, and is recorded under Watching a started session below: a top-level session that sat idle was woken by a finished background command with no input from its user. Not observed: that the watching session goes on answering its user while it handles such an event, and anything that tells a session working long from one that is stuck.
 
 ## Claude Code (2026-11-12)
 
@@ -46,7 +46,7 @@ Versions the trials ran on: Claude Code 2.1.322 (terminal CLI, Windows), Codex C
 
 ### Whom a plugin default would reach, and whom it would not
 
-- Reached, observed: a person using the terminal CLI with the plugin enabled, in interactive terminal sessions, background sessions and non-interactive runs, who has set no `agent` of their own and passes no `--agent`.
+- Reached, observed: a person using the terminal CLI with the plugin enabled, in background terminal sessions and non-interactive runs, who has set no `agent` of their own and passes no `--agent`. An interactive terminal session opened by a person was not tried; that it behaves as the background terminal session did is an inference.
 - Reached, documented and not tried: the desktop app's Code tab in local and SSH sessions and the VS Code extension, which read the same settings files as the terminal and load plugin `settings`; JetBrains IDEs, which run the CLI in the IDE's terminal. (**documented**: https://code.claude.com/docs/en/plugins/install; https://claude.com/docs/plugins/platform-support, Compare component support by app)
 - Not reached, documented: cloud sessions, including the browser, which do not load plugins installed on the person's machine or turned on by the repository's settings. (**documented**: https://code.claude.com/docs/en/plugins/install, Cloud session tab)
 - Not reached, documented: claude.ai chat and Cowork, which ignore a plugin's `settings`; chat also ignores its agents. (**documented**: https://claude.com/docs/plugins/platform-support)
@@ -82,7 +82,7 @@ Versions the trials ran on: Claude Code 2.1.322 (terminal CLI, Windows), Codex C
 
 ### Whom a default carried by the loader block would reach, and whom it would not
 
-- Reached: a person who ran the bootstrap at user scope and added the block, in runs that read the Codex home's `AGENTS.md`. Observed for the CLI's non-interactive run only.
+- Would be reached, by inference: a person who ran the bootstrap at user scope and added the block, in runs that read the Codex home's `AGENTS.md`, if the block carried a default. No trial put a default into a Codex home's block: the trial that showed instruction text giving a default used an `AGENTS.md` in a scratch directory, and the trial with the present home block returned no harness role.
 - Not reached: a person who installed the plugin and did not run the bootstrap; one who ran it at repository scope; one who ran it at user scope and declined the block. (read from the script)
 - Not reached until they run the bootstrap again: a person whose block was written by an earlier version, since the block is replaced only when the bootstrap is run and told to. (read from the script)
 - Unknown: whether the IDE extension, the desktop app and cloud tasks load the Codex home's `AGENTS.md`; the page speaks only of the command-line tool and its terminal UI. (**unknown**)
@@ -97,8 +97,8 @@ No trial was made: every way in needs a person at the editor.
 - Documented: a custom agent is chosen per chat from the Agent dropdown; the page names no setting or file that makes a custom agent the default for new chats. (**documented**: https://code.visualstudio.com/docs/copilot/customization/custom-agents)
 - Documented: an agent plugin can contribute skills, custom agents, rules, hooks, MCP servers and slash commands; the page does not say a plugin can set a default agent, and describes plugin rules only as reusable guidance, not as always applied. Agent plugins need the `chat.plugins.enabled` setting turned on. (**documented**: https://code.visualstudio.com/docs/copilot/customization/agent-plugins)
 - Documented: the project instruction files the Copilot harness includes are `.github/copilot-instructions.md` or `AGENTS.md`, which are files of the workspace; the page says instructions can be distributed as rule components in a plugin and that support depends on the harness and plugin format. (**documented**: https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
-- Documented: hooks are in preview; a `sessionStart` hook exists "to add context when a session starts or resumes", and a plugin can bundle hooks; the page does not show the form in which a `sessionStart` hook returns context. (**documented**: https://code.visualstudio.com/docs/copilot/customization/hooks)
-- So: **no mechanism is documented** by which installed plugin text makes the built-in agent hold a role when none is chosen. Two candidates exist that the documentation does not carry that far, a plugin rule and a plugin `sessionStart` hook; neither was tried, and whether either is applied to every chat is **unknown**.
+- Documented: hooks are in preview; a `sessionStart` hook exists "to add context when a session starts or resumes", a plugin can bundle hooks, and the shared hooks reference gives the hook's output form, with an `additionalContext` field added to the session's context. (**documented**: https://code.visualstudio.com/docs/copilot/customization/hooks; https://code.visualstudio.com/docs/agents/reference/agent-plugin-reference, Supported hook events; https://docs.github.com/en/copilot/reference/hooks-reference, sessionStart)
+- So: no setting or file is documented that makes a custom agent the default. Context added at the start of a session by a plugin's hook is documented; that it makes the built-in agent hold a role in every chat is **unknown**: it was not tried, a hook may need the person's trust before it runs, and the hooks are in preview. A plugin rule is a second candidate, described only as reusable guidance; whether it is applied to every chat is **unknown**.
 
 ### What lets the opener choose either role
 
@@ -110,7 +110,7 @@ No trial was made: every way in needs a person at the editor.
 
 ### Whom a default would reach
 
-- Nobody, by any documented mechanism. A workspace instruction file would reach those who open that workspace, and is not written by installing the plugin.
+- **Unknown**. By a default-agent setting, nobody: none is documented. By context a plugin's `sessionStart` hook adds: untried, so whom it would reach is not known. A workspace instruction file would reach those who open that workspace, and is not written by installing the plugin.
 
 ## Starting a session in the Orchestrator role without a person (2026-11-12)
 
@@ -150,7 +150,7 @@ No trial was made: every way in needs a person at the editor.
 
 - Tried: from the watching session, a shell command run in the background that polls `claude agents --json --all` and exits when the watched session's `state` is no longer `working`.
 - Observed: the watching session went on with other work, and was notified by the runtime when the command exited, at the moment the watched session became `blocked`. No person said anything. (**observed**) The watching session was a subagent in the middle of a turn.
-- Unknown by trial: the same for a top-level session that is idle and waiting for its user. The runtime's description of its own background-command tool says such a command keeps running across turns and re-invokes the session when it exits. (**unknown** by trial)
+- Observed by the Orchestrator session on 2026-11-12, after Task_1: a top-level session that had ended its turn and was waiting for its user was re-invoked by the runtime when a background shell command it had started exited, 45 seconds later, with no input from the user. (**observed**) Not observed: what the user experiences if he writes while that re-invoked turn is running; the runtime handles one turn at a time, so by inference his message waits for that turn to end. (**unknown** by trial)
 - Documented: while the agent view is open, the runtime sends a terminal notification and fires the `Notification` hook when a background session starts needing input, finishes or fails. (**documented**: https://code.claude.com/docs/en/agent-view) This reaches a person or a hook, not another session, and was not tried.
 - Documented: with the peer-messaging tool in monitor delivery, a message sent to a Claude Code session reaches it as an event within seconds without its user, once that session has taken one turn; a Codex session receives messages only between turns unless it was launched through the tool's bridge. (**documented**: the tool's README, Delivery modes) A started session that sends a message when it has something ready would reach the other session this way; not tried here.
 
