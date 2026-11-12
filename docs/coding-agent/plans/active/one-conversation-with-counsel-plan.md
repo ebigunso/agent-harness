@@ -448,6 +448,10 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   One thing outside the grades: the main checkout has uncommitted changes to both philosophy companions. They are not in the run's worktree and were not read; the audit used the committed companions in the worktree.
 - Acting on the verdict: nothing is held, so under the ratified brief the plan is authorized by the review's approval and this audit, and Wave 1 starts. Kept from the verdict for the tasks it names: the compatibility stance states none for the names of plugin reference files (preserve where a file is not renamed; a renamed file moves its pointers, Task_5); what Task_3 changes under the value-documents skill must not change who writes or ratifies a value document; Task_6 keeps the sentence that a seat's work is not given to a subagent without saying so, and which model a session Counsel starts runs on is the owner's setting, to be recorded and not chosen; whether Task_1's file holds an obstacle of this machine is checked at integration. The uncommitted companions in the main checkout are Counsel's, already brought in by name on the branch of pull request 101; this run does not touch them.
 - 2026-11-12 13:09Z Wave 1 dispatched: Task_1 to one Worker (Claude subagent, Fable 5.2, low reasoning effort).
+- 2026-11-12 13:24Z Wave 1 integrated: Task_1 done.
+  - Summary: the findings are in `one-conversation-with-counsel-mechanisms.md`. A1 held for the terminal command line (observed), documented and untried for the desktop app's Code tab and the IDE extensions, not held for cloud sessions, chat and Cowork (documented). A2 not held: Copilot documents no mechanism; two candidates untried. A3 held (observed): a background session started with the Orchestrator agent and a first message, in a directory already trusted. A5 held for a watching session in mid-turn (observed); for an idle top-level session it is unknown by trial and is tried in this session.
+  - Validation evidence: the Worker's checks pass (whitespace, one newline at end, no path or member name in the file). Orchestrator's review: the four assumptions are each answered; privacy sweep clean; the file holds no obstacle particular to this machine (the three the Worker met are in its report and go to the obstacles record once Task_5 has given it its form). The Reviewer's check of the observed facts is requested.
+  - Notes: four ended background sessions from the trials remain listed in the runtime's past sessions; they are not removed, since the removal command may also remove a working tree. The Worker's question on which role may write a workspace's record is the plan's (Task_5, Task_6).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -467,6 +471,13 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Trigger: the audit's ask-now on the partial reach of the default role (a README line settling that some who install get no default).
   - Plan delta: the line is dropped; who the default reaches is established by Task_1, and where it does not reach everyone the default is not written as delivered and the question goes to the owner through Counsel (A1, Task_1, Task_2, Notes). A4 is reworded so that it claims no allowance the rule file does not give. Task_1's file holds no obstacle of this machine. How the record of means is filled before any Orchestrator session has run is named as a question.
   - Tradeoffs considered: sending the audit's value question to the owner now, before Task_1. Not done: the line was the Orchestrator's own, and after Task_1 the question, if it remains, can say which people in which runtime.
+  - User approval: not applicable.
+  - Record proposed: none.
+
+- 2026-11-12 13:25Z Decision: on Task_1's findings the default role is held for two runtimes and the question goes to the owner through Counsel; the rest goes ahead.
+  - Trigger: A2 is not held (Copilot documents no way to a default), and in Codex the only lever the package has, the loader block, reaches only those whose setup added it.
+  - Plan delta: none to the plan's text. As it already says, Task_2 writes nothing that makes or claims a default role in Codex or Copilot until the owner's answer is recorded here, and stays unfinished until then; its Claude Code part, the ways into each role by choice, and the sentences on a description match and on the role not changing go ahead. Tasks 3, 4 and 5 do not depend on the answer and go ahead. Tasks 6, 7 and 8 wait for Task_2.
+  - Tradeoffs considered: holding the whole wave until he answers. Not done: three of the four tasks build nothing the answer could change.
   - User approval: not applicable.
   - Record proposed: none.
 
