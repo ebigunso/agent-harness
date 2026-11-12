@@ -94,8 +94,11 @@ def check_claude_default_agent(errors: list[str]) -> None:
     settings = load_json(settings_path, errors)
     agents = load_json(ROOT / ".claude-plugin" / "plugin.json", errors).get("agents")
     names = {Path(item).stem for item in agents if isinstance(item, str)} if isinstance(agents, list) else set()
-    if settings and settings.get("agent") not in names:
-        fail(errors, f"{settings_path}: agent {settings.get('agent')!r} is not an agent the Claude manifest lists")
+    agent = settings.get("agent")
+    if not isinstance(agent, str) or not agent:
+        fail(errors, f"{settings_path}: agent must be a non-empty string")
+    elif agent not in names:
+        fail(errors, f"{settings_path}: agent {agent!r} is not an agent the Claude manifest lists")
 
 
 def check_skills(errors: list[str]) -> None:
