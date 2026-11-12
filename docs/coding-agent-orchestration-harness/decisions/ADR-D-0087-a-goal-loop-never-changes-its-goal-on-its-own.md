@@ -43,7 +43,7 @@ A tightening by the loop of how the gap to the goal is read, or of the bar a pla
 
 ## Revisit When
 
-- The premise that a change of a goal is a decision about direction, which belongs to the goal's owner and never to the loop, no longer holds. ADR-D-0014, dated 2026-07-16, names no trial of this premise.
+- The premise that a change of a goal is a decision about direction, which belongs to the goal's owner and never to the loop, no longer holds.
 
 ## More Information
 

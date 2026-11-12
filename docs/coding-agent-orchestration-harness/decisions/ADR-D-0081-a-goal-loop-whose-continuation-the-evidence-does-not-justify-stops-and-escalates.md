@@ -35,7 +35,7 @@ The decision is broken where a loop continued on a judgement whose evidence did 
 
 ## Revisit When
 
-- The premise that a wrong stop costs one human touch while a wrong continuation compounds no longer holds. ADR-D-0029, dated 2026-09-08, names no trial of this premise.
+- The premise that a wrong stop costs one human touch while a wrong continuation compounds no longer holds.
 
 ## More Information
 

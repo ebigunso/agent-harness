@@ -42,7 +42,7 @@ A tightening made by the loop does not break it.
 
 ## Revisit When
 
-- The premise that the measures of a goal are something the loop's pursuit of that goal presses on, so that a loosening by the loop cannot be left unseen, no longer holds. ADR-D-0011, dated 2026-07-16, names no trial of this premise.
+- The premise that the measures of a goal are something the loop's pursuit of that goal presses on, so that a loosening by the loop cannot be left unseen, no longer holds.
 
 ## More Information
 

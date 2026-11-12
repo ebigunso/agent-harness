@@ -702,3 +702,10 @@ Small changes built without a plan under the governing brief, each from the owne
   - **The push is not logged** in the section (item 13).
   - **Still owed by the record standard:** "The run's final response lists each record reworded after acceptance". That is ADR-D-0073, ADR-D-0074 and ADR-D-0075.
 - Acting on the verdict: nothing is held, so the change closes and is reported. The audit confirms, record by record, that the rewording changed none of the three decisions, boundaries, reasons or reopen conditions. Taken from the verdict: the log is corrected above (the two further dropped checks, the order of times, the pushes); the three records reworded after acceptance are listed in the run record, the pull request's text and the report to Counsel; the reading is corrected where the grades differ.
+
+## The six sentences saying an old record names no trial of a premise, cut
+
+- Start revision: 84cf484. Governing statement: the brief, Directed during the run, 2026-11-12 ("Cut the six sentences.").
+- What changes: in the proposed records ADR-D-0076, ADR-D-0077, ADR-D-0078, ADR-D-0079, ADR-D-0081 and ADR-D-0087, the sentence ending a Revisit When condition with "names no trial of this premise" is removed. The condition before it stays word for word. Nothing else in any record changes. The six are proposed, not accepted, so no accepted record is reworded.
+- 2026-11-12T07:50Z One Worker (Claude, Fable 5.2, low reasoning effort) dispatched for the six deletions.
+- 2026-11-12T07:51Z Worker report integrated: status done, one assigned task, all six files inside its scope, each with one line changed; the only text removed is the six sentences and nothing is added. Required checks pass (package validation, smoke tests, the search returns nothing, whitespace check clean). Its question, whether this file's pending edit is the Orchestrator's: yes. Sent to the Codex review seat.

@@ -48,7 +48,7 @@ The decision is broken where:
 
 ## Revisit When
 
-- The premise that the goal condition, read as a count or by argument, measures progress well enough for every class of goal no longer holds: a recurring class of goal has no workable reading of its gap, and assessment by argument alone proves too weak. ADR-D-0011, dated 2026-07-16, names no trial of this premise.
+- The premise that the goal condition, read as a count or by argument, measures progress well enough for every class of goal no longer holds: a recurring class of goal has no workable reading of its gap, and assessment by argument alone proves too weak.
 
 ## More Information
 

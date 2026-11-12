@@ -39,7 +39,7 @@ The decision is broken where:
 
 ## Revisit When
 
-- The premise that the three together separate a stalled loop from a working one no longer holds: trials show the test misfiring systematically, stopping loops that were progressing or passing loops that were not. ADR-D-0011, dated 2026-07-16, names no trial of this premise.
+- The premise that the three together separate a stalled loop from a working one no longer holds: trials show the test misfiring systematically, stopping loops that were progressing or passing loops that were not.
 
 ## More Information
 
