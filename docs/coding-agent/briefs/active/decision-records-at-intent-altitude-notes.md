@@ -56,3 +56,11 @@ He said of the proposed ADR-D-0071: "71 should be widened, so that questions are
 - The audit marks as direction the run's wording of "accessible" (the run can read it with the access it has) and "settles" (it shows a consumer, or gives real evidence that there is none, which a search does only where the sources searched would show one). Counsel's framing test, mine: a run that reads a registry's dependents and finds none goes ahead and reports, or asks him first; the two read differently, so it goes to him.
 - Its second Decision line carries his "goes ahead and says what it did", which he said of a change inside the repository, to any surface the sources settle. That follows from his widening; pointed out to him.
 - The two reopen conditions and the Revisit When are derived by the run; pointed out to him.
+
+## Evidence for premises that had none, 2026-11-12
+
+- Fact: eight of the proposed goal-mode records state a premise that nothing had exercised when the record it replaces was written. Six say so with a sentence ending "names no trial of this premise" (ADR-D-0076, 0077, 0078, 0079, 0081, 0087); ADR-D-0082 and ADR-D-0083 say it with dates.
+- Counsel gave him the twelve records by name, the Orchestrator's reading that those sentences stay, and its own advice that they come out.
+- His words: "For those that didn't have any real life evidence of execution at the time of writing before, see if those can be obtained from the logs of this or other repositories."
+- Done: a read-only research request went to the Researcher seat (`agent-harness-researcher`) the same day: first an inventory of every goal run that has actually run in this and the other repositories, then for each premise the direct evidence from goal runs and, kept apart and labelled, analogous evidence from ordinary work. Facts only; no view on whether a premise is right or a record should change.
+- Open: whether the sentences stay or go, and the acceptance of the twelve records. He has said neither.
