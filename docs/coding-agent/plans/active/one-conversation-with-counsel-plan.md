@@ -391,7 +391,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - 2026-11-12 13:00Z Re-review of the revised plan (Codex review seat) at 59bd4e5: APPROVED, no open finding. The reviewer reads Task_2's hold as partial progress and not completion: its acceptance bullets stay mandatory, and an answer of the owner's that changes the experience follows the ordinary gates. The reading for the revised plan is in the readings file. 13:02Z second plan-draft audit dispatched, new.
 - 2026-11-12T13:02Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
   You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: <worktree>/docs/coding-agent/plans/active/one-conversation-with-counsel-plan.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md. Changes since: none.
-- 2026-11-12T13:10Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+- 2026-11-12T13:08Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
   Value audit verdict, plan draft (second plan-draft audit, graded on the whole plan as it stands). No item is `ask-now`; every item is `cited` or `inferred`; nothing is `ungraded`.
   The dispatch matched the fixed template. The mandate was read from the installed skill (`the installed plugin (1.5.0) skills/orchestration-harness/references/value-audit-mandate.md`), which is byte-identical to the worktree copy, as is `value-documents/SKILL.md`. No notes file was opened. The readings file was opened once, after the grades were fixed. The earlier verdict logged in the plan was read as a claim and not used as support. The worktree was clean at HEAD 9a0962f, so `common.md` as read is HEAD.
   Position: plan draft
@@ -447,6 +447,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   Scenarios: none
   One thing outside the grades: the main checkout has uncommitted changes to both philosophy companions. They are not in the run's worktree and were not read; the audit used the committed companions in the worktree.
 - Acting on the verdict: nothing is held, so under the ratified brief the plan is authorized by the review's approval and this audit, and Wave 1 starts. Kept from the verdict for the tasks it names: the compatibility stance states none for the names of plugin reference files (preserve where a file is not renamed; a renamed file moves its pointers, Task_5); what Task_3 changes under the value-documents skill must not change who writes or ratifies a value document; Task_6 keeps the sentence that a seat's work is not given to a subagent without saying so, and which model a session Counsel starts runs on is the owner's setting, to be recorded and not chosen; whether Task_1's file holds an obstacle of this machine is checked at integration. The uncommitted companions in the main checkout are Counsel's, already brought in by name on the branch of pull request 101; this run does not touch them.
+- 2026-11-12 13:09Z Wave 1 dispatched: Task_1 to one Worker (Claude subagent, Fable 5.2, low reasoning effort).
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
