@@ -346,6 +346,17 @@ Item | reading | statement relied on
 - Other sentences in the run's records that speak of evidence or dates of old records are left as they are | extends | his words name six sentences; reading them as naming only those six is the Orchestrator's
 - One Worker on Fable 5.2 at low reasoning effort; the Codex review seat | extends | product philosophy, section 4; the workspace's record
 
+Corrected after the closeout audit of 2026-11-12, where the reading and the audit's grade differ:
+
+- Leaving the other sentences as they are: the audit grades it cited, as part of the cut itself; his statement names one sentence in each of six records, and changing any other would be built beyond it.
+- Counsel's brief entry and notes: committed at the start revision, so outside the range and not graded.
+- Not read here, graded by the audit: building it as a small change on the unit's branch (inferred); the answer to the Worker's question about the pending edit (inferred).
+
+### The six sentences cut (small change), closeout: the audit compared
+
+- Reading compared: Item 1, the sentence removed from the six: agrees (`covered` against `cited`). Item 1, the condition before it stays and nothing replaces the sentence: agrees (`covered` against `cited`). Item 1, nothing else in any record changes: diverges. The Orchestrator reads leaving the other sentences that speak of evidence or dates of old records as `extends` ("his words name six sentences; reading them as naming only those six is the Orchestrator's"). I graded it `cited` as part of item 1: the statement names one sentence in each of six records, and a change to any other sentence would be built beyond it. Item 2, cut in place with no new record: agrees (`covered` against `cited`). The reading relies on the record standard; my grade rests on the brief's own words. Item 4, the Worker and the review seat: agrees (`extends` against `inferred`). The reading names the product philosophy's section 4 and the workspace record; I graded this internal-mechanics item on the engineering philosophy. Items 3 and 5: unread. The reading's item "Counsel's brief entry and notes are committed by name in the range, the notes unopened" (`covered`): not graded. That commit is 84cf484, the start revision itself, so it lies outside the range, and the range's diff touches neither the brief nor any notes file.
+- Findings compared: none recorded for this change, and no item line notes a departure from a means. The five entries under `Findings` are dated 2026-11-11 and belong to earlier units. As recorded: The first (no sentence that a change is reported where there is no plan): bears on the design though read as trivial, as its own sub-entry already records. The other four: agrees.
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.

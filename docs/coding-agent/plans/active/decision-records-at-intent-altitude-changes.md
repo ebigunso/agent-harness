@@ -711,3 +711,74 @@ Small changes built without a plan under the governing brief, each from the owne
 - 2026-11-12T07:51Z Worker report integrated: status done, one assigned task, all six files inside its scope, each with one line changed; the only text removed is the six sentences and nothing is added. Required checks pass (package validation, smoke tests, the search returns nothing, whitespace check clean). Its question, whether this file's pending edit is the Orchestrator's: yes. Sent to the Codex review seat.
 - 2026-11-12T07:52Z Review: APPROVED at 0e9f62f for 84cf484..0e9f62f, no findings. Each record loses exactly the one sentence; every remaining condition is complete; no such sentence remains under the decisions directory; the required checks pass, run independently.
 - 2026-11-12T07:53Z The reading is written in the readings file before the closeout audit is dispatched.
+- Added to this log, from the audit: a judgement call written in the reading and not here. Other sentences in the run's records that speak of the evidence or dates of old records are left as they are; his words name one sentence in each of six records. The commit of Counsel's brief entry and notes is 84cf484, the start revision, so it lies outside this change's range. Nothing of this change was pushed before the audit returned.
+- 2026-11-12T07:54Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 84cf484.
+- 2026-11-12T07:59Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "The six sentences saying an old record names no trial of a premise, cut".
+  **Nothing is held: no item is `ask-now` and none is `ungraded`.** The range does what the brief's statement says and no more: each of the six proposed records loses exactly one sentence, and the condition before it stays word for word. No item carries the `direction` mark. One reading diverges, and one reading item lies outside the range.
+  ## Before the record
+  - **Range audited:** 84cf484 to the working tree of the `agent-harness-adrs` worktree, clean at b4e3deb (two commits: 0e9f62f, b4e3deb). The section records 84cf484 as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0). Both are byte-identical to the worktree's copies.
+    - One `git ls-remote` read the remote's ref for this branch.
+    - Every content read was one named path at a time, and every range diff carried both exclude pathspecs. Listings across files printed names only.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, with one command that printed its headings, this change's section and the Findings section.
+  - **Plan file:** I read all 714 lines of the changes file. The earlier verdicts logged in it are claims and support nothing here.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states; the rest to understand the run's state)
+  - The range's diff of ADR-D-0076, 0077, 0078, 0079, 0081 and 0087 and of the changes file, one path at a time.
+  - Read to understand the change, not as support: ADR-D-0081 at HEAD.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11: "I ratify the engineering philosophy and the product philosophy."). The brief's basis line says the run is graded against the brief and both philosophies.
+  Not audited: none. Both sides have a document.
+  Missing inputs: none
+  Value documents changed in range: none. The brief, both philosophies, both companions and `common.md` are not in the range's diff, and no pointer line was removed or changed.
+  Statements quoted below, by short name.
+  From the brief:
+  - **Cut:** Directed during the run: "The sentence that ends a revisit condition by saying the old record names no trial of the premise is cut from the six proposed records that carry it: ADR-D-0076, ADR-D-0077, ADR-D-0078, ADR-D-0079, ADR-D-0081 and ADR-D-0087. The condition before it stays as written." (gives; told 2026-11-12: "Cut the six sentences.")
+  - **By name:** Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each."
+  From the engineering philosophy:
+  - **EP7 burden:** "the burden of proof is on what is added or kept, and absence needs no defence."
+  - **EP7 least:** "what is present doing its work with the least complexity"
+  - **EP5 dated:** "A workspace's dated record holds what is true today."
+  - **EP2 standing:** "A later worker can rely only on what is honest about its own standing."
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. In the proposed records ADR-D-0076, 0077, 0078, 0079, 0081 and 0087, the sentence ending a Revisit When condition with "names no trial of this premise" is removed; the condition before it stays word for word, nothing replaces the sentence, and nothing else in any record changes | maps to the brief | cited | Cut; EP7 burden | -
+     - Each of the six diffs is one changed line. The removed text is "ADR-D-00NN, dated <date>, names no trial of this premise." and nothing else. It named ADR-D-0014 in 0076 and 0087, ADR-D-0011 in 0077, 0078 and 0079, and ADR-D-0029 in 0081.
+     - No file under the decisions directory still carries the phrase; it remains only in the brief and in this changes file.
+     - I checked the engineering philosophy's "A guess is not written as a finding" against the cut and found no conflict. Each remaining condition still calls itself "The premise that ...", so it is not worded as a finding.
+  2. Judgement call, Orchestrator: the six are proposed and not accepted, so the cut is made in place; nothing is accepted or retired, and no accepted record is reworded | maps to the brief | cited | Cut ("is cut from the six proposed records that carry it"); By name | -
+     - All six read `status: proposed` at 84cf484 and at HEAD.
+  3. Judgement call, Orchestrator: built as a small change without a plan, on the unit's branch, from 84cf484 | internal mechanics | inferred | extends EP7 least; cheap to undo | -
+     - Nothing of the range is on the remote. The remote's branch head is b86e049, three commits behind HEAD, so nothing outward-facing has happened.
+  4. Judgement call, Orchestrator: one Claude Worker on Fable 5.2 at low reasoning effort for the six deletions; review by the Codex review seat | internal mechanics | inferred | extends EP5 dated; the workspace record in `common.md` names both settings; cheap to undo | -
+  5. Ruling, Orchestrator, on the Worker's question: the pending edit to the changes file is the Orchestrator's | internal mechanics | inferred | extends EP2 standing; cheap to undo | -
+     - It is an answer of fact about whose edit sat in the tree. The diff agrees: commit 0e9f62f carries seven added lines of the changes file beside the six records.
+  Decision records reworded after acceptance in the range: none. The six changed records are proposed. ADR-D-0011, 0014 and 0029, which the removed sentences named, are accepted and not in the range's diff.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): two instances, as the last closed unit left them.
+    - Demonstrated for one: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96."
+    - Ready for the owner's judgement for the first accepted records split: read ADR-D-0076 to ADR-D-0087, all `status: proposed`, against ADR-D-0011, 0014, 0029, 0063 and 0066, still accepted. What remains is his acceptance of each by name.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted, and the run record's result table.
+  - Prior states, from the run record's Scenarios section: 1 not yet; 2 demonstrated for one instance and ready for his judgement for the accepted records; 3 not yet; 4 demonstrated. No state moved.
+  - Getting closer: yes. Six of the twelve records waiting for his acceptance by name carried a sentence he told the run to cut. They now read as he directed, with each revisit condition intact, so what scenario 2 waits on is his acceptance.
+  - Limits on that judgement: no scenario moved; the twelve records are still proposed; by the run record the three other areas are not started.
+  ## For the Orchestrator's eye
+  - **A judgement call is in the reading and not in the log.** The readings file says that other sentences speaking of evidence or dates of old records are left as they are. The changes-file section says only "Nothing else in any record changes."
+  - **One reading item is outside the range,** as noted above: the commit of Counsel's brief entry and notes is 84cf484 itself.
+  - **No push is logged, and none has happened.** The remote's branch head is b86e049.
+  - **The run record has no row for this change yet** in its Units table.
+- Acting on the verdict: nothing is held, so the change closes, is pushed and is reported. Taken from the verdict: the judgement call it found only in the reading is added to the log above; the reading is corrected where the grades differ; the run record gets its row.
