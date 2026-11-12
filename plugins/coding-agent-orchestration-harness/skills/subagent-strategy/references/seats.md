@@ -14,3 +14,7 @@ Read this reference when a dispatch goes to a seat: a session that another sessi
 - A successful send is not delivery. Before work goes over a peer channel, the seat's delivery path is seen to be live. Where it cannot be seen so, the work goes to a seat whose path is live, a new one if need be; the person is not asked to wake a seat.
 - A hand-off counts as delivered when it is visible in the store the receiver reads, never before.
 - Never redirect a hand-off to another store to get round a write restriction.
+
+## One identity
+
+- Every session on a peer channel, a seat or not, holds one identity there, given when it is created and not changed after, and reads what another session was sent without taking that session's identity. Why: a session that joins as another seat to see its inbox sends under a name that is not its own.
