@@ -782,3 +782,4 @@ Small changes built without a plan under the governing brief, each from the owne
   - **No push is logged, and none has happened.** The remote's branch head is b86e049.
   - **The run record has no row for this change yet** in its Units table.
 - Acting on the verdict: nothing is held, so the change closes, is pushed and is reported. Taken from the verdict: the judgement call it found only in the reading is added to the log above; the reading is corrected where the grades differ; the run record gets its row.
+- 2026-11-12T08:02Z Pushed to the branch of pull request 98 (84cf484 to a07de6a, within the standing approvals); the pull request's text says what was cut; reported to Counsel.
