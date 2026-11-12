@@ -332,6 +332,8 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 ## Progress Log (append-only)
 
 - 2026-11-12 The brief and Counsel's notes were committed by name at a295f45, the revision this plan starts from.
+- 2026-11-12 12:41Z Plan review (Codex review seat) at 4f48cf7: CHANGES REQUESTED, OC-P1 to OC-P6. Revised at 87a9ff3. 12:44Z re-review: five closed, OC-R1 open (the table's numbering). Corrected at d6abf16. 12:46Z re-review: APPROVED, no open finding; the reviewer notes that A1, A2, A3 and A5 remain questions for Task_1.
+- 2026-11-12 12:48Z The reading is written in the readings file before the plan-draft audit is dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
