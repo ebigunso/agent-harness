@@ -44,4 +44,11 @@ Corrected where the first reading and the audit's grade differ, and read again f
 - How the record of means is filled before any Orchestrator session has run is a question for Task_1, and goes to him if it cannot be done without him | extends | brief, "such a person does not choose a role, open a second session"
 - The other items are read as in the first reading.
 
+### The plan as revised, plan draft: the audit compared (second audit)
+
+- Reading compared: (against the readings under "The plan, plan draft, as revised after the first audit", and the first reading where that section says the rest stand): Goal: agrees. DoD 1: unread. DoD 2: agrees. DoD 3, DoD 4: agrees. DoD 5: unread. DoD 6, DoD 7, DoD 8: agrees. DoD 9: unread. Planner-added findings file: agrees. Planner-added first reply in every Counsel session: agrees. Planner-added obstacles record place: agrees. Planner-added census: agrees. Non-goal, the four left-outs: unread. Non-goal, records: agrees. Non-goal, philosophies: unread. Non-goal, permission settings: agrees. Non-goal, peer-messaging tool: unread. Design, record of means: agrees. Compatibility stance: unread. A1: agrees. A2: agrees. A3: agrees. A5: unread. A4: agrees. The table: unread. Task_1: agrees. Task_2: agrees. Task_2 sub-decision on switching agents in a session: unread. Task_3 to Task_8: agrees. Rollback / Safety: unread. Decision Log 12:45Z, 12:47Z, 12:58Z: unread. Notes, partial reach: agrees. Notes, question on filling the record of means: diverges (Orchestrator: extends; auditor: cited). The Orchestrator's first reading also has "Workers on Fable 5.2 at low reasoning effort; the Codex review seat" as extends; the plan file states no such decision, so there is no item to compare it with.
+- Findings compared: the readings file has no finding under `Findings`, and no item line notes a departure from a means.
+
+Corrected after the second audit: how the record of means is filled before any Orchestrator session has run, and that it goes to him if it cannot be done without him, is graded cited on the brief's "such a person does not choose a role, open a second session, start a seat or repair one"; read here as covered.
+
 ## Findings
