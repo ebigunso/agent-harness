@@ -12,7 +12,7 @@ Read this mandate alone and to its end before opening any other file and before 
 - Give every git command that prints content over a range these exclude pathspecs, exactly: `':(exclude,glob)**/*-notes.md' ':(exclude,glob)docs/coding-agent/**/*-readings.md'`.
 - A readings file opened before the grades are fixed voids the audit: return every item `ungraded`, say so, and the audit is dispatched again in a fresh context.
 
-Where the machine has a record of obstacles, read it yourself once this mandate is read and before running any command (`workspace-troubleshooting`, What this machine is known to do): it is operational knowledge and never support for a grade.
+Where the machine has a record of obstacles, read it yourself once the names-only listings above are done and before any other command, that is before any command that inspects, builds or validates the work; the commands that find and read the record are allowed (`git rev-parse --git-common-dir`, then the one file `harness-machine-obstacles.md` in the directory it names; `workspace-troubleshooting`, What this machine is known to do): it is operational knowledge about the machine and never support for a grade.
 
 ## Input Boundary
 
