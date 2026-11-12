@@ -2,7 +2,7 @@
 
 - status: draft
 - generated: 2026-11-12
-- last_updated: 2026-11-12
+- last_updated: 2026-11-12 (revised after the plan review's findings OC-P1 to OC-P6)
 - work_type: mixed
 
 ## Goal
@@ -37,12 +37,12 @@
 - Chosen: the plugin text states what must happen and names no tool; each workspace records, in its rule files beside its record of models and peers, the means it has to start a session in a role with a first message, to see whether a session is alive, and to end one. Counsel and the Orchestrator read that record. This repository's record names the means Task_1 showed working here.
 - Alternative: the plugin text names the means itself, per runtime (a background-session command for one runtime, the peer-messaging tool's spawn for another).
 - structure: the chosen design keeps one owner for each fact (the plugin for the obligation, the workspace for the means) and adds one entry to an existing record; the alternative couples the plugin to two tools' command surfaces and duplicates what those tools document.
-- evolution: under the chosen design a tool that changes its commands changes one workspace's record; under the alternative it changes the plugin for everyone, and the accepted record that the harness assumes no seat, peer or model (ADR-D-0068) would have to change. The chosen design adds one concept, the record of means; its deletion path is the entry.
-- verification: both are shown the same way, by starting a session here; the chosen design can also be checked by reading that the plugin names no tool.
-- operation: the same sessions run under either; cost is by the brief unbounded by default.
-- human: under the chosen design someone who installs the harness must have a record of means before Counsel can start a run, which setup fills as it fills the record of models; without one Counsel says the brief is ready and what the person has to do, which is the brief's backup. Under the alternative it works without setup only where the named tool is installed.
+- evolution: under the chosen design a tool that changes its commands changes one workspace's record; under the alternative it changes the plugin for everyone, including workspaces that do not have the tool. The chosen design adds one concept, the record of means; its deletion path is the entry.
+- verification: both are shown the same way, by starting a session here; the chosen design can also be checked by reading that the plugin's policy on starting, watching and ending a session rests on no particular installed tool.
+- operation: the same sessions run under either. The brief leaves how many runs go at once to the harness, unbounded by default; neither design says anything on what the work may cost in money, which the product philosophy governs and the brief leaves out.
+- human: under the chosen design someone who installs the harness has a record of means before Counsel can start a run, which setup fills as it fills the record of models. Under the alternative a run starts without that entry only where the named tool is installed. Under neither is a start by the person's own hand written as a way the harness works: where no means to start a session without a person can be established, the brief's statement is not met there, and that goes to the owner through Counsel (A3).
 - safety: under both, a started session works within what the owner has allowed and no safety check is defeated; the chosen design keeps the permission basis in the workspace's own record, where the owner accepts it by name.
-- Why chosen wins: it holds the brief for every runtime and tool without the plugin taking on knowledge that goes stale at another project's pace, and it keeps an accepted decision intact. Its price is the setup step, which the brief's backup already covers.
+- Why chosen wins: it holds the brief for every runtime and tool without the plugin taking on knowledge that goes stale at another project's pace. Its price is one more entry for setup to fill.
 - A second choice, where the obstacles record lives. Chosen: one file in the repository's shared git directory, read by every working tree and never pushed. Alternative: an ignored path in the working tree, which is per tree, is lost with the tree, and needs an ignore entry in every repository. The chosen place serves runs side by side; its limit is a seat whose sandbox cannot read the git directory, for which the dispatch carries the relevant entries.
 
 ## Compatibility stance
@@ -69,8 +69,33 @@
 ## Assumptions
 - A1: Claude Code runs a plugin's named agent as the main session when the plugin's root `settings.json` sets it, on the surfaces people use. source: unverified: the documentation states the mechanism and not which surfaces honour it; needs evidence from Task_1. Tasks 2 and 3 use the mechanism where it is shown and say plainly where it is not.
 - A2: Copilot offers a documented way for installed text to make the built-in agent hold a role when none is chosen, other than a skill's description matching. source: unverified: research found none; needs evidence from Task_1. If none exists, Copilot's default is not written and the matter goes to the owner through Counsel as two experiences (the brief says every runtime; the runtime may not allow it).
-- A3: On this machine a session can be started in the Orchestrator role with a first message, without a person, by at least one means. source: unverified: the installed tools document two candidates; needs evidence from Task_1. If neither works, scenario 2 cannot be shown here and the closeout says so.
+- A3: On this machine a session can be started in the Orchestrator role with a first message, without a person, by at least one means. source: unverified: the installed tools document two candidates; needs evidence from Task_1. If neither works, the start of a run on ratification is not written as achieved: the requirement is held and what he would experience either way goes to the owner through Counsel, as for A2.
+- A5: A stopped session, and one that has something ready, can come to Counsel's attention without the owner saying anything, while Counsel stays free to answer him. source: unverified: nothing in the package or the installed tools' documentation settles it; needs evidence from Task_1. If it does not hold, the statements on a stopped run and on not being kept waiting are not written as achieved: they are held and go to the owner through Counsel as what he would experience either way.
 - A4: Starting a session to observe what a runtime does is measurement, which `common.md` already allows for headless sessions. source: `docs/coding-agent/rules/common.md`, Models And Peers In This Workspace.
+
+## Where each statement is held
+
+One task writes the sentence that holds each statement of the brief; a mirror is a pointer or a matching line another task's file needs, and it restates nothing. Statements are named by section and order in the brief.
+
+| Brief statement | Held by | Mirror |
+| --- | --- | --- |
+| One conversation 1 and 2: Counsel by default in every runtime; either role by choice; a description match gives no role | Task_2 | Task_3: the Counsel skill's own sentence on when a session is Counsel |
+| One conversation 3: the first reply; the role does not change | Task_3 | Task_2: the two Counsel adapters |
+| One conversation 4 to 6: a ratified brief starts a run; Counsel starts the session; he is not kept waiting | Task_3 | none |
+| One conversation 7: one Counsel at a time | Task_3 | none |
+| Runs side by side 1 to 4 and 6: no waiting on other runs; a session for each run; how many is the harness's; holding part back; nothing for him to untangle | Task_4 | none |
+| Runs side by side 5: he ratifies at any moment; Counsel holds a brief and tells him | Task_3 | none |
+| Runs side by side 7: a number is taken at landing; a run states what it will touch | Task_4 | none |
+| Runs side by side 8: Counsel can say where every brief stands | Task_3 | Task_4: each report states where the run stands and what it waits for |
+| Seats 1 to 3 with the three sub-statements, 5 and 6: created and ended as needed; nothing depends on a seat surviving; obstacles kept off the remote; seats not shared between Orchestrators mid-run | Task_5 | Task_4: the delta re-review packet in the two files it owns |
+| Seats 4: one identity, given at creation | Task_3 | none |
+| What reaches him 1 and 2: told in a line and it waits; a decision given once | Task_3 | none |
+| What reaches him 3 and 4: no stop for permission in the session's window; window input as the backup | Task_4 | Task_6: this repository's merge rule |
+| What reaches him 5: a stopped run is found without him | Task_3 | Task_4: the report line above |
+| Limits 1: what waits for him still waits | no task changes it; the review checks that none does | none |
+| Limits 2: the two records replaced | Task_7 | none |
+| Limits 3: the two standing rules, changed only so far | Task_6 | none |
+| Limits 4: the machine's limit stops everything | Task_3 | none |
 
 ## Tasks
 
@@ -82,11 +107,12 @@
 - description: |
   Establish by trial on this machine, and by each runtime's own documentation where a trial cannot be made, the facts the later tasks build on, and record them in the owned file with no machine path, user name or credential in it.
   For each of Claude Code, Codex and Copilot: what makes a session with no role chosen hold a named role; what lets the opener choose either role; whether a session's role can change while it lives.
-  For this machine: by what means a session can be started in the Orchestrator role with a first message and without a person; how that session's liveness can be read from outside it; how it is ended; what it does when it meets a permission check; and which permission checks can be settled for a repository beforehand by the owner's own settings.
+  For this machine: by what means a session can be started in the Orchestrator role with a first message and without a person; how that session's liveness can be read from outside it; how it can be seen from outside whether it is working, waiting on something it has named, or stopped; what brings a stopped or reporting session to Counsel's attention without the owner saying anything, and whether Counsel can go on answering him meanwhile; how it is ended; what it does when it meets a permission check; and which permission checks can be settled for a repository beforehand by the owner's own settings.
+  A setup step that may prompt (a fresh Codex home, for one) is probed once on its own, not found inside a batch.
   Sessions started for this are measurement only: each is given a harmless first message, is ended when observed, and changes no file in any repository. No permission setting is created or changed, no mode that skips a runtime's safety checks is used, and nothing is sent to the peer channel's registered seats.
 - acceptance:
   - The file states, per runtime and per question above, what was tried, what was observed, and whether the fact is observed, documented (with the page) or unknown.
-  - Each of assumptions A1, A2 and A3 is answered as held, not held or unknown.
+  - Each of assumptions A1, A2, A3 and A5 is answered as held, not held or unknown.
   - Every session started is listed with how it was ended.
 - validation:
   - kind: review
@@ -149,17 +175,18 @@
 - description: |
   Bring Counsel's own text to what the brief gives.
   A session is Counsel because it was opened so, by choice or by default, and never because the skill's description matched. Every Counsel session says in its first reply that it is Counsel and how to open the other role.
-  When the owner ratifies a brief, Counsel starts the run without him opening anything, by the means the workspace records; the first message to a started session stands alone, names the brief's path, and claims no authority of the owner's (the ratification follows as a relay, as today). Where the workspace records no means, Counsel says the brief is ready and what he has to do.
+  When the owner ratifies a brief, Counsel starts the run without him opening anything, by the means the workspace records; the first message to a started session stands alone, names the brief's path, and claims no authority of the owner's (the ratification follows as a relay, as today).
   When a brief is handed over is Counsel's to settle: one that builds on a change another run has not finished is held, and he is told that it is held and what it waits for.
   He is not kept waiting by Counsel's own work: starting, watching and reading reports do not hold up his conversation.
   When something becomes ready for him he is told in a line what it is and what it holds up; it then waits. Counsel can tell him at any moment everything that waits on him, which item holds up the most work, and where every brief stands, without him looking at another session.
   A run that has stopped making progress is found without him, told apart from one working long or rightly waiting, and either recovers within a stated limit or reaches him as a clear report; it is never restarted over and over. State the limit.
   A decision of his is given once, to Counsel. A session holds one identity on the peer channel, given when it is created; reading another seat's messages never requires holding that seat's identity.
+  When the machine's limit for a period is reached everything stops until it resets, his conversation with Counsel included; nothing is held back against that, and the text says so (brief, Limits, last statement).
   What still waits for him is unchanged (brief, Limits, first statement). Counsel still approves nothing and gives an Orchestrator no instruction of its own on how the work is done.
 - acceptance:
-  - Each statement of the brief's sections One conversation, Runs side by side (the two on hand-over and on where every brief stands), What reaches him, and the identity statement under Seats is held by a sentence in the owned files, once.
+  - Each statement the table under Where each statement is held gives this task is held by a sentence in the owned files, once.
   - No sentence in the owned files has a session take, move or change a seat's identity after it is created.
-  - The text names no tool, command or model.
+  - What the owned files say about starting, watching and ending a session rests on no particular installed tool; it points to the workspace's record of means.
 - validation:
   - kind: command
     required: true
@@ -168,7 +195,7 @@
   - kind: review
     required: true
     owner: reviewer
-    detail: "Diff against the brief's statements named in the acceptance"
+    detail: "Diff against the brief's statements this task holds; the text that tells a stopped run from one working long or rightly waiting, read against Task_1's findings on what can be observed"
 
 ### Task_4: The Orchestrator session that Counsel started
 - type: docs
@@ -178,7 +205,8 @@
   - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/lifecycle-gates.md
   - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/final-response-contract.md
   - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/dispatch-guidance.md
-  - plugins/coding-agent-orchestration-harness/skills/git-workflow/**
+  - plugins/coding-agent-orchestration-harness/skills/git-workflow/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/git-workflow/references/**
   - plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/**
 - depends_on: [Task_1]
 - description: |
@@ -188,9 +216,8 @@
   Runs go side by side: each keeps the other's work intact, validates the revision it delivers, and makes no other run's finished result wrong without saying so. A number that must be unique across runs is taken when the work lands. What every run edits (the rule files, the lessons file, the manifests' version) is settled without him by the run that lands later. Where two briefs ask for things that cannot both hold, that goes to him through Counsel before both results are called ready. The harness may hold part of a run back where running it now would collide with another run; that is its decision and no question to him.
   A re-review scoped to a delta gives its reviewer what the earlier review covered and found, so that a reviewer who saw nothing can judge it.
 - acceptance:
-  - Each statement of the brief's Runs side by side section not named in Task_3, and the three permission statements under What reaches him, is held by a sentence in the owned files, once.
+  - Each statement the table under Where each statement is held gives this task is held by a sentence in the owned files, once.
   - No sentence in the owned files has the owner grant a permission in the Orchestrator session as the ordinary way.
-  - The text names no tool, command or model.
 - validation:
   - kind: command
     required: true
@@ -215,10 +242,10 @@
   Seats are created and ended as the work needs, by the session that uses them; a session may keep one while it is useful and may end one at any time, and nothing depends on a seat surviving.
   The first dispatch of a unit of work stands alone. A seat that takes over a unit part-way is handed where it stands: what it is for, what is decided and on whose word, what is done and at which revision, what remains, what is still open, and what may already have been done outside the repository; it neither repeats an act already performed nor undoes a decision already made.
   What is known about the obstacles of the machine reaches every new seat and every new Orchestrator session when it starts. It is kept in one file in the repository's shared git directory, so that every working tree reads it and it never reaches the remote; each entry says where it applies and when it was last seen, and an entry is checked again and not trusted for ever. Where a seat cannot read that place, its dispatch carries the entries that apply.
-  The workspace's record gains the means it has to start a session in a role with a first message, to see whether one is alive, and to end one; setup fills it as it fills the record of models. The plugin names no tool.
+  The workspace's record gains the means it has to start a session in a role with a first message, to see whether one is alive and whether it is working or waiting, and to end one; setup fills it as it fills the record of models. The policy rests on no particular installed tool.
   Remove or rewrite every line that relies on a seat's memory of earlier work, including the premise of the reference on long-lived peers; move its inbound pointers with it.
 - acceptance:
-  - Each statement of the brief's Seats section, except the identity statement, is held by a sentence in the owned files, once.
+  - Each statement the table under Where each statement is held gives this task is held by a sentence in the owned files, once.
   - A search of the owned files finds no line that makes a result depend on a seat having seen an earlier unit of work; the report lists each line changed for this reason.
   - No pointer in the plugin leads to a file this task renamed or removed.
 - validation:
@@ -277,10 +304,10 @@
 ### Task_8: The scenarios shown
 - type: test
 - owns:
-  - docs/coding-agent/plans/active/one-conversation-with-counsel-run.md
+  - docs/coding-agent/plans/active/one-conversation-with-counsel-scenarios.md
 - depends_on: [Task_6, Task_7]
 - description: |
-  Show scenarios 1, 2, 3, 5 and 8 of the brief where one can be made on this machine, with the plugin as this branch has it, and record in the run record what was done and seen for each, or plainly that it could not be made and why. Run the census of the whole plugin text for lines relying on a seat's memory and record its result.
+  Show scenarios 1, 2, 3, 5 and 8 of the brief where one can be made on this machine, with the plugin as this branch has it, and record in the owned file what was done and seen for each, or plainly that it could not be made and why. Run the census of the whole plugin text for lines relying on a seat's memory and record its result there. The run record is not this task's: it holds only what the audits state, copied by the Orchestrator.
   Sessions started for this are ended when observed; none changes a tracked file or reaches outside the machine.
 - acceptance:
   - Each of the five scenarios has a line: shown (how to observe it) or not makeable (why).
@@ -308,6 +335,12 @@
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
+- 2026-11-12 12:45Z Decision: the draft is revised on the plan review's six findings, before any audit.
+  - Trigger: review CHANGES REQUESTED at 4f48cf7 (OC-P1 to OC-P6).
+  - Plan delta: a start by the owner's own hand is no longer written as a backup, and a missing means goes to him through Counsel (P1); the scenario trials get a file of their own and the run record stays the audits' (P2); the ban on naming tools is narrowed to the policy on starting, watching and ending a session (P3); a table gives each statement of the brief one task, and the machine's limit is assigned (P4); Task_1 also establishes how a stopped session comes to Counsel's attention, as assumption A5 (P5); the Design no longer reads the brief's unbounded number of runs as a word on cost (P6).
+  - User approval: not applicable; under the ratified brief no plan is presented.
+  - Record proposed: none.
+
 ## Notes
-- Risks: a runtime may offer no way to make a default role (A2), or no way to start a session without a person on this machine (A3); both are answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
+- Risks: a runtime may offer no way to make a default role (A2), no way to start a session without a person on this machine (A3), or no way to bring a stopped session to Counsel's attention (A5); each is answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
 - Edge cases: a person who installed the plugin for Codex without the loader gets no default role from the package; the README says so.
