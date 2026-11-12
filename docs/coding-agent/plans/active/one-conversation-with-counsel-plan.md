@@ -75,27 +75,27 @@
 
 ## Where each statement is held
 
-One task writes the sentence that holds each statement of the brief; a mirror is a pointer or a matching line another task's file needs, and it restates nothing. Statements are named by section and order in the brief.
+One task writes the sentence that holds each statement of the brief; a mirror is a pointer or a matching line another task's file needs, and it restates nothing. Each statement is named by its section and its opening words in the brief.
 
 | Brief statement | Held by | Mirror |
 | --- | --- | --- |
-| One conversation 1 and 2: Counsel by default in every runtime; either role by choice; a description match gives no role | Task_2 | Task_3: the Counsel skill's own sentence on when a session is Counsel |
-| One conversation 3: the first reply; the role does not change | Task_3 | Task_2: the two Counsel adapters |
-| One conversation 4 to 6: a ratified brief starts a run; Counsel starts the session; he is not kept waiting | Task_3 | none |
-| One conversation 7: one Counsel at a time | Task_3 | none |
-| Runs side by side 1 to 4 and 6: no waiting on other runs; a session for each run; how many is the harness's; holding part back; nothing for him to untangle | Task_4 | none |
-| Runs side by side 5: he ratifies at any moment; Counsel holds a brief and tells him | Task_3 | none |
-| Runs side by side 7: a number is taken at landing; a run states what it will touch | Task_4 | none |
-| Runs side by side 8: Counsel can say where every brief stands | Task_3 | Task_4: each report states where the run stands and what it waits for |
-| Seats 1 to 3 with the three sub-statements, 5 and 6: created and ended as needed; nothing depends on a seat surviving; obstacles kept off the remote; seats not shared between Orchestrators mid-run | Task_5 | Task_4: the delta re-review packet in the two files it owns |
-| Seats 4: one identity, given at creation | Task_3 | none |
-| What reaches him 1 and 2: told in a line and it waits; a decision given once | Task_3 | none |
-| What reaches him 3 and 4: no stop for permission in the session's window; window input as the backup | Task_4 | Task_6: this repository's merge rule |
-| What reaches him 5: a stopped run is found without him | Task_3 | Task_4: the report line above |
-| Limits 1: what waits for him still waits | no task changes it; the review checks that none does | none |
-| Limits 2: the two records replaced | Task_7 | none |
-| Limits 3: the two standing rules, changed only so far | Task_6 | none |
-| Limits 4: the machine's limit stops everything | Task_3 | none |
+| One conversation: "A session opened with no role chosen is Counsel"; "Whoever opens a session can still choose either role" (with the sentence on a skill loaded by description match) | Task_2 | Task_3: the Counsel skill's own sentence on when a session is Counsel |
+| One conversation: "A session that holds the default role says so in its first reply" (with the sentence that the role does not change) | Task_3 | Task_2: the two Counsel adapters |
+| One conversation: "When he ratifies a brief, the run starts"; "Counsel starts an Orchestrator session for the brief"; "He is not kept waiting by Counsel's own work" | Task_3 | none |
+| One conversation: "One Counsel session at a time per repository" | Task_3 | none |
+| Runs side by side: "A brief ratified while other runs are in progress does not wait"; "Each run has its own Orchestrator session"; "How many runs go at once"; "The harness may hold part of a run back"; "Runs side by side do not need him to untangle them" | Task_4 | none |
+| Runs side by side: "He can ratify a brief at any moment" (Counsel holds a brief and tells him) | Task_3 | none |
+| Runs side by side: "A number that must be unique across runs" (with the sentence that each Orchestrator states what its run will touch) | Task_4 | none |
+| Runs side by side: "He can ask Counsel at any moment where every brief stands" | Task_3 | Task_4: each report states where the run stands and what it waits for |
+| Seats: "Seats are created and destroyed as the work needs"; "Nothing depends on a seat surviving" with its three sub-statements ("The first dispatch of a unit of work stands alone"; "A seat that takes over a unit of work part-way"; "What is known about the obstacles of the machine"); "What is known about a machine's obstacles is kept where it does not reach the remote"; "Two peer seats are never shared" | Task_5 | Task_4: the delta re-review packet in the two files it owns |
+| Seats: "A session holds one identity on the peer channel" | Task_3 | none |
+| What reaches him: "When something becomes ready for him he is told"; "A decision of his is given once" | Task_3 | none |
+| What reaches him: "A session started by Counsel does not stop to ask him for permission"; "Where a runtime's own permission check can be satisfied only by input in that session's window" | Task_4 | Task_6: this repository's merge rule |
+| What reaches him: "He does not have to notice that a run or a seat has stopped" | Task_3 | Task_4: the report line above |
+| Limits: "What waits for him today still waits for him" | no task changes it; the review checks that none does | none |
+| Limits: "This changes two decision records" | Task_7 | none |
+| Limits: "It changes two standing rules of his" | Task_6 | none |
+| Limits: "When the machine's limit for a period is reached" | Task_3 | none |
 
 ## Tasks
 
@@ -118,7 +118,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - kind: review
     required: true
     owner: orchestrator
-    detail: "Findings read against the three assumptions; privacy sweep of the file"
+    detail: "Findings read against assumptions A1, A2, A3 and A5; privacy sweep of the file"
   - kind: review
     required: true
     owner: reviewer
@@ -339,6 +339,12 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Trigger: review CHANGES REQUESTED at 4f48cf7 (OC-P1 to OC-P6).
   - Plan delta: a start by the owner's own hand is no longer written as a backup, and a missing means goes to him through Counsel (P1); the scenario trials get a file of their own and the run record stays the audits' (P2); the ban on naming tools is narrowed to the policy on starting, watching and ending a session (P3); a table gives each statement of the brief one task, and the machine's limit is assigned (P4); Task_1 also establishes how a stopped session comes to Counsel's attention, as assumption A5 (P5); the Design no longer reads the brief's unbounded number of runs as a word on cost (P6).
   - User approval: not applicable; under the ratified brief no plan is presented.
+  - Record proposed: none.
+
+- 2026-11-12 12:47Z Decision: the table of statements is corrected on the re-review's finding OC-R1.
+  - Trigger: re-review CHANGES REQUESTED at 87a9ff3: the table's numbering did not match the brief's statements.
+  - Plan delta: each statement is named by its section and opening words; the assignments are as the descriptions had them. Task_1's validation names the four assumptions.
+  - User approval: not applicable.
   - Record proposed: none.
 
 ## Notes
