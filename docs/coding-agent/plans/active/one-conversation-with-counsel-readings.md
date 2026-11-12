@@ -25,4 +25,23 @@ Item | reading | statement relied on
 - Scenarios 1, 2, 3, 5 and 8 are shown where one can be made, in a file of their own; the census of lines relying on a seat's memory (Task_8) | covered | brief, Pass conditions
 - Workers on Fable 5.2 at low reasoning effort; the Codex review seat | extends | product philosophy, section 4; the workspace's record
 
+### The plan, plan draft: the audit compared (first audit)
+
+- Reading compared: Goal, one unit and one pull request: diverges (Orchestrator: extends; auditor: cited). DoD 1: unread. DoD 2: diverges in part (Orchestrator: covered for the default, extends for a runtime with none; auditor: cited). DoD 3, DoD 4, DoD 6, DoD 7, DoD 8: agrees. DoD 5, DoD 9: unread. Planner-added findings file: diverges (Orchestrator: extends; auditor: cited). Planner-added first reply in every Counsel session: agrees. Planner-added obstacles record place: agrees. Planner-added census: agrees. Non-goal, the brief's four left-outs: unread. Non-goal, records: agrees. Non-goal, philosophies: unread. Non-goal, permission settings: agrees. Non-goal, peer-messaging tool: unread. Design, record of means: diverges (Orchestrator: extends for where the means are recorded; auditor: cited). Compatibility stance: unread. A1: unread. A2: diverges (Orchestrator: extends; auditor: cited). A3: diverges (Orchestrator: extends; auditor: cited). A5: unread. A4: agrees. Task_1: diverges (Orchestrator: extends; auditor: cited). Task_2 to Task_8: agrees. Partial reach of the default: unread (auditor: ask-now). Decision Log 12:45Z and 12:47Z: unread. The Orchestrator also read "Workers on Fable 5.2 at low reasoning effort; the Codex review seat" as extends. The plan file states no such decision, so there is no item to compare it with.
+- Findings compared: no finding is recorded under `Findings`, and no departure from a means is noted on any item line.
+
+### The plan, plan draft, as revised after the first audit
+
+Corrected where the first reading and the audit's grade differ, and read again for the revised plan:
+
+- One unit and one pull request | covered | the audit grades it cited on "The default role and this ship together, as one change" and the standing approval to publish
+- A runtime with no default goes to him; a start that cannot be made without a person goes to him (A2, A3) | covered | the audit grades both cited on the brief's statement and the product philosophy, section 2 ("If a question would prevent the wrong thing, it is asked")
+- The findings file and Task_1 | covered | engineering philosophy, section 2 ("A guess is not written as a finding")
+- The record of means in the workspace's rule files | covered | engineering philosophy, section 5 ("A workspace's dated record holds what is true today")
+- A default that reaches only some of the people who install is not written as delivered and goes to him, after Task_1 says whom it reaches | covered | brief, "for everyone who installs it"; the first plan settled it with a README line, which the audit held and the plan no longer has
+- The trial sessions rest on the brief's pass condition and its statement on seats, not on the rule file's present allowance (A4) | extends | the rule file names two kinds of measurement only; Task_6 changes that rule as far as the brief says
+- Task_1's tracked file holds no obstacle of this machine | covered | brief, "What is known about a machine's obstacles is kept where it does not reach the remote"
+- How the record of means is filled before any Orchestrator session has run is a question for Task_1, and goes to him if it cannot be done without him | extends | brief, "such a person does not choose a role, open a second session"
+- The other items are read as in the first reading.
+
 ## Findings
