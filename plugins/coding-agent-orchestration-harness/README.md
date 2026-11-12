@@ -6,6 +6,7 @@ This plugin provides a shared orchestration harness for GitHub Copilot, Claude C
 
 - Copilot agents: `agents/*.md`
 - Claude agents: `claude/agents/*.md`
+- Claude Code default agent: `settings.json`
 - Codex inert templates: `codex/agent-templates/*.toml`
 - Codex loader snippet: `codex/snippets/AGENTS.md`
 - Shared skills: `skills/`
@@ -31,9 +32,7 @@ Canonical reference: `skills/orchestration-harness/references/runtime-role-map.m
 
 Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher.
 
-- Copilot: select the `Counsel` agent in the agent picker.
-- Claude Code: launch the session as the agent (`claude --agent harness-counsel`), or set the `agent` setting in `.claude/settings.json` for a project that only ever runs Counsel; where neither applies (for example the desktop app), invoke the `counsel` skill explicitly. Claude Code has no per-session agent picker.
-- Codex: open a session and invoke the `$counsel` skill explicitly. The managed `AGENTS.md` loader does not route to it, and the bootstrap installs no Counsel template.
+In Claude Code a session opened with no agent chosen is Counsel. How a session gets either role in each runtime, and the limits of each way, is in `skills/orchestration-harness/references/runtime-role-map.md`, How A Session Gets Its Role. In Codex the managed `AGENTS.md` loader does not route to Counsel, and the bootstrap installs no Counsel template.
 
 ## Key Skills
 

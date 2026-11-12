@@ -11,6 +11,18 @@ Logical roles are stable. Physical agent names may vary by runtime.
 | Auditor | Auditor | harness-auditor | harness_auditor |
 | Counsel | Counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the person directing the work |
 
+## How A Session Gets Its Role
+
+A session's role is set when it is opened, by the opener's choice or by the runtime's default, and does not change while the session lives: another role is another session.
+A skill loaded because its description matched gives a session no role, and neither does an incidental reference to a role's skill.
+A session that holds no role takes one when the person opening it invokes the role's skill by name; a session that already holds a role does not.
+What each runtime does below was seen on 2026-11-12.
+
+- Claude Code, no agent chosen: the session is Counsel, because the plugin's root `settings.json` names `harness-counsel` as the plugin's default agent. The default holds wherever Claude Code loads a plugin's settings; cloud sessions, claude.ai chat and Cowork do not load them, and it does not reach those.
+- Claude Code, by choice: launch the session as the role's agent (`claude --agent coding-agent-orchestration-harness:harness-orchestrator` or `claude --agent coding-agent-orchestration-harness:harness-counsel`), or set `agent` in the person's own user, project or local settings. Either overrides the plugin's default. A resumed session keeps the agent it was saved with.
+- GitHub Copilot, by choice: select the `Orchestrator` or `Counsel` agent in the Agent dropdown when starting a chat. Copilot also lets the person switch the agent of a living chat in that dropdown; the harness cannot forbid what the runtime allows, and no harness text asks for it: for another role, start a new chat.
+- Codex, by choice: invoke the role's skill by name in the first message, `$orchestration-harness` for the Orchestrator or `$counsel` for Counsel. The Codex CLI has no option that names an agent for the main session, so the role is held by the skill's text and the conversation, and nothing in the runtime fixes it.
+
 ## Home Of Each Session Role
 
 A session holds one role and takes its mechanics from that role's home. It never loads another role's home; what the roles share is in a home of its own that names no role's procedure.

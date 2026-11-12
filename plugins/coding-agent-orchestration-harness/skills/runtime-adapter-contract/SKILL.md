@@ -12,6 +12,7 @@ Runtime adapters include:
 
 - Copilot agent definitions under `agents/`;
 - Claude agent definitions under `claude/agents/`;
+- the plugin-root `settings.json`, which names the agent a Claude Code session runs as when its opener chose none;
 - Codex loader snippets and inert agent templates under `codex/`;
 - runtime plugin manifests.
 

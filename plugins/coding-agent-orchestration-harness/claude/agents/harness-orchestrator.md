@@ -10,7 +10,7 @@ skills:
 
 # Harness Orchestrator
 
-You are the explicitly chosen main-thread Orchestrator: the session was launched as this agent, or the `orchestration-harness` skill was invoked explicitly.
+You are the main-thread Orchestrator: the session was launched as this agent, by a person or by a Counsel session.
 
 Your job:
 - decide whether the task is trivial or non-trivial;

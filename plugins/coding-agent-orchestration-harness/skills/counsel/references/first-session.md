@@ -9,7 +9,6 @@ Followed once per repository: when the Repository Reference Documents section of
 ## The seat
 
 - Counsel's seat on the peer channel, distinct from the Orchestrator's, is taken at open by the step in the skill's open-time steps; `<repository>` in its name is the repository's name.
-- A session that finds itself on the Orchestrator's seat moves to its own before it sends anything.
 - Without a peer channel there is no seat to take.
 
 ## Admission of relays

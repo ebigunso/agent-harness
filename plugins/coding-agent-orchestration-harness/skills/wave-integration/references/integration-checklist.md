@@ -17,6 +17,7 @@ Run this checklist after each Worker wave, once the Integration Contract in `SKI
 - Aggregate `harness_migration_candidates`.
 - Normalize duplicates before rulebook, lessons, or skill-candidate staging updates.
 - Route `harness_migration_candidates` to `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md` through Orchestrator curation.
+- An obstacle of the machine that a report tells of goes into the machine's record and into no tracked file (`skills/workspace-troubleshooting/SKILL.md`, What this machine is known to do).
 
 ## 3. Update Progress Log
 
@@ -33,7 +34,7 @@ Append a plan Progress Log entry with:
 
 Third-bounce detector: if a follow-up dispatch would be the third attempt to fix the same seam, stop and apply the existence-audit verdicts in `skills/engineering-quality-baselines/references/long-horizon-audit.md` before dispatching again. In a run under a brief, a review loop that reaches this point is also evidence against the brief: escalate it as a value question per `skills/orchestration-harness/references/value-level-operation.md` (The Carrier).
 
-Dispatch follow-up Workers when:
+Dispatch follow-up Workers, each handed where its task stands (`skills/subagent-strategy/references/dispatch-checklists.md`, Every dispatch), when:
 
 - required Worker validation is missing;
 - implementation blockers remain;
@@ -48,7 +49,7 @@ Dispatch Reviewer when:
 - Worker-owned required validation is pass or waived;
 - blockers are resolved or explicitly carried as review risks.
 
-Low-risk internal delta re-review: when a follow-up wave changed only files already reviewed, introducing no new contracts, boundaries, or validation surfaces, the Reviewer re-dispatch may scope to the delta diff instead of the full wave.
+Low-risk internal delta re-review: when a follow-up wave changed only files already reviewed, introducing no new contracts, boundaries, or validation surfaces, the Reviewer re-dispatch may scope to the delta diff instead of the full wave. Its packet is the one `skills/orchestration-harness/references/dispatch-guidance.md` (Reviewer Dispatch) gives for a delta re-review, from which a reviewer who saw nothing of the earlier review can judge it.
 
 The packet for the chosen review kind is built per the Routes section of `SKILL.md`.
 
