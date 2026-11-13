@@ -20,8 +20,9 @@ Use this checklist before completing runtime adapter changes.
 - Treat the Copilot agent body, Claude subagent body, and Codex role-template `developer_instructions` as runtime instruction blocks.
 - Keep shared role workflow and output-contract text synchronized across all three instruction blocks.
 - Keep runtime-specific additions local to the runtime that needs them, such as tool names, connector policy references, and platform mechanics.
-- Keep Codex `AGENTS.md` loaders and snippets loader-only; do not confuse them with role-template `developer_instructions`.
-- Counsel has two instruction blocks, the Copilot `Counsel` agent and the Claude `harness-counsel` agent; keep them synchronized with each other. Codex has none: a Counsel session there is the `counsel` skill invoked explicitly, with no template and no loader line.
+- Keep the Codex `AGENTS.md` snippet free of workflow text; do not confuse it with role-template `developer_instructions`.
+- Counsel has two instruction blocks, the Copilot `Counsel` agent and the Claude `harness-counsel` agent; keep them synchronized with each other. Codex has none: a Counsel session there is the `counsel` skill, with no template.
+- The default-role block that setup writes into a repository has a Codex form and a Copilot form (`rulebook/references/rule-suite-templates.md`, Default Role Block); keep the two the same except in how each runtime opens the Orchestrator.
 - Auditor has three instruction blocks pointing only to the mandate named in its fixed location-only dispatch; keep them synchronized and restate no mandate or procedure.
 
 ## Replicated Contract Sync

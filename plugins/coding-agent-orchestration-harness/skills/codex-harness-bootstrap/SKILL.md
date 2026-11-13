@@ -1,6 +1,6 @@
 ---
 name: codex-harness-bootstrap
-description: Install or refresh Codex custom-agent TOML profiles and the minimal AGENTS.md loader block for the coding-agent orchestration harness.
+description: Install or refresh Codex custom-agent TOML profiles and the managed AGENTS.md block for the coding-agent orchestration harness.
 ---
 
 # Codex harness bootstrap
@@ -27,15 +27,15 @@ Use `--dry-run` to print planned writes/skips without creating directories or wr
 
 Use `--check` to compare installed files against source templates and report `MATCH`, `MISSING`, `INVALID`, `MISSING_SOURCE`, or `STALE_OR_MODIFIED`. A successful check also requires the managed install manifest to exist as a file.
 
-Use `--verify` to assert required installed files and the managed manifest exist. With user scope, pair with `--user-instructions add` when the managed `AGENTS.md` loader block should also be required.
+Use `--verify` to assert required installed files and the managed manifest exist. With user scope, pair with `--user-instructions add` when the managed `AGENTS.md` block should also be required.
 
 Normal installs write a managed `.coding-agent-orchestration-harness-install.json` manifest in the target agents directory by default. Use `--no-write-manifest` only when manifest creation is intentionally unwanted.
 
-When installing in user scope, the script also asks whether to add a small managed harness routing block to `~/.codex/AGENTS.md`.
+When installing in user scope, the script also asks whether to add a small managed harness block to `~/.codex/AGENTS.md`.
 
 - Existing content is never overwritten wholesale.
 - If `AGENTS.md` already has other content, review the preview and choose whether to append the managed block.
 - If the managed block already exists, choose whether to replace only that block.
 - Use `--user-instructions add` for non-interactive add/update, or `--user-instructions skip` to leave `AGENTS.md` untouched.
 
-The managed `AGENTS.md` block is loader-only. It routes Codex to `$orchestration-harness`; workflow mechanics stay in the skill.
+The managed `AGENTS.md` block gives a session no role and holds no workflow: it says how each role is chosen and that a repository's own instructions on the default role govern. The bootstrap writes nothing into a repository's instructions; the default there is written by the repository's setup (`orchestration-harness/references/runtime-role-map.md`, How A Session Gets Its Role).

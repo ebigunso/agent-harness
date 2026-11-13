@@ -88,6 +88,19 @@ def check_manifests(errors: list[str]) -> None:
             fail(errors, f"cross-manifest mismatch for field {field!r}: {details}")
 
 
+def check_claude_default_agent(errors: list[str]) -> None:
+    # Claude Code runs a session opened with no agent chosen as the agent this file names.
+    settings_path = ROOT / "settings.json"
+    settings = load_json(settings_path, errors)
+    agents = load_json(ROOT / ".claude-plugin" / "plugin.json", errors).get("agents")
+    names = {Path(item).stem for item in agents if isinstance(item, str)} if isinstance(agents, list) else set()
+    agent = settings.get("agent")
+    if not isinstance(agent, str) or not agent:
+        fail(errors, f"{settings_path}: agent must be a non-empty string")
+    elif agent not in names:
+        fail(errors, f"{settings_path}: agent {agent!r} is not an agent the Claude manifest lists")
+
+
 def check_skills(errors: list[str]) -> None:
     skills_dir = ROOT / "skills"
     if not skills_dir.is_dir():
@@ -432,6 +445,7 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
     check_manifests(errors)
+    check_claude_default_agent(errors)
     check_skills(errors)
     check_role_map(errors)
     check_codex(errors)

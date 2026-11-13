@@ -53,13 +53,13 @@ This skill standardizes how the Orchestrator uses subagents to:
 If the runtime launches subagents asynchronously or as background processes:
 - Read references/async-dispatch-lifecycle.md
 
-If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel (team messaging, shared inbox):
-- Read references/persistent-peer-dispatch.md
+Before creating, keeping or ending a seat (a session created to do work and reached over a peer channel), or dispatching to one:
+- Read references/seats.md
 
 Whenever a Researcher is dispatched, in a workspace with one model too, and whenever more than one option (a seat or a subagent, on a model, at a setting such as its reasoning effort) is available for a dispatch or a session:
 - Read references/model-routing.md
 
-Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.
+Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read the Every dispatch section and that role's section of `references/dispatch-checklists.md`; apply them to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.
 
 If you want concise prompt snippets to copy/adapt:
 - Read references/prompt-snippets.md

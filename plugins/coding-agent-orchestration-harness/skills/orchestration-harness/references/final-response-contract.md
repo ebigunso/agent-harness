@@ -11,7 +11,7 @@ Whatever the outcome, under a brief or not, the response says what was left out 
 5. Repo rule updates, or none.
 6. Skill staging updates, or none.
 7. ADRs proposed, with acceptance state, or none; then each ADR whose wording changed after acceptance, one line each (the record and what changed), asking nothing — `durable-docs-authoring/references/adr.md`.
-8. Questions or blockers, max 3; omit when none. Under a brief this item asks nothing: it names what is with Counsel and what the turn ended blocked on (`references/value-level-operation.md` The Carrier).
+8. Questions or blockers, max 3; omit when none. Under a brief this item asks nothing: it names what is with Counsel, what the turn ended blocked on, and each permission check that only input in a session's window can satisfy, with what the owner has to do for it (`references/value-level-operation.md` The Carrier).
 
 Prefer short paragraphs; use lists only for parallel items.
 

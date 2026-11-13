@@ -144,7 +144,7 @@ def install_user_instructions(codex_home: pathlib.Path, action: str, instruction
             )
         else:
             should_write = ask_yes_no(
-                f"Add a small harness routing rule to {agents_md}?",
+                f"Add a small harness block on how a session's role is chosen to {agents_md}?",
                 default=True,
             )
 
@@ -340,7 +340,7 @@ def main() -> int:
     parser.add_argument("--scope", choices=SCOPES, default=None, help="Install scope. Omit to be prompted.")
     parser.add_argument("--repo-root", type=pathlib.Path, default=None, help="Repository root for --scope repo. Defaults to nearest .git parent, otherwise the current working directory.")
     parser.add_argument("--overwrite", "--overwrite-agents", action="store_true", dest="overwrite_agents", help="Replace existing installed agent profiles and references.")
-    parser.add_argument("--user-instructions", choices=INSTRUCTIONS_ACTIONS, default="ask", help="For user scope, ask/add/skip the managed AGENTS.md loader block.")
+    parser.add_argument("--user-instructions", choices=INSTRUCTIONS_ACTIONS, default="ask", help="For user scope, ask/add/skip the managed AGENTS.md block.")
     mode_group = parser.add_mutually_exclusive_group()
     mode_group.add_argument("--dry-run", action="store_true", help="Print planned writes/skips without writing files.")
     mode_group.add_argument("--check", action="store_true", help="Compare installed files against source templates and require the managed install manifest.")

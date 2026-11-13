@@ -2,6 +2,22 @@
 
 Use these checklists to prevent vague or over-broad subagent prompts.
 
+## Every dispatch
+These hold for every Researcher, Worker and Reviewer dispatch, to a subagent or to a seat, before the role's own list. An Auditor dispatch is its fixed template and nothing else, so it is always a first dispatch.
+
+- The first dispatch of a unit of work stands alone: a seat that has seen nothing before it can do the work from the dispatch and the files it names. Instinct goes wrong by writing for the seat that was there last time: "as before", "the earlier finding", a decision reached in an exchange and written nowhere.
+- A seat that takes over a unit of work part-way is handed where that unit stands, in the dispatch or in a file it names:
+  - what the unit is for;
+  - what is decided, and on whose word;
+  - what is done, and at which revision;
+  - what remains;
+  - what is still open;
+  - what may already have been done outside the repository.
+- The hand-off is there so that the seat neither repeats an act already performed nor undoes a decision already made. That the earlier messages are stored somewhere is not enough: a store of messages does not say which of them still hold.
+- A follow-up dispatch, a request for a corrected report and a re-dispatch after a blocker carry this hand-off whichever seat they go to. Why: whether a kept seat still holds what it saw cannot be read from outside it (`seats.md`).
+- The dispatch names the machine's record of obstacles, or carries the entries that apply where the seat cannot read it (`workspace-troubleshooting`, What this machine is known to do). The Auditor's template carries no entry, because its mandate has the auditor read the record itself.
+- A dispatch that asks a seat to read what another seat was sent says how, without the seat taking that seat's identity (`seats.md`, One identity).
+
 ## Researcher dispatch checklist
 Include:
 - Objective (one per invocation; split otherwise)

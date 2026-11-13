@@ -79,6 +79,8 @@ Provide a Reviewer packet when available:
 - known blockers/questions;
 - risk areas.
 
+A re-review scoped to a delta gives its reviewer what the earlier review covered and what it found, so that a reviewer who saw nothing of that review can judge the delta. The delta alone reads as the whole change to a reviewer who does not know what was already checked, and nothing guarantees the reviewer is the one who checked it.
+
 Reviewer must independently verify required Reviewer-owned evidence. Worker probes may inform review but do not replace Reviewer acceptance evidence.
 
 When Reviewer uses browser/UI tooling, artifacts must stay under the selected provider-defined artifact root, such as `.playwright-cli/` for `playwright-cli`.
