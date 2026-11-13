@@ -104,11 +104,11 @@ Design decisions for this plugin are recorded under the repo-root-relative path
 
 ### Runtime operation model
 
-A session's role is set when it is opened and does not change while the session lives; for another role, open another session. Claude Code: a session opened with no agent chosen is Counsel, because the plugin names `harness-counsel` as its default agent; to choose a role, launch the session as the role's agent (`claude --agent coding-agent-orchestration-harness:harness-orchestrator` or `claude --agent coding-agent-orchestration-harness:harness-counsel`) or set `agent` in your own settings, either of which overrides the default. The default does not reach cloud sessions, claude.ai chat or Cowork, which do not load a plugin's settings. GitHub Copilot: select the role's agent in the Agent dropdown when starting a chat. Codex: invoke the role's skill by name in the first message (`$orchestration-harness` for the Orchestrator, `$counsel` for Counsel). A skill switching itself on by description match never gives a session a role. The canonical statement, with each runtime's limits, is `skills/orchestration-harness/references/runtime-role-map.md`.
+A session's role is set when it is opened and does not change while the session lives; for another role, open another session. Claude Code: a session opened with no agent chosen is Counsel, because the plugin names `harness-counsel` as its default agent; to choose a role, launch the session as the role's agent (`claude --agent coding-agent-orchestration-harness:harness-orchestrator` or `claude --agent coding-agent-orchestration-harness:harness-counsel`) or set `agent` in your own settings, either of which overrides the default. The default does not reach cloud sessions, claude.ai chat or Cowork, which do not load a plugin's settings. GitHub Copilot: select the role's agent in the Agent dropdown when starting a chat. Codex: invoke the role's skill by name in the first message (`$orchestration-harness` for the Orchestrator, `$counsel` for Counsel). To have Counsel as the default in GitHub Copilot or Codex, have the harness's setup run in the repository: it writes the default into the repository's own instructions, and a repository never set up has none in those two. A skill switching itself on by description match never gives a session a role. The canonical statement, with each runtime's limits, is `skills/orchestration-harness/references/runtime-role-map.md`.
 
-Codex uses loader instructions plus installed custom-agent templates. The loader block stays small and routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the shared skill.
+Codex uses installed custom-agent templates for the subagent roles, and an optional block in `~/.codex/AGENTS.md` that gives a session no role and says how each is chosen; workflow mechanics stay in the shared skills.
 
-Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher. In Codex the loader block does not route to it, and the bootstrap installs no Counsel template.
+Counsel is a separate session from the Orchestrator: the owner opens it to discuss what the product does or should do, at the level of behaviour and decisions. It is never dispatched as a subagent, dispatches only the read-only Researcher, and does not read plans or diffs. It may do quick reads of code in service of the discussion; grounding that needs bulk code reading, and every check-up on the project's state, goes to a Researcher. The Codex bootstrap installs no Counsel template.
 
 Skills are shared capability modules. Runtime adapters should point to shared skills and references rather than copying full workflow instructions.
 
@@ -124,12 +124,12 @@ Logical roles are stable, but physical runtime names may differ:
 
 | Logical role | Copilot | Claude | Codex |
 |---|---|---|---|
-| Orchestrator | Orchestrator | harness-orchestrator | main Codex thread + `$orchestration-harness` loader |
+| Orchestrator | Orchestrator | harness-orchestrator | main Codex thread following `$orchestration-harness` |
 | Researcher | Researcher | harness-researcher | harness_researcher |
 | Worker | Worker | harness-worker | harness_worker |
 | Reviewer | Reviewer | harness-reviewer | harness_reviewer |
 | Auditor | Auditor | harness-auditor | harness_auditor |
-| Counsel | Counsel | harness-counsel | main Codex thread + the `$counsel` skill invoked explicitly by the person directing the work |
+| Counsel | Counsel | harness-counsel | main Codex thread following `$counsel` |
 
 The canonical role map is `skills/orchestration-harness/references/runtime-role-map.md`.
 
@@ -186,11 +186,11 @@ Use `--verify` to assert required installed files and the managed install manife
 
 Normal installs write `.coding-agent-orchestration-harness-install.json` in the target agents directory by default. Use `--no-write-manifest` only when manifest creation is intentionally unwanted.
 
-For user-scope installs, the script also asks whether to add a small managed routing rule to `~/.codex/AGENTS.md` so Codex knows when to load `$orchestration-harness`. Existing user instructions are not overwritten. If the file already has content, the script shows a preview and asks whether to append the managed block; if the managed block already exists, it asks whether to replace only that block.
+For user-scope installs, the script also asks whether to add a small managed block to `~/.codex/AGENTS.md` that says how each session role is chosen. Existing user instructions are not overwritten. If the file already has content, the script shows a preview and asks whether to append the managed block; if the managed block already exists, it asks whether to replace only that block.
 
 Use `--user-instructions add` to add or update that managed block non-interactively, or `--user-instructions skip` to leave `~/.codex/AGENTS.md` untouched.
 
-The managed Codex `AGENTS.md` block is loader-only. It routes coding-related tasks to `$orchestration-harness`; workflow mechanics stay in the skill.
+The managed Codex `AGENTS.md` block gives a session no role and holds no workflow. A block written by an earlier version routes coding tasks to the Orchestrator: after updating the plugin, run the bootstrap again with `--user-instructions add` to replace it.
 
 ### Model behavior
 

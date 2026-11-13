@@ -230,3 +230,31 @@ Repo-local checks that could eventually move into:
 
 If the proposed check belongs in bundled harness validators or plugin package validation, stage it as a harness migration candidate in `docs/coding-agent/skill-candidates.md` instead.
 ```
+
+## Default Role Block
+
+Setup writes these into the repository's instruction files as `references/bootstrap-lifecycle.md` (Default Role Block) states. The two forms say the same and differ only in how each runtime opens the Orchestrator. The marker lines are what setup finds the block by; write them as they are.
+
+Codex form, for `AGENTS.md` at the repository root:
+
+```md
+<!-- coding-agent-orchestration-harness:default-role:start -->
+## Coding Agent Orchestration Harness: the role of a session opened here
+
+- A session opened in this repository with no role chosen is Counsel: load and follow `$counsel`, and say in the first reply that the session is Counsel and how a session is opened as the Orchestrator (a new session whose first message invokes `$orchestration-harness` by name).
+- A session whose first message chooses the Orchestrator, by invoking `$orchestration-harness` by name or by saying it is opened as the Orchestrator, is the Orchestrator: load and follow `$orchestration-harness` and not `$counsel`.
+- A skill loaded because its description matched gives a session no role.
+<!-- coding-agent-orchestration-harness:default-role:end -->
+```
+
+GitHub Copilot form, for `.github/copilot-instructions.md`:
+
+```md
+<!-- coding-agent-orchestration-harness:default-role:start -->
+## Coding Agent Orchestration Harness: the role of a session opened here
+
+- A session opened in this repository with no role chosen is Counsel: load and follow the `counsel` skill, and say in the first reply that the session is Counsel and how a session is opened as the Orchestrator (a new chat with the `Orchestrator` agent selected in the Agent dropdown).
+- A chat with the `Orchestrator` agent selected in the Agent dropdown is the Orchestrator: follow that agent and not the `counsel` skill.
+- A skill loaded because its description matched gives a session no role.
+<!-- coding-agent-orchestration-harness:default-role:end -->
+```

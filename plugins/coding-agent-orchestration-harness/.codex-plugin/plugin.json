@@ -24,9 +24,6 @@
     "capabilities": [
       "Read",
       "Write"
-    ],
-    "defaultPrompt": [
-      "Use the coding-agent orchestration harness for coding-related tasks. Load the orchestration-harness skill and follow it as the source of truth."
     ]
   }
 }

@@ -90,6 +90,15 @@ The record is held as Philosophy Lines holds an awaiting line: its status line s
 
 A refresh re-resolves the record against the options as they are then, redates it and holds it again; the lines the owner stated carry over as they are and are shown for him to keep or change, while limits setup researched are researched again. A record in an older form, routing by named strengths rather than by the reasons, is rewritten in this form: its dated observations and the lines the owner stated carry over into the lines that hold them, and a line this form has no place for is kept as it stands. A record that names no setting for its options is an older form in the same sense: it stays valid and in force as it stands, and a refresh brings it into the form with settings.
 
+## Default Role Block
+
+In Codex and GitHub Copilot a plugin install cannot give a session a role, so in those two the default is carried by the repository's own instructions: at full bootstrap and at every targeted refresh, setup writes the default-role block `references/rule-suite-templates.md` gives into the repository's instruction file for each, so that a session opened there with no role chosen is Counsel and says so. Whom this reaches and what was seen of it is `orchestration-harness/references/runtime-role-map.md` (How A Session Gets Its Role).
+
+- Codex: `AGENTS.md` at the repository root, in the Codex form. GitHub Copilot: `.github/copilot-instructions.md`, in the Copilot form.
+- The block is everything from its start marker to its end marker, both included. Where the file holds both markers, setup replaces the block with the current one; where it holds neither, setup adds the block at the end; where there is no file, setup creates it holding the block alone.
+- Setup changes nothing outside the markers, because the rest of such a file is the repository's own. Where a file holds one marker without the other, setup writes nothing to it and reports it.
+- The setup report names each file written and says what the block does there.
+
 ## Counsel Relay Admission
 
 Before Counsel's relays are admitted, the owner asks for setup in the Orchestrator session directly, since no relay is yet admitted to carry it; once relays are admitted, a later refresh he directs reaches the session as any decision does. At full bootstrap, and again only at a targeted refresh, when Repository Reference Documents has no Counsel line, the report offers the standing approval that admits Counsel's relays: the entry `references/rule-suite-templates.md` gives, on the terms of `orchestration-harness/references/value-level-operation.md` (The Carrier, Standing Approvals), naming Counsel's identity on the peer channel by the convention `<repository>-counsel` or as the owner names it. It is an offer, not something reported missing.

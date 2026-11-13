@@ -17,7 +17,7 @@ Runtime adapters should preserve shared semantics while fitting each runtime's p
 
 ## Codex
 
-- Keep `AGENTS.md` loaders and snippets loader-only.
+- Keep the Codex `AGENTS.md` snippet free of workflow text.
 - Install inert role templates through bootstrap; their `developer_instructions` may carry replicated role workflow and output contracts.
 - Keep Codex-specific connector and platform mechanics concise and local to Codex templates.
 
