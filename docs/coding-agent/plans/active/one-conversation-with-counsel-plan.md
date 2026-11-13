@@ -784,6 +784,12 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - User approval: not applicable.
   - Record proposed: one, in place of ADR-D-0038; Task_7.
 
+- 2026-11-13 20:50Z Decision: the departure on setup and a peer channel is answered; what was built stands and the brief is corrected.
+  - Trigger: the closeout map found the text weaker than the brief's "setup puts one in place". It was escalated to Counsel as two experiences before the closeout audit was dispatched. His answer, relayed by Counsel and admitted by the standing approval (his calendar 2026-11-14): "Keep what was built and correct the brief." Counsel corrected the brief in the same statement, committed by name while the closeout audit was running: setup installs nothing, says what a peer channel would change, and puts one in place only on the yes of the person whose machine it is.
+  - Plan delta: none; the text already says this. The closeout entry's line "Weaker than the brief's words" no longer applies: the brief now says what was built.
+  - User approval: not applicable.
+  - Record proposed: none.
+
 ## Notes
 - Risks: a runtime may offer no way to make a default role (A2), no way to start a session without a person on this machine (A3), or no way to bring a stopped session to Counsel's attention (A5); each is answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
 - Edge cases: the default role may reach only some of the people who install (in Codex, the package's only lever is the loader block, which a person's setup may not have added). The plan does not settle that with a line of documentation: Task_1 establishes who is reached in each runtime, and where some are not, the default is not called delivered for them and the question goes to the owner through Counsel before text for that runtime is written.
