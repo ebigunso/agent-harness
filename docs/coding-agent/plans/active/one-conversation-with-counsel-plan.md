@@ -2,7 +2,7 @@
 
 - status: in_progress (authorized 2026-11-12 under the ratified brief: plan review APPROVED, second plan-draft audit holds nothing)
 - generated: 2026-11-12
-- last_updated: 2026-11-12 (revised after the plan review's findings and after the first plan-draft audit)
+- last_updated: 2026-11-13 (extended on the owner's answers of 2026-11-13: Tasks 9 to 11 added, Tasks 6 to 8 amended)
 - work_type: mixed
 
 ## Goal
@@ -19,6 +19,8 @@
 - Decision records replacing ADR-D-0037 and ADR-D-0020 are proposed, with any other record the admission test admits; none is marked accepted and nothing is retired by this plan.
 - The two standing rules the brief changes are changed only as far as it says, in `docs/coding-agent/rules/common.md`, and every standing-approval entry this plan writes is recorded as proposed and not in effect until the owner accepts it.
 - The closeout lists, for the owner, every case where a runtime's own permission check still needs input in a session's window and what he has to do for each.
+- Added 2026-11-13: in Codex and Copilot the harness's setup writes the default into the repository's own instructions, and the closeout says plainly which cases of "every runtime and everyone who installs" remain unmet (brief, Directed during the run).
+- Added 2026-11-13: the owner opens no second session, the first time in a repository included; nothing in the plugin's text or in a proposed record fixes how his acceptance is handled before that way of handling it has been tried in practice (brief, Directed during the run, the constraint).
 - The branch is reviewed `APPROVED` and value audits at plan draft and closeout are logged.
 
 ## Planner-added requirements
@@ -96,6 +98,9 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 | Limits: "This changes two decision records" | Task_7 | none |
 | Limits: "It changes two standing rules of his" | Task_6 | none |
 | Limits: "When the machine's limit for a period is reached" | Task_3 | none |
+| Directed during the run: "In Codex and Copilot, the harness's setup also writes the default into the repository's own instructions" | Task_10 | none |
+| Directed during the run: "He never opens a second session, the first time in a repository included" (Counsel starts the setup session; his acceptance of the admitting entry is given to Counsel; a workspace with no channel) | Task_11 | Task_7: the record replacing ADR-D-0038 |
+| Directed during the run: "Before anything fixes how his acceptance is handled" | Task_9 tries it; Tasks 10, 11 and 7 write only what it showed | none |
 
 ## Tasks
 
@@ -266,10 +271,11 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - docs/coding-agent/rules/common.md
   - docs/coding-agent/rules/orchestrator.md
   - docs/coding-agent/rules/_lifecycle.json
-- depends_on: [Task_2, Task_3, Task_4, Task_5]
+- depends_on: [Task_2, Task_3, Task_4, Task_5, Task_10, Task_11]
 - description: |
   The Orchestrator's own task, since only the Orchestrator edits the rule files.
   Change the two standing rules only as far as the brief says: Counsel may start an Orchestrator session for a ratified brief, and a session may create and end the seats its work needs. Record the means this workspace has to start, watch and end a session, as Task_1 showed them.
+  Added 2026-11-13: the standing approval that admits Counsel's relays is reworded, as proposed and awaiting his acceptance, so that it covers the sessions Counsel starts and says whose word the first relay is taken on.
   Bring the merge rule in line with Task_4. Write as proposed, and not in effect until the owner accepts each by name, any standing-approval entry the started sessions need.
 - acceptance:
   - The rule against starting seats and the rule on a silent seat say what the brief allows and no more.
@@ -284,9 +290,9 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - type: docs
 - owns:
   - docs/coding-agent-orchestration-harness/decisions/**
-- depends_on: [Task_2, Task_3, Task_4, Task_5]
+- depends_on: [Task_2, Task_3, Task_4, Task_5, Task_10, Task_11]
 - description: |
-  For what this plan decides, propose a decision record wherever the admission test of `durable-docs-authoring/references/adr.md` passes, each holding one decision by the owner's test recorded in the cleanup brief, in the template's present form. Two of them replace ADR-D-0037 and ADR-D-0020.
+  For what this plan decides, propose a decision record wherever the admission test of `durable-docs-authoring/references/adr.md` passes, each holding one decision by the owner's test recorded in the cleanup brief, in the template's present form. Two of them replace ADR-D-0037 and ADR-D-0020, and, added 2026-11-13 on the owner's answer, one replaces ADR-D-0038 on how his word reaches an Orchestrator session, stating only a way of handling his acceptance that Task_9 showed in practice.
   Name in the report every accepted record a clause of which no longer holds once these are accepted, with the clause quoted; change no accepted record.
   A record's number is a working number until the work lands.
 - acceptance:
@@ -309,6 +315,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - docs/coding-agent/plans/active/one-conversation-with-counsel-scenarios.md
 - depends_on: [Task_6, Task_7]
 - description: |
+  Added 2026-11-13: also show, where it can be made, the first time in a repository without the owner opening a second session, and a session with no role chosen in a set-up repository in Codex.
   Show scenarios 1, 2, 3, 5 and 8 of the brief where one can be made on this machine, with the plugin as this branch has it, and record in the owned file what was done and seen for each, or plainly that it could not be made and why. Run the census of the whole plugin text for lines relying on a seat's memory and record its result there. The run record is not this task's: it holds only what the audits state, copied by the Orchestrator.
   Sessions started for this are ended when observed; none changes a tracked file or reaches outside the machine.
 - acceptance:
@@ -320,12 +327,98 @@ One task writes the sentence that holds each statement of the brief; a mirror is
     owner: reviewer
     detail: "The record of each scenario against the brief's wording of it"
 
+### Task_9: The two answers tried in practice
+- type: research
+- owns:
+  - docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md
+- depends_on: [Task_1]
+- description: |
+  Added 2026-11-13 on the owner's answers and his constraint (brief, Directed during the run): try, before any text or record fixes them, the two ways he accepted, and add what is found to the findings file under a dated heading of its own.
+  The default in a set-up repository: in a throwaway repository, an instruction file of the kind Codex reads, carrying the default as setup would write it, with the plugin's real Counsel and Orchestrator skills installed as they are: does a session with no role chosen act as Counsel and say so in its first reply; does a first message that chooses the Orchestrator get the Orchestrator; what happens where the person's Codex home also carries the present loader block. For Copilot no trial can be made without a person at the editor: write exactly what a person would put in place and what to look for, for both the repository instruction file and the start-of-chat hook, and mark both untried.
+  The first time in a repository: in a throwaway repository no setup has touched, a session standing in for Counsel starts a session in the Orchestrator role whose first message asks it to set the repository up; that session writes the rule files with the entry that admits Counsel's relays as proposed; the stand-in then carries an acceptance to it, by each way that exists here to reach a started session (a further message through the runtime, and the peer channel only if that can be tried without touching the existing team); observe whether the started session receives it, what it does with it, where it stops for a permission check, and what a folder never trusted does to the start. Establish what "setup puts a channel in place" can mean in practice: which way of reaching a started session needs nothing installed beyond the runtime, and what a workspace with neither has.
+  Limits as for Task_1: sessions are measurement only, are ended when observed, and write only inside throwaway directories; no permission setting, settings file, plugin installation or instruction file outside those directories is created or changed; no mode that skips a runtime's safety checks; nothing is sent to the registered seats and no member is added to the existing team; a prompt or refusal is recorded and not worked around. The file holds no machine path, user name, member name or obstacle particular to this machine.
+- acceptance:
+  - For each of the two ways, the file says what was tried, what was observed, what could not be tried and why, and which part of the way would be impossible or unshown as written in the brief.
+  - Every session started is listed with how it was ended, and every throwaway directory is named by kind and removed.
+- validation:
+  - kind: review
+    required: true
+    owner: orchestrator
+    detail: "Findings read against the brief's three statements under Directed during the run; privacy sweep"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Each fact marked observed has its trial stated; no conclusion goes further than its evidence"
+
+### Task_10: The default in a set-up repository
+- type: impl
+- owns:
+  - plugins/coding-agent-orchestration-harness/codex/**
+  - plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json
+  - plugins/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/**
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/**
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/SKILL.md
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/runtime-role-map.md
+  - plugins/coding-agent-orchestration-harness/skills/runtime-adapter-contract/**
+  - plugins/coding-agent-orchestration-harness/agents/Orchestrator.md
+  - plugins/coding-agent-orchestration-harness/agents/Counsel.md
+  - plugins/coding-agent-orchestration-harness/README.md
+  - README.md
+  - plugins/coding-agent-orchestration-harness/scripts/validate_harness_package.py
+  - plugins/coding-agent-orchestration-harness/scripts/run_validation_smoke_tests.py
+- depends_on: [Task_2, Task_9]
+- description: |
+  Added 2026-11-13. Finish what Task_2 left for the owner's answer, as he answered: in Codex and Copilot the harness's setup writes the default into the repository's own instructions, so that once setup has run in a repository anyone who opens it there with no role chosen is talking to Counsel and is told so (brief, Directed during the run).
+  Write only what Task_9 showed. Where it showed the way working, setup writes it and the text says so with the date seen. Where it could not be tried (Copilot, without a person at the editor), setup may write what the runtime documents, and the text says plainly that it is untried and not counted as delivered.
+  The person's own loader block in the Codex home, the Codex manifest's default prompt and every sentence that says a loader-routed session is the Orchestrator are brought in line with the default, so that no installed text makes a session the Orchestrator unless its opener chose that.
+  A repository where setup has never run has no default in those two runtimes: say so once, where the role map states whom the default reaches.
+- acceptance:
+  - Task_2's two unmet acceptance bullets are met, or each remaining gap is stated as a limit with the date and named in the report for the closeout.
+  - What setup writes into a repository's instructions is marked so that setup can find and replace it, and nothing else in such a file is touched.
+  - The bootstrap's verify mode and the loader block's markers still work.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff against the brief's first statement under Directed during the run and Task_9's findings"
+
+### Task_11: The first time in a repository
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/counsel/**
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/**
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-level-operation.md
+- depends_on: [Task_9, Task_10]
+- description: |
+  Added 2026-11-13. Bring the text to the owner's second answer (brief, Directed during the run): he never opens a second session, the first time in a repository included. Counsel starts the session that sets the repository up, and his acceptance of the entry that admits Counsel's relays is given to Counsel and carried by Counsel; the very first relay is taken on Counsel's word that he said it, and the text says that this is the risk he accepted. Where a workspace has no way for Counsel to reach a run it started, setup puts one in place; where there is none, Counsel says so plainly and starts no run.
+  Write only what Task_9 showed can be done, and state as a limit, with the date, whatever it showed impossible or could not try. The condition Task_1 found (a folder must be one he has trusted once in the runtime before a session can be started in it) is his act and is said where Counsel will be reading when it starts the first session.
+  What still waits for him is unchanged: the admitting entry is a standing approval and is in effect only on his acceptance, quoted with its date.
+- acceptance:
+  - No sentence in the owned files has the owner open an Orchestrator session, type a statement into one, or carry an answer to one by hand, as the way the harness works.
+  - The text on how a relay is admitted agrees with the record Task_7 proposes in place of ADR-D-0038, and claims nothing Task_9 did not show.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff against the brief's second and third statements under Directed during the run and Task_9's findings"
+
 ## Task Waves (explicit parallel dispatch sets)
 
 - Wave 1: [Task_1]
 - Wave 2 (parallel): [Task_2, Task_3, Task_4, Task_5]
-- Wave 3 (parallel): [Task_6, Task_7]
-- Wave 4: [Task_8]
+- Wave 3: [Task_9] (added 2026-11-13)
+- Wave 4: [Task_10] (added 2026-11-13)
+- Wave 5: [Task_11] (added 2026-11-13)
+- Wave 6 (parallel): [Task_6, Task_7]
+- Wave 7: [Task_8]
 
 ## Rollback / Safety
 - Everything is on one branch and reverts as one. Nothing is merged, accepted or retired by this plan.
@@ -493,6 +586,15 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Tradeoffs considered: holding the whole wave until he answers. Not done: three of the four tasks build nothing the answer could change.
   - User approval: not applicable.
   - Record proposed: none.
+
+- 2026-11-13 04:55Z Decision: the plan is extended on the owner's answers to the run's two questions, and is reviewed and audited again at plan draft before the added tasks start.
+  - Trigger: Counsel's relay of 2026-11-13, admitted by the standing approval, quoting him: "I take your recommendations for both. But before you make how acceptance is handled set in stone, test them out so that it doesn't say something that turns out impossible in practice." Counsel wrote both answers and the constraint into the brief under Directed during the run, committed by name with this revision.
+  - Against the item held on 2026-11-12 13:25Z (the default role in Codex and Copilot): answered. Setup writes the default into the repository's own instructions; a repository never set up has none there, and the closeout says which cases remain unmet.
+  - Against the items held at Wave 2's integration (the first-session reference; the fallback without a peer channel): answered. He opens no second session; Counsel starts the setup session and carries his acceptance; ADR-D-0038 is replaced by a record he accepts by name; with no way to reach a run, Counsel starts none.
+  - Plan delta: Task_9 tries both ways in practice before anything is written on them; Task_10 writes the default for a set-up repository and finishes what Task_2 left; Task_11 writes the first time in a repository; Tasks 6, 7 and 8 take the amendments marked with the date; the table and the waves are extended. Nothing already built and reviewed is reopened.
+  - Tradeoffs considered: writing the text first and trying it at the scenarios task. Not done: his constraint puts the trial first. Not asked of him: whether someone tries the Copilot hook at the editor is open in the brief; Task_9 writes what to install and look for, and until someone tries it Copilot's default is stated as untried.
+  - User approval: not applicable; under the ratified brief no plan is presented.
+  - Record proposed: none yet; Task_7.
 
 ## Notes
 - Risks: a runtime may offer no way to make a default role (A2), no way to start a session without a person on this machine (A3), or no way to bring a stopped session to Counsel's attention (A5); each is answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
