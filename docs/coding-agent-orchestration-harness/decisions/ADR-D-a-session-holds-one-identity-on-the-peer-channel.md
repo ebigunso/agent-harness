@@ -24,7 +24,7 @@ Sessions on a peer channel are told apart only by their names, and other decisio
 
 ## Why
 
-A session that joins under another's name in order to read its messages then sends under a name that is not its own, and whoever receives the message cannot tell. Every decision that trusts a message by its sender's name, the admission of Counsel's relays among them, is only as sound as the rule that a name is held by one session.
+A session that joins under another's name in order to read its messages then sends under a name that is not its own, and whoever receives the message cannot tell. Every decision that trusts a message by its sender's name, the admission of Counsel's relays among them, is only as sound as the rule that a name is held by one session. The statement served is the product philosophy's "The line": "What cannot be undone, and what reaches outside the work, waits for the person's yes." That yes reaches a run as a relay admitted by the name it is sent under. One identity for each session does not show who sent a message, which stays unverifiable (ADR-D-0038); it keeps the harness's own sessions from adding, by taking each other's names, to what that yes already rests on.
 
 ## Rejected Alternatives
 
