@@ -70,3 +70,9 @@ He said of the proposed ADR-D-0071: "71 should be widened, so that questions are
   - Analogous evidence from ordinary work, all from this repository, each one episode. Bearing for a narrower form of the premise: ADR-D-0076, the model-defaults run of 2026-10-29, built and approved on a "most costly first" reading he then corrected; ADR-D-0079, a grader that on 2026-09-15 adopted a looser condition after seeing the responses, caught by the Reviewer and regraded; ADR-D-0081, an unlisted instruction that by 2026-11-08 had spread to six proposed records across two runs before he caught it. Only touching: ADR-D-0077 (2 episodes), 0078 (2), 0087 (1), 0082 (3), 0083 (1). None against. The same episodes are reused across premises and must not be added up.
   - Not established: anything about a goal loop itself, how often any of this happens, or any comparison of costs.
 - Counsel's read, its own: the sentences are true as written and stay true on 2026-11-12. The larger fact is that every goal-mode record governs something that has never run, so only a trial of goal mode can supply what he asked for.
+
+## Acceptance of the goal-mode records, 2026-11-14
+
+- He first said "ADR-D-0076 through ADR-D-0087 seems good." Counsel did not take that as acceptance and asked for it by name.
+- His words: "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101."
+- Relayed to the Orchestrator the same day. On it ADR-D-0011, 0014, 0029, 0063 and 0066 retire. Pull request 101 carries the two philosophy companions and the note on money in a goal run.
