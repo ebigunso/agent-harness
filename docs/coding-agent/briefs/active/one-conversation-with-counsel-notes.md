@@ -192,3 +192,22 @@ Its own, not his answer.
 - The statement was agent-proposed, Counsel's own, accepted by him on 2026-11-13 with "I take your recommendations for both."
 - Counsel's reading, its own: the wording it proposed goes past the product philosophy, and he was not shown that when he accepted it. Put to him on 2026-11-14 with the advice to keep what was built. Until he answers it stays as built.
 - He answered on 2026-11-14: "Keep what was built and correct the brief." The statement in the brief is corrected with his words; relayed to the Orchestrator the same day.
+
+## First read of the result, 2026-11-14
+
+Written before any part of the closeout verdict was seen. Source for every point: the note of the Orchestrator of 2026-11-13T21:02:14Z, read against the brief. Advisory, for him only.
+
+- Value documents changed in the run: the brief and these notes only, each change one Counsel wrote, committed by name (the branch log shows nine such commits and no other value document changed against main).
+- Met as the note states it: a session with no role chosen is Counsel in Claude Code; the first reply says so; hand-over timing is with Counsel, a held brief is told; what is ready reaches him as a line and waits; a stopped run gets at most two recovery attempts and is otherwise reported; machine obstacles are kept off the remote; setup installs no peer channel without a yes.
+- Short of the brief, and said plainly by the closeout as the brief asks:
+  - "in every runtime the harness supports and for everyone who installs it": Codex and Copilot only where setup has run (accepted by him 2026-11-13); Copilot untried everywhere and Codex untried outside scripted runs. By the constraint of 2026-11-13 as Counsel read it, the default in Copilot is not to be called delivered. The note lists it under what the result does and under what is untried; which of the two the closeout calls it is to be checked.
+  - "When he ratifies a brief, the run starts without him opening anything": in Codex no means is recorded for Counsel to start a run. A person working only in Codex does not get the centre of this brief.
+  - "A decision of his is given once" and scenario 7 (a pull request accepted by name merges and he is asked nowhere else): not met here. The merge of pull request 109 itself waits for his word in the window of the Orchestrator, and the note lists the permission of the merge tool among what still takes a second window. Five such acts remain. The brief allows input in the window as the backup and asks that such cases be as few as the runtime allows; the note does not say, for each of the five, whether the runtime requires it every time or whether something he allows once would end it.
+  - "He is not kept waiting by the own work of Counsel" and scenario 9: stated as not shown.
+  - Scenarios 1, 2, 3 and 5 shown in part, 8 for the holding and the telling, each once and with stand-ins; the first time in a repository not end to end.
+- Not said in the note either way: that how many runs go at once is unbounded by default and that the harness may hold part of a run back; that he can ask Counsel where every brief stands; whether scenarios 4 and 6 were shown; what makes Counsel look for a stopped run while he is away from the conversation; where the two standing rules the brief changes now stand.
+- An existing installation: the old block in a Codex home goes on routing coding requests to the Orchestrator until the bootstrap is rerun. That is his own machine too.
+- The version step, minor against major, is put to him by the note. It is a break in what a session with no role chosen does.
+- Three things learned that the philosophies do not cover, each a matter for him as product owner and none decided here: a yes given once to Counsel that the session needing it cannot act on; what a trial with stand-ins is worth as evidence; traces a trial leaves on his machine (twenty-two ended trial sessions still in his list).
+- The human-only pass condition is still to come, as the brief expects.
+- Counsel had told him thirteen records; the note names twelve.
