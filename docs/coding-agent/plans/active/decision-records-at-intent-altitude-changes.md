@@ -796,3 +796,120 @@ Small changes built without a plan under the governing brief, each from the owne
 - Sent to the Codex review seat.
 - 2026-11-13T18:40Z Review (Codex review seat) at d389963: CHANGES REQUESTED, RET-F1 and RET-F2; everything else passes its checks (the twelve differ only in status and paths; no other prose changed in the eight repaired records; each retirement complete; the absence search independently run; the status flip is enough to record acceptance). RET-F1: ADR-D-0067's sentence on the audit grading apart from the assessor, and its dependency, cited only ADR-D-0082, which leaves the separation to ADR-D-0083; both are now cited there and ADR-D-0083 added to `depends_on`. RET-F2: the reviewer rule file's `last_updated` is set to 2026-11-14 for the citation repaired in it. Both by the Orchestrator, pointers and a date only. Re-review requested.
 - 2026-11-13T18:41Z Re-review: APPROVED at 341b3b0 for the whole change; RET-F1 and RET-F2 closed, no finding open. The reading is written in the readings file before the closeout audit is dispatched.
+- Corrections to this log, from the audit. His acceptance is quoted in this log and reached this session as Counsel's relay; it is not in the brief, as two entries above say it is: writing it there is Counsel's, and Counsel is asked. The "What changes" line said the status becomes accepted "with his words and the date as the standard records an acceptance"; what was built is the status alone, as the later ruling says. On pull request 101: his word in this session, asked there whether pull request 101 may be squash-merged into main now, was "Merge PR 101", on 2026-11-13 by the channel clock.
+- 2026-11-13T18:52Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 9ec8d12.
+- 2026-11-13T18:52Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "ADR-D-0076 to ADR-D-0087 accepted; ADR-D-0011, 0014, 0029, 0063 and 0066 retired".
+  **Two things are held (`ask-now`); nothing is `ungraded`.**
+  - **The acceptance of the twelve records, and the retirement of the five that rests on it (items 1 and 2).** The changes file says his words "are in this log and in the brief". They are not in the brief: it was last changed at 84cf484 (2026-11-12), and its only "I accept" is the one for ADR-D-0071 and ADR-D-0072. The quote exists only in the Orchestrator's log, which I may not take as support.
+  - **The merge of pull request 101 to main (item 22),** on the outward-facing test alone. It is already done, so nothing waits on it.
+  The mechanics are sound. The twelve differ only by status and one path, each retirement is complete, every repaired citation points at the record that now holds the clause, and no accepted record's decision, boundary, reasons or reopen conditions changed. No item carries the `direction` mark.
+  ## Before the record
+  - **Range audited:** 9ec8d12 to the working tree of the run, clean at 78782e8 (three commits: d389963, 341b3b0, 78782e8). The section records 9ec8d12 as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **Nothing of the range is on the remote** by the local refs: the branch is ahead of origin by 4. Pull requests 97 and 98 are not merged; origin/main is at 34a4916.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0), not the worktree's, and did not compare the two. The range changes no file under `plugins/`.
+    - One command looped over two commit ids and printed their stats (names only). One `git grep` across the tree printed names and counts only.
+    - Each rename diff named two paths, the old and the new name of one record.
+    - Outside the range, to understand item 22, I printed the one line commit 7bf397d added to `docs/product-philosophy-companion.md` on main.
+    - Every other content read was one named path at a time, and every range diff carried both exclude pathspecs.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, as the range's diff of it (the 15 lines this change added).
+  - **Plan file:** I read all 799 lines of the changes file. The earlier verdicts logged in it are claims and support nothing here.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states; the rest to understand the run's state)
+  - The range's diff of each of the 31 changed paths other than the readings file, one path at a time.
+  - Read to understand the change, not as support: `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md`; ADR-D-0087 at HEAD; the titles and Context of ADR-D-0077, 0078, 0080, 0081, 0082, 0083, 0084 and 0086; ADR-D-0078's Revisit When.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11: "I ratify the engineering philosophy and the product philosophy."). The brief's basis line says the run is graded against the brief and both philosophies.
+  Not audited: none. Both sides have a document.
+  Missing inputs: none. The brief, both philosophies and both companions are present with their ratification records. What is absent is one statement inside the brief, which item 1 reports.
+  Value documents changed in range: none. The brief, both philosophies, both companions and `common.md` are not in the range's diff, and no pointer line was removed or changed. Outside the range, on main only, pull request 101 added one line to each companion; this branch's companions do not carry it.
+  Statements quoted below, by short name.
+  From the brief:
+  - **By name:** Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each." (constraint)
+  - **Lifecycle:** What the work gives: "A record that fails the check is rewritten to meet it, under the standard's own lifecycle: a new complete record, the old one retired, accepted by name. A record found to be a bundle is split" (tagged inferred; ratified with the brief on 2026-11-02, so it keeps its support)
+  - **Together:** Directed during the run: "ADR-D-0076 is accepted together with the record of the next unit that holds the line taken out of it, not before, so that the folder never shows ADR-D-0014 in force beside a record that replaces it in part." (accepted 2026-11-11: "Go with your takes on both.")
+  From the engineering philosophy:
+  - **EP2:** "A fact that may change carries the date it was seen. A later worker can rely only on what is honest about its own standing."
+  - **EP5 dated:** "A workspace's dated record holds what is true today."
+  - **EP7 least:** "what is present doing its work with the least complexity"
+  - **EP7 says so:** "A change that would be cleaner with its surroundings reshaped says so, instead of bending itself to fit."
+  From the product philosophy:
+  - **PP2 word:** "confidence is never taken on the builder's word: what was not done or not checked is said outright."
+  From `common.md`, Standing Approvals:
+  - **Merges:** "Merges are not covered and wait for the owner."
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  The acceptance and the retirement:
+  1. ADR-D-0076 to ADR-D-0087, twelve records, `status: proposed` to `status: accepted` | maps to the brief | ask-now | By name and Lifecycle set the condition, his acceptance by name; no document shows it met; PP2 word | Reason: who decides. Acceptance is his, by name, and the only record of it is the Orchestrator's log. Value question: do you accept each of the twelve records ADR-D-0076 to ADR-D-0087 as they stood after the six sentences were cut, so that they are the decisions in force and ADR-D-0011, 0014, 0029, 0063 and 0066 are retired? If not, the five old records stay in force and the twelve stay proposed. | -
+     - The log quotes "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101." and says the words are also in the brief. I checked the brief itself, as the mandate requires for a small change, and they are not there.
+     - The acceptance of ADR-D-0071 and ADR-D-0072 is in the brief with its date. This one would be `cited` on the same footing once the brief carries it.
+     - If the words are as quoted, they name the twelve by the first and last number. I read a closed numbered range as naming each, since unlike "all of them" it fixes the set, and do not hold on that.
+     - Each of the twelve diffs is two lines: the status and the `supersedes` path. No other word changed, and none changed after the acceptance commit d389963.
+     - The acceptance reverts cleanly: nothing is pushed or merged.
+  2. ADR-D-0011, 0014, 0029, 0063 and 0066 retired: `status: superseded`, `superseded_by` set, the line "Retired on 2026-11-14. Replaced by ...", moved to `superseded/` with the suffix, their own relative pointers adjusted, and the twelve's `supersedes` paths repointed | maps to the brief | ask-now | Lifecycle and Together would cover it once item 1 is answered | Reason: it rests wholly on item 1's acceptance, and retiring five accepted records without it would be the run deciding. No separate question; item 1's covers it. | -
+     - The diffs show no other word of the five changed. Each header line names every replacing record.
+     - Together is met in the tree: ADR-D-0014 retires in the same commit that accepts both ADR-D-0076 and ADR-D-0087.
+     - Items 3 to 16 are this retirement's repairs and stand or fall with it.
+  Accepted records reworded in the range (each graded on whether the decision, boundary, reasons or reopen conditions changed):
+  3. ADR-D-0050 | maps to the brief | not audited | unaltered; changed words: `depends_on` path; "(ADR-D-0029)" to "(ADR-D-0080)" in Context and in Not covered; "ADR-D-0029" to "ADR-D-0080" in More Information | -
+  4. ADR-D-0052 | maps to the brief | not audited | unaltered; changed words: "the reasoning ADR-D-0029 records" to "ADR-D-0080" in a rejected alternative; the same id in More Information | -
+     - ADR-D-0080 does carry that reasoning (its line on the conflicted party in the judge's seat).
+  5. ADR-D-0064 | maps to the brief | not audited | unaltered; changed words: `depends_on` path; "(ADR-D-0066)" to "(ADR-D-0084, ADR-D-0086)" and "(ADR-D-0063)" to "(ADR-D-0082)" in Not covered; the two ids in More Information's related list | -
+  6. ADR-D-0065 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0066)" to "(ADR-D-0084, ADR-D-0086)" and "(ADR-D-0063," to "(ADR-D-0082," in Not covered; the two ids in More Information | -
+  7. ADR-D-0067, including review fix RET-F1 | maps to the brief | not audited | unaltered; changed words: `depends_on` (ADR-D-0063 and 0066 to ADR-D-0082, 0083 and 0086); ids in Context, in two Decision lines, in the Invariant line, in Not covered and in More Information | -
+     - The Decision lines keep their clauses; only the record cited for each changes. "A remedy that would change the envelope is not within the run's authority" now cites ADR-D-0086, which is that decision.
+  8. ADR-D-0073 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0066)" to "(ADR-D-0084)" and "(ADR-D-0029," to "(ADR-D-0080," in Not covered; the two ids in More Information | -
+  9. ADR-D-0074 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0011)" to "(ADR-D-0077, ADR-D-0078)" and "(ADR-D-0029)" to "(ADR-D-0080)" in Not covered; "it reopens the measurement (ADR-D-0011)" to "(ADR-D-0078)" in Revisit When | -
+     - The Revisit When line says what does not reopen this record, so its own reopen conditions are unchanged. The pointer now names ADR-D-0078 alone; ADR-D-0078's own Revisit When is that misfire ("stopping loops that were progressing or passing loops that were not").
+  10. ADR-D-0075 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0029," to "(ADR-D-0080," in Context; the id in More Information | -
+  11. The retired ADR-D-0012, ADR-D-0027 and ADR-D-0056: `superseded_by` and `depends_on` paths follow the moved files | maps to the brief | not audited | paths only; no other word changed | -
+  Repairs outside the decisions directory:
+  12. `goal-mode-design.md`: the citation for the value audit grading a goal run, "(ADR-D-0063)" to "(ADR-D-0082, ADR-D-0083)" | maps to the brief | cited | Lifecycle; the standard's retirement, read to understand it, repairs "every inbound reference in the repository" | -
+  13. `docs/coding-agent/rules/reviewer.md`: the assessor mandate's semantics must match "ADR-D-0080, ADR-D-0081 and ADR-D-0050" where it read "ADR-D-0029"; `last_updated` set to 2026-11-14 (RET-F2) | maps to the brief | cited | Lifecycle for the citation; EP2 for the date | -
+  Judgement calls and rulings logged in the section:
+  14. Worker: every inbound reference repaired by what it means, with two records cited where the old one's clause is now split | maps to the brief | cited | Lifecycle | -
+      - My check of each mapping agrees, from the new records' titles and Context.
+      - My search finds four old file names nowhere and the fifth only in a completed plan. The five ids outside `superseded/` and the plans appear only in the twelve, in ADR-D-0064 and ADR-D-0067 (item 17), and in briefs.
+  15. Worker: the suffix and `superseded_by` name the lowest-numbered replacing record | maps to the brief | inferred | extends Lifecycle; cheap to undo | -
+  16. Worker: two slugs shortened to stay within the file-name length the smoke test allows | maps to the brief | inferred | extends Lifecycle; cheap to undo | -
+      - ADR-D-0063's file name drops "under-a-brief-or-with-a-philosophy" and ADR-D-0066's drops "and-never-changed-by-it". The titles inside are unchanged.
+  17. Ruling, Orchestrator: three clauses that say which records replaced ADR-D-0056 stay as history (ADR-D-0064, two mentions; ADR-D-0067, one), and the old path in a completed plan is left | maps to the brief | inferred | extends Lifecycle, the standard letting a merged record change only where a retirement requires repairing a pointer; cheap to undo | -
+      - EP2 bears mildly the other way. ADR-D-0064, a record in force, still reads "ADR-D-0063 holds the value audit's grading of a goal run" in the present tense, and ADR-D-0067 reads "ADR-D-0063, which holds". A reader who follows the id reaches the retired file and its header line, so the chain resolves.
+  18. Ruling, Orchestrator: acceptance is recorded in each record by its status alone | maps to the brief | cited | By name; the standard, read to understand it: "The status flips to `accepted` on the explicit yes", and a record "does not quote the person" | -
+      - The ruling's second half, that his words and the date are "in this log and in the brief", fails as to the brief (item 1).
+      - Each of the twelve keeps `date: 2026-11-11` in its front matter; nothing in a record carries the acceptance date.
+  19. Ruling, Orchestrator: six front-matter paths in older retired records that do not resolve, and one active record's long file name, predate the change and are left | internal mechanics | inferred | extends EP7 says so; cheap to undo, nothing was done | -
+  20. Judgement call, Orchestrator: the two citations outside the Worker's scope, and the RET-F1 and RET-F2 fixes, made by the Orchestrator itself | internal mechanics | inferred | extends EP7 least; cheap to undo | -
+  21. Judgement call, Orchestrator: built as a small change without a plan, by one Claude Worker on Fable 5.2 at low reasoning effort, reviewed by the Codex review seat | internal mechanics | inferred | extends EP7 least and EP5 dated; the workspace record in `common.md` names both settings; cheap to undo | -
+  22. The merge of pull request 101 to main (squash, 7bf397d, on origin/main), which the section records as done | maps to the brief | ask-now | no standing approval covers it: Merges | Reason: the outward-facing test alone. A merge to the shared branch reaches outside the run's branches and is not undone by a revert. The log says it was made "on his acceptance by name and his word in the session"; that is the Orchestrator's account, and no value document on this branch quotes it. Value question: did you mean pull request 101, the line in each philosophy's companion recording your word that the merge put the philosophies in force, with Counsel's notes, to land on the shared main branch on 2026-11-13? | -
+      - The commit is not in this branch's history. It adds one line to each companion.
+      - The entry on publishing carries its record ("The common rule proposed, accepted.", 2026-09-30) and is committed at HEAD. It excludes merges, so I rely on it for nothing. Whether the quoted words were said is not something a file can show.
+  Decision records reworded after acceptance in the range: items 3 to 10, none altering a decision, boundary, reason or reopen condition. The five retired records changed only by their retirement. The twelve were accepted in d389963 and no word of them changed after it.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): two instances.
+    - Demonstrated for one: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96."
+    - Ready for the owner's judgement for the first accepted records split. The tree shows ADR-D-0076 to ADR-D-0087 accepted and the five old records under `superseded/`, but "each accepted by name" can be observed in no document I may read as support. It is demonstrated once the brief carries his acceptance.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted and not in the range, and the run record's result table.
+  - Prior states, from the run record's Scenarios section: 1 not yet; 2 demonstrated for one instance and ready for his judgement for the accepted records; 3 not yet; 4 demonstrated. No state moved.
+  - Getting closer: yes. The tree now holds, for five old bundles, twelve records of one decision each, with the old ones retired and every reference repaired by what it means. That is scenario 2 carried through for the first accepted records. It rests on the acceptance item 1 holds: what is missing is the record of his word, not work.
+  - Limits on that judgement: no scenario moved; the check covers 12 of 49 records and the three other areas are not started; the run record still calls the twelve proposed.
+  ## For the Orchestrator's eye
+  - **The brief does not carry the acceptance.** The log's "in this log and in the brief" is not true of the brief at HEAD. Writing it there is Counsel's.
+  - **The section's "What changes" line and the build differ.** It says the status becomes accepted "with his words and the date as the standard records an acceptance"; what was built is the status alone, as the later ruling says.
+  - **The run record is behind the tree.** Its State line and result table still call the twelve proposed and the five old records accepted, and it has no Units row for this change. The brief's pass condition that every record's result is recorded depends on that table.
+  - **Still owed by the record standard:** the final response lists each record reworded after acceptance. Here that is ADR-D-0050, 0052, 0064, 0065, 0067, 0073, 0074 and 0075.
+  - **This branch's companions lack the line pull request 101 added on main;** it arrives when main is next brought into the branch.
+- Acting on the verdict: two things are held, and neither goes further until the owner's answer is on record. The acceptance of the twelve and the retirement resting on it: the audit finds his acceptance quoted only in this log; both value questions are carried to Counsel as the verdict states them, with the note that his relayed words of 2026-11-13T18:02Z by the channel clock appear to answer the first, and Counsel is asked to write his acceptance into the brief, as it did for ADR-D-0071 and ADR-D-0072. Nothing of this change is pushed and pull requests 97 and 98 are not merged until then. The merge of pull request 101: already made, on his acceptance naming it as relayed and his word in this session, quoted above; its value question goes to Counsel with the other. Taken from the verdict otherwise: this log is corrected above; the run record is brought up to date (the State line, the result table, a Units row); the records reworded after acceptance in this change are ADR-D-0050, 0052, 0064, 0065, 0067, 0073, 0074 and 0075, pointers only, and are listed in the run record and the report; main is brought into the branch before the merge, which brings the companions' line.
