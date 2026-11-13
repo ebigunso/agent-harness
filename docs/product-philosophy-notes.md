@@ -76,3 +76,4 @@ Counsel's reading, its own:
 ## Open
 
 - His answers. Where the philosophy will live; no pointer line exists.
+- 2026-11-12, said about how many runs go at once, and bearing on this matter: he named which surprise is acceptable and which is not. Acceptable: reaching a five-hour token limit. Not acceptable: "finding out they have no weekly limit left or has eaten up a huge chunk of pay-as-you-go tokens because of a long running expensive model." Recorded in full in `docs/coding-agent/briefs/active/one-conversation-with-counsel-notes.md`.
