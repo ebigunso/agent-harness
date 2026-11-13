@@ -29,6 +29,15 @@ One read, of the two proposed records; the Orchestrator's report of 2026-11-10 2
 - ADR-D-0072 says a loader-routed session holds the Orchestrator role and that the policy being in context confers nothing, leaving the other ways in to ADR-D-0037. One decision with its boundary. Nothing marked.
 - The checker now warns where it failed on the Reviewer's prompt snippet; ADR-I-0007 is unchanged.
 
+## Counsel's read of the goal-mode area's second unit, 2026-11-11
+
+Not a full read. The Orchestrator's report of 2026-11-11 09:58Z arrived with the outcomes in it (the Codex review seat approved the plan, the wave and a final delta after findings in each; audits at plan draft and closeout held nothing). Pull request 98, stacked on 97; nothing accepted, retired or merged.
+
+- What Counsel did: a mechanical check of the twelve proposed records (ADR-D-0076 to ADR-D-0087), and a reading of the Decision of ADR-D-0077 and of ADR-D-0087 and the Why of ADR-D-0082. It did not read the other nine in full, and said so to him.
+- The check: every Why is one or two sentences; none cites a brief as its authority (ADR-D-0082's Why names the brief as what a goal run may drift from, which is its subject); none has an Invariant prompt; each `consulted` field names the old record's entries and Claude Fable 5.2.
+- ADR-D-0087 carries the line taken out of ADR-D-0076, the named invariants, and that what a run learns against its goal is surfaced. ADR-D-0077 has the reading of the gap settled before the loop starts. Both as he decided.
+- Brought to him: the audit's matter of direction on a Revisit When premise that the run words from an old record's reason, for rewrites he does not read; and the Orchestrator's report that it built an extended plan without a fresh plan review and plan-draft audit.
+
 ## Counsel's read of the goal-mode area's first unit, 2026-11-11
 
 One read, of the proposed ADR-D-0076; the Orchestrator's report of 2026-11-11 08:09Z arrived with the outcomes in it (plan review passed after eight findings; the wave's review, by a Claude reviewer after the two Codex seats left the roster, passed after seven; audits at plan draft and both closeouts held nothing). Pull request 97, nothing merged.
@@ -47,3 +56,23 @@ He said of the proposed ADR-D-0071: "71 should be widened, so that questions are
 - The audit marks as direction the run's wording of "accessible" (the run can read it with the access it has) and "settles" (it shows a consumer, or gives real evidence that there is none, which a search does only where the sources searched would show one). Counsel's framing test, mine: a run that reads a registry's dependents and finds none goes ahead and reports, or asks him first; the two read differently, so it goes to him.
 - Its second Decision line carries his "goes ahead and says what it did", which he said of a change inside the repository, to any surface the sources settle. That follows from his widening; pointed out to him.
 - The two reopen conditions and the Revisit When are derived by the run; pointed out to him.
+
+## Evidence for premises that had none, 2026-11-12
+
+- Fact: eight of the proposed goal-mode records state a premise that nothing had exercised when the record it replaces was written. Six say so with a sentence ending "names no trial of this premise" (ADR-D-0076, 0077, 0078, 0079, 0081, 0087); ADR-D-0082 and ADR-D-0083 say it with dates.
+- Counsel gave him the twelve records by name, the Orchestrator's reading that those sentences stay, and its own advice that they come out.
+- His words: "For those that didn't have any real life evidence of execution at the time of writing before, see if those can be obtained from the logs of this or other repositories."
+- Done: a read-only research request went to the Researcher seat (`agent-harness-researcher`) the same day: first an inventory of every goal run that has actually run in this and the other repositories, then for each premise the direct evidence from goal runs and, kept apart and labelled, analogous evidence from ordinary work. Facts only; no view on whether a premise is right or a record should change.
+- Open: whether the sentences stay or go, and the acceptance of the twelve records. He has said neither.
+- What the research found, 2026-11-12, in the channel 07:21:00Z to 07:42:11Z (Researcher seat, GPT-6 Astra, read-only; classifications are its judgements):
+  - Goal mode has no verified run anywhere it could look: the channel history of this repository and three others (10,865 messages), the documents trees, 75 Codex and 63 Claude transcript files. No goal directory, journal or completion report; no goal-creating call in any transcript. A completed plan records on 2026-07-17 that goal mode was declined for plan-driven work. Its words: "0 verified runs, not proof that none ever ran." Not reached: deleted files and old branches, nested subagent transcripts, other runtime profiles.
+  - So direct evidence is nil for all eight records: none for, none against.
+  - Analogous evidence from ordinary work, all from this repository, each one episode. Bearing for a narrower form of the premise: ADR-D-0076, the model-defaults run of 2026-10-29, built and approved on a "most costly first" reading he then corrected; ADR-D-0079, a grader that on 2026-09-15 adopted a looser condition after seeing the responses, caught by the Reviewer and regraded; ADR-D-0081, an unlisted instruction that by 2026-11-08 had spread to six proposed records across two runs before he caught it. Only touching: ADR-D-0077 (2 episodes), 0078 (2), 0087 (1), 0082 (3), 0083 (1). None against. The same episodes are reused across premises and must not be added up.
+  - Not established: anything about a goal loop itself, how often any of this happens, or any comparison of costs.
+- Counsel's read, its own: the sentences are true as written and stay true on 2026-11-12. The larger fact is that every goal-mode record governs something that has never run, so only a trial of goal mode can supply what he asked for.
+
+## Acceptance of the goal-mode records, 2026-11-14
+
+- He first said "ADR-D-0076 through ADR-D-0087 seems good." Counsel did not take that as acceptance and asked for it by name.
+- His words: "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101."
+- Relayed to the Orchestrator the same day. On it ADR-D-0011, 0014, 0029, 0063 and 0066 retire. Pull request 101 carries the two philosophy companions and the note on money in a goal run.

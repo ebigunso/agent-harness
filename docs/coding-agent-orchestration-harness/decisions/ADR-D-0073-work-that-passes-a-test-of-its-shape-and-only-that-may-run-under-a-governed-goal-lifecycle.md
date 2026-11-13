@@ -35,14 +35,17 @@ A structure that cannot be known in advance cannot be approved in advance, so ho
 
 ## Decision Boundary
 
-Invariant: a governed goal lifecycle exists for work that passes the test of its shape; work enters it only by that test and is planned where the test is in doubt; a person's oversight is relocated to structure around the loop and never removed; the loop's work stays recorded and cheap to undo; both lifecycles run on one substrate.
-
-Not covered: the mechanisms that carry the rest of the oversight, each left to a record of its own: what bounds the loop (ADR-D-0066), who assesses it (ADR-D-0029, ADR-D-0050), and what stands between its completion and a merge (ADR-D-0075); that the loop's work stays recorded and cheap to undo is carried here, and the form of the record and the means of undoing are goal mode's text; the wording of the test and the point in a session at which it is applied; who authorizes a goal run; which goal engine runs the loop.
+Not covered: the mechanisms that carry the rest of the oversight, each left to a record of its own: what bounds the loop (ADR-D-0084), who assesses it (ADR-D-0080, ADR-D-0050), and what stands between its completion and a merge (ADR-D-0075); that the loop's work stays recorded and cheap to undo is carried here, and the form of the record and the means of undoing are goal mode's text; the wording of the test and the point in a session at which it is applied; who authorizes a goal run; which goal engine runs the loop.
 
 ## Validation
 
-- Review of the guidance asks: is the test of shape applied as a gate before the work starts, and is work that could have been planned and was run toward a goal recorded as misuse?
-- Review of an edit to goal mode's guidance asks: does it refer to the substrate's validation, evidence and role rules, and redefine none of them?
+The decision is broken where:
+
+- work ran in goal mode that had not passed the test of its shape, or whose passing of it was in doubt;
+- the test was applied after the work had started, or work was admitted on preference and not on its shape;
+- a person's oversight of work in goal mode was absent before the loop started, while it ran or after it ended;
+- a loop's work went unrecorded, or was not cheap to undo;
+- goal mode changed something in the substrate, or ran on a substrate other than plan mode's.
 
 ## Revisit When
 
@@ -52,4 +55,4 @@ Not covered: the mechanisms that carry the rest of the oversight, each left to a
 
 ## More Information
 
-Replaces ADR-D-0009 in full. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`. Related: ADR-D-0066 (the loop's envelope), ADR-D-0029 and ADR-D-0050 (its assessment), ADR-D-0075 (what stands before a merge).
+Replaces ADR-D-0009 in full. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`. Related: ADR-D-0084 (the loop's envelope), ADR-D-0080 and ADR-D-0050 (its assessment), ADR-D-0075 (what stands before a merge).

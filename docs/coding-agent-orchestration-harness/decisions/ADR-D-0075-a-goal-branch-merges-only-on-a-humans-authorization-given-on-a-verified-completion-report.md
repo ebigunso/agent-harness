@@ -13,7 +13,7 @@ superseded_by: null
 
 ## Context and Problem Statement
 
-Terms used here: a goal run is a run in goal mode, in which a loop works toward a stated goal condition. The journal is the run's append-only record of its iterations and their evidence. The completion report is the loop's own concise account of how the goal condition was met and what the run did on the way. The assessor is the independent judgement of whether a goal loop continues (ADR-D-0029, ADR-D-0050).
+Terms used here: a goal run is a run in goal mode, in which a loop works toward a stated goal condition. The journal is the run's append-only record of its iterations and their evidence. The completion report is the loop's own concise account of how the goal condition was met and what the run did on the way. The assessor is the independent judgement of whether a goal loop continues (ADR-D-0080, ADR-D-0050).
 
 Goal mode moves oversight from approval before the work to review after it, which only works if that review happens and is cheap enough to be done well. A raw journal is a pile of text, and requiring a human to mine it invites rubber-stamping. The fork is what stands between a loop that reports its goal satisfied and the merge of its branch.
 
@@ -35,14 +35,15 @@ Oversight of a goal run comes after the work, which only works if the human's re
 
 ## Decision Boundary
 
-Invariant: completion of a goal run never authorizes a merge; a goal branch merges only on a human's authorization, and never on a completion report that is unverified or that verification against the journal did not bear out.
-
 Not covered: the report's sections and wording, how the human's review is conducted and how its outcomes feed the improvement loop, which goal mode's text states; which role verifies the report (ADR-D-0050); how a human's authorization to merge is given.
 
 ## Validation
 
-- Review before a goal branch merges asks: were the completion report's assertions verified against the journal by a reviewer other than the loop, and is that verification itself on record?
-- No goal branch merges on a report that is unverified or that the verification did not bear out.
+The decision is broken where:
+
+- a goal branch merged without a human's authorization, or a loop's report that its goal was satisfied was taken as authorization to merge;
+- the assertions of the report a human acted on had not been verified against the journal by a reviewer other than the loop;
+- a merge rested on a report that had not been verified, or on one with an assertion the verification did not bear out.
 
 ## Revisit When
 
@@ -50,4 +51,4 @@ Not covered: the report's sections and wording, how the human's review is conduc
 
 ## More Information
 
-Replaces ADR-D-0031 in full, at the same decision; ADR-D-0031 had itself replaced ADR-D-0013. Related: ADR-I-0007 (validators enforce contracts, never prose), of which the report's verification by a reviewer and not by a validator is an application; ADR-D-0050 (the Auditor), which keeps the report's verification with the Reviewer and has the report assert the cadence of the assessor's dispatches; ADR-D-0029 (the assessor). Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, the sections on the iteration journal and checkpoints and on the completion report and human retrospective.
+Replaces ADR-D-0031 in full, at the same decision; ADR-D-0031 had itself replaced ADR-D-0013. Related: ADR-I-0007 (validators enforce contracts, never prose), of which the report's verification by a reviewer and not by a validator is an application; ADR-D-0050 (the Auditor), which keeps the report's verification with the Reviewer and has the report assert the cadence of the assessor's dispatches; ADR-D-0080 (the assessor). Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, the sections on the iteration journal and checkpoints and on the completion report and human retrospective.
