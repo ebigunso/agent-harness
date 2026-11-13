@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["superseded/ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md"]
-superseded_by: null
+supersedes: ["ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md"]
+superseded_by: ../ADR-D-0084-no-goal-loop-starts-without-an-authority-envelope.md
 ---
 
 # ADR-D-0066: A goal loop's forbidden set is a criterion and its envelope is fixed before the loop and never changed by it
+
+Retired on 2026-11-14. Replaced by ADR-D-0084, ADR-D-0085 and ADR-D-0086.
 
 ## Context and Problem Statement
 
@@ -50,4 +52,4 @@ Not covered: who authorizes the envelope and on what conditions (ADR-D-0064, ADR
 
 ## More Information
 
-Replaces ADR-D-0027 in full: everything it decided is carried except that the person directing the work ratifies the envelope, which this record leaves to ADR-D-0064 and ADR-D-0065. Source of intent for leaving it out: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/completed/quiet-orchestrator-session-brief.md`), "Directed during the run". Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, "Authority envelope". Related: ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a goal envelope), ADR-D-0063 (the value audit in a goal run), ADR-D-0011 and ADR-D-0028 (progress and stall), ADR-D-0029 (who judges continuation).
+Replaces ADR-D-0027 in full: everything it decided is carried except that the person directing the work ratifies the envelope, which this record leaves to ADR-D-0064 and ADR-D-0065. Source of intent for leaving it out: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/completed/quiet-orchestrator-session-brief.md`), "Directed during the run". Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`, "Authority envelope". Related: ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a goal envelope), ADR-D-0063 (the value audit in a goal run), ADR-D-0011 and ADR-D-0074 (progress and stall), ADR-D-0029 (who judges continuation).

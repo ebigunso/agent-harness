@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0013-completion-report-and-retrospective-merge-gate--superseded-by-ADR-D-0031.md"]
-superseded_by: null
+supersedes: ["ADR-D-0013-completion-report-and-retrospective-merge-gate--superseded-by-ADR-D-0031.md"]
+superseded_by: ../ADR-D-0075-a-goal-branch-merges-only-on-a-humans-authorization-given-on-a-verified-completion-report.md
 ---
 
 # ADR-D-0031: Goal completion never authorizes merge; a human retrospective on a verified completion report does
+
+Retired on 2026-11-11. Replaced by ADR-D-0075.
 
 ## Context and Problem Statement
 

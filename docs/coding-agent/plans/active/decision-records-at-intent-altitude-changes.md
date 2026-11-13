@@ -196,3 +196,721 @@ Small changes built without a plan under the governing brief, each from the owne
 - 2026-11-11T07:04Z Record accepted, ADR-D-0071: Protection is owed only to a consumer that can be shown. Record accepted, ADR-D-0072: The person directing the work is asked whether a consumer exists only where no accessible source settles it. Each names him as decider and reads `status: accepted`.
 - 2026-11-11T07:04Z ADR-D-0016 retired in one operation, by the Orchestrator: `status: superseded`; the header line "Retired on 2026-11-11. Replaced by ADR-D-0071 and ADR-D-0072."; moved to `superseded/` with the suffix `--superseded-by-ADR-D-0071`; the two new records' `supersedes` paths repaired. No other file in the repository cited its filename; the absence search for the old path returns nothing outside this run's own plan, changes and readings files, which keep it as history. `validate_harness_package.py` and `run_validation_smoke_tests.py` pass.
 - Nothing is merged. The merge waits for the session's permission; pull request 95 also states 1.4.0, and the second of the two to land takes the next version.
+
+## The three goal-mode rewrites accepted; ADR-D-0009, ADR-D-0028 and ADR-D-0031 retired
+
+- The owner's statement: the governing brief, Directed before the run was planned, the entry of 2026-11-11 on rewrites: "Rewrites can go in without me reading it, as long as it doesn't materially change what the decision is about." and, on how, "Go with the second.": such a rewrite goes in once the closeout audit has confirmed, record by record, that its decision is unchanged, and he is given the list afterwards.
+- The confirmation: the closeout audit of the goal-mode plan, 2026-11-11 08:05Z, logged in `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-goal-mode-plan.md`: "I confirm, record by record, that all three proposed rewrites keep their old record's decision." ADR-D-0075 is confirmed read together with ADR-D-0050.
+- Built by the Orchestrator as a change of its own, as that plan states, with its own review and closeout audit before anything is published. It starts from revision 0bb0c81.
+- Compatibility stance: migrate. The three old filenames are cited by the new records' front matter and by one retired record's pointer; other records name the three by id. Every such citation is found by search and repaired here. No source the run can read shows a reader of these filenames outside the repository.
+- 2026-11-11T08:10Z Records accepted: ADR-D-0073 (work that passes a test of its shape, and only that, may run under a governed goal lifecycle), ADR-D-0074 (a goal loop is stopped by its failure to progress; a resource ceiling is only a backstop), ADR-D-0075 (a goal branch merges only on a human's authorization given on a verified completion report). Each reads `status: accepted`.
+- 2026-11-11T08:10Z Records retired, each in one operation (`status: superseded`; the line "Retired on 2026-11-11. Replaced by ADR-D-00NN."; moved to `superseded/` with its suffix; its own relative pointers adjusted for the move): ADR-D-0009 (replaced by ADR-D-0073), ADR-D-0028 (by ADR-D-0074), ADR-D-0031 (by ADR-D-0075).
+- References repaired: the three new records' `supersedes` paths; the retired ADR-D-0013's `superseded_by` pointer to ADR-D-0031's file; and, in accepted records, the id where a retired record is named as the record in force: ADR-I-0007 (ADR-D-0031 to ADR-D-0075), ADR-D-0050 (ADR-D-0031 to ADR-D-0075), ADR-D-0063 (ADR-D-0028 to ADR-D-0074; ADR-D-0031 to ADR-D-0075, twice), ADR-D-0066 (ADR-D-0028 to ADR-D-0074). Each is the repair of a pointer the standard allows in an accepted record; no other word in those records changed.
+- Left as written: the plugin's `durable-docs-authoring/references/adr-repo-readme.md`, whose example filename ending `--superseded-by-ADR-D-0009.md` illustrates a naming form and points at no record; retired records' prose naming the three by id, a retired record being frozen; this run's completed plan, changes and readings files, which are chronicles of what was true when written.
+- Absence search: the three old filenames are found nowhere in the repository except one line of the completed goal-mode plan's logged audit verdict. A search for the three ids outside `superseded/` finds only the three new records (which name the record each replaces) and the example in the plugin's README.
+
+## The record template's two prompts, and ADR-D-0014 rewritten
+
+- The owner's statements: the governing brief, Directed during the run, the two entries of 2026-11-11 on the first unit by area. As they reached this session, Counsel's relay of 2026-11-11 07:51Z by the channel clock, quoting his answer to the two questions put to him: "Go with your takes on both." What he accepted, Counsel's advice: on ADR-D-0014, "The first reopens if, run after run, the re-examination finds no goal to question. It is a cost trade, and evidence could change it. The second is rejected outright. ADR-D-0029 already rejects the optimizer judging its own continuation outright, on the same ground."; on the template, "change it, in this run, before the next unit is written. ... Keep \"Not covered\"; it is the part that keeps mechanics out. Records already accepted stay as they are.", the change being "Validation asks only what would show the decision broken, and there is no separate Invariant."
+- The reason settled for ADR-D-0014, recorded here as the goal-mode plan's Decision Log requires before the record is written: the alternative of an assessor that judges progress only, a stale goal being left to the human's retrospective, reopens if, run after run, the re-examination finds no goal to question; the alternative of the optimizer examining its own goal is rejected outright, on the ground on which ADR-D-0029 rejects the optimizer judging its own continuation. His answer differs from the Orchestrator's reading, which had both rejected outright.
+- Built as small changes without a plan, on top of the unit's branch: his statements settle what changes. They start from revision 08fb0f1 (the brief's entries committed).
+- 2026-11-11T08:14Z Task_A, the template, dispatched to a Claude subagent `harness-worker` on Fable 5.2 at low reasoning effort: the template loses its Invariant prompt and keeps "Not covered"; its Validation prompt asks only what would show the decision broken; nothing else in the standard changes; no accepted record is edited; a record that states the template's form is reported, not touched.
+- 2026-11-11T08:14Z Task_B, the record, dispatched to a Claude subagent `harness-worker` on Fable 5.2 at low reasoning effort: a proposed ADR-D-0076 replaces ADR-D-0014 at the same decision, in the new template's form, with the two alternatives as settled above; every clause of ADR-D-0014 accounted for. It reaches the owner by name, its alternatives' conditions coming from outside the old record.
+- 2026-11-11T08:20Z Both Worker reports integrated: done, each inside its owns; required checks pass and were rerun by the Orchestrator (`validate_harness_package.py`, `run_validation_smoke_tests.py`, `git diff --check`, the whitespace check of the new file).
+  - Task_A: one file changed, `durable-docs-authoring/references/adr-template.md`. The Invariant prompt is removed; "Not covered" stays under "Decision Boundary", the heading kept since the section still says where the decision's reach ends. The Validation prompt reads: "What would show the decision broken: the state of affairs that cannot hold while the decision does. No procedure, file names, or checks to run." Nothing else in the standard names either prompt, so nothing else changed. No accepted record states the template's form; none was edited. Found and left: a repository that bootstrap already gave a copy of the template keeps the old prompts, the plugin having no step that refreshes that copy.
+  - Task_B: proposed ADR-D-0076, "An independent assessor asks whether a goal is still worth pursuing; only its owner changes it", replaces ADR-D-0014 in the new template's form. The Worker checked the earlier findings again (one decision, admitted, failing the form). The three questions, the output fields and the escalation level are left to `goal-assessor-mandate.md`, quoted by line. Its two rejected alternatives carry what he settled. "With the same weight as progress" is rendered without relational wording: no assessment judges progress and leaves the goal unexamined.
+  - Derived by the Worker and named as its reading, to be shown to him with the record: its second Revisit When premise (goals go stale during a run often enough to merit the examination), read from his reopen condition; ADR-D-0014's two own Revisit When lines are carried as lines that do not reopen the record, each naming a remedy elsewhere.
+  - Record proposed, ADR-D-0076: decision in one line, the independent assessor examines at every assessment whether the goal is still worth pursuing, and only the goal's owner changes it; constraint, no assessment judges progress and leaves the goal unexamined, and the loop never re-scopes, reframes or abandons its goal; why, goal mode removes the human moments at which direction is re-checked, the assessor has no stake in the goal and already reads the run's evidence, and a change of goal is the owner's.
+  - The version is 1.6.0, the template being a shipped file.
+- 2026-11-11T08:22Z Review requested of a Claude subagent `harness-reviewer` on Fable 5.2 at low reasoning effort, the Codex seat `agent-harness-reviewer` still being absent from the team's roster (checked before the dispatch); range 0bb0c81..951512b, the three changes of the last two sections together.
+- 2026-11-11T08:26Z Review: APPROVED, four minor findings, none blocking. The retirements are complete and every pointer resolves; each edit to an accepted record changes an id and no other word; the template says what he directed; ADR-D-0076's decision is unchanged from ADR-D-0014 and its alternatives carry exactly what he settled. R-1 and R-3, two wordings in ADR-D-0076 (a relational phrase about ADR-D-0074; a record named by its date only), fixed by Task_B's Worker. R-2: the first Revisit When premise of ADR-D-0076 is also the Worker's, restated from ADR-D-0014's Context, where the entry above names only the second; both are the run's and both are shown to him. R-4: the two carried lines that do not reopen the record stay, as in ADR-D-0074. The reviewer adds that the two-clause title is worth putting to him, since he split ADR-D-0071 over one.
+- 2026-11-11T08:28Z The reading is written in the readings file before the closeout audit is dispatched.
+- 2026-11-11T08:28Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 0bb0c81.
+- 2026-11-11T08:36Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict. Nothing is held: no item is `ask-now` and none is `ungraded`. I confirm again, from the records themselves, that ADR-D-0073, ADR-D-0074 and ADR-D-0075 each keep their old record's decision. One judgement call carries the `direction` mark (item 18), and three readings diverge.
+  **Before the record**
+  - **Range audited:** 0bb0c81 to the working tree of the worktree, clean at e78d0a2 (five commits: cac57c7, 08fb0f1, c9709d0, 951512b, e78d0a2).
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan. The range covers two sections of that file together: "The three goal-mode rewrites accepted; ADR-D-0009, ADR-D-0028 and ADR-D-0031 retired" (records 0bb0c81 as its start) and "The record template's two prompts, and ADR-D-0014 rewritten" (records 08fb0f1, inside the range).
+  - **Dispatch:** it matched the fixed template, with no extra text. A session hook put unrelated text about coding style into my context; it says nothing about the work.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0 in the plugin cache), not the worktree's copy. Neither file is in the range's diff; I did not compare the two copies.
+    - One Grep printed four matching lines across files under `plugins/` (the `durable-docs-authoring` and `rulebook` skills), where no notes or readings file sits. Every other content read was one named path at a time; the `git grep` searches printed names and counts only.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed.
+  **Verdict record**
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk, and its diff over the range)
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states)
+  - The diff 0bb0c81 to the working tree, one path at a time, with both exclude pathspecs.
+  - Read to understand the change, not as support: ADR-D-0009, 0028 and 0031 under `superseded/`; ADR-D-0073, 0074, 0075, 0076 and 0014 at HEAD; matching lines of ADR-D-0029, 0050 and 0066, of `adr.md`, `adr-repo-readme.md` and `goal-assessor-mandate.md`, and of the completed goal-mode plan; `adr-template.md` at HEAD.
+  Product basis: brief in the product owner's words ("product basis: the product owner's own words in this brief. ebigunso owns the harness")
+  Not audited: the engineering side; `common.md` reads "Engineering philosophy: none yet", so it has no document. The product philosophy line also reads "none yet"; the product side is graded on the brief.
+  Missing inputs: none
+  Value documents changed in range: the governing brief, in commit 08fb0f1. No pointer line was removed or changed; `common.md` is unchanged in the range. Two entries were added under "Directed during the run", both under his answer "Go with your takes on both." (2026-11-11):
+  - **ADR-D-0014's two rejected alternatives.** The gives-statement carries its record (agent-proposed; accepted 2026-11-11 in those words) and is support. Its trailing sentence, "The rewritten record reaches him by name, since this comes from outside the old record", is tagged inferred with no record of its own and is not relied on.
+  - **The record template changes in this run.** The gives-statement carries its record the same way and is support. Its two trailing sentences tagged inferred ("This is his word for the change to the record standard ... nothing else in the standard"; "If a decision record states the template's form, its replacement reaches him by name") have no record of their own and are not relied on.
+  - Whether the quoted words were said is not something a file can show.
+  Statements quoted below, by short name:
+  - **Unread rewrites:** brief, Directed before the run was planned: "A rewrite that does not materially change what its decision is about goes in without his reading it." and "Such a rewrite does not wait for a statement of his naming it: it goes in once the closeout audit has confirmed, record by record, that its decision is unchanged, and he is given the list afterwards." (told 2026-11-11: "Rewrites can go in without me reading it, as long as it doesn't materially change what the decision is about."; accepted 2026-11-11: "Go with the second.")
+  - **Lifecycle:** brief, What the work gives: "A record that fails the check is rewritten to meet it, under the standard's own lifecycle: a new complete record, the old one retired, accepted by name." (tagged inferred; ratified with the brief on 2026-11-02, so it keeps its support)
+  - **Standard:** same section: "one decision per record; the constraint stated so that any rewording of the plugin text that preserves it stays valid; the why in prose at intent altitude; exact mechanics (routes, moves, file names, admission of a relay, template fill-ins) not covered."
+  - **Wording:** same section: "The check also asks whether a record's wording names the thing it means rather than its position, order or relation to something else"
+  - **Unchanged:** same section: "The decisions themselves do not change."
+  - **By name:** brief, Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each."
+  - **Template:** brief, Directed during the run: "The record template changes in this run, before the next unit is written: its Validation prompt asks only what would show the decision broken, and it has no separate Invariant prompt. "Not covered" stays. Records already accepted stay as they are."
+  - **Alternatives:** brief, Directed during the run: "The assessor judging progress only, with a stale goal left to his retrospective, reopens if, run after run, the re-examination finds no goal to question. The optimizer examining its own goal is rejected outright, on the ground ADR-D-0029 already rejects the optimizer judging its own continuation."
+  - **Consulted:** brief, Directed during the run: "Each of the two records names, in its `consulted` field, the model he talked with about the decision and the model that wrote the record." (told 2026-11-11)
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. ADR-D-0073, ADR-D-0074 and ADR-D-0075 marked `status: accepted` with no statement of his naming them, and their `supersedes` paths repointed | maps to the brief | cited | Unread rewrites | -
+     - The earlier audit's confirmation logged in the goal-mode plan is a claim, so I compared each pair myself. ADR-D-0073 keeps ADR-D-0009's decision: a governed goal lifecycle for work that passes the three-part test of shape, planned where in doubt, oversight relocated, one substrate. The four mechanisms the old Decision named are each left to a named accepted record, and the recorded, cheap-to-undo loop is carried. ADR-D-0074 keeps ADR-D-0028's decision clause for clause. ADR-D-0075 keeps ADR-D-0031's, read together with ADR-D-0050, which states "the Reviewer keeps ... the pre-merge check of the completion report against the journal".
+     - None of the three is a split. The acceptance is a status line on an unpublished branch and reverts cleanly.
+     - Still owed: "he is given the list afterwards". Nothing in the range shows the list given.
+     - The three were proposed, not accepted, when he said the template changes. They go in carrying the `Invariant:` line and the question-form Validation that the template drops in this same range. I found no conflict: his words apply the new form "before the next unit is written", and changing the three now would undo the confirmation they went in on.
+  2. ADR-D-0009, ADR-D-0028 and ADR-D-0031 retired: `status: superseded`, the line "Retired on 2026-11-11. Replaced by ADR-D-00NN.", moved to `superseded/` with the suffix, their own relative pointers adjusted | maps to the brief | cited | Lifecycle | -
+     - The diff shows no other word of the three changed.
+  3. ADR-D-0050, accepted, reworded in the range: "ADR-D-0031 (the merge gate)" to "ADR-D-0075 (the merge gate)" in More Information | maps to the brief | not audited | the change alters neither the decision, its boundary, its reasons nor its reopen conditions | -
+  4. ADR-D-0063, accepted, reworded in the range: "(ADR-D-0031)" to "(ADR-D-0075)" in Not covered; "ADR-D-0028 (the stall rule), ADR-D-0031 (completion and merge)" to "ADR-D-0074 ... ADR-D-0075 ..." in More Information | maps to the brief | not audited | the Not covered line names the same matter, now by the record in force; decision, boundary, reasons and reopen conditions unaltered | -
+  5. ADR-D-0066, accepted, reworded in the range: "ADR-D-0011 and ADR-D-0028 (progress and stall)" to "ADR-D-0011 and ADR-D-0074" in More Information | maps to the brief | not audited | unaltered | -
+  6. ADR-I-0007, accepted, reworded in the range: "Applied by ADR-D-0031" to "Applied by ADR-D-0075" in More Information | maps to the brief | not audited | unaltered | -
+  7. ADR-D-0013, retired, its `superseded_by` pointer changed to ADR-D-0031's new file name | maps to the brief | not audited | a path only; unaltered | -
+  8. Judgement call, Orchestrator: left as written are the plugin README's example file name, retired records' prose naming the three by id, and the run's completed plan, changes and readings files | maps to the brief | inferred | extends Lifecycle; cheap to undo | -
+     - My search agrees with the absence search: the three old file names appear only in the completed goal-mode plan, and the three ids outside `superseded/` and the plans only in the three new records and the README example.
+  9. Judgement call, Orchestrator: compatibility stance migrate for the three file names | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  10. Judgement call, Orchestrator: acceptance and retirement built by the Orchestrator as a change of its own, with its own review and closeout audit before anything is published | internal mechanics | not audited | the engineering side has no document; by the local refs the branch has no remote counterpart, so nothing outward-facing has happened | -
+  11. `adr-template.md`: the Invariant prompt removed, "Not covered" kept | maps to the brief | cited | Template | -
+  12. `adr-template.md`: the Validation prompt reads "What would show the decision broken: the state of affairs that cannot hold while the decision does. No procedure, file names, or checks to run." | maps to the brief | cited | Template | -
+      - The second sentence is the run's wording. It says what "asks only" excludes, so I read it inside the statement.
+      - Nothing else in the standard names either prompt; my search of `adr.md` and `adr-repo-readme.md` found neither.
+  13. Judgement call, Worker: the heading "Decision Boundary" kept over "Not covered" alone | maps to the brief | inferred | extends Template (""Not covered" stays"); cheap to undo | -
+  14. Judgement call, Worker, "found and left": a repository that already holds its own copy of the template keeps the old prompts, and nothing is built to refresh it | maps to the brief | inferred | extends Template, which speaks of this run's next unit; cheap to undo, nothing was done | -
+      - This repository keeps no copy (no template file is in its decisions folder), so the change takes effect here.
+      - Someone writing a record in a repository that does hold a copy would still see the old prompts. That is observable, so I do not class it as internal mechanics.
+  15. The version 1.6.0 in the five manifests | maps to the brief | inferred | extends Template: a shipped file changes, so the shipped version moves; cheap to undo | -
+  16. ADR-D-0076, new and proposed, replaces ADR-D-0014 at the same decision in the new template's form, and stays proposed until he accepts it by name; ADR-D-0014 is untouched | maps to the brief | cited | Lifecycle; Unchanged; By name; Template ("before the next unit is written") | -
+      - My comparison agrees the decision is ADR-D-0014's: the independent assessor examines the goal at every assessment, a failed examination stops the loop and goes to the goal's owner with the evidence, and the loop never changes its goal.
+  17. ADR-D-0076's two rejected alternatives: the progress-only assessor reopens "if, run after run, the examination finds no goal to question"; the optimizer examining its own goal is rejected outright on ADR-D-0029's ground | maps to the brief | cited | Alternatives | -
+      - ADR-D-0029 does reject it in those terms: "rejected outright; the conflicted party sits in the judge's seat."
+  18. Judgement call, Worker, kept by the review: ADR-D-0014 classed as one decision, and ADR-D-0076's title joins two clauses ("asks whether a goal is still worth pursuing; only its owner changes it") | maps to the brief | inferred | extends Standard ("one decision per record") and the brief's "A record found to be a bundle is split"; cheap to undo, the record being proposed | direction
+      - Why the mark: he drew this line himself when he split ADR-D-0071 over a two-clause title. Where the run draws it here sets how the twenty records the census classed as split will be read.
+      - The review already says the title is worth putting to him.
+  19. Judgement call, Worker: the questions the examination asks, the form of the verdict and the escalation level are left to goal mode's text | maps to the brief | cited | Standard ("exact mechanics ... not covered") | -
+      - The three questions and the stop are in `goal-assessor-mandate.md`, lines 28 to 32.
+  20. Judgement call, Worker: "co-equal duty ... alongside trajectory assessment" rendered as "No assessment judges progress and leaves the goal unexamined" | maps to the brief | cited | Wording; Unchanged | -
+  21. Judgement call, Worker, with the Orchestrator's rulings on review findings R-2 and R-4: ADR-D-0076's two Revisit When premises are the run's (no human moment re-checks direction during a goal run; goals go stale often enough to merit the examination), and ADR-D-0014's own two lines are carried as lines that do not reopen the record | maps to the brief | inferred | extends Alternatives and Unchanged; cheap to undo | -
+      - Neither premise is his statement. Both reach him with the record when it is put to him by name.
+  22. Review fixes R-1 and R-3 in ADR-D-0076: a relational phrase about ADR-D-0074 removed; ADR-D-0014 named by id as well as by date | maps to the brief | cited | Wording | -
+  23. ADR-D-0076's `consulted: ["Claude Fable 5", "Claude Fable 5.2"]` | maps to the brief | inferred | extends Consulted, told of the two records before him; cheap to undo | -
+      - The brief's sentence carrying it to every later record is tagged inferred with no record of its own and is not relied on.
+  24. Judgement call, Orchestrator: the template and the record built as small changes without a plan by two Claude Workers on Fable 5.2 at low reasoning effort, reviewed by a Claude subagent because the Codex review seat was absent | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  Decision records reworded after acceptance in the range: items 3 to 7, none altering a decision, boundary, reason or reopen condition. ADR-D-0073 to 0075 were accepted in commit cac57c7 and no word of them changed after it. ADR-D-0076 is proposed. ADR-D-0014 is accepted and unchanged.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet. No record of that kind is in the range.
+  - 2 (a record deciding two things, split, each accepted by name): demonstrated, for one instance only and not by this unit. To observe: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96."
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted and unchanged, and the run record's result table.
+  - Prior states, from the run record: 1 not yet, 2 demonstrated for one instance, 3 not yet, 4 demonstrated. No state moved.
+  - Getting closer: yes. For three matters the folder now holds one accepted record at intent altitude with the old one retired and every pointer repaired, and the template stops inviting procedure and a restated Decision before the next unit is written.
+  - Limits on that judgement: no scenario moved; ADR-D-0076 is not accepted; the list of the three has not been given to him; the four goal-mode bundles and the three other areas are not started.
+  - The run record's result table still reads "not yet rewritten" for ADR-D-0014 and does not show the three as accepted and retired. Its Scenarios header attributes the states to the raised plan's closeout, though scenario 2's state comes from a later one.
+- Acting on the verdict: nothing is held, so the changes close and the unit is reported. Taken from the verdict: the run record's result table and its Scenarios header are brought up to date; the list of the three rewrites is given to the owner through Counsel with this report; the judgement call marked direction (ADR-D-0014 read as one decision under a two-clause title) and the template copy a bootstrapped repository keeps go to him through Counsel; the reading is corrected where the grades differ.
+
+## ADR-D-0076 narrowed to the examination; setup's refresh updates a repository's copy of the template
+
+- The owner's statements: the governing brief, Directed during the run, the entries of 2026-11-11 after the goal-mode area's first unit was reported. As they reached this session, Counsel's relays of 2026-11-11 08:21Z and 08:22Z by the channel clock. To four questions put with Counsel's advice: "Go with your takes on all four of them. The missing seats in the roster, I handled them so they should be back online." Of those: the ruling on a Decision clause a rewrite does not carry is kept; "Should setup's refresh update that copy?", "yes, in this run. The template change is not finished while old copies keep asking for the detail."; the area's second unit "on top, now". On ADR-D-0076, asked "Do you take that read and that test, or does ADR-D-0076 stay as one?": "Take that read and that test." The test, Counsel's: "a clause belongs to the same decision only if it could not stand once the first is retired." The read, Counsel's: "the third line, that the loop never changes its goal, comes out. It would move to the record on protecting the goal condition, which the next unit splits from ADR-D-0011, so no record is added."
+- Built as small changes without a plan, on the first unit's branch, pull request 97's text brought up to date. They start from revision 0278047 (the brief's entries committed).
+- Consequence for ADR-D-0014, by the ruling he kept: the line that comes out of ADR-D-0076 is a clause of ADR-D-0014's Decision, so ADR-D-0014 is not retired until an accepted record holds it. ADR-D-0014 therefore stays accepted past ADR-D-0076's acceptance, until the area's second unit lands the record on the goal's protection.
+- The Codex seats `agent-harness-reviewer` and `agent-harness-worker` are back on the roster; each answered a check at 08:23Z before any dispatch. Reviews return to the review seat.
+- 2026-11-11T08:25Z Task_C, the record, dispatched to a Claude subagent `harness-worker` on Fable 5.2 at low reasoning effort: ADR-D-0076 keeps the examination and what happens when it fails; the line on the loop never changing its goal comes out and is named as not covered, without citing a record number that does not exist yet; his test is applied to each remaining clause and reported; if the second clause could also stand alone, that is reported and not decided.
+- 2026-11-11T08:25Z Task_D, the plugin text, dispatched to a Claude subagent `harness-worker` on Fable 5.2 at low reasoning effort: a refresh brings the copy of the record template that setup placed up to date with the plugin's; a copy the repository has edited is shown to the person directing the work and not replaced silently; a repository following its own convention, or one that declined placement, is not touched.
+- 2026-11-11T08:29Z Both Worker reports integrated: done, each inside its owns; required checks pass and were rerun by the Orchestrator (`validate_harness_package.py`, `run_validation_smoke_tests.py`, `git diff --check`).
+  - Task_C: ADR-D-0076 is now "An independent assessor asks whether a goal is still worth pursuing", its file renamed. Its Decision keeps two lines: the examination at every assessment from the run's own evidence, and that a failed examination stops the loop and sends the challenge to the goal's owner with the evidence. By his test each remaining clause falls with the examination: with no examination nothing can fail it, and the challenge is its product. The line that the loop never re-scopes, reframes or abandons its goal, a change of goal being the owner's, is out and named under Not covered as left to the record on the protection of the goal condition, with no record number. The Why keeps the owner's entitlement only as the reason the challenge goes to him.
+  - Found by Task_C: ADR-D-0011 does not hold the removed line today; it covers only the loosening of how the gap is read or of the credibility bar. So the record the second unit splits from ADR-D-0011 must carry it. Waiting for that record, from ADR-D-0014: its Decision's "The loop never re-scopes, reframes, or abandons a goal autonomously" and that requirement challenges are never silently acted on; its driver that goal changes belong to the goal's owner and never to the loop; its validation that no goal file shows autonomous mid-run changes to its condition, scope or framing; its consequence that direction changes always pass through a human moment.
+  - Ruling on Task_C's first question: ADR-D-0076 keeps ADR-D-0014 in its `supersedes`, and the record on the goal's protection will name it too; ADR-D-0014 is retired only when both are accepted, as two records replaced ADR-D-0016.
+  - Ruling on Task_C's second question: the three questions the examination asks and the level at which the loop stops are how the examination is carried out, which the brief's check leaves out of a record as exact mechanics; they stay in `goal-assessor-mandate.md` and are not Decision clauses that need a record. Named to the review and the audit.
+  - Task_D: one file changed, `rulebook/references/bootstrap-lifecycle.md` (Decision Records). A targeted refresh brings `docs/decisions/template.md` up to date with the plugin's template where setup placed it. A copy whose tracked history shows only setup's own writes is replaced and reported; a copy with any other change, or whose history does not tell, is left, its differences shown, and replaced only on the user's word; an identical copy is not reported. A convention recorded by detection and a repository that declined placement are not touched. No record already written is changed.
+  - Judgement calls of Task_D, each kept and open to the review: the README placed beside the template is not refreshed, since it holds none of the template's prompts and states the layout the repository's records follow; bootstrap now records a placement in the lifecycle sidecar's existing `source_evidence`, with no new field, so that a later refresh can tell a placed copy from a detected convention; for a suite set up before that, the file's tracked history is read; an unedited copy is replaced without asking, his direction being the approval.
+- 2026-11-11T08:29Z Review requested of the Codex seat `agent-harness-reviewer` over agmsg, range 0278047..6b573ba.
+- 2026-11-11T08:30Z Review: CHANGES REQUESTED at 6b573ba, one finding, none on ADR-D-0076. REFRESH-F1 (major): the branch that replaces a placed copy without asking judged it untouched from its tracked history alone, and history does not show a staged or unstaged edit, so a refresh could have replaced a repository's uncommitted edit unseen. On ADR-D-0076 the reviewer confirms: one decision by the owner's test; what it keeps is ADR-D-0014's; the clauses waiting for the record on the goal's protection are held in this log and ADR-D-0014 stays unretired; both rulings above stand. Placement recorded in `source_evidence`, and the README left out, are confirmed.
+- 2026-11-11T08:33Z REFRESH-F1 fixed by Task_D's Worker: a differing copy is replaced without asking only where its history shows only setup's writes and the file as it stands is the committed one, with nothing staged or unstaged against it; a staged or unstaged edit, a local deletion or replacement, or content whose origin cannot be established is left, its differences shown, and replaced only on the user's word, whether the placement is known from `source_evidence` or from history. Checked against the reviewer's scenario (only the placement in history, then an uncommitted edit, then a refresh): the copy is left and shown. Checks rerun by the Orchestrator.
+- 2026-11-11T08:32Z Re-review: APPROVED at 7743efa for the whole range 0278047..7743efa; REFRESH-F1 closed, no findings remain. The required checks pass, run independently.
+- 2026-11-11T08:34Z The reading is written in the readings file before the closeout audit is dispatched.
+- 2026-11-11T08:34Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 0278047.
+- 2026-11-11T08:42Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict. Nothing is held: no item is `ask-now` and none is `ungraded`. Two judgement calls carry the `direction` mark (items 6 and 12), and four readings diverge.
+  **Before the record**
+  - **Range audited:** 0278047 to the working tree of the worktree, clean at 6fcf353 (four commits: 24553c3, 6b573ba, 7743efa, 6fcf353).
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan. The section graded is "ADR-D-0076 narrowed to the examination; setup's refresh updates a repository's copy of the template", which records 0278047 as its start.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's reminder on how to return this report and a session hook about coding style; neither says anything about the work.
+  - **First step, departures:**
+    - Before the mandate was open I ran one Glob that returned its file name only.
+    - I read the mandate from the main checkout's copy; it is identical to the branch's copy (`git diff --stat main HEAD` on it and on `value-documents/SKILL.md` is empty).
+    - One Grep in count mode ran across the tree with notes and readings files excluded by glob; it printed names and counts only. Every content read was one named path at a time, and both `git diff` commands carried both exclude pathspecs.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed.
+  **Verdict record**
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states)
+  - The diff 0278047 to the working tree, one path at a time, with both exclude pathspecs.
+  - Read to understand the change, not as support: ADR-D-0076 at HEAD, ADR-D-0014, the Decision sections of ADR-D-0011 and ADR-D-0066, the Lifecycle section of `durable-docs-authoring/references/adr.md`, `rulebook/references/bootstrap-lifecycle.md` at HEAD, and the `source_evidence` passage of `rulebook/references/lifecycle-sidecar.md`.
+  Product basis: brief in the product owner's words ("product basis: the product owner's own words in this brief. ebigunso owns the harness")
+  Not audited: the engineering side; `common.md` reads "Engineering philosophy: none yet", so it has no document. The product philosophy line also reads "none yet"; the product side is graded on the brief.
+  Missing inputs: none
+  Value documents changed in range: none. The brief and `common.md` are not in the range's diff; no pointer line was removed or changed.
+  Statements quoted below, by short name (all from the brief):
+  - **Narrowing:** Directed during the run: "By that test the proposed ADR-D-0076 holds two decisions. It keeps the assessor's examination of whether the goal is still worth pursuing and what happens when the examination fails. Its third Decision line, that the loop never changes its goal and a change of goal is the owner's, comes out and is held by the record on protecting the goal condition that the next unit splits from ADR-D-0011, so that no record is added for it." (agent-proposed; accepted 2026-11-11: "Take that read and that test.")
+  - **Test:** same section: "a clause belongs to the same decision only if it could not stand once the first is retired. A clause that would still bind with the first gone is a decision of its own."
+  - **Clause held:** same section: "A clause of an old record's Decision that a rewrite does not carry must be held by a named accepted record; the plugin's text stating it is not enough." (accepted 2026-11-11: "Go with your takes on all four of them.")
+  - **Refresh:** same section: "Setup's refresh brings a repository's own copy of the record template up to date with the plugin's, in this run." (accepted in the same words; Counsel's ground, "the template change is not finished while old copies ask for the detail")
+  - **Template:** same section: "Records already accepted stay as they are."
+  - **Standard:** What the work gives: "exact mechanics (routes, moves, file names, admission of a relay, template fill-ins) not covered."
+  - **Scenario 1:** Core scenarios: "rewritten as one decision (who may be asked, by whom) with the route left to the plugin text"
+  - **Wording:** What the work gives: "The check also asks whether a record's wording names the thing it means rather than its position, order or relation to something else"
+  - **By name:** Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each."
+  - **Not relied on:** the brief's sentence "If the next unit finds that line does not belong with the goal's protection, where it is held returns to him", tagged inferred with no record of its own.
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. ADR-D-0076 (proposed) narrowed: the title and file name drop "only its owner changes it"; the third Decision line and the Validation line on a goal changed without its owner's decision come out; the record keeps the examination and what follows its failure | maps to the brief | cited | Narrowing | -
+  2. Judgement call, Orchestrator's dispatch: the removed clause is named under Not covered as left to "the record on the protection of the goal condition", with no record number | maps to the brief | cited | Narrowing; Wording | -
+     - No record answers to that description today. The same sentence goes on to name ADR-D-0011 for protection against loosening, and ADR-D-0011 does not hold the removed line.
+  3. ADR-D-0076's derived wording: the Context's "where what is found goes"; the Why, which keeps the owner's entitlement only as the reason a failed examination goes to him; "which would bind with this examination gone"; More Information's "Replaces ADR-D-0014 at the assessor's examination and what follows its failure ... ADR-D-0014 is not retired until an accepted record holds it" | maps to the brief | inferred | extends Narrowing, Test and Clause held; cheap to undo, the record being proposed | -
+     - None is his statement. They reach him with the record when it is put to him by name.
+     - The More Information sentence on ADR-D-0014 states a passing state. It stops being true when ADR-D-0014 retires, in a record that will by then be accepted.
+  4. Judgement call, Worker, confirmed by the review: by his test each of the two remaining Decision lines falls with the examination, so the record is one decision | maps to the brief | cited | Test; Narrowing ("It keeps the assessor's examination ... and what happens when the examination fails") | -
+     - My reading agrees: with no examination nothing can fail it, and the challenge is its product.
+  5. Judgement call, Orchestrator's dispatch: if the second clause could also stand alone, that is reported and not decided | maps to the brief | inferred | extends Test and By name; cheap to undo; it keeps the decision with him and the case did not arise | -
+  6. Ruling, Orchestrator (the "Consequence for ADR-D-0014" entry): ADR-D-0014 is not retired until an accepted record holds the removed line, so it stays accepted past ADR-D-0076's acceptance, until the second unit lands the record on the goal's protection | maps to the brief | cited | Clause held; Narrowing (the line is held by a record of the next unit) | direction
+     - Why the mark: for that interval ADR-D-0076 would replace ADR-D-0014 in part while ADR-D-0014 stays in force for the rest. The record standard says "Refinement and reversal both replace; there is no partial supersession", and the brief reserves the standard to him ("the standard is not changed by this work without his word").
+     - His two answers produce the interval between them, so I found no conflict to hold. The other order, ADR-D-0076 accepted together with the record on the goal's protection as ADR-D-0071 and ADR-D-0072 were, would leave no interval.
+     - Nothing has happened yet: ADR-D-0076 is proposed and ADR-D-0014 is untouched. The choice is before him when ADR-D-0076 is put to him by name.
+  7. Ruling, Orchestrator, on Task_C's first question: ADR-D-0076 keeps ADR-D-0014 in `supersedes`, the record on the goal's protection will name it too, and ADR-D-0014 is retired only when both are accepted | maps to the brief | cited | Clause held | -
+     - The same matter as item 6, and shown with it.
+  8. Ruling, Orchestrator, on Task_C's second question: the three questions the examination asks and the level at which the loop stops are how the examination is carried out; they stay in `goal-assessor-mandate.md` and are not Decision clauses that need a record | maps to the brief | cited | Standard; Scenario 1 | -
+     - ADR-D-0014's Decision does list the three questions and names the level. Clause held says "the plugin's text stating it is not enough"; read with Standard and Scenario 1 it reaches decisions, not mechanics, so I found no conflict.
+     - ADR-D-0076's Context carries the three grounds in prose (requirements shift, a wrong founding assumption, a condition that rewards an unwanted outcome).
+  9. Judgement call, Worker: ADR-D-0011 does not hold the removed line today, so the record the second unit splits from it must carry it; the list of what waits from ADR-D-0014 (the Decision line and that challenges are never silently acted on, the driver, the validation, the consequence) | maps to the brief | cited | Clause held; Narrowing | -
+     - My reading of ADR-D-0011 agrees: its Decision covers only loosening how the gap is read or the credibility bar.
+  10. `bootstrap-lifecycle.md`: a targeted refresh brings `docs/decisions/template.md` up to date with the plugin's template where setup placed it; an identical copy is left unreported; what was done is reported in the refresh output | maps to the brief | cited | Refresh | -
+  11. Judgement call, Worker: an unedited copy is replaced without asking | maps to the brief | cited | Refresh | -
+      - The statement says the refresh brings the copy up to date and names no asking. The same passage gates the original placement on the user's approval at bootstrap; the replacement is not gated and is reported.
+  12. Judgement call, Orchestrator's dispatch, with the fix for REFRESH-F1: a copy whose history shows another change or does not tell, that carries a staged or unstaged edit, that is deleted or replaced locally, or whose origin cannot be established is left, its differences shown, and replaced only on the user's word | maps to the brief | inferred | extends Refresh; cheap to undo | direction
+      - Why the mark: his statement has the refresh bring the copy up to date, on the ground that the template change is not finished while old copies ask for the detail. The built text leaves an edited copy asking for it until that repository's user says otherwise.
+      - Whether the plugin's update or a repository's own edits win is a decision about what the product is to a repository that uses it.
+  13. Judgement call, Orchestrator's dispatch: a convention recorded by detection, a repository that declined placement, and a template that neither source shows as placed are not touched | maps to the brief | inferred | extends Refresh, reading "a repository's own copy" as the copy setup placed; cheap to undo | -
+  14. Judgement call, Worker: a placement is told from the sidecar's existing `source_evidence`, which bootstrap now writes with no new field, or for an earlier suite from the file's tracked history | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  15. Judgement call, Worker: the README placed beside the template is not refreshed | maps to the brief | cited | Refresh, which names the template and nothing else | -
+  16. "No record already written is changed" | maps to the brief | cited | Template | -
+  17. Judgement call, Orchestrator: built as small changes without a plan | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  18. Judgement call, Orchestrator: the changes go on the first unit's branch and pull request 97's text is brought up to date | internal mechanics | not audited | outward-facing once published, covered by a standing approval, `common.md` Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." | -
+      - The entry carries its record ("Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: 'The common rule proposed, accepted.'") and is committed at HEAD. Whether the quoted words were said is not something a file can show.
+      - By the local refs the branch is ahead of origin by the range's four commits, so nothing of the range is on the remote.
+  19. Judgement call, Orchestrator: two Claude Workers on Fable 5.2 at low reasoning effort; the review returns to the Codex review seat after each seat answered a check | internal mechanics | not audited | the engineering side has no document; not irreversible or outward-facing | -
+  Decision records reworded after acceptance in the range: none. ADR-D-0076 was `status: proposed` at 0278047 and still is. ADR-D-0014 is accepted and not in the range's diff.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): demonstrated, for one instance only and not by this unit. To observe: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96." A second instance is half built here: ADR-D-0076 holds one of ADR-D-0014's two decisions and is proposed; the record for the other is not written.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted and unchanged, and the run record's result table.
+  - Prior states, from the run record: 1 not yet, 2 demonstrated for one instance, 3 not yet, 4 demonstrated. No state moved.
+  - Getting closer: yes. The range builds two of his answers as he worded them. ADR-D-0076 now holds one decision by the test every later record will be read by, under a title that states it. Setup stops leaving the old prompts in repositories it already set up.
+  - Limits on that judgement: no scenario moved; no record was accepted or retired in the range; the check still covers 8 of 49 records; the four goal-mode bundles and the three other areas are not started.
+  - The run record is behind the range: its result line for ADR-D-0014 still gives ADR-D-0076's two-clause title, and scenario 4's observation still calls ADR-D-0016 accepted and unchanged.
+- Acting on the verdict: nothing is held, so the changes close. The two judgement calls marked direction go to the owner through Counsel: ADR-D-0014 staying in force past ADR-D-0076's acceptance, where accepting ADR-D-0076 together with the record on the goal's protection would leave no interval; and an edited copy of the template being left until its user says otherwise. The run record is brought up to date where the audit found it behind; the reading is corrected where the grades differ.
+
+## The existing rewrites graded against the two philosophies
+
+- The owner's statement: the governing brief, Directed during the run, the entry of 2026-11-11 ("Grade the existing rewrites against the newly provided philosophies first, before I see them."). As it reached this session, Counsel's relay of 14:48Z by the channel clock. The same relay carried "Write the pointer in and merge."; the user gave permission in session naming pull request 100 and the two paths, and it is merged (the two philosophies, their companions and notes, and the pointer lines in `docs/coding-agent/rules/common.md`).
+- What is graded: the records of pull requests 97 and 98, that is ADR-D-0073, 0074 and 0075 (accepted on the audit's confirmation, not read by him), ADR-D-0076, and ADR-D-0077 to ADR-D-0087 (proposed), with the plugin text changed alongside them. Nothing is built by this change. The range starts from revision 745748d, main before the goal-mode area began.
+- 2026-11-11T15:00Z Main, with the philosophies and the pointer, is merged into both branches of the stack and pushed, so the audit finds the pointer where it reads. `validate_harness_package.py` passes.
+- 2026-11-11T15:05Z The reading is written in the readings file before the audit is dispatched.
+- 2026-11-11T15:05Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 745748d.
+- 2026-11-11T15:18Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "The existing rewrites graded against the two philosophies".
+  **One item is held (`ask-now`): the merge of pull request 100 to main, on the outward-facing test alone.** Nothing is `ungraded`. No statement in either philosophy conflicts with any of the fifteen records or with the plugin text in the range. No item carries the `direction` mark.
+  Four things need the Orchestrator's eye:
+  - **Three accepted records keep the old form.** ADR-D-0073, 0074 and 0075 still carry an `Invariant:` line and a Validation written as review questions and checks. The reading says every Validation is free of procedure; that is true of the twelve proposed records only (item 4).
+  - **One tension with the product philosophy on money.** ADR-D-0074 leaves resource ceilings to the user as optional backstops. Section 4 says cost "is settled without the person and must never surprise them". I did not grade this a conflict (item 2), but it belongs with the list he is given.
+  - **The brief's basis line is stale.** It still reads "no product philosophy and no engineering philosophy exist for this repository". That is Counsel's to correct.
+  - **The run record's Scenarios table is behind its own Units row** for scenario 2.
+  ## Before the record
+  - **Range audited:** 745748d to the working tree, clean at 0e5c061, in sync with its upstream. The section records 745748d as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **First step, departures:**
+    - My first command located the mandate and printed the first copy found, which was the plugin cache's 1.1.0 copy. I then read the 1.5.0 copy to its end and followed that one. It is identical by hash to the main checkout's copy, and the file is not in the range's diff.
+    - One command looped over three record names to list the commits touching each (subjects only).
+    - After the grades were fixed I touched the readings file three times: two listings of its headings, then one read of this change's section and the Findings.
+    - Every other content read was one named path at a time, and every range diff carried both exclude pathspecs.
+  - **Not read:** no notes file was opened (the brief's, or either philosophy's). I did not read the two completed plans in the range; their judgement calls belong to units already closed. I graded the records and plugin text from the files themselves.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk, and its diff over the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD, and its diff)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states)
+  - The range's diff, one path at a time: the template, `bootstrap-lifecycle.md`, one manifest, `lessons.md`, and the changed words of ADR-D-0050, 0063, 0066, ADR-I-0007, the retired ADR-D-0013, and the three retirements.
+  - Read to understand the change, not as support: ADR-D-0073 to 0087 at HEAD; ADR-D-0009, 0028 and 0031 under `superseded/`; ADR-D-0011, 0014, 0029, 0063, 0065 and 0066.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11). The brief's basis line predates it, as noted above.
+  Not audited: none. Both sides now have a document.
+  Missing inputs: none.
+  Value documents changed in range:
+  - **The governing brief.** Entries were added under "Directed during the run", from the answer on the first unit by area to the entry on grading against the philosophies. Each gives-statement carries its record. These sentences are tagged inferred with no record of their own and are relied on nowhere:
+    - "The rewritten record reaches him by name, since this comes from outside the old record"
+    - the two sentences after the template entry
+    - "If the next unit finds that line does not belong with the goal's protection, where it is held returns to him"
+    - "This is how his earlier answer ... is read"
+    - "This replaces the entry above ... ADR-D-0076 is accepted together with the new record on the goal"
+    - "The record that carries this states a decision other than the old record's wording, so it reaches him by name"
+    - "If the run finds that record does not cover them ..."
+    - "On 2026-11-11 those are the records of pull requests 97 and 98 ..."
+    - "What this run writes after the pointer is graded against the brief and both philosophies"
+  - **`docs/product-philosophy.md` and `docs/engineering-philosophy.md`, both new, each with its companion.** Each companion carries the record for version 1: 2026-11-11, "I ratify the engineering philosophy and the product philosophy." Both are support. Neither companion marks any statement provisional.
+  - **Pointer lines in `common.md`.** The two lines changed from "none yet" to `docs/product-philosophy.md` and `docs/engineering-philosophy.md`. No pointer line was removed.
+  - Whether the quoted words were said is not something a file can show.
+  Statements quoted below, by short name.
+  From the brief:
+  - **Graded first:** "The rewrites already written and not yet seen by him are graded against the engineering philosophy and the product philosophy, ratified 2026-11-11, before he sees them." (told 2026-11-11)
+  - **Unread rewrites:** "A rewrite that does not materially change what its decision is about goes in without his reading it." and "it goes in once the closeout audit has confirmed, record by record, that its decision is unchanged, and he is given the list afterwards."
+  - **Lifecycle:** "A record that fails the check is rewritten to meet it, under the standard's own lifecycle: a new complete record, the old one retired, accepted by name. A record found to be a bundle is split"
+  - **Test:** "a clause belongs to the same decision only if it could not stand once the first is retired. A clause that would still bind with the first gone is a decision of its own."
+  - **Clause held:** "A clause of an old record's Decision that a rewrite does not carry must be held by a named accepted record; the plugin's text stating it is not enough."
+  - **Narrowing:** "It keeps the assessor's examination of whether the goal is still worth pursuing and what happens when the examination fails."
+  - **Alternatives 0014:** "The assessor judging progress only ... reopens if, run after run, the re-examination finds no goal to question. The optimizer examining its own goal is rejected outright"
+  - **Together:** "ADR-D-0076 is accepted together with the record of the next unit that holds the line taken out of it, not before"
+  - **Own record:** "The line taken out of ADR-D-0076 ... is held by a record of its own, and the record on how the gap to the goal is read (tightened freely, loosened only with the loop stopping for its owner) holds only that."
+  - **Gap before loop:** "How the gap to the goal is read is settled before the loop starts, as the plugin's text has it"
+  - **Alternatives 0011:** "Fixed progress measures defined once for all goals reopens if goal runs turn out to be of so few kinds that one fixed set of measures fits them all. A progress definition made for each goal and kept as an instrument of its own is rejected outright."
+  - **Invariants:** "invariants named in the goal condition are part of the goal, and the record that the loop never changes its goal covers them."
+  - **Template:** "its Validation prompt asks only what would show the decision broken, and it has no separate Invariant prompt. "Not covered" stays. Records already accepted stay as they are."
+  - **Refresh:** "Setup's refresh brings a repository's own copy of the record template up to date with the plugin's, in this run."
+  - **Refresh limits:** "Setup's refresh replaces a repository's copy of the record template only where the repository has not edited it, and says so. A copy carrying the repository's own edits is left as it is, the differences are shown, and it is replaced only on the word of that repository's user."
+  - **By name:** "Acceptance is by name, as the standard says; one statement may accept several records when it names each."
+  - **Consulted:** "Each of the two records names, in its `consulted` field, the model he talked with about the decision and the model that wrote the record."
+  From the engineering philosophy:
+  - **EP5:** "A decision record holds one decision at the level of intent, so that the text beneath it can be reworded freely."
+  - **EP5 dated:** "A workspace's dated record holds what is true today."
+  - **EP1:** "A sentence that changes nothing has a cost and no worth."
+  - **EP2:** "A guess is not written as a finding. A fact that may change carries the date it was seen."
+  - **EP3 goods:** "Where two goods conflict, the text settles it."
+  - **EP3 instinct:** "Where instinct goes wrong. Say so in those words, and name the comfortable default being refused."
+  - **EP4 route:** "Steps, methods and the order of work are the reader's."
+  - **EP4 cases:** "A list of cases is incomplete the day a new one appears; a reason covers it."
+  - **EP7:** "the burden of proof is on what is added or kept, and absence needs no defence."
+  From the product philosophy:
+  - **PP3 line:** "What cannot be undone, and what reaches outside the work, waits for the person's yes. The line is drawn by whether a thing can be taken back and how far it reaches"
+  - **PP3 tells:** "On the near side of that line the harness decides, acts and tells. The telling is not optional"
+  - **PP2 word:** "confidence is never taken on the builder's word"
+  - **PP2 order:** "If a question would prevent the wrong thing, it is asked, whatever it interrupts."
+  - **PP6 judge:** "Not its own judge. A builder's confidence in its own work is not evidence"
+  - **PP6 yes:** "Not a yes-machine. Building exactly what was said, and presenting it as what was meant, is the first."
+  - **PP7:** "When in doubt about what is meant, ask."
+  - **PP mechanism:** "Roles, sessions, models, and how a default is overridden. Those are mechanism and belong in decision records"
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  The three records that went in unread:
+  1. ADR-D-0073, accepted at ADR-D-0009's decision, with ADR-D-0009 retired | maps to the brief | cited | Unread rewrites; Lifecycle; EP5; PP3 line; PP3 tells | -
+     - My comparison agrees the decision is ADR-D-0009's: a governed goal lifecycle for work that passes the three-part test, planned where in doubt, oversight relocated, one substrate. The recorded, cheap-to-undo loop is carried.
+  2. ADR-D-0074, accepted at ADR-D-0028's decision, with ADR-D-0028 retired | maps to the brief | cited | Unread rewrites; Lifecycle; EP5; PP2 order | -
+     - The decision is ADR-D-0028's clause for clause.
+     - **Tension with section 4, not graded a conflict.** The record says "The user may set resource ceilings as coarse backstops" and rejects budgets as the defence. Section 4 says cost "is settled without the person and must never surprise them".
+     - Why not a conflict: the stall rule is the harness's own guard and needs nothing from the person; the companion lists user-set finer settings as overrides to defaults; and the record does not say cost may surprise.
+     - What the record does not secure: a loop that keeps progressing has no bound on spend unless the person sets one.
+  3. ADR-D-0075, accepted at ADR-D-0031's decision, with ADR-D-0031 retired | maps to the brief | cited | Unread rewrites; Lifecycle; EP5; PP3 line; PP2 word; PP6 judge | -
+     - The decision is ADR-D-0031's, read with ADR-D-0050 for which role verifies.
+  4. ADR-D-0073, 0074 and 0075 keep the old template's form: an `Invariant:` line and a Validation of review questions and checks | maps to the brief | cited | Template ("Records already accepted stay as they are"; the new form applies "before the next unit is written"); Unread rewrites | -
+     - EP1 and EP4 route bear against the content. The `Invariant:` lines restate the Decision. The Validations name checks, for example "A goal file carries a ceiling only marked as a backstop" and "Review of the guidance asks".
+     - I found no conflict to hold. The brief settles when the new form applies, and the philosophy does not set a date.
+     - Bringing the three to the new form would take replacement records, since they are accepted. No word of the three changed after their acceptance in cac57c7.
+     - Still owed from the brief: "he is given the list afterwards".
+  The twelve proposed records:
+  5. ADR-D-0076: the independent assessor examines at every assessment whether the goal is still worth pursuing; a failed examination stops the loop and goes to the owner | maps to the brief | cited | Narrowing; Alternatives 0014; Together; By name; EP5; PP6 yes | -
+  6. ADR-D-0087: a goal loop never changes its goal on its own, its named invariants included | maps to the brief | cited | Own record; Invariants; Together; PP7 | -
+  7. ADR-D-0077: progress is measured against the goal condition and nothing else; the reading of the gap is settled before the loop | maps to the brief | cited | Test; Gap before loop; Alternatives 0011; By name; EP5 | -
+     - Its two rejected alternatives carry his words as the brief has them.
+  8. ADR-D-0078: a loop is stalled only when three things hold together | maps to the brief | cited | Test; Lifecycle; EP5 | -
+  9. ADR-D-0079: the loop tightens its goal's measures freely and loosens none without its owner's word | maps to the brief | cited | Own record; PP7 | -
+  10. ADR-D-0080: continuation is judged by a party other than the optimizer, from recorded evidence | maps to the brief | cited | Test; Lifecycle; PP6 judge; PP2 word | -
+  11. ADR-D-0081: continuation bears the burden of proof | maps to the brief | cited | Test; Lifecycle; EP3 goods; PP2 order | -
+      - By the test it stands apart from ADR-D-0080: it binds whoever judges.
+  12. ADR-D-0082: the value audit grades a goal run that has a brief or a philosophy over the whole run, and a held item stops the loop | maps to the brief | cited | Test; Lifecycle; PP2 order | -
+  13. ADR-D-0083: nothing of an audit reaches what the assessor reads but a stop and its question | maps to the brief | cited | Test; Lifecycle; PP mechanism | -
+  14. ADR-D-0084: no goal loop starts without an authority envelope | maps to the brief | cited | Test; Lifecycle; PP3 line | -
+  15. ADR-D-0085: the forbidden set is a criterion, not a list | maps to the brief | cited | Test; Lifecycle; PP3 line; EP4 cases | -
+  16. ADR-D-0086: the loop never changes its own envelope; the clause that a changed envelope is authorized afresh is left to ADR-D-0065 | maps to the brief | cited | Test; Clause held; PP3 line | -
+      - ADR-D-0065 does hold it: a change to a goal envelope "needs fresh authorization before it is built or acted on, from the same authority".
+  17. The run's own wording in the twelve: Context forks, reworded Whys, Revisit When premises, the statements that a record has no rejected alternatives, and which split record takes which of the old record's alternatives | maps to the brief | inferred | extends Lifecycle, Test and EP2; cheap to undo, the records being proposed | -
+      - The premises say where they stand, for example "ADR-D-0011, dated 2026-07-16, names no trial of this premise".
+      - None is his statement. They reach him with the records by name.
+  18. The `consulted` fields of the fifteen records, each naming the old record's model and Claude Fable 5.2 | maps to the brief | inferred | extends Consulted, told of two records; cheap to undo | -
+  Records reworded after acceptance in the range:
+  19. ADR-D-0050, accepted: "ADR-D-0031" to "ADR-D-0075" in More Information | maps to the brief | not audited | decision, boundary, reasons and reopen conditions unaltered | -
+  20. ADR-D-0063, accepted: "(ADR-D-0031)" to "(ADR-D-0075)" in Not covered; "ADR-D-0028" to "ADR-D-0074" and "ADR-D-0031" to "ADR-D-0075" in More Information | maps to the brief | not audited | the Not covered line names the same matter by the record in force; unaltered | -
+  21. ADR-D-0066, accepted: "ADR-D-0028" to "ADR-D-0074" in More Information | maps to the brief | not audited | unaltered | -
+  22. ADR-I-0007, accepted: "Applied by ADR-D-0031" to "Applied by ADR-D-0075" | maps to the brief | not audited | unaltered | -
+  23. ADR-D-0009, 0028 and 0031, retired: `status: superseded`, `superseded_by` set, the line "Retired on 2026-11-11. Replaced by ADR-D-00NN.", their own relative pointers adjusted for the move; and the retired ADR-D-0013's `superseded_by` path | maps to the brief | not audited | no other word changed | -
+  Plugin text and manifests:
+  24. `adr-template.md`: the Invariant prompt removed, "Not covered" kept | maps to the brief | cited | Template; EP1 | -
+  25. `adr-template.md`: the Validation prompt reads "What would show the decision broken: the state of affairs that cannot hold while the decision does. No procedure, file names, or checks to run." | maps to the brief | cited | Template; EP4 route | -
+  26. `bootstrap-lifecycle.md`: a targeted refresh replaces a placed copy of the template that differs and is still setup's, and reports it; an identical copy is left unreported | maps to the brief | cited | Refresh; Refresh limits; PP3 tells | -
+  27. `bootstrap-lifecycle.md`: a copy with any other change, a staged or unstaged edit, or an origin that cannot be established is left, its differences shown, and replaced only on the user's word | maps to the brief | cited | Refresh limits; PP3 line | -
+  28. `bootstrap-lifecycle.md`: a detected convention, a declined placement and a template not shown as placed are not touched; the README is not refreshed; no record already written is changed | maps to the brief | inferred | extends Refresh and Template; cheap to undo | -
+  29. How a placement is told: bootstrap writes it to the sidecar's existing `source_evidence`, with tracked history as the fallback for earlier suites; the text names the two git commands | internal mechanics | inferred | extends EP7 and EP3 instinct ("History shows where the file came from, not that its present content is still setup's"); cheap to undo | -
+      - The command spellings are route in EP4's sense. They sit in the harness's text, which section 5 says "holds how decisions are carried out".
+  30. Version 1.6.0 in the five manifests | maps to the brief | inferred | extends Template: a shipped file changed; cheap to undo while unmerged | -
+  Repository documents and the run's own acts:
+  31. Three entries added to `lessons.md` | internal mechanics | inferred | extends EP3 instinct; cheap to undo | -
+  32. The two pointer lines in `common.md` | maps to the brief | cited | Graded first; both companions' ratification, "I ratify the engineering philosophy and the product philosophy." | -
+  33. The merge of pull request 100 to main (commit 0930756, on origin/main), which the section records as done | maps to the brief | ask-now | no standing approval covers it: "Merges are not covered and wait for the owner." | The only reason is the outward-facing test: a merge to a shared branch reaches outside the repository's working branches and is not undone by a revert. The changes file says "the user gave permission in session naming pull request 100 and the two paths"; that is the Orchestrator's account, which I may not take as support, and no value document quotes it. The merge is already done, so nothing waits on this. Value question: did you mean the two philosophies and the lines pointing to them to land on the shared main branch on 2026-11-11, so that every run in this repository is graded against them from then?
+  34. Judgement call, Orchestrator: what is graded is the fifteen records of pull requests 97 and 98 with the plugin text changed alongside them, from 745748d, and nothing is built | maps to the brief | cited | Graded first | -
+      - My count agrees: ADR-D-0073 to 0075 went in unread, ADR-D-0076 to 0087 are proposed, and he has read ADR-D-0071 and 0072.
+  35. Judgement call, Orchestrator: main, with the philosophies and the pointer, merged into both branches of the stack and pushed | internal mechanics | cited | `common.md` Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." and "The branches of unmerged pull requests in this repository may be rebased and force-pushed without asking first; they are not final until merged." | -
+      - Each entry carries its record and is committed at HEAD: "The common rule proposed, accepted." (2026-09-30) and "I accept the standing-approval entry on rebasing unmerged pull requests." (2026-10-15).
+      - I read pushing a merge of main into the run's own unmerged branches as within these. Whether the quoted words were said is not something a file can show.
+  36. Judgement call, Orchestrator: the audit dispatched to a Claude subagent on Fable at high reasoning effort | internal mechanics | inferred | extends EP5 dated and PP6 judge; the workspace record in `common.md` names that setting; cheap to undo | -
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet. No record in the range lists the route a question travels.
+  - 2 (a record deciding two things, split, each accepted by name): two instances.
+    - Demonstrated for one: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`.
+    - Ready for the owner's judgement for the first accepted records split: read ADR-D-0076 to ADR-D-0087, all proposed, against ADR-D-0011, 0014, 0029, 0063 and 0066, still accepted. What remains is his acceptance of each by name.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted and unchanged, and the run record's result table. A further instance is the reading of the gap, which ADR-D-0077 states on his word and not in ADR-D-0011's wording.
+  - Prior states: the last closed unit, the bundles' plan, left 1 and 3 not yet, 2 ready for his judgement for the accepted records, and 4 demonstrated. No state moved; this unit builds nothing.
+  - Getting closer: yes. Over the range, three goal-mode matters now have one accepted record at intent altitude with the old one retired, and five more old records have their replacements written and waiting for him. This unit adds that neither philosophy contradicts any of the fifteen, so the twelve he is about to read need no rewrite on the philosophies' account.
+  - Limits on that judgement: no scenario moved in this unit; twelve records await acceptance; the three other areas are not started; and the three accepted records keep a form the template has since dropped.
+  - The run record's Scenarios table still gives scenario 2 as demonstrated for one instance only, though its Units row for the bundles' plan has it ready for his judgement for the accepted records.
+- Acting on the verdict: one item is held, the merge of pull request 100. It was made before the audit, on the user's permission in session to a question naming the pull request and the two paths; no value document quotes that, so the audit's value question goes to the owner through Counsel, and nothing is undone meanwhile. No conflict is found between either philosophy and the fifteen records, so the twelve proposed records go to him as they are. Shown to him with them: ADR-D-0073 to 0075 keep the old template's form, and the list of the three is still owed to him; ADR-D-0074's optional resource ceilings beside the product philosophy's section 4. The brief's basis line, which still says no philosophy exists, is named to Counsel. The run record's scenario 2 row is brought up to date; the reading is corrected where the grades differ.
+
+## ADR-D-0073, 0074 and 0075 brought to the template's present form
+
+- The owner's statement: the governing brief, Directed during the run, the entry of 2026-11-12 ("Rewrite on the spot."), on the audit's showing that the three keep an `Invariant:` line and a Validation of checks and review questions. As it reached this session, Counsel's relay of 15:29Z by the channel clock.
+- The route, confirmed against the record standard: an accepted record is frozen at merge to main, not at acceptance, and pull request 97 is not merged; a change of wording that changes none of the decision, its boundary, its reasons or its reopen conditions needs no new record and no retirement (`durable-docs-authoring/references/adr.md`, Accepted and Reworded after acceptance). So the three are reworded in place. Any change that would touch one of those four returns to him.
+- Built as a small change without a plan, on the second unit's branch, starting from revision 1973acb.
+- On ADR-D-0074's resource ceilings beside the product philosophy's section 4: nothing is built. His words leave how money is handled in a goal run to be considered outside this run; the clause stays as it is.
+- 2026-11-11T15:35Z Dispatched to a Claude subagent `harness-worker` on Fable 5.2 at low reasoning effort: in each of the three, the `Invariant:` line removed and the Validation rewritten as the state of affairs that cannot hold while the decision does, nothing else changed.
+- 2026-11-11T15:33Z Worker report integrated: done, inside its owns; the required checks pass and `validate_harness_package.py` was rerun by the Orchestrator. In each record the removed `Invariant:` line is held clause for clause by the record's own Decision, so no record is left for the owner. Dropped from the old Validations as procedure, not carried: "recorded as misuse" (ADR-D-0073), "reviewed as a miss of stall detection" (ADR-D-0074), "is that verification itself on record" (ADR-D-0075). Review requested of the Codex seat `agent-harness-reviewer` over agmsg, range 1973acb..4584f9a.
+- 2026-11-11T15:37Z Review: CHANGES REQUESTED at 4584f9a, two findings. FORM-F1 (minor): ADR-D-0075's second Validation statement counted verification "against something other than the journal" as a breach, where the Decision requires verification against the journal and does not make it the only source. FORM-F2: a blank line at the end of this file failed `git diff --check`. The reviewer confirms the rest: each Decision is unchanged word for word, ADR-D-0074's clause on resource ceilings included; every Invariant clause is in its Decision; the three dropped procedures are not decision clauses and need no record.
+- 2026-11-11T15:40Z Both fixed. FORM-F1 by the Worker: "the assertions of the report a human acted on had not been verified against the journal by a reviewer other than the loop". Its overlap with the first half of the third statement is left; the third speaks of what a merge rested on. FORM-F2 by the Orchestrator.
+- 2026-11-11T15:40Z Re-review: APPROVED at fe022be for the whole range 1973acb..fe022be; FORM-F1 and FORM-F2 closed, no findings remain. The reviewer notes the revision first named for re-review still failed the whitespace check, the Orchestrator's log entry having put the blank line back; it was removed at fe022be. The required checks pass, run independently.
+- 2026-11-11T15:42Z The reading is written in the readings file before the closeout audit is dispatched.
+- Corrections to this log, from the audit: the Worker was dispatched at about 15:31Z, before its report was integrated at 15:33Z, not at 15:35Z as written above. Also dropped from ADR-D-0074's old Validation as procedure, and not named above: "Stall escalations in the journal refer to the concrete history of the gap, not to narrative claims" and "A goal file carries a ceiling only marked as a backstop"; neither is a clause of its Decision. Each commit of this change was pushed to the branch of pull request 98 as it was made.
+- 2026-11-11T15:42Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 1973acb.
+- 2026-11-11T15:52Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "ADR-D-0073, 0074 and 0075 brought to the template's present form".
+  **Nothing is held: no item is `ask-now` and none is `ungraded`.** I confirm, record by record, that the rewording changed none of the three records' decision, boundary, reasons or reopen conditions. No item carries the `direction` mark. Two readings diverge, and four things in the log need the Orchestrator's eye (listed after the record).
+  ## Before the record
+  - **Range audited:** 1973acb to the working tree of the worktree, clean at e59e942 (six commits: 240675d, 4584f9a, 77924f2, 7ef80e1, fe022be, e59e942). The section records 1973acb as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **First step, departures:**
+    - Before the mandate was open I ran one Glob that returned its file name only.
+    - I read the mandate and `value-documents/SKILL.md` from the main checkout's copy. Both are identical by hash to the worktree's copies.
+    - After the grades were fixed I opened the readings file once, with one command. It printed more than this change's section: the file's headings, the Findings section, and the last 30 lines, which include the previous unit's reading and comparison lines.
+    - One `git ls-remote` read the remote's refs, to see whether pull requests 97 and 98 are merged.
+    - Every other content read was one named path at a time, and every range diff carried both exclude pathspecs.
+  - **Not opened:** no notes file (the brief's, either philosophy's, or the completed briefs').
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk, and its diff over the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states)
+  - The range's diff of ADR-D-0073, ADR-D-0074 and ADR-D-0075, one path at a time.
+  - Read to understand the change, not as support: the three records at HEAD; the Lifecycle section of `durable-docs-authoring/references/adr.md`; `adr-template.md`.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11), and the brief's basis line says the run is graded against the brief and both philosophies.
+  Not audited: none. Both sides have a document.
+  Missing inputs: none
+  Value documents changed in range: the governing brief, in commit 77924f2. No pointer line was removed or changed; `common.md` and both philosophies are unchanged in the range. Two entries were added under "Directed during the run":
+  - **A rewrite may state a revisit condition the old record did not write.** It carries its record: told 2026-11-12, "Hmm... if it is better off to rewrite and add that part, you can. It's not the core of the decision, so I'll leave it to you if you would want me to see it or not." It is support.
+  - **Counsel's choice under those words** (a restatement goes in unread on the closeout audit's confirmation; a new fact or threshold reaches him by name). It carries no quoted words of its own and rests on the delegation quoted in the entry above ("Counsel's, under his delegation of 2026-11-12; his to overrule").
+  - **Bearing on this audit.** No grade below relies on either entry. Nothing in the range writes or changes a revisit condition; the three records' Revisit When sections are not in the diff.
+  - Whether the quoted words were said is not something a file can show.
+  Statements quoted below, by short name.
+  From the brief:
+  - **On the spot:** "ADR-D-0073, ADR-D-0074 and ADR-D-0075, accepted in the old template's form and not yet merged, are brought into the new form now, as a change of wording that keeps each decision, without new records and without retirements." (agent-proposed; accepted 2026-11-12: "Rewrite on the spot.")
+  - **Template:** "its Validation prompt asks only what would show the decision broken, and it has no separate Invariant prompt." (accepted 2026-11-11: "Go with your takes on both.")
+  - **Ceilings:** "ADR-D-0074's clause that leaves resource ceilings to the person as optional backstops stays as it is in this run. Whether it stands beside the product philosophy's section on what the work costs in money is not decided: he wants it considered further, and it is not this run's to settle." (constraint; told 2026-11-12)
+  - **Unchanged:** "The decisions themselves do not change."
+  - **Not relied on:** "If the record standard does not allow it, that returns to him", tagged inferred with no record of its own. The case did not arise.
+  From the engineering philosophy:
+  - **EP1:** "A sentence that changes nothing has a cost and no worth."
+  - **EP4 route:** "Steps, methods and the order of work are the reader's."
+  - **EP5 dated:** "A workspace's dated record holds what is true today."
+  - **EP7:** "what is present doing its work with the least complexity"
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. The three accepted records brought to the template's present form in place: the `Invariant:` line removed from each, and each Validation rewritten as the state of affairs that cannot hold while the decision does; no new record and no retirement | maps to the brief | cited | On the spot; Template; EP1; EP4 route | -
+     - Each diff is one hunk covering the Invariant line and the Validation section. Title, Context, Decision, Why, Rejected Alternatives, "Not covered", Revisit When and More Information are untouched in all three.
+  2. ADR-D-0073, accepted, reworded in the range | maps to the brief | not audited | the change alters neither the decision, its boundary, its reasons nor its reopen conditions | -
+     - Removed: "Invariant: a governed goal lifecycle exists for work that passes the test of its shape; work enters it only by that test and is planned where the test is in doubt; a person's oversight is relocated to structure around the loop and never removed; the loop's work stays recorded and cheap to undo; both lifecycles run on one substrate." Every clause is in the record's four Decision lines.
+     - Validation: the two "Review of ... asks" questions replaced by five statements under "The decision is broken where:" (work ran that had not passed the test or whose passing was in doubt; the test applied after the work started, or admission on preference; a person's oversight absent before, during or after the loop; a loop's work unrecorded or not cheap to undo; goal mode changed something in the substrate or ran on another). Each negates a Decision clause.
+  3. ADR-D-0074, accepted, reworded in the range | maps to the brief | not audited | unaltered | -
+     - Removed: "Invariant: no resource ceiling is load-bearing for termination; the stall escalation is." Held by the Decision's second and third lines.
+     - Validation: two checks replaced by four statements (a loop continued while not demonstrably reducing its distance; a stall brought no escalation or the loop went on past it; a stop at a stall escalation counted as a failed termination; a ceiling was the mechanism relied on). Each negates a Decision clause.
+     - The Decision's line "The user may set resource ceilings as coarse backstops. No ceiling is the mechanism relied on to stop a loop that is not progressing." is not in the diff.
+  4. ADR-D-0075, accepted, reworded in the range | maps to the brief | not audited | unaltered | -
+     - Removed: "Invariant: completion of a goal run never authorizes a merge; a goal branch merges only on a human's authorization, and never on a completion report that is unverified or that verification against the journal did not bear out." Held by the three Decision lines.
+     - Validation: one review question and one check replaced by three statements (a merge without a human's authorization, or the loop's report taken as authorization; the report's assertions not verified against the journal by a reviewer other than the loop; a merge resting on an unverified report or one the verification did not bear out). Each negates a Decision clause.
+  5. Judgement call, Orchestrator's ruling on the route: an accepted record is frozen at merge to main and not at acceptance, pull request 97 is not merged, so the three are reworded in place; any change that would touch the decision, boundary, reasons or reopen conditions returns to him | maps to the brief | cited | On the spot | -
+     - The standard does say so: "Immutability attaches at merge to `main`", and a change of wording that changes none of the four "does not return to the human".
+     - By the remote's refs neither pull request 97 nor 98 is merged; main is at 0930756.
+  6. Judgement call, Orchestrator: nothing is built on ADR-D-0074's resource ceilings beside the product philosophy's section 4; the clause stays | maps to the brief | cited | Ceilings | -
+  7. Judgement call, Worker, confirmed by the review: each removed `Invariant:` line is held clause for clause by the record's own Decision, so no record is left for the owner | maps to the brief | cited | On the spot ("a change of wording that keeps each decision"); Unchanged | -
+     - My own comparison agrees, as items 2 to 4 state.
+  8. Judgement call, Worker: dropped from the old Validations as procedure and not carried: "recorded as misuse" (ADR-D-0073), "reviewed as a miss of stall detection" (ADR-D-0074), "is that verification itself on record" (ADR-D-0075) | maps to the brief | cited | Template ("asks only what would show the decision broken"); EP4 route | -
+     - None of the three is a clause of its record's Decision.
+     - Two more checks of ADR-D-0074's old Validation are gone and the log does not name them: "Stall escalations in the journal refer to the concrete history of the gap, not to narrative claims" and "A goal file carries a ceiling only marked as a backstop". Neither is a Decision clause. The first concerns how a stall is measured, which the record leaves to ADR-D-0011.
+  9. Review fix FORM-F1, by the Worker: ADR-D-0075's second Validation statement reads "the assertions of the report a human acted on had not been verified against the journal by a reviewer other than the loop" | maps to the brief | cited | On the spot; Unchanged | -
+     - The earlier wording would have made the journal the only source, which the Decision does not say.
+  10. Ruling, Orchestrator: the overlap between ADR-D-0075's second Validation statement and the first half of its third is left | maps to the brief | inferred | extends Template and On the spot: each statement negates one Decision line, and the Decision's second and third lines overlap the same way; cheap to undo | -
+      - EP1 bears mildly the other way. The third statement adds "what a merge rested on", so I do not read it as a sentence that changes nothing.
+  11. Judgement call, Orchestrator: built as a small change without a plan, on the second unit's branch | internal mechanics | inferred | extends EP7; cheap to undo | -
+      - The three were accepted on pull request 97's branch and are reworded on pull request 98's, which is stacked on it. Pull request 97 alone still shows them in the old form.
+  12. Judgement call, Orchestrator: one Claude Worker on Fable 5.2 at low reasoning effort; review by the Codex seat `agent-harness-reviewer` | internal mechanics | inferred | extends EP5 dated; the workspace record in `common.md` names both resolutions; cheap to undo | -
+  13. The range pushed to origin: the branch and pull request 98's head are at e59e942 | internal mechanics | cited | `common.md` Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." and "The branches of unmerged pull requests in this repository may be rebased and force-pushed without asking first; they are not final until merged." | -
+      - Each entry carries its record and is committed at HEAD: "The common rule proposed, accepted." (2026-09-30) and "I accept the standing-approval entry on rebasing unmerged pull requests." (2026-10-15). Whether the quoted words were said is not something a file can show.
+      - The section does not log the push. The review approved fe022be; the one commit after it touches the changes and readings files only.
+  Decision records reworded after acceptance in the range: items 2 to 4, none altering a decision, boundary, reason or reopen condition. The three were accepted in cac57c7; the only commits touching them since are 4584f9a and 7ef80e1, both in the range.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): two instances, as the last closed unit left them.
+    - Demonstrated for one: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`.
+    - Ready for the owner's judgement for the first accepted records split: read ADR-D-0076 to ADR-D-0087, all `status: proposed`, against ADR-D-0011, 0014, 0029, 0063 and 0066. What remains is his acceptance of each by name.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020 and the run record's result table.
+  - Prior states, from the run record: 1 not yet; 2 demonstrated for one instance and ready for his judgement for the accepted records; 3 not yet; 4 demonstrated. No state moved.
+  - Getting closer: yes. The three records that went in unread no longer carry a line restating their Decision or a Validation of review procedure, so every record this run has written is now in the form the template asks for, and his answer "Rewrite on the spot." is built as he worded it with each decision intact.
+  - Limits on that judgement: no scenario moved; twelve records await his acceptance; the three other areas are not started.
+  ## For the Orchestrator's eye
+  - **The log's list of dropped checks is short by two** (item 8). Both are in ADR-D-0074's old Validation.
+  - **The log's times are out of order:** the Worker's report is integrated at 15:33Z and the dispatch is logged at 15:35Z.
+  - **The push is not logged** in the section (item 13).
+  - **Still owed by the record standard:** "The run's final response lists each record reworded after acceptance". That is ADR-D-0073, ADR-D-0074 and ADR-D-0075.
+- Acting on the verdict: nothing is held, so the change closes and is reported. The audit confirms, record by record, that the rewording changed none of the three decisions, boundaries, reasons or reopen conditions. Taken from the verdict: the log is corrected above (the two further dropped checks, the order of times, the pushes); the three records reworded after acceptance are listed in the run record, the pull request's text and the report to Counsel; the reading is corrected where the grades differ.
+
+## The six sentences saying an old record names no trial of a premise, cut
+
+- Start revision: 84cf484. Governing statement: the brief, Directed during the run, 2026-11-12 ("Cut the six sentences.").
+- What changes: in the proposed records ADR-D-0076, ADR-D-0077, ADR-D-0078, ADR-D-0079, ADR-D-0081 and ADR-D-0087, the sentence ending a Revisit When condition with "names no trial of this premise" is removed. The condition before it stays word for word. Nothing else in any record changes. The six are proposed, not accepted, so no accepted record is reworded.
+- 2026-11-12T07:50Z One Worker (Claude, Fable 5.2, low reasoning effort) dispatched for the six deletions.
+- 2026-11-12T07:51Z Worker report integrated: status done, one assigned task, all six files inside its scope, each with one line changed; the only text removed is the six sentences and nothing is added. Required checks pass (package validation, smoke tests, the search returns nothing, whitespace check clean). Its question, whether this file's pending edit is the Orchestrator's: yes. Sent to the Codex review seat.
+- 2026-11-12T07:52Z Review: APPROVED at 0e9f62f for 84cf484..0e9f62f, no findings. Each record loses exactly the one sentence; every remaining condition is complete; no such sentence remains under the decisions directory; the required checks pass, run independently.
+- 2026-11-12T07:53Z The reading is written in the readings file before the closeout audit is dispatched.
+- Added to this log, from the audit: a judgement call written in the reading and not here. Other sentences in the run's records that speak of the evidence or dates of old records are left as they are; his words name one sentence in each of six records. The commit of Counsel's brief entry and notes is 84cf484, the start revision, so it lies outside this change's range. Nothing of this change was pushed before the audit returned.
+- 2026-11-12T07:54Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 84cf484.
+- 2026-11-12T07:59Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "The six sentences saying an old record names no trial of a premise, cut".
+  **Nothing is held: no item is `ask-now` and none is `ungraded`.** The range does what the brief's statement says and no more: each of the six proposed records loses exactly one sentence, and the condition before it stays word for word. No item carries the `direction` mark. One reading diverges, and one reading item lies outside the range.
+  ## Before the record
+  - **Range audited:** 84cf484 to the working tree of the `agent-harness-adrs` worktree, clean at b4e3deb (two commits: 0e9f62f, b4e3deb). The section records 84cf484 as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0). Both are byte-identical to the worktree's copies.
+    - One `git ls-remote` read the remote's ref for this branch.
+    - Every content read was one named path at a time, and every range diff carried both exclude pathspecs. Listings across files printed names only.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, with one command that printed its headings, this change's section and the Findings section.
+  - **Plan file:** I read all 714 lines of the changes file. The earlier verdicts logged in it are claims and support nothing here.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states; the rest to understand the run's state)
+  - The range's diff of ADR-D-0076, 0077, 0078, 0079, 0081 and 0087 and of the changes file, one path at a time.
+  - Read to understand the change, not as support: ADR-D-0081 at HEAD.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11: "I ratify the engineering philosophy and the product philosophy."). The brief's basis line says the run is graded against the brief and both philosophies.
+  Not audited: none. Both sides have a document.
+  Missing inputs: none
+  Value documents changed in range: none. The brief, both philosophies, both companions and `common.md` are not in the range's diff, and no pointer line was removed or changed.
+  Statements quoted below, by short name.
+  From the brief:
+  - **Cut:** Directed during the run: "The sentence that ends a revisit condition by saying the old record names no trial of the premise is cut from the six proposed records that carry it: ADR-D-0076, ADR-D-0077, ADR-D-0078, ADR-D-0079, ADR-D-0081 and ADR-D-0087. The condition before it stays as written." (gives; told 2026-11-12: "Cut the six sentences.")
+  - **By name:** Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each."
+  From the engineering philosophy:
+  - **EP7 burden:** "the burden of proof is on what is added or kept, and absence needs no defence."
+  - **EP7 least:** "what is present doing its work with the least complexity"
+  - **EP5 dated:** "A workspace's dated record holds what is true today."
+  - **EP2 standing:** "A later worker can rely only on what is honest about its own standing."
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. In the proposed records ADR-D-0076, 0077, 0078, 0079, 0081 and 0087, the sentence ending a Revisit When condition with "names no trial of this premise" is removed; the condition before it stays word for word, nothing replaces the sentence, and nothing else in any record changes | maps to the brief | cited | Cut; EP7 burden | -
+     - Each of the six diffs is one changed line. The removed text is "ADR-D-00NN, dated <date>, names no trial of this premise." and nothing else. It named ADR-D-0014 in 0076 and 0087, ADR-D-0011 in 0077, 0078 and 0079, and ADR-D-0029 in 0081.
+     - No file under the decisions directory still carries the phrase; it remains only in the brief and in this changes file.
+     - I checked the engineering philosophy's "A guess is not written as a finding" against the cut and found no conflict. Each remaining condition still calls itself "The premise that ...", so it is not worded as a finding.
+  2. Judgement call, Orchestrator: the six are proposed and not accepted, so the cut is made in place; nothing is accepted or retired, and no accepted record is reworded | maps to the brief | cited | Cut ("is cut from the six proposed records that carry it"); By name | -
+     - All six read `status: proposed` at 84cf484 and at HEAD.
+  3. Judgement call, Orchestrator: built as a small change without a plan, on the unit's branch, from 84cf484 | internal mechanics | inferred | extends EP7 least; cheap to undo | -
+     - Nothing of the range is on the remote. The remote's branch head is b86e049, three commits behind HEAD, so nothing outward-facing has happened.
+  4. Judgement call, Orchestrator: one Claude Worker on Fable 5.2 at low reasoning effort for the six deletions; review by the Codex review seat | internal mechanics | inferred | extends EP5 dated; the workspace record in `common.md` names both settings; cheap to undo | -
+  5. Ruling, Orchestrator, on the Worker's question: the pending edit to the changes file is the Orchestrator's | internal mechanics | inferred | extends EP2 standing; cheap to undo | -
+     - It is an answer of fact about whose edit sat in the tree. The diff agrees: commit 0e9f62f carries seven added lines of the changes file beside the six records.
+  Decision records reworded after acceptance in the range: none. The six changed records are proposed. ADR-D-0011, 0014 and 0029, which the removed sentences named, are accepted and not in the range's diff.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): two instances, as the last closed unit left them.
+    - Demonstrated for one: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96."
+    - Ready for the owner's judgement for the first accepted records split: read ADR-D-0076 to ADR-D-0087, all `status: proposed`, against ADR-D-0011, 0014, 0029, 0063 and 0066, still accepted. What remains is his acceptance of each by name.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted, and the run record's result table.
+  - Prior states, from the run record's Scenarios section: 1 not yet; 2 demonstrated for one instance and ready for his judgement for the accepted records; 3 not yet; 4 demonstrated. No state moved.
+  - Getting closer: yes. Six of the twelve records waiting for his acceptance by name carried a sentence he told the run to cut. They now read as he directed, with each revisit condition intact, so what scenario 2 waits on is his acceptance.
+  - Limits on that judgement: no scenario moved; the twelve records are still proposed; by the run record the three other areas are not started.
+  ## For the Orchestrator's eye
+  - **A judgement call is in the reading and not in the log.** The readings file says that other sentences speaking of evidence or dates of old records are left as they are. The changes-file section says only "Nothing else in any record changes."
+  - **One reading item is outside the range,** as noted above: the commit of Counsel's brief entry and notes is 84cf484 itself.
+  - **No push is logged, and none has happened.** The remote's branch head is b86e049.
+  - **The run record has no row for this change yet** in its Units table.
+- Acting on the verdict: nothing is held, so the change closes, is pushed and is reported. Taken from the verdict: the judgement call it found only in the reading is added to the log above; the reading is corrected where the grades differ; the run record gets its row.
+- 2026-11-12T08:02Z Pushed to the branch of pull request 98 (84cf484 to a07de6a, within the standing approvals); the pull request's text says what was cut; reported to Counsel.
+
+## ADR-D-0076 to ADR-D-0087 accepted; ADR-D-0011, 0014, 0029, 0063 and 0066 retired
+
+- Start revision: 9ec8d12. Governing statement: the owner's acceptance, relayed by Counsel at 2026-11-13T18:02Z by the channel clock (his calendar 2026-11-14) and admitted by the standing approval, quoted: "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101." Counsel's placement: the twelve records as they stand on pull request 98's branch after the six sentences were cut; he was told that on acceptance ADR-D-0011, 0014, 0029, 0063 and 0066 retire.
+- What changes: the twelve records' status becomes accepted, with his words and the date as the standard records an acceptance; the five old records are retired as the standard's one atomic operation each (status, header line, move with the suffix, every inbound reference repaired, an absence search for the old file name); nothing else. No decision, boundary, reason or reopen condition of any record changes.
+- 2026-11-13T18:03Z One Worker (Claude subagent, Fable 5.2, low reasoning effort) dispatched.
+- 2026-11-13T18:11Z Worker report integrated: status done, one task; the twelve records read accepted (the status flip only, as ADR-D-0071 and ADR-D-0072 record acceptance); the five old records are under `superseded/` with status, header line, suffix and `superseded_by`, the suffix naming the lowest-numbered replacing record as ADR-D-0016's retirement did, and two slugs shortened to stay within the file-name length the smoke test allows; every inbound reference repaired by what it means, in frontmatter and in the citations of ADR-D-0050, 0052, 0064, 0065, 0067, 0073, 0074 and 0075, two records cited where the old one's clause is now split. Every changed path is under the decisions directory. Required checks pass, run by the Worker and again by the Orchestrator (package validation, smoke tests, whitespace). The absence search finds four old file names nowhere and the fifth only in a completed plan file, left as history.
+- Two citations outside the Worker's scope repaired by the Orchestrator: the design document's citation for the value audit grading a goal run, to ADR-D-0082 and ADR-D-0083; and the reviewer rule file's citation for the assessor mandate's semantics, to ADR-D-0080, ADR-D-0081 and ADR-D-0050.
+- Rulings: three clauses that state which records replaced ADR-D-0056 when it was retired stay as history (ADR-D-0064, two mentions; ADR-D-0067, one). Acceptance is recorded by the status alone, as the precedent does; the owner's words and the date are in this log and in the brief. Six frontmatter paths in older retired records that do not resolve, and one active record's long file name, predate this change and are left.
+- Pull request 101 was merged on 2026-11-13 by the channel clock (squash, 7bf397d), on his acceptance by name and his word in the session ("Merge PR 101").
+- Sent to the Codex review seat.
+- 2026-11-13T18:40Z Review (Codex review seat) at d389963: CHANGES REQUESTED, RET-F1 and RET-F2; everything else passes its checks (the twelve differ only in status and paths; no other prose changed in the eight repaired records; each retirement complete; the absence search independently run; the status flip is enough to record acceptance). RET-F1: ADR-D-0067's sentence on the audit grading apart from the assessor, and its dependency, cited only ADR-D-0082, which leaves the separation to ADR-D-0083; both are now cited there and ADR-D-0083 added to `depends_on`. RET-F2: the reviewer rule file's `last_updated` is set to 2026-11-14 for the citation repaired in it. Both by the Orchestrator, pointers and a date only. Re-review requested.
+- 2026-11-13T18:41Z Re-review: APPROVED at 341b3b0 for the whole change; RET-F1 and RET-F2 closed, no finding open. The reading is written in the readings file before the closeout audit is dispatched.
+- Corrections to this log, from the audit. His acceptance is quoted in this log and reached this session as Counsel's relay; it is not in the brief, as two entries above say it is: writing it there is Counsel's, and Counsel is asked. The "What changes" line said the status becomes accepted "with his words and the date as the standard records an acceptance"; what was built is the status alone, as the later ruling says. On pull request 101: his word in this session, asked there whether pull request 101 may be squash-merged into main now, was "Merge PR 101", on 2026-11-13 by the channel clock.
+- 2026-11-13T18:52Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 9ec8d12.
+- 2026-11-13T18:52Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "ADR-D-0076 to ADR-D-0087 accepted; ADR-D-0011, 0014, 0029, 0063 and 0066 retired".
+  **Two things are held (`ask-now`); nothing is `ungraded`.**
+  - **The acceptance of the twelve records, and the retirement of the five that rests on it (items 1 and 2).** The changes file says his words "are in this log and in the brief". They are not in the brief: it was last changed at 84cf484 (2026-11-12), and its only "I accept" is the one for ADR-D-0071 and ADR-D-0072. The quote exists only in the Orchestrator's log, which I may not take as support.
+  - **The merge of pull request 101 to main (item 22),** on the outward-facing test alone. It is already done, so nothing waits on it.
+  The mechanics are sound. The twelve differ only by status and one path, each retirement is complete, every repaired citation points at the record that now holds the clause, and no accepted record's decision, boundary, reasons or reopen conditions changed. No item carries the `direction` mark.
+  ## Before the record
+  - **Range audited:** 9ec8d12 to the working tree of the run, clean at 78782e8 (three commits: d389963, 341b3b0, 78782e8). The section records 9ec8d12 as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **Nothing of the range is on the remote** by the local refs: the branch is ahead of origin by 4. Pull requests 97 and 98 are not merged; origin/main is at 34a4916.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0), not the worktree's, and did not compare the two. The range changes no file under `plugins/`.
+    - One command looped over two commit ids and printed their stats (names only). One `git grep` across the tree printed names and counts only.
+    - Each rename diff named two paths, the old and the new name of one record.
+    - Outside the range, to understand item 22, I printed the one line commit 7bf397d added to `docs/product-philosophy-companion.md` on main.
+    - Every other content read was one named path at a time, and every range diff carried both exclude pathspecs.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, as the range's diff of it (the 15 lines this change added).
+  - **Plan file:** I read all 799 lines of the changes file. The earlier verdicts logged in it are claims and support nothing here.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states; the rest to understand the run's state)
+  - The range's diff of each of the 31 changed paths other than the readings file, one path at a time.
+  - Read to understand the change, not as support: `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md`; ADR-D-0087 at HEAD; the titles and Context of ADR-D-0077, 0078, 0080, 0081, 0082, 0083, 0084 and 0086; ADR-D-0078's Revisit When.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11: "I ratify the engineering philosophy and the product philosophy."). The brief's basis line says the run is graded against the brief and both philosophies.
+  Not audited: none. Both sides have a document.
+  Missing inputs: none. The brief, both philosophies and both companions are present with their ratification records. What is absent is one statement inside the brief, which item 1 reports.
+  Value documents changed in range: none. The brief, both philosophies, both companions and `common.md` are not in the range's diff, and no pointer line was removed or changed. Outside the range, on main only, pull request 101 added one line to each companion; this branch's companions do not carry it.
+  Statements quoted below, by short name.
+  From the brief:
+  - **By name:** Limits: "Acceptance is by name, as the standard says; one statement may accept several records when it names each." (constraint)
+  - **Lifecycle:** What the work gives: "A record that fails the check is rewritten to meet it, under the standard's own lifecycle: a new complete record, the old one retired, accepted by name. A record found to be a bundle is split" (tagged inferred; ratified with the brief on 2026-11-02, so it keeps its support)
+  - **Together:** Directed during the run: "ADR-D-0076 is accepted together with the record of the next unit that holds the line taken out of it, not before, so that the folder never shows ADR-D-0014 in force beside a record that replaces it in part." (accepted 2026-11-11: "Go with your takes on both.")
+  From the engineering philosophy:
+  - **EP2:** "A fact that may change carries the date it was seen. A later worker can rely only on what is honest about its own standing."
+  - **EP5 dated:** "A workspace's dated record holds what is true today."
+  - **EP7 least:** "what is present doing its work with the least complexity"
+  - **EP7 says so:** "A change that would be cleaner with its surroundings reshaped says so, instead of bending itself to fit."
+  From the product philosophy:
+  - **PP2 word:** "confidence is never taken on the builder's word: what was not done or not checked is said outright."
+  From `common.md`, Standing Approvals:
+  - **Merges:** "Merges are not covered and wait for the owner."
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  The acceptance and the retirement:
+  1. ADR-D-0076 to ADR-D-0087, twelve records, `status: proposed` to `status: accepted` | maps to the brief | ask-now | By name and Lifecycle set the condition, his acceptance by name; no document shows it met; PP2 word | Reason: who decides. Acceptance is his, by name, and the only record of it is the Orchestrator's log. Value question: do you accept each of the twelve records ADR-D-0076 to ADR-D-0087 as they stood after the six sentences were cut, so that they are the decisions in force and ADR-D-0011, 0014, 0029, 0063 and 0066 are retired? If not, the five old records stay in force and the twelve stay proposed. | -
+     - The log quotes "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101." and says the words are also in the brief. I checked the brief itself, as the mandate requires for a small change, and they are not there.
+     - The acceptance of ADR-D-0071 and ADR-D-0072 is in the brief with its date. This one would be `cited` on the same footing once the brief carries it.
+     - If the words are as quoted, they name the twelve by the first and last number. I read a closed numbered range as naming each, since unlike "all of them" it fixes the set, and do not hold on that.
+     - Each of the twelve diffs is two lines: the status and the `supersedes` path. No other word changed, and none changed after the acceptance commit d389963.
+     - The acceptance reverts cleanly: nothing is pushed or merged.
+  2. ADR-D-0011, 0014, 0029, 0063 and 0066 retired: `status: superseded`, `superseded_by` set, the line "Retired on 2026-11-14. Replaced by ...", moved to `superseded/` with the suffix, their own relative pointers adjusted, and the twelve's `supersedes` paths repointed | maps to the brief | ask-now | Lifecycle and Together would cover it once item 1 is answered | Reason: it rests wholly on item 1's acceptance, and retiring five accepted records without it would be the run deciding. No separate question; item 1's covers it. | -
+     - The diffs show no other word of the five changed. Each header line names every replacing record.
+     - Together is met in the tree: ADR-D-0014 retires in the same commit that accepts both ADR-D-0076 and ADR-D-0087.
+     - Items 3 to 16 are this retirement's repairs and stand or fall with it.
+  Accepted records reworded in the range (each graded on whether the decision, boundary, reasons or reopen conditions changed):
+  3. ADR-D-0050 | maps to the brief | not audited | unaltered; changed words: `depends_on` path; "(ADR-D-0029)" to "(ADR-D-0080)" in Context and in Not covered; "ADR-D-0029" to "ADR-D-0080" in More Information | -
+  4. ADR-D-0052 | maps to the brief | not audited | unaltered; changed words: "the reasoning ADR-D-0029 records" to "ADR-D-0080" in a rejected alternative; the same id in More Information | -
+     - ADR-D-0080 does carry that reasoning (its line on the conflicted party in the judge's seat).
+  5. ADR-D-0064 | maps to the brief | not audited | unaltered; changed words: `depends_on` path; "(ADR-D-0066)" to "(ADR-D-0084, ADR-D-0086)" and "(ADR-D-0063)" to "(ADR-D-0082)" in Not covered; the two ids in More Information's related list | -
+  6. ADR-D-0065 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0066)" to "(ADR-D-0084, ADR-D-0086)" and "(ADR-D-0063," to "(ADR-D-0082," in Not covered; the two ids in More Information | -
+  7. ADR-D-0067, including review fix RET-F1 | maps to the brief | not audited | unaltered; changed words: `depends_on` (ADR-D-0063 and 0066 to ADR-D-0082, 0083 and 0086); ids in Context, in two Decision lines, in the Invariant line, in Not covered and in More Information | -
+     - The Decision lines keep their clauses; only the record cited for each changes. "A remedy that would change the envelope is not within the run's authority" now cites ADR-D-0086, which is that decision.
+  8. ADR-D-0073 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0066)" to "(ADR-D-0084)" and "(ADR-D-0029," to "(ADR-D-0080," in Not covered; the two ids in More Information | -
+  9. ADR-D-0074 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0011)" to "(ADR-D-0077, ADR-D-0078)" and "(ADR-D-0029)" to "(ADR-D-0080)" in Not covered; "it reopens the measurement (ADR-D-0011)" to "(ADR-D-0078)" in Revisit When | -
+     - The Revisit When line says what does not reopen this record, so its own reopen conditions are unchanged. The pointer now names ADR-D-0078 alone; ADR-D-0078's own Revisit When is that misfire ("stopping loops that were progressing or passing loops that were not").
+  10. ADR-D-0075 | maps to the brief | not audited | unaltered; changed words: "(ADR-D-0029," to "(ADR-D-0080," in Context; the id in More Information | -
+  11. The retired ADR-D-0012, ADR-D-0027 and ADR-D-0056: `superseded_by` and `depends_on` paths follow the moved files | maps to the brief | not audited | paths only; no other word changed | -
+  Repairs outside the decisions directory:
+  12. `goal-mode-design.md`: the citation for the value audit grading a goal run, "(ADR-D-0063)" to "(ADR-D-0082, ADR-D-0083)" | maps to the brief | cited | Lifecycle; the standard's retirement, read to understand it, repairs "every inbound reference in the repository" | -
+  13. `docs/coding-agent/rules/reviewer.md`: the assessor mandate's semantics must match "ADR-D-0080, ADR-D-0081 and ADR-D-0050" where it read "ADR-D-0029"; `last_updated` set to 2026-11-14 (RET-F2) | maps to the brief | cited | Lifecycle for the citation; EP2 for the date | -
+  Judgement calls and rulings logged in the section:
+  14. Worker: every inbound reference repaired by what it means, with two records cited where the old one's clause is now split | maps to the brief | cited | Lifecycle | -
+      - My check of each mapping agrees, from the new records' titles and Context.
+      - My search finds four old file names nowhere and the fifth only in a completed plan. The five ids outside `superseded/` and the plans appear only in the twelve, in ADR-D-0064 and ADR-D-0067 (item 17), and in briefs.
+  15. Worker: the suffix and `superseded_by` name the lowest-numbered replacing record | maps to the brief | inferred | extends Lifecycle; cheap to undo | -
+  16. Worker: two slugs shortened to stay within the file-name length the smoke test allows | maps to the brief | inferred | extends Lifecycle; cheap to undo | -
+      - ADR-D-0063's file name drops "under-a-brief-or-with-a-philosophy" and ADR-D-0066's drops "and-never-changed-by-it". The titles inside are unchanged.
+  17. Ruling, Orchestrator: three clauses that say which records replaced ADR-D-0056 stay as history (ADR-D-0064, two mentions; ADR-D-0067, one), and the old path in a completed plan is left | maps to the brief | inferred | extends Lifecycle, the standard letting a merged record change only where a retirement requires repairing a pointer; cheap to undo | -
+      - EP2 bears mildly the other way. ADR-D-0064, a record in force, still reads "ADR-D-0063 holds the value audit's grading of a goal run" in the present tense, and ADR-D-0067 reads "ADR-D-0063, which holds". A reader who follows the id reaches the retired file and its header line, so the chain resolves.
+  18. Ruling, Orchestrator: acceptance is recorded in each record by its status alone | maps to the brief | cited | By name; the standard, read to understand it: "The status flips to `accepted` on the explicit yes", and a record "does not quote the person" | -
+      - The ruling's second half, that his words and the date are "in this log and in the brief", fails as to the brief (item 1).
+      - Each of the twelve keeps `date: 2026-11-11` in its front matter; nothing in a record carries the acceptance date.
+  19. Ruling, Orchestrator: six front-matter paths in older retired records that do not resolve, and one active record's long file name, predate the change and are left | internal mechanics | inferred | extends EP7 says so; cheap to undo, nothing was done | -
+  20. Judgement call, Orchestrator: the two citations outside the Worker's scope, and the RET-F1 and RET-F2 fixes, made by the Orchestrator itself | internal mechanics | inferred | extends EP7 least; cheap to undo | -
+  21. Judgement call, Orchestrator: built as a small change without a plan, by one Claude Worker on Fable 5.2 at low reasoning effort, reviewed by the Codex review seat | internal mechanics | inferred | extends EP7 least and EP5 dated; the workspace record in `common.md` names both settings; cheap to undo | -
+  22. The merge of pull request 101 to main (squash, 7bf397d, on origin/main), which the section records as done | maps to the brief | ask-now | no standing approval covers it: Merges | Reason: the outward-facing test alone. A merge to the shared branch reaches outside the run's branches and is not undone by a revert. The log says it was made "on his acceptance by name and his word in the session"; that is the Orchestrator's account, and no value document on this branch quotes it. Value question: did you mean pull request 101, the line in each philosophy's companion recording your word that the merge put the philosophies in force, with Counsel's notes, to land on the shared main branch on 2026-11-13? | -
+      - The commit is not in this branch's history. It adds one line to each companion.
+      - The entry on publishing carries its record ("The common rule proposed, accepted.", 2026-09-30) and is committed at HEAD. It excludes merges, so I rely on it for nothing. Whether the quoted words were said is not something a file can show.
+  Decision records reworded after acceptance in the range: items 3 to 10, none altering a decision, boundary, reason or reopen condition. The five retired records changed only by their retirement. The twelve were accepted in d389963 and no word of them changed after it.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): two instances.
+    - Demonstrated for one: read ADR-D-0071 and ADR-D-0072, both accepted, with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96."
+    - Ready for the owner's judgement for the first accepted records split. The tree shows ADR-D-0076 to ADR-D-0087 accepted and the five old records under `superseded/`, but "each accepted by name" can be observed in no document I may read as support. It is demonstrated once the brief carries his acceptance.
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted and not in the range, and the run record's result table.
+  - Prior states, from the run record's Scenarios section: 1 not yet; 2 demonstrated for one instance and ready for his judgement for the accepted records; 3 not yet; 4 demonstrated. No state moved.
+  - Getting closer: yes. The tree now holds, for five old bundles, twelve records of one decision each, with the old ones retired and every reference repaired by what it means. That is scenario 2 carried through for the first accepted records. It rests on the acceptance item 1 holds: what is missing is the record of his word, not work.
+  - Limits on that judgement: no scenario moved; the check covers 12 of 49 records and the three other areas are not started; the run record still calls the twelve proposed.
+  ## For the Orchestrator's eye
+  - **The brief does not carry the acceptance.** The log's "in this log and in the brief" is not true of the brief at HEAD. Writing it there is Counsel's.
+  - **The section's "What changes" line and the build differ.** It says the status becomes accepted "with his words and the date as the standard records an acceptance"; what was built is the status alone, as the later ruling says.
+  - **The run record is behind the tree.** Its State line and result table still call the twelve proposed and the five old records accepted, and it has no Units row for this change. The brief's pass condition that every record's result is recorded depends on that table.
+  - **Still owed by the record standard:** the final response lists each record reworded after acceptance. Here that is ADR-D-0050, 0052, 0064, 0065, 0067, 0073, 0074 and 0075.
+  - **This branch's companions lack the line pull request 101 added on main;** it arrives when main is next brought into the branch.
+- Acting on the verdict: two things are held, and neither goes further until the owner's answer is on record. The acceptance of the twelve and the retirement resting on it: the audit finds his acceptance quoted only in this log; both value questions are carried to Counsel as the verdict states them, with the note that his relayed words of 2026-11-13T18:02Z by the channel clock appear to answer the first, and Counsel is asked to write his acceptance into the brief, as it did for ADR-D-0071 and ADR-D-0072. Nothing of this change is pushed and pull requests 97 and 98 are not merged until then. The merge of pull request 101: already made, on his acceptance naming it as relayed and his word in this session, quoted above; its value question goes to Counsel with the other. Taken from the verdict otherwise: this log is corrected above; the run record is brought up to date (the State line, the result table, a Units row); the records reworded after acceptance in this change are ADR-D-0050, 0052, 0064, 0065, 0067, 0073, 0074 and 0075, pointers only, and are listed in the run record and the report; main is brought into the branch before the merge, which brings the companions' line.
+- 2026-11-13T18:54Z Against the two items the audit held: answered, by his words now in the brief (Directed during the run, two entries dated 2026-11-14 on his calendar, committed by name at 6bd0481). Item 1, the acceptance of the twelve and the retirement resting on it: "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101."; the brief says what he had before him when he said it, and that on it the twelve are in force and the five retired. Item 22, the merge of pull request 101: the same sentence names it, and the brief says it lands on the shared main branch. Counsel judged that his words already answer both of the audit's value questions and did not ask him again. The change goes ahead: main is brought into the branch, the branch is pushed, and the merges of pull requests 97 and 98 are asked of him in this session's window.

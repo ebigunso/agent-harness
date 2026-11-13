@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-07-16
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0077-progress-in-a-goal-run-is-measured-against-the-goal-condition-and-nothing-else.md
 ---
 
 # ADR-D-0011: Progress Is The Goal Read As A Gap, Not A Second Object
+
+Retired on 2026-11-14. Replaced by ADR-D-0077, ADR-D-0078 and ADR-D-0079.
 
 ## Context and Problem Statement
 

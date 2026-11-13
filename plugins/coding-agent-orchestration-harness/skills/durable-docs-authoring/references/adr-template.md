@@ -27,12 +27,10 @@ superseded_by: null   # null while the record governs; the retired record carrie
 {One line per alternative: why it lost, and the condition that would legitimately reopen it, or "rejected outright". Omit only when nothing needs explaining.}
 
 ## Decision Boundary
-Invariant: {what changing requires retiring this record and writing a new one}.
-
 Not covered: {the calibrated surfaces that may change through skill text, configuration, or a plan record}.
 
 ## Validation
-{How implementation or review shows the decision is followed: a check, a test, a review question.}
+{What would show the decision broken: the state of affairs that cannot hold while the decision does. No procedure, file names, or checks to run.}
 
 ## Revisit When
 {The premise whose expiry reopens the decision. When the premise is model behavior, name the models and the date they were checked. No time-relative wording; see references/adr.md.}

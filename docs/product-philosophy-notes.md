@@ -66,6 +66,14 @@ Counsel's reading, its own:
 
 - His words on section 4, 2026-11-11: "Cost should be clarified so that it is unmistakably about monetary costs not time." The section is retitled "What it costs in money" and says it is about money only, with time left to the part on what is left out.
 
+## An open matter after ratification: money in a goal run, 2026-11-12
+
+- Fact: the value audit, grading the goal-mode records against the philosophies, noted that an accepted record leaves resource ceilings to the person as optional backstops, while section 4 says what the work costs in money is settled without the person and must never surprise them: a goal loop that keeps progressing has no bound on spend unless the person sets one.
+- Counsel put it to him as the record standing or the harness setting a bound itself and stopping when it is reached, and advised the second.
+- His words: "How to handle this should be considered further. Stopping mid run is a bad experience, more so if it has eaten up a large chunk of a budget that was never intended to be used there, so it's probably safer to have a way to confirm the preferences of whoever is in charge. If that person says yes, and afterwards finds a surprising result, that is on them."
+- Counsel's reading, its own: he does not want a bound that stops a run midway. He leans toward the person's preference on spend being confirmed, after which a result that surprises them is theirs. That sits beside section 4's "settled without the person" and may need an amendment to it, which is his to state. Nothing is decided; no record and no text changes on this.
+
 ## Open
 
 - His answers. Where the philosophy will live; no pointer line exists.
+- 2026-11-12, said about how many runs go at once, and bearing on this matter: he named which surprise is acceptable and which is not. Acceptable: reaching a five-hour token limit. Not acceptable: "finding out they have no weekly limit left or has eaten up a huge chunk of pay-as-you-go tokens because of a long running expensive model." Recorded in full in `docs/coding-agent/briefs/active/one-conversation-with-counsel-notes.md`.
