@@ -5,6 +5,7 @@ Beside `product-philosophy.md`. It holds which statements Counsel originated, th
 ## Ratification
 
 - Version 1, ratified whole on 2026-11-11 by ebigunso, who owns the harness. He had read the text and said it looked good, was then shown what was discussed and is not in it, where it departs from the conventional answer, the gaps against the philosophy reference and what changes once it is in force, was shown the one section added after his reading (section 5), and was asked to ratify each philosophy by name. His words: "I ratify the engineering philosophy and the product philosophy."
+- In force from 2026-11-11, when it and the line pointing to it were merged to the main branch. Asked whether he meant the two philosophies and the lines pointing to them to land on the main branch that day, so that every run in this repository is graded against them from then, he said on 2026-11-12: "Yes, the merger is meant to have the philosophies in effect."
 
 ## What the text rests on
 
