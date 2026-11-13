@@ -574,7 +574,15 @@ Throwaway directories, all in one scratch folder, removed together.
 
 ## The text as built, tried (2026-11-13)
 
-The candidate tried above was then written, with changes, into this branch's plugin. Here that text was run as it stands in the branch, with no copy and no edit: three background Claude Code sessions with the plugin-scoped Orchestrator agent, each for a throwaway git repository of its own. The acceptance and the decline carried were stand-ins again: made-up words marked as a stand-in, worded as a trial, sent only to the trial's own sessions. They are nobody's word and put nothing in effect anywhere; the repositories have been removed.
+The candidate tried above was then written, with changes, into this branch's plugin. Here that text was run as it stood at revision 1942955 of the branch, with no copy and no edit: three background Claude Code sessions with the plugin-scoped Orchestrator agent, each for a throwaway git repository of its own. The acceptance and the decline carried were stand-ins again: made-up words marked as a stand-in, worded as a trial, sent only to the trial's own sessions. They are nobody's word and put nothing in effect anywhere; the repositories have been removed.
+
+Which text this section is about. Everything below, wherever it says "the built text" or "the text", is the plugin's text at revision 1942955, and describes what that text said and did on the day. The text was changed afterwards, at revision 07dde0d, because of what this section found, and the changed text was not run:
+
+- At 1942955 the first relay admitted only the owner's acceptance of the entry. Since 07dde0d it admits his answer, yes or no, and a quoted decline removes the proposed entry. A carried decline acting that way is untried.
+- At 1942955 the text did not say what a session does when the runtime refuses the write that puts the entry in effect. Since 07dde0d it says the session tries no other route, does not repeat the act, leaves the entry proposed and tells Counsel that the owner's own acceptance in that session's window is what remains. A session following that sentence, and the owner's own input after a refusal, are untried.
+- At 1942955 the text was silent on whether setup commits what it wrote, and said the commit that puts the entry in effect carries only the entry and the Counsel line. Since 07dde0d it says setup may commit what it wrote, the proposed entry included, and that a proposed entry in a commit is not in effect. That agrees with what the three sessions here did; the changed sentence itself was not run.
+
+So this section is evidence for what the text at 1942955 did, and for nothing in the text after it beyond what the list above says was seen.
 
 The short of it: the built text was read as intended up to the act itself, and then two things happened that the text does not intend. The session that received the quoted acceptance tried to put the entry in effect and the runtime's own safety check refused the edit, so the entry was not put in effect. And the session that received the quoted decline did not remove the proposed entry: it read the text as letting only an acceptance arrive by relay before the entry is in effect.
 
