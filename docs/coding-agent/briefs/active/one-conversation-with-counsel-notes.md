@@ -167,3 +167,14 @@ Its own, not his answer.
 
 - His answer to both questions, 2026-11-13: "I take your recommendations for both. But before you make how acceptance is handled set in stone, test them out so that it doesn't say something that turns out impossible in practice." The recommendations: a default for each set-up repository in Codex and Copilot, with the closeout saying which cases remain unmet; and never a second window, Counsel starting the setup session and carrying his acceptance, ADR-D-0038 replaced by a record he accepts by name. Written into the brief under Directed during the run and relayed the same day. Not answered: whether someone tries the Copilot hook at the editor.
 - The messaging service was started again by Counsel on 2026-11-13 after the session resumed and reports running.
+
+## What the trial of the first acceptance found, 2026-11-13
+
+- From the Orchestrator (channel 06:08:07Z). Tried in Claude Code with stand-ins for Counsel and for him, in throwaway repositories.
+- A session started for setup by the stand-in Counsel set the repository up and wrote the entry admitting Counsel's relays as proposed, not in effect: three of three.
+- A stand-in acceptance was then carried to it by message. With a first draft of the wording the session put the entry in effect and committed it. With the text as finally written the runtime's own safety check refused the write, giving "instruction poisoning" as its reason: a session told by a message to write into its own rule file that messages of that kind are to be obeyed. The session stopped and tried nothing else. The Orchestrator did not have it tried again, since repeating a refused act until it passes would be getting past a safety check. Once through, once refused.
+- A stand-in refusal of the entry did not remove it; a fault in the wording, being fixed.
+- The Orchestrator's conclusion: that he never opens a second session, the first time in a repository included, cannot be promised in Claude Code as things stand.
+- The experiences it put: keep his choice with a stated exception (when the runtime refuses, he says yes once in that session's own window; whether his typing there is let through is untried); or drop the first relay, so that once per repository he gives his acceptance in the setup session Counsel started and is told is waiting; or he tries it once himself in a scratch repository, about ten minutes.
+- For him to do, not a decision: a trial left two lines in his Codex configuration file, the last "projects" entry, for a scratch folder that no longer exists, marked trusted. The Codex runtime wrote them itself; deleting the two lines undoes it.
+- Counsel's reading, its own: it had told him the risk added by the first relay was small. The runtime's check treats that very relay as a pattern to refuse, for the reason the risk exists: a message raising its own authority. Counsel's advice changes accordingly.
