@@ -3,7 +3,7 @@ status: proposed
 adr_type: design
 date: 2026-11-14
 deciders: ["ebigunso"]
-consulted: ["Claude Fable 5.2"]
+consulted: ["GPT-6 Astra", "Claude Fable 5.2"]
 informed: []
 supersedes: []
 superseded_by: null
