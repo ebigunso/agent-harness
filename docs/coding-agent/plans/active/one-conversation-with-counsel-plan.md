@@ -699,6 +699,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Validation evidence: the report is one valid block for the task; every path is a new file under the decisions directory. The package validation and the smoke tests pass, run by the Orchestrator; whitespace and line endings checked by the Worker on the untracked files; privacy sweep clean.
   - Rulings: the records are in the template's present form, which is on the decision-records run's branch and lands with pull request 97; this run lands after it and takes main in then. Reasons the drafter worded where the brief is silent stay for the review. The name of the model the brief calls "the consulted model" is asked of Counsel for three records' `consulted` field. Review of Wave 6 requested.
 - 2026-11-13 18:11Z Counsel named the model the brief calls the consulted model: GPT-6 Astra, asked by Counsel as a consultation on 2026-11-12. It is added to the `consulted` field of the three records that carry its statements (runs side by side; nothing depends on a seat surviving; a stopped run), by the Orchestrator, a field value only.
+- 2026-11-13 18:14Z Task_7's last record (in place of ADR-D-0038) dispatched to one Worker (Claude subagent, Fable 5.2, low reasoning effort), handed where the unit stands. Task_6's remaining edit, the proposed rewording of the admitting entry set beside the entry in effect, was refused by the runtime's safety check, with self-modification as its reason; nothing was written, no other route is tried, and the owner is asked for his word in this session's window, as the brief's means has it.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -749,6 +750,13 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Tradeoffs considered: running the acceptance again to see how often the check refuses. Not done: repeating a refused act until it passes is getting past the check, and one refusal is enough to know the text cannot promise the outcome.
   - User approval: not applicable.
   - Record proposed: none.
+
+- 2026-11-13 18:14Z Decision: the hold on the handling of the owner's acceptance is lifted on his answer, and the text as built stands.
+  - Trigger: Counsel's relay, admitted by the standing approval, quoting him on the first relay (his calendar 2026-11-14): "One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play." Counsel wrote it into the brief under Directed during the run as a means: where a runtime's own check refuses a write on a relayed word he gives his word once in that session's own window; that visit is not the design, what the work gives stays that he never opens a second session, and nothing in the plugin's text or in a decision record states the visit as something the harness wants.
+  - Against the item held on 2026-11-13 (Task_6's rewording of the admitting entry; Task_7's record in place of ADR-D-0038): answered. The first relay stays as the way; the visit to the session's window is the means where a runtime refuses the write.
+  - Plan delta: none. The text corrected at 07dde0d already says this: the session sets out to put the entry in effect on a relayed acceptance, and where the runtime refuses, the owner's own acceptance in that window is what remains, written as a backup and a limit. The two sentences that state the intent that he opens no second session stay as they are. Task_7's last record is dispatched; Task_6's proposed rewording of the admitting entry is written beside the entry in effect.
+  - User approval: not applicable.
+  - Record proposed: one, in place of ADR-D-0038; Task_7.
 
 ## Notes
 - Risks: a runtime may offer no way to make a default role (A2), no way to start a session without a person on this machine (A3), or no way to bring a stopped session to Counsel's attention (A5); each is answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
