@@ -7,7 +7,7 @@ consulted: ["Claude Opus 5.5"]
 informed: []
 supersedes: ["superseded/ADR-D-0056-a-goal-mode-run-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor--superseded-by-ADR-D-0063.md"]
 superseded_by: null
-depends_on: ["ADR-D-0082-the-value-audit-grades-a-goal-run-that-has-a-brief-or-a-philosophy-over-the-whole-run.md", "ADR-D-0086-a-goal-loop-never-changes-its-own-authority-envelope.md"]
+depends_on: ["ADR-D-0082-the-value-audit-grades-a-goal-run-that-has-a-brief-or-a-philosophy-over-the-whole-run.md", "ADR-D-0083-nothing-of-a-value-audit-reaches-what-a-goal-loops-assessor-reads-but-a-stop-and-its-question.md", "ADR-D-0086-a-goal-loop-never-changes-its-own-authority-envelope.md"]
 ---
 
 # ADR-D-0067: Under a brief a goal run carries out an already determined remedy without stopping the loop
@@ -16,7 +16,7 @@ depends_on: ["ADR-D-0082-the-value-audit-grades-a-goal-run-that-has-a-brief-or-a
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. A brief is a ratified brief governing the run. The assessor is the independent judgement of whether a goal loop continues (ADR-D-0080, ADR-D-0050). The envelope is the boundary of a goal loop's autonomy, fixed before the loop starts (ADR-D-0084).
 
-The value audit grades a goal run under a brief against the brief over the whole run, apart from the assessor, and an item it holds stops the loop (ADR-D-0082). Under a brief, a stop of the loop waits on the person directing the work, even for an item whose remedy leaves nothing to decide. The fork is whether, under a brief, such an item stops the loop or is remediated by the run, and how a remediation is kept from changing what the assessor reads.
+The value audit grades a goal run under a brief against the brief over the whole run, apart from the assessor, and an item it holds stops the loop (ADR-D-0082, ADR-D-0083). Under a brief, a stop of the loop waits on the person directing the work, even for an item whose remedy leaves nothing to decide. The fork is whether, under a brief, such an item stops the loop or is remediated by the run, and how a remediation is kept from changing what the assessor reads.
 
 ## Decision
 
