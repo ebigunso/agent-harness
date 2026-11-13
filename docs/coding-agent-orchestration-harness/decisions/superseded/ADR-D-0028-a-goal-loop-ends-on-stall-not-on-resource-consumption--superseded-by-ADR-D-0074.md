@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0010-authority-envelope-and-progress-obligation--superseded-by-ADR-D-0027.md"]
-superseded_by: null
+supersedes: ["ADR-D-0010-authority-envelope-and-progress-obligation--superseded-by-ADR-D-0027.md"]
+superseded_by: ../ADR-D-0074-a-goal-loop-is-stopped-by-its-failure-to-progress-a-resource-ceiling-is-only-a-backstop.md
 ---
 
 # ADR-D-0028: A goal loop ends on stall, not on resource consumption
+
+Retired on 2026-11-11. Replaced by ADR-D-0074.
 
 ## Context and Problem Statement
 

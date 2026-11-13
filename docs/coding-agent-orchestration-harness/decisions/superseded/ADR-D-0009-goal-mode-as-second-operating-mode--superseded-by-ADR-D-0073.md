@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-07-16
 deciders:
@@ -8,10 +8,12 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: null
+superseded_by: ../ADR-D-0073-work-that-passes-a-test-of-its-shape-and-only-that-may-run-under-a-governed-goal-lifecycle.md
 ---
 
 # ADR-D-0009: Goal Mode As A Second Operating Mode
+
+Retired on 2026-11-11. Replaced by ADR-D-0073.
 
 ## Context and Problem Statement
 

@@ -29,6 +29,16 @@ One read, of the two proposed records; the Orchestrator's report of 2026-11-10 2
 - ADR-D-0072 says a loader-routed session holds the Orchestrator role and that the policy being in context confers nothing, leaving the other ways in to ADR-D-0037. One decision with its boundary. Nothing marked.
 - The checker now warns where it failed on the Reviewer's prompt snippet; ADR-I-0007 is unchanged.
 
+## Counsel's read of the goal-mode area's first unit, 2026-11-11
+
+One read, of the proposed ADR-D-0076; the Orchestrator's report of 2026-11-11 08:09Z arrived with the outcomes in it (plan review passed after eight findings; the wave's review, by a Claude reviewer after the two Codex seats left the roster, passed after seven; audits at plan draft and both closeouts held nothing). Pull request 97, nothing merged.
+
+- Three rewrites went in unread on the route he chose, the closeout audit confirming each keeps its decision: ADR-D-0073 for ADR-D-0009, ADR-D-0074 for ADR-D-0028, ADR-D-0075 for ADR-D-0031. Counsel did not read them; that is the route.
+- ADR-D-0076 (for ADR-D-0014) carries what he settled on its two rejected alternatives, in the new template's form. Its Why is two sentences and cites no brief.
+- Marked, mine: its Decision has three lines. The second (a failed examination stops the loop and goes to the goal's owner) is the first's own failing case and could not stand with the first retired. The third (the loop never changes its goal; a change of goal is the owner's) would still bind with the examination gone, and it sits beside ADR-D-0011's protection of the goal condition, which the next unit splits. By that test the record holds two decisions, and the third line belongs with the goal's protection. The run read one. His to judge; the test, if he takes it, is the line for the twenty records the census classed as holding more than one decision.
+- The Orchestrator's ruling that a clause of an old record's Decision which a rewrite does not carry must be held by a named accepted record: Counsel's view, its own, is that this is right; every constraint he once decided stays where he can point at it. Brought to him.
+- Found and not built: a repository that already has its own copy of the record template keeps the old prompts. Brought to him.
+
 ## Counsel's read after his widening and split of ADR-D-0071, 2026-11-11
 
 He said of the proposed ADR-D-0071: "71 should be widened, so that questions are raised only when any accessible information source does not settle the question, not at the moment it crosses repository boundaries." and, asked whether it stays one record: "Probably it should be split too." One read, of ADR-D-0073; the Orchestrator's report of 2026-11-11 05:57Z arrived with the outcomes in it (review approved after two findings in ADR-D-0073 were fixed; the closeout audit held nothing).
