@@ -51,11 +51,11 @@ Repository Reference Documents also holds exactly one line for each of the two p
 
 `<what it gives>` is `work here is held to the behaviour the product owner wants from the product` for the product philosophy and `work here is held to how the owner wants the project to look` for the engineering philosophy. Only the first form is a pointer line; an existing pointer line in other wording keeps it. Set these lines only through `references/bootstrap-lifecycle.md` (Philosophy Lines), which also says what is reported.
 
-Repository Reference Documents may additionally hold one Counsel line, present only once the standing approval admitting Counsel's relays is recorded under Standing Approvals:
+Repository Reference Documents may additionally hold one Counsel line, present only once the owner has accepted the standing approval admitting Counsel's relays and the entry under Standing Approvals records it:
 
-- `Counsel: <identity> on the peer channel; relays admitted (Standing Approvals).`
+- `Counsel: <identity>; relays admitted (Standing Approvals).`
 
-`<identity>` is the one the entry names, `<repository>-counsel` by convention or as the owner names it. Setup writes it with the entry (`references/bootstrap-lifecycle.md`, Counsel Relay Admission); the line records the admission, and the entry is what admits.
+`<identity>` is the one the entry names, `<repository>-counsel` by convention or as the owner names it. Setup writes it in the change that records the owner's acceptance in the entry (`references/bootstrap-lifecycle.md`, Counsel Relay Admission); the line records the admission, and the entry is what admits, however Counsel reaches the session.
 
 common.md also holds the Models And Peers In This Workspace section: the workspace's dated record of options (`subagent-strategy/references/model-routing.md`, The record of options), with its status, the options some role resolves to or falls back to, each with its model and the setting it runs at (its reasoning effort), the means the workspace has to start, watch and end a session, each family's tendencies, what the environment runs on (which subscription plan or how large a pay-as-you-go budget), the budget allowance the owner states, and the option each role's reason resolves to, its setting named, with the dated capability finding it rests on and the one option it names for the case its own is unavailable, with that option's setting and finding, or that none is named, in the form `references/rule-suite-templates.md` gives. Set it only through `references/bootstrap-lifecycle.md` (Models Record), which holds it for the owner's confirmation.
 
