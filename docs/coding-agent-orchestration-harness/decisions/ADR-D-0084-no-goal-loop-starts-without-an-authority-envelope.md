@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop-and-never-changed-by-it.md"]
+supersedes: ["superseded/ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop--superseded-by-ADR-D-0084.md"]
 superseded_by: null
 ---
 

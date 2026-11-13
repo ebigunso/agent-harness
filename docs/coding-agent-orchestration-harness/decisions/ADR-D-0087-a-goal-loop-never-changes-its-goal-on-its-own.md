@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0014-assessor-goal-validity-re-examination.md"]
+supersedes: ["superseded/ADR-D-0014-assessor-goal-validity-re-examination--superseded-by-ADR-D-0076.md"]
 superseded_by: null
 ---
 

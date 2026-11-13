@@ -8,7 +8,7 @@ consulted:
   - Claude Fable 5
 informed: []
 supersedes: []
-superseded_by: ../ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md
+superseded_by: ADR-D-0029-the-optimizer-never-judges-its-own-continuation--superseded-by-ADR-D-0080.md
 ---
 
 # ADR-D-0012: Independent In-Loop Assessor As A Reviewer Dispatch Profile

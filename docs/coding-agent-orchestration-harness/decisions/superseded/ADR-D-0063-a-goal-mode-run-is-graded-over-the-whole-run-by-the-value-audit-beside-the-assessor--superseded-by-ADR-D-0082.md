@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["superseded/ADR-D-0056-a-goal-mode-run-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor--superseded-by-ADR-D-0063.md"]
-superseded_by: null
-depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop-and-never-changed-by-it.md"]
+supersedes: ["ADR-D-0056-a-goal-mode-run-with-a-philosophy-is-graded-by-the-value-audit-beside-the-assessor--superseded-by-ADR-D-0063.md"]
+superseded_by: ../ADR-D-0082-the-value-audit-grades-a-goal-run-that-has-a-brief-or-a-philosophy-over-the-whole-run.md
+depends_on: ["../ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0029-the-optimizer-never-judges-its-own-continuation--superseded-by-ADR-D-0080.md", "../ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop--superseded-by-ADR-D-0084.md"]
 ---
 
 # ADR-D-0063: A goal-mode run under a brief or with a philosophy is graded over the whole run by the value audit beside the assessor
+
+Retired on 2026-11-14. Replaced by ADR-D-0082 and ADR-D-0083.
 
 ## Context and Problem Statement
 

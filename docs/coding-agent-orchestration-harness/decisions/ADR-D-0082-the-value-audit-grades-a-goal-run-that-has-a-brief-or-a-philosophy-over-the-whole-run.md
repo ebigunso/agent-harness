@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0063-a-goal-mode-run-under-a-brief-or-with-a-philosophy-is-graded-over-the-whole-run-by-the-value-audit-beside-the-assessor.md"]
+supersedes: ["superseded/ADR-D-0063-a-goal-mode-run-is-graded-over-the-whole-run-by-the-value-audit-beside-the-assessor--superseded-by-ADR-D-0082.md"]
 superseded_by: null
 depends_on: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-reading-is-compared-only-after-the-grades-are-fixed.md", "ADR-D-0050-independent-judgement-of-the-orchestrators-work-is-held-by-a-role-of-its-own-the-auditor.md", "ADR-D-0084-no-goal-loop-starts-without-an-authority-envelope.md"]
 ---

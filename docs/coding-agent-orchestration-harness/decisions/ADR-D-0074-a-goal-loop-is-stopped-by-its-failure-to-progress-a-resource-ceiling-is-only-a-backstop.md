@@ -32,7 +32,7 @@ Runaway spend, thrash and unattended divergence share one core, continuing witho
 
 ## Decision Boundary
 
-Not covered: how progress and stall are measured (ADR-D-0011), who judges them (ADR-D-0029), and the escalation levels, which goal mode's text states.
+Not covered: how progress and stall are measured (ADR-D-0077, ADR-D-0078), who judges them (ADR-D-0080), and the escalation levels, which goal mode's text states.
 
 ## Validation
 
@@ -46,7 +46,7 @@ The decision is broken where:
 ## Revisit When
 
 - The premise that the rate at which a loop consumes resources differs from one model and platform to another, so that no budget number tracks the failure, no longer holds. The record of 2026-09-08 names no models checked.
-- Stall detection firing systematically too early or too late for a category of goals does not reopen this record; it reopens the measurement (ADR-D-0011).
+- Stall detection firing systematically too early or too late for a category of goals does not reopen this record; it reopens the measurement (ADR-D-0078).
 
 ## More Information
 

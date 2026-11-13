@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-08
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0012-independent-in-loop-assessor--superseded-by-ADR-D-0029.md"]
-superseded_by: null
+supersedes: ["ADR-D-0012-independent-in-loop-assessor--superseded-by-ADR-D-0029.md"]
+superseded_by: ../ADR-D-0080-whether-a-goal-loop-continues-is-judged-by-a-party-other-than-the-optimizer.md
 ---
 
 # ADR-D-0029: The optimizer never judges its own continuation
+
+Retired on 2026-11-14. Replaced by ADR-D-0080 and ADR-D-0081.
 
 ## Context and Problem Statement
 

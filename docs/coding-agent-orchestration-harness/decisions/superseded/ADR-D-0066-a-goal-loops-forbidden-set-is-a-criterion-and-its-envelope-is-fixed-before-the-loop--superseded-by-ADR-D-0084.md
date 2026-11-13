@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-11-07
 deciders: ["ebigunso"]
 consulted: ["Claude Opus 5.5"]
 informed: []
-supersedes: ["superseded/ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md"]
-superseded_by: null
+supersedes: ["ADR-D-0027-the-forbidden-set-is-a-criterion-ratified-before-the-loop--superseded-by-ADR-D-0066.md"]
+superseded_by: ../ADR-D-0084-no-goal-loop-starts-without-an-authority-envelope.md
 ---
 
 # ADR-D-0066: A goal loop's forbidden set is a criterion and its envelope is fixed before the loop and never changed by it
+
+Retired on 2026-11-14. Replaced by ADR-D-0084, ADR-D-0085 and ADR-D-0086.
 
 ## Context and Problem Statement
 

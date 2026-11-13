@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0029-the-optimizer-never-judges-its-own-continuation.md"]
+supersedes: ["superseded/ADR-D-0029-the-optimizer-never-judges-its-own-continuation--superseded-by-ADR-D-0080.md"]
 superseded_by: null
 ---
 

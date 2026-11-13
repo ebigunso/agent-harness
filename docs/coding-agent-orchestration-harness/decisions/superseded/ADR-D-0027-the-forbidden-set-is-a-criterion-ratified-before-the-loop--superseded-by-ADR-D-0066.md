@@ -6,7 +6,7 @@ deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["ADR-D-0010-authority-envelope-and-progress-obligation--superseded-by-ADR-D-0027.md"]
-superseded_by: ../ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop-and-never-changed-by-it.md
+superseded_by: ADR-D-0066-a-goal-loops-forbidden-set-is-a-criterion-and-its-envelope-is-fixed-before-the-loop--superseded-by-ADR-D-0084.md
 ---
 
 # ADR-D-0027: A goal loop's forbidden set is a criterion, ratified before the loop and immutable during it

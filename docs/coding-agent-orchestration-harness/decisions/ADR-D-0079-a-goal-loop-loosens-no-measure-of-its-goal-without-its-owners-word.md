@@ -1,11 +1,11 @@
 ---
-status: proposed
+status: accepted
 adr_type: design
 date: 2026-11-11
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5", "Claude Fable 5.2"]
 informed: []
-supersedes: ["ADR-D-0011-single-object-progress-definition.md"]
+supersedes: ["superseded/ADR-D-0011-single-object-progress-definition--superseded-by-ADR-D-0077.md"]
 superseded_by: null
 ---
 

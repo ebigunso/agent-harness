@@ -35,7 +35,7 @@ A structure that cannot be known in advance cannot be approved in advance, so ho
 
 ## Decision Boundary
 
-Not covered: the mechanisms that carry the rest of the oversight, each left to a record of its own: what bounds the loop (ADR-D-0066), who assesses it (ADR-D-0029, ADR-D-0050), and what stands between its completion and a merge (ADR-D-0075); that the loop's work stays recorded and cheap to undo is carried here, and the form of the record and the means of undoing are goal mode's text; the wording of the test and the point in a session at which it is applied; who authorizes a goal run; which goal engine runs the loop.
+Not covered: the mechanisms that carry the rest of the oversight, each left to a record of its own: what bounds the loop (ADR-D-0084), who assesses it (ADR-D-0080, ADR-D-0050), and what stands between its completion and a merge (ADR-D-0075); that the loop's work stays recorded and cheap to undo is carried here, and the form of the record and the means of undoing are goal mode's text; the wording of the test and the point in a session at which it is applied; who authorizes a goal run; which goal engine runs the loop.
 
 ## Validation
 
@@ -55,4 +55,4 @@ The decision is broken where:
 
 ## More Information
 
-Replaces ADR-D-0009 in full. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`. Related: ADR-D-0066 (the loop's envelope), ADR-D-0029 and ADR-D-0050 (its assessment), ADR-D-0075 (what stands before a merge).
+Replaces ADR-D-0009 in full. Design: `docs/coding-agent-orchestration-harness/design/goal-mode-design.md`. Related: ADR-D-0084 (the loop's envelope), ADR-D-0080 and ADR-D-0050 (its assessment), ADR-D-0075 (what stands before a merge).
