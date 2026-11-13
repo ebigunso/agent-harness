@@ -65,7 +65,7 @@ This brief is the grounds for the work. It is passed verbatim; do not paraphrase
 ## Limits
 
 - What waits for him today still waits for him: ratifying a brief, accepting a decision record by name, a merge, a change to a philosophy, a standing approval, and anything that cannot be undone or that reaches outside. **constraint** *(his standing rules; the product philosophy's line)*
-- This changes two decision records, which are replaced by records he accepts by name: that a session's role is entered only by an explicit act of the person opening it (ADR-D-0037), and that a session routed by the loader assumes the Orchestrator role (ADR-D-0020). **constraint** *(inferred from the above)*
+- This changes three decision records, which are replaced by records he accepts by name: that a session's role is entered only by an explicit act of the person opening it (ADR-D-0037), that a session routed by the loader assumes the Orchestrator role (ADR-D-0020), and how his word reaches an Orchestrator session (ADR-D-0038). **constraint** *(inferred from the above; ADR-D-0038 added 2026-11-13 on his answer under Directed during the run)*
 - It changes two standing rules of his, and only as far as this brief says: that Counsel starts and prompts no peer, and that no new seat is started for a dispatch. **constraint** *(inferred from his words on seats and on Counsel starting the Orchestrator)*
 - When the machine's limit for a period is reached, everything stops until it resets, his conversation with Counsel included. That is accepted. **constraint** *(inferred from "barring machine capability limits" and his words on the five-hour limit, 2026-11-12)*
 
