@@ -679,6 +679,13 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Outside its owns and routed: this repository's rule file (the Counsel line and the entry in effect, which name only the peer channel) is Task_6's; ADR-D-0038's sentences the first relay departs from are for Task_7's replacing record.
   - Cases where the owner still acts in a second window, as the Worker lists them for the closeout: a folder's trust in Claude Code where opening the Counsel conversation there did not already give it; a workspace with no means to start or reach a session; a permission prompt in a started session's own window under a mode that asks; the runtime's own permission for the merge tool.
 - 2026-11-13 05:58Z Task_9, third part, dispatched to one Worker (Claude subagent, Fable 5.2, low reasoning effort): the first time in a repository, with the plugin's text as built.
+- 2026-11-13 06:08Z Task_9, third part, integrated: status done. The text as built was tried in three background sessions against the plugin in place, and two results go against it.
+  - The acceptance was not put in effect. The session prepared the two edits the text describes (the entry's record in place of its mark, and the Counsel line) and the runtime's own check in the automatic permission mode refused both, giving instruction poisoning as its reason. The session stopped, tried no other route and committed nothing. Across the candidate's trial and this one the same act went through once and was refused once. The Worker did not run it again, since repeating a refused act until it passes would be getting past a safety check; that stands.
+  - A quoted decline did not remove the proposed entry: the session read the first relay as admitting an acceptance only, recorded the decline as not acted on, and kept waiting.
+  - As the text says, in three of three runs: setup wrote the entry as proposed and marked without being asked; its report said what it waits for and from whom; its own commit met the pre-commit gate by a branch it made and named. A relay not acted on was recorded beside the entry in two of two. Continuing a stopped session woke the original at the first try in three of three, once the session had left the listing.
+  - Not in the text: all three sessions committed the whole new rule suite in their first turn, the unconfirmed models record and the proposed entry included.
+  - What this means for the run: the way the owner accepted for the first time in a repository cannot be written as something that works. A runtime's safety check refused it once in two tries, and the brief has no safety check defeated. That is what his constraint asked the trial to find. It goes to him through Counsel as a question, and until he answers Task_6's rewording of the admitting entry and Task_7's record in place of ADR-D-0038 are held. The text is corrected now so that it states no outcome the trial did not produce: what a session does when the runtime refuses the write, that a decline may be carried as the acceptance is, and what setup's own first commit holds.
+  - Validation evidence: only the findings file changed; whitespace clean; no path or member name; no trial session left running; throwaway directories removed. Orchestrator's privacy sweep clean.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -720,6 +727,13 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - 2026-11-13 05:08Z Decision: the extension is corrected on the plan review's findings OC-X1 to OC-X3, before any audit.
   - Trigger: review CHANGES REQUESTED at b806d38.
   - Plan delta: Task_2 is done as built and reviewed, and the two parts of its acceptance that waited for the owner are transferred to Task_10, which no longer depends on it (X1); Task_11 is checked against the brief's answer and Task_9's findings, and Task_7 checks its record against the text Task_11 built (X2); Task_6 writes only a way of carrying his acceptance that Task_9 showed, and its review reads the constraint and the findings (X3); Task_9's stand-in acceptance is marked as a trial and is nobody's authorization.
+  - User approval: not applicable.
+  - Record proposed: none.
+
+- 2026-11-13 06:08Z Decision: on the third part of Task_9 the handling of the owner's acceptance is held and taken to him through Counsel; the text is corrected to the trial meanwhile.
+  - Trigger: the runtime's own safety check refused, once in two tries, the write by which a session Counsel started puts the admitting entry in effect on a relayed acceptance.
+  - Plan delta: none to the tasks. Task_6's rewording of the admitting entry and Task_7's record in place of ADR-D-0038 wait for his answer, as the plan's constraint row already has them write only what the trial showed. A follow-up to Task_11, handed where the unit stands, corrects three passages to the trial. The rest of Tasks 6 and 7 and Task_8 go ahead after the review of Waves 4 and 5.
+  - Tradeoffs considered: running the acceptance again to see how often the check refuses. Not done: repeating a refused act until it passes is getting past the check, and one refusal is enough to know the text cannot promise the outcome.
   - User approval: not applicable.
   - Record proposed: none.
 
