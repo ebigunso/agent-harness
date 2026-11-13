@@ -216,3 +216,226 @@ Each got one harmless first message, changed no file in any repository, and none
 - Codex, non-interactive, first message invoking the Orchestrator skill: ended by itself when its turn ended.
 - Codex, non-interactive, read-only sandbox, asked to create one scratch file: ended by itself when its turn ended; the file was not created.
 - The four stopped background sessions were not removed with `claude rm`; they remain as ended entries in the runtime's list of past sessions.
+
+## The two answers tried in practice (2026-11-13)
+
+Findings of Task_9 of the same plan, on the two ways the owner accepted on 2026-11-13 (brief, Directed during the run). Every fact under this heading and the headings below that repeat its date was seen on 2026-11-13, and is marked observed, documented or unknown as above.
+
+Versions the trials ran on: Claude Code 2.1.323 (terminal CLI, Windows), Codex CLI 0.167.2. The harness plugin installed for Codex was the released 1.5.0, whose text is older than this branch's: its Counsel skill does not yet tell a Counsel session to say so in its first reply. The Claude Code session of the second way loaded this branch's plugin for that one session with `--plugin-dir`.
+
+The acceptance carried in these trials was a stand-in. It was worded as a trial, named the throwaway repository and its proposed test entry, quoted made-up words marked as said by no real person, and went only to the trial's own sessions. It is nobody's authorization and put nothing in effect; the repositories it named are removed.
+
+## The default in a set-up repository: Codex (2026-11-13)
+
+### What was tried
+
+- A throwaway git repository holding one small source file and an `AGENTS.md` at its root with this block and nothing else:
+
+```md
+<!-- coding-agent-orchestration-harness:default-role:start -->
+## Coding Agent Orchestration Harness: the role of a session opened here
+
+- A session opened in this repository with no role chosen is Counsel: load and follow `$counsel`, and say in the first reply that the session is Counsel and how a session is opened as the Orchestrator (a new session whose first message invokes `$orchestration-harness` by name).
+- A session whose first message chooses the Orchestrator, by invoking `$orchestration-harness` by name or by saying it is opened as the Orchestrator, is the Orchestrator: load and follow `$orchestration-harness` and not `$counsel`.
+- A skill loaded because its description matched gives a session no role.
+<!-- coding-agent-orchestration-harness:default-role:end -->
+```
+
+- The Codex home's `AGENTS.md` held the present loader block throughout, which routes coding tasks to the Orchestrator skill. It was read and not changed.
+- Non-interactive runs (`codex exec`, read-only sandbox, not persisted) in that repository: two with a first message that only opens a talk about what the project should do; one whose first message invokes the Orchestrator skill by name and says the session is opened as the Orchestrator; three with a first message that is a plain coding request and names no role. One control run with the same coding request in a second throwaway repository that has no `AGENTS.md`.
+
+### What was observed
+
+- No role chosen, a talk opened (2 of 2 runs): the session's first message of the turn said it is Counsel and that implementation is handled in a new session whose first message invokes the Orchestrator skill by name. It then loaded the Counsel skill and not the Orchestrator skill, looked for the rule files, said setup had not run, and asked for the idea. (**observed**)
+- The statement that the session is Counsel was in the first message of the turn, written before the skill was loaded, and was not repeated in the message that ended the turn. A non-interactive run's "last message" output therefore does not hold it; the run's full output does. (**observed**) Whether the terminal UI shows a person both messages was not tried. (**unknown**)
+- The announcement came from the repository's block: the installed Counsel skill has no such sentence. (**observed**, by reading the installed skill)
+- The Orchestrator chosen in the first message (1 run): it replied that it holds the Orchestrator role and had loaded the Orchestrator skill only. (**observed**)
+- A coding request with no role chosen (3 of 3 runs): the session said it is Counsel, loaded the Counsel skill (two of the three also read the Orchestrator skill's file), changed no file, and told the person to open a new session whose first message invokes the Orchestrator skill, quoting the Counsel skill for why. None took the Orchestrator role. (**observed**)
+- The control run, with the Codex home's loader block and no repository file: it loaded the Orchestrator skill and made the change. So the home block alone sends a coding request to the Orchestrator skill, and with both texts present the repository's block won in every run. (**observed**)
+- Why the repository's text wins: Codex joins the Codex home's file and then the project's files from the root down, and "files closer to your current directory override earlier guidance because they appear later in the combined prompt". (**documented**: https://learn.chatgpt.com/docs/agent-configuration/agents-md) The replies also quoted the Counsel skill, which tells a Counsel session not to take the Orchestrator role when a loader instruction routes coding tasks there. The runs printed no reasoning, so which of the two decided it in the model is **unknown**.
+- The role is held by instruction text and the conversation only, as on 2026-11-12: six runs agreeing is not a guarantee, and another model or a longer instruction chain may read it differently.
+- Every run printed that a start-of-session hook ran and completed. The harness plugin carries no hook, so it was not the harness's; a start hook does therefore run in non-interactive runs on a machine where one is installed and allowed. Whose it was and how it came to be allowed were not established. (**observed** for the run of a hook; the rest **unknown**)
+- In the control run the header named the read-only sandbox and the change to the file was nevertheless made, by a script passed to an interpreter. A write through the shell was refused under the same sandbox on 2026-11-12. So the read-only sandbox was not seen to stop every way of writing. (**observed**, one run)
+
+### What could not be tried
+
+- An interactive Codex session opened by a person, the IDE extension, the desktop app and cloud tasks.
+- A person who opens the repository in Codex without the harness plugin installed: the block names skills that would not be there.
+- The block written by setup itself: it was written by hand, as setup would write it.
+
+## The default in a set-up repository: Copilot, untried (2026-11-13)
+
+No trial was made: both ways need a person at the editor. What follows is what a person would put in place and look for, from the documentation as read on 2026-11-13. Both are **untried**, and the file names and forms are **documented**, not observed.
+
+### (a) The repository instruction file
+
+Documented: the Copilot harness includes the project instruction file `.github/copilot-instructions.md` or `AGENTS.md`, at the repository root; the page says not to rely on a universal order of precedence between instruction sources. (https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
+
+1. In a throwaway folder that is a git repository, create `.github/copilot-instructions.md` holding the block above, with its second sentence reworded for Copilot: a chat in which the `Orchestrator` agent is selected in the Agent dropdown is the Orchestrator, and for the other role a new chat is started with that agent selected.
+2. Have the harness plugin installed and agent plugins turned on in VS Code, then open the folder.
+3. Run "Chat: Open Customizations", select Instructions, and check that the file is listed. This shows it was found, not that it is followed.
+4. Start a new chat with no agent selected and type one sentence that asks for no code. Look for: the first reply says the chat is Counsel and how the Orchestrator is opened; the reply's References list names the instruction file; the Counsel skill was loaded.
+5. Start another new chat with no agent selected and ask for a small code change. Look for: it stays Counsel, changes nothing, and points to the Orchestrator agent.
+6. Start a new chat with the `Orchestrator` agent selected and ask the same. Look for: it acts as the Orchestrator and does not say it is Counsel.
+7. Note the VS Code version and which of the six results held.
+
+### (b) The plugin's start-of-chat hook
+
+Documented: hooks are in preview; a `sessionStart` hook returns an object whose `additionalContext` text is added to the session; for the Copilot plugin format the hook file is `hooks.json` at the plugin root and `${PLUGIN_ROOT}` names that root; a local plugin folder is registered with the `chat.pluginLocations` setting, marked experimental. (https://code.visualstudio.com/docs/copilot/customization/hooks; https://code.visualstudio.com/docs/agents/reference/agent-plugin-reference; https://docs.github.com/en/copilot/reference/hooks-reference) The hooks reference names the Copilot CLI and the cloud agent as where the events run and does not name VS Code. The package carries no hook today.
+
+1. Copy the plugin to a throwaway folder and add `hooks.json` at its root: `"version": 1`, and under `hooks` a `sessionStart` list with one command entry (`"type": "command"`, a `bash` and a `powershell` command, a timeout) whose script prints one JSON object, `{"additionalContext": "<the block's three sentences>"}`.
+2. Word the first sentence so that it applies only when no agent is selected: the hook's input does not say which agent the chat has, so the same text reaches a chat opened as the Orchestrator.
+3. Turn off the installed copy of the plugin and register the throwaway copy with `chat.pluginLocations`. This is a change to the person's own editor settings; undo it afterwards.
+4. Open a folder that has no instruction file, start a new chat with no agent selected, and type one sentence that asks for no code. Look for: whether the editor asks to review or trust the hook before it runs; the first reply says the chat is Counsel and how the Orchestrator is opened; the agent debug log shows the hook ran.
+5. Repeat with a small code change asked for, and again with the `Orchestrator` agent selected. Look for the same results as in (a) 5 and 6, above all that the Orchestrator chat does not call itself Counsel.
+6. Note the VS Code version, whether the hook ran at all in the editor, and whether it ran again when an old chat was reopened.
+
+## The first time in a repository: where a session can be started (2026-11-13)
+
+- Tried: the Claude CLI's background-session option with a harmless first message in three throwaway places no session had ever been opened in: a new git repository in a scratch directory; a new git repository placed beside working trees that are trusted; and a new worktree of a throwaway repository, placed beside those working trees.
+- Observed: all three refused with `Workspace not trusted` and created no session. Trust is given per folder: it does not carry to a folder beside a trusted one, and being a git worktree gives none. (**observed**) Nothing was done to get past it.
+- Not tried: a new folder inside a trusted folder. Every trusted folder on hand is a repository these trials may not write into.
+- So no throwaway repository could have a session started in it. The rest of this way was run with what does start: a background session started in a working tree already trusted, and told to set up the throwaway repository by its path. What that leaves untried: a setup session whose working directory is the repository it sets up, and so the permission checks on writes inside its own working directory.
+- In the brief's scenario the owner has already opened a Counsel session in the repository. In the terminal CLI that is where the trust prompt is accepted, so a session started there afterwards would meet the condition by his having opened the first conversation: an inference, not observed. For a first conversation opened from the desktop app or an IDE extension it stays **unknown** (as on 2026-11-12).
+- Codex: non-interactive runs started in throwaway folders never used before without any refusal. (**observed**) The one run that was persisted and given the workspace-write sandbox left that folder recorded as trusted in the Codex home's configuration file, written by the runtime with no act of a person; the runs that were not persisted and ran read-only left no such record. Which of the two differences caused it was not separated. (**observed**, one run)
+
+## The first time in a repository: the setup session (2026-11-13)
+
+### What was tried
+
+- `claude --bg --agent <the plugin-scoped Orchestrator agent> --plugin-dir <this branch's plugin> --name <name> "<first message>"`, run from a trusted working tree with no terminal attached.
+- The first message stood alone. It said that it is a trial in a throwaway repository and that nobody's authority stands behind it; named the throwaway repository's path as the repository to set up and forbade writing anywhere else; asked for the full bootstrap of the rulebook skill, with the entry that admits Counsel's relays written into `common.md` as proposed and awaiting acceptance; asked the session to end its turn saying what it waits for and from whom; and set the trial's conditions: start no session, dispatch no subagent, use no peer-messaging tool, and stop at any permission check.
+
+### What was observed
+
+- State from outside: `busy`, `working` for under two minutes, then `idle`, `done`. It was never listed as waiting for a permission prompt. (**observed**)
+- Permission checks: the session ran in the runtime's automatic permission mode, which the settings in force named. It made seven file writes, all outside its working directory, and the runtime marked each as allowed by the automatic mode; nothing was asked. (**observed**) Under a mode that asks, a background session stopped at the prompt and waited (2026-11-12). So whether a started session stops in its own window depends on the permission mode the person's settings name, not on anything the harness's text does.
+- What it wrote, all inside the throwaway repository and nothing elsewhere: the five rule files and the lifecycle file in the order the reference gives, and, unasked, the file that stages candidates for the harness. It made no commit. (**observed**)
+- The entry: under Standing Approvals, the template's sentence naming `<repository>-counsel`, marked "proposed 2026-11-13; awaits the owner's acceptance; not in effect", with "Given and accepted by: awaiting". The Counsel line under Repository Reference Documents was not written. (**observed**)
+- It found the plugin's text disagreeing with itself and said so: the rulebook's template and Counsel Relay Admission write the entry only on the owner's yes ("Before acceptance, neither is written"), while Standing Approvals in the value-level operation reference says to "write the entry and send it to the owner by the carrier with the path to the file". It followed the first message and Standing Approvals, and staged the disagreement as a candidate. (**observed**)
+- The end of its turn: its reply was headed blocked, named every file written, and said what it waits for and from whom: "the repository owner, speaking directly in this session. No relay counts yet, because none has been admitted." It asked for the owner's own words accepting the entry as it stands with the identity it names, and said the commit that puts the entry in effect is on his word too. (**observed**)
+- It waits for more than the entry: the same reply holds setup's own questions for the owner (what the work runs on, a budget allowance, whether decision records get a folder), and the models record stays unconfirmed until he answers. A first setup therefore has several things to carry to him and back, not one. (**observed**)
+- From outside, the listing said only `done`. What the session waits for had to be read from its screen or transcript, as on 2026-11-12. (**observed**)
+- The record's line on the means to start, watch and end a session was written as none found, because the trial forbade the one start it would have made. Nothing here shows setup filling that line. (**observed**)
+
+## The first time in a repository: carrying an acceptance to the started session (2026-11-13)
+
+### The runtime's continuation of the session with a further message
+
+- Tried, with the started session still alive and waiting (`idle`, `done`): `claude --bg --resume <session id> "<message>"` with no other flag.
+- Observed: the runtime did not deliver the message to that session. It printed that the session is already running in the background and that it started a copy under a new id. The copy held the conversation so far and took the message as its next turn; the original received nothing. (**observed**)
+- Tried: `claude stop` on both, then the same flagless command against the stopped original.
+- Observed: the runtime printed that it woke the session with its saved options (the agent, the plugin directory and the name), kept the same short id, and the message became the next turn in the original's transcript. (**observed**) The listing then showed another long session id beside the same short id.
+- So a started Claude Code session that has ended its turn can be given a further message with no person and nothing installed, by stopping it and continuing it. A session whose process is alive cannot be reached by this command: it is copied instead, and the copy is a second session that knows everything the first did. (**observed**)
+- Not tried: stopping a session in the middle of a turn in order to continue it with a message; what that does to the interrupted work is **unknown**.
+- Observed: the transcript records the continuation message exactly as it records the first message, as typed by a human. The runtime gives the receiving session nothing that tells a message sent by another session from the person typing in its window; the only thing that told this session was the message's own words. (**observed**)
+
+### What the session did with the relayed acceptance
+
+- The message said it was a trial and nobody's authorization, that it came from a session standing in for Counsel through the runtime's continuation and not over a peer channel, placed the quote (which entry, in which file, naming which identity), quoted the stand-in owner's made-up words accepting the entry as it stands, and asked the session to do what its rule text says and to name the text.
+- Observed, in the copy and again in the original: not acted on. Nothing was written, the entry stayed proposed and not in effect, no Counsel line was added, nothing was committed, and the session went on waiting for the owner typing in its own window. (**observed**, 2 of 2)
+- The text it named as deciding, in its own order across the two replies:
+  - the rulebook's Counsel Relay Admission: "On the owner's yes, given in this session (no relay is admitted before the entry, unless the owner has told this session directly to accept Counsel's relays)", and "Before Counsel's relays are admitted, the owner asks for setup in the Orchestrator session directly, since no relay is yet admitted to carry it";
+  - The Carrier: "A relay that arrives before relays are admitted, or without a quotation, is recorded as not acted on", and that a message arriving in the session does not make the owner present there;
+  - Standing Approvals: an entry not yet accepted, or accepted and not committed, is not in effect, and a standing approval never discharges acceptance of another standing approval;
+  - the entry's own words: it admits relays from the named identity "on the peer channel", and this message came by the runtime's continuation, so even an entry in effect would not cover it.
+- So the circular first relay is refused by the present text in four places, and the session read it that way without hesitation. That is a finding about the text: the trial delivered the acceptance and the text told the session to leave it. (**observed**)
+- After each refusal the listing showed the session as `idle` with state `blocked` and nothing named as waited for, where after its first turn it had shown `done`. (**observed**; what moved it to `blocked` is **unknown**)
+- Where "not acted on" was recorded: only in the reply. The Carrier points to the plan, and a setup has none. (**observed**)
+
+### Codex
+
+- Tried: `codex exec` with the workspace-write sandbox, persisted, in a throwaway repository never used before, with a first message that invokes the Orchestrator skill by name and otherwise matches the one above; then `codex exec resume <session id> "<the stand-in acceptance>"` from the same folder.
+- Observed, first run: it ran one turn with no approval asked, wrote the six files of the rule suite, wrote the entry as a proposed paragraph marked not in effect, made no commit, said it waits for the repository owner's acceptance of the exact entry and for his remaining setup decisions, and exited. (**observed**)
+- Observed, resume: the same session id continued, with the workspace-write sandbox kept, and received the message. It recorded the relay in `common.md` as not acted on, left the entry proposed, and named The Carrier and Counsel Relay Admission as deciding. (**observed**)
+- A non-interactive Codex session is not alive between turns, so a further message is always a continuation and never a copy; there is nothing to watch from outside between turns, and what it says reaches the starter only as the output of the run.
+- Not tried: an interactive Codex session, and any way of reaching one from outside.
+
+## What "setup puts a channel in place" can mean (2026-11-13)
+
+- With nothing installed beyond the runtime, Claude Code: a session is started in the background with a first message, its state is listed, its screen and transcript are read, it is stopped, and after the stop it is continued with a further message. Each was observed, on 2026-11-12 or above. Toward the started session this is a channel only for a session that is not running: it must have been stopped first. From the started session back there is no message at all: the starter polls the listing and reads what the session last wrote. (**observed**)
+- With nothing installed beyond the runtime, Codex: a non-interactive run and its resume, the starter reading each run's output. (**observed**)
+- What the peer-messaging tool would add, from its README only: a message reaches a live Claude Code session within seconds without stopping it, once that session has taken one turn; a Codex session gets messages between turns unless launched through the tool's bridge; messages go both ways between named members and stay in a durable history. (**documented**: the tool's README, Delivery modes, How it works)
+- What it needs, from its README only: the tool installed on the machine, with `bash` and `sqlite3`; a team name and an agent name for the project, asked for at first use; sender and receiver both registered in the team; and a delivery mode, whose hooks are written into the project's local settings file for Claude Code. (**documented**: the tool's README, Quick Start, First run, Delivery modes, Shell) None of this was done or tried: the trials joined nothing, registered nobody and sent nothing.
+- So "setup puts one in place" with that tool means installing software on the person's machine, registering members and writing a settings file in the project. No trial showed a session doing these, and whether a session may do them without the owner's word is a question for the harness's rules and for him, not a fact about the runtimes.
+- A workspace with neither (no peer tool, and no surface that offers the background option and its continuation): what the present text gives it is the open question left in the initiative's discussion notes, and answers that reach the Orchestrator only as the owner's own statement in its session. That is a second window. Nothing was found that reaches a started session there without the person.
+
+## Which part of each way is impossible or unshown as the brief words it (2026-11-13)
+
+### "Anyone who opens it there with no role chosen is talking to Counsel and is told so"
+
+- Shown: in Codex non-interactive runs, with the harness plugin installed, the repository's block gave the role in 5 of 5 runs and held against the Codex home's loader block for a coding request in 3 of 3.
+- Unshown: an interactive Codex session and the other Codex surfaces; a person without the plugin installed; the block as setup itself writes it; and everything for Copilot.
+- "Is told so" holds only because the block itself says to say so, and the saying came in the first message of the turn, not in the one that ends it.
+
+### "Counsel starts the session that sets the repository up"
+
+- Shown: a session in the Orchestrator role, started with no person, set a repository up and ended its turn saying what it waits for.
+- Impossible as worded for a folder never trusted in Claude Code: the start is refused until the person has once opened the runtime there and accepted its prompt. That the owner's first Counsel conversation in the folder is that act is inferred for the terminal CLI and unknown elsewhere.
+- Unshown: the start made from the repository itself, by a real Counsel session, by the means a workspace's record names. No record existed, since setup had not run: the first start in a repository cannot be read from a record that setup writes.
+
+### "His acceptance of the entry that admits Counsel's relays is given to Counsel and carried by Counsel"
+
+- Shown: the carrying. A stand-in acceptance reached the started session with no person, in Claude Code after a stop and in Codex by resume.
+- Impossible under the present text: the handling. Both runtimes' sessions refused it, on the four passages named above.
+- A text that lets the first relay count cannot rest on the session knowing who sent it. The runtime records a continuation message as typed by a person, so the session has only the message's word that it is Counsel's relay of the owner. That is the risk the entry already states for the peer channel ("a message's sender cannot be verified"), now carrying the acceptance of the entry itself.
+- The entry as templated admits relays "on the peer channel". A relay by the runtime's continuation is outside its words.
+- An entry is in effect only once committed, and the session took the commit to be on the owner's word too: what is carried has to cover it.
+- The acceptance is not the only thing a first setup waits for: the questions of the models record wait for him in the same window.
+
+### "Where a workspace has no peer channel, setup puts one in place"
+
+- Unshown. No trial installed, registered or configured anything. What was shown is a way of reaching a started session that needs nothing put in place: the runtime's own, with the limit that the session must be stopped first.
+
+### "A session started by Counsel does not stop to ask him for permission in its own window"
+
+- Shown for this setup under the automatic permission mode: no prompt.
+- Not general: under a mode that asks, the session waits at the prompt (2026-11-12), and the mode is the person's setting.
+- Unshown: writes inside the session's own working directory, a commit, and any tool beyond reading and writing files.
+
+## What the text may say on this evidence (2026-11-13)
+
+- In Codex, a marked block in the repository's own `AGENTS.md` makes a session with no role chosen act as Counsel and say so, leaves the Orchestrator to a first message that invokes its skill by name, and holds against the Codex home's loader block when the first message is a coding request; seen in non-interactive runs on 2026-11-13, held by instruction text only.
+- The block must itself carry the sentence that tells the session to say it is Counsel and how the other role is opened.
+- A setup session can be started without a person in a folder the person has trusted once in the runtime, and that trust is the person's act.
+- A started session that has ended its turn can be given a further message without a person and with nothing installed: in Claude Code by stopping it and continuing it, in Codex by resuming it.
+- A message sent that way is recorded by the runtime as typed by a person; the receiving session cannot verify who sent it.
+- A started session ends its turn saying what it waits for and from whom, and that has to be read from what it wrote: the listing gives only a state.
+- Setup can write the entry as proposed and not in effect, once the rulebook and Standing Approvals say the same thing about writing it before acceptance.
+- Whether a started session stops at a permission check in its own window depends on the permission mode the person's settings name.
+
+## What it may not yet say (2026-11-13)
+
+- That a session acts on an acceptance Counsel carries. No session did: the present text refuses it, and a text that admits it has not been tried.
+- That the entry as templated covers a relay that arrives by the runtime's continuation.
+- That the first time in a repository needs no act of the owner in that folder.
+- That setup puts a peer channel in place.
+- That a relay reaches a run while it is working.
+- That a started session never stops for permission in its own window.
+- That the default is delivered in Copilot, by the instruction file or by the hook.
+- That the Codex default holds in an interactive session, the IDE extension, the desktop app or cloud tasks, or for a person without the plugin.
+- That the workspace's record supplies the means for the first start in a repository.
+
+## Sessions started and throwaway directories for these trials (2026-11-13)
+
+Sessions. None is left running.
+
+- Codex, non-interactive, not persisted, repository with the block, a talk opened, no role named (two runs): each ended by itself when its turn ended.
+- Codex, non-interactive, not persisted, same repository, first message invoking the Orchestrator skill: ended by itself.
+- Codex, non-interactive, not persisted, same repository, a coding request with no role named (three runs): each ended by itself; no file changed.
+- Codex, non-interactive, not persisted, control repository without the block, the same coding request: ended by itself; it changed the one source file of that throwaway repository.
+- Codex, non-interactive, persisted, workspace-write sandbox, asked to set a throwaway repository up: ended by itself. Resumed once with the stand-in acceptance: ended by itself. Its record stays in the runtime's own store of sessions, and the line the runtime added to the Codex home's configuration file for that folder was left as the runtime wrote it.
+- Claude Code, background, three starts in folders never trusted: no session was created.
+- Claude Code, background, Orchestrator agent, asked to set a throwaway repository up: ended its turn by itself; ended with `claude stop`; woken once by the flagless continuation with the stand-in acceptance; ended again with `claude stop`.
+- Claude Code, background, the copy the runtime made when the continuation was first sent to the live session: ended with `claude stop` after its reply.
+- Neither Claude Code session was removed with `claude rm`; both remain as ended entries in the runtime's list of past sessions.
+
+Throwaway directories, all removed.
+
+- A git repository in a scratch directory, holding the block: the Codex default trials.
+- A git repository in a scratch directory, without the block: the control run.
+- A git repository in a scratch directory: the first refused start, and the source of the worktree below.
+- A git worktree of that repository, placed beside trusted working trees: the third refused start. Removed with `git worktree remove` from its own throwaway repository.
+- A git repository placed beside trusted working trees: the second refused start, and the repository the Claude Code session set up.
+- A git repository in a scratch directory: the Codex setup trial.
+- A scratch folder of the trials' messages and captured output.
