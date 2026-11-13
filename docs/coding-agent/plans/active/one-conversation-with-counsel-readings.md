@@ -51,4 +51,20 @@ Corrected where the first reading and the audit's grade differ, and read again f
 
 Corrected after the second audit: how the record of means is filled before any Orchestrator session has run, and that it goes to him if it cannot be done without him, is graded cited on the brief's "such a person does not choose a role, open a second session, start a seat or repair one"; read here as covered.
 
+### The plan as extended on 2026-11-13 (Tasks 9 to 11; Tasks 2, 6, 7 and 8 amended), plan draft
+
+Item | reading | statement relied on
+
+- The plan is extended on his answers and reviewed and audited again before the added tasks start | covered | brief, Directed during the run (his words of 2026-11-13, relayed by Counsel and admitted by the standing approval)
+- Task_9 tries both ways in practice before any text or record is written on them, in throwaway directories, with a stand-in acceptance that is nobody's authorization | covered | brief, Directed during the run, the constraint ("test them out so that it doesn't say something that turns out impossible in practice"); that "them" covers the repository default too is Counsel's reading, tagged inferred in the brief, and the plan follows it
+- Task_10: setup writes the default into the repository's own instructions for Codex and Copilot; no installed text makes a session the Orchestrator unless its opener chose that; a repository never set up has none | covered | brief, Directed during the run, the first statement
+- Copilot's default is written as untried and not counted as delivered until a person tries it at the editor; he is not asked to | extends | the brief marks whether someone tries the hook as open; stating it untried is the engineering philosophy's "a limit is written as a limit"
+- Task_2 is done as built and reviewed; the two parts that waited for him are Task_10's | extends | an internal arrangement of the plan
+- Task_11: he opens no second session; Counsel starts the setup session and carries his acceptance of the admitting entry; the first relay is taken on Counsel's word, the risk he accepted; no way to reach a run means Counsel starts none; the trusted folder is his one act | covered | brief, Directed during the run, the second statement; that a folder must be trusted once is a finding, written as a limit
+- Task_6 as amended: the admitting standing approval is reworded as proposed, only by a way Task_9 showed, and is in effect only on his acceptance | covered | brief, Limits ("a standing approval" still waits for him) and the constraint
+- Task_7 as amended: a record in place of ADR-D-0038 is proposed, stating only a way Task_9 showed, agreeing with the text Task_11 built | covered | brief, Directed during the run ("replaced by a record he accepts by name")
+- Task_8 as amended: the first time in a repository and a session with no role in a set-up repository in Codex are shown where they can be made | extends | brief, Pass conditions name scenarios 1, 2, 3, 5 and 8; these two are added by the plan
+- The closeout says which cases of "every runtime and everyone who installs" remain unmet | covered | brief, Directed during the run, the first statement
+- Nothing already built and reviewed is reopened | extends | the Orchestrator's
+
 ## Findings
