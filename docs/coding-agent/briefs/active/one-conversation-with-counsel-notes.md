@@ -240,3 +240,13 @@ Source: the reply of the Orchestrator of 2026-11-13T21:05:10Z, with the inferred
 - Written into the brief under Directed during the run, six entries, and the count under Limits. Relayed to the Orchestrator the same day.
 - Counsel's reading, its own: on the fifth point his words take a lean that Counsel held least firmly and that only he can act on; the brief says the setting is his and nothing in the work makes it. On the sixth, his suspicion is about mechanism in records in general. He was answering on the four accepted records; whether he means the twelve proposed ones as well was asked of him.
 - Asked whether the twelve proposed records are checked against the same standard before he reads them, he answered on 2026-11-17: "Yes, check the twelve against the same standard too." Written into the brief and relayed the same day.
+
+## The Codex trial made only in part, 2026-11-17
+
+- From the Orchestrator (channel 2026-11-16T15:49:40Z). The plan is reopened on his answers (Tasks 12 to 16); the audit at plan draft holds nothing.
+- The model of a started run: a session can be started on a named model and effort, three of three, the pair his record names for the Orchestrator included, and what it runs on can be read from outside while it lives. Not tried: whether a session stopped and continued keeps them.
+- The twelve: one Worker checks them and drafts a proposed record beside each of the four accepted ones, which stay in force and unedited until he accepts by name. The count may change.
+- The Codex trial: an Orchestrator session in Codex dispatched a subagent in four runs of four, but in every run the sentence the block lost was still before the session, since his own Codex home holds the earlier block. Taking it out of view means changing his Codex home or copying his credentials and configuration to another one; neither was done. So dispatch with the sentence gone is not tried. One kind of dispatch only was seen, and the Codex plugin installed on his machine is the earlier version.
+- The three ways forward as the Orchestrator put them: he allows one trial that replaces the block in his Codex home and puts it back; the sentence is put back now in words that give no role, without a trial; or it merges as it is and his first Codex session after updating is the trial.
+- Counsel's reading, its own, put to him 2026-11-17: the first. It is the change the bootstrap makes anyway when he updates, it can be put back, and it is the only one of the three that answers what he asked to have tried. To say beside it: a Codex seat started while the block is replaced reads the new block.
+- He answered on 2026-11-17: "Go with option 1, and put the block back after." Written into the brief and relayed the same day.

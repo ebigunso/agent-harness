@@ -148,6 +148,17 @@ Corrected after the audit of the plan as extended on 2026-11-16, where the readi
 - Withdrawing or splitting a proposed record: read as covered; graded inferred, the brief saying revised. Each withdrawal or split is shown to him by name at closeout.
 - That this run revises the four, and before the pull request merges: read as covered on the brief's inferred sentence; graded inferred, on his told statement and without that sentence.
 
+### The plan as extended on 2026-11-16 by Task_17, plan draft
+
+Item | reading | statement relied on
+
+- Task_17: the managed block in his Codex home is replaced by this branch's block, the trial runs, and the block is put back as it was | covered | brief, Directed during the run (his words of 2026-11-17: "Go with option 1, and put the block back after.")
+- The Orchestrator makes the replacement and the restoration itself, with a copy and a hash before and after; only the text between the loader's markers changes | extends | the plan's; the product philosophy on what reaches outside the work; that nothing else in his Codex home is touched is tagged inferred in the brief
+- A refusal by a runtime's safety check is not retried; he is asked in the Orchestrator's window | covered | brief ("No check a runtime makes for safety is defeated to avoid it."); the means on a visit to a window
+- If dispatch fails, the least the block needs is put into the replaced block, tried again, and goes into the branch's block | covered | brief, Directed during the run ("If it does not, what the block needs for that is put back"); option 1 as he read it
+- The trial is of the new block against the earlier installed plugin text, and the findings say so | extends | the engineering philosophy, a limit written as a limit; he was told this beside the option
+- No Codex seat is started for other work while the block is replaced | extends | the Orchestrator's
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.
