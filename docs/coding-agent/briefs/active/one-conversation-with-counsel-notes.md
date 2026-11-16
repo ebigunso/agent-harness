@@ -211,3 +211,31 @@ Written before any part of the closeout verdict was seen. Source for every point
 - Three things learned that the philosophies do not cover, each a matter for him as product owner and none decided here: a yes given once to Counsel that the session needing it cannot act on; what a trial with stand-ins is worth as evidence; traces a trial leaves on his machine (twenty-two ended trial sessions still in his list).
 - The human-only pass condition is still to come, as the brief expects.
 - Counsel had told him thirteen records; the note names twelve.
+
+## After the first read, 2026-11-14
+
+Source: the reply of the Orchestrator of 2026-11-13T21:05:10Z, with the inferred items of the closeout verdict. Advisory, for him only.
+
+- The count of proposed records is twelve.
+- The closeout audit holds nothing and let nothing through on a provisional statement. It marked three inferred items as bearing on direction: the folder trusted once in Claude Code; both Auditor mandates reading the record of machine obstacles before any other command; four accepted records (ADR-D-0017, 0049, 0035, 0043) keeping a clause the built text departs from, none edited and no replacement proposed.
+- The second-window acts: the write that admits relays is the judgement of the runtime, once per repository, ended by his yes in that window, a rule in his own settings untried; folder trust once per folder, whether the Counsel conversation in the desktop app is already that act unknown; a prompt under a mode that asks, and the merge tool, each ended by an allow rule in his own settings; no means recorded in Codex.
+- Copilot: untried and not counted as delivered.
+- Scenarios 4, 6, 7 and 9 were not shown; nothing shows end to end what makes Counsel look for a stopped run while he is away.
+- The version: every merged change since 1.0.0 took a minor step, changes of behaviour included.
+- Counsel's reading, its own, to put to him:
+  - The merge: the validation of the proposed record on permission counts a window visit for something his settings could have allowed as a break. An allow rule for the merge tool is his to set; with it scenario 7 can hold here.
+  - The model of a started session: "what his settings give it; this record does not choose it". His recorded choice for the Orchestrator does not bind it. With runs unbounded, this is the kind of surprise he named on 2026-11-12 as the one not acceptable ("a long running expensive model"). The audit did not mark it as direction; Counsel does.
+  - The Codex home block loses the sentence on bounded subagent dispatch and whether a Codex Orchestrator still dispatches without it was not tried. The harness can find that out before the merge.
+  - The four accepted records: after the work of the other run to have records say what is so, landing a change that leaves four known departures unrecorded goes the other way. The clauses were asked for (request of 2026-11-14).
+  - The Auditor reading a file written by the sessions it judges: narrow, cheap to undo, and the alternative has the auditor pay again for what the machine is known to do. Counsel would keep it and name what reopens it.
+  - The reworded admitting entry widens the carrier from the named identity to the Counsel session that started the run, by whatever way it reaches it. He reads it himself.
+- From the Orchestrator (2026-11-13T21:08:03Z). The four accepted records and what the built text does in place of each clause: ADR-D-0017 (the loader states that the user installed the harness and that it is followed for coding tasks; the Codex home block now says neither); ADR-D-0049 (loaders restate no role names; two blocks now name the two session roles); ADR-D-0035 (Counsel reaches into the work only by quick reads, a Researcher and consulted advice; Counsel now also starts a session, watches a run, asks where it stands and makes up to two recovery attempts); ADR-D-0043 (two messages of Counsel are outside the rule; there are now three more: the first message to a started session, asking where a run stands, a recovery message). Strained and not contradicted: ADR-D-0051 and ADR-D-0045.
+- The start command accepts an option for the model and one for the effort; neither was used or tried, and the trials did not record what a started session ran on.
+- Put to him on 2026-11-14 with the rest of the read: Counsel advises that the four departures are proposed as changes he accepts by name before the merge, and that a started run is bound to the model and effort his record names.
+
+## His answers on the result, 2026-11-17
+
+- Shown the finished read as six numbered points with advice on each. He answered: "I think your takes for the decision points 1~5 is reasonable, so I'll take that as suggested."
+- And on the sixth: "For the ADRs, I'd like it to be revised to the same standards the rewrite runs are doing. I suspect there are mechanisms written into the ADRs that are too specific, that invites more rewrite requirements than is ideal."
+- Written into the brief under Directed during the run, six entries, and the count under Limits. Relayed to the Orchestrator the same day.
+- Counsel's reading, its own: on the fifth point his words take a lean that Counsel held least firmly and that only he can act on; the brief says the setting is his and nothing in the work makes it. On the sixth, his suspicion is about mechanism in records in general. He was answering on the four accepted records; whether he means the twelve proposed ones as well was asked of him.
