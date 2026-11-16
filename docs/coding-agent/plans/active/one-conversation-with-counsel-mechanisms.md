@@ -729,7 +729,7 @@ The short of it: the trial as asked could not be made, because no way was found 
 - How the dispatch was seen from outside. In the three runs with tool-call logging: two calls of the runtime's tool that starts a subagent, then calls of its tools that wait for one and that give one a further task (one further task in each run). (**observed**, 3 of 3) In the fourth run, which had no logging: the runtime's error line for one failed start, and the session's own messages that the review was running, what the reviewer found, and that it approved the revision. (**observed**, 1 run, the weaker evidence) The run's stream of events shows the waits as items in the three logged runs, shows none in the fourth, and does not show the start itself in any.
 - The first start failed in every run: the runtime's error said it could not load the context of the session's own thread because no stored record of that thread was found. Each session then started the subagent again with a packet that stands alone, and that start went through. (**observed**, 4 of 4) That the cause is the run being ephemeral is **inferred** from the error's words: such a run keeps no record of its thread, and a subagent started with the parent's history needs one. A kept run was not tried, because a kept run was seen to make the runtime write to the Codex home's configuration (2026-11-13).
 - No Researcher was dispatched in any run: the sessions read the six or seven files themselves, and one said research was waived because it had read every file. No Worker was dispatched: every run stopped at plan approval, as the skill has it, and the sandbox was read-only. So the dispatch seen is the plan review's and no other. (**observed**, 4 of 4)
-- No file was written in any repository: each was clean by `git status` after its run. No peer-messaging tool was run, by a read of the tool names in the logs and of the commands in the event streams. (**observed**, 4 of 4)
+- Each of the four repositories was clean by `git status` after its run, and no write to a repository was observed; a write undone within a run or an ignored file would not show by that check. No peer-messaging tool was run, by a read of the tool names in the logs and of the commands in the event streams. (**observed**, 4 of 4)
 - What the runtime itself tells a session about starting subagents, as one session quoted it from its own instructions: "Do not spawn sub-agents unless the user or applicable AGENTS.md/skill instructions explicitly ask for sub-agents, delegation, or parallel agent work.", and before it, "Any earlier instruction enabling proactive multi-agent delegation no longer applies." (**observed**, 1 run, as a session's report of its own instructions; the runtime's text was not read from any file or page)
 
 ### What this shows and what it does not
@@ -743,7 +743,7 @@ The short of it: the trial as asked could not be made, because no way was found 
 ### What was not tried, and why
 
 - A session whose only harness block is this branch's: it needs the Codex home changed or copied, as above.
-- A kept run, where the first start of a subagent might not fail: the runtime writes to the Codex home's configuration for a kept run.
+- A kept run, where the first start of a subagent might not fail: one kept run was seen to make the runtime write to the Codex home's configuration (2026-11-13), so none was kept here.
 - An interactive Codex session, the IDE extension, the desktop app and cloud tasks: each needs a person, or was outside what a shell can start.
 - A dispatch of a Researcher or a Worker: the request did not lead the skill to the first, and the plan gate and the read-only sandbox stopped short of the second. A request with a governing brief, or with plan approval waived, was not made.
 - This branch's plugin text in Codex: the installed plugin is 1.6.0 and nothing was installed.
@@ -780,7 +780,7 @@ Findings of Task_12 of the same plan, second question. Every fact under this hea
 
 Version the trials ran on: Claude Code 2.1.325 (terminal CLI, Windows). The sessions ran on the harness plugin as installed, with no plugin loaded for the one session.
 
-The short of it: a session started by the recorded means took a model and an effort named on the command line, in three of three starts that named both, and a start that named neither ran on what the settings in force gave. What a session runs on shows from outside in two places: the header of its screen while it lives, and its transcript while it lives and after it is stopped. The listing of sessions shows neither, and the session's own word on its effort was wrong once.
+The short of it: a session started by the recorded means took a model and an effort named on the command line, in three of three starts that named both, and the one start that named neither ran on Fable 5.2 at low effort, which is inferred to be what the settings in force give. What a session runs on shows from outside in two places: the header of its screen while it lives, and its transcript while it lives and after it is stopped. The listing of sessions shows neither, and the session's own word on its effort was wrong once.
 
 ### What the command's help says
 
@@ -801,7 +801,7 @@ The short of it: a session started by the recorded means took a model and an eff
 
 - Each command returned at once with a short id, and each session ended its one turn within about two minutes, listed as `idle`, `done`, with the Orchestrator agent in its header. (**observed**, 4 of 4)
 - Neither named: the session ran on Fable 5.2 at low effort. (**observed**, 1 start) That this is what the owner's settings give is **inferred**: the settings were not read. A start with neither option therefore says nothing by itself about what it will run on.
-- Both named: the session ran on the model and at the effort named. With another family's alias and `high`: Sonnet 5.5 at high. With the full name and `medium`: Fable 5.2 at medium. With the alias and `low`: Fable 5.2 at low. (**observed**, 3 of 3) In the first two of these at least one of model and effort differed from what the start with neither ran on, so the options and not the settings decided it; the third names the pair the settings already gave, so only its saved options tell it from the start with neither.
+- Both named: the session ran on the model and at the effort named. With another family's alias and `high`: Sonnet 5.5 at high. With the full name and `medium`: Fable 5.2 at medium. With the alias and `low`: Fable 5.2 at low. (**observed**, 3 of 3) In the first two of these at least one of model and effort differed from what the start with neither ran on, so the options and not the settings decided it; the third names the same pair the start with neither was observed to run on, so only its saved options tell it from the start with neither.
 - An alias was resolved by the runtime to a model of that family; which model an alias names on a later day is the runtime's to decide. (**observed** for the day; the rest **inferred**)
 
 ### What was observed: seeing from outside what a session runs on
