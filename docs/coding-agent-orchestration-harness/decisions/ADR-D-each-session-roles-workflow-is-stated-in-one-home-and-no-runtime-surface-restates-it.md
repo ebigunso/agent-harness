@@ -21,7 +21,7 @@ The runtimes the harness supports consume it through different surfaces. Each su
 
 - The workflow of each session role is stated in one home.
 - A runtime surface routes to the home of the role concerned and restates no role's workflow: none of its gates, its rules or its formats.
-- A surface may name a session role for three purposes and no other: to route to that role's home, to say which role a session with no role chosen holds, and to say how a role is chosen.
+- A surface may name a session role: identifying a role, entering one and routing to its home cannot be said without the name. Naming a role restates nothing of its workflow.
 - One copy outside a home is deliberate and bounded: what a runtime's own instruction block has to carry for a role to be held to its contract there. It is kept as one text across the runtimes.
 
 ## Why
@@ -41,7 +41,7 @@ Not covered: which session roles exist, which skill is the home of each, and the
 
 ## Validation
 
-The decision is broken where a runtime surface carries a gate, a rule or a format of a role's workflow as its own text, the bounded copy excepted; where a surface names a session role for a purpose other than the three the Decision states; where the bounded copy differs between runtimes; or where a session acted on a surface's statement of the workflow that the role's home does not make.
+The decision is broken where a runtime surface carries a gate, a rule or a format of a role's workflow as its own text, the bounded copy excepted; where the bounded copy differs between runtimes; or where a session acted on a surface's statement of the workflow that the role's home does not make.
 
 ## Revisit When
 
@@ -50,4 +50,4 @@ The decision is broken where a runtime surface carries a gate, a rule or a forma
 
 ## More Information
 
-With `ADR-D-a-session-takes-its-workflow-only-from-its-own-roles-home-and-what-roles-share-is-in-no-roles-home.md`, replaces ADR-D-0049 in full. Carried unchanged: that each session role's workflow has one home, that a surface routes to it and restates none of its gates, rules or formats, and the one bounded copy. Changed in one respect: ADR-D-0049 forbade a surface to carry role names, and this record lets a surface name a session role for the three purposes its Decision states, because a default role and the choice of either role cannot be stated by text that may not name a role. The source of that behaviour is the governing brief, `docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md`, "One conversation". Moved out: which document names the home of each role, and the checks a review makes of a surface, which the adapter text states. The loader check behind the second revisit condition is in git history at `2a5ebf9`, under `docs/coding-agent/experiments/frontier-guard-probes/`.
+With `ADR-D-a-session-takes-its-workflow-only-from-its-own-roles-home-and-what-roles-share-is-in-no-roles-home.md`, replaces ADR-D-0049 in full. Carried unchanged: that each session role's workflow has one home, that a surface routes to it and restates none of its gates, rules or formats, and the one bounded copy. Changed in one respect: ADR-D-0049 forbade a surface to carry role names, and this record lets a surface name a session role, because a default role and the choice of either role cannot be stated by text that may not name a role. The source of that behaviour is the governing brief, `docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md`, "One conversation". Moved out: which document names the home of each role, and the checks a review makes of a surface, which the adapter text states. The loader check behind the second revisit condition is in git history at `2a5ebf9`, under `docs/coding-agent/experiments/frontier-guard-probes/`.
