@@ -24,6 +24,7 @@
 - Added 2026-11-16: a run Counsel starts runs on the model and at the effort the workspace's record names for the Orchestrator, and where it cannot be started so the line that tells the owner the run has started says what it runs on (brief, Directed during the run).
 - Added 2026-11-16: before the pull request merges it is tried whether an Orchestrator session in Codex still dispatches subagents with the block in the Codex home as built; if it does not, what the block needs for that is put back (brief, Directed during the run).
 - Added 2026-11-16: the plugin version is 2.0.0 (brief, Directed during the run).
+- Added 2026-11-16: the records this run proposes are checked against the same standard and revised where they fall short of it (brief, Directed during the run).
 - Added 2026-11-16: ADR-D-0017, ADR-D-0035, ADR-D-0043 and ADR-D-0049 are revised to the standard the rewrite of decision records works to and proposed to the owner, each for acceptance by name; none is marked as accepted in its revised form by this plan (brief, Directed during the run).
 - The branch is reviewed `APPROVED` and value audits at plan draft and closeout are logged.
 
@@ -484,7 +485,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
     owner: worker
     detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; a search of the tree for 1.7.0"
 
-### Task_15: Four accepted records at the standard of the rewrite
+### Task_15: Four accepted records and the twelve proposed ones at the standard of the rewrite
 - type: docs
 - owns:
   - docs/coding-agent-orchestration-harness/decisions/**
@@ -492,9 +493,11 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - description: |
   Added 2026-11-16. ADR-D-0017, ADR-D-0035, ADR-D-0043 and ADR-D-0049 are revised to the standard the run under `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` works to (that brief, the `durable-docs-authoring` skill's `references/adr.md`, and the owner's test for one decision), so that each states its decision and not a mechanism the next change of means would contradict (this run's brief, Directed during the run, with his words of 2026-11-17).
   For each record the Worker decides, by the owner's test, whether the decision still stands once the mechanism is taken out (the record is rewritten at the same decision) or whether what was built changed the decision itself (a record is proposed in its place, named by subject as this run's other proposed records are). Which it was, and why, is in the report. Whatever a revised record no longer carries and is still needed is shown to be held by the plugin's text, named by file, or reported as a gap.
+  Extended 2026-11-16 on his answer of 2026-11-17, "Yes, check the twelve against the same standard too.": the twelve records this run proposes, each named `ADR-D-<subject>.md`, are checked against the same standard and revised wherever one states a mechanism where its decision can be stated without it, or fails the admission test or the owner's test for one decision. A proposed record found to hold no decision of its own is withdrawn and its content shown to be held by the plugin's text; one found to hold two is split. The report gives the count of proposed records after the check, recounted from the tree, and for each record whether it was changed and why.
+  One Worker does the four and the twelve, since a record proposed in place of one of the four may meet one of the twelve.
   Nothing is marked accepted in its revised form, nothing is retired and no number is taken; the way the revision is shown as awaiting his acceptance follows what the decision-records run did for a rewritten accepted record. References to a revised record are repaired by meaning where its revision changes what they rely on.
 - acceptance:
-  - Each of the four, as revised or replaced, passes the admission test and is in the template's present form.
+  - Each of the four, as revised or replaced, and each proposed record that remains, passes the admission test and is in the template's present form.
   - No revised record contradicts the text this branch builds, and none states a mechanism where the decision can be stated without it.
   - The report lists, per record, what was taken out and where it is held now.
 - validation:
@@ -1003,6 +1006,12 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Read from the brief and not his words: that the four are revised before pull request 109 merges is tagged there as inferred; this plan follows it, since the option he was answering was changes proposed before the merge. Which run revises them he did not say; this run does, since its brief now carries the statement.
   - Open with him through Counsel: whether "the ADRs" also takes in the twelve proposed records. Until he answers, Task_15 covers the four only; a yes extends Task_15 and is logged here.
   - The plan as extended is reviewed and audited at plan draft before Task_12 is dispatched.
+  - User approval: not applicable.
+  - Record proposed: as Task_15 finds.
+
+- 2026-11-16 15:13Z Decision: Task_15 takes in the twelve proposed records.
+  - Trigger: Counsel's relay of 2026-11-16 15:13Z by the channel clock (his calendar 2026-11-17), admitted by the standing approval. Asked whether his suspicion about mechanisms also takes in the twelve proposed records, he answered: "Yes, check the twelve against the same standard too." Counsel also reports he was shown its recording of his earlier answer (the four revised before pull request 109 merges; which run left open), was asked to correct either, and corrected neither. Counsel wrote it into the brief; committed by name with this entry.
+  - Plan delta: Task_15's description, title and first acceptance line, and one Definition of Done line. The count of proposed records may change; every place that says twelve is recounted after Task_15.
   - User approval: not applicable.
   - Record proposed: as Task_15 finds.
 
