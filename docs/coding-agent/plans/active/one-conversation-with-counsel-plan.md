@@ -589,7 +589,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - Wave 9 (parallel): [Task_13, Task_14, Task_15] (added 2026-11-16)
 - Wave 10: [Task_16] (added 2026-11-16)
 - Wave 11: [Task_17] (added 2026-11-16)
-- Wave 12: [Task_18] (added 2026-11-16; only if Task_17's findings require it)
+- Wave 12: [Task_18] (added 2026-11-16; conditional, see the task)
 
 ## Rollback / Safety
 - Everything is on one branch and reverts as one. Nothing is merged, accepted or retired by this plan.
