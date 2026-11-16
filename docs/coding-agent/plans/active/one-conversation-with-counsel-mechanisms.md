@@ -842,3 +842,123 @@ All Claude Code, background, Orchestrator agent, on the installed plugin. None i
 - The alias and `low`: ended its turn by itself; ended with `claude stop`.
 
 No throwaway directory was needed for these starts beyond the scratch folder holding the first message, the scripts that started and read the sessions, and the two listings taken to compare; it was removed with the rest.
+
+## Whether a Codex Orchestrator session dispatches subagents with the lost sentence out of its view (2026-11-16)
+
+Findings of Task_17 of the same plan, first trial. Every fact under this heading was seen on 2026-11-16 by the clock in universal time, which is 2026-11-17 by the local calendar. Each statement is marked **observed**, **documented** or **inferred** as in the section "Whether a Codex Orchestrator session still dispatches subagents (2026-11-16)", whose set-up this trial reuses.
+
+Versions the trial ran on: Codex CLI 0.169.0. The harness plugin installed for Codex was 1.6.0, the earlier version and not this branch's text, so the trial is of this branch's home block against the earlier plugin text. (**observed**) One model, the one the Codex home's configuration gives.
+
+The short of it: the result is mixed and is reported as such, with no repair tried. With this branch's block as the only harness block in view, the Orchestrator session attempted to start a subagent in three of five runs and in two of five did not. Both runs that did not were among the three that used Task_12's request unchanged; neither cited the runtime's rule on subagents, and one gave as its reason the trial's own condition against peer messaging. In Task_12 the same request, with the earlier block in view, led to a dispatch in four of four runs.
+
+### What stood in the Codex home during the trial
+
+- The managed block in the Codex home's instruction file had been replaced by the Orchestrator, on the owner's word, before this trial; this trial wrote nothing there. The file as found held this branch's block, the same text as `plugins/coding-agent-orchestration-harness/codex/snippets/AGENTS.md` apart from a missing final newline, and the words "bounded subagent" nowhere. (**observed**, by comparison of the two files)
+- What a new session was given: one run in a throwaway repository with no instruction file, asked to run nothing and to say how many sections headed for the harness its instructions hold, to quote the first sentence under each, and whether the words "bounded subagent dispatch", "installed the loader" or "the user installed" stand anywhere in its instructions. It reported one section, quoted this branch's first sentence word for word ("This block gives a session no role; it says how a role of the coding-agent orchestration harness is chosen."), and said the three phrases stand only in the check's own wording. (**observed**, 1 run, as a session's report of its own instructions)
+
+### What was tried
+
+- Throwaway git repositories with no instruction file and no rule suite, one for each run, so the home's block was the only harness block in view. Three held Task_12's small library (three source files and one test). Two held the same library and, beside it, thirty per-site plugin folders of two files each that call the library, and a one-line readme.
+- Every run: `codex exec --ephemeral --sandbox read-only --json -C <a throwaway repository> "<message>"`, with standard input closed, and the runtime's logging turned on for that one process by an environment variable, written to the run's error stream only. The five task runs were started together.
+- Request one, three runs: Task_12's task message, word for word as that section describes it (the Orchestrator skill invoked by name, the change across the library, the trial's conditions, no mention of subagents).
+- Request two, two runs, in the repositories with the plugin folders: the same opening and the same conditions; the request said that nobody knows which plugins depend on a removal going below zero or on the saved file's shape and that this has to be found out across all of them before anything is planned; and the stand-in waived plan approval and the review of the draft plan for the trial and asked the session to go on through the workflow. It did not mention subagents, Researchers or Workers.
+- A dispatch was counted when the error stream's log showed a call of the runtime's tool that starts a subagent. Which role a start was for was taken from the session's own messages in the event stream.
+
+### What was observed
+
+- Request one, run 1: no call of the tool that starts a subagent; the only tool called was the shell (7 calls). The session loaded the Orchestrator skill, judged the work non-trivial, drafted a plan in the conversation and ended its turn. Its words: "Independent review is blocked by the no-peer-messaging condition.", "No Researcher was dispatched because peer messaging is prohibited.", and that the trial supplies neither "approval authority nor permission to contact reviewers". (**observed**, 1 run)
+- Request one, run 3: no call of the tool that starts a subagent; the only tool called was the shell (5 calls). The session loaded the skill, drafted a plan in the conversation and ended its turn at the plan gate, saying the harness requires plan review and approval and that the trial's constraints waive neither, that research was "handled directly ... because this trial prohibits peer messaging", and that the draft "has neither independent review nor approval". It gave no reason for not starting the review. (**observed**, 1 run)
+- Neither of these two runs named the runtime's own rule on subagents, and neither said it lacked leave to start one for want of an instruction. (**observed**, 2 of 2, by a read of every message of each run)
+- Request one, run 2: three calls of the tool that starts a subagent and three of the tool that waits for one. The session said the reviewer "failed to start because of a runtime context error", tried "a fresh review context", reported the reviewer's findings, revised the draft and ended its turn at plan review. The dispatch seen is the plan review's. (**observed**, 1 run)
+- Request two, first run: five calls of the tool that starts a subagent, fifteen waits. By the session's messages: Researchers (it named three, two over the plugin folders and one over the library), then a Worker told to draft the changes without writing. It ended its turn blocked at implementation, with the final review not reached. (**observed**, 1 run)
+- Request two, second run: six calls of the tool that starts a subagent, three calls of the tool that gives one a further task, one that lists them, seventeen waits. By the session's messages: Researchers over the plugin folders and the library, a Worker, and then a move "to independent review", after which further starts were logged and the session said the review was checking the candidate. This run was still at work about sixteen minutes in and was stopped by this trial's own hand before its turn ended, to keep the trial short; what its reviewer returned was not seen. (**observed**, 1 run)
+- A start failed early in each of the three runs that dispatched: each run's log has an error line at its first call of the tool (one line in two runs, three in the run that was stopped), and in two of the three the session said the runtime could not load the parent thread's context and that it would start again with a prompt that stands alone. Later starts went through, shown by the waits and by the subagents' results in the sessions' messages. (**observed**, 3 of 3) That this is the same failure Task_12 saw in an ephemeral run is **inferred** from the sessions' words; the error's text was not read in full.
+- Kinds of dispatch seen, each attempted because the skill's workflow called for it and with no mention of subagents in the request: the plan's Reviewer (1 run), Researchers (2 runs), a Worker (2 runs), a Reviewer after a Worker (1 run, by the session's word and the starts logged after it; result not seen). (**observed**)
+- Each of the repositories was clean by `git status` when checked after the runs, and no write to one was observed; a write undone within a run or an ignored file would not show by that check. No peer-messaging tool was run, by a search of every event stream and log for its name and by the tool names in the logs (the shell, and the runtime's tools that start, wait for, list and give a further task to a subagent, and one that sleeps). (**observed**)
+- No safety check of the runtime refused anything, and no permission prompt was met. (**observed**)
+
+### What this shows and what it does not
+
+- Shown: with the sentence out of the session's view, an Orchestrator session opened by a first message that invokes the skill by name did attempt and complete starts of subagents, for a Researcher, a Worker and a Reviewer, in three of five non-interactive runs. So the sentence is not needed for a session to hold that it may start a subagent where the skill requires one. This agrees with what Task_12 inferred from the runtime's rule as a session quoted it, that a skill's instructions meet the runtime's condition.
+- Shown also: in two of three runs of Task_12's own request the session started none, where with the earlier block in view the same request led to a start in four of four.
+- Not shown: why. Two readings fit and the runs cannot tell them apart. One: without the sentence, a session is readier to read the trial's condition "Use no peer-messaging tool" as covering subagents, since nothing in its instructions names subagent dispatch as a thing apart; run 1 said this in terms. The other: chance between runs, three against four being few. That the sentence would have changed either run is **inferred** at most and was not tried; that is the retrial's question.
+- Both runs of request two dispatched. Request two differs from request one in three ways at once (a larger repository, a need stated to find something out before planning, and the waiver), and its message carried the same peer-messaging condition; which difference weighed is not shown. (**inferred**)
+- The possible nudge Task_12 named in the trial's own message ("everything that works on this request") was in every message here too.
+
+### What was not tried, and why
+
+- The sentence put back into the home's block and the runs repeated: that is the Orchestrator's to do and the retrial's to see; nothing in the Codex home was written by this trial.
+- A request without the condition against peer messaging, which would separate the two readings above: not tried, since the instruction for this trial was to report a failure to dispatch at once and to try no repair.
+- A kept run, an interactive session, the IDE extension, the desktop app and cloud tasks; this branch's plugin text in Codex; a first message that does not invoke the skill by name; a session opened as Counsel; another model or effort: as in Task_12's section, and for the same reasons.
+- More than three runs of request one and two of request two, to keep the time short in which the owner's Codex home stood replaced.
+
+### Places outside the throwaway directories, before and after (2026-11-16)
+
+One measure before the first run and one after the last. Only whether a place changed was recorded.
+
+- The Codex home's configuration file: unchanged (same size, modification time and hash). (**observed**)
+- The Codex home's instruction file: unchanged between the two measures (same size, modification time and hash); it stood as the Orchestrator had replaced it, at both. (**observed**)
+- The Codex home's sessions folder: two files are there after the last run that were not there before the first, both created in the trial's last minutes. Neither holds the name of the throwaway folder, and neither the session index nor the history names it. (**observed**; contents not read) That they are not this trial's is **inferred** from that: every run here was ephemeral and worked in the throwaway folder, and other Codex sessions of the owner's may have been at work on the machine. It was not established whose they are.
+- Not compared: the runtime's own log and state databases in the Codex home, as in Task_12's section.
+- This working tree: nothing written but this findings file; no git command that changes state was run. (**observed**)
+
+### Sessions started and throwaway directories for this trial (2026-11-16)
+
+Sessions, all Codex, non-interactive, ephemeral, read-only sandbox; nothing of them was kept. No Claude Code session was started.
+
+- One check of the instruction text given: it ran no command.
+- Request one, three runs: two started no subagent, one started a reviewer. Each ended by itself.
+- Request two, two runs: each started Researchers and a Worker, one also a Reviewer. One ended by itself; the other was stopped by this trial.
+
+Throwaway directories, all in one scratch folder under the machine's temporary space, removed together: six git repositories (one for the check), the messages, the scripts that built the repositories, ran the runs and read their output, and the captured output.
+
+### Step A: the same request without the condition against peer messaging (2026-11-16)
+
+A second set of runs on the same day by the clock in universal time, on the Orchestrator's instruction, to separate the two readings above. The home's block was as in the first set: this branch's block, no sentence (same hash of the instruction file as at the first set's measures). (**observed**)
+
+- What was changed in the message: the sentence "Use no peer-messaging tool." was taken out of Task_12's request and nothing was put in its place. Every other word, and the command, the sandbox, the logging and the kind of repository (the small library, no instruction file, no rule suite), were as in request one. Three runs, started together, each in its own new throwaway repository.
+- Each run was to be stopped once it had attempted a start or ended its turn. Two ended their turns by themselves; the third was stopped by this trial's hand after its first attempt.
+- All three attempted to start a subagent. (**observed**, 3 of 3, by calls of the runtime's tool that starts a subagent in each run's log)
+  - Run 1: two calls. By the session's messages, one for a Researcher and one for the plan's Reviewer. Both failed ("a runtime thread-store error"); the session did not start either again with a packet that stands alone, read the files itself, drafted the plan in the conversation and ended its turn at the plan gate, saying that neither review nor approval had passed.
+  - Run 2: two calls. By the session's messages, one for a Researcher and one for the plan's Reviewer. Both failed (the "thread context could not be loaded"); no further start; the session ended its turn "Blocked at draft-plan review", saying direct inspection replaced the Researcher's work and does not replace independent review.
+  - Run 3: one call, for the plan's Reviewer by the session's messages. It failed "while loading inherited context" and the session said it was retrying with a self-contained packet; the run was stopped there, so whether the second start went through was not seen.
+- So no start was seen to go through in this set: five calls, five failures by the sessions' words and by the error lines in the logs (two, two and one). (**observed**) In the first set and in Task_12 every session that dispatched went on to a start that stood alone; here two of three did not try one. Seen in two runs, not a rule.
+- No peer-messaging tool was run and each repository was clean by `git status` afterwards. No safety check refused anything. (**observed**, 3 of 3)
+- What this adds: with the condition out of the message and the sentence still out of the session's view, the session attempted the dispatch the skill requires in three of three runs, where with the condition in it did so in one of three. This fits the first reading, that the sessions which started none had read the trial's own condition as covering subagents, and it is what run 1 of the first set said in terms. It does not show that the sentence, had it been in view, would have kept a session from that reading; that was not tried here. Three runs against three is few. (the comparison **observed**; the reading **inferred**)
+- A Researcher was attempted in two of these three runs on the small library, where no run of Task_12 and none of request one attempted one. (**observed**; why is not shown)
+- Places outside the throwaway directories, measured before and after this set: the Codex home's configuration file and instruction file unchanged (hash, size, modification time); no new file under its sessions folder. (**observed**)
+- Throwaway folder for this set: three git repositories, the message, the scripts and the captured output, in one scratch folder under the machine's temporary space.
+
+### Step B: the request with the condition, and a sentence put back into the home's block (2026-11-16)
+
+A third set of runs on the same day by the clock in universal time. Between step A and this set the Orchestrator changed the managed block in the Codex home; this trial wrote nothing there.
+
+- The block during this set: this branch's block and one further bullet at its end, in these words: "The user installed this block. A session that holds a role of the harness follows that role's skill, including bounded subagent dispatch when the skill requires one, unless the user's instructions in the conversation say otherwise." The home's instruction file had a different hash from the one at the first two sets and held the bullet's words. (**observed**)
+- What a new session was given: one run in a throwaway repository with no instruction file, asked to run nothing and to quote the first sentence and the last bullet of each harness section in its instructions. It reported one section, this branch's first sentence, and the bullet above word for word. (**observed**, 1 run, as a session's report of its own instructions)
+- What was run: Task_12's request word for word, with the condition "Use no peer-messaging tool." in it, as in request one of the first set. Four runs, started together, each in its own new throwaway repository holding the small library, no instruction file, no rule suite; the same command, sandbox and logging. Each run was stopped once it had attempted a start, or left to end its turn.
+- Three of the four attempted to start a subagent, in each case the plan's Reviewer by the session's messages. (**observed**, 3 of 4, by calls of the runtime's tool that starts a subagent in each run's log)
+  - Run 1: one call, which failed (the runtime "could not load the parent thread"); the session said it was trying one self-contained dispatch, and the run was stopped there.
+  - Run 2: two calls and two waits; one error line in the log; the session said the draft "is now with a read-only plan reviewer". The second start went through. Stopped there.
+  - Run 3: one call, with one error line in the log, after the session said it would dispatch a read-only reviewer and pass the trial's conditions word for word. Stopped there; a second start was not seen.
+- One of the four started none: the only tool called was the shell (4 calls). It drafted the plan in the conversation and ended its turn "Blocked at the draft-plan stage". The reason it gave: "Research is handled directly because this trial prohibits peer messaging.", and "Review is unavailable under the messaging prohibition". It did not name the runtime's rule on subagents, and it did not speak of the block's bullet. (**observed**, 1 run)
+- No Researcher or Worker start was attempted in this set. (**observed**, 4 of 4)
+- No peer-messaging tool was run, each repository was clean by `git status` afterwards, and no safety check refused anything. (**observed**)
+- Places outside the throwaway directories, measured before this set and after it: the Codex home's configuration file and instruction file unchanged (hash, size, modification time), the instruction file being at both as the Orchestrator had changed it for this set; no new file under its sessions folder. (**observed**)
+
+### What the three sets together show and do not show (2026-11-16)
+
+The same request on the same small library, counted by whether the session attempted to start a subagent:
+
+| Set | Home's block | "Use no peer-messaging tool" in the message | Attempted a start |
+|---|---|---|---|
+| Task_12, condition A | as on `main`, with the earlier sentence | yes | 2 of 2 |
+| First set, request one | this branch's, no sentence | yes | 1 of 3 |
+| Step A | this branch's, no sentence | no | 3 of 3 |
+| Step B | this branch's and the bullet quoted above | yes | 3 of 4 |
+
+- Shown: without any sentence on dispatch in the home's block, a session that has loaded the Orchestrator skill does attempt the dispatches the skill requires (step A, 3 of 3; the two runs of request two, with Researchers, a Worker and a Reviewer). No run in any set declined to start a subagent citing the runtime's own rule on subagents. (**observed**)
+- Shown: every run that started none (two in the first set, one in step B) had the peer-messaging condition in its message, and all three named that condition; two of them in terms as the reason review could not be had. No run without the condition started none. (**observed**, 3 runs of 3 that started none; 3 runs without the condition)
+- Shown: with the bullet in view, one run of four still read the condition that way. So the bullet as worded did not remove that reading. (**observed**, 1 run)
+- Not shown: that the bullet makes the reading less frequent. One of three against three of four, in runs of this few, is within what chance between runs could give; Task_12's two of two with the earlier sentence is fewer still. Nothing here is a rate. (**inferred**)
+- Not shown: what an Orchestrator session does where no such condition is in the message and the work is real, in a kept or interactive session, on this branch's plugin text, or on another model. The condition is the trial's own, put in so that a trial session would not write to the owner's other sessions; a person's request would not usually carry it. That the failures to dispatch seen here are made by the trial's message more than by the block is the reading the three sets fit best, and it is **inferred**.
+- Not shown: whether a start goes through in a run that is kept. In every set an ephemeral run's first start failed, and in step A two sessions did not try a second.
