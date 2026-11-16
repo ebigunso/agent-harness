@@ -187,6 +187,19 @@ Item | reading | statement relied on
 - The Auditor mandates unchanged; nothing makes the merge tool's allow rule | covered | brief, Directed during the run
 - Four more ended trial sessions left in his list; two unexplained files in his Codex home's stored sessions reported | extends | the lesson of 2026-11-14; told to him
 
+### The plan as reopened, closeout: the audit compared
+
+- Reading compared: Run started on the record's pair, start line, fallback | covered against cited: agrees; the "could not be established" clause diverges (covered against inferred). Plugin names no option; template and setup's instruction | diverges (extends against cited). This workspace's Sessions record | agrees. Version 2.0.0 | agrees. The Codex home replacement | diverges (covered against ask-now, on the outward-facing test alone). The block stays without the sentence, Task_18 not dispatched | diverges (extends against ask-now). Whether the trial is "tried" said as a limit | agrees. Six records in place of four, the twelve checked, splits | agrees. The record in place of ADR-D-0049 changes the decision | agrees (extends against inferred). Whys rewritten | agrees. Auditor mandates; allow rule | agrees. Ended sessions and unexplained files | agrees. Unread by the Orchestrator: the ruling to ask him again in the window; Step A and the reworded bullet; the two rulings on owns and on dated facts; the safety-check record's added clauses; the "decisions unchanged" call for the other five records; the three additions kept; the revision of the record in place of ADR-D-0038; the Decision Log entries.
+- Findings compared: no finding is recorded for this unit. The three recorded on 2026-11-13: the runtime's check refusing a write on a relayed word, agrees; setup built as an offer, agrees; the trust entry written into his Codex configuration, agrees. No departure from a means is noted on an item line.
+
+Corrected after the closeout audit of the reopened unit, where the reading and the grade differ:
+
+- The Codex home replacement: read as covered; graded ask-now on the outward-facing test alone, since a file cannot show his words were said. He had answered in the Orchestrator's window before the act.
+- The block staying without the sentence, Task_18 not dispatched: read as extends; graded ask-now, because it would loosen a constraint the merge waits on and the statements do not decide it. It goes to him through Counsel.
+- The start line saying that what a run runs on could not be established: read as covered; graded inferred.
+- The plugin naming no option, the template and setup's instruction: read as extends; graded cited.
+- Not read by the Orchestrator and graded by the audit: asking him again in the window (inferred, marked direction); the control set and the reworded bullet (inferred); the two rulings on owns and on dated facts (cited); the safety-check record's two added clauses (inferred); the other five records called unchanged, two of which move a boundary (inferred); the three additions kept (inferred); the revision of the record in place of ADR-D-0038 (cited).
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.

@@ -1614,10 +1614,10 @@ Context:
 - A trial of whether an Orchestrator session in another runtime still dispatches subagents once a sentence was taken out of its instructions. The trial's first message told the session to use no peer-messaging tool, to keep the trial from reaching real seats.
 
 Symptom:
-- Two runs of three started no subagent and named that instruction as the reason; with the instruction taken out, three of three dispatched. The first reading of the result was that the removed sentence was needed.
+- Two runs of three started no subagent and named that instruction as the reason; with the instruction taken out, all three sessions attempted to start one, though none of those starts went through in that set. The first reading of the result was that the removed sentence was needed.
 
 Root cause:
-- The condition added to keep the trial safe was itself read by the session as covering the behaviour under trial, and the trial had no run without it to compare against.
+- The sessions that started none gave the condition added to keep the trial safe as their reason; that the condition and not the removed sentence made the difference is inferred from small counts, not shown. The trial had no run without the condition to compare against until one was added.
 
 Fix:
 - A control set without the condition was run before anything was changed, and the finding was written as what each set showed, with no rate claimed.
