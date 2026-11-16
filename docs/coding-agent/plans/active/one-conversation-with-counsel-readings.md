@@ -155,7 +155,7 @@ Item | reading | statement relied on
 - Task_17: the managed block in his Codex home is replaced by this branch's block, the trial runs, and the block is put back as it was | covered | brief, Directed during the run (his words of 2026-11-17: "Go with option 1, and put the block back after.")
 - The Orchestrator makes the replacement and the restoration itself, with a copy and a hash before and after; only the text between the loader's markers changes | extends | the plan's; the product philosophy on what reaches outside the work; that nothing else in his Codex home is touched is tagged inferred in the brief
 - A refusal by a runtime's safety check is not retried; he is asked in the Orchestrator's window | covered | brief ("No check a runtime makes for safety is defeated to avoid it."); the means on a visit to a window
-- If dispatch fails, the least the block needs is put into the replaced block, tried again, and goes into the branch's block | covered | brief, Directed during the run ("If it does not, what the block needs for that is put back"); option 1 as he read it
+- If dispatch fails, the lost sentence is put back into the replaced block and tried again; what the retrial shows needed goes into the branch's block by Task_18, which is dispatched only then; if the retrial also fails it goes to him | covered | brief, Directed during the run ("If it does not, what the block needs for that is put back"); option 1 as he read it
 - The trial is of the new block against the earlier installed plugin text, and the findings say so | extends | the engineering philosophy, a limit written as a limit; he was told this beside the option
 - No Codex seat is started for other work while the block is replaced | extends | the Orchestrator's
 

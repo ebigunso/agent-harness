@@ -106,7 +106,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 | Directed during the run: "In Codex and Copilot, the harness's setup also writes the default into the repository's own instructions" | Task_10 | none |
 | Directed during the run: "A run Counsel starts runs on the model and at the effort the workspace's record names for the Orchestrator" | Task_13 | Task_16: this workspace's Sessions record; Task_12: the trial |
 | Directed during the run: "Before pull request 109 merges it is tried whether an Orchestrator session in Codex still dispatches subagents" | Task_12 | Task_13: the block, only if the trial requires |
-| Directed during the run: the trial with the block in his Codex home replaced and put back (his words of 2026-11-17: "Go with option 1, and put the block back after.") | Task_17 | Task_13: the block, only if the trial requires |
+| Directed during the run: the trial with the block in his Codex home replaced and put back (his words of 2026-11-17: "Go with option 1, and put the block back after.") | Task_17 | Task_18: the block, only if the trial requires |
 | Directed during the run: "The change takes a major version step, to 2.0.0" | Task_14 | none |
 | Directed during the run: "Both Auditor mandates go on reading the record of the machine's obstacles before grading, as built" | no task changes it | none |
 | Directed during the run: "That a merge he has accepted by name takes no visit to the Orchestrator's window" | no task; the allow rule is his to make | none |
@@ -541,7 +541,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - description: |
   Added 2026-11-16 on the owner's answer of 2026-11-17, "Go with option 1, and put the block back after." (brief, Directed during the run). Task_12 could not take the sentence the block lost out of a Codex session's view without changing the Codex home. On his word the managed block in the Codex home's instruction file is replaced by the block this branch builds, the trial runs, and the block is put back as it was.
   The Orchestrator makes the replacement and the restoration itself and nothing else there is touched: only the text between the loader's markers changes; the file is copied aside first and its hash taken; after the trial the file is restored from the copy and the hash compared, whatever the trial's outcome, and the Progress Log says so. If the replacement is refused by a runtime's safety check it is not retried or worked around, and the owner is asked in the Orchestrator's window.
-  Between the two, a Researcher granted the findings file runs the trial under Task_12's other limits (throwaway repositories, stand-ins, runs not kept, no safety check got past, nothing else outside changed, only whether a place changed recorded): whether an Orchestrator session in Codex dispatches subagents where the harness requires it. If it does not, the Researcher reports it; the Orchestrator then puts into the replaced block the least that Task_12's findings suggest it needs, the trial is run again, and what was shown to be needed goes into the branch's block by Task_13's Worker, as the brief has it.
+  Between the two, a Researcher granted the findings file runs the trial under Task_12's other limits (throwaway repositories, stand-ins, runs not kept, no safety check got past, nothing else outside changed, only whether a place changed recorded): whether an Orchestrator session in Codex dispatches subagents where the harness requires it. If it does not, the Researcher reports it; the Orchestrator then puts the sentence the block lost back into the replaced block, in words that give a session no role, and the trial is run again (the retrial the brief has: "If it does not, what the block needs for that is put back"). The findings say what the retrial showed. The file is restored after the last trial either way, and what the retrial showed to be needed goes into the branch's block by Task_18.
   The Codex plugin installed on the machine is the earlier version, so the trial is of the new block against the earlier plugin text; the findings say so. No Codex seat is started for other work while the block is replaced, since a seat started then reads the new block.
 - acceptance:
   - The findings file has a dated section stating what was done, what was seen and how many times, and what was not tried, each statement marked observed, documented or inferred.
@@ -556,6 +556,26 @@ One task writes the sentence that holds each statement of the brief; a mirror is
     owner: orchestrator
     detail: "Hash of the Codex home's instruction file before the replacement and after the restoration are equal"
 
+### Task_18: The Codex home block, only if Task_17 shows it needs the sentence
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/codex/**
+  - plugins/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/**
+- depends_on: [Task_17]
+- description: |
+  Added 2026-11-16. Conditional: dispatched only if Task_17 saw an Orchestrator session in Codex fail to dispatch subagents with this branch's block and saw the retrial with the sentence put back succeed. The branch's block gets what Task_17's retrial showed it needs and no more, and still gives a session no role. If Task_17 saw dispatch happen, this task is not dispatched and is logged as not needed; if the retrial also failed, nothing is written and the matter goes to the owner through Counsel.
+- acceptance:
+  - The block carries what Task_17's findings show was needed, in the words tried, and gives a session no role.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff against Task_17's findings and the brief's statement on the Codex trial"
+
 ## Task Waves (explicit parallel dispatch sets)
 
 - Wave 1: [Task_1]
@@ -569,6 +589,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - Wave 9 (parallel): [Task_13, Task_14, Task_15] (added 2026-11-16)
 - Wave 10: [Task_16] (added 2026-11-16)
 - Wave 11: [Task_17] (added 2026-11-16)
+- Wave 12: [Task_18] (added 2026-11-16; only if Task_17's findings require it)
 
 ## Rollback / Safety
 - Everything is on one branch and reverts as one. Nothing is merged, accepted or retired by this plan.
@@ -1169,6 +1190,11 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Trigger: Counsel's relay of 2026-11-16 16:00Z by the channel clock (his calendar 2026-11-17), admitted by the standing approval. Shown the three ways forward put to him on the Codex trial that could be made only in part, he answered: "Go with option 1, and put the block back after." Option 1 as he read it, by Counsel's relay: "The block there is replaced by the new one, the trial runs, and the block is put back unless you say to leave it. The merge waits for that. If dispatch fails, the sentence is put back and tried again." Counsel wrote it into the brief; committed by name with this entry.
   - Plan delta: Task_17 and Wave 11. This is the one change outside the work that his word allows: the managed block in his Codex home, replaced and put back. That nothing else in his Codex home is touched is tagged inferred in the brief; the plan holds to it.
   - The extension is reviewed and audited at plan draft before the replacement is made.
+  - User approval: not applicable.
+  - Record proposed: none.
+
+- 2026-11-16 16:04Z Decision: plan review of Task_17, CHANGES REQUESTED at 4889475 (Codex review seat, 2026-11-16 16:03Z), one finding, answered.
+  - OC-T17-F1: the failure outcome had no task after Task_17 to carry the repair, and named Task_12's findings for a retrial that is Task_17's. Settled: Task_18, conditional, after Task_17, works from Task_17's findings; the retrial is the lost sentence put back, as the brief has it. A successful trial dispatches nothing.
   - User approval: not applicable.
   - Record proposed: none.
 
