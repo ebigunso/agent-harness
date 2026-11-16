@@ -170,6 +170,23 @@ Corrected after the audit of the plan as extended by Tasks 17 and 18, where the 
 - The trial against the earlier installed plugin text, and no Codex seat started for other work meanwhile: read as extends; graded cited.
 - What every run edits being settled by the run that lands later (Task_4): read as covered; graded inferred, the brief saying settled without him and not by which run.
 
+### The plan as reopened (Tasks 12 to 18), closeout
+
+Item | reading | statement relied on
+
+- A run Counsel starts is started on the record's Orchestrator model and effort and the owner is told in a line that it has started; where it could not be, the line says what it runs on or that this could not be established | covered | brief, Directed during the run (accepted 2026-11-17)
+- The plugin's text names no runtime's option; the template and setup's instruction gain the place for the means | extends | the design already built; graded cited at plan draft on the engineering philosophy
+- This workspace's Sessions record carries the means and the dates, and has Counsel start a session on the record's pair; it still awaits his confirmation | covered | brief, the same statement; his confirmation still waits
+- Version 2.0.0 | covered | brief, Directed during the run
+- The Codex trial: made with the block in his Codex home replaced on his word in the Orchestrator's window and put back, hash equal | covered | brief, Directed during the run ("Go with option 1, and put the block back after."); his answer in the window
+- The block stays without the sentence, Task_18 not dispatched, reported to him through Counsel | extends | the Orchestrator's decision on mixed findings; the product philosophy, a decision that can be undone and stays inside the work is made and reported; the brief has the sentence put back if dispatch does not happen, and the findings do not show the block as the cause
+- Whether the trial as made is "tried" in his sense (earlier installed plugin, small counts) is said as a limit and left to him | covered | the engineering philosophy, a limit written as a limit
+- Six proposed records in place of the four accepted ones, the four unedited and in force; the twelve checked, six revised, one split; nineteen proposed, none withdrawn, none accepted | covered | brief, Directed during the run (his words on the ADRs and on the twelve); splitting graded inferred at plan draft
+- The record in place of ADR-D-0049 on one home changes that record's decision in one respect (a surface may name a session role) and is shown to him as a change | extends | the brief has the four revised to the standard and does not speak of a changed decision; the built default-role blocks name roles on his ratified brief; he accepts by name
+- Whys rewritten as reasons without quoting him | extends | the standard he named, as the durable-docs reference states it
+- The Auditor mandates unchanged; nothing makes the merge tool's allow rule | covered | brief, Directed during the run
+- Four more ended trial sessions left in his list; two unexplained files in his Codex home's stored sessions reported | extends | the lesson of 2026-11-14; told to him
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.

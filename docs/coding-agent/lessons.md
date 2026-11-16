@@ -1608,6 +1608,27 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md` (the sections dated 2026-11-13); `docs/coding-agent/plans/active/one-conversation-with-counsel-scenarios.md`.
 
+## 2026-11-16 - A Trial's Own Instructions Can Cause The Result It Measures  [tags: validation, dispatch]
+
+Context:
+- A trial of whether an Orchestrator session in another runtime still dispatches subagents once a sentence was taken out of its instructions. The trial's first message told the session to use no peer-messaging tool, to keep the trial from reaching real seats.
+
+Symptom:
+- Two runs of three started no subagent and named that instruction as the reason; with the instruction taken out, three of three dispatched. The first reading of the result was that the removed sentence was needed.
+
+Root cause:
+- The condition added to keep the trial safe was itself read by the session as covering the behaviour under trial, and the trial had no run without it to compare against.
+
+Fix:
+- A control set without the condition was run before anything was changed, and the finding was written as what each set showed, with no rate claimed.
+
+Prevention:
+- A trial's message carries only the conditions it needs, each worded so it cannot be read as covering the behaviour measured; where a condition might, one set is run without it.
+- A result that fails is first set against a control before the thing under trial is changed.
+
+Evidence:
+- `docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md`, the section on a Codex Orchestrator session with the lost sentence out of its view (2026-11-16).
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
