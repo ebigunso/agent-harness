@@ -425,6 +425,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md
 - depends_on: []
 - description: |
+  Dispatched to a Researcher, granted the findings file. What is recorded of a place outside the throwaway directories is whether it changed, never its contents.
   Added 2026-11-16. Two things are tried before text is written on either, each in throwaway directories, with stand-ins, and under the limits of Task_1 and Task_9 (no setting outside the throwaway directories is changed, no safety check of a runtime is got past, a refused act is recorded and not repeated, no run is kept).
   First: whether an Orchestrator session in Codex, opened with the block in the Codex home as this branch builds it, still dispatches subagents where the harness requires it. If it does not, the least the block needs for it is found by trying.
   Second: whether a session started by the means this workspace records can be started on a named model and at a named effort, and by what means the model and effort a started session really runs on can be seen from outside it.
@@ -492,14 +493,14 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - depends_on: [Task_12]
 - description: |
   Added 2026-11-16. ADR-D-0017, ADR-D-0035, ADR-D-0043 and ADR-D-0049 are revised to the standard the run under `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` works to (that brief, the `durable-docs-authoring` skill's `references/adr.md`, and the owner's test for one decision), so that each states its decision and not a mechanism the next change of means would contradict (this run's brief, Directed during the run, with his words of 2026-11-17).
-  For each record the Worker decides, by the owner's test, whether the decision still stands once the mechanism is taken out (the record is rewritten at the same decision) or whether what was built changed the decision itself (a record is proposed in its place, named by subject as this run's other proposed records are). Which it was, and why, is in the report. Whatever a revised record no longer carries and is still needed is shown to be held by the plugin's text, named by file, or reported as a gap.
+  The four accepted records stay in force and are not edited. For each, a new complete record is drafted beside it, named by subject as this run's other proposed records are and marked proposed, whether or not the decision's outcome is unchanged (the way the decision-records run rewrote an accepted record: `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-goal-mode-plan.md`). The Worker says for each, by the owner's test, whether the decision still stands once the mechanism is taken out or whether what was built changed the decision itself, and why. Whatever a new record no longer carries and is still needed is shown to be held by the plugin's text, named by file, or reported as a gap; the Worker edits no plugin text for it.
   Extended 2026-11-16 on his answer of 2026-11-17, "Yes, check the twelve against the same standard too.": the twelve records this run proposes, each named `ADR-D-<subject>.md`, are checked against the same standard and revised wherever one states a mechanism where its decision can be stated without it, or fails the admission test or the owner's test for one decision. A proposed record found to hold no decision of its own is withdrawn and its content shown to be held by the plugin's text; one found to hold two is split. The report gives the count of proposed records after the check, recounted from the tree, and for each record whether it was changed and why.
   One Worker does the four and the twelve, since a record proposed in place of one of the four may meet one of the twelve.
-  Nothing is marked accepted in its revised form, nothing is retired and no number is taken; the way the revision is shown as awaiting his acceptance follows what the decision-records run did for a rewritten accepted record. References to a revised record are repaired by meaning where its revision changes what they rely on.
+  Nothing is marked accepted, nothing is retired, no number is taken and no reference to one of the four is changed: the report lists the inbound references that will need repair, and acceptance by name, retirement of the four and reference repair are one later operation. The twelve are proposed and not in force, so they are revised in place.
 - acceptance:
-  - Each of the four, as revised or replaced, and each proposed record that remains, passes the admission test and is in the template's present form.
-  - No revised record contradicts the text this branch builds, and none states a mechanism where the decision can be stated without it.
-  - The report lists, per record, what was taken out and where it is held now.
+  - Each record proposed in place of one of the four, and each of the twelve that remains, passes the admission test and is in the template's present form.
+  - The four accepted records are byte for byte as they were. No proposed record contradicts the text this branch builds, and none states a mechanism where the decision can be stated without it.
+  - The report lists, per record, what was taken out, where it is held now, and the inbound references to repair at retirement.
 - validation:
   - kind: command
     required: true
@@ -1014,6 +1015,12 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Plan delta: Task_15's description, title and first acceptance line, and one Definition of Done line. The count of proposed records may change; every place that says twelve is recounted after Task_15.
   - User approval: not applicable.
   - Record proposed: as Task_15 finds.
+
+- 2026-11-16 15:14Z Decision: plan review of the extension, CHANGES REQUESTED at 12f0a06 (Codex review seat, 2026-11-16 15:13Z), one finding, answered.
+  - OC-EXT-F1: Task_15 left the state of an accepted record under revision undefined and scheduled reference repair before retirement. Settled as the reviewer names: the four originals stay in force and unedited; a subject-named proposed record is drafted for each whatever the outcome; references are listed and repaired only at acceptance and retirement. Also taken: Task_12 goes to a Researcher, and its before-and-after record says only whether a place changed.
+  - The reviewer saw 12f0a06, before Task_15 took in the twelve; the re-review is of the plan at this entry's commit, both changes together.
+  - User approval: not applicable.
+  - Record proposed: none.
 
 ## Notes
 - Risks: a runtime may offer no way to make a default role (A2), no way to start a session without a person on this machine (A3), or no way to bring a stopped session to Counsel's attention (A5); each is answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
