@@ -1101,6 +1101,10 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Task_16: this workspace's Sessions record says how a session is started on a named model and effort and where what it runs on is read, with the dates and what was not tried; the sentence on the Orchestrator's model now has Counsel start a session on the record's pair. The runtime did not refuse the edit. The record still awaits his confirmation.
   - Every place that says twelve proposed records is recounted at closeout.
   - Review of Tasks 13 to 16 requested with this entry.
+- 2026-11-16 16:11Z Review of Tasks 13 to 16: CHANGES REQUESTED at 20a56f9 (Codex review seat, 2026-11-16 16:10Z), two findings, both corrected.
+  - OC-T15-F1: the record proposed in place of ADR-D-0049 on one home per role was called the same decision although it admits what ADR-D-0049 forbids, a surface naming a role. Correction to the entry above, which says each of the four keeps its decision: that record changes ADR-D-0049 in one respect and now says so, with the exact relaxation (a surface may name a session role to route to its home, to say which role a session with no role chosen holds, or to say how a role is chosen, and for nothing else) and its reason; the other five records in place of the four carry their decisions unchanged. It goes to the owner by name as a change.
+  - OC-T16-F1: `docs/coding-agent/rules/common.md` kept its earlier `last_updated`; set to 2026-11-16.
+  - The review's other checks passed: Task_13's text against the brief and Task_12, 2.0.0 everywhere the version is carried, nineteen proposed records all proposed and in the template's form, the four accepted records byte for byte unchanged.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
