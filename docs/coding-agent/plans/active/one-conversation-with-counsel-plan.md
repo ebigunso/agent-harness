@@ -1,8 +1,8 @@
 # Plan: One conversation with Counsel
 
-- status: done 2026-11-13 by the channel clock (final review APPROVED; closeout audit holds nothing; the run is reported ready and awaits the owner: the pull request, twelve proposed decision records by name, the reworded admitting entry, the Sessions record)
+- status: in progress; reopened 2026-11-16 by the channel clock on the owner's answers to the result reported ready (Tasks 12 to 16). Before that: done 2026-11-13 (final review APPROVED; closeout audit holds nothing; the run is reported ready and awaits the owner: the pull request, twelve proposed decision records by name, the reworded admitting entry, the Sessions record)
 - generated: 2026-11-12
-- last_updated: 2026-11-13 (extended on the owner's answers of 2026-11-13: Tasks 9 to 11 added, Tasks 6 to 8 amended)
+- last_updated: 2026-11-16 (Tasks 12 to 16 added on the owner's answers relayed 2026-11-16 15:04Z; before that 2026-11-13: extended on the owner's answers of 2026-11-13: Tasks 9 to 11 added, Tasks 6 to 8 amended)
 - work_type: mixed
 
 ## Goal
@@ -21,6 +21,10 @@
 - The closeout lists, for the owner, every case where a runtime's own permission check still needs input in a session's window and what he has to do for each.
 - Added 2026-11-13: in Codex and Copilot the harness's setup writes the default into the repository's own instructions, and the closeout says plainly which cases of "every runtime and everyone who installs" remain unmet (brief, Directed during the run).
 - Added 2026-11-13: the owner opens no second session, the first time in a repository included; nothing in the plugin's text or in a proposed record fixes how his acceptance is handled before that way of handling it has been tried in practice (brief, Directed during the run, the constraint).
+- Added 2026-11-16: a run Counsel starts runs on the model and at the effort the workspace's record names for the Orchestrator, and where it cannot be started so the line that tells the owner the run has started says what it runs on (brief, Directed during the run).
+- Added 2026-11-16: before the pull request merges it is tried whether an Orchestrator session in Codex still dispatches subagents with the block in the Codex home as built; if it does not, what the block needs for that is put back (brief, Directed during the run).
+- Added 2026-11-16: the plugin version is 2.0.0 (brief, Directed during the run).
+- Added 2026-11-16: ADR-D-0017, ADR-D-0035, ADR-D-0043 and ADR-D-0049 are revised to the standard the rewrite of decision records works to and proposed to the owner, each for acceptance by name; none is marked as accepted in its revised form by this plan (brief, Directed during the run).
 - The branch is reviewed `APPROVED` and value audits at plan draft and closeout are logged.
 
 ## Planner-added requirements
@@ -414,6 +418,110 @@ One task writes the sentence that holds each statement of the brief; a mirror is
     owner: reviewer
     detail: "Diff against the brief's second and third statements under Directed during the run and Task_9's findings"
 
+### Task_12: What the owner's answers need tried
+- type: research
+- owns:
+  - docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md
+- depends_on: []
+- description: |
+  Added 2026-11-16. Two things are tried before text is written on either, each in throwaway directories, with stand-ins, and under the limits of Task_1 and Task_9 (no setting outside the throwaway directories is changed, no safety check of a runtime is got past, a refused act is recorded and not repeated, no run is kept).
+  First: whether an Orchestrator session in Codex, opened with the block in the Codex home as this branch builds it, still dispatches subagents where the harness requires it. If it does not, the least the block needs for it is found by trying.
+  Second: whether a session started by the means this workspace records can be started on a named model and at a named effort, and by what means the model and effort a started session really runs on can be seen from outside it.
+  The dispatch says what each runtime may write outside the throwaway directories for the kind of run used, and the Worker records the state of such places before and after (lesson of 2026-11-14). Where a trial cannot be made within the limits, the findings say so and why.
+- acceptance:
+  - The findings file has a dated section for each of the two, stating what was done, what was seen, how many times, and what was not tried.
+  - Every statement is marked as observed, documented or inferred, and nothing seen once is written as a rule.
+  - The state of each place a runtime may write outside the throwaway directories is recorded before and after.
+- validation:
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "The findings read against the two questions; labels checked against what the sections say was done"
+
+### Task_13: The model of a run Counsel starts, and the Codex home block
+- type: docs
+- owns:
+  - plugins/coding-agent-orchestration-harness/skills/counsel/**
+  - plugins/coding-agent-orchestration-harness/skills/orchestration-harness/references/value-level-operation.md
+  - plugins/coding-agent-orchestration-harness/skills/rulebook/references/rule-suite-templates.md
+  - plugins/coding-agent-orchestration-harness/codex/**
+  - plugins/coding-agent-orchestration-harness/skills/codex-harness-bootstrap/**
+- depends_on: [Task_12]
+- description: |
+  Added 2026-11-16. Bring the text to the owner's first and second answers of 2026-11-17 (brief, Directed during the run). A run Counsel starts is started on the model and at the effort the workspace's record names for the Orchestrator; where it cannot be started so, the line that tells the owner the run has started says what it runs on. The means stays the workspace's record's to name; the plugin's text names no runtime's option.
+  If Task_12 showed that a Codex Orchestrator session no longer dispatches subagents, the block gets back what Task_12 showed it needs and no more. If Task_12 showed it still does, the block is not touched.
+  Write only what Task_12 showed; what it could not try is stated as a limit with its date.
+- acceptance:
+  - A session reading Counsel's text knows where the model and effort of a run it starts come from and what the start line says when they could not be given.
+  - The Codex home block is changed only as Task_12's findings require, and still gives a session no role.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff against the brief's two statements and Task_12's findings"
+
+### Task_14: Version 2.0.0
+- type: chore
+- owns:
+  - plugins/coding-agent-orchestration-harness/**/plugin.json
+  - .claude-plugin/**
+  - .agents/**
+  - .github/plugin/**
+  - plugins/coding-agent-orchestration-harness/README.md
+  - README.md
+- depends_on: []
+- description: |
+  Added 2026-11-16. Every place that carries the plugin's version says 2.0.0 (brief, Directed during the run), and wherever the text calls this change a minor step it is corrected.
+- acceptance:
+  - No file carries 1.7.0 as the plugin's version.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; a search of the tree for 1.7.0"
+
+### Task_15: Four accepted records at the standard of the rewrite
+- type: docs
+- owns:
+  - docs/coding-agent-orchestration-harness/decisions/**
+- depends_on: [Task_12]
+- description: |
+  Added 2026-11-16. ADR-D-0017, ADR-D-0035, ADR-D-0043 and ADR-D-0049 are revised to the standard the run under `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` works to (that brief, the `durable-docs-authoring` skill's `references/adr.md`, and the owner's test for one decision), so that each states its decision and not a mechanism the next change of means would contradict (this run's brief, Directed during the run, with his words of 2026-11-17).
+  For each record the Worker decides, by the owner's test, whether the decision still stands once the mechanism is taken out (the record is rewritten at the same decision) or whether what was built changed the decision itself (a record is proposed in its place, named by subject as this run's other proposed records are). Which it was, and why, is in the report. Whatever a revised record no longer carries and is still needed is shown to be held by the plugin's text, named by file, or reported as a gap.
+  Nothing is marked accepted in its revised form, nothing is retired and no number is taken; the way the revision is shown as awaiting his acceptance follows what the decision-records run did for a rewritten accepted record. References to a revised record are repaired by meaning where its revision changes what they rely on.
+- acceptance:
+  - Each of the four, as revised or replaced, passes the admission test and is in the template's present form.
+  - No revised record contradicts the text this branch builds, and none states a mechanism where the decision can be stated without it.
+  - The report lists, per record, what was taken out and where it is held now.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py from the plugin root; git diff --check"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Each record against the admission test, the owner's test for one decision, and the built text"
+
+### Task_16: This workspace's Sessions record
+- type: docs
+- owns:
+  - docs/coding-agent/rules/common.md
+- depends_on: [Task_12, Task_13]
+- description: |
+  Added 2026-11-16. The Orchestrator's task. The Sessions record says by what means a session is started on the model and effort the record names for the Orchestrator, as Task_12 showed, and the sentence that says a started session runs on what the owner's settings give it is brought to his answer. The record stays marked as awaiting his confirmation.
+- acceptance:
+  - The record and the plugin's text agree on where a started run's model and effort come from.
+- validation:
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Diff against Task_12's findings and Task_13's text"
+
 ## Task Waves (explicit parallel dispatch sets)
 
 - Wave 1: [Task_1]
@@ -423,6 +531,9 @@ One task writes the sentence that holds each statement of the brief; a mirror is
 - Wave 5: [Task_11] (added 2026-11-13)
 - Wave 6 (parallel): [Task_6, Task_7]
 - Wave 7: [Task_8]
+- Wave 8: [Task_12] (added 2026-11-16)
+- Wave 9 (parallel): [Task_13, Task_14, Task_15] (added 2026-11-16)
+- Wave 10: [Task_16] (added 2026-11-16)
 
 ## Rollback / Safety
 - Everything is on one branch and reverts as one. Nothing is merged, accepted or retired by this plan.
@@ -885,6 +996,15 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Plan delta: none; the text already says this. The closeout entry's line "Weaker than the brief's words" no longer applies: the brief now says what was built.
   - User approval: not applicable.
   - Record proposed: none.
+
+- 2026-11-16 15:05Z Decision: the run is reopened on the owner's answers to the result reported ready; Tasks 12 to 16 are added.
+  - Trigger: Counsel's relay of 2026-11-16 15:04Z by the channel clock (his calendar 2026-11-17), admitted by the standing approval, quoting him on Counsel's six points: "I think your takes for the decision points 1~5 is reasonable, so I'll take that as suggested. For the ADRs, I'd like it to be revised to the same standards the rewrite runs are doing. I suspect there are mechanisms written into the ADRs that are too specific, that invites more rewrite requirements than is ideal." Counsel wrote all six into the brief under Directed during the run; committed by name at 9b1e40c.
+  - Plan delta: the plan returns to `active/`. Task_12 tries the two things his answers rest on; Task_13 writes the model of a started run and, only if the trial requires, the Codex home block; Task_14 takes the version to 2.0.0; Task_15 revises the four accepted records; Task_16 brings the Sessions record to it. The Auditor mandates stay as built (his fourth answer); the merge tool's allow rule is his to set and nothing here makes it (his fifth).
+  - Read from the brief and not his words: that the four are revised before pull request 109 merges is tagged there as inferred; this plan follows it, since the option he was answering was changes proposed before the merge. Which run revises them he did not say; this run does, since its brief now carries the statement.
+  - Open with him through Counsel: whether "the ADRs" also takes in the twelve proposed records. Until he answers, Task_15 covers the four only; a yes extends Task_15 and is logged here.
+  - The plan as extended is reviewed and audited at plan draft before Task_12 is dispatched.
+  - User approval: not applicable.
+  - Record proposed: as Task_15 finds.
 
 ## Notes
 - Risks: a runtime may offer no way to make a default role (A2), no way to start a session without a person on this machine (A3), or no way to bring a stopped session to Counsel's attention (A5); each is answered by Task_1 before any text is written on them. The four writing tasks share one working tree, so a validator run by one sees the others' edits.
