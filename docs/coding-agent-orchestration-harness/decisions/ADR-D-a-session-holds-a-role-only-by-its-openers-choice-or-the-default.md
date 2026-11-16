@@ -44,7 +44,7 @@ The decision is broken where a session nobody opened as the Orchestrator plans, 
 ## Revisit When
 
 - A runtime provides deterministic, documented activation of a named skill (neither GitHub Copilot nor Claude Code did on 2026-09-07).
-- The premise that a role held by instruction text alone is honoured fails. In Codex nothing in the runtime fixes a session's role (seen 2026-11-12), and on 2026-11-13 a Codex home that still held text installed before this decision sent a coding request to the Orchestrator's skill in a repository without the default, in one run. A session found acting as the Orchestrator unchosen with the text of this decision installed reopens this record.
+- The premise that a role held by instruction text alone is honoured fails. In Codex nothing in the runtime fixes a session's role (seen 2026-11-12). A session found acting as the Orchestrator unchosen with the text of this decision installed reopens this record.
 
 ## More Information
 

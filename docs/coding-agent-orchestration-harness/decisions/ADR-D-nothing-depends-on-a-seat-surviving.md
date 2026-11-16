@@ -21,12 +21,11 @@ A seat that has done earlier work holds what it saw, and the session that dispat
 
 - Nothing depends on a seat surviving. How long a seat lives is not fixed: a session may keep one while it is useful and may end one at any time.
 - The first dispatch of a unit of work stands alone: a seat that has seen nothing before it can do the work from the dispatch and the files it names.
-- A seat that takes over a unit of work part-way is handed where that unit stands: what it is for, what is decided and on whose word, what is done and at which revision, what remains, what is still open, and what may already have been done outside the repository.
-- A seat so handed neither repeats an act already performed nor undoes a decision already made. That the earlier messages are stored somewhere is not enough.
+- A seat that takes over a unit of work part-way is handed where that unit stands, so that it neither repeats an act already performed nor undoes a decision already made. That the earlier messages are stored somewhere is not enough.
 
 ## Why
 
-The person directing the work asked on 2026-11-12 for the outcome "where I am the bottle neck, not the machinery", and on 2026-11-11 said of seats: "I think a seat should be freely spawned and destroyed to allow maximum freedom and parallelism." Seats can be created and ended freely only if no result rests on one having lived: work that waits for a particular seat waits on the machinery, and a person who has to start or repair a seat is doing what the product philosophy's "Who it is for" says is never asked of them. A store of messages does not say which of them still hold, so a seat that takes over is told where the work stands and not left to reconstruct it.
+Seats can be created and ended freely only if no result rests on one having lived: work that waits for a particular seat waits on the machinery, and a person who has to start or repair a seat is doing what the product philosophy's "Who it is for" says is never asked of them. A store of messages does not say which of them still hold, so a seat that takes over is told where the work stands and not left to reconstruct it.
 
 ## Rejected Alternatives
 
@@ -36,7 +35,7 @@ The person directing the work asked on 2026-11-12 for the outcome "where I am th
 
 ## Decision Boundary
 
-Not covered: who creates and ends a seat and by what means, which are means in the brief and the workspace's record to state; whether two sessions may share a seat; the form of a dispatch and of the hand-off, which the dispatch text states; what a seat is told of the machine it runs on; the identity a session holds on a peer channel (`ADR-D-a-session-holds-one-identity-on-the-peer-channel.md`); who tracks and cleans up subagents that run asynchronously (ADR-D-0021); which option a seat runs on (ADR-D-0068); how long a new seat takes to find its way in an area and what that costs, which the brief leaves out.
+Not covered: who creates and ends a seat and by what means, which are means in the brief and the workspace's record to state; whether two sessions may share a seat; the form of a dispatch, and what a hand-off of where a unit stands holds, which the dispatch text states; what a seat is told of the machine it runs on; the identity a session holds on a peer channel (`ADR-D-a-session-holds-one-identity-on-the-peer-channel.md`); who tracks and cleans up subagents that run asynchronously (ADR-D-0021); which option a seat runs on (ADR-D-0068); how long a new seat takes to find its way in an area and what that costs, which the brief leaves out.
 
 ## Validation
 
@@ -44,7 +43,7 @@ The decision is broken where a result depends on a seat having seen an earlier u
 
 ## Revisit When
 
-- The premise that what a seat still holds cannot be read from outside it no longer holds. The decision rests on two rounds of research on 2026-11-12 into the channel history and session transcripts of four repositories.
+- The premise that what a seat still holds cannot be read from outside it no longer holds. It was checked on 2026-11-12.
 - A seat handed where a unit stands is found to do measurably worse work than the seat it replaced would have. On 2026-11-12 the logs could not show how long a new seat takes to find its way in an area or what that costs in money.
 
 ## More Information

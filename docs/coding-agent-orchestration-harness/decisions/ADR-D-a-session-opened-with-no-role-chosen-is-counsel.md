@@ -26,7 +26,7 @@ ADR-D-0037 held that a session takes a role only by an explicit act of the perso
 
 ## Why
 
-The product philosophy's "Who it is for" calls wrong any design that works only if the person understands a role, and has a choice between things a person cannot tell apart made for them; the person directing the work put it on 2026-11-11 as "We shouldn't assume everyone would know the difference between the two roles enough to make an informed decision", and, of a session with nothing chosen, "the harness still needs to take some kind of role or else there wouldn't be a harness there." The role is Counsel ("I think we should have Counsel as the default, and ship it for everyone", 2026-11-11) because Counsel is the one conversation from which a run can be started for that person, so someone who never chooses a role still never has to open a second session. For the runtimes where an install gives no role, a default in each repository where setup has run was put to that person beside being told what to type and beside not counting those runtimes as delivered, and accepted on 2026-11-13.
+The product philosophy's "Who it is for" calls wrong a design that works only if the person understands a role, and has a choice between things a person cannot tell apart made for them; a session with nothing chosen that held no role would give such a person no harness at all. The role is Counsel because Counsel is the one conversation from which a run can be started for that person, so someone who never chooses a role still never has to open a second session.
 
 ## Rejected Alternatives
 

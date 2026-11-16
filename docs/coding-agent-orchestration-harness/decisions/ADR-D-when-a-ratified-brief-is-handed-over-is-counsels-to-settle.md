@@ -25,7 +25,7 @@ A ratified brief's run starts without the person directing the work opening anyt
 
 ## Why
 
-The product philosophy's "Who it is for" has a choice the person cannot weigh made for them: "A design that works only if the person understands a role, a model or a step of the process is wrong. So is one that hands them a choice between things they cannot tell apart: that choice is made for them." Whether a brief's work can start is a fact about the runs in progress, which Counsel holds and that person would have to be told in order to answer. On Counsel's draft that had that person told at hand-over, that person said on 2026-11-12: "I think it's better if I get to approve them anytime and when it gets handed over is handled by Counsel."
+Whether a brief's work can start is a fact about the runs in progress, which Counsel holds and that person would have to be told in order to answer; the product philosophy's "Who it is for" has a choice the person cannot weigh made for them. Ratifying is that person's judgement of the brief and does not depend on that fact, so it is not made to wait for it.
 
 ## Rejected Alternatives
 

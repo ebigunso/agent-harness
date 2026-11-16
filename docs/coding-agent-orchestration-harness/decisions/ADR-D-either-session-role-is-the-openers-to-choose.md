@@ -25,7 +25,7 @@ A session opened with no role chosen is Counsel (`ADR-D-a-session-opened-with-no
 
 ## Why
 
-The product philosophy's "Who it is for" says that whoever does know the mechanics loses nothing by a choice being made for those who do not. The person directing the work said on 2026-11-11: "These two are usually chosen when a session is opened, so it should be able to support both roles not just one."
+A default exists for the person who cannot tell the roles apart, and the product philosophy's "Who it is for" says that whoever does know the mechanics loses nothing by a choice being made for those who do not. A default that could not be chosen against would take from the opener who knows which role they want the choice they had before it.
 
 ## Rejected Alternatives
 
@@ -34,7 +34,7 @@ The product philosophy's "Who it is for" says that whoever does know the mechani
 
 ## Decision Boundary
 
-Not covered: which form the choice takes in each runtime and on each surface (an agent picker, a launch option or setting, naming the role's skill in the first message), which the role map states with the date each was seen; what a session with nothing chosen is (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); that a session holding one role never takes the other (ADR-D-0034); the model a session runs on.
+Not covered: which form the choice takes in each runtime and on each surface, which the role map states with the date each was seen; what a session with nothing chosen is (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); that a session holding one role never takes the other (ADR-D-0034); the model a session runs on.
 
 ## Validation
 
@@ -42,7 +42,7 @@ The decision is broken where a supported runtime leaves a person who wants one o
 
 ## Revisit When
 
-- A runtime adds or removes a way to open a session in a named role. As seen on 2026-11-12: GitHub Copilot offers an agent picker when a chat is started; Claude Code runs a session as a named agent by a launch option or a setting; the Codex CLI has no option that names an agent for the main session, so there the choice is made by naming the role's skill in the first message and nothing in the runtime fixes it.
+- A runtime adds or removes a way to open a session in a named role. On 2026-11-12 each of GitHub Copilot, Claude Code and Codex offered a way into both roles; in Codex the choice was held by the conversation alone, and nothing in the runtime fixed it.
 - A supported runtime is found in which a role chosen that way is not the role the session then holds.
 
 ## More Information

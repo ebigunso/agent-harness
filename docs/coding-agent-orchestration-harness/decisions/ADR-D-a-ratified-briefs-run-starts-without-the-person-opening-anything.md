@@ -25,7 +25,7 @@ The grounds for a piece of work pass from Counsel to an Orchestrator session as 
 
 ## Why
 
-The product philosophy's "What it aspires to" is that person's part shrinking to saying what they want and judging what they got, and its "Who it is for" rules out a design that needs them to understand a role or a step of the process; the brief has such a person never "open a second session, start a seat or repair one." A run that Counsel cannot reach would put that person back to carrying answers to it by hand, which is why none is started.
+The product philosophy's "Who it is for" rules out a design that works only if the person understands a role or a step of the process, and opening a second session to carry a brief into it is such a step. A run that Counsel cannot reach would put that person back to carrying answers to it by hand, which is why none is started.
 
 ## Rejected Alternatives
 

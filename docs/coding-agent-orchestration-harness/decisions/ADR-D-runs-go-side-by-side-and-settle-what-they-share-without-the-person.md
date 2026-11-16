@@ -27,7 +27,7 @@ Until 2026-11-12 a brief handed over while another run was in progress waited fo
 
 ## Why
 
-That person said on 2026-11-12: "What I want, is the freedom to ask for anything at any moment, and barring machine capability limits, I am free of bottle necks. The best outcome is where I am the bottle neck, not the machinery", and on 2026-11-11: "The pain is the wait before a brief starts." Runs that needed that person to untangle them would only move the wait from the start of a brief to its end, and what two runs share can be undone and stays inside the work, which the product philosophy's "The line" leaves to the harness to decide and tell. Two briefs that cannot both hold are a matter of what was meant, which only that person can answer. Of how many go at once that person said on 2026-11-12: "The harness can decide here".
+A brief that queues behind the work in progress makes that person wait on the machinery, and runs that needed that person to untangle them would only move the wait from the start of a brief to its end; what two runs share can be undone and stays inside the work, which the product philosophy's "The line" leaves to the harness to decide and tell. Two briefs that cannot both hold are a matter of what was meant, which only that person can answer.
 
 ## Rejected Alternatives
 
@@ -37,7 +37,7 @@ That person said on 2026-11-12: "What I want, is the freedom to ask for anything
 
 ## Decision Boundary
 
-Not covered: how a run finds what another run touches, and what each tells Counsel on taking a brief; how the later run brings its work onto the earlier, and how a number that must be unique across runs is taken, which the workflow text and the standard for decision records state; which session does each run's work, which is a means in the brief; a brief that builds on a change another run has not finished, which is held (`ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`); whether anything bounds how many runs go at once, where the default is that nothing does: a default that could change with this record standing, which the workflow text states (the `orchestration-harness` value-level operation reference, Runs Side By Side); what happens when the machine's limit for a period is reached; how money is handled in a goal run; what a run is and when it closes (ADR-D-0051).
+Not covered: how a run finds what another run touches, and what each tells Counsel on taking a brief; how the later run brings its work onto the earlier, and how a number that must be unique across runs is taken, which the workflow text and the standard for decision records state; which session does each run's work, which is a means in the brief; a brief that builds on a change another run has not finished, which is held (`ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`); whether anything bounds how many runs go at once, where the default is that nothing does: a default that could change with this record standing, which the workflow text states; what happens when the machine's limit for a period is reached; how money is handled in a goal run; what a run is and when it closes (ADR-D-0051).
 
 ## Validation
 

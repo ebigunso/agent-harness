@@ -26,7 +26,7 @@ With several runs going at once and one conversation, things become ready for th
 
 ## Why
 
-Offered each item reaching them as it is ready against its being held for them, that person said on 2026-11-12: "Yes, I think it's better to leave the choice of order to me rather than having to constantly switch tasks." And of a case in which nothing was said until asked: "I think it's better if I get to know what is waiting, so I can choose to pick it up at my own pace, rather than be silently held and never know it's there." That person's attention is the scarce thing in the product philosophy's "What goes wrong, in order", and a thing decided for someone and never mentioned leaves them unable to correct it ("The line"); a line that says what waits and what it holds up spends little attention and keeps the choice with the one person who can weigh it.
+That person's attention is the scarce thing in the product philosophy's "What goes wrong, in order": an item put in full the moment it is ready makes that person switch tasks at the pace of the runs, and by "The line" a thing held for someone and never mentioned leaves them unable to act on it. A line that says what waits and what it holds up spends little attention and keeps the order with the one person who can weigh it.
 
 ## Rejected Alternatives
 
