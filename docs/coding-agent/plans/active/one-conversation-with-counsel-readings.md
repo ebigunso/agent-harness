@@ -115,6 +115,27 @@ Corrected after the closeout audit, where the reading and the grade differ:
 - Accepted records with a clause that no longer holds, named and not edited: read as covered; graded inferred and marked as bearing on direction, the brief naming three records and the run finding four more. Reported to him.
 - Unread here and graded by the audit: the validator check; the folder trusted once (inferred, direction); a carried no; the entry written as proposed before acceptance; the marker handling; the sentence on who installed the loader dropped from the Codex home block; the model of a started session; both Auditor mandates reading the machine's record (inferred, direction).
 
+### The plan as extended on 2026-11-16 (Tasks 12 to 16), plan draft
+
+Item | reading | statement relied on
+
+- The plan returns to active and is reviewed and audited again at plan draft before the added tasks start | covered | brief, Directed during the run (his words of 2026-11-17, relayed by Counsel and admitted by the standing approval)
+- Task_12 tries whether a Codex Orchestrator session still dispatches subagents with the Codex home block as built, before the merge | covered | brief, Directed during the run ("Before pull request 109 merges it is tried whether an Orchestrator session in Codex still dispatches subagents")
+- Task_12 also tries whether a session can be started on a named model and effort, and how what it runs on is seen from outside, before text is written on it | extends | the brief asks for the result, not for a trial; the engineering philosophy on a limit written as a limit, and the lesson of 2026-11-14 that text promising an outcome waits for it to be tried
+- Task_12's limits: throwaway directories, stand-ins, no setting changed outside them, no safety check got past, a refused act not repeated, no run kept; only whether a place outside changed is recorded | covered | the owner's standing privacy and safety rules; brief, Limits (anything that reaches outside waits for him)
+- Task_13: a run Counsel starts runs on the model and effort the workspace's record names for the Orchestrator; where it cannot, the start line says what it runs on | covered | brief, Directed during the run (the statement accepted 2026-11-17)
+- Task_13: the plugin's text names no runtime's option; the means stays the workspace's record's | extends | the Orchestrator's, from the design already built (the record of means)
+- Task_13: the Codex home block gets back only what Task_12 showed it needs, and is untouched if dispatch still works | covered | brief, Directed during the run ("If it does not, what the block needs for that is put back")
+- Task_14: version 2.0.0 | covered | brief, Directed during the run ("a major version step, to 2.0.0")
+- Task_15: ADR-D-0017, ADR-D-0035, ADR-D-0043 and ADR-D-0049 are revised to the standard of the decision-records rewrite, each proposed for his acceptance by name | covered | brief, Directed during the run (his words: "For the ADRs, I'd like it to be revised to the same standards the rewrite runs are doing.")
+- Task_15: the twelve proposed records are checked against the same standard and revised, split or withdrawn | covered | brief, Directed during the run (his words: "Yes, check the twelve against the same standard too."); that a check leads to revising, splitting or withdrawing is the plan's reading of "check"
+- Task_15 is done in this run and before pull request 109 merges | covered, on an inferred statement | brief, Directed during the run: that it is before the merge is tagged inferred there; which run does it he did not say, and Counsel reports he was shown that recording and corrected neither
+- Task_15: the four accepted records stay in force and unedited; a subject-named proposed record is drafted beside each; references are repaired only at acceptance and retirement | extends | the plan's, on the plan review's finding and the decision-records run's practice; brief, Limits (accepting a decision record by name waits for him)
+- Task_16: the Sessions record says by what means a started session gets the Orchestrator's model and effort, and stays awaiting his confirmation | covered | brief, Directed during the run (the model statement); the record's confirmation still waits for him
+- The Auditor mandates are left as built | covered | brief, Directed during the run ("Both Auditor mandates go on reading the record of the machine's obstacles before grading, as built")
+- No task makes the merge tool's allow rule | covered | brief, Directed during the run ("which is his to make and which nothing in the work makes for him")
+- Nothing else already built and reviewed is reopened | extends | the Orchestrator's
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.
