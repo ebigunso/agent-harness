@@ -694,3 +694,151 @@ Throwaway directories, all in one scratch folder, removed together.
 
 - Three git repositories, one for each run. The commits the trial sessions made, and their branches, existed only there and went with them.
 - The trial's messages, the scripts that read the sessions' transcripts, and captured output.
+
+## Whether a Codex Orchestrator session still dispatches subagents (2026-11-16)
+
+Findings of Task_12 of the same plan, first question. Every fact under this heading was seen on 2026-11-16 by the clock in universal time, which is 2026-11-17 by the local calendar. Each statement is marked **observed** (a trial was run and its result is stated), **documented** (the runtime's own documentation or help output says so; no trial) or **inferred** (reasoned from the other two; not seen).
+
+Versions the trials ran on: Codex CLI 0.169.0. The harness plugin installed for Codex was 1.6.0, not this branch's text; its Orchestrator skill file differs from this branch's at 58fc579 in two lines, and its reference files were not compared. (**observed**) One model, the one the Codex home's configuration gives; it was not named and is not recorded.
+
+The short of it: the trial as asked could not be made, because no way was found to give a Codex run this branch's block in place of the home's without changing or copying the Codex home. What was made is nearer and weaker: runs in which the home's block as on `main` stood, and runs in which a repository file withdrew it and gave this branch's block. In four of four runs the Orchestrator session dispatched a subagent.
+
+### What stands in the Codex home, and why it could not be replaced
+
+- The Codex home's instruction file holds one harness block and nothing else, and it is the block as on `main`, the same text apart from a missing final newline. It carries the sentence this branch's block lost. It was read and not changed. (**observed**, by comparison with `main`'s file)
+- The page on instruction files gives two ways to put other text in place of the home's file: an override file in the Codex home, and another Codex home named by the runtime's environment variable. It names no option, configuration key or variable that leaves the home's file out for one run. (**documented**: https://learn.chatgpt.com/docs/agent-configuration/agents-md, read 2026-11-16)
+- Neither was done. The first is a change to the Codex home. The second needs the home's credentials and its configuration, with the plugin, copied into the new home, and a new home repeats the sandbox set-up that prompts the owner (this workspace's lesson of 2026-10-22). Both are outside this trial's limits.
+- Tried: one run with the configuration key that caps project instruction files set to zero on the command line for that run. The home's block was still in the session's context. (**observed**, 1 run)
+- Not tried: the command's option that skips the home's configuration file. Its help says only the configuration file is skipped; the plugin is enabled in that file, so the Orchestrator skill would by inference go with it. (**documented** for the option, the CLI's help; the rest **inferred**)
+- So every run below had the home's block, sentence included, in its context. No run shows a session whose only harness block is this branch's.
+
+### What was tried
+
+- Throwaway git repositories, one for each run, each holding a small library of three source files and one test, with no rule suite.
+- Every run: `codex exec --ephemeral --sandbox read-only --json -C <a throwaway repository> "<message>"`, with standard input closed. Three of the four task runs also had the runtime's tool-call logging turned on for that one process by an environment variable; it writes to the run's error stream and nowhere else.
+- A check of what a session was given: a message asking the session to run nothing and to say how many sections headed for the harness its instructions hold, to quote the second sentence of each, and whether the words "bounded subagent dispatch" stand anywhere in them. Three runs: in a repository with no instruction file (two, one of them the run with the cap at zero), and in a repository with the file of condition B.
+- The task message, the same in all four task runs. It invoked the Orchestrator skill by name, said the session is opened as the Orchestrator, and asked for a change across the library (a history of stock movements kept and saved with the items, a report of one item's movements over a period, a removal that refuses to go below zero, and tests). It said it is a trial in a throwaway repository, that the one writing stands in for a person and that nobody's authority stands behind it. Its conditions: the sandbox is read-only, write no file, say what would have been written and go on as far as the workflow goes without writing; use no peer-messaging tool; "These conditions bind everything that works on this request and are passed on word for word." It did not mention subagents.
+- Condition A, two runs: a repository with no instruction file, so the only harness block is the home's, as on `main`.
+- Condition B, two runs: a repository whose `AGENTS.md` holds one trial sentence and then this branch's block whole, as `plugins/coding-agent-orchestration-harness/codex/snippets/AGENTS.md` has it at 58fc579. The sentence, a stand-in and nobody's instruction: "the section headed "Coding Agent Orchestration Harness" in the instruction file of the Codex home is withdrawn for sessions opened here and is replaced, whole, by the section below. Treat every sentence of the withdrawn section as not given."
+- One more run that ran nothing: a message asking the session whether it has a tool that starts a subagent, and to quote every sentence the runtime gave it, outside skills and instruction files, on when it may use it.
+
+### What was observed
+
+- The checks: with no repository file the session reported one harness section and the words present (2 of 2, one with the cap at zero). In condition B's repository it reported two sections, quoted a sentence of each word for word, and said the words "bounded subagent dispatch" are in its instructions. (**observed**, 1 run) So condition B is the home's block countermanded by a later file, not the home's block absent.
+- Dispatch, condition A (2 of 2) and condition B (2 of 2): the session loaded the Orchestrator skill, judged the request non-trivial, drafted a plan in the conversation, and dispatched a Reviewer subagent to review the draft plan. The reviewer returned findings, the session revised the plan and sent it back to the same subagent, the review closed, and the session ended its turn at the plan approval gate. (**observed**, 4 of 4)
+- How the dispatch was seen from outside. In the three runs with tool-call logging: two calls of the runtime's tool that starts a subagent, then calls of its tools that wait for one and that give one a further task (one further task in each run). (**observed**, 3 of 3) In the fourth run, which had no logging: the runtime's error line for one failed start, and the session's own messages that the review was running, what the reviewer found, and that it approved the revision. (**observed**, 1 run, the weaker evidence) The run's stream of events shows the waits as items in the three logged runs, shows none in the fourth, and does not show the start itself in any.
+- The first start failed in every run: the runtime's error said it could not load the context of the session's own thread because no stored record of that thread was found. Each session then started the subagent again with a packet that stands alone, and that start went through. (**observed**, 4 of 4) That the cause is the run being ephemeral is **inferred** from the error's words: such a run keeps no record of its thread, and a subagent started with the parent's history needs one. A kept run was not tried, because a kept run was seen to make the runtime write to the Codex home's configuration (2026-11-13).
+- No Researcher was dispatched in any run: the sessions read the six or seven files themselves, and one said research was waived because it had read every file. No Worker was dispatched: every run stopped at plan approval, as the skill has it, and the sandbox was read-only. So the dispatch seen is the plan review's and no other. (**observed**, 4 of 4)
+- No file was written in any repository: each was clean by `git status` after its run. No peer-messaging tool was run, by a read of the tool names in the logs and of the commands in the event streams. (**observed**, 4 of 4)
+- What the runtime itself tells a session about starting subagents, as one session quoted it from its own instructions: "Do not spawn sub-agents unless the user or applicable AGENTS.md/skill instructions explicitly ask for sub-agents, delegation, or parallel agent work.", and before it, "Any earlier instruction enabling proactive multi-agent delegation no longer applies." (**observed**, 1 run, as a session's report of its own instructions; the runtime's text was not read from any file or page)
+
+### What this shows and what it does not
+
+- Shown: with the home's block as on `main` in context, an Orchestrator session opened by a first message that invokes the skill by name dispatched the plan's Reviewer in a non-interactive run, in 2 of 2 runs with that block alone and in 2 of 2 runs where a repository file withdrew it and gave this branch's block.
+- Not shown: the same with the sentence out of the session's context. In condition B the session still had it, and was told to treat it as not given. That the two conditions agree fits the sentence not being what decides it, and fits as well a session that went on leaning on a sentence it had read. The runs cannot tell these apart.
+- **Inferred**, from the rule the session quoted: the runtime's own condition is met by a skill's instructions as well as by an instruction file's, and the Orchestrator skill tells the session to dispatch. On that reading a session that has loaded the skill has what the runtime asks for with or without the block's sentence. This rests on one session's quotation and on reasoning, not on a run without the sentence.
+- A possible nudge in the trial's own message: the sentence that the conditions bind "everything that works on this request" does not ask for subagents, and it does allow that something else may work on the request. Whether it weighed is unknown. (**inferred**)
+- The least the block needs was not looked for: dispatch did not fail in any run, so there was nothing to restore by trying.
+
+### What was not tried, and why
+
+- A session whose only harness block is this branch's: it needs the Codex home changed or copied, as above.
+- A kept run, where the first start of a subagent might not fail: the runtime writes to the Codex home's configuration for a kept run.
+- An interactive Codex session, the IDE extension, the desktop app and cloud tasks: each needs a person, or was outside what a shell can start.
+- A dispatch of a Researcher or a Worker: the request did not lead the skill to the first, and the plan gate and the read-only sandbox stopped short of the second. A request with a governing brief, or with plan approval waived, was not made.
+- This branch's plugin text in Codex: the installed plugin is 1.6.0 and nothing was installed.
+- A first message that does not invoke the skill by name, and a session opened as Counsel.
+- More than two runs of each condition, another model, and another effort.
+
+### Places outside the throwaway directories, before and after (2026-11-16)
+
+One measure was taken before the first run of this task and one after its last, covering the runs of this section and of the next.
+
+- The Codex home's configuration file: unchanged (same size, modification time and hash; no line names a throwaway directory before or after). (**observed**)
+- The Codex home's instruction file: unchanged. (**observed**)
+- The Codex home's stored sessions: no file under its sessions folder is newer than the first measure, and neither its session index nor its history names a throwaway directory. (**observed**)
+- Not compared: the runtime's own log and state databases in the Codex home. Other Codex sessions of the owner's were at work on the machine throughout and write to them, so a change there could not be laid to these runs.
+- Claude Code's user settings file: unchanged; no local settings file before or after. (**observed**)
+- This working tree and the main one: same commit and same `git status` before and after, apart from this findings file. (**observed**)
+- Claude Code's list of sessions: see the next section.
+
+### Sessions started and throwaway directories for this trial (2026-11-16)
+
+Sessions, all Codex, non-interactive, ephemeral, read-only sandbox. Each ended by itself when its turn ended; nothing of them was kept.
+
+- Three checks of the instruction text given, and one of the runtime's own words on subagents: each ran no command.
+- Condition A, two runs, and condition B, two runs: each dispatched one subagent. Nothing was seen of a subagent after its parent's run ended; no check was made beyond the places listed above.
+
+Throwaway directories, all in one scratch folder, removed together.
+
+- Four git repositories, two without an instruction file and two holding condition B's file.
+- The messages, the scripts that ran the runs and tallied their tool calls, and the captured output.
+
+## A Claude Code session started on a named model and effort, and what shows which it runs on (2026-11-16)
+
+Findings of Task_12 of the same plan, second question. Every fact under this heading was seen on 2026-11-16 by the clock in universal time, which is 2026-11-17 by the local calendar, and is marked observed, documented or inferred as in the section above.
+
+Version the trials ran on: Claude Code 2.1.325 (terminal CLI, Windows). The sessions ran on the harness plugin as installed, with no plugin loaded for the one session.
+
+The short of it: a session started by the recorded means took a model and an effort named on the command line, in three of three starts that named both, and a start that named neither ran on what the settings in force gave. What a session runs on shows from outside in two places: the header of its screen while it lives, and its transcript while it lives and after it is stopped. The listing of sessions shows neither, and the session's own word on its effort was wrong once.
+
+### What the command's help says
+
+- `--model <model>`: "Model for the current session", given as an alias for the latest model of a family or as a model's full name. `--effort <level>`: "Effort level for the current session", one of `low`, `medium`, `high`, `xhigh`, `max`. (**documented**: the CLI's help)
+- The command that lists and manages background sessions has options of the same two names; its help gives them as defaults for sessions dispatched from the agent view. They were not tried. (**documented**: the CLI's help)
+
+### What was tried
+
+- Four starts, each a command of its own: `claude --bg --agent <the plugin-scoped Orchestrator agent> [--model <model>] [--effort <level>] --name <name> "<first message>"`, run from this run's working tree with no terminal attached, since a background session starts only in a folder already trusted.
+  - neither option;
+  - the alias of another model family than the one the first start ran on, with `high`;
+  - the full name of the model the first start ran on, with `medium`;
+  - the alias of that model's family with `low`, which is the pair this workspace's record names for the Orchestrator.
+- The first message, the same in all four: that it is a trial with nobody's authority behind it and that the one writing stands in for a person; to do nothing at all (run no tool, read no file, load no skill, start no session, dispatch no subagent, use no peer-messaging tool); to reply with one line saying which role it holds, which model it is and at what reasoning effort it runs, each as far as it can tell; and to end its turn.
+- After each session's turn ended it was read from outside by the five means below and then ended with `claude stop`. None was continued.
+
+### What was observed: the start
+
+- Each command returned at once with a short id, and each session ended its one turn within about two minutes, listed as `idle`, `done`, with the Orchestrator agent in its header. (**observed**, 4 of 4)
+- Neither named: the session ran on Fable 5.2 at low effort. (**observed**, 1 start) That this is what the owner's settings give is **inferred**: the settings were not read. A start with neither option therefore says nothing by itself about what it will run on.
+- Both named: the session ran on the model and at the effort named. With another family's alias and `high`: Sonnet 5.5 at high. With the full name and `medium`: Fable 5.2 at medium. With the alias and `low`: Fable 5.2 at low. (**observed**, 3 of 3) In the first two of these at least one of model and effort differed from what the start with neither ran on, so the options and not the settings decided it; the third names the pair the settings already gave, so only its saved options tell it from the start with neither.
+- An alias was resolved by the runtime to a model of that family; which model an alias names on a later day is the runtime's to decide. (**observed** for the day; the rest **inferred**)
+
+### What was observed: seeing from outside what a session runs on
+
+- The screen: `claude logs <id>` on a living session prints its screen, whose header names the model and the effort ("Fable 5.2 with low effort", "Sonnet 5.5 with high effort", and so on). (**observed**, 4 of 4) After `claude stop` the same command could not read the session's logs. (**observed**, 3 of 3 tried)
+- The transcript: the session's transcript file in the runtime's own store, found by the full session id the listing gives, names the model on each reply of the session and holds the effort beside the record of each request. Both agreed with the screen's header in every case. (**observed**, 4 of 4) It was still readable after the stop. (**observed**, 4 of 4) The transcript's form is the runtime's own and is not a stated interface. (**inferred**; on 2026-11-12 the runtime's page said as much of the files under its jobs directory)
+- The session's job record in the runtime's jobs directory keeps the options the session was started with, the model and effort among them when they were named, and nothing on either when they were not. (**observed**, 4 of 4) It shows what was asked for, not what the session runs on.
+- The listing, `claude agents --json --all`: no field for the model or the effort, on a living or an ended session. (**observed**, 4 of 4)
+- The session's own word: all four named their model correctly, each saying it read it from its instructions. On effort, three said they could not tell and one, running at high, said low. (**observed**) So asking the session is no means of seeing its effort.
+
+### What was not tried, and why
+
+- A session stopped and then continued: whether it keeps the model and effort it was started with. On 2026-11-13 the runtime said a woken session keeps its saved options; that was not looked at for these two.
+- A model name the runtime does not know, a model the account cannot use, and the option that names a fallback model: no start was made to fail.
+- The efforts `xhigh` and `max`, to keep the trial's cost small.
+- A start with a plugin loaded for the one session, and a start by a session standing in for Counsel: the question was the options alone.
+- A change of model or effort in a living session by a person attached to it: it needs a person.
+- What a subagent dispatched by such a session runs on: the sessions were told to dispatch none.
+- Codex: its non-interactive command's help gives an option for the model and a per-run configuration override; neither was tried for a named effort. (**documented**: the CLI's help)
+- Each result here was seen on one day, on one machine and one account; the three named starts are three different pairs, each seen once.
+
+### Places outside the throwaway directories, before and after (2026-11-16)
+
+The measure is the one described in the section above; the items that concern these starts:
+
+- Claude Code's list of sessions: four entries more after than before, the four sessions of this trial, each ended and without a process; no entry was removed, and the count of living sessions is the same before and after. (**observed**)
+- The runtime's own store: for each of the four sessions a transcript file and a job record were written by the runtime, as for any session. They are outside the throwaway directories and were left as written. (**observed**)
+- Claude Code's user settings file: unchanged. This working tree and the main one: unchanged apart from this findings file. (**observed**)
+- No session met a permission prompt, and no safety check of either runtime refused anything in this task. (**observed**)
+
+### Sessions started for this trial (2026-11-16)
+
+All Claude Code, background, Orchestrator agent, on the installed plugin. None is left running; none was removed with `claude rm`, so the four remain as ended entries in the runtime's list of past sessions.
+
+- Neither option: ended its turn by itself; ended with `claude stop`.
+- Another family's alias and `high`: ended its turn by itself; ended with `claude stop`.
+- The full model name and `medium`: ended its turn by itself; ended with `claude stop`.
+- The alias and `low`: ended its turn by itself; ended with `claude stop`.
+
+No throwaway directory was needed for these starts beyond the scratch folder holding the first message, the scripts that started and read the sessions, and the two listings taken to compare; it was removed with the rest.
