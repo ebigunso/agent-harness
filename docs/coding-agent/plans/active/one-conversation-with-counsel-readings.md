@@ -235,6 +235,18 @@ Item | reading | statement relied on
 - Reading compared: (against "Small changes of 2026-11-18 ..., closeout") Seven records reworded, one renamed, no decision changes: agrees (covered against cited; items 1, 2 and 9). Definition cut and boundary pointer: diverges (Orchestrator: extends; auditor: cited on the count statement). The test "a session that is not Counsel": diverges (Orchestrator: extends; auditor: cited on "A session opened with no role chosen is Counsel"). The unused Orchestrator definition deleted: diverges (Orchestrator: extends; auditor: cited on the told sentence on detail). No wider pass: agrees (extends against inferred). The completed plan's two log lines: diverges (Orchestrator: extends, on nothing in the brief; auditor: cited on engineering philosophy §2 and §5). The proposed approval entry: agrees (covered against cited). "Proposed 2026-11-17" kept: agrees (extends against inferred). One closing audit for both: agrees (extends against inferred). Unread by the Orchestrator: items 3, 6, 7, 8, 15, 17 and 18.
 - Findings compared: no finding is recorded for these small changes. The three recorded on 2026-11-13: A runtime's check refusing a write on a relayed word (read as bearing on the design): agrees. "Setup puts one in place" built as an offer (read as bearing on the design): agrees. The trust entry written into his Codex configuration (read as trivial for the design): agrees. No item line notes a departure from a means.
 
+### Small change: the nineteen gone over for detail that does not bear on their decision, closeout
+
+Item | reading | statement relied on
+
+- All nineteen read against a test; nine records changed by twelve lines, ten untouched; no decision, boundary, reason or reopen condition changed | covered | brief, Directed during the run, the last entry (told 2026-11-18: "Do the extra pass and bring them to me again.")
+- The test used is the two-sided test he agreed for the record standard | extends | the same entry tags its use here as inferred; a ruling, since without a test the pass is trimming by taste
+- Eight sentences restated as possibility or criterion (counts, which runtimes, today's default, a file location, a path) | covered | the same entry and his sentence on detail
+- Three remarks under More Information deleted | extends | his sentence on detail; rulings on what the Worker left
+- A clause giving the person's acceptance as part of why an alternative lost is deleted | extends | the record standard (a person's ruling is never the reason), not his statement on detail; a ruling
+- Kept though they could be read as detail: dated observations, boundary pointers, lists a first-time reader needs, three reopen conditions naming a means, a commit pointer, a quotation in one Context | extends | the test's second side; the Worker's calls and one ruling
+- Citations by number of records the nineteen replace are left for retirement | extends | the standard's atomic retirement
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.

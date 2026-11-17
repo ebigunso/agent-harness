@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: a session role is a role a session itself holds. A role's workflow is its gates, its rules and its formats. A runtime surface is anything a runtime reads to bring the harness to a session: an agent definition, a manifest, a block of installed instructions, a role template. A role's home is the one place its workflow is stated.
 
-The runtimes the harness supports consume it through different surfaces. Each surface is a place where the workflow could be written down again, and every copy is a place where it can go stale without anyone noticing. The fork is whether a runtime surface may carry workflow of its own or only route to a shared source.
+The runtimes the harness supports may consume it through different surfaces. Each surface is a place where the workflow could be written down again, and every copy is a place where it can go stale without anyone noticing. The fork is whether a runtime surface may carry workflow of its own or only route to a shared source.
 
 ## Decision
 
