@@ -413,6 +413,11 @@ Item | reading | statement relied on
 - The version stays 1.7.0 | extends | nothing in the brief; the pull request is unmerged and this corrects what it carries
 - Counsel's answer taken as the grounds without a new word of his | extends | the product philosophy, what his documents already answer is not asked again; the statement itself is in the brief
 
+### The record standard's last sentence (small change), closeout: the audit compared
+
+- Reading compared: Item 1 (the sentence keeps the dated facts under Revisit When and no more): agrees (covered; cited). Item 2 (the general reason and the keeping of the names and dates removed): agrees (covered; cited). The reading also names Counsel's placement; the grade rests on the brief's entry alone. Item 3 (a name or a date elsewhere is a detail like any other): agrees (covered; cited). Item 4 (Counsel's answer taken as the grounds without a new word of his): diverges. Read as extends, on the product philosophy; graded cited on the brief's entry, which the built sentence matches, with "It asks only what only the person can answer." The reading carries no note that it bears on direction; the mark is mine. Item 6 (the bullet "No time-relative wording" no longer named): diverges. Read as extends; graded cited on "The wording in the standard is the run's." Item 8 (the version stays 1.7.0): agrees (extends; inferred). The reading says nothing in the brief; the grade names the statement it extends. Items 5, 7, 9, 10 and 11 (the Worker's joining and back-reference; the DR-STD-F1 fix; built without a plan; the branch and pull request; the Worker and review seats): unread.
+- Findings compared: no finding is recorded under Findings for this change, and no item line notes a departure from a means.
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.

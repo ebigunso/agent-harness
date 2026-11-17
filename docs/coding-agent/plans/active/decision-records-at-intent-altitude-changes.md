@@ -1028,3 +1028,97 @@ Small changes built without a plan under the governing brief, each from the owne
 - 2026-11-17 16:23Z Review by the Codex seat `agent-harness-reviewer`: CHANGES REQUESTED at 5a8ff15. DR-STD-F1: dropping "the standard asks for" widened what the sentence protects, since a dated detail merely placed under Revisit When would then stay; the rest of the wording passes.
 - 2026-11-17 16:24Z DR-STD-F1 corrected by the Worker on a follow-up; the sentence now reads: "The dated facts this standard asks for under Revisit When stay; a name or a date anywhere else in a record is a detail like any other and stays on those two grounds." Validator, smoke tests and `git diff --check` pass, rerun by the Orchestrator. The Worker's judgement call to drop the qualifier is withdrawn.
 - 2026-11-17 16:25Z Re-review: APPROVED at 58e27be, range 5a8ff15..58e27be; DR-STD-F1 closed, no finding open.
+- 2026-11-17 16:25Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 4cfe4c3.
+- 2026-11-17 16:32Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "The record standard's last sentence kept to his words".
+  **Nothing is held: no item is `ask-now` and none is `ungraded`.** The range changes one sentence of the record standard, and the sentence now keeps what his statement in the brief keeps and no more. One judgement call carries the `direction` mark (item 4). Two readings diverge, each because I graded `cited` what was read as extends.
+  ## Before the record
+  - **Range audited:** 4cfe4c3 to the working tree of the `agent-harness-adrs` worktree, clean at 16837b8 (five commits: 0e89865, 139c1cd, 5a8ff15, 58e27be, 16837b8). There are no untracked files. The section records 4cfe4c3 as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **Nothing of the range is on the remote** by the local refs: the branch is ahead of its upstream by 5. 4cfe4c3 is not in origin/main (fbe364b), so pull request 110 is unmerged.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0). Both are identical to the worktree's copies.
+    - One `git diff` over the range, with both exclude pathspecs, printed two files in one command: the changes file's added section and the one changed line of `adr.md`.
+    - Every other content read was one named path at a time. Listings and searches across files printed names only.
+  - **Notes and readings:** no notes file was opened. Commit 139c1cd changes the brief's notes file; I did not read it. The readings file was opened once, after the grades were fixed, with one command that printed its headings, the range's diff of it and the tail of its Findings section.
+  - **Plan file:** I read all 1031 lines of the changes file. The earlier verdicts logged in it are claims and support nothing here.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states; the rest as claims)
+  - The diff 4cfe4c3 to the working tree, with both exclude pathspecs.
+  - Read to understand the change, not as support: `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md` and `adr-template.md` at HEAD.
+  Product basis: philosophy, with the brief in the product owner's words. `docs/product-philosophy.md` is ratified by the product owner (companion, version 1, 2026-11-11: "I ratify the engineering philosophy and the product philosophy."). The brief's basis line says the run is graded against the brief and both philosophies.
+  Not audited: none. Both sides have a document.
+  Missing inputs: none
+  Value documents changed in range: none. The brief, both philosophies, both companions and `common.md` are not in the range's diff, and no pointer line was removed or changed.
+  Statements quoted below, by short name.
+  From the brief, Directed during the run, the entry of 2026-11-18 (agent-proposed 2026-11-18; accepted 2026-11-18: "Yes, I agree with your takes and when to do it."):
+  - **Standard:** "The record standard is changed in this run, on his word, as the constraint under What the work gives requires. Its line on intent altitude also has a record not fix what merely happens to be so when it is written: how many of a thing exist, which ones, or by what means."
+  - **Test:** "a detail stays when the decision would not bind without it, or a first-time reader would not understand the decision without it."
+  - **Dated facts:** "The dated facts the standard asks for under Revisit When stay."
+  - **Wording:** "The wording in the standard is the run's."
+  From the brief, elsewhere:
+  - **How:** preamble: "It states what and why. How is the Orchestrator's, except where a means is stated, and a means does not bind."
+  From the engineering philosophy:
+  - **EP3 goods:** "Where two goods conflict, the text settles it."
+  - **EP4 names:** "What changes faster than the place it would be written. A model's name, a price, a count, a date-bound fact: these go where changing them costs one line."
+  - **EP7 burden:** "the burden of proof is on what is added or kept, and absence needs no defence."
+  From the product philosophy:
+  - **PP2 asks:** "What the harness can find out, it finds out. It asks only what only the person can answer."
+  - **PP3 tells:** "On the near side of that line the harness decides, acts and tells. The telling is not optional"
+  - **PP6 small:** "Not heavier than the request. A small ask gets a small process."
+  From `common.md`, Standing Approvals:
+  - **Publish:** "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner."
+  - **Rebase:** "The branches of unmerged pull requests in this repository may be rebased and force-pushed without asking first; they are not final until merged."
+  Whether any quoted words were said is not something a file can show.
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. `adr.md`, the Intent altitude bullet's last sentence, first half: "The dated facts this standard asks for under Revisit When stay" | maps to the brief | cited | Dated facts | -
+  2. The same sentence no longer gives the reason "A fact named with its date stays true whatever changes later", and no longer has "the names and dates "No time-relative wording" asks for" stay | maps to the brief | cited | Dated facts; Test; EP7 burden | -
+     - His statement names one thing that stays outside the test. The removed keep was the run's addition in the unit before this one.
+     - The brief has the standard changed only on his word. I found no loosening: the built text now matches what the entry of 2026-11-18 states, which tightens it back.
+  3. The sentence's second half: "a name or a date anywhere else in a record is a detail like any other and stays on those two grounds" | maps to the brief | cited | Test; Standard ("which ones"); Wording; EP4 names; EP3 goods | -
+     - The brief's rule already puts "which ones" inside the test, and it would not need to say that the dated facts under Revisit When stay unless dated facts were otherwise inside it. The clause says that outright.
+     - I searched for a conflict and found none. The bullet "No time-relative wording" is unchanged, so a name or a date that stays is still written out. The engineering philosophy's "A fact that may change carries the date it was seen" speaks of a fact that is written, not of whether it belongs in a record.
+     - "Anywhere else in a record" is wider than the test's own unit, which is a sentence. Read literally it reaches names and dates the standard and its template ask for outside Revisit When: the front matter's `date`, `deciders` and `consulted`, and the retirement line "Retired on DATE". The brief's statement has the same reach, so this is not beyond it.
+  4. Ruling, Orchestrator, before dispatch: the sentence keeps the dated facts under Revisit When and no more, on Counsel's answer from his standing words with no new word of his; "He is told of it, not asked" | maps to the brief | cited | Standard; Dated facts; Wording; PP2 asks; PP3 tells | direction
+     - Why the mark: the last closeout put this sentence before him as a matter of direction, and the changes file then said that whether it keeps only what his statement keeps "is his to say". The ruling settles it for every record the three remaining areas will write, in a standard the brief reserves to his word.
+     - The grade does not rest on Counsel's message, which reaches me only as the changes file's account. It rests on the brief's entry, which the built sentence now matches.
+     - Nothing in the range shows him told. The telling is still owed.
+  5. Judgement calls, Worker: the optional clause is used and joined by a semicolon; "those two grounds" points back to the sentence before it | maps to the brief | cited | Wording; Test | -
+  6. Judgement call, Worker: the bullet "No time-relative wording" is no longer named, "anywhere else in a record" covering it | maps to the brief | cited | Wording | -
+     - The width this gives the clause is noted under item 3.
+  7. Review fix DR-STD-F1: "this standard asks for" restored before "under Revisit When"; the Worker's call to drop the qualifier withdrawn | maps to the brief | cited | Dated facts ("the standard asks for") | -
+     - Without the qualifier, a dated detail merely placed under Revisit When would have stayed.
+  8. Ruling, Orchestrator: the version stays 1.7.0 | maps to the brief | inferred | extends Standard (one change to the standard, shipped once) and EP7 burden; cheap to undo | -
+     - No manifest is in the range's diff, and 1.7.0 has not reached main.
+  9. Judgement call, Orchestrator: built as a small change without a plan, one task | internal mechanics | cited | How; PP6 small | -
+  10. Judgement call, Orchestrator: the change goes on top of the branch of pull request 110, whose text is brought up to date; nothing is pushed before review and this audit | internal mechanics for the branch; the push and the pull request's text are outward-facing | cited | How; Publish; Rebase | -
+      - Each entry carries its record and is committed at HEAD: "The common rule proposed, accepted." (2026-09-30) and "I accept the standing-approval entry on rebasing unmerged pull requests." (2026-10-15).
+      - I read pushing to the run's own unmerged branch, and bringing its open pull request's text up to date, as within these. The merge is not covered and waits for him.
+      - Nothing has been pushed yet.
+  11. Judgement call, Orchestrator: one Claude Worker on Fable 5.2 at low reasoning effort; review by the Codex seat `agent-harness-reviewer` | internal mechanics | cited | How | -
+      - The workspace record in `common.md` names both settings.
+  Decision records reworded after acceptance in the range: none. No file under `docs/coding-agent-orchestration-harness/decisions/` changed in the range.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): demonstrated. To observe: read ADR-D-0071 and ADR-D-0072, and ADR-D-0076 to ADR-D-0087, all `status: accepted` at HEAD, with ADR-D-0016, 0011, 0014, 0029, 0063 and 0066 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96." and "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101."
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still `status: accepted`, and the run record's result table.
+  - Prior states, as the last closed unit left them (the run record's Units row for it): 1 and 3 not yet; 2 demonstrated, for accepted records as well; 4 demonstrated. No state moved.
+  - Getting closer: yes. The range removes from the standard a general reason under which any detail carrying a date would have passed the new test. The three remaining areas are therefore written to the line as he accepted it, with names and dates held to the same two grounds as any detail.
+  - Limits on that judgement: no scenario moved and no record was checked. This is the second unit in a row on the standard and it corrects the unit before it. The result table covers 12 of the 49 records, and the three other areas are not started.
+  ## For the Orchestrator's eye
+  - **The clause's reach** (item 3). "A name or a date anywhere else in a record" does not say it means the record's sentences. The template's front matter and the retirement line ask for names and dates that neither of the two grounds would keep. I did not grade this a conflict; it is one phrase if you want it narrowed.
+  - **The telling is owed** (item 4). The log says he is told, and nothing in the range shows it.
+  - **The run record is behind.** Its Scenarios table still gives scenario 2 as demonstrated for one instance and ready for his judgement for the accepted records, where its own Units row for the last unit has it demonstrated for both. It has no Units row for this change yet.
+- Acting on the verdict: nothing is held, so the change closes; it is pushed onto the branch of pull request 110 and that text is brought up to date. The item marked direction: the ruling settled, on Counsel's answer from his standing words, what the last closeout had put before him; the telling the audit finds owed is Counsel's (its message says he is told, not asked) and the Orchestrator says so again in its note, with the sentence as built, so that he can overrule it. From outside the grades: "a name or a date anywhere else in a record" reaches, read literally, the names and dates the template asks for in front matter and in the retirement line; the brief's statement has the same reach, so it is left and told to Counsel as one phrase to narrow if he wants it. The run record's Scenarios row for scenario 2 is brought to the state the last two verdicts give it, and this change gets its Units row.
