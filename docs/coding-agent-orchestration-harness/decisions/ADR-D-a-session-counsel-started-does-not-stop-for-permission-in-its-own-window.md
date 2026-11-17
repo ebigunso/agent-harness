@@ -29,7 +29,7 @@ A prompt in a window nobody watches is asked of no one, and a person who must wa
 ## Rejected Alternatives
 
 - A started session waits at each permission prompt until that person attaches to it: it lost because that person would have to watch every started session to know that one is waiting; reopen if every supported runtime brings a waiting prompt to that person in the conversation they are already in.
-- Window input is ruled out altogether, and work that would need it is not done: it lost because some runtimes can satisfy some checks in no other way, and that person accepted the input as a backup; reopen if every supported runtime lets all such checks be settled beforehand in that person's own settings.
+- Window input is ruled out altogether, and work that would need it is not done: it lost because some runtimes can satisfy some checks in no other way; reopen if every supported runtime lets all such checks be settled beforehand in that person's own settings.
 
 ## Decision Boundary
 

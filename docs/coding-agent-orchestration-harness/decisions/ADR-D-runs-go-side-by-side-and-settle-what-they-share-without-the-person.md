@@ -37,7 +37,7 @@ A brief that queues behind the work in progress makes that person wait on the ma
 
 ## Decision Boundary
 
-Not covered: how a run finds what another run touches, and what each tells Counsel on taking a brief; how the later run brings its work onto the earlier, and how a number that must be unique across runs is taken, which the workflow text and the standard for decision records state; which session does each run's work, which is a means in the brief; a brief that builds on a change another run has not finished, which is held (`ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`); whether anything bounds how many runs go at once, where the default is that nothing does: a default that could change with this record standing, which the workflow text states; what happens when the machine's limit for a period is reached; how money is handled in a goal run; what a run is and when it closes (ADR-D-0051).
+Not covered: how a run finds what another run touches, and what each tells Counsel on taking a brief; how the later run brings its work onto the earlier, and how a number that must be unique across runs is taken, which the workflow text and the standard for decision records state; which session does each run's work, which is a means in the brief; a brief that builds on a change another run has not finished, which is held (`ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`); whether anything bounds how many runs go at once, which could change with this record standing and which the workflow text states; what happens when the machine's limit for a period is reached; how money is handled in a goal run; what a run is and when it closes (ADR-D-0051).
 
 ## Validation
 

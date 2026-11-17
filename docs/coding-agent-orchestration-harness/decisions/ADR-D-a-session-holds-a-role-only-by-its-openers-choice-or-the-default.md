@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: a session role is a role a session itself holds. The opener is whoever opens the session, a person or a session acting for one. The default is the role a session holds when its opener chose none (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`).
 
-Every runtime the harness supports discovers skills by their descriptions and may load one on its own when a request seems to match, and a harness installs text that a session reads before anyone has chosen anything. ADR-D-0020 held that a session with the orchestration workflow in context is the Orchestrator for a coding task, whatever routed it there, so that the workflow's gates would bind somebody. With a default role, that makes the role of a person's session depend on what they happened to type: a coding request would take them out of the conversation the default gives them. The fork is whether a role follows the text a session has in context or only what its opener chose.
+A runtime may discover skills by their descriptions and load one on its own when a request seems to match, and a harness installs text that a session reads before anyone has chosen anything. ADR-D-0020 held that a session with the orchestration workflow in context is the Orchestrator for a coding task, whatever routed it there, so that the workflow's gates would bind somebody. With a default role, that makes the role of a person's session depend on what they happened to type: a coding request would take them out of the conversation the default gives them. The fork is whether a role follows the text a session has in context or only what its opener chose.
 
 ## Decision
 

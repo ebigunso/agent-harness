@@ -46,4 +46,4 @@ The decision is broken where a session was started or run so that a runtime's sa
 
 ## More Information
 
-Taken out of `ADR-D-a-session-counsel-started-does-not-stop-for-permission-in-its-own-window.md`, where it was the third line of the Decision: it would still bind if that record were retired, so it is a decision of its own. Source of intent: the brief "One conversation with Counsel", "What reaches him" ("No check a runtime makes for safety is defeated to avoid it."). Related: ADR-D-0062 (under a brief the Orchestrator session asks that person nothing).
+Taken out of `ADR-D-a-session-counsel-started-does-not-stop-for-permission-in-its-own-window.md`: it would still bind if that record were retired, so it is a decision of its own. Source of intent: the brief "One conversation with Counsel", "What reaches him" ("No check a runtime makes for safety is defeated to avoid it."). Related: ADR-D-0062 (under a brief the Orchestrator session asks that person nothing).

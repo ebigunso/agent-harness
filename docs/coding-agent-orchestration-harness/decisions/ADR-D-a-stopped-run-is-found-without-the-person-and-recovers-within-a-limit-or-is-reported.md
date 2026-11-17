@@ -50,4 +50,4 @@ The decision is broken where a run has stopped making progress and the first to 
 
 ## More Information
 
-Source of intent: the brief "One conversation with Counsel", "What reaches him" and "Core scenarios"; the limit on recovery is the advice of the model consulted for that brief. Related: ADR-D-0044 (Counsel's pause, which is a stop Counsel issues and not one it finds), ADR-D-0051 (the run), ADR-D-0062 (everything that needs that person reaches them through Counsel).
+Source of intent: the brief "One conversation with Counsel", "What reaches him" and "Core scenarios". Related: ADR-D-0044 (Counsel's pause, which is a stop Counsel issues and not one it finds), ADR-D-0051 (the run), ADR-D-0062 (everything that needs that person reaches them through Counsel).
