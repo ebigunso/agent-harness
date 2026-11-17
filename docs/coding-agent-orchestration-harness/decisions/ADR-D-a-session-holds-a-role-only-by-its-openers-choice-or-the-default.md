@@ -13,7 +13,7 @@ superseded_by: null
 
 ## Context and Problem Statement
 
-Terms used here: a session role is a role a session itself holds, the Orchestrator's or Counsel's. The opener is whoever opens the session, a person or a session acting for one. The default is the role a session holds when its opener chose none (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`).
+Terms used here: a session role is a role a session itself holds. The opener is whoever opens the session, a person or a session acting for one. The default is the role a session holds when its opener chose none (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`).
 
 Every runtime the harness supports discovers skills by their descriptions and may load one on its own when a request seems to match, and a harness installs text that a session reads before anyone has chosen anything. ADR-D-0020 held that a session with the orchestration workflow in context is the Orchestrator for a coding task, whatever routed it there, so that the workflow's gates would bind somebody. With a default role, that makes the role of a person's session depend on what they happened to type: a coding request would take them out of the conversation the default gives them. The fork is whether a role follows the text a session has in context or only what its opener chose.
 
@@ -35,7 +35,7 @@ A description match is nobody's choice, and it fails silently: a session that wa
 
 ## Decision Boundary
 
-Not covered: the forms an opener's choice takes (`ADR-D-either-session-role-is-the-openers-to-choose.md`); which role the default is; that a session holding one role never takes the other (ADR-D-0034); which rule files an Orchestrator session reads when it starts, which the Orchestrator's skill states; how skill descriptions and installed text are worded; that harness text holds none of the user's authority (ADR-D-0017).
+Not covered: the forms an opener's choice takes (`ADR-D-any-session-role-is-the-openers-to-choose.md`); which session roles exist, which the role map states (ADR-D-0048); which role the default is; that a session holding one role never takes another (ADR-D-0034); which rule files an Orchestrator session reads when it starts, which the Orchestrator's skill states; how skill descriptions and installed text are worded; that harness text holds none of the user's authority (ADR-D-0017).
 
 ## Validation
 
@@ -48,4 +48,4 @@ The decision is broken where a session nobody opened as the Orchestrator plans, 
 
 ## More Information
 
-Replaces ADR-D-0020 in full, reversing it: a session routed to the orchestration workflow by installed text is no longer the Orchestrator for that reason. Dropped from ADR-D-0020: the list of rule files an Orchestrator session loads, which the Orchestrator's skill states and which is not a decision of record. With `ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md` and `ADR-D-either-session-role-is-the-openers-to-choose.md`, replaces ADR-D-0037 in full; carried here from it: that a description match is never the way into a role, and that no support skill presents itself as one. Source of intent: the brief "One conversation with Counsel", "One conversation" and "Limits". Related: ADR-D-0049 (one home per session role).
+Replaces ADR-D-0020 in full, reversing it: a session routed to the orchestration workflow by installed text is no longer the Orchestrator for that reason. Dropped from ADR-D-0020: the list of rule files an Orchestrator session loads, which the Orchestrator's skill states and which is not a decision of record. With `ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md` and `ADR-D-any-session-role-is-the-openers-to-choose.md`, replaces ADR-D-0037 in full; carried here from it: that a description match is never the way into a role, and that no support skill presents itself as one. Source of intent: the brief "One conversation with Counsel", "One conversation" and "Limits". Related: ADR-D-0049 (one home per session role).

@@ -21,11 +21,11 @@ A session holds one role, and there is more than one session role, each working 
 
 - A session takes its workflow from the home of the role it holds and never loads another role's home.
 - What roles share is stated once, in a home of its own that is no role's: the role homes point to it, and it points to none of them and states no role's procedure.
-- Where two roles each have a part in one exchange, each home states only its own role's part.
+- Where more than one role has a part in one exchange, each home states only its own role's part.
 
 ## Why
 
-A session that reads another role's workflow is drawn to that role's level of work, and the session a person talks with then stops speaking in terms that person can judge, which the product philosophy's "What goes wrong, in order" has what is meant established in. A shared home that is no role's lets both roles read what they share without either reading the other.
+A session that reads another role's workflow is drawn to that role's level of work, and the session a person talks with then stops speaking in terms that person can judge, which the product philosophy's "What goes wrong, in order" has what is meant established in. A shared home that is no role's lets every role read what the roles share without any reading another's home.
 
 ## Rejected Alternatives
 

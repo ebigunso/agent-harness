@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. The Orchestrator is the session role that plans, dispatches and reports the work. A run is the work done under one ratified brief.
 
-The grounds for a piece of work pass from Counsel to an Orchestrator session as a ratified brief (ADR-D-0034). Until 2026-11-12 the person directing the work opened that Orchestrator session and handed the brief over in it, which asks that person to know that there are two roles, to open the second, and to carry something from one to the other. The fork is whether ratifying a brief is the last thing asked of that person before the work begins, or the first of several.
+The grounds for a piece of work pass from Counsel to an Orchestrator session as a ratified brief (ADR-D-0034). Until 2026-11-12 the person directing the work opened that Orchestrator session and handed the brief over in it, which asks that person to know of the Orchestrator role, to open a session in it, and to carry the brief into it. The fork is whether ratifying a brief is the last thing asked of that person before the work begins, or the first of several.
 
 ## Decision
 

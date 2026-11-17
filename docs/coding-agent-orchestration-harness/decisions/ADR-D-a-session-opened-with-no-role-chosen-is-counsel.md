@@ -15,12 +15,12 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. The Orchestrator is the session role that plans, dispatches and reports the work.
 
-ADR-D-0037 held that a session takes a role only by an explicit act of the person opening it. Someone who installs the harness, opens a session and types what they want has performed no such act: they may not know that there are two roles, and under that record their session held no role of the harness at all. The fork is what a session is when its opener chose nothing: nothing, the Orchestrator, or Counsel.
+ADR-D-0037 held that a session takes a role only by an explicit act of the person opening it. Someone who installs the harness, opens a session and types what they want has performed no such act: they may not know that the harness has roles, and under that record their session held no role of the harness at all. The fork is what a session is when its opener chose nothing: nothing, the Orchestrator, or Counsel.
 
 ## Decision
 
 - A session opened with no role chosen is Counsel, in every runtime the harness supports and for everyone who installs it.
-- A session that holds the role by default says so in its first reply, with how the other role is opened.
+- A session that holds the role by default says so in its first reply, with how another role is opened.
 - Where a runtime does not let an installed harness give a session a role, the default holds in each repository where the harness's setup has run. A repository where setup has not run has no default in such a runtime.
 - Nothing describes a runtime, a surface or a repository the default does not reach as having it.
 
@@ -36,17 +36,17 @@ The product philosophy's "Who it is for" calls wrong a design that works only if
 
 ## Decision Boundary
 
-Not covered: how each runtime carries the default and on which of its surfaces, and what setup writes into a repository to carry it, which the role map and the setup text state with the date each was seen; the wording of the first reply; that either role can still be chosen (`ADR-D-either-session-role-is-the-openers-to-choose.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); how a run is started from the default conversation (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`).
+Not covered: how each runtime carries the default and on which of its surfaces, and what setup writes into a repository to carry it, which the role map and the setup text state with the date each was seen; the wording of the first reply; that a role can still be chosen (`ADR-D-any-session-role-is-the-openers-to-choose.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); how a run is started from the default conversation (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`).
 
 ## Validation
 
-The decision is broken where someone opens a session in a supported runtime with the default in place, chooses nothing, and is talking to a session that holds no role or the Orchestrator's; where such a session is Counsel and does not say so, or does not say how the other role is opened; or where a runtime or a repository that the default does not reach is described as having it.
+The decision is broken where someone opens a session in a supported runtime with the default in place, chooses nothing, and is talking to a session that is not Counsel; where such a session is Counsel and does not say so, or does not say how another role is opened; or where a runtime or a repository that the default does not reach is described as having it.
 
 ## Revisit When
 
-- The premise that the people the harness is for do not know the two roles well enough to choose between them no longer holds.
+- The premise that the people the harness is for do not know the session roles well enough to choose among them no longer holds.
 - What was seen of the default's reach changes. On 2026-11-12 the default given by the install was seen in the Claude Code terminal CLI, and by that runtime's documentation does not reach its cloud sessions. On 2026-11-13 the default carried by repository instructions was seen followed in Codex in non-interactive runs only, held by instruction text alone, and had not been tried in GitHub Copilot. A trial in which a session opened with nothing chosen does not come out as Counsel reopens how the default is carried there, and, where no way is found, the reach this record states.
 
 ## More Information
 
-With `ADR-D-either-session-role-is-the-openers-to-choose.md` and `ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`, replaces ADR-D-0037 in full. Changed here: ADR-D-0037 allowed no way into a role but an explicit act, and this record gives a session with nothing chosen the Counsel role. Source of intent: the brief "One conversation with Counsel", "Who it is for and why", "One conversation" and "Directed during the run". Related: ADR-D-0034 (Counsel), ADR-D-0048 (role names and the role map).
+With `ADR-D-any-session-role-is-the-openers-to-choose.md` and `ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`, replaces ADR-D-0037 in full. Changed here: ADR-D-0037 allowed no way into a role but an explicit act, and this record gives a session with nothing chosen the Counsel role. Source of intent: the brief "One conversation with Counsel", "Who it is for and why", "One conversation" and "Directed during the run". Related: ADR-D-0034 (Counsel), ADR-D-0048 (role names and the role map).

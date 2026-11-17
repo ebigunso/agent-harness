@@ -30,7 +30,7 @@ The person directing the work talks with Counsel, and an Orchestrator session's 
 
 ## Why
 
-Opening a session of the other role once per repository, to type an acceptance into it, is a step of the process that the product philosophy's "Who it is for" says a design must not need the person to understand, and that act verified no later relay: it protected the first step only. With the answer carried, the same unverifiable word is relied on one step earlier, which is why the risk is named to that person and the exception is limited to the one answer.
+Opening an Orchestrator session once per repository, to type an acceptance into it, is a step of the process that the product philosophy's "Who it is for" says a design must not need the person to understand, and that act verified no later relay: it protected the first step only. With the answer carried, the same unverifiable word is relied on one step earlier, which is why the risk is named to that person and the exception is limited to the one answer.
 
 ## Rejected Alternatives
 
