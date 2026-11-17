@@ -1650,6 +1650,26 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/one-conversation-with-counsel-changes.md`; the review's OC-CLOSE-F1 and OC-CLOSE-F2 at fde92f2.
 
+## 2026-11-17 - A Qualifier In The Owner's Wording Is A Limit, Not A Trim  [tags: review, documentation, correction]
+
+Context:
+- A sentence of the record standard was rewritten to keep what the owner's statement keeps: "The dated facts the standard asks for under Revisit When stay."
+
+Symptom:
+- The Worker shortened it to "The dated facts under Revisit When stay", reading "the standard asks for" as redundant inside the standard. The review found that any dated detail merely placed in that section would then be kept.
+
+Root cause:
+- The qualifier was the limit on what is kept, and dropping it was treated as wording.
+
+Fix:
+- The qualifier was restored and the judgement call withdrawn.
+
+Prevention:
+- When text carries an exception the owner stated, every restricting qualifier of his wording is kept; a dropped qualifier is a change of scope and is reported as one.
+
+Evidence:
+- The review's DR-STD-F1 on pull request 110, 2026-11-17 by the channel clock.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
