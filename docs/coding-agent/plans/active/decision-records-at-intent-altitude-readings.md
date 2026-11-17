@@ -384,6 +384,19 @@ Corrected after the closeout audit of the acceptance and retirement, where the r
 - Acceptance recorded by the status alone, and the two repairs outside the decisions directory: read as extends; graded cited, on the brief's Limits with the standard, and on the lifecycle the brief gives.
 - The suffix naming the lowest-numbered record and the two shortened slugs: read as covered within the retirement; graded inferred.
 
+### The record standard: a record does not fix what merely happens to be so (small change), closeout
+
+Item | reading | statement relied on
+
+- The Intent altitude bullet has a record not fix what merely happens to be so, with the two-sided test and "not a call for brevity" | covered | brief, Directed during the run, the last entry (accepted 2026-11-18)
+- The sentence reconciling the test with named dates and the dated facts under Revisit When, and its reason ("A fact named with its date stays true whatever changes later") | extends | the same entry ("The dated facts the standard asks for under Revisit When stay"); the reason is the Worker's derivation
+- One bullet, not a second; the test in the manner of "One decision per record" | extends | the same entry ("Its line on intent altitude also has"; "The wording in the standard is the run's")
+- The bullet named by title, not position | extends | nothing in the brief; a ruling on durability of the text
+- That the plugin's working text is untouched is not written into the standard | extends | the same entry; the sentence describes the direction's reach
+- Version 1.6.0 to 1.7.0 | extends | the run's practice for a change to plugin text (pull request 97)
+- A new branch from main and a pull request of its own | extends | the harness's rule for a small change when no stack of the run is unmerged
+- The three areas still to do and the other run's records are not touched | covered | the same entry
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.

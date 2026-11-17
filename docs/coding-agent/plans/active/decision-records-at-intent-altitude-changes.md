@@ -928,3 +928,5 @@ Small changes built without a plan under the governing brief, each from the owne
   - Judgement calls (the Worker's): one bullet, not a second; the test in the manner of "One decision per record. Test:"; "not a call for brevity" said outright; the reason given for no conflict with dated facts ("A fact named with its date stays true whatever changes later") is the Worker's derivation, not his words; the brief's sentence that the plugin's working text is not touched is not written into the standard, which governs records only; a minor version step.
   - Ruling (the Orchestrator's): the last sentence names the bullet "No time-relative wording" by its title, not as "the next bullet", so a reorder does not break it.
   - Limit: the bullet is now the longest under Form. Records written before this change are not re-read against it in this change.
+- 2026-11-17 16:06Z Review by the Codex seat `agent-harness-reviewer`: APPROVED at 56292eb, range 2d90a9d..56292eb, no finding (DR-STD); validator and smoke tests run independently.
+- 2026-11-17 16:06Z The reading is written in the readings file before the closing audit is dispatched.
