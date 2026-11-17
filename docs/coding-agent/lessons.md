@@ -1629,6 +1629,27 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md`, the section on a Codex Orchestrator session with the lost sentence out of its view (2026-11-16).
 
+## 2026-11-17 - A Proposed Entry Is Still A Change: Logged, Reviewed And Audited Before It Is Pushed  [tags: governance, workflow, correction]
+
+Context:
+- A run reported ready was open for the owner. He answered a held decision and asked for a standing approval to be drafted for him to read.
+
+Symptom:
+- The Orchestrator wrote the proposed entry, committed it with the plan's closing entries and pushed, then asked for a review and logged that no closing audit would run because the entry binds nothing until accepted. The plan was also left under `active/` and given the work that follows acceptance.
+
+Root cause:
+- "Not in effect" was read as "not a change". The text he is to accept is the thing built, and a change directed while a run is open is a unit of the run with its own checks.
+
+Fix:
+- The entry was logged as a small change in the run's changes file, reviewed, and audited at closeout before anything further was pushed; the plan moved to `completed/`.
+
+Prevention:
+- A change the owner directs while a run is open is logged in the changes file (or planned) before it is written, and nothing of it is pushed before its review and closing audit; proposed text is no exception.
+- A plan whose unit has closed moves to `completed/`; later work is a later unit.
+
+Evidence:
+- `docs/coding-agent/plans/active/one-conversation-with-counsel-changes.md`; the review's OC-CLOSE-F1 and OC-CLOSE-F2 at fde92f2.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:

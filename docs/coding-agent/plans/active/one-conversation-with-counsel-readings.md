@@ -210,6 +210,12 @@ Item | reading | statement relied on
 - The entry was pushed before its closing audit | extends | nothing; a miss, found by the review; the entry binds nothing
 - The reopened plan's closing entries, its move to `completed/`, and the run record's rows | covered | brief, Directed during the run, the entry before the last (the block ships as built)
 
+### Small change, closeout: the audit compared
+
+- Reading compared: the proposed entry agrees (covered against cited). The risk stated and the runtime's checks unchanged agrees (graded within the entry). Merges not covered diverges (read as extends on the repository's rule on merges; graded cited on the brief's Limits). Pushed before its closing audit diverges (read as extends, on nothing, a miss; graded cited, the outward-facing test passed on the standing approval for branches of unmerged pull requests). The reopened plan's closing entries, its move and the run record's rows agree (covered against cited; the move and the rows graded on the engineering philosophy). Unread by the Orchestrator: "in the Orchestrator's session" for "in another window"; the plan unit closing with the question on the swap unanswered.
+- Findings compared: no finding is recorded for this small change. The three recorded on 2026-11-13 agree; no item line notes a departure from a means.
+- Corrected where the reading and the grade differ: merges not covered rests on the brief's Limits, which the reading did not cite. The push before the audit is graded as needing no asking; that it broke the order of review, audit, then publish is the review's finding and is recorded as a lesson.
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.
