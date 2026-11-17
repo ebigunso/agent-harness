@@ -402,6 +402,17 @@ Item | reading | statement relied on
 - Reading compared: Items 1 and 2 (the bullet, the test, "not a call for brevity"): agrees (covered; cited). Item 3 (the dated facts under Revisit When stay): diverges. Read as extends, within the reconciling sentence; graded cited on "The dated facts the standard asks for under Revisit When stay." Item 4 (the reason, and the names and dates of "No time-relative wording"): agrees (extends; inferred). The reading carries no note that it bears on direction; the mark is mine. Item 5 (one bullet; the test in the manner of "One decision per record"): diverges. Read as extends; graded cited on "Its line on intent altitude also has", "It carries a test with two sides" and "The wording in the standard is the run's." Item 6 (the working-text sentence not written in): diverges. Read as extends; graded cited on the brief's sentence and "The wording in the standard is the run's." Item 7 (the bullet named by title): diverges. Read as extends on "nothing in the brief"; graded cited on "The wording in the standard is the run's." Item 8 (the version): agrees (extends; inferred). The reading rests on the run's practice; the grade names the brief's statement it extends. Item 10 (the three areas and the other run's records not touched): agrees (covered; cited). The seven records left to that run are unread. Item 12 (a new branch and a pull request of its own): diverges. Read as extends on the harness's rule for a small change; graded cited on "How is the Orchestrator's" and the standing approval for publishing a branch and opening pull requests. Items 9, 11 and 13 (earlier records not re-read; built without a plan; the Worker and review seats): unread.
 - Findings compared: no finding is recorded under Findings for this change in the range, and no item line notes a departure from a means.
 
+### The record standard's last sentence kept to his words (small change), closeout
+
+Item | reading | statement relied on
+
+- The sentence keeps the dated facts under Revisit When and no more | covered | brief, Directed during the run, the entry of 2026-11-18 on the record standard ("The dated facts the standard asks for under Revisit When stay.")
+- A name or a date elsewhere is a detail like any other and stays on the test's two grounds | covered | the same entry, the test's second side
+- The general reason and the keeping of the names and dates of "No time-relative wording" are removed | covered | the same entry; Counsel's placement from his standing words, he being told and not asked
+- The bullet "No time-relative wording" is no longer named in the sentence | extends | the wording is the run's
+- The version stays 1.7.0 | extends | nothing in the brief; the pull request is unmerged and this corrects what it carries
+- Counsel's answer taken as the grounds without a new word of his | extends | the product philosophy, what his documents already answer is not asked again; the statement itself is in the brief
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
