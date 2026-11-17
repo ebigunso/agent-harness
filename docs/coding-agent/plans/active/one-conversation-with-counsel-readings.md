@@ -200,6 +200,16 @@ Corrected after the closeout audit of the reopened unit, where the reading and t
 - The plugin naming no option, the template and setup's instruction: read as extends; graded cited.
 - Not read by the Orchestrator and graded by the audit: asking him again in the window (inferred, marked direction); the control set and the reworded bullet (inferred); the two rulings on owns and on dated facts (cited); the safety-check record's two added clauses (inferred); the other five records called unchanged, two of which move a boundary (inferred); the three additions kept (inferred); the revision of the record in place of ADR-D-0038 (cited).
 
+### Small change: a standing approval for a relayed yes, drafted as proposed, closeout
+
+Item | reading | statement relied on
+
+- A proposed entry under Standing Approvals: a yes of his that Counsel relays in his words, naming the act and what it touches, is enough for an act that reaches outside the repository; not in effect until he accepts it | covered | brief, Directed during the run, the last entry (accepted 2026-11-17)
+- The entry states the risk he was told and leaves the runtime's checks unchanged | covered | the same entry
+- The entry says merges are not covered | extends | the repository's rule on merges; his statement does not mention merges
+- The entry was pushed before its closing audit | extends | nothing; a miss, found by the review; the entry binds nothing
+- The reopened plan's closing entries, its move to `completed/`, and the run record's rows | covered | brief, Directed during the run, the entry before the last (the block ships as built)
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.

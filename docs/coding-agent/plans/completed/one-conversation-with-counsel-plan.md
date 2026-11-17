@@ -1288,6 +1288,9 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - The audit's question on the swap: put to him by Counsel; he said nothing on it.
   - State: every task done or, for Task_18, not needed on his word; nothing held. The unit is closed; the plan stays under `active/` because the run is open for his acceptance, and the operation that follows acceptance (numbering, retirement of the records replaced, reference repair) is this plan's to carry.
   - Not done again: no further closeout audit was dispatched for this entry and the proposed approval entry; the entry binds nothing until he accepts it by reading it. The Reviewer is asked to review the entry's wording.
+- 2026-11-17 05:29Z Correction to the entry above, on the review's OC-CLOSE-F1 and OC-CLOSE-F2 (CHANGES REQUESTED at fde92f2).
+  - The plan does not stay under `active/` and does not carry what follows acceptance: its Definition of Done and non-goals exclude accepting or retiring records. It moves to `completed/` with this entry; the run record, the changes file, the readings file and the brief stay under `active/` for the open run. Numbering, retirement and reference repair are a later unit of the run, authorized when his named acceptances arrive.
+  - The proposed standing-approval entry is not part of this plan's closeout. It is a small change of the run built without a plan, on the brief's last statement under Directed during the run, logged in `docs/coding-agent/plans/active/one-conversation-with-counsel-changes.md`, and it has its own review and closing audit; "no further closeout audit" above is withdrawn.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
@@ -1393,7 +1396,7 @@ One task writes the sentence that holds each statement of the brief; a mirror is
   - Record proposed: none.
 - 2026-11-17 05:24Z Decision: the Codex block ships as built and Task_18 is not dispatched; a standing approval for a relayed yes is drafted as proposed.
   - Trigger: the owner's answer of 2026-11-17, relayed by Counsel: "1 and 2, I take your suggested way."
-  - Plan delta: none to the tasks. One proposed entry is added under Standing Approvals in `docs/coding-agent/rules/common.md`, not in effect.
+  - Plan delta: none. The proposed standing-approval entry he asked for is a small change of the run, outside this plan (corrected 2026-11-17 05:29Z).
   - User approval: his words above, in the brief under Directed during the run.
 
 ## Notes

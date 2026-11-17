@@ -1,0 +1,12 @@
+# Changes: One conversation with Counsel
+
+Small changes built without a plan under the governing brief, each from the owner's own statement in the brief. The run record is `docs/coding-agent/plans/active/one-conversation-with-counsel-run.md`.
+
+## A standing approval for a relayed yes to an act that reaches outside the repository, drafted as proposed
+
+- The owner's statement: the governing brief, Directed during the run, the last entry (2026-11-17). As it reached this session, Counsel's relay of 2026-11-17T05:22:14Z by the channel clock, quoting his answer to the first two matters put to him after the closeout audit of the reopened plan: "1 and 2, I take your suggested way." The way he took on the second, Counsel's, in the words he read: "the standing approval, limited to a yes that names the act and what it touches." He was told: "If you say yes, the entry is drafted and comes to you to read and accept; nothing takes effect on this answer alone."
+- Built as a small change without a plan: his statement settles what the entry says, and nothing takes effect until he accepts it. It goes on top of the run's branch, and pull request 109's text names it.
+- The change starts from revision: be9e97b. The same range holds the closing entries of the reopened plan and Counsel's two brief entries and notes, committed by name.
+- No Worker: the change is one entry in `docs/coding-agent/rules/common.md`, a rule file only the Orchestrator edits. Written by the Orchestrator at 2026-11-17 05:25Z, committed fde92f2 with `last_updated` set.
+- Judgement calls (the Orchestrator's): the entry says merges are not covered, which his statement does not mention; taken from the repository's existing rule that a merge needs his acceptance naming the pull request and his permission in the session. The entry says "in the Orchestrator's session" for the brief's "in another window". The entry was written and pushed before it was logged here and before any audit, which the review found (OC-CLOSE-F1); the branch was already public and the entry is marked not in effect.
+- 2026-11-17 05:29Z Review of fde92f2 by the Codex seat `agent-harness-reviewer`: CHANGES REQUESTED on how the change was tracked (OC-CLOSE-F1: no closing audit, not logged as a small change; OC-CLOSE-F2: the completed plan kept under `active/` and given later work). The entry's wording passed with no finding. Both corrected with this file: this section, the plan moved to `completed/`, the run record's rows.
