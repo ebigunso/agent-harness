@@ -216,6 +216,20 @@ Item | reading | statement relied on
 - Findings compared: no finding is recorded for this small change. The three recorded on 2026-11-13 agree; no item line notes a departure from a means.
 - Corrected where the reading and the grade differ: merges not covered rests on the brief's Limits, which the reading did not cite. The push before the audit is graded as needing no asking; that it broke the order of review, audit, then publish is the review's finding and is recorded as a lesson.
 
+### Small changes of 2026-11-18 (no record fixes how many roles there are; the proposed approval states its risk widely), closeout
+
+Item | reading | statement relied on
+
+- Seven proposed records lose the wording that fixed two session roles; one is renamed and retitled; no decision changes | covered | brief, Directed during the run, the entry on the count of roles (told 2026-11-17 and 2026-11-18)
+- Two records' definition of a session role is cut and their boundary points to the role map for which roles exist | extends | the same entry ("each states its decision for whichever roles a session can hold"); the pointer follows a record already written so
+- A test now reads "a session that is not Counsel" | extends | the same entry; the Worker's wording, the decision unchanged
+- An unused definition of the Orchestrator is deleted from the renamed record | extends | the same entry, its sentence on detail that does not bear on a decision; a ruling
+- No wider pass over the nineteen for other detail | extends | the brief tags that reach as inferred; a ruling to stay with the count
+- The completed plan's two log lines keep the record's old subject | extends | nothing in the brief; history is not rewritten
+- The proposed approval entry names a send or a publish to an outside service and states the risk for any such act, one that cannot be taken back included; still proposed | covered | brief, Directed during the run, the last entry (told 2026-11-18)
+- The entry keeps "Proposed 2026-11-17" | extends | nothing; a date of record
+- One closing audit for both changes | extends | nothing in the brief; the mandate audits a small change once, and both sit unpushed in one range
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.
