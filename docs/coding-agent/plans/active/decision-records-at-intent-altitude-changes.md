@@ -930,3 +930,87 @@ Small changes built without a plan under the governing brief, each from the owne
   - Limit: the bullet is now the longest under Form. Records written before this change are not re-read against it in this change.
 - 2026-11-17 16:06Z Review by the Codex seat `agent-harness-reviewer`: APPROVED at 56292eb, range 2d90a9d..56292eb, no finding (DR-STD); validator and smoke tests run independently.
 - 2026-11-17 16:06Z The reading is written in the readings file before the closing audit is dispatched.
+- 2026-11-17 16:06Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 2d90a9d.
+- 2026-11-17 16:13Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict. Nothing is held: no item is `ask-now` and none is `ungraded`. One judgement call carries the `direction` mark (item 4), and five readings diverge, each because I graded `cited` what was read as extends.
+  **Before the record**
+  - **Range audited:** 2d90a9d to the run's working tree, clean at 6ca089e (three commits: e2374c7, 56292eb, 6ca089e). There are no untracked files.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan. The section graded is "The record standard: a record does not fix what merely happens to be so", which records 2d90a9d as its start.
+  - **Dispatch:** it matched the fixed template, with no extra text. Session-attached context (a memory index, a git status of another directory, a hook's text about coding style) says nothing about the work.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and two Globs that returned file names only.
+    - I read the mandate and `value-documents/SKILL.md` from the installed plugin copy (1.5.0). A no-index comparison shows both identical to the worktree's copies.
+    - I read lines 1 to 305 and 912 to 933 of the changes file, not lines 306 to 911, which are other changes' sections.
+    - Every content read was one named path at a time. Searches across files printed names or counts only.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, as its diff over the range.
+  **Verdict record**
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md`
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states; the rest as claims)
+  - The diff 2d90a9d to the working tree, one path at a time, with both exclude pathspecs.
+  - Read to understand the change, not as support: `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md` at HEAD.
+  Product basis: brief in the product owner's words ("product basis: the product owner's own words in this brief. ebigunso owns the harness"), graded with the product philosophy, which `common.md` points at ("from the day the rule file points at them the run is graded against the brief and both").
+  Not audited: none. Both sides have a document.
+  Missing inputs: none
+  Value documents changed in range: none. The brief's entry of 2026-11-18 was committed at 2d90a9d itself. `common.md` is unchanged in the range, and no pointer line was removed or changed.
+  Statements quoted below, by short name:
+  - **Standard:** brief, Directed during the run, the last entry: "The record standard is changed in this run, on his word, as the constraint under What the work gives requires. Its line on intent altitude also has a record not fix what merely happens to be so when it is written: how many of a thing exist, which ones, or by what means."
+  - **Test:** same entry: "It carries a test with two sides: a sentence that a change the decision does not decide would make false is restated as its criterion or left out; a detail stays when the decision would not bind without it, or a first-time reader would not understand the decision without it. It is not a call for brevity."
+  - **Dated facts:** same entry: "The dated facts the standard asks for under Revisit When stay."
+  - **Working text:** same entry: "The plugin's working text, which has to name what exists, is not touched by it."
+  - **Reach:** same entry: "The areas of this run still to be done are written to the standard so changed; the records the run under the brief "One conversation with Counsel" proposes do not wait for it."
+  - **Wording:** same entry: "The wording in the standard is the run's."
+  - **How:** brief, preamble: "It states what and why. How is the Orchestrator's, except where a means is stated, and a means does not bind."
+  - **Other runs:** brief, What the work gives: "Records a run in progress proposes or supersedes are left to that run".
+  - The entry carries its record: agent-proposed 2026-11-18, accepted 2026-11-18, "Yes, I agree with your takes and when to do it." Whether the quoted words were said is not something a file can show.
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. `adr.md`, the Intent altitude bullet gains: "Nor does the record fix what merely happens to be so when it is written: how many of a thing exist, which ones, or by what means." | maps to the brief | cited | Standard | -
+     - Only that bullet changed, so the change stays inside what his word reaches.
+     - "Left out on purpose" lists "Changing the record standard itself". I found no conflict: the constraint has the standard changed only on his word, and the entry is that word.
+  2. The same bullet gains the two-sided test and "the test is not a call for brevity" | maps to the brief | cited | Test | -
+     - The built text carries both sides as the brief words them.
+  3. The same bullet's last sentence, in part: "the dated facts under Revisit When stay" | maps to the brief | cited | Dated facts | -
+  4. Judgement call, Worker: the rest of that sentence. It gives the reason "A fact named with its date stays true whatever changes later", and has "the names and dates "No time-relative wording" asks for" stay too | maps to the brief | inferred | extends Dated facts and Wording; extends engineering philosophy, section 2: "A fact that may change carries the date it was seen."; cheap to undo | direction
+     - Why the mark: his rule says a record does not fix "which ones". The standard's next bullet says "Name models, people, dates, and pull requests". This sentence settles how the two meet, for every record the three remaining areas will write.
+     - His statement keeps the dated facts under Revisit When. The names and dates of the other bullet are the run's addition to what stays.
+     - The reason is worded generally. Read alone, any detail with a date on it passes the test, including one irrelevant to the decision.
+     - Not scope expansion: the "No time-relative wording" bullet is unchanged, and the sentence affirms it.
+     - I found no conflict with engineering philosophy section 4 ("A model's name, a price, a count, a date-bound fact: these go where changing them costs one line"): a fact with its date needs no later change.
+  5. Judgement calls, Worker: one bullet and not a second; the test written in the manner of "One decision per record. Test:"; "not a call for brevity" said outright | maps to the brief | cited | Standard ("Its line on intent altitude also has"); Test; Wording | -
+  6. Judgement call, Worker: the brief's sentence on the plugin's working text is not written into the standard | maps to the brief | cited | Working text; Wording | -
+     - `adr.md` opens "Rules for decision records (ADRs)", and the range touches no other plugin text, so the working text is untouched without the sentence.
+  7. Ruling, Orchestrator: the sentence names the bullet "No time-relative wording" by its title, not as "the next bullet" | maps to the brief | cited | Wording | -
+  8. Version 1.6.0 to 1.7.0 in the three manifests and two marketplace files, with the Worker's judgement call that it is a minor step | maps to the brief | inferred | extends Standard: a shipped file changes, so the shipped version moves; cheap to undo | -
+     - Nothing of the range is on a remote. The other run's branch on origin states 2.0.0, so the two do not collide.
+  9. Limit logged with the Worker's report: records written before this change are not re-read against it in this change | maps to the brief | inferred | extends Reach, which places the changed standard on the areas still to be done; cheap to undo, nothing was done | -
+     - Not checked: whether any of the seventeen records this run has already written (ADR-D-0071 to ADR-D-0087) fixes what merely happens to be so.
+     - They are merged, and the standard's lifecycle lets a merged record change only by a new complete record.
+  10. Ruling, Orchestrator: not in this change are the three areas still to be rewritten and the other run's records; seven records (ADR-D-0017, 0020, 0035, 0037, 0038, 0043, 0049) are left to that run | maps to the brief | cited | Reach; Other runs | -
+      - Which seven is the Orchestrator's claim. The other run's branch on origin adds nineteen proposed record files; I did not read which records they replace.
+      - The brief's later sentence that the constraint "now leaves no record out" is tagged inferred, speaks of the two runs that closed on 2026-11-11, and is not relied on.
+  11. Judgement call, Orchestrator: built as a small change without a plan, as one task | internal mechanics | cited | How | -
+  12. Judgement call, Orchestrator: the change starts a new branch from main at fbe364b and gets a pull request of its own; nothing is pushed before review and this audit | internal mechanics for the branch; the pull request is outward-facing | cited | How; `common.md`, Standing Approvals: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." | -
+      - The entry carries its record ("Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: "The common rule proposed, accepted."") and is committed at HEAD. Whether the quoted words were said is not something a file can show.
+      - The entry says "a finished, reviewed run". I read a finished, reviewed unit of the run as within it, as the run's earlier pull requests were.
+      - By the local refs no remote branch contains 56292eb. The merge is not covered and waits for him.
+  13. Judgement call, Orchestrator: one writing Worker (Claude subagent on Fable 5.2 at low reasoning effort), reviewed by the Codex review seat | internal mechanics | cited | How | -
+  Decision records reworded after acceptance in the range: none. No file under `docs/coding-agent-orchestration-harness/decisions/` changed in the range.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): demonstrated, now for accepted records as well. To observe: read ADR-D-0076 to ADR-D-0087 at HEAD, all twelve `status: accepted`, with ADR-D-0011, 0014, 0029, 0063 and 0066 under `superseded/`, beside the brief's "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101." (2026-11-14).
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still accepted, and the run record's result table.
+  - Prior states, from the run record: 1 and 3 not yet; 4 demonstrated; 2 demonstrated for one instance and ready for the owner's judgement for the first accepted records split.
+  - Scenario 2 moved, but not by this range. The acceptance the last closeout held now stands in the brief, and the tree shows it.
+  - Getting closer: yes. The range builds the change to the standard he directed, in his words, before the three remaining areas are written. Those rewrites are then held to a line that keeps out the incidental facts whose change would replace a record while its decision stands, which is the pain the brief names.
+  - Limits on that judgement: no record was checked in this range; the result table covers 12 of the 49 records; scenarios 1 and 3 are still not yet; and none of the seventeen records already written was read against the new line.
+  **For the Orchestrator, outside the record**
+  - The run record's State line is behind the tree: it still says pull requests 97 and 98 are not merged, while main at fbe364b carries both. It has no Units row for this change yet.
+- Acting on the verdict: nothing is held, so the change closes: the branch is published and a pull request opened under the standing approval; the merge waits for his acceptance naming it and his word in the Orchestrator's session. The item marked direction goes to him through Counsel: the bullet's last sentence keeps, beside the dated facts under Revisit When that his statement names, the names and dates the bullet "No time-relative wording" asks for, and gives a general reason (a fact named with its date stays true whatever changes later) under which any detail carrying a date would pass the test, one irrelevant to the decision included. Whether that sentence should keep only what his statement keeps is his to say; it is one sentence either way and is not changed here. Where the reading and the grade differ the grade's basis is taken: the dated facts, the single bullet, the working-text sentence left out and the title all rest on his statement and on the wording being the run's; the branch and pull request on How being the Orchestrator's and the standing approval. The run record's State line is brought up to date with this entry (pull requests 97 and 98 merged) and gains this change's row. Said as a limit: the seventeen records this run has already written and merged were not read against the new line.
