@@ -1670,6 +1670,26 @@ Prevention:
 Evidence:
 - The review's DR-STD-F1 on pull request 110, 2026-11-17 by the channel clock.
 
+## 2026-11-19 - A Task's Type Decides Its Role Before Dispatch  [tags: dispatch, review, correction]
+
+Context:
+- A plan task that tries scenarios in practice was typed research, with a Worker named as the owner of its validation item.
+
+Symptom:
+- The Orchestrator dispatched it to a Worker. The review seat found it from the plan's log line (HR-F1) while the Worker was still reading.
+
+Root cause:
+- The dispatch followed the habit of the wave before it (four Workers) and the task's type was not read against the role at dispatch.
+
+Fix:
+- The Worker was stopped before any trial and the task redispatched to the Researcher role.
+
+Prevention:
+- Before each dispatch, read the task's type: research goes to the Researcher, review to the Reviewer, everything else that edits to a Worker. A plan that types a task research names no Worker as owner of its validation.
+
+Evidence:
+- The plan `one-conversation-with-counsel-his-reading-plan.md`, Progress Log, 2026-11-19 by the channel clock.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
