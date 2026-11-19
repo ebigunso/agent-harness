@@ -15,7 +15,7 @@ superseded_by: null   # null while the record governs; the retired record carrie
 <!-- Two tracks (design D / implementation I) with per-track numbering are the default; a repository may collapse to a single track. Merged IDs are never reused. One decision per record; see references/adr.md. -->
 
 ## Context and Problem Statement
-{The fork in one paragraph: what pressure made this a decision point. No history of the investigation; see references/adr.md.}
+{In one paragraph: what was wanted and why, and what failed to serve it. Only what bears on the decision, and no history of the investigation; see references/adr.md.}
 
 ## Decision
 {The constraint on future work, stated directly. No implementation wording, exact strings, or thresholds; see references/adr.md.}
