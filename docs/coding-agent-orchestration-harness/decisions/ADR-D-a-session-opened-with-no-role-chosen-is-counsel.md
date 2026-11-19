@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0037-a-session-role-is-entered-by-an-explicit-act-of-the-per
 superseded_by: null
 ---
 
-# ADR-D (not yet numbered): A session opened with no role chosen is Counsel, and says so in its first reply
+# ADR-D (not yet numbered): A session opened with no role chosen is Counsel
 
 ## Context and Problem Statement
 
@@ -20,7 +20,6 @@ The harness is to serve someone who installs it, opens a session and types what 
 ## Decision
 
 - A session opened with no role chosen is Counsel, in every runtime the harness supports and for everyone who installs it.
-- A session that holds the role by default says so in its first reply, with how another role is opened.
 - Where a runtime does not let an installed harness give a session a role, the default holds in each repository where the harness's setup has run. A repository where setup has not run has no default in such a runtime.
 - Nothing describes a runtime, a surface or a repository the default does not reach as having it.
 
@@ -36,11 +35,11 @@ The product philosophy's "Who it is for" calls wrong a design that works only if
 
 ## Decision Boundary
 
-Not covered: how each runtime carries the default and on which of its surfaces, and what setup writes into a repository to carry it, which the role map and the setup text state with the date each was seen; the wording of the first reply; that a role can still be chosen (`ADR-D-any-session-role-is-the-openers-to-choose.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); how a run is started from the default conversation (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`).
+Not covered: how each runtime carries the default and on which of its surfaces, and what setup writes into a repository to carry it, which the role map and the setup text state with the date each was seen; that a session holding the role by default says so (`ADR-D-a-session-that-holds-its-role-by-default-says-so-in-its-first-reply.md`); that a role can still be chosen (`ADR-D-any-session-role-is-the-openers-to-choose.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); how a run is started from the default conversation (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`).
 
 ## Validation
 
-The decision is broken where someone opens a session in a supported runtime with the default in place, chooses nothing, and is talking to a session that is not Counsel; where such a session is Counsel and does not say so, or does not say how another role is opened; or where a runtime or a repository that the default does not reach is described as having it.
+The decision is broken where someone opens a session in a supported runtime with the default in place, chooses nothing, and is talking to a session that is not Counsel; or where a runtime or a repository that the default does not reach is described as having it.
 
 ## Revisit When
 

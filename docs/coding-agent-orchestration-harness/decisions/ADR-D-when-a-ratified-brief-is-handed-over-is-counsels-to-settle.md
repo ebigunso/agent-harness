@@ -35,7 +35,7 @@ Whether a brief's work can start is a fact about the runs in progress, which Cou
 
 ## Decision Boundary
 
-Not covered: that a held brief is told to that person, with what it waits for, which the record on what reaches that person states (`ADR-D-only-what-needs-the-person-reaches-them-and-when-follows-what-waiting-costs.md`); that a ratified brief's run starts without that person opening anything, and by whom it is started (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`); whether a brief that builds on nothing unfinished waits for other work, and which session it is handed to, which the brief states; how Counsel learns what a run touches and when a change is finished; part of a run held back by the session that does it; what ratifying a brief requires, which is unchanged.
+Not covered: that a held brief is told to that person, with what it waits for, which its own record states (`ADR-D-nothing-waits-for-the-person-without-their-knowing.md`); that a ratified brief's run starts without that person opening anything, and by whom it is started (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`); whether a brief that builds on nothing unfinished waits for other work, and which session it is handed to, which the brief states; how Counsel learns what a run touches and when a change is finished; part of a run held back by the session that does it; what ratifying a brief requires, which is unchanged.
 
 ## Validation
 

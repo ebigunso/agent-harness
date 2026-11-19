@@ -34,7 +34,7 @@ A check a runtime makes for safety is that person's protection, and a session th
 
 ## Decision Boundary
 
-Not covered: which checks a runtime makes, and which of them only input in a session can satisfy, which changes with the runtime; what that person has allowed for a repository and where that is set; where a permission not yet given is asked for by a session Counsel started (`ADR-D-a-session-counsel-started-does-not-stop-for-permission-in-its-own-window.md`); what follows where a check refuses to let the entry that admits Counsel's relays take effect (`ADR-D-the-persons-word-reaches-an-orchestrator-session-in-it-or-by-counsels-quoted-relay.md`); the harness's own consent gates, which are separate from a runtime's permission and are not replaced by it.
+Not covered: which checks a runtime makes, and which of them only input in a session can satisfy, which changes with the runtime; what that person has allowed for a repository and where that is set; where a permission not yet given is asked for by a session Counsel started (`ADR-D-a-session-counsel-started-does-not-stop-for-permission-in-its-own-window.md`); what follows where a check refuses to let the entry that admits Counsel's relays take effect (`ADR-D-the-persons-answer-to-the-entry-that-admits-relays-is-carried-by-counsel-in-a-session-counsel-started.md`); the harness's own consent gates, which are separate from a runtime's permission and are not replaced by it.
 
 ## Validation
 
