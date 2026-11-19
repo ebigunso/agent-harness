@@ -1,12 +1,12 @@
 # Plan: One conversation with Counsel, his reading of the nineteen
 
-- status: draft, plan review closed 2026-11-19 with no finding open; first plan-draft audit returned two items ask-now, cured by revision 2026-11-19; awaiting the delta review and a second plan-draft audit
+- status: in progress (authorized by the ratified brief 2026-11-19: plan review closed with no finding open; second plan-draft audit holds nothing)
 - generated: 2026-11-19
 - last_updated: 2026-11-19
 - work_type: docs
 
 ## Goal
-- Build what the governing brief `docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md` now says after the owner's reading of the nineteen proposed records: its group of entries under Directed during the run dated 2026-11-19, and the statements those entries corrected in place (Sessions and roles, Runs side by side, Dispatch, What reaches him, Limits, core scenarios 4 and 5, Pass conditions).
+- Build what the governing brief `docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md` now says after the owner's reading of the nineteen proposed records: its group of entries under Directed during the run dated 2026-11-19, and the statements those entries corrected in place (One conversation, Runs side by side, Dispatch, What reaches him, Limits, core scenarios 4 and 5, Pass conditions).
 - The brief is the requirement and is not restated here; where this plan and the brief differ, the brief governs and the difference is a plan defect.
 - This is a later unit of the same run and lands in the same pull request (109). The plan that built the brief as first ratified is closed under `completed/`.
 
@@ -76,7 +76,7 @@
 - description: |
   Bring the text on Counsel's conduct to the brief as changed 2026-11-19, on four matters:
   what reaches the owner and when (the statement under What reaches him and the entry on record 18);
-  handing a ratified brief to an Orchestrator session at work and starting one only where none is at work or it answers that it cannot take more (Sessions and roles, Runs side by side, the entry on record 15, and this plan's Design);
+  handing a ratified brief to an Orchestrator session at work and starting one only where none is at work or it answers that it cannot take more (One conversation, Runs side by side, the entry on record 15, and this plan's Design);
   what Counsel may say to an Orchestrator session, and the guard (the entry on record 8);
   a view from any other model the environment offers (the entry on record 16).
   Each sentence of those entries is held once; text that states the earlier decision is rewritten, not added to. Adapter files restate only what they already restate.
@@ -153,7 +153,7 @@
   - docs/coding-agent/rules/common.md
 - depends_on: [Task_2]
 - description: |
-  The Orchestrator's own task (only it edits rule files). In Models And Peers In This Workspace, change the rule that dispatch goes only to the registered peer seats or Claude subagents and that a command-line call to another runtime is allowed only as a measurement instrument: the dispatcher may use any relay the environment offers and looks after what it sent the work to; Counsel hands a ratified brief to the Orchestrator session at work. The registered seats stay recorded as options. Pointers follow Task_2's result. `last_updated` is set.
+  The Orchestrator's own task (only it edits rule files). In Models And Peers In This Workspace, change the rule that dispatch goes only to the registered peer seats or Claude subagents and that a command-line call to another runtime is allowed only as a measurement instrument: the dispatcher may use any relay the environment offers and looks after what it sent the work to; Counsel hands a ratified brief to the Orchestrator session at work. The registered seats stay recorded as options. The lines of that section which state what the brief's Dispatch statement stands in place of (a first dispatch to a seat and a silent seat as rules of their own, nothing depending on a seat surviving, two peer seats never shared) go with it; that the session which dispatches looks after what it sent to, and that he is not the one to notice or repair, stays. Pointers follow Task_2's result. `last_updated` is set.
 - acceptance:
   - The rule reads as the brief's Limits names it changed, with the date and the brief as its source.
   - Nothing in the file still limits dispatch to particular kinds of relay; no session is licensed to use a mode that skips a runtime's safety checks.
@@ -345,5 +345,7 @@
 - Acting on the verdict: no item is ask-now or ungraded, and the plan review closed with no finding open, so the ratified brief authorizes execution and wave 1 is dispatched. The item marked direction (a further withdrawal on the admission test): any such withdrawal is told to him through Counsel, and one of records 8, 15, 16 or 18 is not withdrawn by a Worker's report alone; it comes back to the Orchestrator first. From outside the grades: the plan's two pointers to a brief section "Sessions and roles" are corrected to the brief's heading "One conversation"; Task_4 is read as also taking out of the rule file the lines the brief's Dispatch statement stands in place of (a first dispatch to a seat and a silent seat as rules of their own, nothing depending on a seat surviving, two seats never shared), and its description now says so; the hand-over answer must not become a wait, which Tasks 1 and 2 are told. The brief's line under Who it is for and the pass condition dropped without a quote of its own are Counsel's and are told to Counsel.
 
 ## Decision Log (append-only; re-plans and major discoveries)
+
+- 2026-11-19 09:04Z After the second plan-draft audit, three corrections that change no requirement: the brief section pointed to is "One conversation" (the plan said "Sessions and roles", a heading the brief does not have); Task_4 says which further lines of the rule file go with the changed rule; a hand-over answer is not a wait (told to Tasks 1 and 2 in their dispatch, on the brief's "A brief ratified while other runs are in progress does not wait for them.").
 
 ## Notes
