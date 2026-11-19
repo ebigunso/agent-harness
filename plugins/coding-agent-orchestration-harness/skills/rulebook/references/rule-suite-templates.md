@@ -238,11 +238,18 @@ Not one of the suite's required files and without its front matter. Write and fi
 ```md
 # Sessions In This Workspace
 
-This is the workspace's record of its means to start, message, watch and end a session. Only a session that does one of these reads it: Counsel and the Orchestrator.
+How a session is started, messaged, watched and ended in this workspace. Only a session that does one of these reads it: Counsel and the Orchestrator. As of <YYYY-MM-DD>. What was seen, how often, and what was not tried is kept with the evidence, in `<path>`; an instruction here says what to do, not how well it is supported.
 
-- Status: recorded <YYYY-MM-DD>; <awaits the owner's confirmation | confirmed by <owner> on <YYYY-MM-DD>>.
-- Sessions: <each means the workspace has to start a session in a role with a first message and without a person, with what must already be so for it to work; how a session is started on a named model and effort, and how what it runs on is seen from outside; how it is seen from outside whether that session is alive and whether it is working or waiting; how a further message reaches it and when (while it works | only between its turns | only once it is stopped); how it is ended; each observed <YYYY-MM-DD> | documented, <where>, <YYYY-MM-DD> | none found, <YYYY-MM-DD>>.
+- To start a session in a role with a first message and without a person: <what to do>.
+  - <each condition, one to a line: Only where <what must already be so> | Do not <use this way> where <when it must not be used>>
+- To start it on a named model and at a named effort: <what to do>.
+- To see what a session runs on: <what to read from outside; what not to take it from>.
+- To see whether a session is alive, and working or waiting: <what to read>.
+- To give a session a further message: <what to do, for each time it can reach the session (while it works | only between its turns | only once it is stopped), with its conditions>.
+- To end a session: <what to do>.
 ```
+
+Each line takes conditions as the first does. Where setup established no means for a line, or for part of one, the line says so plainly in place of an instruction: `There is no means here to <what cannot be done>.`
 
 ## Default Role Block
 

@@ -19,7 +19,7 @@ The rule suite is considered installed only when:
 
 `_lifecycle.json` is the machine-oriented lifecycle sidecar and is read only for bootstrap, repair, schema migration, targeted refresh, source-drift diagnosis, or contradiction handling.
 
-`docs/coding-agent/rules/sessions.md` is optional and no part of the installed suite: the workspace's record of its means to start, message, watch and end a session, read only by a session that does one of these (Counsel and the Orchestrator), in the form `references/rule-suite-templates.md` gives. Set it only through `references/bootstrap-lifecycle.md` (Sessions Record).
+`docs/coding-agent/rules/sessions.md` is optional and no part of the installed suite: the workspace's means to start, message, watch and end a session, stated as what to do and on what conditions, read only by a session that does one of these (Counsel and the Orchestrator), in the form `references/rule-suite-templates.md` gives. Set it only through `references/bootstrap-lifecycle.md` (Sessions Record), which also says where the evidence for it is kept.
 
 Required sections:
 
