@@ -1685,7 +1685,7 @@ Fix:
 - The Worker was stopped before any trial and the task redispatched to the Researcher role.
 
 Prevention:
-- Before each dispatch, read the task's type: research goes to the Researcher, review to the Reviewer, everything else that edits to a Worker. A plan that types a task research names no Worker as owner of its validation.
+- Before each dispatch, read the task's type and choose the role from it: a task of type research goes to the Researcher and one of type review to the Reviewer, whatever its validation items name as owner. What the rule files keep with the Orchestrator (plans, rule files) stays with the Orchestrator.
 
 Evidence:
 - The plan `one-conversation-with-counsel-his-reading-plan.md`, Progress Log, 2026-11-19 by the channel clock.
