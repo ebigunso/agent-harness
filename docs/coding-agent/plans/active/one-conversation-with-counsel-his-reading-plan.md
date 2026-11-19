@@ -16,6 +16,7 @@
 - The proposed records numbered 8, 15, 16 and 18 state the decisions their entries give. Every remaining proposed record has a problem statement that says what was wanted and why and what failed to serve it, with no account of what was observed or happened that does not bear on the decision; no remaining record rests on the account that a brief waited for the run in progress.
 - `docs/coding-agent/rules/common.md` carries the third standing rule as changed: the dispatcher may use any relay the environment offers.
 - Added 2026-11-19 before the plan-draft audit, on his word relayed 08:43Z: the plugin version is 1.8.0, and the plugin's README, where someone who updates reads what changed, states plainly that a session with no role chosen is now Counsel and that the block in the Codex home no longer routes coding requests to the Orchestrator (brief, Directed during the run, the entry on the version).
+- The text of pull request 109 states the same two things plainly. This is the Orchestrator's own obligation at publication, after the final review and the closeout audit: it reads the published text for both statements before it reports the terms of the version step met.
 - The package validators pass. Nothing is marked accepted, nothing is retired, no number is taken.
 - The branch is reviewed `APPROVED`, value audits at plan draft and closeout are logged, and a new numbered list of the remaining proposed records is fixed at the closing commit.
 
