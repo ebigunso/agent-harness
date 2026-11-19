@@ -215,3 +215,9 @@ Small changes built without a plan under the governing brief, each from the owne
   - The parts carry sentences the Worker composed where a bundle had one Why, alternative or reopen condition for several decisions. Ruling: sent to the review seat named as the text to read first.
   - The first-reply record's reopen condition cites the trials of 2026-11-19 without runtime or model. Ruling: the review seat is asked whether the standard is met.
 - The list at 2d050f7 no longer matches the files; a new numbered list is fixed below once review and the closing audit are done.
+
+## The two proposed approval entries put in effect
+
+- Owner's statement, relayed by Counsel 2026-11-19T18:28Z (dated 2026-11-20 on his calendar), the entries before him as a numbered list at commit 3210e54: "1 and 2 accepted." On the third of the list, the Sessions record: "3, I'm not sure if this one is even needed here. Common rules are for every role of the harness." Counsel places the second sentence as confirming nothing; a question on it is with him.
+- Start revision: b91ef00.
+- 2026-11-19T18:29Z Done by the Orchestrator, who alone edits the rule files: "Relays from Counsel" takes the place of the entry of 2026-10-01 and "Acts that reach outside the repository" loses its proposed marking; each records his acceptance, quoted with the date. Neither entry's wording is changed. The Sessions record is untouched and stays unconfirmed. Reviewed and audited with the change above.
