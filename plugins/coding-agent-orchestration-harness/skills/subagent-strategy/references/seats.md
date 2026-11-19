@@ -1,6 +1,6 @@
 # Seats
 
-Read this reference when the relay a dispatch goes by is a peer channel: the work goes to a session, here called a seat, that is reached by messages in a store both sides read. What holds for a dispatch by any relay is in `SKILL.md` (Core rule 6) and `dispatch-checklists.md` (Every dispatch); this reference holds only what the channel adds. How a seat is started, watched and ended is the workspace's record to say (`docs/coding-agent/rules/common.md`, Models And Peers In This Workspace, Sessions), and nothing here rests on a particular tool.
+Read this reference when the relay a dispatch goes by is a peer channel: the work goes to a session, here called a seat, that is reached by messages in a store both sides read. What holds for a dispatch by any relay is in `SKILL.md` (Core rule 6) and `dispatch-checklists.md` (Every dispatch); this reference holds only what the channel adds. How a seat is started, watched and ended is the workspace's record to say (`docs/coding-agent/rules/sessions.md`), and nothing here rests on a particular tool.
 
 ## Delivery
 

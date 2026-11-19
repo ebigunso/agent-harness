@@ -39,6 +39,7 @@ Read these files by role:
 - `worker.md`: Worker execution and validation mapping.
 - `orchestrator.md`: planning, dispatch, integration, git, and rule maintenance.
 - `reviewer.md`: review-specific repository policy and recurring risk hotspots.
+- `sessions.md`, where the workspace has one: its means to start, message, watch and end a session. Read only by a session that does one of these.
 
 ## Rule Freshness
 
@@ -83,11 +84,10 @@ last_updated: "YYYY-MM-DD"
 
 ## Models And Peers In This Workspace
 
-This is the workspace's record of options that `subagent-strategy/references/model-routing.md` routes on, and of its means to start, watch and end a session; the Orchestrator and Counsel both read it. Re-observe and redate it when a model changes.
+This is the workspace's record of options that `subagent-strategy/references/model-routing.md` routes on; the Orchestrator and Counsel both read it. Re-observe and redate it when a model changes.
 
 - Status: recorded <YYYY-MM-DD>; <awaits the owner's confirmation | confirmed by <owner> on <YYYY-MM-DD>>.
 - Options: <each option some role resolves to or falls back to, among what the runtime offers (the session's own model, each model the subagent mechanism can be dispatched on, each kind of peer seat a session can create, any other relay the environment offers): the option a resolution below gives and the option it names for the unavailable case, and no others; with its model, the setting it runs at (its reasoning effort: as the dispatch or the creation of the seat can choose it | as the runtime fixes it | not known) and the role it can hold; one model at two settings that differ for some role's work or in cost is two options, each listed only where a role resolves to it or falls back to it>.
-- Sessions: <each means the workspace has to start a session in a role with a first message and without a person, with what must already be so for it to work; how a session is started on a named model and effort, and how what it runs on is seen from outside; how it is seen from outside whether that session is alive and whether it is working or waiting; how a further message reaches it and when (while it works | only between its turns | only once it is stopped); how it is ended; each observed <YYYY-MM-DD> | documented, <where>, <YYYY-MM-DD> | none found, <YYYY-MM-DD>>.
 - Tendencies: <per family: the workspace's observation with its date | the seed's entry with the seed's date | not yet observed>.
 - Runs on: <which subscription plan, with its usage limits as the owner knows them | a pay-as-you-go budget and how large it is; as the owner states it | awaits the owner's word>; <where he named the plan or budget without its limits or size: researched limits: <what setup found, its source, the date found> | none found, <YYYY-MM-DD>>.
 - Budget allowance: <as the owner states it | none stated | awaits the owner's word>.
@@ -229,6 +229,19 @@ Repo-local checks that could eventually move into:
 - repository validators
 
 If the proposed check belongs in bundled harness validators or plugin package validation, stage it as a harness migration candidate in `docs/coding-agent/skill-candidates.md` instead.
+```
+
+## sessions.md
+
+Not one of the suite's required files and without its front matter. Write and fill it as `references/bootstrap-lifecycle.md` (Sessions Record) states.
+
+```md
+# Sessions In This Workspace
+
+This is the workspace's record of its means to start, message, watch and end a session. Only a session that does one of these reads it: Counsel and the Orchestrator.
+
+- Status: recorded <YYYY-MM-DD>; <awaits the owner's confirmation | confirmed by <owner> on <YYYY-MM-DD>>.
+- Sessions: <each means the workspace has to start a session in a role with a first message and without a person, with what must already be so for it to work; how a session is started on a named model and effort, and how what it runs on is seen from outside; how it is seen from outside whether that session is alive and whether it is working or waiting; how a further message reaches it and when (while it works | only between its turns | only once it is stopped); how it is ended; each observed <YYYY-MM-DD> | documented, <where>, <YYYY-MM-DD> | none found, <YYYY-MM-DD>>.
 ```
 
 ## Default Role Block

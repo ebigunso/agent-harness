@@ -17,6 +17,7 @@ Read these files by role:
 - `worker.md`: Worker execution and validation mapping.
 - `orchestrator.md`: planning, dispatch, integration, git, and rule maintenance.
 - `reviewer.md`: review-specific repository policy and recurring risk hotspots.
+- `sessions.md`, where the workspace has one: its means to start, message, watch and end a session. Read only by a session that does one of these.
 
 ## Rule Freshness
 

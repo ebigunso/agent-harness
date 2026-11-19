@@ -9,6 +9,8 @@ Two behaviours differ from versions before 1.8.0:
 - A session with no role chosen is Counsel: in Claude Code wherever the plugin's settings load, and in Codex and GitHub Copilot in a repository where the harness's setup has written that default. For the Orchestrator, open the session as the Orchestrator: in Claude Code launch it with `claude --agent coding-agent-orchestration-harness:harness-orchestrator` or set `agent` in your own settings, either of which overrides the plugin's default; in GitHub Copilot select the `Orchestrator` agent in the Agent dropdown; in Codex invoke `$orchestration-harness` by name in the first message.
 - The managed block in the Codex home (`~/.codex/AGENTS.md`) does not route coding requests to the Orchestrator: it gives a session no role and says how each role is chosen. A block written by an earlier version keeps routing them until it is replaced; run the Codex bootstrap again with `--user-instructions add` to replace it. For the Orchestrator in Codex, invoke `$orchestration-harness` by name in the first message.
 
+A repository set up by an earlier version keeps its means to start and watch a session in `docs/coding-agent/rules/common.md`; the next refresh of its rule suite moves them to `docs/coding-agent/rules/sessions.md`, which only Counsel and the Orchestrator read.
+
 ## Runtime Paths
 
 - Copilot agents: `agents/*.md`

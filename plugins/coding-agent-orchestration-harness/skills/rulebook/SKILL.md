@@ -35,7 +35,7 @@ When adding or updating a repository reference document, read `references/rules-
 If you need to decide whether to bootstrap, repair, migrate, or refresh the rule suite:
 - Read references/bootstrap-lifecycle.md
 
-When filling or refreshing the workspace's models record in `common.md`, read `references/bootstrap-lifecycle.md` (Models Record).
+When filling or refreshing the workspace's models record in `common.md`, read `references/bootstrap-lifecycle.md` (Models Record); for its record of sessions in `sessions.md`, the same reference (Sessions Record).
 
 If you need template content for a new or repaired rule suite:
 - Read references/rule-suite-templates.md
