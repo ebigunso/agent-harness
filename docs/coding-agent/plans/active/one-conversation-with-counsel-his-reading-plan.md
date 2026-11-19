@@ -19,7 +19,7 @@
 - The branch is reviewed `APPROVED`, value audits at plan draft and closeout are logged, and a new numbered list of the remaining proposed records is fixed at the closing commit.
 
 ## Planner-added requirements
-- None
+- The Orchestrator session at work answers a further hand-over by taking it or by saying it cannot take more. Needed because: the brief has another session started "where none is at work or the one at work cannot take more" and leaves that call to the harness; under the design chosen below the session at work is the part of the harness that makes it, and without its answer Counsel has nothing to start another on but a guess.
 
 ## Scope / Non-goals
 - Scope: plugin text under `plugins/coding-agent-orchestration-harness/` on Counsel's conduct, on the Orchestrator under a brief, and on dispatch; the runtime adapter files that restate any of it; the nineteen proposed records; `docs/coding-agent/rules/common.md`; the run's records.
@@ -80,7 +80,7 @@
 - acceptance:
   - Each sentence of the brief's statement under What reaches him and of its entries on records 8, 15, 16 and 18 that binds Counsel is held by a sentence in the owned files, once; the report maps each to its place.
   - No line in the owned files still states: that each brief gets its own Orchestrator session; that Counsel speaks to an Orchestrator only in the owner's words with no reading of its own; that the consulted model is of another family or serves the engineering discussion only; that each ready thing reaches him as a line when it is ready.
-  - Nothing names a model family, a tool or a count of roles where the brief names none.
+  - The text on taking a view from another model names no model family and assumes nothing about which model Counsel runs on, and no sentence this task writes fixes how many roles there are. The names a runtime's adapter file has to carry, and the roles that exist, stay named.
 - validation:
   - kind: command
     required: true
