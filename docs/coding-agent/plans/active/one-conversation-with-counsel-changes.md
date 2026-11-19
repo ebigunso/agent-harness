@@ -236,3 +236,12 @@ Small changes built without a plan under the governing brief, each from the owne
   - A refresh moves an earlier record without asking, since no word of it changes. Ruling: stands; whether the record needs his confirmation is untouched and with Counsel.
   - "Message" added to "start, watch and end" in the new text. Ruling: stands; the record already holds how a further message reaches a session.
   - The summary of conditional reads in `lifecycle-gates.md` does not list the file. Ruling: left, since it defers to the conditions stated at the rule entry; named to the review seat.
+
+## Review of the two changes above, and what it changed
+
+- 2026-11-19T18:41Z Review by the Codex seat `agent-harness-reviewer`, range d0d067e..d114e48: CHANGES REQUESTED, four findings. It found no decision, limit or quotation lost in the split, the four records kept whole each one decision with its stated limits, the part on Counsel's advice admissible as a record, replacement coverage intact, and the two approval entries' wording unchanged.
+  - SR-F1: the part "a session that holds its role by default says so in its first reply" does not pass the record standard's admission test alone. Ruling: withdrawn; the Orchestrator's earlier ruling that it stays because the bundle decided it is set aside, since the standard runs admission whatever shape an existing record has. The behaviour stays in the Counsel skill. Told to Counsel, since he read it as part of a record put to him.
+  - SR-F2: that part's measured premise named no runtime or model. Closed by the withdrawal.
+  - SR-F3: "the person takes matters up one at a time in the order they choose" held two decisions. Cured: split into "matters are put to the person one at a time" and "the order in which matters are taken up is the person's to choose". The Worker composed the first's Why, rejected alternative and reopen condition; sent back to the review seat as text to read first.
+  - SR-F4: the run record still listed the two approval entries as waiting. Cured by the Orchestrator: the pending list is current.
+- 2026-11-19T18:44Z Twenty-nine proposed records stand (thirty, less the one withdrawn). Checks rerun: package validation passes; `git diff --check` clean; every reference between proposed records resolves.

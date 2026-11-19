@@ -32,7 +32,7 @@ That person's attention is the scarce thing in the product philosophy's "What go
 
 ## Decision Boundary
 
-Not covered: by what means something that is being lost is brought to that person; how that person comes to know what waits (`ADR-D-nothing-waits-for-the-person-without-their-knowing.md`); in what order what waits is taken up (`ADR-D-the-person-takes-matters-up-one-at-a-time-in-the-order-they-choose.md`); what reaches that person at all (`ADR-D-only-what-needs-the-person-reaches-them.md`); a matter Counsel judges severe enough to pause part of the work, which is raised as its own record states (ADR-D-0044); how promptly Counsel answers while runs are starting and reporting.
+Not covered: by what means something that is being lost is brought to that person; how that person comes to know what waits (`ADR-D-nothing-waits-for-the-person-without-their-knowing.md`); how many of the matters that wait are put at a time and in what order they are taken up (`ADR-D-matters-are-put-to-the-person-one-at-a-time.md`, `ADR-D-the-order-in-which-matters-are-taken-up-is-the-persons-to-choose.md`); what reaches that person at all (`ADR-D-only-what-needs-the-person-reaches-them.md`); a matter Counsel judges severe enough to pause part of the work, which is raised as its own record states (ADR-D-0044); how promptly Counsel answers while runs are starting and reporting.
 
 ## Validation
 

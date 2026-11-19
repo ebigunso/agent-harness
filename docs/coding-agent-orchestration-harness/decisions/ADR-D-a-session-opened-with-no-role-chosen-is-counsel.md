@@ -35,7 +35,7 @@ The product philosophy's "Who it is for" calls wrong a design that works only if
 
 ## Decision Boundary
 
-Not covered: how each runtime carries the default and on which of its surfaces, and what setup writes into a repository to carry it, which the role map and the setup text state with the date each was seen; that a session holding the role by default says so (`ADR-D-a-session-that-holds-its-role-by-default-says-so-in-its-first-reply.md`); that a role can still be chosen (`ADR-D-any-session-role-is-the-openers-to-choose.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); how a run is started from the default conversation (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`).
+Not covered: how each runtime carries the default and on which of its surfaces, and what setup writes into a repository to carry it, which the role map and the setup text state with the date each was seen; what a session holding the role by default says in its first reply, which the Counsel skill states; that a role can still be chosen (`ADR-D-any-session-role-is-the-openers-to-choose.md`); what gives a session no role (`ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`); how a run is started from the default conversation (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`).
 
 ## Validation
 
@@ -48,4 +48,4 @@ The decision is broken where someone opens a session in a supported runtime with
 
 ## More Information
 
-With `ADR-D-any-session-role-is-the-openers-to-choose.md` and `ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`, replaces ADR-D-0037 in full. Changed here: ADR-D-0037 allowed no way into a role but an explicit act, and this record gives a session with nothing chosen the Counsel role. Source of intent: the brief "One conversation with Counsel", "Who it is for and why", "One conversation" and "Directed during the run". Related: ADR-D-0034 (Counsel), ADR-D-0048 (role names and the role map).
+With `ADR-D-any-session-role-is-the-openers-to-choose.md` and `ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`, replaces ADR-D-0037 in full. Changed here: ADR-D-0037 allowed no way into a role but an explicit act, and this record gives a session with nothing chosen the Counsel role. What a session holding the role by default says in its first reply is conduct stated in the Counsel skill and no decision record. Source of intent: the brief "One conversation with Counsel", "Who it is for and why", "One conversation" and "Directed during the run". Related: ADR-D-0034 (Counsel), ADR-D-0048 (role names and the role map).

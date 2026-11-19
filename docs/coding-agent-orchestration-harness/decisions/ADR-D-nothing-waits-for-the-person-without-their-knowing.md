@@ -34,7 +34,7 @@ By the product philosophy's "The line" a thing held for someone and never mentio
 
 ## Decision Boundary
 
-Not covered: the wording and length of the list and of an item; what is brought at once and does not wait (`ADR-D-when-the-person-is-told-follows-what-waiting-costs.md`); that the list carries no account of the work (`ADR-D-only-what-needs-the-person-reaches-them.md`); which item Counsel would settle first, and who chooses (`ADR-D-the-person-takes-matters-up-one-at-a-time-in-the-order-they-choose.md`); how Counsel keeps what needs that person apart from the runs' reports; how that person's answer travels back (ADR-D-0038).
+Not covered: the wording and length of the list and of an item; what is brought at once and does not wait (`ADR-D-when-the-person-is-told-follows-what-waiting-costs.md`); that the list carries no account of the work (`ADR-D-only-what-needs-the-person-reaches-them.md`); which item Counsel would settle first, and who chooses (`ADR-D-the-order-in-which-matters-are-taken-up-is-the-persons-to-choose.md`); how Counsel keeps what needs that person apart from the runs' reports; how that person's answer travels back (ADR-D-0038).
 
 ## Validation
 

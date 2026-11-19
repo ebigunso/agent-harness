@@ -32,7 +32,7 @@ That person's attention is the scarce thing in the product philosophy's "What go
 
 ## Decision Boundary
 
-Not covered: when something that needs that person is told (`ADR-D-when-the-person-is-told-follows-what-waiting-costs.md`); how that person comes to know what waits for them (`ADR-D-nothing-waits-for-the-person-without-their-knowing.md`); in what order matters are taken up (`ADR-D-the-person-takes-matters-up-one-at-a-time-in-the-order-they-choose.md`); that Counsel can say where every brief stands when asked, which the brief states; what may be brought to that person at all, and at what level (ADR-D-0059, ADR-D-0062); how a question is framed when that person takes it up (ADR-D-0046, ADR-D-0059); how Counsel keeps what needs that person apart from the runs' reports.
+Not covered: when something that needs that person is told (`ADR-D-when-the-person-is-told-follows-what-waiting-costs.md`); how that person comes to know what waits for them (`ADR-D-nothing-waits-for-the-person-without-their-knowing.md`); how many matters are put at a time and in what order they are taken up (`ADR-D-matters-are-put-to-the-person-one-at-a-time.md`, `ADR-D-the-order-in-which-matters-are-taken-up-is-the-persons-to-choose.md`); that Counsel can say where every brief stands when asked, which the brief states; what may be brought to that person at all, and at what level (ADR-D-0059, ADR-D-0062); how a question is framed when that person takes it up (ADR-D-0046, ADR-D-0059); how Counsel keeps what needs that person apart from the runs' reports.
 
 ## Validation
 
