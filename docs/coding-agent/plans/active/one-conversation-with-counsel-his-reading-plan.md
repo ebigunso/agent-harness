@@ -1,6 +1,6 @@
 # Plan: One conversation with Counsel, his reading of the nineteen
 
-- status: draft, plan review closed 2026-11-19 with no finding open; awaiting the plan-draft audit
+- status: draft, plan review closed 2026-11-19 with no finding open; first plan-draft audit returned two items ask-now, cured by revision 2026-11-19; awaiting the delta review and a second plan-draft audit
 - generated: 2026-11-19
 - last_updated: 2026-11-19
 - work_type: docs
@@ -17,6 +17,7 @@
 - `docs/coding-agent/rules/common.md` carries the third standing rule as changed: the dispatcher may use any relay the environment offers.
 - Added 2026-11-19 before the plan-draft audit, on his word relayed 08:43Z: the plugin version is 1.8.0, and the plugin's README, where someone who updates reads what changed, states plainly that a session with no role chosen is now Counsel and that the block in the Codex home no longer routes coding requests to the Orchestrator (brief, Directed during the run, the entry on the version).
 - The text of pull request 109 states the same two things plainly. This is the Orchestrator's own obligation at publication, after the final review and the closeout audit: it reads the published text for both statements before it reports the terms of the version step met.
+- Added 2026-11-19 on the first plan-draft audit: scenarios 1, 2, 3, 5 and 8 are shown where one can be made, against the brief's wording as changed 2026-11-19, and where one cannot the closeout says so plainly, scenario by scenario (brief, pass condition).
 - The package validators pass. Nothing is marked accepted, nothing is retired, no number is taken.
 - The branch is reviewed `APPROVED`, value audits at plan draft and closeout are logged, and a new numbered list of the remaining proposed records is fixed at the closing commit.
 
@@ -25,7 +26,7 @@
 
 ## Scope / Non-goals
 - Scope: plugin text under `plugins/coding-agent-orchestration-harness/` on Counsel's conduct, on the Orchestrator under a brief, and on dispatch; the runtime adapter files that restate any of it; the nineteen proposed records; `docs/coding-agent/rules/common.md`; the run's records.
-- Non-goals: the sentence for the record standard (`durable-docs-authoring/references/adr.md`), which the run "Decision records at intent altitude" owns and builds on its own branch. Marking a record accepted, numbering one, retiring an accepted record or repairing references to one. Editing either philosophy or its companion. Trying any scenario in practice: none can be made by this unit's work that the earlier unit did not already try, and the closeout says so. The peer-messaging tool itself. Any permission setting.
+- Non-goals: the sentence for the record standard (`durable-docs-authoring/references/adr.md`), which the run "Decision records at intent altitude" owns and builds on its own branch. Marking a record accepted, numbering one, retiring an accepted record or repairing references to one. Editing either philosophy or its companion. The peer-messaging tool itself. Any permission setting.
 
 ## Design
 - Fixed by the brief and not compared: every decision the entries of 2026-11-19 state.
@@ -35,7 +36,7 @@
 - evolution: the chosen design adds no concept, since a hand-over and its answer already exist; the alternative adds a measure of load that some text would have to define.
 - verification: the chosen design is shown by one hand-over and its answer; the alternative has nothing to observe but Counsel's guess.
 - operation: the chosen design costs one message for each brief; a session that does not answer is already covered by the text on a stopped run.
-- human: under both the owner is asked nothing; under the chosen design the line he gets says which session carries the brief.
+- human: under both the owner is asked nothing, and neither adds anything to what reaches him.
 - safety: neither changes what a session may do.
 - Why chosen wins: the brief makes the call the harness's, and the session at work is the only part of the harness that can make it from knowledge and not from a guess.
 - The work is one unit and not seven small changes, because the change to record 15 touches the problem statements of several records and the entry on record 8 is held by text on both Counsel's and the Orchestrator's side.
@@ -131,7 +132,7 @@
 - description: |
   Only the nineteen proposed records of this run (files named ADR-D-<subject>.md, listed in the changes file at commit 5e3528a) are touched; no numbered record is.
   Delete records 4 and 14. Restate records 8, 15, 16 and 18 as their entries of 2026-11-19 give them, renaming a file where its subject no longer says its decision. Read every remaining record against the entry on record 17: its problem statement says what was wanted and why and what failed to serve it, and holds nothing that does not bear on the decision; record 17 and record 1 are named by the owner. Remove from every record the account that a brief waited for the run in progress, and every citation of a deleted record.
-  The record standard as it stands on this branch, and its admission test, govern; a restated record that no longer passes the admission test is reported, not kept.
+  The record standard as it stands on this branch, and its admission test, govern; a restated record that no longer passes the admission test is reported, not kept, and the Orchestrator tells the owner of any such further withdrawal through Counsel.
 - acceptance:
   - Seventeen proposed records remain, or fewer with each further withdrawal reported with the admission-test reason; none is marked accepted or numbered.
   - Records 8, 15, 16 and 18 state every sentence of their entries that is a decision, a boundary or a reopen condition, and nothing the entry withdrew.
@@ -188,10 +189,32 @@
     owner: reviewer
     detail: "The README text against the entry's terms"
 
-### Task_6: Final review
+### Task_6: The scenarios shown
+- type: research
+- owns:
+  - docs/coding-agent/plans/active/one-conversation-with-counsel-scenarios.md
+  - docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md
+- depends_on: [Task_1, Task_2, Task_4]
+- description: |
+  Try in practice what this unit changes, with this branch's plugin text and by the means the workspace's Sessions record names: a ratified stand-in brief handed to an Orchestrator session already at work, and its answer (scenario 3 as the brief now gives the arrangement); work sent to a sub-agent that is lost part-way and replaced by the session that sent it (scenario 5 as reworded 2026-11-19). For scenarios 1, 2 and 8, say whether the earlier unit's trial still shows the scenario under the text as changed, and try again where it does not and one can be made. Record for each scenario what was tried, what happened, and where none can be made why not.
+  Limits on a trial: stand-in briefs and throwaway working trees only; no session uses a mode that skips a runtime's safety checks; a refused check is recorded and not retried or worked around; no permission setting is changed; nothing is pushed, merged or sent outside the machine; every session started is ephemeral and ended by the task.
+- acceptance:
+  - For each of scenarios 1, 2, 3, 5 and 8 the scenarios file says, against the brief's present wording, what was shown and how to observe it, or plainly that none could be made and why.
+  - Nothing is written as shown that was not observed in this task or cited from a recorded earlier trial that the changed text leaves valid.
+- validation:
+  - kind: manual
+    required: true
+    owner: worker
+    detail: "For each trial: the command or act, the session's own output quoted, and the revision of the plugin text it ran on"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "Each claim in the scenarios file against its recorded evidence"
+
+### Task_7: Final review
 - type: review
 - owns: []
-- depends_on: [Task_1, Task_2, Task_3, Task_4, Task_5]
+- depends_on: [Task_1, Task_2, Task_3, Task_4, Task_5, Task_6]
 - description: |
   The Codex review seat reads the whole range from the start revision: each task's diff against the brief's entries, the plugin's text and the records saying the same thing, pointers, validators.
 - acceptance:
@@ -207,15 +230,65 @@
 - Wave 1 (parallel): [Task_1, Task_2, Task_3, Task_5]
 - Wave 2: [Task_4]
 - Wave 3: [Task_6]
+- Wave 4: [Task_7]
 
 ## Rollback / Safety
-- Everything is on one branch and reverts as one. Nothing is merged, accepted, numbered or retired by this plan, and nothing outside the repository is written.
+- Everything is on one branch and reverts as one. Nothing is merged, accepted, numbered or retired by this plan. Outside the repository two things happen: the branch and the text of pull request 109 are published after the final review and the closeout audit, on the standing approval for a finished, reviewed run; and Task_6's trials start ephemeral sessions on this machine within the limits that task states.
 
 ## Progress Log (append-only)
 
 - 2026-11-19 08:36Z Draft plan sent to the Codex seat `agent-harness-reviewer` for plan review (a698257). 08:42Z CHANGES REQUESTED: HR-PLAN-F1 (the hand-over answer is a planner-added requirement and was not listed), HR-PLAN-F2 (Task_1's third acceptance bullet banned names the adapter files have to carry). Both applied (7bd100d); 08:44Z APPROVED on the delta.
 - 2026-11-19 08:43Z Counsel's relay of the owner's word on the version (1.8.0 in place of 2.0.0, on terms); the brief's entry brought in by name (5ec43ee) and the plan extended with a Definition of Done line and Task_5 (46cd6aa). 08:46Z CHANGES REQUESTED: HR-PLAN-F3 (the pull request's half of the terms had no check). Applied as the Orchestrator's own obligation at publication (20c1f56); 08:47Z APPROVED, no finding open.
 - 2026-11-19 08:47Z The reading is written in the readings file before the plan-draft audit is dispatched.
+- 2026-11-19 08:47Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: plan draft. Plan: <worktree>/docs/coding-agent/plans/active/one-conversation-with-counsel-his-reading-plan.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md. Changes since: none.
+- 2026-11-19 08:55Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, plan draft. Two items are `ask-now` (the Design clause on what the line to him says, and the non-goal of trying no scenario); both can be cured by revising the plan. Everything else is `cited` or `inferred`.
+  The dispatch matched the fixed template. I followed the installed mandate (plugin 1.5.0). The branch's own copy differs from it by two added lines, which I did not read or follow. No notes file was opened; the readings file was opened only after the grades were fixed.
+  Position: plan draft
+  Documents read:
+  - `docs/coding-agent/plans/active/one-conversation-with-counsel-his-reading-plan.md`
+  - `docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md` (and its first-ratified version at a295f45, for the wording on machine obstacles and scenario 5)
+  - `docs/coding-agent/rules/common.md` (pointer lines; Standing Approvals, same as HEAD 8ce2367, tree clean)
+  - `docs/product-philosophy.md` and `product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `engineering-philosophy-companion.md`
+  - Read to understand, never as support: the `Scenarios` section of `docs/coding-agent/plans/active/one-conversation-with-counsel-run.md`; lines 64-68 of `plugins/coding-agent-orchestration-harness/skills/counsel/SKILL.md`; the file names of the nineteen proposed records.
+  Product basis: philosophy (the brief traces to the product philosophy; ebigunso is owner and product owner)
+  Not audited: none
+  Missing inputs: none
+  Value documents changed in range: none (no range at plan draft). The brief's amendments of 2026-11-19 (commits fe43aae and 5ec43ee) each carry his quoted words with the date beside them.
+  Items:
+  - DoD 1, the plugin's text states the five matters, each once where its reader reads it | maps to the brief | cited | brief, What reaches him: "Only what needs him reaches him, and it arrives ready to decide."; Runs side by side: "One Orchestrator session carries several briefs at once by default."; entry on record 8: "Counsel may give the Orchestrator its own reading of what he wants, marked as its own"; Dispatch: "free to send it to a sub-agent by any relay the environment offers, and it looks after whatever it sent the work to"; entry on record 16: "Counsel may take a view from any other model the environment offers"; engineering philosophy §5: "Each thing is written once, in the place whose pace matches its reason" | -
+  - DoD 2, records 4 and 14 gone with nothing in their place; record 4's line stays in the plugin's text | maps to the brief | cited | brief: "Record 14 ... is withdrawn, with nothing in its place"; "Record 4 ... is withdrawn. Its one line stays in the plugin's text where a peer channel is handled, with its reason." | -
+  - DoD 3, records 8, 15, 16, 18 restated; every remaining problem statement read against his sentence; no record rests on a brief having waited | maps to the brief | cited | brief, entry on record 17: "The problem statement of a record says what was wanted and why, and what failed to serve it; everything in it bears on the decision, and an account of what was observed or of what happened, which does not, is left out."; entry on record 15: "Its account that a brief used to wait for the run in progress is not so and goes."; "the change to record 15 touches the context of several of them"; engineering philosophy §2: "Contents that say what is so." Not graded as a conflict: the brief's own line under Who it is for still reads "a brief handed over while another run is in progress waits for that run", which is Counsel's to square with the entry on record 15. | -
+  - DoD 4, `common.md` carries the third standing rule as changed | maps to the brief | cited | brief, Limits: "On his word of 2026-11-19 it changes a third ... the dispatcher may use any relay the environment offers." | -
+  - DoD 5, version 1.8.0 and the README states the two things | maps to the brief | cited | brief: "The version step is minor, 1.8.0, on these terms: the pull request, and wherever someone who updates reads what changed, state plainly that a session with no role chosen is now Counsel and that the block in the Codex home no longer routes coding requests to the Orchestrator." | -
+  - DoD 6, pull request 109's text states the same, at publication after the final review and the closeout audit; the unit lands in pull request 109 | maps to the brief | cited | outward-facing, passed on the standing approval in `common.md`: "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner." (record: "Given and accepted by the repository's owner, ebigunso, on 2026-09-30, relayed by Counsel: \"The common rule proposed, accepted.\""; whether those words were said a file cannot show). I read it as covering the text of the run's own pull request once the run is finished and reviewed, which is where the plan puts the act. Brief, the version entry, as above. The plan's Rollback line "nothing outside the repository is written" does not hold beside this entry. | -
+  - DoD 7, validators pass; nothing accepted, retired or numbered | maps to the brief | cited | brief, Pass conditions: "the package validators pass"; Limits: "What waits for him today still waits for him: ... accepting a decision record by name"; "A number that must be unique across runs is taken when the work lands, not while it is drafted."; "He has accepted none of the nineteen." | -
+  - DoD 8a, the branch is reviewed `APPROVED` and the value audits are logged | maps to the brief (how its result is checked) | cited | product philosophy §2: "confidence is never taken on the builder's word: what was not done or not checked is said outright"; §6: "Not its own judge." | -
+  - DoD 8b, a new numbered list of the remaining proposed records fixed at the closing commit | maps to the brief | inferred | extends brief: "he read the nineteen proposed records against the list fixed at commit 5e3528a and spoke to six of them by its numbers"; "hold his acceptance by number until the changed records are rebuilt"; cheap to undo | -
+  - Planner-added: the Orchestrator session at work answers a further hand-over by taking it or saying it cannot take more | maps to the brief | inferred | extends brief: "Counsel hands the brief to an Orchestrator session already at work in the repository, and starts one where none is at work or the one at work cannot take more."; "that is the harness's to decide and no question to him"; "Each Orchestrator states when it takes a brief what its run will touch."; cheap to undo; follows the means | -
+  - Design, human bullet: "under the chosen design the line he gets says which session carries the brief" (Tasks 1 and 2 build from "this plan's Design") | scope expansion | ask-now | no statement covers it; against it, brief, What reaches him: "Only what needs him reaches him ... no account of what was done or is going on is written out for him"; product philosophy §1: "A design that works only if the person understands a role, a model or a step of the process is wrong"; beside it, brief: "the line that tells him the run has started says what it runs on" | Reasons: it adds to what reaches him with no support, and the statements that bear on it pull apart. Value question: when a brief he has ratified goes to a session already carrying other work, is he told which session carries it, or only that its work has started, hearing more only if he asks where the brief stands? Struck from the plan, this item is gone and nothing is owed to him.
+  - Non-goal: the sentence for the record standard is the other run's | maps to the brief | cited | brief, entry on record 17: "The same goes into the record standard, in the run that owns it." | -
+  - Non-goal: marking a record accepted, numbering one, retiring an accepted record or repairing references to one | maps to the brief | cited | brief, Limits: "accepting a decision record by name" waits for him; "three decision records, which are replaced by records he accepts by name" | -
+  - Non-goal: editing either philosophy or its companion | maps to the brief | cited | brief, Limits: "a change to a philosophy" waits for him | -
+  - Non-goal: trying any scenario in practice ("none can be made by this unit's work that the earlier unit did not already try") | maps to the brief (changes how a pass condition is checked) | ask-now | brief, Pass conditions: "Agent-checkable: ... scenarios 1, 2, 3, 5 and 8 are shown where one can be made, and where one cannot the closeout says so plainly."; "Scenarios 4 and 5 were changed again on his words of 2026-11-19." | Reason: it loosens a pass condition. The plan settles ahead of the work, on its own word, that nothing can be shown, while this unit changes the default way a brief reaches a run (handed to the session at work, which answers) and scenario 5's wording changed on 2026-11-19. The plan's own Design says the chosen design "is shown by one hand-over and its answer". Value question: after the way a ratified brief reaches a run was changed on 2026-11-19, is the result called ready on the earlier trials of the earlier arrangement, or is the changed way tried once in practice first, with scenario 5 stated against its new wording? A plan that tries what can be made, and says per scenario why not where it cannot, meets the condition as the brief words it and needs no answer from him.
+  - Non-goal: the peer-messaging tool itself | internal mechanics | cited | engineering philosophy §7: "the burden of proof is on what is added or kept, and absence needs no defence" | -
+  - Non-goal: any permission setting | maps to the brief | cited | brief: "an allow rule for the merge tool in his own settings, which is his to make and which nothing in the work makes for him"; "No check a runtime makes for safety is defeated to avoid it." | -
+  - Compatibility stance: break, for the reference on seats and the names of the proposed records | internal mechanics | cited | engineering philosophy §7: "What already exists has no claim."; brief: "The plugin's reference on seats shrinks to what a dispatcher must know when the relay happens to be a peer channel." | -
+  - A1: one Orchestrator session has carried two briefs side by side | maps to the brief | cited | brief, entry on record 15: "with the grounds that one session had carried this run and the run on decision records side by side for a week and that one session for each brief had never been done; told 2026-11-19: \"Yes I agree with those takes.\"" | -
+  - A2: record 4's line belongs in what remains of the reference on seats | internal mechanics | cited | brief: "Its one line stays in the plugin's text where a peer channel is handled"; "shrinks to what a dispatcher must know when the relay happens to be a peer channel"; engineering philosophy §5: "where the reader who needs it will be reading when the decision comes" | -
+  - Task_1, Counsel's conduct | maps to the brief | cited | brief, What reaches him and the entries on records 8, 15, 16, 18 as quoted above; entry on record 16: "no family is named and nothing assumes which model Counsel runs on"; "The plugin's text goes on naming the roles that exist."; engineering philosophy §4: "A model's name, a price, a count ... these go where changing them costs one line"; §5 as above. The hand-over answer is graded under Planner-added. | -
+  - Task_2, the Orchestrator under a brief, and dispatch | maps to the brief | cited | brief, Dispatch as quoted; entry on record 8: "A question reaches Counsel only when its options differ in what he would experience ... where they do not, the call is the Orchestrator's own"; "The reading carries none of his authority; the Orchestrator weighs it as it weighs its own inferences"; entry on record 15 as quoted; "What is known about the obstacles of the machine the work runs on reaches whatever starts work on it" (its kind on 2026-11-19 is tagged inferred, but its content was ratified with the brief on 2026-11-12 and the task keeps what is built); "Both Auditor mandates go on reading the record of the machine's obstacles before grading, as built." Any line changed in either mandate is graded at closeout from the diff. | -
+  - Task_3, the proposed records: delete 4 and 14, restate 8, 15, 16, 18, rename where the subject no longer says the decision, read the rest against the entry on record 17 | maps to the brief | cited | brief, the entries on records 4, 14, 15 and 17 as quoted; engineering philosophy §7: "someone who knows what the harness is for can predict where a thing is and what it is called before they look" | -
+  - Task_3, a restated record that fails the admission test is reported and not kept ("or fewer with each further withdrawal reported") | maps to the brief | inferred | extends brief: "Counsel then held it against the record standard's admission test and recommended withdrawing it; told 2026-11-19: \"Yes, withdraw record 4.\""; product philosophy §2: "If a decision can be undone and stays inside the work, it is made and reported, and not asked."; §3: "The telling is not optional"; cheap to undo. Both withdrawals so far were his by name, so the support holds only if a further withdrawal is told to him. | direction
+  - Task_4, this repository's rule on dispatch | maps to the brief | cited | brief, Limits, the third rule as quoted; "It changes two standing rules of his, and only as far as this brief says"; "No check a runtime makes for safety is defeated to avoid it." | -
+  - Task_5, version 1.8.0 | maps to the brief | cited | brief: "The change takes a minor version step, to 1.8.0."; the version entry as quoted | -
+  - Task_6, final review over the unit's range | maps to the brief (how its result is checked) | cited | product philosophy §2: "a result is judged by an agent other than the one that built it"; §6: "Not its own judge." | -
+  - Decision Log | - | no entries | - | -
+  Human-only conditions pending: "the next two briefs he hands over close together both start without him opening a session; over those two runs he opens no Orchestrator session, starts or repairs no seat, and is not the one who notices a stop."
+  Scenarios: none
+- Acting on the verdict: two items are ask-now and the verdict says each is cured by revising the plan, so the plan is revised and nothing goes to him. The Design's clause that the line he gets says which session carries the brief is struck: nothing in the brief has him told that. The non-goal of trying no scenario is withdrawn and a task added that tries what this unit changes (a hand-over to a session at work and its answer; a sub-agent lost part-way and replaced by the session that sent it the work) and states scenario by scenario, against the brief's present wording, what was shown and why not where one cannot be made. The item marked direction: a further withdrawal of a proposed record on the admission test is told to him through Counsel, and Task_3 now says so. Rollback said nothing outside the repository is written; the pull request's text is, at publication, and the line is corrected. The brief's line under Who it is for still says a brief handed over while another run is in progress waits for that run; that is Counsel's sentence and is told to Counsel. The revised plan goes back to the review seat for the delta and to a second plan-draft audit before any Worker starts.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
