@@ -5,7 +5,7 @@ How a session is started, messaged, watched and ended in this workspace. Only a 
 - To start a session in a role with a first message and without a person: use Claude Code's background option, naming the plugin's Orchestrator agent, with the message as its argument.
   - Only in a folder the owner has trusted once in Claude Code. Trust does not carry to a sibling folder or a new working tree; where the work is in such a place, start the session in a trusted working tree and name the other repository to it by path.
   - Only where the plugin is enabled.
-  - Do not start a kept session in Codex. No way is recorded here to start one there that outlives its turn, and trial runs there are not kept.
+  - There is no means here to start a session in Codex that outlives its turn. Trial runs in Codex are not kept, as this workspace's own restriction.
 - To start it on a named model and at a named effort: give the same command its option naming the model and its option naming the effort level. Name both; a start that names neither runs on what the owner's settings give.
 - To see what a session runs on: read the header of the runtime's log for it while it lives, or its transcript file, found by its full session id. Do not take it from the listing of sessions, which does not show it, nor from the session's own word.
 - To see whether a session is alive, and working or waiting: read Claude Code's listing of sessions, which gives working, waiting with the kind of thing waited for, finished its turn, or stopped. Read what it waits for from what it last wrote. There is no means here to tell a session working long from one that is stuck.
