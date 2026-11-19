@@ -962,3 +962,70 @@ The same request on the same small library, counted by whether the session attem
 - Not shown: that the bullet makes the reading less frequent. One of three against three of four, in runs of this few, is within what chance between runs could give; Task_12's two of two with the earlier sentence is fewer still. Nothing here is a rate. (**inferred**)
 - Not shown: what an Orchestrator session does where no such condition is in the message and the work is real, in a kept or interactive session, on this branch's plugin text, or on another model. The condition is the trial's own, put in so that a trial session would not write to the owner's other sessions; a person's request would not usually carry it. That the failures to dispatch seen here are made by the trial's message more than by the block is the reading the three sets fit best, and it is **inferred**.
 - Not shown: whether a start goes through in a run that is kept. In every set an ephemeral run's first start failed, and in step A two sessions did not try a second.
+
+## How a hand-over reaches a session at work, and what a stop does to work in flight (2026-11-19)
+
+Findings of Task_6 of the plan `one-conversation-with-counsel-his-reading-plan.md`. Every fact under this heading was seen on 2026-11-19, the same date by the local calendar, and is marked observed, documented or inferred as above. The trials themselves, with what each session wrote, are in `one-conversation-with-counsel-scenarios.md` under the headings of that date; this section holds what they showed of the runtime.
+
+Version: `claude --version` printed 2.1.327 before the trials, and the first session's transcript records 2.1.327 up to its first continuation; from then on it, and every other session and call, records 2.1.328, the runtime having updated itself. Terminal CLI, Windows. The plugin text was revision f27d47a, exported to a throwaway directory and loaded with the plugin-directory option. Every background session was started from `<main checkout>` and told a throwaway repository by path.
+
+The short of it: with no peer channel a hand-over reaches a session at work only by stopping it and continuing it, and that worked every time it was done as the Sessions record states. The stop did not end a command-line call or a shell command the session had running in the background: both ran on, and the continued session was told when each ended and read its result. A session waiting on such a call is listed exactly as one in the middle of a turn, and a Counsel stand-in that read the listing so started a second session and did not hand over.
+
+### What was tried
+
+- Eight stops and continuations of four background sessions, as the Sessions record gives them: `claude stop <short id>`, the plain listing read until the session is gone from it, then `claude --bg --resume <full session id> "<message>"` with no other option. Six were made by the trial and two by a Counsel stand-in session following the record of its throwaway repository.
+- One stop made while the stopped session had two commands running in the background: a command-line call to the runtime's non-interactive mode that it had made as its Worker relay (`claude -p ... --agent <the plugin's Worker agent> --model fable --effort low "<dispatch>"`), and a shell command running a check that takes three minutes.
+- Two endings from outside of such a command-line call while the session that made it lived: the call's process and the processes under it were ended with the system's own command for that.
+- `claude stop <short id>` on a non-interactive call that had outlived the session that made it.
+
+### What was observed: the continuation
+
+- Every continuation made with the full session id and no option beyond the message woke the original session. The runtime's note each time named the options the session had been started with: "note: woke session c6e2244c with its saved options (--plugin-dir, --agent, --effort, --name, --model)." (**observed**, 8 of 8: three Orchestrator sessions and one session with no agent named) No copy was made in these trials.
+- The saved options named `--model` for a session that had been started with no model option, the session with no agent named. (**observed**, 1 session, 3 continuations)
+- A continued session keeps its model and effort: in the transcript of the session stopped and continued twice, each of the 59 records of its output names Fable 5.2 and carries the effort `low`, before and after each continuation. (**observed**, 1 session; the other continued sessions agree) This was the first item under "What was not tried" on 2026-11-16.
+- After `claude stop` the session was gone from the plain listing by the first look, three to four seconds later, and was under `--all` as `stopped`, or as `done` where it had been listed `idle`, `done` before the stop. (**observed**)
+- Where a repository's record states the conditions of the continuation, a Counsel stand-in followed them without being told: it stopped the session, looped on the listing until the session was gone, and continued it by the full id it had read from the listing, with the message alone; the original was woken. (**observed**, 2 of 2) On 2026-11-13 the record did not state them and a Counsel stand-in made two copies.
+
+### What was observed: a stop, and the work in flight
+
+- No session that was continued afterwards had been stopped while it was composing a reply or running a tool call in the foreground. Each such stop met a session whose last reply had ended: either its turn was over, or it was waiting on commands it had put in the background. One session was in the middle of a turn at the stop that ended it for good, and it was not continued.
+- A stop does not end what the session has running in the background. Four seconds after the stop, the process of the command-line call, the process of the check under it, and the process of the check the session itself had put in the background were all alive, while the session's own process was gone. (**observed**, 3 processes of 3) The same held for a Counsel stand-in's background watch, a shell loop on the listing: it outlived two stops of that session. (**observed**)
+- They ran to their ends, and the continued session was told. After the continuation the runtime gave the session a notice for each as it ended: "Background command "Dispatch the Worker a third time" completed (exit code -1)", and the output file of the session's own check ended "[process exited while detached; exit code unknown]". The output was whole: the Worker's report, "status: done", was in its file, and the session read it and went on. (**observed**, 2 of 2 commands of the Orchestrator session; 2 of 2 watches of the Counsel stand-in)
+- So the exit status of a command that ends while its session is stopped is lost, and its output is not. A session that judged a call by its exit status alone would misread it; the one here read the output. (**inferred** from the above)
+- What a stop does to a Claude subagent in flight was not tried.
+
+### What was observed: a command-line call as the relay
+
+- The call is a process of its own under the session's shell. It appears in `claude agents --json` as an entry of its own with a name the runtime made up, `status: busy`, a process id and no `state`. (**observed**, the seven calls that were looked for of eight made) The one entry read whole also had `kind: interactive` and no short id.
+- The runtime's stop does not reach it: `claude stop <the first eight characters of its session id>` answered "No session matching", exit status 1. Such a call ends when its one turn ends, or when its process is ended. (**observed**, 1 of 1)
+- Ended from outside while its session lived, the call was reported to the session within a second: "Background command "Dispatch the Worker through Claude Code's non-interactive mode" failed with exit code 1", its output file holding nothing of the Worker's but "[exited with code 1]". (**observed**, 2 of 2) The call's own transcript stayed readable in the runtime's store, and the session read it to see how far the Worker had come.
+- A call made with the plugin-directory option and the Worker agent named ran on the model and at the effort its options named: Fable 5.2, low, in each of the eight transcripts. (**observed**)
+- Each call's transcript records the automatic permission mode, which is what the settings in force name, and the calls edited a file in their working directory and ran the check without a prompt. No tool call of any session or call in these trials came back refused by a permission check, by a read of every tool result marked as an error. (**observed**)
+
+### What was observed: what the listing says of a session at work
+
+- A session that has ended its reply and waits on a command it put in the background is listed `status: busy`, `state: working`, the same as a session in the middle of a turn. (**observed**, every look at such a session, in four sessions) Its transcript tells the two apart: the last record is a finished reply.
+- A session whose turn ended with a reply that said the run was blocked was listed `status: idle`, `state: blocked`, with no `waitingFor`. (**observed**, 3 of 3 such turns, in three sessions) A turn that ended otherwise was listed `idle`, `done`. On 2026-11-12 `blocked` had been seen only at a permission prompt; here no prompt was open.
+- A Counsel stand-in, handed a second ratified brief while the session it had started was waiting on its Worker's call, read `busy`, `working` and did not try the continuation: it wrote that the session "could not be reached with this hand-over while its turn runs", and started a second session for the brief. (**observed**, 1 of 1) By the trial of the stop above, the continuation would have reached that session without ending its Worker's call. The same stand-in, with a later brief to hand over and that session listed `idle`, `done`, did use the continuation, and handed the brief to it. (**observed**, 1 of 1)
+
+### What was observed: the hand-over itself
+
+- A hand-over given by the continuation arrives in the session as its next message, with nothing to mark who sent it but its own words. The session at work answered in the reply to that message, 32 seconds after it arrived: "The README brief is taken, and its run has started beside the Help text run rather than after it." (**observed**, 1 of 1)
+- A hand-over can travel in the same message as a relay. A Counsel stand-in gave a session, in one continuation, the owner's acceptance of the run it had carried and a further brief; the session closed the one run and answered "I take the brief" for the other in the same turn. (**observed**, 1 of 1)
+- Where the repository's `common.md` held no entry in effect and the session had been opened by a stand-in owner, the same message was answered: "I have not taken the brief: the relayed ratification is not acted on, because Counsel's relays are not admitted in this session." (**observed**, 1 of 1)
+
+### What was not tried, and why
+
+- A stop of a session in the middle of composing a reply or of a foreground tool call, and a stop of a session with a Claude subagent in flight: the trials needed the work in flight to be endable from outside, so the Worker's relay was a command-line call.
+- A hand-over over a peer channel, which is the one way recorded for a message to reach a session while it works: the trials' limits kept every session off the peer channel.
+- A continuation with a short id or an added option: the copies of 2026-11-13 were not made again.
+- A command-line call to another runtime as the relay.
+- Codex.
+
+### Places outside the throwaway directories, before and after (2026-11-19)
+
+- Claude Code's user settings file and the settings file in `<main checkout>`: the same before and after, by hash. The runtime's own record of trusted folders: no entry added or changed. The Codex home's configuration file: the same. The trial made or changed no permission setting, trust setting or configuration file. (**observed**) What the runtime, and the script of the hook named below, write into their own state when a session starts was not looked at.
+- The runtime's own store: a transcript file for each session and each non-interactive call, written by the runtime, as for any session; they were left as written. (**observed**)
+- A hook in `<main checkout>` puts a line into every session started there asking it to start a watch for the peer-messaging tool. Each first message forbade it, and no trial session did: by a read of every tool call in the transcripts, none ran a script of that tool or a monitor. (**observed**) One Orchestrator session used the runtime's own tool for messaging a subagent it had dispatched, to give its Reviewer the result of a check.
+- `<main checkout>` and `<worktree>`: unchanged by any trial session; `<worktree>` only by this task's edits to this file and the scenarios file. (**observed**)
+- The sessions started and the throwaway directories are listed at the end of `one-conversation-with-counsel-scenarios.md`.
