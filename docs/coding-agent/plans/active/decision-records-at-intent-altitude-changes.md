@@ -1135,3 +1135,81 @@ Small changes built without a plan under the governing brief, each from the owne
   - Rulings (the Orchestrator's): the restrictive wording stands, since his words keep what "weighs in on the decisions themselves" and that is what the entry's clause limits. The template's prompt under that heading ("The fork in one paragraph: what pressure made this a decision point. No history of the investigation") is left as it is: his word is for the record standard, the prompt does not contradict the bullet, and a changed template leaves each repository's copy behind; it is told to Counsel as one line to change if he wants the template to say it too. The closeness of "A document may be named where naming it bears on the decision" to the Intent altitude bullet's two grounds for a name is left: a name that bears on the decision is one the decision would not be understood without.
 - 2026-11-19 08:43Z Review by the Codex seat `agent-harness-reviewer`: APPROVED at 23dce14, range 33b63a9..23dce14, no findings. The bullet holds each part of the entry; the restrictive wording keeps his qualification; it reads against none of the existing bullets; the unchanged template prompt can be followed together with it. Validator and smoke tests rerun by the seat, pass.
 - 2026-11-19 08:43Z The reading is written in the readings file before the closing audit is dispatched.
+- 2026-11-19 08:43Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: 33b63a9.
+- 2026-11-19 08:49Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict. Nothing is held: no item is `ask-now` and none is `ungraded`. No judgement call carries the `direction` mark. One reading diverges (the restrictive clause: read `covered`, graded `inferred`).
+  **Before the record**
+  - **Range audited:** 33b63a9 to the working tree of ``, clean at 6c4c829 (three commits: b9137ae, 23dce14, 6c4c829). By the local refs no remote branch contains HEAD; the branch is ahead 4 of origin/main (d9ba89a).
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan. The section graded is "The record standard: what a record's problem statement says", which records 33b63a9 as its start.
+  - **Dispatch:** it matched the fixed template, with no extra text. A session hook put unrelated text about coding style into my context; it says nothing about the work.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and one Glob that returned the mandate's file name only.
+    - I read the mandate and `value-documents/SKILL.md` from the worktree's copy under `plugins/`. Neither is in the range's diff.
+    - Of the changes file I read lines 1 to 311, its headings, and lines 1120 to 1138 (this change's section whole). The sections between belong to other changes and were not read.
+    - Every content diff was one named path per command, with both exclude pathspecs.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, for this change's heading and `Findings`.
+  **Verdict record**
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; and the one line 33b63a9 added)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (Scenarios section for prior states)
+  - The diff 33b63a9 to the working tree: `adr.md`, three `plugin.json` files, two `marketplace.json` files.
+  - Read to understand the change, not as support: `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md` and `adr-template.md` at HEAD.
+  Product basis: brief in the product owner's words, graded with the product philosophy ("the brief predates them and still rests on his own words, and from the day the rule file points at them the run is graded against the brief and both")
+  Not audited: none. Both sides have a document: `common.md` points to `docs/product-philosophy.md` and `docs/engineering-philosophy.md`, and each companion carries its ratification ("I ratify the engineering philosophy and the product philosophy.", 2026-11-11).
+  Missing inputs: none
+  Value documents changed in range: none. No pointer line was removed or changed; `common.md` is unchanged in the range.
+  - The brief's entry this change builds was added by 33b63a9 itself, the start revision, so it sits just outside the range. It carries its own record: told 2026-11-19, "Yes, that is right. And yes, put it in the record standard."
+  - Whether the quoted words were said is not something a file can show.
+  Statements quoted below, by short name:
+  - **Problem statement:** brief, Directed during the run, last entry: "The record standard also says, of a record's problem statement: it states what was wanted and why, and what failed to serve it; everything in it bears on the decision, and an account of what was observed or of what happened, which does not, is left out. A document may be named where naming it bears on the decision." (told 2026-11-19)
+  - **His words:** the same entry's record: "The important thing is that what is said isn't merely an account of what was observed, but is something that weighs in on the decisions themselves."
+  - **His word for the standard:** brief, What the work gives: "the standard is not changed by this work without his word"; and the same entry's record: "put it in the record standard."
+  - **Two grounds:** brief, the entry accepting pull request 110: "a name or a date anywhere else in a record is a detail like any other and stays on those two grounds."
+  - **Not relied on anywhere:** "The wording in the standard is the run's." His quoted words do not say it, so the wording choices below are graded as extensions.
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. `adr.md`, Form, one bullet added: "Context and Problem Statement states what was wanted and why, and what failed to serve it. Everything in it bears on the decision; an account of what was observed or of what happened that does not bear on the decision is left out. A document may be named where naming it bears on the decision." | maps to the brief | cited | Problem statement; His word for the standard | -
+     - Nothing is built beyond his statement: the bullet holds its three sentences and no fourth.
+     - I searched both philosophies for a conflict and found none. The engineering philosophy's "What the thing is for" and "The reason" (section 3) point the same way.
+     - The brief's "Left out on purpose" still lists "Changing the record standard itself". The constraint reserves that change to his word, and his word is quoted, so I read no conflict.
+  2. Version 1.7.1 in the five manifests, both values in each marketplace file moved together (the Worker's call) | maps to the brief | inferred | extends Problem statement ("put it in the record standard": a shipped file changes, so the shipped version moves) and engineering philosophy section 2, "Contents that say what is so"; cheap to undo | -
+  3. Judgement call, Worker: the bullet is a new one in Form, placed after "One decision per record" by the template's section order | maps to the brief | inferred | extends Problem statement; cheap to undo | -
+  4. Judgement call, Worker: the bold lead is the entry's first clause | maps to the brief | inferred | extends Problem statement; cheap to undo | -
+  5. Judgement call, Worker: a semicolon in place of ", and" | maps to the brief | inferred | extends Problem statement; cheap to undo | -
+  6. Judgement call, Worker: the section is named by the template's heading, "Context and Problem Statement", where the brief says "problem statement" | maps to the brief | inferred | extends Problem statement; cheap to undo | -
+     - The template has one section under that heading, so the bullet reaches no text his words did not.
+  7. Judgement call, Worker, kept by the Orchestrator's ruling: the brief's ", which does not," is written as the restrictive "that does not bear on the decision", so that an observation which bears on the decision stays | maps to the brief | inferred | extends Problem statement and His words ("isn't merely an account"); cheap to undo | -
+     - The built clause is not the brief statement's clause. Read literally, the brief has every account of what was observed left out; the standard leaves out only those that do not bear on the decision.
+     - I found no conflict between the two statements. Both keep "everything in it bears on the decision", and the sentence on naming a document shows the statement is a test and not a ban.
+     - No mark: the choice follows his own quoted words and is one clause on an unpublished branch.
+  8. Ruling, Orchestrator, before dispatch: the standard says what the brief's entry says and no more | maps to the brief | cited | Problem statement; His word for the standard | -
+  9. Ruling, Orchestrator: the template's prompt under that heading ("The fork in one paragraph: what pressure made this a decision point. No history of the investigation") is left as it is, and told to Counsel as one line to change if he wants | maps to the brief | inferred | extends His word for the standard and engineering philosophy section 5, "Each thing is written once"; cheap to undo, nothing was done | -
+     - The prompt ends "see references/adr.md", so a writer filling it in is sent to the bullet.
+  10. Ruling, Orchestrator: the closeness of "A document may be named where naming it bears on the decision" to the Intent altitude bullet's two grounds for a name is left | maps to the brief | inferred | extends Problem statement and Two grounds; cheap to undo | -
+      - Both sentences are his, and both now stand in the standard. I read the new one as permission inside the older test, not a third ground, and found no conflict.
+  11. Judgement call, Orchestrator: built as a small change without a plan, one addition to the standard | internal mechanics | cited | product philosophy section 6: "Not heavier than the request. A small ask gets a small process." | -
+  12. Judgement call, Orchestrator: a new branch from main, nothing pushed before its review and closing audit | internal mechanics | cited | product philosophy section 2: "confidence is never taken on the builder's word" | -
+      - Nothing outward-facing has happened in the range.
+  13. Judgement call, Orchestrator: written by a Claude subagent on Fable 5.2 at low reasoning effort, reviewed by the Codex review seat | internal mechanics | cited | product philosophy section 4: "The harness spends money where a miss would mean the wrong thing built, and saves it everywhere else."; section 6: "Not its own judge." | -
+  Decision records reworded after acceptance in the range: none. No file under `docs/coding-agent-orchestration-harness/decisions/` changed in the range.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): demonstrated. To observe: ADR-D-0071 and ADR-D-0072 in the decisions folder with ADR-D-0016 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96."; and ADR-D-0076 to ADR-D-0087 with ADR-D-0011, 0014, 0029, 0063 and 0066 under `superseded/`, beside "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101."
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still in the decisions folder, and the run record's result table.
+  - Prior states, from the run record: 1 and 3 not yet, 2 and 4 demonstrated. No state moved.
+  - Getting closer: yes. The range builds one gives-statement of the brief as he worded it, so the three areas still to be written have a standard that says what a problem statement holds.
+  - Limits on that judgement: no record was checked in this change and no scenario moved. This is the third unit in a row that changes the standard and checks no record. The run record gives a result for 12 of the 49 records, and the three other areas are not started.
+  **For the Orchestrator's eye, outside the grades**
+  - **The brief and the standard differ by one clause** (item 7). If Counsel wants them to read alike, the change is in the brief's sentence, which is Counsel's to write.
+  - **The template's prompt** (item 9). "What pressure made this a decision point" sits close to "what raised the question", the form he faulted. It points to `adr.md`, so I did not mark it.
+  - **Publishing is still ahead.** When it comes, the first standing approval covers it ("A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner."). The entry carries its record and is committed at HEAD.
+  - **The merge of pull request 110** is named in the section and predates the start revision. It is outside the range and not graded here.
+  - **The run record** has no Units row for this change yet.
+- Acting on the verdict: nothing is held, so the change closes; its branch is published and a pull request opened, which waits for his acceptance by name. The reading that diverges (the restrictive clause): the audit is right that the brief's own sentence words the clause the other way and that the run chose his quoted words over it; the built clause stands, and Counsel is told that the brief's sentence and the standard differ by that clause, the brief's sentence being Counsel's to write. Told to Counsel too: the template's prompt under the same heading, left unchanged, sits close to the form he faulted and points to the standard. The audit notes this is the third unit in a row that changes the standard and checks no record; that is said to Counsel as it stands. The run record gets this change's Units row and the merge of pull request 110.
