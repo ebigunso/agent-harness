@@ -15,6 +15,7 @@
 - The proposed records numbered 4 and 14 on the list fixed at commit 5e3528a are gone from the branch, with nothing in their place; the one line of record 4 stays in the plugin's text where a peer channel is handled, with its reason.
 - The proposed records numbered 8, 15, 16 and 18 state the decisions their entries give. Every remaining proposed record has a problem statement that says what was wanted and why and what failed to serve it, with no account of what was observed or happened that does not bear on the decision; no remaining record rests on the account that a brief waited for the run in progress.
 - `docs/coding-agent/rules/common.md` carries the third standing rule as changed: the dispatcher may use any relay the environment offers.
+- Added 2026-11-19 before the plan-draft audit, on his word relayed 08:43Z: the plugin version is 1.8.0, and the plugin's README, where someone who updates reads what changed, states plainly that a session with no role chosen is now Counsel and that the block in the Codex home no longer routes coding requests to the Orchestrator (brief, Directed during the run, the entry on the version).
 - The package validators pass. Nothing is marked accepted, nothing is retired, no number is taken.
 - The branch is reviewed `APPROVED`, value audits at plan draft and closeout are logged, and a new numbered list of the remaining proposed records is fixed at the closing commit.
 
@@ -40,13 +41,13 @@
 
 ## Compatibility stance
 - surface: the plugin reference `subagent-strategy/references/seats.md` and the pointers to it; the names of the proposed records.
-- stance: break. The consumers are the plugin's own files, which this plan changes together, and the pull request's reader, who gets a new list. No released version carries the text changed here: plugin 2.0.0 is this unmerged branch.
+- stance: break. The consumers are the plugin's own files, which this plan changes together, and the pull request's reader, who gets a new list. No released version carries the text changed here: it is on this unmerged branch only.
 
 ## Context (workspace)
 - Governing brief: `docs/coding-agent/briefs/active/one-conversation-with-counsel-brief.md`, ratified 2026-11-12; its entries of 2026-11-19 reached this session as Counsel's relay of 2026-11-19 08:34Z quoting the owner, admitted by the standing approval in `docs/coding-agent/rules/common.md`.
 - Philosophies, by the pointer lines in `common.md`: `docs/product-philosophy.md` and `docs/engineering-philosophy.md`, each with its companion.
 - Run record: `docs/coding-agent/plans/active/one-conversation-with-counsel-run.md`. Readings file: `docs/coding-agent/plans/active/one-conversation-with-counsel-readings.md`.
-- Start revision of this unit: fe43aae (the brief and Counsel's notes as changed 2026-11-19).
+- Start revision of this unit: fe43aae (the brief and Counsel's notes as changed 2026-11-19). The brief's entry on the version came in after it, by Counsel's relay of 2026-11-19 08:43Z, and is part of this unit's requirement.
 - Research waived: the Orchestrator read the brief's change in full and located the affected text itself (`counsel/SKILL.md` and its references, the two Counsel adapter files, `orchestration-harness/references/value-level-operation.md`, `subagent-strategy/references/seats.md` and the four files that point to it, `runtime-adapter-contract/references/tool-capability-matrix.md`, lines of `common.md`); a Worker's own search of its owned files completes it.
 - The list of the nineteen fixed at commit 5e3528a is in the pull request's text and in the changes file; numbers in this plan are that list's.
 - Design record consulted: ADR-D-0021 (the dispatching session owns the life of what it dispatched to), which the brief names as already deciding what record 14 said.
@@ -160,10 +161,36 @@
     owner: reviewer
     detail: "The changed lines against the brief's Limits and Dispatch"
 
-### Task_5: Final review
+### Task_5: Version 1.8.0
+- type: chore
+- owns:
+  - plugins/coding-agent-orchestration-harness/.claude-plugin/plugin.json
+  - plugins/coding-agent-orchestration-harness/.codex-plugin/plugin.json
+  - plugins/coding-agent-orchestration-harness/.github/plugin/plugin.json
+  - .claude-plugin/marketplace.json
+  - .github/plugin/marketplace.json
+  - plugins/coding-agent-orchestration-harness/README.md
+  - README.md
+- depends_on: []
+- description: |
+  The brief's entry of 2026-11-19 on the version: the step is minor, 1.8.0, in place of 2.0.0, on its terms. Set the version wherever the current one is carried. Where someone who updates reads what changed, state plainly the two things the entry names; if neither README has such a place, add the shortest one that serves, in the plugin's README.
+- acceptance:
+  - No file carries 2.0.0 as the plugin's version; every place that carried it reads 1.8.0.
+  - A reader updating from an earlier version finds, in the plugin's README, that a session with no role chosen is now Counsel and that the Codex home block no longer routes coding requests to the Orchestrator.
+- validation:
+  - kind: command
+    required: true
+    owner: worker
+    detail: "py -I scripts/validate_harness_package.py and py -I scripts/run_validation_smoke_tests.py from the plugin root; git diff --check; a search for 2.0.0"
+  - kind: review
+    required: true
+    owner: reviewer
+    detail: "The README text against the entry's terms"
+
+### Task_6: Final review
 - type: review
 - owns: []
-- depends_on: [Task_1, Task_2, Task_3, Task_4]
+- depends_on: [Task_1, Task_2, Task_3, Task_4, Task_5]
 - description: |
   The Codex review seat reads the whole range from the start revision: each task's diff against the brief's entries, the plugin's text and the records saying the same thing, pointers, validators.
 - acceptance:
@@ -176,9 +203,9 @@
 
 ## Task Waves (explicit parallel dispatch sets)
 
-- Wave 1 (parallel): [Task_1, Task_2, Task_3]
+- Wave 1 (parallel): [Task_1, Task_2, Task_3, Task_5]
 - Wave 2: [Task_4]
-- Wave 3: [Task_5]
+- Wave 3: [Task_6]
 
 ## Rollback / Safety
 - Everything is on one branch and reverts as one. Nothing is merged, accepted, numbered or retired by this plan, and nothing outside the repository is written.
