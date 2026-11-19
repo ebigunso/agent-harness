@@ -178,3 +178,25 @@ Small changes built without a plan under the governing brief, each from the owne
   - **Push state.** By the local tracking ref nothing in the range is on the remote: upstream is bb6d3f8, HEAD is five commits ahead, and the base 2286582 is not on upstream. I did not query the remote.
   - **Run record.** The row for this change reads "in progress" and "not yet closed"; it and the State line need bringing up to date when the unit closes.
 - Acting on the verdict: nothing is held, so the change closes and the run is reported ready again, with a new numbered list of the nineteen fixed at the closing commit. Corrected on the verdict: the count is nine records and eleven changed lines, not twelve (two of the twelve edits fall on one line of the any-session-role record); and "no reason changes" was too broad, since one deletion shortens a rejected alternative's stated reason in the record on not stopping for permission, on the standard's rule that a person's ruling is never the reason. Both are told to Counsel for his reading. Also told: the test was never put to him and his reading is where its results are judged; the default that nothing bounds how many runs go at once is now stated only in the plugin's text; one record uses "a seat" undefined and several cite by number records the nineteen replace, repaired at retirement. The audit notes this is the fourth closing in a row with every scenario not yet and that no further pass over wording could move one; that is said to Counsel as it stands.
+
+## The seventeen proposed records, numbered for acceptance
+
+- Fixed 2026-11-19 at the commit that adds this section, in place of the list of nineteen fixed at commit 5e3528a, which no longer matches the files. Built by the plan `docs/coding-agent/plans/completed/one-conversation-with-counsel-his-reading-plan.md`, not as a small change; this section only holds the list. The numbers are alphabetical by file name and are for his acceptance by number; a record takes its own number, from ADR-D-0088, when it lands. Of the list at 5e3528a, its 4 and 14 are withdrawn and its 8, 15, 16 and 18 are here under new names as 9, 16, 10 and 14.
+
+1. `ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`
+2. `ADR-D-a-session-counsel-started-does-not-stop-for-permission-in-its-own-window.md`
+3. `ADR-D-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md`
+4. `ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`
+5. `ADR-D-a-session-takes-its-workflow-only-from-its-own-roles-home-and-what-roles-share-is-in-no-roles-home.md`
+6. `ADR-D-a-stopped-run-is-found-without-the-person-and-recovers-within-a-limit-or-is-reported.md`
+7. `ADR-D-any-session-role-is-the-openers-to-choose.md`
+8. `ADR-D-counsel-reads-code-only-to-serve-a-discussion-and-takes-no-part-in-doing-or-checking-a-runs-work.md`
+9. `ADR-D-counsel-speaks-as-the-person-only-in-their-words-and-gives-an-orchestrator-session-its-own-reading-only-marked-as-its-own.md`
+10. `ADR-D-counsel-takes-a-view-from-another-model-before-a-consequential-direction-is-settled.md`
+11. `ADR-D-each-session-roles-workflow-is-stated-in-one-home-and-no-runtime-surface-restates-it.md`
+12. `ADR-D-harness-text-holds-none-of-the-users-authority.md`
+13. `ADR-D-no-check-a-runtime-makes-for-safety-is-defeated.md`
+14. `ADR-D-only-what-needs-the-person-reaches-them-and-when-follows-what-waiting-costs.md`
+15. `ADR-D-the-persons-word-reaches-an-orchestrator-session-in-it-or-by-counsels-quoted-relay.md`
+16. `ADR-D-what-runs-share-is-settled-without-the-person-and-briefs-that-cannot-both-hold-are-shown-to-them-first.md`
+17. `ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`
