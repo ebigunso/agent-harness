@@ -291,3 +291,26 @@ Source: the reply of the Orchestrator of 2026-11-13T21:05:10Z, with the inferred
 - Counsel asked the Orchestrator what statement its gate takes as naming each of the nineteen while they carry no numbers.
 - The Orchestrator on naming (channel 2026-11-17T16:07:36Z): taken is any statement from which each record he accepts can be picked out one by one: the titles or file subjects one by one, or a numbered list fixed at a named commit with his words giving the numbers ("I accept 1 to 19 of the list at bb6d3f8"); the range over a fixed list is its reading on one precedent, graded by the closing audit. Not taken: "all nineteen", "the proposed records". The list of nineteen is fixed at commit bb6d3f8 by file subject, in alphabetical order, and is fixed again if any record changes. The two entries and the Sessions record are accepted by what they are called in the rule file. Passed to him 2026-11-18.
 - He answered on 2026-11-18: "Do the extra pass and bring them to me again." Written into the brief and relayed the same day.
+
+## The extra pass done, 2026-11-18
+
+- From the Orchestrator (channel 2026-11-17T16:35:59Z). All nineteen were read against the test with two sides. Nine records changed by eleven lines; ten are untouched. No decision, boundary or reopen condition changed, and no title or file name. Eight sentences that stated the facts of today as fixed now state the possibility or the criterion; three remarks under More Information are gone; one deletion touches a stated reason: in the record on not stopping for permission a rejected alternative lost the clause "and that person accepted the input as a backup", since the standard has the ruling of a person never be the reason an alternative lost. That by default nothing bounds how many runs go at once is now said only in the text of the plugin. One record uses "a seat" without defining it; several still cite by number the records these replace, repaired when the old ones are retired.
+- The audit says this is the fourth closing in a row with no scenario of the brief moved and that no further pass over wording could move one; what moves them is use.
+- The list for acceptance by name is fixed at commit 5e3528a, same order and subjects as the list at bb6d3f8.
+- Passed to him 2026-11-18 with links.
+
+## His reading of the nineteen, 2026-11-19
+
+He read the nineteen against the list fixed at commit 5e3528a and said, by its numbers:
+
+> 8: I'm having a feeling that this is too strict. You should think of probable situations, and see what would be a preferred handling of the situation in such cases, and if that conflicts with what is stated here.
+> 14: I think specifying this in this way is a bit too much on the defensive side. Doing it this way would help prevent some edge case issues, but would probably introduce a lot of overhead when that isn't really needed.
+> 15: The base assumption is probably wrong. A brief handed to the Orchestrator was picked up immediately, and handled in any order, and mostly in parallel for what dispatched sub-agents handle. The only thing that couldn't be parallelized in the previous architecture was the planning and directing done in the Orchestrator session itself. The tradeoff to consider I think is if that is worth parallelizing by giving up shared context of the work ran in parallel, or if giving up that context actually is beneficial to not confuse the Orchestrator session.
+> 16: I think it's wrong to limit the consult to engineering discussions, since that implicitly assumes Counsel on Claude and consulted model be GPT. It could be the other way around, or be a completely different setup. Multiple consultable model might be available too. Reconsideration of assumptions are needed here.
+> 17: The problem statement now names a brief that calls for a change as what raised the problem. This does not capture the picture in the right way. It should instead state what was wanted and why, how something didn't serve that need, and then go on to state what was decided for that.
+> 18: Actually, I think you should rethink the assumptions here too. During a long run, a Counsel session may be left unattended and when I come back, the final message is what I would see as waiting, and everything before will be embedded in a long chain of text that I didn't follow. Counsel session probably won't be able to know if I'm watching or not, so the default assumption I think probably should be that the session is unattended, while a discussion is not ongoing.
+>
+> Others look good.
+
+- Relayed verbatim to the Orchestrator the same day, with the placement that on 8, 15, 16 and 18 he asks Counsel to think and has directed nothing further, and that "Others look good." is no acceptance.
+- The base assumption he calls probably wrong under 15 came from Counsel: on 2026-11-12 Counsel put to him, as where the machinery is the bottleneck, that "a second brief waits for the one Orchestrator". In the days since, one Orchestrator session carried this run and the run on decision records side by side.
