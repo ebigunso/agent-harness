@@ -433,6 +433,15 @@ Item | reading | statement relied on
 - Reading compared: Item 1, the bullet: agrees (`covered` against `cited`). Items 3 and 6, placement and the section's name: agrees (`extends` against `inferred`). Item 7, the restrictive clause: diverges. The Orchestrator read `covered`, on his words "weighs in on the decisions themselves". I graded `inferred`: the brief's own statement words the clause the other way, and the run chose his quoted words over it. Item 9, the template's prompt left: agrees (`extends` against `inferred`). Item 2, version 1.7.1: agrees (`extends` against `inferred`). The reading rests on the repository's practice; I rest it on the brief and the engineering philosophy. Items 4, 5, 8, 10, 11, 12 and 13: unread.
 - Findings compared: no finding is recorded for this change, and no item line notes a departure from a means. The five recorded findings are all of 2026-11-11, from earlier units outside this range; I compared each on its recorded text only. The reporting sentence missing where there is no plan (Task_1 of the raised plan): bears on the design though read as trivial. The entry already carries that correction from the closeout audit of 2026-11-11. The checker failing on prose in four more places: agrees. A Decision clause not carried and held by no record: agrees. BUNDLE-W1-F1, two decisions joined in one record: agrees. The census's counts not surviving his test: agrees.
 
+### The record template's prompt asks for what the standard says (small change), closeout
+
+Item | reading | statement relied on
+
+- The prompt under Context and Problem Statement now asks for what was wanted and why, and what failed to serve it, and only what bears on the decision | covered | brief, Directed during the run, the last entry (told 2026-11-19: "Yes, change the template line too.")
+- The standard's words used verbatim; the sentences on accounts and on naming a document left to the pointer | extends | the standard is the one home of the rule; the Worker's calls
+- "In one paragraph" and "no history of the investigation" kept | extends | the entry asks that the line say what the standard says, and takes nothing else out; the Worker's calls
+- Version stays 1.7.1; a repository's own copy of the template changes at setup's refresh | extends | the pull request is unmerged; the existing refresh rule; rulings
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
