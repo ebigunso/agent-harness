@@ -252,6 +252,29 @@ Item | reading | statement relied on
 - Reading compared: (against "Small change: the nineteen gone over for detail that does not bear on their decision, closeout") All nineteen read, nine changed, ten untouched, no decision, boundary, reason or reopen condition changed: agrees (covered against cited; items 11 and 12). The two-sided test: agrees (extends against inferred; item 10). Eight sentences restated: agrees (covered against cited; items 1, 2 and 3). Three remarks under More Information deleted: diverges (Orchestrator: extends; auditor: cited on the told sentence on detail; item 4). The clause on the person's acceptance deleted: agrees (extends against inferred; item 5). Kept though they could be read as detail: diverges (Orchestrator: extends; auditor: cited on the brief's statement of what the pass removes, on engineering philosophy §2 for dated observations and §7 for the commit pointer, and on the brief's Limits for the reopen conditions; items 6 to 9). Citations by number left for retirement: diverges (Orchestrator: extends; auditor: cited, as not the detail his statement names; item 9). Unread by the Orchestrator: "a seat" left undefined (within item 9), and items 13, 14 and 15.
 - Findings compared: no finding is recorded for this small change. The three recorded on 2026-11-13: A runtime's check refusing a write on a relayed word (read as bearing on the design): agrees. "Setup puts one in place" built as an offer (read as bearing on the design): agrees. The trust entry written into his Codex configuration (read as trivial for the design): agrees. No item line notes a departure from a means.
 
+### The plan for his reading of the nineteen (one-conversation-with-counsel-his-reading-plan.md), plan draft
+
+Item | reading | statement relied on
+
+- Goal: build the brief's entries of 2026-11-19 and the statements corrected in place; a later unit, same pull request | covered | brief, Directed during the run, the group dated 2026-11-19
+- DoD: the plugin's text states what reaches him, one Orchestrator for several briefs, what Counsel may say and the guard, the dispatcher's freedom, a view from any other model | covered | the entries on records 18, 15, 8, 14, 16 and the section Dispatch
+- DoD: records 4 and 14 gone, record 4's line kept in the plugin's text | covered | the entries on records 4 and 14
+- DoD: records 8, 15, 16, 18 restated; every remaining problem statement read against his sentence; no record rests on a brief having waited | covered for the four and for records 17 and 1; extends for reading every remaining record against it | the entry on record 17 states the sentence of any record's problem statement; the entry on record 15 says its account "is not so and goes"
+- DoD: the workspace's rule on dispatch changed | covered | brief, Limits, the third standing rule
+- DoD: version 1.8.0 and the README statement; the pull request's text states the same | covered | the entry on the version
+- DoD: nothing accepted, retired or numbered; reviews and audits; a new numbered list | extends | his standing rules on acceptance by name; the list is this run's practice for acceptance by number
+- Planner-added: the Orchestrator session at work answers a hand-over by taking it or saying it cannot take more | extends | "that is the harness's to decide and no question to him"; a mechanism the brief leaves open
+- Design: that answer against Counsel judging from outside | extends | the same
+- Non-goal: the sentence for the record standard is the other run's | covered | the entry on record 17: "in the run that owns it"
+- Non-goal: no scenario tried in practice in this unit | extends | the brief's pass condition asks scenarios shown where one can be made; the change is to text and records, and the closeout says so
+- Compatibility stance: break, consumers are the plugin's own files | extends | no released version carries the text
+- A1: one session has carried two briefs | covered | the entry on record 15, Counsel's grounds
+- A2: record 4's line belongs in what remains of the reference on seats | extends | the entries on records 4 and 14 read together
+- Task_1 to Task_3, Task_5: as the DoD items they build | as those items
+- Task_4: the Orchestrator edits the rule file itself | covered | the repository's rule that only the Orchestrator edits rule files
+- Task_3: a restated record that no longer passes the admission test is reported and not kept | extends | the record standard; the brief's entry on record 4 used that test
+- Rollback: nothing outside the repository is written | covered | brief, Limits
+
 ## Findings
 
 - 2026-11-13, from Task_9's third part and from Task_6: a runtime's own safety check refuses a session's write to its own rule file on a relayed word (the admitting entry on a carried acceptance, once in two tries with stand-ins; this session's edits loosening its standing rules, twice) | bears on the design: the brief's statement that he never opens a second session cannot be promised where that check stands. Escalated to Counsel the day it was found; answered by him on 2026-11-14 ("One visit is acceptable, but not as a deliberate design choice rather is a means to satisfy the mechanisms at play."), written into the brief as a means, and the text states the visit as a limit.

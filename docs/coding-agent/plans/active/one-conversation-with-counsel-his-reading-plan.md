@@ -1,6 +1,6 @@
 # Plan: One conversation with Counsel, his reading of the nineteen
 
-- status: draft
+- status: draft, plan review closed 2026-11-19 with no finding open; awaiting the plan-draft audit
 - generated: 2026-11-19
 - last_updated: 2026-11-19
 - work_type: docs
@@ -212,6 +212,10 @@
 - Everything is on one branch and reverts as one. Nothing is merged, accepted, numbered or retired by this plan, and nothing outside the repository is written.
 
 ## Progress Log (append-only)
+
+- 2026-11-19 08:36Z Draft plan sent to the Codex seat `agent-harness-reviewer` for plan review (a698257). 08:42Z CHANGES REQUESTED: HR-PLAN-F1 (the hand-over answer is a planner-added requirement and was not listed), HR-PLAN-F2 (Task_1's third acceptance bullet banned names the adapter files have to carry). Both applied (7bd100d); 08:44Z APPROVED on the delta.
+- 2026-11-19 08:43Z Counsel's relay of the owner's word on the version (1.8.0 in place of 2.0.0, on terms); the brief's entry brought in by name (5ec43ee) and the plan extended with a Definition of Done line and Task_5 (46cd6aa). 08:46Z CHANGES REQUESTED: HR-PLAN-F3 (the pull request's half of the terms had no check). Applied as the Orchestrator's own obligation at publication (20c1f56); 08:47Z APPROVED, no finding open.
+- 2026-11-19 08:47Z The reading is written in the readings file before the plan-draft audit is dispatched.
 
 ## Decision Log (append-only; re-plans and major discoveries)
 
