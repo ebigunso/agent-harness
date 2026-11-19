@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. A run is the work done under one ratified brief. A brief is handed over when Counsel gives it to the session that does its run.
 
-A ratified brief's run starts without the person directing the work opening anything (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`), and runs go side by side (`ADR-D-runs-go-side-by-side-and-settle-what-they-share-without-the-person.md`). A brief may still build on a change another run has not finished, and its work cannot start until that change is there. Somebody has to judge that moment. The fork is whether that person ratifies only what can start at once, or is asked when a brief should start, or ratifies whenever they are ready and leaves the moment to Counsel.
+The person directing the work is to be free to ratify a brief whenever they are ready to judge it, and is not to be asked about the state of the work in order to do so. A ratified brief's run starts without that person opening anything (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`). A brief may build on a change another run has not finished, and its work cannot start until that change is there, so somebody has to judge that moment. Tying ratification to it makes that person's decision wait on the runs, and asking that person for it puts to them a fact about the runs that they do not hold. The fork is whether that person ratifies only what can start at once, or is asked when a brief should start, or ratifies whenever they are ready and leaves the moment to Counsel.
 
 ## Decision
 
@@ -35,7 +35,7 @@ Whether a brief's work can start is a fact about the runs in progress, which Cou
 
 ## Decision Boundary
 
-Not covered: that a held brief is told to that person, with what it waits for, which the record on what is ready for that person states (`ADR-D-what-is-ready-for-the-person-reaches-them-as-a-line-and-then-waits.md`); that a ratified brief's run starts without that person opening anything, and by whom it is started (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`); that a brief which builds on nothing unfinished does not wait for the runs in progress (`ADR-D-runs-go-side-by-side-and-settle-what-they-share-without-the-person.md`); how Counsel learns what a run touches and when a change is finished; part of a run held back by the session that does it; what ratifying a brief requires, which is unchanged.
+Not covered: that a held brief is told to that person, with what it waits for, which the record on what reaches that person states (`ADR-D-only-what-needs-the-person-reaches-them-and-when-follows-what-waiting-costs.md`); that a ratified brief's run starts without that person opening anything, and by whom it is started (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`); whether a brief that builds on nothing unfinished waits for other work, and which session it is handed to, which the brief states; how Counsel learns what a run touches and when a change is finished; part of a run held back by the session that does it; what ratifying a brief requires, which is unchanged.
 
 ## Validation
 

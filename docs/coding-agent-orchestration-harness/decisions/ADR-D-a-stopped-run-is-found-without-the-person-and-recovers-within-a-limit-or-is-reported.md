@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. A run is the work done under one ratified brief.
 
-A run goes on in a session the person directing the work does not watch (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`). When that session stops, nothing in it tells anyone: a stopped run, a run that is working long and a run that is rightly waiting for an answer are all quiet. On 2026-11-12 that person twice had to say that something had stopped. The fork is who notices a stop, and what is done about it before that person hears of it.
+A run goes on in a session the person directing the work does not watch (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`). When that session stops, nothing in it tells anyone: a stopped run, a run that is working long and a run that is rightly waiting for an answer are all quiet. That person is not to be the one who watches the machinery; with nothing else finding a stop, they are the one who notices it, and the run sits stopped until they do. The fork is who notices a stop, and what is done about it before that person hears of it.
 
 ## Decision
 
@@ -37,7 +37,7 @@ A stop that only the person directing the work can notice makes that person the 
 
 ## Decision Boundary
 
-Not covered: by what means a run is watched and how its state is read, which the workspace's record states; what a run's own reports say of where it stands; the limit itself, how many attempts and of what kind, and what counts as the same stop, which the Counsel text states; an attempt that would repeat an act that cannot be undone, which is not made; what the report to that person holds; a run that stops because it has stopped getting closer to its goal and says so, which the workflow text states; what happens when the machine's limit for a period is reached; how a seat that stops under an Orchestrator session is replaced (`ADR-D-nothing-depends-on-a-seat-surviving.md`).
+Not covered: by what means a run is watched and how its state is read, which the workspace's record states; what a run's own reports say of where it stands; the limit itself, how many attempts and of what kind, and what counts as the same stop, which the Counsel text states; an attempt that would repeat an act that cannot be undone, which is not made; what the report to that person holds; a run that stops because it has stopped getting closer to its goal and says so, which the workflow text states; what happens when the machine's limit for a period is reached; what a session does about something it dispatched work to that has stopped (ADR-D-0021).
 
 ## Validation
 

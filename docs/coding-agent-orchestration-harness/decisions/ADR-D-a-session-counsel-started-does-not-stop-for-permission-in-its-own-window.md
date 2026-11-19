@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. A session's window is where a person would type into that session. A permission check is a runtime's own check that asks a person, or refuses, before an act is performed.
 
-A session that Counsel started has nobody at its window: the person directing the work is talking with Counsel (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`). A runtime's permission check that waits for input in that window therefore waits unseen, and the work stops without anything having failed. The comfortable way out is to leave the session at the prompt until that person happens to look. The fork is where a permission that person has not already given is asked for, and what is done about a check that only input in the session's own window can satisfy.
+The person directing the work is to be asked only what only they can answer, and asked it where they are. A session that Counsel started has nobody at its window: the person directing the work is talking with Counsel (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`). A runtime's permission check that waits for input in that window therefore waits unseen, and the work stops without anything having failed. The comfortable way out is to leave the session at the prompt until that person happens to look. The fork is where a permission that person has not already given is asked for, and what is done about a check that only input in the session's own window can satisfy.
 
 ## Decision
 

@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. The Orchestrator is the session role that plans, dispatches and reports the work.
 
-ADR-D-0037 held that a session takes a role only by an explicit act of the person opening it. Someone who installs the harness, opens a session and types what they want has performed no such act: they may not know that the harness has roles, and under that record their session held no role of the harness at all. The fork is what a session is when its opener chose nothing: nothing, the Orchestrator, or Counsel.
+The harness is to serve someone who installs it, opens a session and types what they want, without that person knowing that it has roles. ADR-D-0037 held that a session takes a role only by an explicit act of the person opening it. Such a person performs no such act, so under that record their session held no role of the harness at all. The fork is what a session is when its opener chose nothing: nothing, the Orchestrator, or Counsel.
 
 ## Decision
 

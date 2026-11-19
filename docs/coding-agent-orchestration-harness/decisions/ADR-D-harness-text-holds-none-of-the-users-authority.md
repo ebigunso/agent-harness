@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: harness text is whatever the harness installs or loads into a session: a loader, an adapter, a skill. The user is the person whose conversation the session is.
 
-A harness reaches a session only as text, and such text can say of itself that following it is the user's direction. An earlier loader said so, in order that a model would follow the harness at all (ADR-D-0008, retired on 2026-09-06). A model that weighs an instruction by who gave it then puts that text above everything that arrives below the user, an Orchestrator's instruction to a subagent included. The fork is whether harness text may claim the user's rank in order to be followed, or is weighed as what it is.
+What the user says in their own conversation is to outrank everything else a session reads, and what waits for the user's yes is to wait for the user. A harness reaches a session only as text, and such text can say of itself that following it is the user's direction; the pull toward writing that is that a model then follows the harness more readily. A model that weighs an instruction by who gave it then puts that text above everything that arrives below the user, an Orchestrator's instruction to a subagent included. The fork is whether harness text may claim the user's rank in order to be followed, or is weighed as what it is.
 
 ## Decision
 

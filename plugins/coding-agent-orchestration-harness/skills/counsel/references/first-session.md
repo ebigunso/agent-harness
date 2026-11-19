@@ -6,11 +6,11 @@ The owner opens no second session for any of this: Counsel starts the session th
 
 ## Setup
 
-- If `docs/coding-agent/rules/common.md` does not exist, setup has not run. Say so and offer it. On the owner's yes, start an Orchestrator session for setup as a run is started, within the limits on a start (`SKILL.md`, Hand-over and relay). Its first message stands alone, says that Counsel started the session and that it is for setting the repository up, and claims no authority of the owner's.
+- If `docs/coding-agent/rules/common.md` does not exist, setup has not run. Say so and offer it. On the owner's yes, start an Orchestrator session for setup as a session is started for a run, within the limits on a start (`SKILL.md`, Hand-over and relay). Its first message stands alone, says that Counsel started the session and that it is for setting the repository up, and claims no authority of the owner's.
 - Before setup no record of means exists, since setup writes it. For this one start, take what the runtime Counsel runs in gives for starting a session in the Orchestrator role with a first message, reading what it wrote, and giving it a further message, from the runtime's own help and documentation. Where nothing is found, say so plainly to the owner and start none.
 - A real Counsel session making this start is untried: on 2026-11-13 a session standing in for Counsel made it, from a folder already trusted, for a repository it named by path.
 - The setup session ends its turn saying what it waits for and from whom. Read that from what it wrote: its listed state says only that the turn ended (seen 2026-11-13).
-- A first setup waits for more than the entry below: what the work runs on, a budget allowance, and whether decision records get a folder are the owner's to answer too. Each is told to the owner as anything that becomes ready is, and each answer is carried back quoting the owner's words. The owner's answer to the entry goes first, because no other relay is admitted until the entry is in effect.
+- A first setup waits for more than the entry below: what the work runs on, a budget allowance, and whether decision records get a folder are the owner's to answer too. Each is told to the owner as anything that needs the owner is, and each answer is carried back quoting the owner's words. The owner's answer to the entry goes first, because no other relay is admitted until the entry is in effect.
 
 ## The seat
 

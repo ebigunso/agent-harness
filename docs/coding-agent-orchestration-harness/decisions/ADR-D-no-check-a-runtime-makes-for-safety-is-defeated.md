@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. A check a runtime makes for safety is the runtime's own check that asks a person, or refuses, before an act is performed.
 
-The harness has sessions working with nobody watching them (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`), and a runtime's check that waits or refuses there stops the work without anything having failed. The comfortable way out is to start the session so that the runtime's checks are switched off, or to make a refused act again by another route. The fork is whether the harness may get past a runtime's safety check to keep the work moving.
+A check a runtime makes for safety protects the person directing the work, and it is to go on protecting them in sessions they do not watch. The harness has sessions working with nobody watching them (`ADR-D-a-ratified-briefs-run-starts-without-the-person-opening-anything.md`), and a runtime's check that waits or refuses there stops the work without anything having failed. The comfortable way out is to start the session so that the runtime's checks are switched off, or to make a refused act again by another route. The fork is whether the harness may get past a runtime's safety check to keep the work moving.
 
 ## Decision
 

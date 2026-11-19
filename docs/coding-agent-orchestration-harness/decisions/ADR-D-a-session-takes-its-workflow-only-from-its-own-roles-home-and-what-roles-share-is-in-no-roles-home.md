@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: a session role is a role a session itself holds. A role's home is the one place its workflow is stated (`ADR-D-each-session-roles-workflow-is-stated-in-one-home-and-no-runtime-surface-restates-it.md`).
 
-A session holds one role, and there is more than one session role, each working at a level of its own (ADR-D-0034). The roles also read some of the same things, the documents that pass between them for one. One home for everything would be the simplest to keep, and a session would then have another role's workflow in front of it together with its own. The fork is whether a session may read another role's home, and where what roles share is stated if it may not.
+A session holds one role, and there is more than one session role, each working at a level of its own (ADR-D-0034). Each session is to stay at its role's level, and the session a person talks with above all, because that person can judge only what is said at theirs. The roles also read some of the same things, the documents that pass between them for one. One home for everything would be the simplest to keep, and a session would then have another role's workflow in front of it together with its own. The fork is whether a session may read another role's home, and where what roles share is stated if it may not.
 
 ## Decision
 

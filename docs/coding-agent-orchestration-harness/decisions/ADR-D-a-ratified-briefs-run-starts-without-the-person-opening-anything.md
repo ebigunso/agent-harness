@@ -15,12 +15,12 @@ superseded_by: null
 
 Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do. The Orchestrator is the session role that plans, dispatches and reports the work. A run is the work done under one ratified brief.
 
-The grounds for a piece of work pass from Counsel to an Orchestrator session as a ratified brief (ADR-D-0034). Until 2026-11-12 the person directing the work opened that Orchestrator session and handed the brief over in it, which asks that person to know of the Orchestrator role, to open a session in it, and to carry the brief into it. The fork is whether ratifying a brief is the last thing asked of that person before the work begins, or the first of several.
+The person directing the work is asked for what they want and for their judgement of what they got, and for nothing about how agents are organised to do it. The grounds for a piece of work pass from Counsel to an Orchestrator session as a ratified brief (ADR-D-0034). Where that person has to open the Orchestrator session and hand the brief over in it, ratifying does not get the work begun: they must know of the Orchestrator role, open a session in it, and carry the brief into it. The fork is whether ratifying a brief is the last thing asked of that person before the work begins, or the first of several.
 
 ## Decision
 
 - When the person directing the work ratifies a brief, its run starts without that person opening, starting or carrying anything.
-- Starting the run is Counsel's work. The run is still done by a session of its own that holds the Orchestrator role, never by Counsel and never inside Counsel's session.
+- Getting the run started is Counsel's work. The run is done by a session that holds the Orchestrator role, never by Counsel and never inside Counsel's session.
 - Where a run could be started but not reached by Counsel afterwards, Counsel says so plainly and starts none.
 
 ## Why
@@ -34,7 +34,7 @@ The product philosophy's "Who it is for" rules out a design that works only if t
 
 ## Decision Boundary
 
-Not covered: by what means a run is started, watched and ended, which is a means in the brief and the workspace's record to state; what a runtime asks of a person once before any session can be started in a folder; when a ratified brief is handed over, and a brief held because it builds on a change another run has not finished, whose run starts when it is handed over (`ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`); that that person is told a brief is held (`ADR-D-what-is-ready-for-the-person-reaches-them-as-a-line-and-then-waits.md`); that a brief is not held for the runs in progress (`ADR-D-runs-go-side-by-side-and-settle-what-they-share-without-the-person.md`); the session that sets a repository up the first time; how that person's word reaches the started session, and what admits Counsel's relays (ADR-D-0038); how many Counsel sessions a repository has at once; what a session opened by that person's own choice may do, which is unchanged.
+Not covered: by what means a run is started, watched and ended, which is a means in the brief and the workspace's record to state; what a runtime asks of a person once before any session can be started in a folder; when a ratified brief is handed over, and a brief held because it builds on a change another run has not finished, whose run starts when it is handed over (`ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`); that that person is told a brief is held (`ADR-D-only-what-needs-the-person-reaches-them-and-when-follows-what-waiting-costs.md`); which Orchestrator session does a brief's run where one is already at work, which is a means in the brief; the session that sets a repository up the first time; how that person's word reaches the started session, and what admits Counsel's relays (ADR-D-0038); how many Counsel sessions a repository has at once; what a session opened by that person's own choice may do, which is unchanged.
 
 ## Validation
 

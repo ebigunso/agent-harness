@@ -15,7 +15,7 @@ superseded_by: null
 
 Terms used here: a session role is a role a session itself holds. Counsel is the session role the person directing the work talks with about what the product does or should do.
 
-A session opened with no role chosen is Counsel (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`). A default can be built so that it is the only thing a person can get: a runtime adapter that offers the default role and no way into another, or a default that a choice cannot override. Runtimes may differ in what they offer for opening a session as a named agent, and a runtime may offer it on some of its surfaces and not on others. The fork is whether the default replaces the opener's choice or stands only where no choice was made.
+A session opened with no role chosen is Counsel (`ADR-D-a-session-opened-with-no-role-chosen-is-counsel.md`). The default is there for the person who cannot tell the roles apart, and whoever knows which role they want is to lose nothing by it. A default can be built so that it is the only thing a person can get: a runtime adapter that offers the default role and no way into another, or a default that a choice cannot override. Runtimes may differ in what they offer for opening a session as a named agent, and a runtime may offer it on some of its surfaces and not on others. The fork is whether the default replaces the opener's choice or stands only where no choice was made.
 
 ## Decision
 
