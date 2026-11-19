@@ -200,3 +200,9 @@ Small changes built without a plan under the governing brief, each from the owne
 15. `ADR-D-the-persons-word-reaches-an-orchestrator-session-in-it-or-by-counsels-quoted-relay.md`
 16. `ADR-D-what-runs-share-is-settled-without-the-person-and-briefs-that-cannot-both-hold-are-shown-to-them-first.md`
 17. `ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`
+
+## Each proposed record holds one decision
+
+- Owner's statement, relayed by Counsel 2026-11-19T18:17Z (dated 2026-11-20 on his calendar), on the seventeen put to him for acceptance by number: "Some records have more than one decision in it. Make sure to break it down into one decision each." He accepted no record and named none. Counsel places his word over the brief's earlier entry that one record "then holds two things".
+- Start revision: d0d067e.
+- Small change under the ratified brief, no plan: one Worker reads each of the seventeen proposed records against the record standard's test (could this record be retired on its own without touching another decision?) and splits every bundle, repairing references between the proposed records. Then checks, review by the Codex seat, a reading, a closing audit, and a new numbered list fixed in this file in place of the list at 2d050f7.
