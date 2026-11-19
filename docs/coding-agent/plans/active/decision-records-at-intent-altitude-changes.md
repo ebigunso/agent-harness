@@ -1226,3 +1226,99 @@ Small changes built without a plan under the governing brief, each from the owne
   - Rulings (the Orchestrator's): all four stand. A repository that already placed its own copy of the template keeps the old prompt until setup's refresh runs there; that is the existing refresh rule and is said in the pull request.
 - 2026-11-19 09:06Z Review by the Codex seat `agent-harness-reviewer`: APPROVED at 1b9e11c, range c4c46d1..1b9e11c, no findings. The prompt asks for what the bullet says and bans no observation that bears on the decision; no package consumer or check needs the old wording. Validator and smoke tests rerun by the seat, pass.
 - 2026-11-19 09:07Z The reading is written in the readings file before the closing audit is dispatched.
+- 2026-11-19 09:07Z Value audit dispatched (Claude subagent `harness-auditor` on Fable, a new dispatch), text verbatim:
+  You are the value auditor. Read references/value-audit-mandate.md of the orchestration-harness skill and follow it exactly. Position: closeout. Plan: <worktree>/docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md. Governing brief: <worktree>/docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md. Changes since: c4c46d1.
+- 2026-11-19 09:11Z Verdict as returned (machine paths shortened; the two comparison lines are in the readings file):
+  Value audit verdict, closeout, small change "The record template's prompt asks for what the standard says".
+  **Nothing is held: no item is `ask-now` and none is `ungraded`.** The range changes one prompt line of the record template, and the line now asks for what the standard's bullet says. No item carries the `direction` mark. Two readings diverge, each because I graded `cited` what was read as extends.
+  ## Before the record
+  - **Range audited:** c4c46d1 to the working tree of ``, clean at f65d1ae (three commits: 8e0672f, 1b9e11c, f65d1ae). There are no untracked files. The section records c4c46d1 as its start.
+  - **Unit kind:** `Plan:` names the run's changes file, so this is graded as a small change built without a plan.
+  - **Dispatch:** it matched the fixed template. The only other text was the harness's note on returning this report and a session hook about coding style; neither says anything about the work.
+  - **Nothing of the range is on the remote** by the local refs: the remote branch is at 1af495c, and no remote branch contains c4c46d1 or HEAD. Main carries version 1.7.0, so pull request 111 is unmerged.
+  - **First step, departures:**
+    - Before the mandate was open I made one Read of a guessed path, which failed and opened nothing, and one Glob that returned the mandate's file name only.
+    - I read the mandate and `value-documents/SKILL.md` from the worktree's copy under `plugins/`. Neither is in the range's diff.
+    - One `git grep` printed the version line of two manifest files in one command. Two Grep searches printed matching lines, each of one named file.
+    - Every other content read was one named path at a time, and every range diff carried both exclude pathspecs.
+  - **Notes and readings:** no notes file was opened. The readings file was opened once, after the grades were fixed, as its diff over the range (the nine lines this change added). I did not read its `Findings` section.
+  - **Plan file:** I read all 1229 lines of the changes file. The earlier verdicts logged in it are claims and support nothing here.
+  ## Verdict record
+  Position: closeout
+  Documents read:
+  - `docs/coding-agent/briefs/active/decision-records-at-intent-altitude-brief.md` (from disk; unchanged in the range)
+  - `docs/product-philosophy.md` and `docs/product-philosophy-companion.md`
+  - `docs/engineering-philosophy.md` and `docs/engineering-philosophy-companion.md`
+  - `docs/coding-agent/rules/common.md` (pointer lines and Standing Approvals, at HEAD)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (artifact, claims under review)
+  - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-run.md` (lines 1 to 58: the State line, the result table and the Scenarios section for prior states)
+  - The diff c4c46d1 to the working tree: `adr-template.md` and the changes file, one path at a time, with both exclude pathspecs.
+  - Read to understand the change, not as support: `plugins/coding-agent-orchestration-harness/skills/durable-docs-authoring/references/adr.md` and `adr-template.md` at HEAD, and the template lines of `plugins/coding-agent-orchestration-harness/skills/rulebook/references/bootstrap-lifecycle.md`.
+  Product basis: brief in the product owner's words, graded with the product philosophy ("the brief predates them and still rests on his own words, and from the day the rule file points at them the run is graded against the brief and both")
+  Not audited: none. Both sides have a document: `common.md` points to `docs/product-philosophy.md` and `docs/engineering-philosophy.md`, and each companion carries its ratification ("I ratify the engineering philosophy and the product philosophy.", 2026-11-11). Neither companion marks any statement provisional.
+  Missing inputs: none
+  Value documents changed in range: none. The brief, both philosophies, both companions and `common.md` are not in the range's diff, and no pointer line was removed or changed.
+  - The brief's entry this change builds was committed at c4c46d1 itself, the start revision, so it sits just outside the range. It carries its own record: told 2026-11-19, "Yes, change the template line too."
+  - Whether the quoted words were said is not something a file can show.
+  Statements quoted below, by short name.
+  From the brief:
+  - **Template line:** Directed during the run, last entry: "The prompt of the record template under Context and Problem Statement is changed with it, so that the template asks for what the standard now says." (gives; told 2026-11-19: "Yes, change the template line too."). Its record says it was put to him with "Counsel recommending the change on the same pull request since authors write to the prompt in front of them".
+  - **Problem statement:** the entry before it: "it states what was wanted and why, and what failed to serve it; everything in it bears on the decision, and an account of what was observed or of what happened that does not bear on the decision is left out. A document may be named where naming it bears on the decision." (told 2026-11-19)
+  - **His word for the standard:** What the work gives: "the standard is not changed by this work without his word".
+  - **Refresh:** Directed during the run: "Setup's refresh brings a repository's own copy of the record template up to date with the plugin's, in this run."
+  - **Refresh limits:** same section: "Setup's refresh replaces a repository's copy of the record template only where the repository has not edited it, and says so. A copy carrying the repository's own edits is left as it is, the differences are shown, and it is replaced only on the word of that repository's user."
+  - **How:** preamble: "It states what and why. How is the Orchestrator's, except where a means is stated, and a means does not bind."
+  From the engineering philosophy:
+  - **EP5 once:** "Each thing is written once, in the place whose pace matches its reason, where the reader who needs it will be reading when the decision comes."
+  - **EP7 burden:** "the burden of proof is on what is added or kept, and absence needs no defence."
+  From the product philosophy:
+  - **PP3 tells:** "On the near side of that line the harness decides, acts and tells. The telling is not optional"
+  - **PP6 small:** "Not heavier than the request. A small ask gets a small process."
+  From `common.md`, Standing Approvals:
+  - **Publish:** "A finished, reviewed run may publish its branch and open pull requests in this repository without asking first. Merges are not covered and wait for the owner."
+  - **Rebase:** "The branches of unmerged pull requests in this repository may be rebased and force-pushed without asking first; they are not final until merged."
+  Items (item | maps | grade | statement relied on | reasons, value question, direction):
+  1. `adr-template.md`, the prompt under "Context and Problem Statement" changed from "{The fork in one paragraph: what pressure made this a decision point. No history of the investigation; see references/adr.md.}" to "{In one paragraph: what was wanted and why, and what failed to serve it. Only what bears on the decision, and no history of the investigation; see references/adr.md.}" | maps to the brief | cited | Template line; His word for the standard | -
+     - The diff is that one line. Nothing else in the template or the standard changed.
+     - The brief's "Left out on purpose" still lists "Changing the record standard itself". The constraint reserves that change to his word, and his word is quoted, so I read no conflict.
+     - I searched both philosophies for a conflict and found none. The engineering philosophy lists "a template" among things that get matched instead of understood; the template already exists, and the new prompt sends its reader to the standard.
+     - My search found the old prompt nowhere but the brief and the changes file, which quote it.
+  2. Ruling, Orchestrator, before dispatch: the prompt asks for what the standard's bullet says and keeps its pointer to the standard | maps to the brief | cited | Template line | -
+  3. Judgement call, Worker, kept by the Orchestrator's ruling: "In one paragraph" kept as the length cue, and "The fork" dropped with the phrase it went with | maps to the brief | inferred | extends Template line; cheap to undo | -
+     - The dropped phrase is the one the last closeout noted as close to the form he faulted. The kept cue is the run's.
+  4. Judgement call, Worker, kept by the ruling: the standard's own words are used verbatim, so the prompt and the standard cannot be read as two rules | maps to the brief | cited | Template line ("asks for what the standard now says"); EP5 once | -
+     - The prompt's first clause is the bullet's bold lead word for word.
+  5. Judgement call, Worker, kept by the ruling: "Only what bears on the decision" carries the restrictive sense in positive form, and the bullet's sentences on accounts and on naming a document are not restated, the pointer carrying them | maps to the brief | inferred | extends Template line, Problem statement ("everything in it bears on the decision") and EP5 once; cheap to undo | -
+     - His statement has the template ask for what the standard says. How much of the bullet the prompt repeats is the run's choice.
+  6. Judgement call, Worker, with the ruling before dispatch that it stays out: "no history of the investigation" kept, joined by "and" | maps to the brief | inferred | extends Template line, which names what the prompt gains and takes nothing else out; cheap to undo | -
+     - The kept phrase is unconditional. The bullet beside it keeps an account of what happened where it bears on the decision, and he called an unconditional ban on naming a document going "too far".
+     - I found no conflict to hold. The standard's admission test already says "investigation summaries are never records", and his words concerned naming a document or occasion.
+     - EP7 burden bears mildly the other way, since the phrase is kept and not shown to be needed beside "Only what bears on the decision".
+  7. Ruling, Orchestrator: the version stays 1.7.1 | maps to the brief | inferred | extends Template line ("changed with it": one change, shipped once); cheap to undo | -
+     - No manifest is in the range's diff. Main carries 1.7.0, so 1.7.1 has not shipped.
+  8. Ruling, Orchestrator: a repository that already placed its own copy of the template keeps the old prompt until setup's refresh runs there, under the existing refresh rule, and the pull request says so | maps to the brief | cited | Refresh; Refresh limits; PP3 tells | -
+     - Nothing is built for it. `bootstrap-lifecycle.md` does carry the rule: an unedited placed copy is replaced at a targeted refresh, and an edited one is left with its differences shown.
+     - This repository keeps no copy of the template, so the change takes effect here at once.
+     - The telling in the pull request is still ahead; nothing is pushed.
+  9. Judgement call, Orchestrator: built as a small change without a plan, one prompt line | internal mechanics | cited | How; PP6 small | -
+  10. Judgement call, Orchestrator: the change goes on the branch of pull request 111, whose text is brought up to date after the review and this audit; nothing is pushed before then | internal mechanics for the branch; the push and the pull request's text are outward-facing | cited | Template line's record ("the change on the same pull request"); Publish; Rebase | -
+      - Each entry carries its record and is committed at HEAD: "The common rule proposed, accepted." (2026-09-30) and "I accept the standing-approval entry on rebasing unmerged pull requests." (2026-10-15). Whether the quoted words were said is not something a file can show.
+      - I read pushing to the run's own unmerged branch, and bringing its open pull request's text up to date, as within these. The merge is not covered and waits for him.
+  11. Judgement call, Orchestrator: one Claude Worker on Fable 5.2 at low reasoning effort; review by the Codex seat `agent-harness-reviewer` | internal mechanics | cited | How | -
+      - The workspace record in `common.md` names both settings.
+  Decision records reworded after acceptance in the range: none. No file under `docs/coding-agent-orchestration-harness/decisions/` changed in the range.
+  Human-only conditions pending: none marked human-only. The brief marks neither of its two pass conditions agent-checkable or human-only.
+  Scenarios:
+  - 1 (a Decision that lists a route, rewritten as one decision): not yet.
+  - 2 (a record deciding two things, split, each accepted by name): demonstrated. To observe: read ADR-D-0071 and ADR-D-0072, and ADR-D-0076 to ADR-D-0087, all `status: accepted` at HEAD, with ADR-D-0016, 0011, 0014, 0029, 0063 and 0066 under `superseded/`, beside the brief's "I accept ADR-D-0071 and ADR-D-0072, and pull request 96." and "I accept ADR-D-0076 through ADR-D-0087, and pull requests 97, 98 and 101."
+  - 3 (a rule with a status field, retired, its material confirmed in the text): not yet.
+  - 4 (a decision the check finds no longer true: not rewritten, brought to the owner through Counsel): demonstrated. To observe: read the brief's section "The three raised decisions, answered 2026-11-11" beside ADR-D-0020, still `status: accepted`, and the run record's result table.
+  - Prior states, from the run record's Scenarios section: 1 and 3 not yet; 2 and 4 demonstrated. No state moved.
+  - Getting closer: yes, narrowly. The range builds one gives-statement of the brief as he worded it. The template no longer asks an author for "what pressure made this a decision point", so the records of the three remaining areas are prompted for what the standard says.
+  - Limits on that judgement: no record was checked and no scenario moved. This is the fourth unit in a row that changes the standard or its template and checks no record. The result table gives a result for 12 of the 49 records, the same 12 as on 2026-11-14, and the three other areas are not started. The evidence shows the standard settling, not the folder changing; a further unit of this kind would add nothing to that judgement.
+  ## For the Orchestrator's eye, outside the grades
+  - **The kept phrase** (item 6). "No history of the investigation" is unconditional, where the bullet it points to leaves out only an account that does not bear on the decision. It is one phrase if Counsel wants the prompt to read as the bullet does.
+  - **Still ahead:** the push, pull request 111's text, and the line in it about repositories that hold their own copy of the template (items 8 and 10).
+  - **The run record is behind.** Its State line ends at 2026-11-18 with the merge of pull request 110 still waiting, though the changes file has it merged at d9ba89a. Its Scenarios row for scenario 2 still carries the older "ready for the owner's judgement ... all proposed" text after the demonstrated state. I did not read its Units rows, so I cannot say whether this change has one.
+  - **Four units without a record checked.** The yes above rests on his direct word for each of them, not on movement in the folder.
+- Acting on the verdict: nothing is held, so the change closes; it is pushed onto the branch of pull request 111 and that text is brought up to date, with the line on repositories that hold their own copy of the template. Both diverging readings are taken at the audit's grade. From outside the grades: "no history of the investigation" is unconditional where the bullet leaves out only what does not bear on the decision; it is told to Counsel as one phrase to change if he wants the prompt to read as the bullet does. The run record is brought up to date: its State line, scenario 2's row, and this change's Units row. The audit says this is the fourth unit in a row that changes the standard or its template and checks no record, and that a further unit of this kind would add nothing to its judgement; that is said to Counsel as it stands.
