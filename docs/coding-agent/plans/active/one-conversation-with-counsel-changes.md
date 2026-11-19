@@ -354,3 +354,10 @@ Small changes built without a plan under the governing brief, each from the owne
 27. `ADR-D-what-session-roles-share-is-stated-in-a-home-that-is-no-roles.md`
 28. `ADR-D-when-a-ratified-brief-is-handed-over-is-counsels-to-settle.md`
 29. `ADR-D-when-the-person-is-told-follows-what-waiting-costs.md`
+
+## The rule file on sessions states the means as instructions
+
+- Owner's statements, relayed by Counsel 2026-11-19T19:05Z and 19:08Z (dated 2026-11-20 on his calendar). On whether the record needs his confirmation: "How it's written, it doesn't need confirmation from me." and, unasked: "But the question is, is an observation of a state really something that should be in a rules file? I think not." Counsel answered him, in words he read: "In the rule file: the means, stated as what to do and on what conditions, with one date so a reader can judge how old it is. Left with the evidence: what was seen, how often, and what was not tried." with the cost: "A reader of the rule no longer sees how well each instruction is supported, so a weakly supported one reads as firmly as the rest." Asked "Whether the rule file states the means as instructions, with the observations left with the evidence", he answered: "1. Yes."
+- Start revision: 63dccba.
+- Small change, no plan. The Orchestrator rewrites this repository's `docs/coding-agent/rules/sessions.md` as what to do and on what conditions, with one date, and names where the evidence is kept; no observation is added or dropped from the evidence. One Worker changes the plugin's text so that setup writes the file in that form in any repository, with what was seen, how often and what was not tried kept apart from it.
+- The Orchestrator's reading, his words being of this record: the file no longer waits for the owner's confirmation, here or in the plugin's text, since it holds means found by trying and no choice of his; setup still tells him what it wrote. Told to Counsel as a reading that extends his words.
