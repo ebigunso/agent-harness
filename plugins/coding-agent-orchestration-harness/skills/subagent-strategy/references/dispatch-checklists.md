@@ -2,6 +2,20 @@
 
 Use these checklists to prevent vague or over-broad subagent prompts.
 
+## Every dispatch
+These hold for every Researcher, Worker and Reviewer dispatch, by whatever relay it goes, before the role's own list. An Auditor dispatch is its fixed template and nothing else.
+
+- A dispatch carries what the work needs: whatever receives it can do the work from the dispatch and the files it names. Instinct goes wrong by writing "as before", "the earlier finding", or a decision reached in an exchange and written nowhere.
+- Work handed on part-way, to a replacement for a sub-agent that was lost or after a blocker, says where it stands, in the dispatch or in a file it names:
+  - what the unit is for;
+  - what is decided, and on whose word;
+  - what is done, and at which revision;
+  - what remains;
+  - what is still open;
+  - what may already have been done outside the repository.
+- The hand-off is there so that whatever takes the work up neither repeats an act already performed nor undoes a decision already made. That the earlier messages are stored somewhere is not enough: a store of messages does not say which of them still hold.
+- The dispatch names the machine's record of obstacles, or carries the entries that apply where what receives it cannot read the record (`workspace-troubleshooting`, What this machine is known to do). The Auditor's template carries no entry, because its mandate has the auditor read the record itself.
+
 ## Researcher dispatch checklist
 Include:
 - Objective (one per invocation; split otherwise)

@@ -7,16 +7,16 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0043-counsel-speaks-to-the-orchestrator-only-in-the-words-of-the-person-directing-the-work-and-its-advice-goes-to-that-person.md"]
+depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0102-counsel-tells-an-orchestrator-session-neither-how-to-do-the-work-nor-in-what-order.md", "ADR-D-0103-counsels-advice-on-direction-goes-to-the-person-directing-the-work.md"]
 ---
 
 # ADR-D-0044: Where continuing without the decision of the person directing the work would be severe, Counsel pauses the affected part of the work, and the Orchestrator session holds that part until that person answers or Counsel withdraws the pause
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
-Counsel's advice goes to the person directing the work and never to the Orchestrator session (ADR-D-0043), so between Counsel raising a matter and that person answering, the run continues. For most matters that is right: what is done meanwhile can be redone. For some it is not: an irreversible or outward-facing step, or work piling onto a direction Counsel believes conflicts with what that person has said. The fork is whether anything Counsel says on its own account can stop work, how much, and whether the Orchestrator may decline.
+Counsel's advice goes to the person directing the work and never to the Orchestrator session (ADR-D-0043, retired on 2026-11-20 and replaced by ADR-D-0097, ADR-D-0100, ADR-D-0102 and ADR-D-0103), so between Counsel raising a matter and that person answering, the run continues. For most matters that is right: what is done meanwhile can be redone. For some it is not: an irreversible or outward-facing step, or work piling onto a direction Counsel believes conflicts with what that person has said. The fork is whether anything Counsel says on its own account can stop work, how much, and whether the Orchestrator may decline.
 
 ## Decision
 
@@ -47,7 +47,7 @@ A stop is different from a direction: waiting costs time and can be undone, whil
 
 Invariant: Counsel pauses only where continuing would be severe, only the affected part, with a stated reason and with the matter raised to that person at the same moment; the Orchestrator session holds that part until that person answers or Counsel withdraws the pause, and does not judge it; a pause directs nothing and is no decision of that person; the Decision list states the rest.
 
-Not covered: what else Counsel may say to an Orchestrator session and where its advice goes (ADR-D-0043); how a matter comes to Counsel's notice while a run is under way (ADR-D-0045); what the value audit holds, a separate stop that is unchanged (ADR-D-0052); when that person's answer counts as that person's word (ADR-D-0038); the wording of a pause notice; how the pause travels between sessions.
+Not covered: what else Counsel may say to an Orchestrator session and where its advice goes (ADR-D-0097, ADR-D-0100, ADR-D-0102, ADR-D-0103); how a matter comes to Counsel's notice while a run is under way (ADR-D-0045); what the value audit holds, a separate stop that is unchanged (ADR-D-0052); when that person's answer counts as that person's word (ADR-D-0112); the wording of a pause notice; how the pause travels between sessions.
 
 ## Validation
 
@@ -64,4 +64,4 @@ Not covered: what else Counsel may say to an Orchestrator session and where its 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Roles and sessions". ADR-D-0034 says Counsel gives no direction on how the work is done and holds none of that person's authority; the Decision above states why a pause is neither. Related: ADR-D-0043 (what Counsel says to the Orchestrator), ADR-D-0052 (the value audit's held items), ADR-D-0038 (that person's word).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Roles and sessions". ADR-D-0034 says Counsel gives no direction on how the work is done and holds none of that person's authority; the Decision above states why a pause is neither. Related: ADR-D-0097, ADR-D-0100 and ADR-D-0102 (what Counsel says to the Orchestrator), ADR-D-0052 (the value audit's held items), ADR-D-0112 (that person's word).

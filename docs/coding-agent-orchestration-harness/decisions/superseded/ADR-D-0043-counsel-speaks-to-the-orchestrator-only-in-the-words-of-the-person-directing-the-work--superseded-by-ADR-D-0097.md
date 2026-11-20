@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-10-02
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
-superseded_by: null
-depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay.md"]
+superseded_by: ../ADR-D-0097-counsel-may-give-an-orchestrator-session-its-own-reading-marked-as-its-own.md
+depends_on: ["../ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md", "ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay--superseded-by-ADR-D-0111.md"]
 ---
 
 # ADR-D-0043: About the run's work, Counsel speaks to an Orchestrator session only in the words of the person directing the work, and Counsel's own advice goes to that person, never to the Orchestrator
+
+Retired on 2026-11-20. Replaced by ADR-D-0097, ADR-D-0100, ADR-D-0102 and ADR-D-0103.
 
 ## Context and Problem Statement
 

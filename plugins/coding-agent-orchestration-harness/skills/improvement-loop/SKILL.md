@@ -51,7 +51,7 @@ Each entry must contain:
 For each lesson, decide whether to stage:
 - a repo rule candidate (rulebook)
 - a harness migration candidate when a first-party skill, reference, agent adapter, validator, or ADR is the likely long-term owner
-- a troubleshooting note or candidate under `docs/coding-agent/`
+- a troubleshooting note or candidate under `docs/coding-agent/`; what is particular to one machine goes to the machine's record instead and into no tracked file (`workspace-troubleshooting`, What this machine is known to do)
 - a residual-risk record when prevention is intentionally not added
 
 6) Session-start usage

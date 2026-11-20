@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-30
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0023-the-harness-is-entered-by-selecting-the-orchestrator--superseded-by-ADR-D-0037.md"]
-superseded_by: null
-depends_on: ["ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md", "ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
+supersedes: ["ADR-D-0023-the-harness-is-entered-by-selecting-the-orchestrator--superseded-by-ADR-D-0037.md"]
+superseded_by: ../ADR-D-0090-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md
+depends_on: ["ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role--superseded-by-ADR-D-0090.md", "../ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
 
 # ADR-D-0037: A session role (Orchestrator or Counsel) is entered by an explicit act of the person opening the session, using whatever the runtime offers for that session: an agent picker, a launch option or project setting that runs the role's agent, or an explicit invocation of the role's skill; a skill's activation by description match is never the way into one
+
+Retired on 2026-11-20. Replaced by ADR-D-0090, ADR-D-0091 and ADR-D-0095.
 
 ## Context and Problem Statement
 

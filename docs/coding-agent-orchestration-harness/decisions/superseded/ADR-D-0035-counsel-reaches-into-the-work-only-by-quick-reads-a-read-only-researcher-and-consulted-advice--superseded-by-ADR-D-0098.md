@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-10-01
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
-superseded_by: null
-depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
+superseded_by: ../ADR-D-0098-counsel-may-take-a-view-from-any-other-model-on-any-matter-of-a-discussion.md
+depends_on: ["../ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
 
 # ADR-D-0035: Counsel reaches into the work only by quick reads of code in service of a discussion, by a read-only Researcher for bulk grounding, and by advice it consults, which for the engineering discussion is a view it obtains from a model of another family by whatever route the environment provides; plans, diffs and Worker dispatch stay off limits
+
+Retired on 2026-11-20. Replaced by ADR-D-0098, ADR-D-0099 and ADR-D-0101.
 
 ## Context and Problem Statement
 

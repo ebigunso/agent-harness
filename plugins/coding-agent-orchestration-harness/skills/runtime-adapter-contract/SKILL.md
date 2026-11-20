@@ -12,7 +12,8 @@ Runtime adapters include:
 
 - Copilot agent definitions under `agents/`;
 - Claude agent definitions under `claude/agents/`;
-- Codex loader snippets and inert agent templates under `codex/`;
+- the plugin-root `settings.json`, which names the agent a Claude Code session runs as when its opener chose none;
+- the Codex `AGENTS.md` snippet and inert agent templates under `codex/`;
 - runtime plugin manifests.
 
 ## Core rules (always apply)
@@ -23,7 +24,7 @@ Runtime adapters include:
 - When shared replicated text changes in one adapter, update all runtime copies and diff their instruction bodies to confirm sync outside intentional runtime-specific blocks. Researcher, Worker, Reviewer and Auditor each have three copies. Counsel has two copies, the Copilot and Claude agents, and no Codex copy.
 - Runtime mechanics, tool names, connector policy, and platform-specific loading details may diverge.
 - Keep role physical names mapped in `skills/orchestration-harness/references/runtime-role-map.md`.
-- Keep Codex `AGENTS.md` loaders and snippets loader-only; inert role-template `developer_instructions` may carry the replicated role contract.
+- Keep the Codex `AGENTS.md` snippet free of workflow text; inert role-template `developer_instructions` may carry the replicated role contract.
 - Tool permissions should match role boundaries but may vary by runtime.
 
 ## Progressive disclosure (read only what you need)

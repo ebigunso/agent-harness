@@ -7,14 +7,14 @@ consulted: ["Claude Opus 5.5"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0038-the-word-of-the-person-directing-the-work-reaches-an-orchestrator-session-directly-or-by-quoted-relay.md", "ADR-D-0043-counsel-speaks-to-the-orchestrator-only-in-the-words-of-the-person-directing-the-work-and-its-advice-goes-to-that-person.md", "ADR-D-0051-work-under-a-brief-is-a-run-of-one-or-more-units-that-closes-once.md"]
+depends_on: ["ADR-D-0112-the-persons-word-reaches-an-orchestrator-session-in-it-or-by-counsels-quoted-relay.md", "ADR-D-0100-counsel-speaks-as-the-person-only-in-that-persons-words.md", "ADR-D-0051-work-under-a-brief-is-a-run-of-one-or-more-units-that-closes-once.md"]
 ---
 
 # ADR-D-0062: Under a ratified brief the Orchestrator session asks the person directing the work nothing
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 A person who hands over a ratified brief talks with Counsel and judges the result; the run goes on without that person (ADR-D-0051). Questions at the level of direction travelled through Counsel, but as an exception for that kind of question and for a list of consent gates, and every other kind fell back to the Orchestrator session. Before 2026-10-28 an Orchestrator session under a ratified brief asked for plan approval in its own session, so the person who had handed the work over had to watch that session after all. The fork is whether Counsel is the way to that person for some kinds of question or for every kind while a brief governs.
 
@@ -39,7 +39,7 @@ A person who hands over a ratified brief leaves the run to go on without them, t
 
 Invariant: while a ratified brief governs a run, the Orchestrator session puts no question to the person directing the work; whatever needs that person reaches that person through Counsel, and the Orchestrator's report names what is with Counsel and what the work waits on in place of questions; no consent is loosened by it; a message's arrival does not make that person present; work no brief governs is unchanged.
 
-Not covered: how a question reaches Counsel and what the Orchestrator does while the work waits on an answer, which the harness text states; how the answer is admitted and what counts as it (ADR-D-0038); what Counsel does with what it receives (ADR-D-0043); what authorizes a unit of work under a brief, and that no unit, a goal envelope included, is put to that person for approval or agreement (ADR-D-0064, ADR-D-0065); an act only that person can perform in the session itself, such as granting a runtime permission; the wording of the instructions that ask the user and of the Orchestrator's report.
+Not covered: how a question reaches Counsel and what the Orchestrator does while the work waits on an answer, which the harness text states; how the answer is admitted and what counts as it (ADR-D-0112); what Counsel does with what it receives (ADR-D-0097, ADR-D-0100); what authorizes a unit of work under a brief, and that no unit, a goal envelope included, is put to that person for approval or agreement (ADR-D-0064, ADR-D-0065); an act only that person can perform in the session itself, such as granting a runtime permission; the wording of the instructions that ask the user and of the Orchestrator's report.
 
 ## Validation
 
@@ -52,4 +52,4 @@ Not covered: how a question reaches Counsel and what the Orchestrator does while
 
 ## More Information
 
-Source of intent: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/completed/quiet-orchestrator-session-brief.md`), "Who it is for and why", "What the plugin states", "Directed during the run" and "Limits". How a question travels, how the harness text's instructions that ask the user read under a brief, and what the Orchestrator does when the work cannot go on without an answer are the harness text's and change without this record. Related: ADR-D-0038 (the word of the person directing the work), ADR-D-0043 (Counsel speaks only in that person's words), ADR-D-0051 (the run), ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a plan or a goal envelope).
+Source of intent: the brief "A quiet Orchestrator session under a brief" (`docs/coding-agent/briefs/completed/quiet-orchestrator-session-brief.md`), "Who it is for and why", "What the plugin states", "Directed during the run" and "Limits". How a question travels, how the harness text's instructions that ask the user read under a brief, and what the Orchestrator does when the work cannot go on without an answer are the harness text's and change without this record. Related: ADR-D-0112 (the word of the person directing the work), ADR-D-0100 (Counsel speaks as the person directing the work only in that person's words), ADR-D-0051 (the run), ADR-D-0064 (who authorizes non-trivial work), ADR-D-0065 (when a ratified brief authorizes a plan or a goal envelope).

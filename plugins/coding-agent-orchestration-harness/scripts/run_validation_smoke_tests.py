@@ -231,6 +231,32 @@ def run_clean_split_prose_smoke() -> bool:
     return ok
 
 
+def run_claude_default_agent_smoke() -> bool:
+    cases = [
+        ("missing settings", None),
+        ("invalid JSON", "{"),
+        ("non-object settings", "[]"),
+        ("missing agent", "{}"),
+        ("non-string agent", '{"agent": []}'),
+        ("empty agent", '{"agent": ""}'),
+        ("unknown agent", '{"agent": "unknown-agent"}'),
+    ]
+    ok = True
+    with tempfile.TemporaryDirectory() as tmp:
+        plugin = Path(tmp).resolve() / "repo" / "plugins" / ROOT.name
+        shutil.copytree(ROOT, plugin)
+        settings = plugin / "settings.json"
+        script = plugin / "scripts" / "validate_harness_package.py"
+        for name, text in cases:
+            if text is None:
+                settings.unlink()
+            else:
+                settings.write_text(text, encoding="utf-8")
+            print(f"Claude default agent: {name}", flush=True)
+            ok &= run([PY, str(script)], 3)
+    return ok
+
+
 def main() -> int:
     fixtures = TESTS / "fixtures"
     checks: list[tuple[list[str], int]] = [
@@ -268,6 +294,7 @@ def main() -> int:
     ok &= run_adr_supersession_smoke()
     ok &= run_latent_risk_snippet_smoke()
     ok &= run_clean_split_prose_smoke()
+    ok &= run_claude_default_agent_smoke()
     return 0 if ok else 3
 
 

@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-10-03
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0022-workflow-mechanics-have-one-home--superseded-by-ADR-D-0049.md"]
-superseded_by: null
+supersedes: ["ADR-D-0022-workflow-mechanics-have-one-home--superseded-by-ADR-D-0049.md"]
+superseded_by: ../ADR-D-0092-a-session-takes-its-workflow-only-from-its-own-roles-home.md
 ---
 
 # ADR-D-0049: The workflow mechanics of each session role have one home, and every runtime surface routes to it instead of restating it
+
+Retired on 2026-11-20. Replaced by ADR-D-0092, ADR-D-0104 and ADR-D-0114.
 
 ## Context and Problem Statement
 

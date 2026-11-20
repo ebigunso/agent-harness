@@ -6,7 +6,7 @@ deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["ADR-D-0001-canonical-harness-workflow-location--superseded-by-ADR-D-0022.md", "ADR-D-0005-runtime-prompt-budgeting--superseded-by-ADR-D-0022.md", "ADR-I-0002-codex-bootstrap-and-loader-strategy--superseded-by-ADR-D-0022.md"]
-superseded_by: ../ADR-D-0049-each-session-roles-workflow-mechanics-have-one-home-and-every-runtime-surface-routes-to-it.md
+superseded_by: ADR-D-0049-each-session-roles-workflow-mechanics-have-one-home-and-every-runtime-surface-routes-to-it--superseded-by-ADR-D-0092.md
 ---
 
 # ADR-D-0022: Workflow mechanics have one home, and every runtime surface routes to it

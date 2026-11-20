@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 Counsel works at the level of behaviour and decisions (ADR-D-0034), but that level can still be spoken in several terms: what the product does, what state it reaches, what a mechanism guarantees. The person directing the work has to judge, in the discussion and without reading the work, whether something is wrong and what it should be instead. The fork is the terms in which the discussion is held.
 
@@ -56,4 +56,4 @@ Not covered: what Counsel is responsible for and the level it works at (ADR-D-00
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "How a conversation with Counsel should go". Related: ADR-D-0034 (Counsel's level), ADR-D-0036 (the philosophy documents), ADR-D-0047 (the documents a discussion produces), ADR-D-0043 (what Counsel says to the Orchestrator, which this record does not change).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "How a conversation with Counsel should go". Related: ADR-D-0034 (Counsel's level), ADR-D-0036 (the philosophy documents), ADR-D-0047 (the documents a discussion produces), ADR-D-0097, ADR-D-0100 and ADR-D-0102 (what Counsel says to the Orchestrator, which this record does not change).

@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0064-non-trivial-work-is-authorized-only-by-the-person-direc
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 During authorized work, issues are found by everyone taking part: a Worker whose check fails, a Reviewer or a Researcher reading the code, the Auditor grading the work, and the Orchestrator itself. ADR-D-0033 let the Orchestrator rule a discovery into the current change, sorted discoveries into no kinds, re-ran no review when the plan grew, and returned a discovery to the person directing the work in two cases only: a contract-shape change, or an irreversible or outward-facing action. It spoke of what a Worker surfaces and said nothing of what the Orchestrator or another dispatched agent finds. A change can then grow past what any gate admitted, on the Orchestrator's judgement alone and seen by nobody outside it. Putting every discovery aside for a plan of its own instead stalls work on things that belong to the task's design. The fork is what happens to a discovery made during authorized work, whoever makes it: where it goes, and what stands between it and being built.
 

@@ -1,15 +1,9 @@
 <!-- coding-agent-orchestration-harness:start -->
 ## Coding Agent Orchestration Harness
 
-This repository uses the coding-agent orchestration harness.
+This block gives a session no role; it says how a role of the coding-agent orchestration harness is chosen.
 
-For any coding-related task, load and follow `$orchestration-harness` before planning, editing, spawning subagents, or describing an implementation strategy.
-
-`$orchestration-harness` is the source of truth for deciding whether and how to apply the harness workflow.
-
-The user installed this loader; for coding tasks follow the harness, including bounded subagent dispatch when it requires one, unless the user's instructions in the conversation say otherwise.
-
-Do not duplicate, summarize, or infer the harness workflow from this `AGENTS.md` block. If the skill is available, follow the skill. If the skill is unavailable, say so and proceed with a minimal best-effort approach.
-
-For non-coding questions, do not load the harness unless the user explicitly asks to use it.
+- A session whose first message invokes `$orchestration-harness` by name is the Orchestrator, and one whose first message invokes `$counsel` by name is Counsel: load and follow that skill and not the other. If the skill is unavailable, say so.
+- Where the instructions of the repository the session is opened in say which role a session with no role chosen holds, they govern.
+- Otherwise a session holds no role of the harness, and a skill loaded because its description matched gives it none.
 <!-- coding-agent-orchestration-harness:end -->

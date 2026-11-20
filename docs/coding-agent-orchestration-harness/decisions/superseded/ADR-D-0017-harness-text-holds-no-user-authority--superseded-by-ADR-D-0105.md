@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-06
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1", "GPT-6 Astra"]
 informed: []
-supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
-superseded_by: null
+supersedes: ["ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
+superseded_by: ../ADR-D-0105-harness-text-holds-none-of-the-users-authority.md
 ---
 
 # ADR-D-0017: Harness text holds no user authority
+
+Retired on 2026-11-20. Replaced by ADR-D-0105.
 
 ## Context and Problem Statement
 

@@ -1,16 +1,18 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-30
 deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
-superseded_by: null
-depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
+superseded_by: ../ADR-D-0111-the-persons-answer-to-the-entry-that-admits-relays-is-carried-by-counsel-in-a-session-counsel-started.md
+depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority--superseded-by-ADR-D-0105.md", "../ADR-D-0034-counsel-is-a-separate-session-at-the-level-of-behaviour-and-decisions.md"]
 ---
 
 # ADR-D-0038: The word of the person directing the work reaches an Orchestrator session as that person's own statement there or, once that person has admitted relays in that session or by a standing approval in the rule files, as Counsel's relay quoting that person
+
+Retired on 2026-11-20. Replaced by ADR-D-0111 and ADR-D-0112.
 
 ## Context and Problem Statement
 

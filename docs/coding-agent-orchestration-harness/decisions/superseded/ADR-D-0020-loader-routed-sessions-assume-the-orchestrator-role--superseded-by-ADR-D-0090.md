@@ -1,15 +1,17 @@
 ---
-status: accepted
+status: superseded
 adr_type: design
 date: 2026-09-06
 deciders: ["ebigunso"]
 consulted: ["GPT-5.5 Pro", "Claude Fable 5.1"]
 informed: []
-supersedes: ["superseded/ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
-superseded_by: null
+supersedes: ["ADR-D-0008-codex-explicit-subagent-authorization-and-async-dispatch-lifecycle--superseded-by-ADR-D-0020.md"]
+superseded_by: ../ADR-D-0090-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md
 ---
 
 # ADR-D-0020: Loader-routed sessions assume the Orchestrator role
+
+Retired on 2026-11-20. Replaced by ADR-D-0090.
 
 ## Context and Problem Statement
 

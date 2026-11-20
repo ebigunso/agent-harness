@@ -1556,6 +1556,140 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-goal-mode-plan.md` (GM-W1); `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (REFRESH-F1).
 
+## 2026-11-14 - What A Log Says Was Seen, Said Or Counted Is Read From Its Source When It Is Written  [tags: governance, validation, correction]
+
+Context:
+- The run under the brief `one-conversation-with-counsel` and the acceptance and retirement change of the decision-records run, logged by the Orchestrator across a long session.
+
+Symptom:
+- Log entries carried times that were estimated and ran minutes ahead of the channel clock, three times, each needing a correction line; an audit had flagged the same thing in an earlier unit.
+- A log said the owner's acceptance was "in this log and in the brief" when it was only in the log; the closeout audit held the acceptance of twelve records and a merge on it until Counsel wrote his words into the brief.
+- The count of proposed records was given as thirteen, to Counsel and in the log, where the branch held twelve.
+- A scenario summary and the log's ruling said two scenarios were "shown" where the trial had exercised part of each; the final review caught it.
+
+Root cause:
+- Each statement was written from what the Orchestrator expected or remembered: a time it meant to act at, a document it expected to hold a quote, a count carried over from an earlier report, a scenario's name standing for the part that was tried. None was read from its source at the moment of writing.
+
+Fix:
+- Each was corrected in place with a dated correction line, and the audit's held items were answered once the brief carried his words.
+
+Prevention:
+- A log entry's time is taken from the clock by the command that writes the entry, never typed.
+- Before a log or a message says where the owner's words are, the file is searched for them; words that reached the session by relay are in a value document only once Counsel has written them there, and an audit reads nothing else.
+- A count in a report is recounted from the tree before it is sent.
+- A scenario is called shown only for the clauses of its wording that the trial exercised; the summary line names the clauses not exercised.
+
+Evidence:
+- `docs/coding-agent/plans/completed/one-conversation-with-counsel-plan.md`, Progress Log (the correction entries; OC-W7-F1); `docs/coding-agent/plans/active/decision-records-at-intent-altitude-changes.md` (the closeout audit of the acceptance and retirement).
+
+## 2026-11-14 - A Trial That Starts Sessions States What It May Leave Behind, And One Passing Run Is One Sample  [tags: validation, safety, governance]
+
+Context:
+- Trials of what each runtime does, run by Workers that started sessions with stand-ins in throwaway repositories, under limits that no setting outside those directories is changed and no safety check is got past.
+
+Symptom:
+- A trial run that was kept so it could be resumed led the runtime itself to write a trust entry into the owner's configuration, against the trial's limit; nobody had asked what the runtime records for a kept run.
+- A command that chained session starts after a setup step started three sessions although the setup step had failed.
+- A candidate wording was seen to work once and written into the plugin; run again as built, the runtime's own safety check refused the same act. The text had to be corrected to promise no outcome.
+- A session started by a trial session did not carry the plugin under trial, so one scenario ran on other text than the one being shown.
+
+Root cause:
+- The limits named what the Worker must not do and not what the runtime does on its own; one success was taken as the behaviour; and a trial's conditions were stated to the first session only.
+
+Fix:
+- The side effect was told to the owner the day it happened and removed on his word; later trials were not kept; the refused act was not run again, since repeating a refused act until it passes is getting past the check; the text states the refusal as a limit.
+
+Prevention:
+- A dispatch for a trial says what the runtime may write outside the throwaway directories for each kind of run it uses, and has the Worker record the state of such places before and after.
+- Sessions are started in a command of their own, after the step before has been checked.
+- A result seen once is written as seen once, with its date and conditions; text that would promise the outcome waits for the text as built to be tried, and a refusal by a runtime's safety check is recorded and never retried.
+- Whatever a trial session must pass on to sessions it starts is said in its first message.
+
+Evidence:
+- `docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md` (the sections dated 2026-11-13); `docs/coding-agent/plans/active/one-conversation-with-counsel-scenarios.md`.
+
+## 2026-11-16 - A Trial's Own Instructions Can Cause The Result It Measures  [tags: validation, dispatch]
+
+Context:
+- A trial of whether an Orchestrator session in another runtime still dispatches subagents once a sentence was taken out of its instructions. The trial's first message told the session to use no peer-messaging tool, to keep the trial from reaching real seats.
+
+Symptom:
+- Two runs of three started no subagent and named that instruction as the reason; with the instruction taken out, all three sessions attempted to start one, though none of those starts went through in that set. The first reading of the result was that the removed sentence was needed.
+
+Root cause:
+- The sessions that started none gave the condition added to keep the trial safe as their reason; that the condition and not the removed sentence made the difference is inferred from small counts, not shown. The trial had no run without the condition to compare against until one was added.
+
+Fix:
+- A control set without the condition was run before anything was changed, and the finding was written as what each set showed, with no rate claimed.
+
+Prevention:
+- A trial's message carries only the conditions it needs, each worded so it cannot be read as covering the behaviour measured; where a condition might, one set is run without it.
+- A result that fails is first set against a control before the thing under trial is changed.
+
+Evidence:
+- `docs/coding-agent/plans/active/one-conversation-with-counsel-mechanisms.md`, the section on a Codex Orchestrator session with the lost sentence out of its view (2026-11-16).
+
+## 2026-11-17 - A Proposed Entry Is Still A Change: Logged, Reviewed And Audited Before It Is Pushed  [tags: governance, workflow, correction]
+
+Context:
+- A run reported ready was open for the owner. He answered a held decision and asked for a standing approval to be drafted for him to read.
+
+Symptom:
+- The Orchestrator wrote the proposed entry, committed it with the plan's closing entries and pushed, then asked for a review and logged that no closing audit would run because the entry binds nothing until accepted. The plan was also left under `active/` and given the work that follows acceptance.
+
+Root cause:
+- "Not in effect" was read as "not a change". The text he is to accept is the thing built, and a change directed while a run is open is a unit of the run with its own checks.
+
+Fix:
+- The entry was logged as a small change in the run's changes file, reviewed, and audited at closeout before anything further was pushed; the plan moved to `completed/`.
+
+Prevention:
+- A change the owner directs while a run is open is logged in the changes file (or planned) before it is written, and nothing of it is pushed before its review and closing audit; proposed text is no exception.
+- A plan whose unit has closed moves to `completed/`; later work is a later unit.
+
+Evidence:
+- `docs/coding-agent/plans/active/one-conversation-with-counsel-changes.md`; the review's OC-CLOSE-F1 and OC-CLOSE-F2 at fde92f2.
+
+## 2026-11-17 - A Qualifier In The Owner's Wording Is A Limit, Not A Trim  [tags: review, documentation, correction]
+
+Context:
+- A sentence of the record standard was rewritten to keep what the owner's statement keeps: "The dated facts the standard asks for under Revisit When stay."
+
+Symptom:
+- The Worker shortened it to "The dated facts under Revisit When stay", reading "the standard asks for" as redundant inside the standard. The review found that any dated detail merely placed in that section would then be kept.
+
+Root cause:
+- The qualifier was the limit on what is kept, and dropping it was treated as wording.
+
+Fix:
+- The qualifier was restored and the judgement call withdrawn.
+
+Prevention:
+- When text carries an exception the owner stated, every restricting qualifier of his wording is kept; a dropped qualifier is a change of scope and is reported as one.
+
+Evidence:
+- The review's DR-STD-F1 on pull request 110, 2026-11-17 by the channel clock.
+
+## 2026-11-19 - A Task's Type Decides Its Role Before Dispatch  [tags: dispatch, review, correction]
+
+Context:
+- A plan task that tries scenarios in practice was typed research, with a Worker named as the owner of its validation item.
+
+Symptom:
+- The Orchestrator dispatched it to a Worker. The review seat found it from the plan's log line (HR-F1) while the Worker was still reading.
+
+Root cause:
+- The dispatch followed the habit of the wave before it (four Workers) and the task's type was not read against the role at dispatch.
+
+Fix:
+- The Worker was stopped before any trial and the task redispatched to the Researcher role.
+
+Prevention:
+- Before each dispatch, read the task's type and choose the role from it: a task of type research goes to the Researcher and one of type review to the Reviewer, whatever its validation items name as owner. What the rule files keep with the Orchestrator (plans, rule files) stays with the Orchestrator.
+
+Evidence:
+- The plan `one-conversation-with-counsel-his-reading-plan.md`, Progress Log, 2026-11-19 by the channel clock.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:

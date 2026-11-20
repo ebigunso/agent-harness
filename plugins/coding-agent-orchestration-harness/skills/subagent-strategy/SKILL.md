@@ -17,7 +17,7 @@ This skill standardizes how the Orchestrator uses subagents to:
 
 1) Delegate to preserve Orchestrator context
 - Use Workers for implementation tasks.
-- Use Researcher for read-only exploration and plan-fill inputs; which option a Researcher runs on (a subagent or a peer, on which model, at which setting) is chosen as references/model-routing.md "Choosing where research goes" states.
+- Use Researcher for read-only exploration and plan-fill inputs; which option a Researcher runs on (by which relay, on which model, at which setting) is chosen as references/model-routing.md "Choosing where research goes" states.
 - Use Reviewer for read-only review + E2E/visual evidence when required.
 - Use Auditor for the value audit and the in-loop goal assessment, dispatched with its fixed template only.
 
@@ -46,6 +46,11 @@ This skill standardizes how the Orchestrator uses subagents to:
 5) Consolidate results deterministically
 - The Orchestrator must reconcile parallel Researcher outputs into one coherent plan.
 
+6) Any relay, and the dispatcher looks after what it sent the work to
+- The session that dispatches work is free to send it to a sub-agent by any relay the environment offers. A relay that lets the sub-agent message the dispatcher in the middle of the work is preferred and not required.
+- The session that dispatched looks after whatever it sent the work to: it starts it, sees that the work arrived, notices when it is lost or silent, replaces it and ends it. The person directing the work looks after none of it and is asked to start, wake or repair nothing.
+- Being free in the relay loosens no check: no relay is used in a mode that skips a runtime's safety checks.
+
 ---
 
 ## Progressive disclosure (read only what you need)
@@ -53,13 +58,13 @@ This skill standardizes how the Orchestrator uses subagents to:
 If the runtime launches subagents asynchronously or as background processes:
 - Read references/async-dispatch-lifecycle.md
 
-If the runtime setup uses multiple long-lived agents that stay alive across dispatches and communicate over an external channel (team messaging, shared inbox):
-- Read references/persistent-peer-dispatch.md
+Where the relay a dispatch goes by is a peer channel:
+- Read references/seats.md
 
-Whenever a Researcher is dispatched, in a workspace with one model too, and whenever more than one option (a seat or a subagent, on a model, at a setting such as its reasoning effort) is available for a dispatch or a session:
+Whenever a Researcher is dispatched, in a workspace with one model too, and whenever more than one option (a relay, on a model, at a setting such as its reasoning effort) is available for a dispatch or a session:
 - Read references/model-routing.md
 
-Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read that role's section of `references/dispatch-checklists.md`; apply it to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.
+Before the first dispatch of a role (Researcher, Worker, Reviewer, or Auditor) in a session, read the Every dispatch section and that role's section of `references/dispatch-checklists.md`; apply them to every later dispatch of that role without rereading. The six prompt sections in Core rule 4 apply to every dispatch regardless, except an Auditor dispatch, whose whole prompt is its fixed template.
 
 If you want concise prompt snippets to copy/adapt:
 - Read references/prompt-snippets.md

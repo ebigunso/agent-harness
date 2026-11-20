@@ -43,7 +43,7 @@ A small change built without a plan (`SKILL.md` Plan Gate, canonical) is authori
 - When the Orchestrator drafts a plan for a change instead, the plan path above applies in full.
 - Where it goes: a small change, whether built without a plan or with one drafted for it, goes on top of its stack's last branch whenever that stack is unmerged, with no branch and no pull request of its own, and the text of the existing pull request is brought up to date. A plan of full size keeps the ordinary branch and pull-request policy (`git-workflow`).
 
-Plan review loop: the Orchestrator triages each Reviewer finding as fix, research-and-rewrite, or dispute; re-review scopes to the delta only when the delta re-review condition in `skills/wave-integration/references/integration-checklist.md` holds, otherwise it is full; a third round on the same seam applies that file's third-bounce detector; a finding that needs a ruling follows Escalation Ruling below.
+Plan review loop: the Orchestrator triages each Reviewer finding as fix, research-and-rewrite, or dispute; re-review scopes to the delta only when the delta re-review condition in `skills/wave-integration/references/integration-checklist.md` holds, otherwise it is full; a re-review scoped to the delta carries the earlier review in its packet (`references/dispatch-guidance.md` Reviewer Dispatch); a third round on the same seam applies that file's third-bounce detector; a finding that needs a ruling follows Escalation Ruling below.
 
 ## Research Dispatch Details
 

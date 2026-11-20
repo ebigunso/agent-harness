@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0065-a-ratified-brief-authorizes-a-plan-or-a-goal-envelope-o
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 A brief states what the work must give and why, and leaves how to the Orchestrator. In discussion the person directing the work and Counsel often also settle a way of getting there, and writing it down is useful: it is the best way known when the brief was ratified. Written as an ordinary statement, it binds like every other: the audit grades a plan against it, and a plan that found a better way is held for conflicting with the brief. Left out, what was settled is lost. The fork is how a brief carries a way of doing something without that way becoming a requirement.
 
