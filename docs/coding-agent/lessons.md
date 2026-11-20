@@ -1690,6 +1690,26 @@ Prevention:
 Evidence:
 - The plan `one-conversation-with-counsel-his-reading-plan.md`, Progress Log, 2026-11-19 by the channel clock.
 
+## 2026-11-20 - The Run's Closing Move Rides In Its Last Pull Request, Before The Merge  [tags: workflow, correction]
+
+Context:
+- The owner accepted pull request 109, the whole stack of the run "One conversation with Counsel", and gave his word for the merge in the Orchestrator's window.
+
+Symptom:
+- The Orchestrator merged the stack first. The run record, changes, readings and the brief were still under `active/`, so their move to `completed/` needed a docs-only pull request of its own. The owner, told it was coming: "it would have been better to include the closeout in the PR with the features it concerns, not as a separate docs only PR."
+
+Root cause:
+- The plugin's text already says it (`orchestration-harness/references/completion-closeout.md`, The brief: the move is "the same change as the run's last unit when the acceptance has already arrived, and then merges the stack"). The Orchestrator went from the acceptance straight to asking for the merge and did not reread that step.
+
+Fix:
+- The move was made in a separate pull request after the merge, the only way left once the stack was merged.
+
+Prevention:
+- When the owner's acceptance of a run's stack arrives, before asking for the merge: move the run record, changes, readings and the run's other files to `plans/completed/` and the brief and notes to `briefs/completed/`, push that commit on the stack's last branch, and ask for the merge of the head that carries it, saying it is there.
+
+Evidence:
+- Pull request 109, merged 2026-11-20 at a52a3f3; the owner's note relayed by Counsel at 2026-11-20T07:13Z.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
