@@ -384,6 +384,69 @@ Corrected after the closeout audit of the acceptance and retirement, where the r
 - Acceptance recorded by the status alone, and the two repairs outside the decisions directory: read as extends; graded cited, on the brief's Limits with the standard, and on the lifecycle the brief gives.
 - The suffix naming the lowest-numbered record and the two shortened slugs: read as covered within the retirement; graded inferred.
 
+### The record standard: a record does not fix what merely happens to be so (small change), closeout
+
+Item | reading | statement relied on
+
+- The Intent altitude bullet has a record not fix what merely happens to be so, with the two-sided test and "not a call for brevity" | covered | brief, Directed during the run, the last entry (accepted 2026-11-18)
+- The sentence reconciling the test with named dates and the dated facts under Revisit When, and its reason ("A fact named with its date stays true whatever changes later") | extends | the same entry ("The dated facts the standard asks for under Revisit When stay"); the reason is the Worker's derivation
+- One bullet, not a second; the test in the manner of "One decision per record" | extends | the same entry ("Its line on intent altitude also has"; "The wording in the standard is the run's")
+- The bullet named by title, not position | extends | nothing in the brief; a ruling on durability of the text
+- That the plugin's working text is untouched is not written into the standard | extends | the same entry; the sentence describes the direction's reach
+- Version 1.6.0 to 1.7.0 | extends | the run's practice for a change to plugin text (pull request 97)
+- A new branch from main and a pull request of its own | extends | the harness's rule for a small change when no stack of the run is unmerged
+- The three areas still to do and the other run's records are not touched | covered | the same entry
+
+### The record standard (small change), closeout: the audit compared
+
+- Reading compared: Items 1 and 2 (the bullet, the test, "not a call for brevity"): agrees (covered; cited). Item 3 (the dated facts under Revisit When stay): diverges. Read as extends, within the reconciling sentence; graded cited on "The dated facts the standard asks for under Revisit When stay." Item 4 (the reason, and the names and dates of "No time-relative wording"): agrees (extends; inferred). The reading carries no note that it bears on direction; the mark is mine. Item 5 (one bullet; the test in the manner of "One decision per record"): diverges. Read as extends; graded cited on "Its line on intent altitude also has", "It carries a test with two sides" and "The wording in the standard is the run's." Item 6 (the working-text sentence not written in): diverges. Read as extends; graded cited on the brief's sentence and "The wording in the standard is the run's." Item 7 (the bullet named by title): diverges. Read as extends on "nothing in the brief"; graded cited on "The wording in the standard is the run's." Item 8 (the version): agrees (extends; inferred). The reading rests on the run's practice; the grade names the brief's statement it extends. Item 10 (the three areas and the other run's records not touched): agrees (covered; cited). The seven records left to that run are unread. Item 12 (a new branch and a pull request of its own): diverges. Read as extends on the harness's rule for a small change; graded cited on "How is the Orchestrator's" and the standing approval for publishing a branch and opening pull requests. Items 9, 11 and 13 (earlier records not re-read; built without a plan; the Worker and review seats): unread.
+- Findings compared: no finding is recorded under Findings for this change in the range, and no item line notes a departure from a means.
+
+### The record standard's last sentence kept to his words (small change), closeout
+
+Item | reading | statement relied on
+
+- The sentence keeps the dated facts under Revisit When and no more | covered | brief, Directed during the run, the entry of 2026-11-18 on the record standard ("The dated facts the standard asks for under Revisit When stay.")
+- A name or a date elsewhere is a detail like any other and stays on the test's two grounds | covered | the same entry, the test's second side
+- The general reason and the keeping of the names and dates of "No time-relative wording" are removed | covered | the same entry; Counsel's placement from his standing words, he being told and not asked
+- The bullet "No time-relative wording" is no longer named in the sentence | extends | the wording is the run's
+- The version stays 1.7.0 | extends | nothing in the brief; the pull request is unmerged and this corrects what it carries
+- Counsel's answer taken as the grounds without a new word of his | extends | the product philosophy, what his documents already answer is not asked again; the statement itself is in the brief
+
+### The record standard's last sentence (small change), closeout: the audit compared
+
+- Reading compared: Item 1 (the sentence keeps the dated facts under Revisit When and no more): agrees (covered; cited). Item 2 (the general reason and the keeping of the names and dates removed): agrees (covered; cited). The reading also names Counsel's placement; the grade rests on the brief's entry alone. Item 3 (a name or a date elsewhere is a detail like any other): agrees (covered; cited). Item 4 (Counsel's answer taken as the grounds without a new word of his): diverges. Read as extends, on the product philosophy; graded cited on the brief's entry, which the built sentence matches, with "It asks only what only the person can answer." The reading carries no note that it bears on direction; the mark is mine. Item 6 (the bullet "No time-relative wording" no longer named): diverges. Read as extends; graded cited on "The wording in the standard is the run's." Item 8 (the version stays 1.7.0): agrees (extends; inferred). The reading says nothing in the brief; the grade names the statement it extends. Items 5, 7, 9, 10 and 11 (the Worker's joining and back-reference; the DR-STD-F1 fix; built without a plan; the branch and pull request; the Worker and review seats): unread.
+- Findings compared: no finding is recorded under Findings for this change, and no item line notes a departure from a means.
+
+### The record standard: what a record's problem statement says (small change), closeout
+
+Item | reading | statement relied on
+
+- A bullet under Form: Context and Problem Statement states what was wanted and why, and what failed to serve it; everything in it bears on the decision; an account of what was observed or happened that does not is left out; a document may be named where naming it bears on the decision | covered | brief, Directed during the run, the last entry (told 2026-11-19: "Yes, that is right. And yes, put it in the record standard.")
+- The section is named by the template's heading and the bullet is placed by the template's section order | extends | the entry leaves the wording to the run; the Worker's calls
+- "which does not" written as the restrictive "that does not bear on the decision" | covered | his words in the same entry: what is said "weighs in on the decisions themselves"
+- The template's prompt under the same heading is left unchanged | extends | his word names the record standard; a ruling, told to Counsel
+- Plugin version 1.7.1 | extends | the repository's practice that a change to the plugin's text after a merged version takes a new version; a ruling
+
+### The record standard: what a record's problem statement says (small change), closeout: the audit compared
+
+- Reading compared: Item 1, the bullet: agrees (`covered` against `cited`). Items 3 and 6, placement and the section's name: agrees (`extends` against `inferred`). Item 7, the restrictive clause: diverges. The Orchestrator read `covered`, on his words "weighs in on the decisions themselves". I graded `inferred`: the brief's own statement words the clause the other way, and the run chose his quoted words over it. Item 9, the template's prompt left: agrees (`extends` against `inferred`). Item 2, version 1.7.1: agrees (`extends` against `inferred`). The reading rests on the repository's practice; I rest it on the brief and the engineering philosophy. Items 4, 5, 8, 10, 11, 12 and 13: unread.
+- Findings compared: no finding is recorded for this change, and no item line notes a departure from a means. The five recorded findings are all of 2026-11-11, from earlier units outside this range; I compared each on its recorded text only. The reporting sentence missing where there is no plan (Task_1 of the raised plan): bears on the design though read as trivial. The entry already carries that correction from the closeout audit of 2026-11-11. The checker failing on prose in four more places: agrees. A Decision clause not carried and held by no record: agrees. BUNDLE-W1-F1, two decisions joined in one record: agrees. The census's counts not surviving his test: agrees.
+
+### The record template's prompt asks for what the standard says (small change), closeout
+
+Item | reading | statement relied on
+
+- The prompt under Context and Problem Statement now asks for what was wanted and why, and what failed to serve it, and only what bears on the decision | covered | brief, Directed during the run, the last entry (told 2026-11-19: "Yes, change the template line too.")
+- The standard's words used verbatim; the sentences on accounts and on naming a document left to the pointer | extends | the standard is the one home of the rule; the Worker's calls
+- "In one paragraph" and "no history of the investigation" kept | extends | the entry asks that the line say what the standard says, and takes nothing else out; the Worker's calls
+- Version stays 1.7.1; a repository's own copy of the template changes at setup's refresh | extends | the pull request is unmerged; the existing refresh rule; rulings
+
+### The record template's prompt (small change), closeout: the audit compared
+
+- Reading compared: Item 1 (the prompt changed): read `covered`, graded `cited`: agrees. Item 2 (the ruling before dispatch): the same reading line: agrees. Item 3 ("In one paragraph" kept): read `extends`, graded `inferred`: agrees. "The fork" dropped is unread. Item 4 (the standard's words used verbatim): diverges. Read `extends` ("the standard is the one home of the rule; the Worker's calls"); graded `cited` on Template line, since using the standard's words is what "asks for what the standard now says" asks. Item 5 (the sentences on accounts and on naming a document left to the pointer): read `extends`, graded `inferred`: agrees. Item 6 ("no history of the investigation" kept): read `extends`, graded `inferred`: agrees. Item 7 (the version stays 1.7.1): read `extends`, graded `inferred`: agrees. Item 8 (a repository's own copy changes at setup's refresh): diverges. Read `extends` ("the existing refresh rule; rulings"); graded `cited` on Refresh and Refresh limits, which the brief states. Items 9, 10 and 11 (no plan; the branch and the pull request's text; the Worker and the review seat): unread.
+- Findings compared: none found for this change. The range adds no line under `Findings`, and no item line notes a departure from a means; the statement built is a gives. I did not read the findings of earlier units.
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
