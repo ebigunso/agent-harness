@@ -7,7 +7,7 @@ consulted: []
 informed: []
 supersedes: ["superseded/ADR-D-0061-research-goes-to-the-researcher-role-on-an-option-chosen-from-the-workspaces-own-record--superseded-by-ADR-D-0068.md"]
 superseded_by: null
-depends_on: ["ADR-D-0035-counsel-reaches-into-the-work-only-by-quick-reads-a-read-only-researcher-and-consulted-advice.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
+depends_on: ["ADR-D-0099-counsel-reads-code-only-to-serve-a-discussion-and-takes-no-part-in-doing-or-checking-a-runs-work.md", "ADR-D-0048-logical-roles-are-stable-and-each-runtime-names-its-agents-by-its-own-convention.md"]
 ---
 
 # ADR-D-0070: The Orchestrator and Counsel place a Researcher by one and the same rule
@@ -44,4 +44,4 @@ Not covered: the rule's wording, its steps and where it is stated; what the rule
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061, together with ADR-D-0068, which carries how a Researcher's option is chosen and that the harness assumes no seat, peer or model, and ADR-D-0069, which carries that research is the Researcher role's work and never part of a Worker's task. Related: ADR-D-0035 (Counsel's read-only Researcher), ADR-D-0048 (logical roles and physical names).
+Source of intent: `docs/coding-agent/briefs/completed/choosing-where-research-goes-brief.md`, "Who it is for and why", "What the plugin states" and "Limits". Replaces ADR-D-0061, together with ADR-D-0068, which carries how a Researcher's option is chosen and that the harness assumes no seat, peer or model, and ADR-D-0069, which carries that research is the Researcher role's work and never part of a Worker's task. Related: ADR-D-0099 (Counsel's read-only Researcher), ADR-D-0048 (logical roles and physical names).

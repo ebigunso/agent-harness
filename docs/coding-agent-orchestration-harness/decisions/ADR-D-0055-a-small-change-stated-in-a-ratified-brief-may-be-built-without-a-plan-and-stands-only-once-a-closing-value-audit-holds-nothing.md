@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0064-non-trivial-work-is-authorized-only-by-the-person-direc
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 The harness knows two sizes of work. Trivial work is handled directly, but only when it changes no behaviour; everything else is a plan, which takes a plan review, a plan-draft audit, the build, the review of the change, the closing audit, a branch and a pull request. ADR-D-0064 names the ratified brief, carried to the work through the value audit, as the second source of authorization, and ADR-D-0065 states the conditions under which it authorizes a plan. A change the person directing the work states always changes behaviour, so it is never trivial work, and with a plan as the only other unit even a one-sentence change takes the whole suite. The fork is whether such a change, when it is small, must have a plan, who decides that for each change, and what then stands between it and being reported as done.
 

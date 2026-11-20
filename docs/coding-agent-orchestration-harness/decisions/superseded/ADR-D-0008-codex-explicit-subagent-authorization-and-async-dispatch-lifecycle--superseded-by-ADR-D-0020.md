@@ -8,7 +8,7 @@ consulted:
   - GPT-5.5 Pro
 informed: []
 supersedes: []
-superseded_by: ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md
+superseded_by: ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role--superseded-by-ADR-D-0090.md
 supersession_scope: full
 ---
 

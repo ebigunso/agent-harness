@@ -6,7 +6,7 @@ deciders: ["ebigunso"]
 consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: ["ADR-D-0002-explicit-orchestrator-entrypoint--superseded-by-ADR-D-0023.md"]
-superseded_by: ../ADR-D-0037-a-session-role-is-entered-by-an-explicit-act-of-the-person-opening-it.md
+superseded_by: ADR-D-0037-a-session-role-is-entered-by-an-explicit-act-of-the-person-opening-it--superseded-by-ADR-D-0090.md
 ---
 
 # ADR-D-0023: Where a runtime offers agent selection, the harness is entered by selecting the Orchestrator

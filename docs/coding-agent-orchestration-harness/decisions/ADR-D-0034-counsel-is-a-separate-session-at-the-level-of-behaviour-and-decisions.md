@@ -7,14 +7,14 @@ consulted: ["Claude Fable 5.1"]
 informed: []
 supersedes: []
 superseded_by: null
-depends_on: ["ADR-D-0017-harness-text-holds-no-user-authority.md", "ADR-D-0020-loader-routed-sessions-assume-the-orchestrator-role.md"]
+depends_on: ["ADR-D-0105-harness-text-holds-none-of-the-users-authority.md", "ADR-D-0090-a-session-holds-a-role-only-by-its-openers-choice-or-the-default.md"]
 ---
 
 # ADR-D-0034: Value discussion with the person directing the work is held by Counsel, a session of its own that works at the level of behaviour and decisions and takes no part in how the work is done
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The product owner is whoever is entitled to state the product's values and to answer product-level questions for that work; when the person directing the work owns the product, both are that person. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 The Orchestrator session works at the level of implementation, so when it is the only session the person directing the work can talk to, the product is shaped by auditing each plan for drift. The fork is whether value discussion is a phase of the Orchestrator session or a role of its own, and, if its own, what that role is responsible for.
 
@@ -39,7 +39,7 @@ The person directing the work judges what is built by its behaviour and shapes d
 ## Rejected Alternatives
 
 - Value discussion as a phase or mode of the Orchestrator session: rejected outright; the session the person directing the work talks with then works at the level of plans, and that person is back to auditing them.
-- Counsel approving plans, decision records or merges on that person's behalf: rejected outright; an agent would hold that person's authority, against ADR-D-0017.
+- Counsel approving plans, decision records or merges on that person's behalf: rejected outright; an agent would hold that person's authority, against ADR-D-0105.
 - Counsel dispatching the Orchestrator as a subagent, so that one session is opened: rejected outright; nested subagents are not required by any runtime the harness supports, and a nested Orchestrator would put the session that holds the authority inside the one that does the work, so the Orchestrator session stays flat.
 - No Counsel where the person directing the work is not the product owner, that person talking to the Orchestrator session directly instead: it lost because delegation should be as wide as possible to free the attention of the person directing the work, and talking to the Orchestrator session directly returns that person to the level of plans; reopen if Counsel, serving a person who is not the product owner, is found deciding product-level questions in the session instead of sending them to the product owner.
 
@@ -47,7 +47,7 @@ The person directing the work judges what is built by its behaviour and shapes d
 
 Invariant: value discussion and ratification are held in Counsel, a session the person directing the work opens, separate from the Orchestrator session, holding none of that person's authority and taking no part in how the work is done; the Decision list states the rest.
 
-Not covered: how far Counsel reaches into the work by reading code, dispatching a Researcher or consulting another model, which ADR-D-0035 governs; how the philosophy documents are handled, what a brief traces to, and what is done where no product philosophy exists, which ADR-D-0036 governs; how a Counsel conversation is conducted; the forms of the documents written with it; where an unratified ruling is recorded; what else passes between the two sessions and how it travels; the model a Counsel session runs on, which the person opening it chooses; Counsel's physical names, which the role map owns (ADR-D-0048).
+Not covered: how far Counsel reaches into the work by reading code, dispatching a Researcher or consulting another model, which ADR-D-0098, ADR-D-0099 and ADR-D-0101 govern; how the philosophy documents are handled, what a brief traces to, and what is done where no product philosophy exists, which ADR-D-0036 governs; how a Counsel conversation is conducted; the forms of the documents written with it; where an unratified ruling is recorded; what else passes between the two sessions and how it travels; the model a Counsel session runs on, which the person opening it chooses; Counsel's physical names, which the role map owns (ADR-D-0048).
 
 ## Validation
 
@@ -62,4 +62,4 @@ Not covered: how far Counsel reaches into the work by reading code, dispatching 
 
 ## More Information
 
-Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Who it is for and why", "What Counsel is" and "Roles and sessions". Related: ADR-D-0048 (role identities), ADR-D-0017 (harness text holds no user authority), ADR-D-0020 (a session that loads the orchestration workflow is the Orchestrator), the record on Counsel's reach into the work (ADR-D-0035), the record on the philosophy documents (ADR-D-0036), the record on how a session role is taken (ADR-D-0037), the record on how the word of the person directing the work reaches an Orchestrator session (ADR-D-0038).
+Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Who it is for and why", "What Counsel is" and "Roles and sessions". Related: ADR-D-0048 (role identities), ADR-D-0105 (harness text holds no user authority), ADR-D-0090 (how a session comes to hold a role), the record on Counsel's reach into the work (ADR-D-0099), the record on the philosophy documents (ADR-D-0036), the records on how a session role is taken (ADR-D-0090, ADR-D-0091, ADR-D-0095), the record on how the word of the person directing the work reaches an Orchestrator session (ADR-D-0112).

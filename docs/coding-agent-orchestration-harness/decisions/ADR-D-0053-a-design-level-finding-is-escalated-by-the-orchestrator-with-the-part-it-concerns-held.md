@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0045-during-a-run-counsel-hears-from-the-audit-only-of-an-it
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0020) and plans, dispatches and reports the work.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session the person directing the work opens for value discussion, separate from any Orchestrator session. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work.
 
 During a run the Orchestrator and its Workers notice things: a better way to give what the design asks for, a part of the design that will not work as stated, a cheaper route. Some bear on the design, which is the experience someone gains from the feature; most do not. An extension the value audit lets through is shown at closeout (ADR-D-0042), and during a run Counsel hears from the audit by exception only (ADR-D-0045). Neither brings a better design to the person directing the work while there is still time to take it, and the cheap-to-undo test that lets extensions through measures the wrong thing here: an expensive change can be the better design, and a cheap one can be trivial. The fork is what happens to a finding that bears on the design: who decides that it does, when it reaches that person, and what the run does meanwhile.
 
@@ -44,7 +44,7 @@ Someone who handed over a design wants the option of the better one kept open, i
 
 Invariant: every finding is recorded with the Orchestrator's reading; one that bears on the design is escalated at once as a value question whatever its cost, with only its part held; a trivial one is not raised as a design-level question, and what closeout shows and what Counsel hears from the audit are unchanged by a finding's reading; the audit compares every reading after its grades are fixed and names a reading it judges wrong in either direction; a finding it names as bearing on the design is escalated the same way; the Decision list states the rest.
 
-Not covered: what the audit grades and how (ADR-D-0052 and its mandate); how a brief's kinds bear on a finding (ADR-D-0054); what Counsel hears from the audit during a run (ADR-D-0045); Counsel's pause (ADR-D-0044); how a question travels to the person directing the work and what counts as the answer (ADR-D-0038); what the Orchestrator does when a discovery inside authorized work is not a finding about the design (ADR-D-0057; what a Worker may act on alone, ADR-D-0058); where findings are written and in what form.
+Not covered: what the audit grades and how (ADR-D-0052 and its mandate); how a brief's kinds bear on a finding (ADR-D-0054); what Counsel hears from the audit during a run (ADR-D-0045); Counsel's pause (ADR-D-0044); how a question travels to the person directing the work and what counts as the answer (ADR-D-0112); what the Orchestrator does when a discovery inside authorized work is not a finding about the design (ADR-D-0057; what a Worker may act on alone, ADR-D-0058); where findings are written and in what form.
 
 ## Validation
 
