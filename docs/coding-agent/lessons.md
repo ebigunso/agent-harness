@@ -1705,10 +1705,13 @@ Fix:
 - The move was made in a separate pull request after the merge, the only way left once the stack was merged.
 
 Prevention:
-- When the owner's acceptance of a run's stack arrives, before asking for the merge: move the run record, changes, readings and the run's other files to `plans/completed/` and the brief and notes to `briefs/completed/`, push that commit on the stack's last branch, and ask for the merge of the head that carries it, saying it is there.
+- When the owner's acceptance of a run's stack arrives, before asking for the merge: move the run record, changes, readings and the run's other files to `plans/completed/` and the brief and notes to `briefs/completed/`, get that commit reviewed, push it on the stack's last branch, and ask for the merge of the head that carries it, saying it is there.
+
+Also, in the same closeout:
+- The Orchestrator pushed the closeout branch and opened its pull request (112) before asking for its review, against `docs/coding-agent/rules/orchestrator.md` ("A change reaches the remote only after it has been reviewed, an open pull request included"). It is a second occurrence of the 2026-11-17 lesson on pushing before review. The rule was already promoted, so it is the reading of it that failed: a docs-only change made after a merge was treated as outside the run's checks. The review approved the change after it was opened; nothing was merged before it.
 
 Evidence:
-- Pull request 109, merged 2026-11-20 at a52a3f3; the owner's note relayed by Counsel at 2026-11-20T07:13Z.
+- Pull request 109, merged 2026-11-20 at a52a3f3; the owner's note relayed by Counsel at 2026-11-20T07:13Z; pull request 112 and its review of 2026-11-20T07:21Z.
 
 ## Promotion drain note (2026-10-16)
 
