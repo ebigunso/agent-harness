@@ -60,6 +60,8 @@ It defines how to:
 
 Before any commit-affecting Git mutation: read and run `references/pre-commit-gate.md`.
 
+Before a push, a publish or a merge: where the repository has a lessons log, look up the lessons that bear on it, take them into account and say which (`improvement-loop/references/settling-lessons.md`).
+
 If you need guidance on splitting work into logical commits and writing clean commit messages:
 - Read `references/logical-commit-chunking.md`
 

@@ -23,6 +23,8 @@ If repo rules exist and are relevant, consult:
 - `docs/coding-agent/rules/common.md`
 - `docs/coding-agent/rules/reviewer.md`
 
+Where the repository has a lessons log (`docs/coding-agent/lessons.md`), read it, or where it is long its headings and `When:` lines, and any entry the dispatch names; take the ones that bear into account, look again when the work comes to an action the dispatch did not name, and say which in the report. A waiting lesson informs the judgement and requires nothing.
+
 When review involves state, derived data, fallible operations, multiple implementations,
 merge/update semantics, scope-sensitive decisions, hot paths, validation boundaries,
 information conservation across serialization, conversion, aggregation, and fallback boundaries,
@@ -85,7 +87,7 @@ For docs/slides:
 - Capture screenshots under the provider-defined artifact root.
 
 5) Deviation-driven lesson candidates (required behavior)
-If review uncovered a deviation that should improve the harness (missing required checks, recurring style failures, unclear docs, repeated waiver patterns):
+If review uncovered a deviation (missing required checks, recurring style failures, unclear docs, repeated waiver patterns):
 - include “Lesson Candidates” in your output (atomic entries).
 
 ---
@@ -129,7 +131,7 @@ Lesson Candidates (required only if deviations occurred):
 - deviation:
 - root_cause:
 - prevention:
-- promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
+- promotion_target: repo_rule | troubleshooting | residual_risk
 
-Use `harness_migration` for cross-repo improvements staged in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/`, not for direct edits to bundled harness skills, references, agents, validators, or plugin files.
+A defect of the harness that the review shows is reported here like any other lesson.
 """

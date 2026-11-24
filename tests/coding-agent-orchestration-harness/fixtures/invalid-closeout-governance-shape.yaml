@@ -16,5 +16,4 @@ blockers: []
 governance:
   lessons_recorded: "false"
   repo_rule_updates: []
-  harness_migration_candidates: []
   waivers: []

@@ -34,7 +34,6 @@ The summary file may be JSON or YAML and should use this shape:
   governance:
     lessons_recorded: false
     repo_rule_updates: []
-    harness_migration_candidates: []
     waivers: []
 
 When a waiver is used, provide waiver evidence as a mapping:
@@ -228,7 +227,14 @@ def validate(summary: Any, plan_text: str) -> bool:
             if lessons_recorded is not None and not is_bool(lessons_recorded):
                 err("governance.lessons_recorded must be boolean when present")
                 ok = False
-            for key in ("repo_rule_updates", "harness_migration_candidates", "waivers"):
+            if "harness_migration_candidates" in governance:
+                err(
+                    "governance.harness_migration_candidates is not part of the closeout summary; "
+                    "a defect of the harness that a lesson shows is met in the repository "
+                    "(see improvement-loop/references/settling-lessons.md)"
+                )
+                ok = False
+            for key in ("repo_rule_updates", "waivers"):
                 value = governance.get(key)
                 if value is not None and not isinstance(value, list):
                     err(f"governance.{key} must be a list when present")

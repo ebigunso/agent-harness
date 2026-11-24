@@ -15,6 +15,7 @@ These hold for every Researcher, Worker and Reviewer dispatch, by whatever relay
   - what may already have been done outside the repository.
 - The hand-off is there so that whatever takes the work up neither repeats an act already performed nor undoes a decision already made. That the earlier messages are stored somewhere is not enough: a store of messages does not say which of them still hold.
 - The dispatch names the machine's record of obstacles, or carries the entries that apply where what receives it cannot read the record (`workspace-troubleshooting`, What this machine is known to do). The Auditor's template carries no entry, because its mandate has the auditor read the record itself.
+- Where the repository has a lessons log, the dispatch names the entries that bear on the task, or carries them where what receives it cannot read the log, as it does the machine's record (`improvement-loop/references/settling-lessons.md`).
 
 ## Researcher dispatch checklist
 Include:

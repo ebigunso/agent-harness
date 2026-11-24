@@ -217,7 +217,7 @@ Repository-specific review checks that are not mechanical gates and not tied to 
 
 ## Recurring Misses And Prevention
 
-Durable patterns learned from prior review misses, phrased as reusable prevention rules.
+Durable patterns learned from prior review misses, phrased as reusable prevention rules. Each is written here on the yes of the person whose the repository's rules are to decide.
 
 ## Mechanical Gate Candidates
 
@@ -227,8 +227,6 @@ Repo-local checks that could eventually move into:
 - repository hooks
 - repository scripts
 - repository validators
-
-If the proposed check belongs in bundled harness validators or plugin package validation, stage it as a harness migration candidate in `docs/coding-agent/skill-candidates.md` instead.
 ```
 
 ## sessions.md

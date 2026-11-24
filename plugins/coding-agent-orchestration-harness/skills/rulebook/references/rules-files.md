@@ -83,10 +83,4 @@ common.md may additionally include an optional Standing Approvals section (appro
 
 Applying rule_candidates:
 - Route by `rule_candidates[].audience` to the file (common/worker/orchestrator/reviewer).
-- `rule_candidates` are always repo-specific. Apply them to active repo rule sections or repo-local candidate sections such as Mechanical Gate Candidates.
-- Harness-global ideas must be emitted as `harness_migration_candidates` or lesson candidates with `promotion_target: harness_migration`.
-
-Harness migration staging:
-- `docs/coding-agent/skill-candidates.md` is the canonical backlog for cross-repo harness improvements discovered during target-repository work.
-- `docs/coding-agent/skill-drafts/*.md` holds fuller drafts when a candidate is too large or ambiguous for one backlog entry.
-- Use `references/skill-candidates-file.md` for the required `HMC-*` format.
+- `rule_candidates` are always repo-specific. A candidate that records a fact of the repository and adds no obligation is applied to the active rule sections. A check that would prevent a mistake waits in the lessons log as a lesson and is not parked in a rule file as a candidate (`improvement-loop/references/settling-lessons.md`).

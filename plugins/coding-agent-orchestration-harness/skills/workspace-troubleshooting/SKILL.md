@@ -63,14 +63,14 @@ What is known about the obstacles of the machine the work runs on (a command tha
 - The line: nothing particular to a machine goes into a tracked file. What would hold on any machine is troubleshooting knowledge and goes as the next section states; only what is particular to this machine goes into the record.
 - An Orchestrator session reads the record when it starts. A dispatch names it, and carries the entries that apply to the work where what receives it cannot read that directory (a sandbox may keep it out). An Auditor is the one a dispatch cannot carry entries to, its dispatch being a fixed template: it reads the record itself, and where that read fails the record has not reached it, the auditor says so in what it returns, and the session that dispatched it records that as a limit of that dispatch in the plan's or run's log and does not count the record as delivered there.
 - Each entry states four things: what was met; where it applies (the system, shell, tool and version, or kind of session); when it was last seen; how it was got past.
-- The session that met the obstacle writes the entry. One that cannot write there tells of it in its report, and the session that integrates the report writes it.
+- The session that met the obstacle writes the entry, and does not ask first. The person is told in a line that it was written: the session that reports to them tells them, and a seat that reports only to another session says so in its report. One that cannot write there tells of it in its report, and the session that integrates the report writes it.
 - An entry is true as of its date and is not trusted for ever. Work that comes to where an entry applies checks it again: it renews the date where the obstacle is still there, and corrects or removes the entry where it is not or the way past no longer works.
 
 ---
 
-## How to contribute new troubleshooting knowledge
+## How to keep new troubleshooting knowledge
 
-When you discover a reusable troubleshooting tip, propose it in this format (staged repo-locally):
+When you discover a troubleshooting tip that would hold on any machine, keep it as a note under the repository's `docs/coding-agent/`, in this format:
 - Title:
 - Symptoms:
 - Likely causes:

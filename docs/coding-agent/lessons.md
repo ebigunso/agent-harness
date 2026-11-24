@@ -39,6 +39,32 @@ Purpose:
 
 ## Entries
 
+## 2026-11-24 — Before relying on a value audit, check which copy of the mandate the Auditor read
+
+When: a value audit verdict comes back and is about to be acted on, in a run whose branch changes the harness's own references
+Waits for: a second occurrence
+What happened: in the run "Lessons keep their purpose" two closeout audits on one day read different copies of `value-audit-mandate.md`: one the main checkout's, one the plugin installed in the account (1.5.0, four minor versions behind the branch). The fixed dispatch template names the mandate by skill and reference and not by copy, and the Auditor starts outside the working tree under audit. The older copy has no step for the machine's record, so that audit did not read it. The Auditor said which copy it read in its verdict, and the Orchestrator recorded it when acting on the review of the closeout commits. Kind of cause: the tool or process made it easy. Evidence: `docs/coding-agent/plans/completed/lessons-keep-their-purpose-plan.md`, Progress Log entries "Closeout value audit returned" (the verdict, before its record) and "Review of the closeout commits" (its Orchestrator rulings).
+A repeat would cost: a verdict graded under rules the run itself has changed, with nothing in the verdict to show it unless the Auditor says which copy it read.
+Seen again: no
+
+## 2026-11-24 — Before ruling that a record, a standard or a brief holds or requires something, open it and quote the line in the ruling
+
+When: the Orchestrator is about to rule on what a decision record carries, holds or may leave out, or to tell a Worker what to cut from or keep in a record
+Waits for: the person's answer, asked 2026-11-24
+What happened: in the run "Lessons keep their purpose" (Task_6, five proposed records) the Orchestrator ruled that every philosophy statement the brief does not itself name be cut, which emptied an element the record standard requires in four records, and that an alternative carried from the accepted ADR-D-0026 be cut for want of a stated reason; the review of the records found both, and both rulings were corrected. The same day, in the run "Decision records at intent altitude", the Orchestrator ruled that ADR-D-0042 and ADR-D-0116 hold clauses they do not state; that is recorded in this log's entry "A Ruling That A Record Holds A Clause Quotes The Record's Line", which reaches main with that run's pull request. One cause for all four: the ruling was written from memory of the source and from a summary, without the source open. Kind of cause: did not know (no rule of this repository says how a ruling on a record is grounded). Evidence: `docs/coding-agent/plans/completed/lessons-keep-their-purpose-plan.md`, Progress Log entries "Review of Task_6's five records" and "Re-review of the fixes to the five records".
+A repeat would cost: a review round each time, and, where the review misses it, a record put to the owner that says more or less than was decided, which cannot be changed after acceptance without a new record.
+Seen again: 2026-11-24, twice in each of two runs on the same day, as told above.
+Proposal: one sentence for `docs/coding-agent/rules/orchestrator.md`, under Repo-Specific Orchestrator Policies: "A ruling on what a decision record, the record standard or a brief holds or requires quotes the line it rests on, read at the time of the ruling." What it is for: a ruling from memory has put wrong content into proposed records four times. What would let it go: the review of records finding no ruling of this kind wrong over several units.
+
+## 2026-11-24 — Write `<working tree>` for a path of the machine in anything logged, and sweep every commit to be pushed, not only the tip
+
+When: logging a dispatch text or a command in a plan, a run record or a findings file; and before the first push of a branch
+Waits for: the person's answer, asked 2026-11-24
+What happened: the value audit's fixed dispatch template was filled with the absolute path of a sibling working tree, since the Auditor does not start in that tree, and the plan logs each dispatch text verbatim; the path carries the name of the machine's user. It was committed in seven local commits of the branch for pull request 113 and in the commits of this run's branch. The Orchestrator replaced it at the tip only; the review of the closeout commit found the earlier commits still held it, and the branch, local only, was squashed to one commit with the same tree before its first push. Kind of cause: knew and did not apply it, in part: the plugin's git workflow already has a privacy sweep for machine paths before pushing documentation-heavy changes (`git-workflow/references/pre-commit-gate.md`), and it was run on the tip's diff; that it must cover each commit to be pushed, and that a logged dispatch text is where such a path enters, is not said there. Evidence: the completed plan `decision-records-at-intent-altitude-counsel-area-plan.md`, its last Progress Log entry; pull request 113 as one commit.
+A repeat would cost: a personal name published in the history of a public branch, which a later fix cannot take back.
+Seen again: no
+Proposal: one sentence for `docs/coding-agent/rules/orchestrator.md`, under Repo-Specific Integration / Git Policy: "A path of the machine in a logged dispatch text or command is written `<working tree>`, and before a branch's first push the privacy sweep is run on every commit to be pushed." What it is for: the sweep on the tip passed while seven commits held the path. What would let it go: the dispatch template taking a path relative to a named tree, or the sweep in the plugin's git workflow saying each commit.
+
 ## 2026-04-26 - Keep Skill Content Version Agnostic  [tags: skill-maintenance, assumptions]
 
 Context:

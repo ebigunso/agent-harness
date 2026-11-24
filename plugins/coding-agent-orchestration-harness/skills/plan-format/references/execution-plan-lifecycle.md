@@ -58,6 +58,5 @@ Under a ratified brief a plan is one of a run's units, beside any small change b
 ## 5) Post-mortem improvements (recommended)
 
 If a deviation occurred:
-- add a repo-local lesson entry (atomic)
+- record the lesson and settle what it shows as the `improvement-loop` skill's `references/settling-lessons.md` states
 - add/update reference docs (how-to-run / validation / ui-e2e / troubleshooting)
-- stage migration candidates for cross-repo improvements

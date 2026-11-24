@@ -62,26 +62,14 @@ rule_candidates:
     scope: "where it applies"
     example: "optional; use '' when none"
 
-# Optional. Cross-repo harness improvement proposals only.
-harness_migration_candidates:
-  - id: "HMC-short"
-    category: "review|validation|orchestration|delegation|rulebook|troubleshooting|adapter|validator|other"
-    proposed_home: "skill/reference/agent/validator/adr hint"
-    generalized_rule: "cross-repo lesson or proposed global rule"
-    trigger: "when this should apply"
-    evidence_from_repo: "what happened in this repo"
-    rationale: "why this is not merely repo-specific"
-    suggested_change: "what a future harness-maintenance pass should update"
-
 # Optional when deviations, failed validation, or recovery steps need to be
-# surfaced. Keep candidates atomic (one failure category each). Prefer
-# repo_rule when the prevention is repo-specific; use harness_migration when
-# it is reusable across repositories.
+# surfaced. Keep candidates atomic (one failure category each). A defect of
+# the harness that the work shows is reported here like any other lesson.
 lesson_candidates:
   - id: "LESSON-CAND-short"
     category: "planning|delegation|validation|environment|review|docs|other"
     deviation: "what went wrong / what required course correction (1 sentence)"
     root_cause: "why it happened (1 sentence)"
     prevention: "what would prevent recurrence (1 sentence)"
-    promotion_target: "repo_rule|harness_migration|troubleshooting|residual_risk"
-    suggested_destination: "optional; for repo_rule use docs/coding-agent/rules/<role>.md; for harness_migration use docs/coding-agent/skill-candidates.md; for troubleshooting/residual_risk use docs/coding-agent/lessons.md or a repo troubleshooting note"
+    promotion_target: "repo_rule|troubleshooting|residual_risk"
+    suggested_destination: "optional; for repo_rule use docs/coding-agent/rules/<role>.md; for troubleshooting/residual_risk use docs/coding-agent/lessons.md or a repo troubleshooting note"

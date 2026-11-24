@@ -10,13 +10,12 @@ Run this checklist after each Worker wave, once the Integration Contract in `SKI
 - When any aggregated item requests or implies a contract-shape or design ruling, you MUST read and apply `skills/orchestration-harness/references/lifecycle-gates.md#escalation-ruling` before answering it or dispatching further work.
 - Read each issue the reports surface as `skills/orchestration-harness/references/lifecycle-gates.md` Replan Procedure states, then decide whether the Orchestrator can answer, the user must answer, or a follow-up Worker is needed (for a research task, a Researcher, as section 4 states); a follow-up Worker builds only what is within the task as given or a revision that has passed that procedure.
 
-## 2. Collect Rule, Lesson, and Harness Migration Candidates
+## 2. Collect Rule and Lesson Candidates
 
 - Aggregate `rule_candidates`.
 - Aggregate `lesson_candidates`.
-- Aggregate `harness_migration_candidates`.
-- Normalize duplicates before rulebook, lessons, or skill-candidate staging updates.
-- Route `harness_migration_candidates` to `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md` through Orchestrator curation.
+- Normalize duplicates before any rule or lessons update.
+- Both are input to the Orchestrator's handling of lessons in `skills/improvement-loop/references/settling-lessons.md`.
 - An obstacle of the machine that a report tells of goes into the machine's record and into no tracked file (`skills/workspace-troubleshooting/SKILL.md`, What this machine is known to do).
 
 ## 3. Update Progress Log

@@ -1,23 +1,5 @@
 # Lessons Log (Coding Agent)
 
-Purpose:
-- capture recurring mistakes and the prevention mechanism
-- enable “read once, don’t repeat” improvements
-
-## How to use
-- Append a new entry when a hard gate was missed, when a finding arrived that the harness should have caught, or when a correction changed a durable default; low-signal corrections get no entry.
-- Keep entries short and actionable.
-- Promote repeated/high-severity lessons into repo rules, harness migration candidates, troubleshooting notes, or accepted residual-risk records.
-
-## Tags (recommended)
-- planning
-- validation
-- delegation
-- review
-- ui-e2e
-- tooling
-- ci
-- scope-owns
+Lessons from mistakes made in this repository that still wait to be settled. Whatever is here has not been made a rule, sent elsewhere or dropped.
 
 ## Entries
-(append newest at the top)
