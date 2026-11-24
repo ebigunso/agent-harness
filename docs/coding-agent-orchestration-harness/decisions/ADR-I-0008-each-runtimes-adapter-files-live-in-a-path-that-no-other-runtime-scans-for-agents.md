@@ -13,7 +13,7 @@ superseded_by: null
 
 ## Context and Problem Statement
 
-The runtimes the harness supports each discover agent files in a way of their own and read an agent format of their own, and each is to register every harness agent once, from the file written for it. A file that two runtimes both scan registers twice or with the wrong frontmatter, and the failure appears at runtime in one of those tools, not in this repository's diff. The fork is whether adapters share one discovery path or are isolated per runtime.
+The runtimes the harness supports each discover agent files in a way of their own and read an agent format of their own, and each adapter written for a runtime is to be registered by that runtime once, from that file. A file that two runtimes both scan registers twice or with the wrong frontmatter, and the failure appears at runtime in one of those tools, not in this repository's diff. The fork is whether adapters share one discovery path or are isolated per runtime.
 
 ## Decision
 
@@ -25,7 +25,7 @@ Duplicate or malformed agent registrations surface only when a user opens that r
 
 ## Rejected Alternatives
 
-- One agent directory for every runtime: reopen if every runtime the harness supports adopts one agent format with compatible frontmatter.
+- One agent directory for every runtime: reopen if Copilot, Claude Code and Codex all adopt one agent format with compatible frontmatter.
 
 ## Decision Boundary
 

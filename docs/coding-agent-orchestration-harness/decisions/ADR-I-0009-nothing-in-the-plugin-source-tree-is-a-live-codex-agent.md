@@ -33,7 +33,7 @@ Not covered: the specific directory names, which change through the runtime-adap
 
 ## Validation
 
-The decision is broken where the plugin source tree holds a live Codex agent: a Codex agent directory, or any file Codex registers as an agent from the source tree.
+The decision is broken where the plugin source tree holds a live Codex agent: a file that Codex registers as an agent from its path in the source tree.
 
 ## Revisit When
 

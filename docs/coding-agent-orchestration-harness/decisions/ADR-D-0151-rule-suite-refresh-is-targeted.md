@@ -21,7 +21,7 @@ Refresh of a rule suite is targeted.
 
 ## Why
 
-A rule suite goes stale when the sources it was written from change, so what a refresh has to bring back is what was written from the sources that changed.
+A rule suite goes stale when the sources it was written from change, so a refresh limits itself to what in the suite needs attention.
 
 ## Rejected Alternatives
 
@@ -29,11 +29,11 @@ A rule suite goes stale when the sources it was written from change, so what a r
 
 ## Decision Boundary
 
-Not covered: which sections a refresh touches, which lives in the `rulebook` skill and the sidecar schema; what triggers a refresh (ADR-D-0150), and the exact refresh triggers, which are `rulebook` skill text (ADR-D-0153); that bootstrap is never a per-task ritual (ADR-D-0152).
+Not covered: which sections a refresh touches, which lives in the `rulebook` skill and the sidecar schema; what triggers a refresh (ADR-D-0150), and where the exact refresh triggers are stated (the accepted ADR-D-0025); that bootstrap is never a per-task ritual (ADR-D-0152).
 
 ## Validation
 
-The decision is broken where a refresh of a rule suite was not targeted; a full bootstrap or a repository-wide scan run where a refresh was due is one such case.
+The decision is broken where a refresh rewrote the whole rule suite where only a part of it needed attention.
 
 ## Revisit When
 
@@ -42,4 +42,4 @@ The decision is broken where a refresh of a rule suite was not targeted; a full 
 
 ## More Information
 
-With ADR-D-0148, ADR-D-0149, ADR-D-0150, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that refresh is targeted, with the rejected alternative of a full bootstrap or a repository-wide scan on every task, which ADR-D-0152 carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: a refresh triggered by anything at all would still have to be targeted.
+With ADR-D-0148, ADR-D-0149, ADR-D-0150 and ADR-D-0152, replaces ADR-D-0025; the decision carried here is the same. ADR-D-0025's sentence that the validity conditions and the refresh triggers are `rulebook` skill text is held for the owner's answer and not carried here; ADR-D-0025 is replaced in full only once that is settled. Carried here from it: that refresh is targeted, with the rejected alternative of a full bootstrap or a repository-wide scan on every task, which ADR-D-0152 carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: a refresh triggered by anything at all would still have to be targeted.

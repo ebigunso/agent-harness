@@ -29,7 +29,7 @@ A stored status is one more thing that can be stale, and it fails in the worst d
 
 ## Decision Boundary
 
-Not covered: the validity conditions themselves, which are `rulebook` skill text (ADR-D-0153); that a Git commit SHA is not a freshness baseline (ADR-D-0149); the drift heuristics, which live in the `rulebook` skill and the sidecar schema; where the suite's lifecycle data is kept and when it is read (ADR-D-0024).
+Not covered: where the validity conditions themselves are stated (the accepted ADR-D-0025); that a Git commit SHA is not a freshness baseline (ADR-D-0149); the drift heuristics, which live in the `rulebook` skill and the sidecar schema; where the suite's lifecycle data is kept, in a sidecar (the accepted ADR-D-0024).
 
 ## Validation
 
@@ -45,4 +45,4 @@ The decision is broken where:
 
 ## More Information
 
-With ADR-D-0149, ADR-D-0151, ADR-D-0150, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that validity is derived each time it is needed and never trusted from stored state, with its reason, its rejected alternative and its revisit conditions. It is a record of its own because it binds with any of the others retired: a suite whose refresh ran on a schedule, or whose freshness was judged against a commit, would still have to have its validity derived and not taken from a stored status. Sidecar placement: ADR-D-0024.
+With ADR-D-0149, ADR-D-0151, ADR-D-0150 and ADR-D-0152, replaces ADR-D-0025; the decision carried here is the same. ADR-D-0025's sentence that the validity conditions and the refresh triggers are `rulebook` skill text is held for the owner's answer and not carried here; ADR-D-0025 is replaced in full only once that is settled. Carried here from it: that validity is derived each time it is needed and never trusted from stored state, with its reason, its rejected alternative and its revisit conditions. It is a record of its own because it binds with any of the others retired: a suite whose refresh ran on a schedule, or whose freshness was judged against a commit, would still have to have its validity derived and not taken from a stored status. Sidecar placement: the accepted ADR-D-0024.

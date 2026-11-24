@@ -26,7 +26,7 @@ Duplicate or malformed agent registrations surface only when a user opens Codex,
 ## Rejected Alternatives
 
 - Live Codex agents inside the plugin tree, relying on Codex to ignore them until installed: rejected outright; Codex scanning behavior is not under this repository's control.
-- Manual copy steps for Codex instead of a bootstrap: reopen if Codex ships plugin-installed custom agents directly.
+- Manual copy steps for Codex instead of a bootstrap: a bootstrap installs the correct agent and reference files while preserving the user's instructions; reopen if Codex ships plugin-installed custom agents directly.
 
 ## Decision Boundary
 
@@ -45,4 +45,4 @@ The decision is broken where:
 
 ## More Information
 
-With ADR-I-0008, ADR-I-0009 and ADR-I-0011, replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that Codex agents ship as inert templates that only an explicit bootstrap installs, with both rejected alternatives that bear on it and the revisit condition on Codex's support for plugin-shipped agents. It is a record of its own because it binds whether or not the plugin source tree may hold a live Codex agent: installation by anything other than an explicit bootstrap stays excluded either way.
+With ADR-I-0008, ADR-I-0009 and ADR-I-0011, replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that Codex agents ship as inert templates that only an explicit bootstrap installs, with both rejected alternatives that bear on it and the revisit condition on Codex's support for plugin-shipped agents. It is a record of its own because it binds whether or not the plugin source tree may hold a live Codex agent: installation by anything other than an explicit bootstrap stays excluded either way. The reason manual copy steps lost comes from ADR-I-0002, which chose the bootstrap over them.

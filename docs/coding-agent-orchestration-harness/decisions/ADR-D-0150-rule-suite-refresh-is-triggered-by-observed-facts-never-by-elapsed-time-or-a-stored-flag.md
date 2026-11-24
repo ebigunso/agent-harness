@@ -29,7 +29,7 @@ A rule suite goes stale when the sources it was written from change, so what sho
 
 ## Decision Boundary
 
-Not covered: the exact refresh triggers and the drift heuristics, which live in the `rulebook` skill and the sidecar schema; that the refresh triggers themselves are `rulebook` skill text (ADR-D-0153); that refresh is targeted (ADR-D-0151); that bootstrap is never a per-task ritual (ADR-D-0152).
+Not covered: the exact refresh triggers and the drift heuristics, which live in the `rulebook` skill and the sidecar schema; where the refresh triggers themselves are stated (the accepted ADR-D-0025); that refresh is targeted (ADR-D-0151); that bootstrap is never a per-task ritual (ADR-D-0152).
 
 ## Validation
 
@@ -42,4 +42,4 @@ The decision is broken where a refresh of a rule suite was triggered by elapsed 
 
 ## More Information
 
-With ADR-D-0148, ADR-D-0149, ADR-D-0151, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: what triggers a refresh and what never does, with the rejected alternative of a durable status flag, which ADR-D-0148 carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: were validity allowed to be stored, or refresh to reach the whole suite, a refresh would still be triggered by observed facts and never by elapsed time or a stored flag.
+With ADR-D-0148, ADR-D-0149, ADR-D-0151 and ADR-D-0152, replaces ADR-D-0025; the decision carried here is the same. ADR-D-0025's sentence that the validity conditions and the refresh triggers are `rulebook` skill text is held for the owner's answer and not carried here; ADR-D-0025 is replaced in full only once that is settled. Carried here from it: what triggers a refresh and what never does, with the rejected alternative of a durable status flag, which ADR-D-0148 carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: were validity allowed to be stored, or refresh to reach the whole suite, a refresh would still be triggered by observed facts and never by elapsed time or a stored flag.
