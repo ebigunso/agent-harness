@@ -447,6 +447,37 @@ Item | reading | statement relied on
 - Reading compared: Item 1 (the prompt changed): read `covered`, graded `cited`: agrees. Item 2 (the ruling before dispatch): the same reading line: agrees. Item 3 ("In one paragraph" kept): read `extends`, graded `inferred`: agrees. "The fork" dropped is unread. Item 4 (the standard's words used verbatim): diverges. Read `extends` ("the standard is the one home of the rule; the Worker's calls"); graded `cited` on Template line, since using the standard's words is what "asks for what the standard now says" asks. Item 5 (the sentences on accounts and on naming a document left to the pointer): read `extends`, graded `inferred`: agrees. Item 6 ("no history of the investigation" kept): read `extends`, graded `inferred`: agrees. Item 7 (the version stays 1.7.1): read `extends`, graded `inferred`: agrees. Item 8 (a repository's own copy changes at setup's refresh): diverges. Read `extends` ("the existing refresh rule; rulings"); graded `cited` on Refresh and Refresh limits, which the brief states. Items 9, 10 and 11 (no plan; the branch and the pull request's text; the Worker and the review seat): unread.
 - Findings compared: none found for this change. The range adds no line under `Findings`, and no item line notes a departure from a means; the statement built is a gives. I did not read the findings of earlier units.
 
+### decision-records-at-intent-altitude-audit-area-plan, plan draft
+
+- DoD: each of the four has a result | covered | brief, Pass conditions: "The check's result for every record is recorded"
+- DoD: present form, one decision by the owner's test | covered | brief: the owner's test; the template change of 2026-11-11
+- DoD: consulted names the old entries and the writing model | extends | brief: "Name the model who I talked to, and have written the document, in the consulted section"
+- DoD: every clause carried, held by a named record with its line quoted, or for mechanics left to plugin text | covered | brief: "must be held by a named accepted record"; the mechanics list
+- DoD: splits by name, rewrites on the audit's confirmation | covered | brief, "Directed before the run was planned"
+- DoD: validator and smoke tests pass | extends | common.md, validation commands
+- Planner-added: consulted carries old entries | extends | the told statement on consulted
+- Planner-added: clause list in each report, a holder's line quoted | extends | brief: the clause statement
+- Planner-added: what moved into a Decision is named | extends | brief: rewrites that keep the decision go in unread, so a move is told
+- Planner-added: file name at most 109 characters | extends | engineering philosophy: a real need is kept with the need written beside it
+- Scope: run record brought up to date | covered | engineering philosophy: a dated record holds what is true today
+- Non-goal: no decision changes | covered | brief: "The decisions themselves do not change."
+- Non-goal: plugin text, the standard, the template | covered | brief, Left out on purpose
+- Non-goal: acceptance, retirement, reference repair after acceptance | covered | brief: the standard's lifecycle, acceptance by name
+- Non-goal: the seven other records and the last area | covered | brief: batches by area of about ten
+- Non-goal: nothing of pull request 113 | extends | brief: each batch its own pull request and acceptance
+- Design: the area in two units | covered | brief: "in batches by area, each batch its own pull request and its own acceptance, of about ten records"
+- A1 counts | covered | brief: the test is applied to every record
+- A2 nothing stale; a raised decision first | covered | brief: a stale decision goes to the owner before the rest is rewritten
+- A3 pointers beside records pull request 113 retires | extends | brief: a clause not carried is held by a named accepted record
+- Task_1 (ADR-D-0052, three expected; the reading of the test for the reading compared) | covered | brief: the owner's test; a bundle is split
+- Task_2 (ADR-D-0053 and 0054, accepted together) | covered | brief: the owner's test; ADR-D-0076 accepted together with the record that holds its line
+- Task_3 (ADR-D-0042; the enumeration as its criterion; the moment named by what it is) | covered | brief: a record does not fix what merely happens to be so; wording names the thing it means
+- Task Waves: one wave | extends | product philosophy: a decision that can be undone and stays inside the work is made and reported
+- Rollback / Safety: push and pull request under the standing approval | covered | common.md, Standing Approvals
+- Decision Log: two units | covered | as Design
+- Decision Log: ADR-D-0054 rewritten | covered | brief: a record that fails the check is rewritten
+- Decision Log: revision on the plan review | covered | brief: the clause statement; the owner's test
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
