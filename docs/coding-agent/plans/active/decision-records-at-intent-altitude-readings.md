@@ -554,6 +554,27 @@ Item | reading | statement relied on
 - Findings compared: Task_1 of the raised plan (no sentence that an internal change is reported where there is no plan): bears on the design though read as trivial; acting on it changes what he is told in a run with no plan. Task_2 of the raised plan (four more places where the checker fails on prose): agrees, bears on the design. The goal-mode wave's finding (a Decision clause left to the plugin's text and held by no record): agrees, bears on the design. BUNDLE-W1-F1 (two decisions joined in one record): agrees, bears on the design. The census's counts not surviving his test: agrees, bears on the design, through the size of the batch that reaches him. Departures from a means: none; the brief marks no statement as a means.
 - Orchestrator, on the finding read otherwise than recorded: the owner's answer of 2026-11-11 stands, as at the earlier positions; nothing is held and nothing is sent.
 
+### decision-records-at-intent-altitude-authorization-area-plan, closeout
+
+- DoD, planner-added requirements, non-goals, assumptions, tasks, rollback | as read at plan draft, with the readings the plan-draft comparison corrected
+- ADR-D-0139 and ADR-D-0140 (proposed; split of ADR-D-0064) | covered | brief: a bundle is split, each accepted by name
+- ADR-D-0141, 0142, 0143 (proposed; split of ADR-D-0065) | covered | as above
+- ADR-D-0144, 0145, 0146 (proposed; split of ADR-D-0051) | covered | as above
+- ADR-D-0147 (proposed; rewrite of ADR-D-0055) | covered | brief: a rewrite that keeps its decision goes in on the closeout audit's confirmation
+- ADR-D-0057 raised to the owner and held whole; ADR-D-0062 held with it | covered | brief: a stale or contradicted decision is a value question for the owner through Counsel; raised decisions reach him first
+- ADR-D-0058 meets in its older form | covered | brief: "Records already accepted stay as they are."
+- The nine numbered ADR-D-0139 to 0147 before the work lands | extends | brief: acceptance is by name; a later landing renumbers
+- Rulings withdrawn on the review: the closed list restated as its criterion; the note to Counsel as a route; the subject of fresh authorization generalized; all restored | covered | brief: the decisions themselves do not change; a clause not carried is held by a named accepted record
+- Ruling: ADR-D-0055 one record as a judgement the test does not settle, named to him | needs the owner | brief: the owner's test; Limits, acceptance by name
+- Ruling: ADR-D-0051 three records, its borderline partitions named to him | extends | brief: the owner's test
+- Ruling: reasons the old records do not give stay ungiven, each gap named | covered | brief: the decisions themselves do not change
+- Ruling: added revisit conditions in ADR-D-0142 (held to the old rationale) and ADR-D-0146, each a restatement | covered | brief: a rewrite may state a revisit condition worded from the old record's reason
+- Ruling: ADR-D-0144's dated revisit line keeps its dated fact, "this text" named as ADR-D-0051's text, its trigger restored | covered | brief: the dated facts stay; wording names the thing it means
+- Ruling: pointers scoped to what each successor states | covered | brief: wording names the thing it means
+- Ruling: Terms added (Counsel in ADR-D-0144; a run's stack in ADR-D-0145) | extends | the record standard: a detail a first-time reader needs stays
+- Rollback / Safety: publishing the branch and opening the pull request at this unit's close | covered | common.md, Standing Approvals
+- Lessons of 2026-11-24 (a seat's missing placement record; a closed list under "only") | extends | engineering philosophy: a guess is not written as a finding
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
