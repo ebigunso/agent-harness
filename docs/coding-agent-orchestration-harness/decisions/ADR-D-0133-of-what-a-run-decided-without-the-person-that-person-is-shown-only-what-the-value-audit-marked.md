@@ -23,7 +23,7 @@ A run starts and goes on without the person directing the work reading its plan,
 - Of the extensions the value audit let through and the judgement calls a run made without the person directing the work, that person is shown those that bear on the product's direction, and no others.
 - An item bears on direction when it is a decision at the level of the product philosophy or of the engineering philosophy. An item marked on the engineering side is shown as one on the product side is.
 - Which items bear on direction is the value audit's to mark, in its verdict. The Orchestrator chooses none of them. A judgement call is marked by the audit that grades the work it was made in, which reads it from the run's records.
-- The marked items are shown when the run is reported as ready for that person's judgement, the moment ADR-D-0051 states.
+- The marked items are shown when the work is reported to that person as ready for their judgement, and not as each is made. For a run under a ratified brief that is the report of the run as ready, as ADR-D-0051 states; a unit's close is no such report.
 - Each marked item reaches that person as the audit stated it, with the audit's grade of it and the statements the audit's verdict names for it. The Orchestrator adds no account of why the item was made.
 
 ## Why
@@ -32,15 +32,15 @@ The product philosophy's "What goes wrong, in order" has "Attention is the scarc
 
 ## Rejected Alternatives
 
-- Every extension is shown when the run is reported as ready: it returns the person directing the work to reading each run's structural choices, which the brief exists to end; reopen if an unmarked extension turns out to be one that person would have stopped.
+- Every extension is shown when the work is reported as ready: it returns the person directing the work to reading each run's structural choices, which the brief exists to end; reopen if an unmarked extension turns out to be one that person would have stopped.
 - The Orchestrator chooses which of the run's judgement calls to show, its own rulings and the choices reported to it, the audit marking only the extensions it graded: it lost because the rulings are the Orchestrator's own work as much as the extensions are, and its choice of which to show is an account of that work; reopen if the audit, reading the run's records, is found unable to tell a ruling that bears on direction from one that does not.
 - The Orchestrator chooses which extensions to show: rejected outright; it is the party that made them, and its choice of what to show is an account of its own work.
 - No extension is shown, all stay in the records: it leaves direction-bearing decisions for that person to find; reopen if the marked set is found to be empty across runs that did make such decisions.
-- Extensions are shown as they are made, during the run: it interrupts the person directing the work with items the audit has already let through; reopen if the report of the run as ready proves too late to undo a marked extension cheaply.
+- Extensions are shown as they are made, during the run: it interrupts the person directing the work with items the audit has already let through; reopen if the report of the work as ready proves too late to undo a marked extension cheaply.
 
 ## Decision Boundary
 
-Not covered: that every extension and every judgement call is kept in the run's records and stays there, shown or not (ADR-D-0132); what an extension is and when it lets a plan start (ADR-D-0065); when a run is reported as ready, and that the close of a unit of a run is no such report (ADR-D-0051); what Counsel hears from the value audit during a run, which is a limited exception to this record (ADR-D-0045, which the proposed ADR-D-0122 takes over); the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0134 leaves them uncovered); the audit's procedure and the dispatch wording (ADR-D-0134); how a verdict carries the mark; the form of the report that shows the marked items and the rest of what it carries.
+Not covered: that every extension and every judgement call is kept in the run's records and stays there, shown or not (ADR-D-0132); what an extension is and when it lets a plan start (ADR-D-0065); when a run under a ratified brief is reported as ready, and that the close of a unit of such a run is no such report (ADR-D-0051); what Counsel hears from the value audit during a run, which is a limited exception to this record (ADR-D-0045, which the proposed ADR-D-0122 takes over); the grade names and their definitions, which no record states and the audit's mandate owns (ADR-D-0134 leaves them uncovered); the audit's procedure, which the plugin's text states and no record; the dispatch wording (ADR-D-0050); how a verdict carries the mark; the form of the report that shows the marked items and the rest of what it carries.
 
 ## Validation
 
@@ -49,7 +49,7 @@ The decision is broken where:
 - the person directing the work was shown, of what a run decided without them, an item the audit's verdict did not mark, or was not shown one it marked;
 - which items were shown fell to the Orchestrator's choice, a verdict that marked nothing included: such a verdict shows nothing;
 - a marked item reached that person in words other than the audit's, without the audit's grade of it or the statements the verdict names for it, or with the Orchestrator's account of why it was made;
-- the Orchestrator session put a decision the run had already made without that person to them as it was made, on the ground that it bears on direction, and not when the run was reported as ready.
+- the Orchestrator session put a decision the run had already made without that person to them as it was made, on the ground that it bears on direction, and not when the work was reported as ready.
 
 ## Revisit When
 
@@ -60,4 +60,4 @@ The decision is broken where:
 
 ## More Information
 
-With ADR-D-0132, replaces ADR-D-0042 in full. ADR-D-0042 named the judgement calls as the choices Workers reported and the rulings the Orchestrator made, and the moment as closeout; this record names the first by what they are, choices a run makes without the person directing the work, and the second as the run being reported as ready. Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Stops during a run" and "Lifecycle". Related: ADR-D-0134 (the value audit), ADR-D-0065 (extensions as a condition of authorization), ADR-D-0064 (the sources of authorization), ADR-D-0051 (the run and its report as ready).
+With ADR-D-0132, replaces ADR-D-0042 in full. ADR-D-0042 named the judgement calls as the choices Workers reported and the rulings the Orchestrator made, and the moment as closeout; this record names the first by what they are, choices a run makes without the person directing the work, and the second as the work being reported to that person as ready for their judgement. Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Stops during a run" and "Lifecycle". Related: ADR-D-0134 (the value audit), ADR-D-0065 (extensions as a condition of authorization), ADR-D-0064 (the sources of authorization), ADR-D-0051 (the run and its report as ready).
