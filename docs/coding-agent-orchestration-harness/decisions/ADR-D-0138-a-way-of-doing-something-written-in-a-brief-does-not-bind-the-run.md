@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0054-a-briefs-statements-bind-by-kind-and-a-departure-from-a
 superseded_by: null
 ---
 
-# ADR-D-XXXX: A way of doing something written in a brief does not bind the run; what the work must give and its constraints do
+# ADR-D-0138: A way of doing something written in a brief does not bind the run; what the work must give and its constraints do
 
 ## Context and Problem Statement
 
@@ -24,7 +24,7 @@ A brief states what the work must give and why, and leaves how to those doing th
 - A means does not bind. The run builds from it and may better it.
 - An item that follows a means is supported by it, as by any statement.
 - An item that departs from a means is judged on what the means serves, the thing the work must give. The departure is by itself no ground for holding the item: it does not put the item against the brief, and it does not leave the item without support.
-- A departure from a means is recorded as a finding and read by the test for every finding (`ADR-D-from-0053-a-finding-that-would-change-what-someone-experiences-reaches-the-person-at-once.md`). One that changes what the person directing the work would experience is escalated with the part it concerns held, as that record states, and reaches that person as a question about the better way, not as a breach. One that changes nothing that person would experience is not raised: the audit grades the item against what the means was for, and that is the end of it.
+- A departure from a means is recorded as a finding and read by the test for every finding (ADR-D-0137). One that changes what the person directing the work would experience is escalated with the part it concerns held, as that record states, and reaches that person as a question about the better way, not as a breach. One that changes nothing that person would experience is not raised: the audit grades the item against what the means was for, and that is the end of it.
 - A statement with no kind binds, so a brief written without kinds is read with every statement binding.
 - The kind is ratified with the statement. Nobody but the person directing the work makes something the work must give, or a constraint, into a means.
 
@@ -42,7 +42,7 @@ The engineering philosophy's "What it aspires to" has what someone meets settled
 
 ## Decision Boundary
 
-Not covered: the test by which a finding is read, how one is escalated and its part held, and the audit's comparison of the reading (`ADR-D-from-0053-a-finding-that-would-change-what-someone-experiences-reaches-the-person-at-once.md`); the audit itself and what its grades hold (ADR-D-0052); the conditions for authorizing a plan (ADR-D-0065); the philosophies, whose statements have no kinds; how a kind is marked on a statement, the brief's form, its provenance tags and its scenarios; the names of the audit's grades and of the reasons it gives for them, and how a departure is noted in a verdict, all of which the plugin's text states.
+Not covered: the test by which a finding is read, how one is escalated and its part held, and the audit's comparison of the reading (ADR-D-0137); the audit itself and what its grades hold (ADR-D-0134); the conditions for authorizing a plan (ADR-D-0065); the philosophies, whose statements have no kinds; how a kind is marked on a statement, the brief's form, its provenance tags and its scenarios; the names of the audit's grades and of the reasons it gives for them, and how a departure is noted in a verdict, all of which the plugin's text states.
 
 ## Validation
 
@@ -65,4 +65,4 @@ The decision is broken where:
 
 ## More Information
 
-Replaces ADR-D-0054 in full; accepted together with `ADR-D-from-0053-a-finding-that-would-change-what-someone-experiences-reaches-the-person-at-once.md`, which states the test for a finding and what follows from its reading. Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, its kind marks, "What a design is" and "A better design noticed mid-flight". This record decides nothing that brief states as a means; that a statement with no kind binds is not from that brief. Related: ADR-D-0065 (authorization), ADR-D-0052 (the value audit).
+Replaces ADR-D-0054 in full; accepted together with ADR-D-0137, which states the test for a finding and what follows from its reading. Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, its kind marks, "What a design is" and "A better design noticed mid-flight". This record decides nothing that brief states as a means; that a statement with no kind binds is not from that brief. Related: ADR-D-0065 (authorization), ADR-D-0134 (the value audit).

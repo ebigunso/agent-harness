@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0052-the-orchestrator-never-grades-its-own-run-and-its-readi
 superseded_by: null
 ---
 
-# ADR-D-XXXX: A standing approval is given only by whoever holds the authority for the action, counts only once its giver has accepted the written entry, and never stands in for an act that keeps its own acceptance
+# ADR-D-0136: A standing approval is given only by whoever holds the authority for the action, counts only once its giver has accepted the written entry, and never stands in for an act that keeps its own acceptance
 
 ## Context and Problem Statement
 
@@ -36,7 +36,7 @@ An approval reaches no further than the authority of the one who gives it, and a
 
 ## Decision Boundary
 
-Not covered: how a standing approval is recorded and brought to its giver; under which heading and in which rule file an entry is kept, and when an accepted entry takes effect; who holds the authority for each action in a repository, which that repository's rules state; whether a repository's rules allow a merge to be covered; which actions wait for a decision at their moment, and what a plan that contains one must state (ADR-D-0065); what the value audit does with an action a standing approval covers (`ADR-D-from-0052-the-orchestrator-never-grades-its-own-run-against-the-value-documents.md` and the audit's own text); the rules that acceptance of a decision record, a change to a philosophy and plan approval each keep, which their own records and texts state; the entry that admits Counsel's relays and how the answer to it travels (ADR-D-0111, ADR-D-0112).
+Not covered: how a standing approval is recorded and brought to its giver; under which heading and in which rule file an entry is kept, and when an accepted entry takes effect; who holds the authority for each action in a repository, which that repository's rules state; whether a repository's rules allow a merge to be covered; which actions wait for a decision at their moment, and what a plan that contains one must state (ADR-D-0065); what the value audit does with an action a standing approval covers (ADR-D-0134 and the audit's own text); the rules that acceptance of a decision record, a change to a philosophy and plan approval each keep, which their own records and texts state; the entry that admits Counsel's relays and how the answer to it travels (ADR-D-0111, ADR-D-0112).
 
 ## Validation
 
@@ -54,4 +54,4 @@ The decision is broken where:
 
 ## More Information
 
-With `ADR-D-from-0052-the-orchestrator-never-grades-its-own-run-against-the-value-documents.md` and `ADR-D-from-0052-the-orchestrators-reading-is-stated-before-the-audit-and-compared-only-after-it-has-graded.md`, replaces ADR-D-0052 in full; the decision carried here is the same. Carried here from it: every clause on standing approvals. It is a record of its own because it binds whether or not a value audit grades the run. ADR-D-0052 excluded goal mode as a whole and stated no mode for standing approvals; this record states none. ADR-D-0052 states one alternative for this decision and no revisit condition; the two above restate the reasons it gives. Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Stops during a run" (who gives a standing approval; a merge approval in a repository the person directing the work does not own is the product owner's to give; merge looseness is a per-repository matter for that repository's rule files). Related: ADR-D-0065 (an action no standing approval covers, in a plan authorized by a ratified brief), ADR-D-0112 and ADR-D-0111 (the standing approval that admits Counsel's relays), ADR-D-0051 (publication where a standing approval covers it).
+With ADR-D-0134 and ADR-D-0135, replaces ADR-D-0052 in full; the decision carried here is the same. Carried here from it: every clause on standing approvals. It is a record of its own because it binds whether or not a value audit grades the run. ADR-D-0052 excluded goal mode as a whole and stated no mode for standing approvals; this record states none. ADR-D-0052 states one alternative for this decision and no revisit condition; the two above restate the reasons it gives. Source of intent: `docs/coding-agent/briefs/completed/value-level-operation-brief.md`, "Stops during a run" (who gives a standing approval; a merge approval in a repository the person directing the work does not own is the product owner's to give; merge looseness is a per-repository matter for that repository's rule files). Related: ADR-D-0065 (an action no standing approval covers, in a plan authorized by a ratified brief), ADR-D-0112 and ADR-D-0111 (the standing approval that admits Counsel's relays), ADR-D-0051 (publication where a standing approval covers it).
