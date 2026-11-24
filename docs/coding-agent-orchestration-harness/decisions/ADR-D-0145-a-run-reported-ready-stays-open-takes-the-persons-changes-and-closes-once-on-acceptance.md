@@ -7,14 +7,14 @@ consulted: ["Claude Fable 5.1", "Claude Opus 5.5"]
 informed: []
 supersedes: ["ADR-D-0051-work-under-a-brief-is-a-run-of-one-or-more-units-that-closes-once.md"]
 superseded_by: null
-depends_on: ["ADR-D-from-0051-work-under-a-ratified-brief-is-a-run-of-units-that-goes-from-unit-to-unit-without-the-person.md"]
+depends_on: ["ADR-D-0144-work-under-a-ratified-brief-is-a-run-of-units-that-goes-from-unit-to-unit-without-the-person.md"]
 ---
 
-# ADR-D-XXXX: A run reported as ready stays open for the judgement of the person directing the work, takes the changes that person directs against its brief as its own work, and closes once, on that person's acceptance
+# ADR-D-0145: A run reported as ready stays open for the judgement of the person directing the work, takes the changes that person directs against its brief as its own work, and closes once, on that person's acceptance
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work. A run is what a ratified brief governs: one or more units of work (ADR-D-from-0051-work-under-a-ratified-brief-is-a-run-of-units-that-goes-from-unit-to-unit-without-the-person).
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work. A run is what a ratified brief governs: one or more units of work (ADR-D-0144).
 
 Someone who hands over a design wants to come back to it built and to judge what was built. Once a run's result is reported as ready, that person, judging it, may direct a change against the same brief before accepting it. A run that closed when it was reported as ready would leave that change apart from the work it corrects, and the brief would govern something other than its run. The fork is what closes a run, and whether a change directed while that person judges it belongs to it.
 
@@ -35,7 +35,7 @@ A change the person directing the work directs on judging the whole corrects the
 
 ## Decision Boundary
 
-Not covered: what a run is, its units, and when its result is reported as ready once its units are done (ADR-D-from-0051-work-under-a-ratified-brief-is-a-run-of-units-that-goes-from-unit-to-unit-without-the-person); in what terms the result is reported (ADR-D-from-0051-a-runs-result-is-reported-by-scenario-and-what-only-the-person-can-judge-is-never-met); the conditions for authorizing each kind of unit (ADR-D-0064, ADR-D-0065, ADR-D-from-0055-a-small-change-stated-in-a-brief-may-skip-the-plan-and-stands-once-its-audit-holds-nothing); how the word of the person directing the work reaches the Orchestrator session (ADR-D-0112); merge authorization; a change directed against a brief whose run is accepted and not yet merged; which brief governs the run a small change starts once the run it was stated against is accepted and merged, which the workflow text states; the form in which a change is kept in the run record; goal mode; work with no brief.
+Not covered: what a run is, its units, and when its result is reported as ready once its units are done (ADR-D-0144); in what terms the result is reported (ADR-D-0146); the conditions for authorizing each kind of unit (ADR-D-0139, ADR-D-0141, ADR-D-0147); how the word of the person directing the work reaches the Orchestrator session (ADR-D-0112); merge authorization; a change directed against a brief whose run is accepted and not yet merged; which brief governs the run a small change starts once the run it was stated against is accepted and merged, which the workflow text states; the form in which a change is kept in the run record; goal mode; work with no brief.
 
 ## Validation
 
@@ -52,4 +52,4 @@ The decision is broken where:
 
 ## More Information
 
-With ADR-D-from-0051-work-under-a-ratified-brief-is-a-run-of-units-that-goes-from-unit-to-unit-without-the-person and ADR-D-from-0051-a-runs-result-is-reported-by-scenario-and-what-only-the-person-can-judge-is-never-met, replaces ADR-D-0051 in full; the decision carried here is the same. Carried here from it: that a run reported as ready stays open, that a change directed against its brief while it is open is work of the run, that the run closes once on the acceptance of the person directing the work, and that a small change stated against a brief whose run is accepted and merged starts a run of its own. ADR-D-0051 named what is accepted as the run's stack; this record names it as what the run built. Source of intent: `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "A small change and the run". Related: ADR-D-0112 (the word of the person directing the work), ADR-D-0096 (two briefs that cannot both hold).
+With ADR-D-0144 and ADR-D-0146, replaces ADR-D-0051 in full; the decision carried here is the same. Carried here from it: that a run reported as ready stays open, that a change directed against its brief while it is open is work of the run, that the run closes once on the acceptance of the person directing the work, and that a small change stated against a brief whose run is accepted and merged starts a run of its own. ADR-D-0051 named what is accepted as the run's stack; this record names it as what the run built. Source of intent: `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "A small change and the run". Related: ADR-D-0112 (the word of the person directing the work), ADR-D-0096 (two briefs that cannot both hold).
