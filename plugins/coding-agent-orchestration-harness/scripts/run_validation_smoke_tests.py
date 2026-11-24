@@ -182,7 +182,7 @@ def run_clean_split_prose_smoke() -> bool:
         (
             "Orchestrator prose",
             ["agents/Orchestrator.md", "claude/agents/harness-orchestrator.md"],
-            "Stage cross-repository improvements for review.\n",
+            "Placeholder adapter text.\n",
             1,
         ),
         (
@@ -192,12 +192,6 @@ def run_clean_split_prose_smoke() -> bool:
             "first-party skills and references (update the owning skill directly\n"
             "an update to a first-party skill or reference when that skill is the durable owner\n",
             2,
-        ),
-        (
-            "promotion-guidelines prose",
-            ["skills/improvement-loop/references/promotion-guidelines.md"],
-            "# Promotion\n\nStage changes for human review.\n",
-            1,
         ),
         (
             "rule-template heading",
@@ -274,6 +268,7 @@ def main() -> int:
         ([PY, str(ROOT / "skills" / "wave-integration" / "scripts" / "validate_closeout.py"), "--plan", str(fixtures / "valid-closeout-plan.md"), "--summary", str(fixtures / "valid-closeout-summary.yaml")], 0),
         ([PY, str(ROOT / "skills" / "wave-integration" / "scripts" / "validate_closeout.py"), "--plan", str(fixtures / "valid-closeout-plan.md"), "--summary", str(fixtures / "valid-closeout-summary-with-governance.yaml")], 0),
         ([PY, str(ROOT / "skills" / "wave-integration" / "scripts" / "validate_closeout.py"), "--plan", str(fixtures / "valid-closeout-plan.md"), "--summary", str(fixtures / "invalid-closeout-governance-shape.yaml")], 3),
+        ([PY, str(ROOT / "skills" / "wave-integration" / "scripts" / "validate_closeout.py"), "--plan", str(fixtures / "valid-closeout-plan.md"), "--summary", str(fixtures / "invalid-closeout-removed-key.yaml")], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report.yaml")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "valid-worker-report-no-legacy-keys.yaml")], 0),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-malformed-commands-run.yaml")], 3),
@@ -285,7 +280,8 @@ def main() -> int:
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-done-with-failed-required-validation.yaml")], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-intended-home.yaml")], 3),
         ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-lesson-target.yaml")], 3),
-        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-migration-category.yaml")], 3),
+        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-removed-key.yaml")], 3),
+        ([PY, str(ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"), "--file", str(fixtures / "invalid-worker-report-removed-lesson-target.yaml")], 3),
     ]
     ok = True
     for cmd, expected in checks:

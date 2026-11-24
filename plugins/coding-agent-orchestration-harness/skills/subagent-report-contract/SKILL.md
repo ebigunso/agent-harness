@@ -13,7 +13,7 @@ This skill standardizes the Worker subagent final output format so the Orchestra
 
 - The Worker's final message MUST contain exactly one YAML code block and nothing else.
 - The YAML top-level keys and types must be respected (missing required keys breaks integration).
-- Do not emit `skill_candidates`; use `lesson_candidates` for deviations and `harness_migration_candidates` for proposed harness-global migrations.
+- Do not emit `skill_candidates`; use `lesson_candidates` for deviations.
 
 ---
 
@@ -41,8 +41,7 @@ Evidence rules:
 ## Optional blocks (when each applies)
 
 - `ui_probes`: only when a bounded Worker UI probe ran or materially affected implementation. A Worker UI probe does not satisfy Reviewer-owned validation.
-- `lesson_candidates`: when status is blocked or failed, required validation failed unexpectedly, unusual recovery steps were needed, a significant assumption mismatch was discovered, or a waiver or skip was needed to proceed. Lesson candidates are not rules; they record what went wrong, why, and how to prevent it so the Orchestrator can log atomic lessons and promote them later.
-- `harness_migration_candidates`: for cross-repo harness improvements that should be staged for later harness-maintenance work.
+- `lesson_candidates`: when status is blocked or failed, required validation failed unexpectedly, unusual recovery steps were needed, a significant assumption mismatch was discovered, or a waiver or skip was needed to proceed. Lesson candidates are not rules; they record what went wrong, why, and how to prevent it so the Orchestrator can settle them (`improvement-loop/references/settling-lessons.md`). A defect of the harness that the work shows is reported here like any other lesson.
 
 ---
 
@@ -55,5 +54,5 @@ A design alert is a structured `blockers` or `questions_for_orchestrator` entry 
 ## References
 
 - Full schema with every field, enum, and filling note: `references/schema.yaml`.
-- Worked reports (done, done with a UI probe, blocked, done with rule and migration candidates): `references/examples.md`.
+- Worked reports (done, done with a UI probe, blocked, done with a rule candidate): `references/examples.md`.
 - Validation: `python scripts/validate_worker_report.py --file <report.yaml>`; `--message-file <final-message.md>` also enforces the one-YAML-block rule; add `--task-contract <task.yaml>` to check that every required worker-owned validation item has a result.

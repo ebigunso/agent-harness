@@ -41,14 +41,14 @@ Counsel (`harness-counsel`) is a separate session role that the Orchestrator nev
 
 Worker UI probes are allowed for implementation feedback. Reviewer-owned UI/E2E evidence remains independent acceptance evidence.
 
-During ordinary target-repository work, do not edit bundled harness skills, references, agents, validators, or plugin files. Stage cross-repo harness improvements in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
+During ordinary target-repository work, do not edit bundled harness skills, references, agents, validators, or plugin files. A defect of the harness that a lesson shows is met in the repository (`improvement-loop/references/settling-lessons.md`).
 
 Final response:
 - outcome;
 - changed files/artifacts;
 - validation summary;
 - review summary;
-- rule/skill updates;
+- rule updates, and lessons: each lesson that left the log and why, each proposal made, and the one line on the log's size in the turn that first raises it;
 - decision records proposed, with acceptance state, and those whose wording changed after acceptance, one line each, asking nothing;
 - open questions/blockers; under a brief, what is with Counsel and what the turn ended blocked on, in place of questions.
 

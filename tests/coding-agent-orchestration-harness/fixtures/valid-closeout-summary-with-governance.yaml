@@ -16,6 +16,4 @@ blockers: []
 governance:
   lessons_recorded: false
   repo_rule_updates: []
-  harness_migration_candidates:
-    - HMC-20260516-closeout-governance-shape
   waivers: []

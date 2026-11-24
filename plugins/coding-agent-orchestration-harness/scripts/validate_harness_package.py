@@ -336,14 +336,11 @@ def check_operational_routing_surfaces(errors: list[str], warnings: list[str]) -
 
     if not integration.exists():
         fail(errors, f"missing wave integration checklist: {integration}")
-    elif "harness_migration_candidates" not in integration.read_text(encoding="utf-8"):
-        fail(errors, f"{integration}: must aggregate harness_migration_candidates")
 
 
 def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
     contract = ROOT / "skills" / "subagent-report-contract" / "SKILL.md"
     worker_validator = ROOT / "skills" / "subagent-report-contract" / "scripts" / "validate_worker_report.py"
-    promotion_guidelines = ROOT / "skills" / "improvement-loop" / "references" / "promotion-guidelines.md"
     improvement_loop = ROOT / "skills" / "improvement-loop" / "SKILL.md"
     rule_templates = ROOT / "skills" / "rulebook" / "references" / "rule-suite-templates.md"
     rules_files = ROOT / "skills" / "rulebook" / "references" / "rules-files.md"
@@ -351,7 +348,6 @@ def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
     required_paths = [
         contract,
         worker_validator,
-        promotion_guidelines,
         improvement_loop,
         rule_templates,
         rules_files,
@@ -363,9 +359,7 @@ def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
     if contract.exists():
         text = contract.read_text(encoding="utf-8")
         if "intended_home" in text:
-            fail(errors, f"{contract}: must not document rule_candidates[].intended_home; use repo-local rule_candidates plus harness_migration_candidates")
-        if "harness_migration_candidates" not in text:
-            fail(errors, f"{contract}: must document harness_migration_candidates")
+            fail(errors, f"{contract}: must not document rule_candidates[].intended_home; rule_candidates are repo-local")
 
     if worker_validator.exists():
         text = worker_validator.read_text(encoding="utf-8")
@@ -387,7 +381,7 @@ def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
         if "global-skill" in text:
             fail(errors, f"{path}: adapter must not use old lesson target global-skill")
         if re.search(r"promotion_target\s*:\s*.*\b(?:rules|references)/\*", text):
-            fail(errors, f"{path}: adapter must use repo_rule | harness_migration | troubleshooting | residual_risk lesson targets")
+            fail(errors, f"{path}: adapter must use repo_rule | troubleshooting | residual_risk lesson targets")
 
     orchestrator_paths = [
         ROOT / "agents" / "Orchestrator.md",
@@ -397,8 +391,8 @@ def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
         if not path.exists():
             continue
         text = path.read_text(encoding="utf-8")
-        if "skill-candidates.md" not in text or not re.search(r"do not edit bundled.*harness", text, re.IGNORECASE | re.DOTALL):
-            warn(warnings, f"{path}: Orchestrator adapter must stage cross-repo harness improvements instead of ordinary bundled harness edits")
+        if not re.search(r"do not edit bundled.*harness", text, re.IGNORECASE | re.DOTALL):
+            warn(warnings, f"{path}: Orchestrator adapter must say that ordinary work does not edit bundled harness files")
 
     if improvement_loop.exists():
         text = improvement_loop.read_text(encoding="utf-8")
@@ -408,12 +402,7 @@ def check_clean_split_guards(errors: list[str], warnings: list[str]) -> None:
         ]
         for phrase in stale_phrases:
             if phrase in text:
-                warn(warnings, f"{improvement_loop}: ordinary runtime guidance must stage harness migration candidates, not direct first-party skill/reference edits")
-
-    if promotion_guidelines.exists():
-        text = promotion_guidelines.read_text(encoding="utf-8")
-        if not re.search(r"harness[ _-]migration[ _-]candidates?", text, re.IGNORECASE):
-            warn(warnings, f"{promotion_guidelines}: must include harness migration candidate guidance")
+                warn(warnings, f"{improvement_loop}: ordinary runtime guidance must not direct first-party skill/reference edits")
 
     if rule_templates.exists() and "Global Migration Candidates" in rule_templates.read_text(encoding="utf-8"):
         warn(warnings, f"{rule_templates}: role rule templates must not contain Global Migration Candidates sections")

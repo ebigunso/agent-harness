@@ -193,7 +193,7 @@ lesson_candidates:
     suggested_destination: "docs/coding-agent/rules/orchestrator.md"
 ```
 
-## Example: done with rule candidate and harness migration candidate
+## Example: done with rule candidate
 
 Only the Orchestrator edits `docs/coding-agent/rules/*.md`; a Worker proposes a rule through `rule_candidates` instead.
 
@@ -202,7 +202,7 @@ task_id: "Task_4"
 status: done
 
 summary: |-
-  Added the public export for the new settings type and staged a reusable harness improvement idea.
+  Added the public export for the new settings type and proposed a reviewer rule.
 
 files_changed:
   - path: "src/api/index.ts"
@@ -245,13 +245,4 @@ rule_candidates:
     rationale: "This prevents repository-specific public surface regressions."
     scope: "Reviewer-owned review of exported APIs in this repository."
     example: "A new public type should have an import/construction path checked."
-harness_migration_candidates:
-  - id: "HMC-review-public-api"
-    category: review
-    proposed_home: "engineering-quality-baselines/references/review-latent-risk-public-api.md"
-    generalized_rule: "Public API changes should be reviewed for downstream compatibility."
-    trigger: "Public structs, enums, functions, DTOs, exports, examples, or feature-gated public items change."
-    evidence_from_repo: "A repository review found missing compatibility evidence for a public export."
-    rationale: "Public API compatibility risk appears across many repositories."
-    suggested_change: "Add a cross-repo public API compatibility review lens."
 ```

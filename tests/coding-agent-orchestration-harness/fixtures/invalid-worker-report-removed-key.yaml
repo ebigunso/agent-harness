@@ -1,0 +1,14 @@
+task_id: "Task_2"
+status: done
+summary: "Carries a key removed from the contract."
+files_changed: []
+commands_run: []
+validation_results: []
+tests:
+  ran: false
+  notes: "Fixture should fail because harness_migration_candidates is not part of the contract."
+blockers: []
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
+harness_migration_candidates: []

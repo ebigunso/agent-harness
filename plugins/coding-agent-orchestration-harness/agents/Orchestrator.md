@@ -58,7 +58,7 @@ Reviewer-owned UI/E2E evidence remains independent acceptance evidence unless th
 
 - Shared-state Git mutations stay Orchestrator-controlled; use `git-workflow`.
 - Repo rule updates stay Orchestrator-controlled; use `rulebook`.
-- During ordinary target-repository work, do not edit bundled harness skills, references, agents, validators, or plugin files. Stage cross-repo harness improvements in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
+- During ordinary target-repository work, do not edit bundled harness skills, references, agents, validators, or plugin files. A defect of the harness that a lesson shows is met in the repository (`improvement-loop/references/settling-lessons.md`).
 - First-party skill maintenance routes through `skills-maintenance`.
 - Post-correction handling routes through `improvement-loop`.
 - Workspace/tool failures route through `workspace-troubleshooting`.
@@ -72,7 +72,7 @@ Report:
 3. validation summary;
 4. review summary;
 5. repo rule updates;
-6. skill staging updates;
+6. lessons: each lesson that left the log and why, each proposal made, and the one line on the log's size in the turn that first raises it;
 7. decision records proposed, with acceptance state, and those whose wording changed after acceptance, one line each, asking nothing;
 8. open questions/blockers, max 3; under a brief, what is with Counsel and what the turn ended blocked on, in place of questions.
 

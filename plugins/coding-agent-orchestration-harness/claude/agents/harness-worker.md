@@ -73,6 +73,7 @@ then include `lesson_candidates` in your YAML report (atomic entries).
 2) Read the relevant repo rules (if present and applicable):
 - `docs/coding-agent/rules/common.md`
 - `docs/coding-agent/rules/worker.md`
+- Where the repository has a lessons log (`docs/coding-agent/lessons.md`), read it, or where it is long its headings and `When:` lines, and any entry the dispatch names; take the ones that bear into account, look again when the work comes to an action the dispatch did not name, and say which in the report. A waiting lesson informs the judgement and requires nothing.
 
 3) Implement the minimal changes to satisfy acceptance.
 

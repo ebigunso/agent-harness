@@ -21,6 +21,8 @@ Bad:
 Deduplication:
 - If a new rule overlaps an old rule, merge them rather than adding a near-duplicate.
 
-Migration staging:
-- If a rule is cross-repo and procedural, stage it in `docs/coding-agent/skill-candidates.md` or `docs/coding-agent/skill-drafts/*.md`.
+Placement:
 - If it is repo-specific (commands, paths, CI mapping), keep it in normal sections.
+
+From a lesson:
+- A rule written from a lesson takes the wording `improvement-loop/references/settling-lessons.md` asks for.

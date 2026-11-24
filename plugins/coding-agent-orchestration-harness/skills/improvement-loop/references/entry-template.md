@@ -1,38 +1,8 @@
-<!-- Capture rule: write an entry when a hard gate was missed, when a review, CI, or human finding arrived that the harness should have caught, or when a correction changed a durable default. Low-signal corrections (tone, wording, a one-off format) get no entry. -->
-## YYYY-MM-DD — <Short Title>  [tags: <tag1>, <tag2>]
+## YYYY-MM-DD — <the prevention, as one sentence>
 
-Context:
-- Plan: <plan file or “none”>
-- Task/Wave: <Task_X or wave name>
-- Roles involved: Orchestrator | Researcher | Worker | Reviewer | Auditor | Counsel
-
-Symptom:
-- <1–3 bullets describing what went wrong>
-
-Root cause:
-- <1–3 bullets explaining why it happened>
-
-Fix applied:
-- <what changed, or what should have been done>
-
-Prevention:
-<!-- Lesson-writing standard: keep the incident record (Symptom/Root cause/Fix) concrete and specific to what actually happened. Generalize only the prevention rule, and only to the highest-value scope confirmed by the incident and user intent. If a broader prevention scope is plausible but unconfirmed, ask the user instead of assuming it. -->
-- Repo rule candidate:
-  - audience: common|worker|orchestrator|reviewer
-  - proposed rule: <one sentence>
-- Harness migration candidate:
-  - category:
-  - proposed_home:
-  - generalized_rule: <generalize only to the confirmed scope; ask if broader scope is unconfirmed>
-  - suggested_change:
-- Troubleshooting note/candidate:
-  - symptom:
-  - cause:
-  - safe steps:
-- Dispatch/plan guardrail (optional):
-  - <e.g., “required validation cannot be skipped unless explicitly waived”>
-- Residual risk / waiver:
-  - <accepted risk and owner, or “none”>
-
-Evidence:
-- <commands/evidence or links to artifacts if relevant>
+When: <the situation or action it applies to, in the words of a session about to do it>
+Waits for: <a second occurrence | the person's answer, asked YYYY-MM-DD | the next case of the kind | what else would settle it>
+What happened: <the account: what went wrong, what it led to, what was done about it, and the kind of cause (did not know | knew and did not apply it | the tool or process made it easy | the instruction was unclear or in conflict | what the owner wants was not known); name the plan, task and evidence where they let it be checked later>
+A repeat would cost: <what the mistake cost when it happened, in words>
+Seen again: <no | each later occurrence, with its date, in a line>
+Proposal: <added once worked through the four questions: what would bind, where it would go, the mistake it prevents>

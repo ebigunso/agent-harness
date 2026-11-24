@@ -4,7 +4,7 @@ Use this reference for plan, research, execution, replan, and closeout lifecycle
 
 ## Primary Sources
 
-Sources and their read conditions: `SKILL.md` Repository Rule Entry (canonical); the three rule files are the only unconditional reads, and lessons, plans, the reference documents listed in `common.md`, and project files each load on the condition stated there.
+Sources and their read conditions: `SKILL.md` Repository Rule Entry (canonical); the three rule files are the only unconditional reads; the lessons log is looked up when that entry says, at the start of work and again at any action not in view at the last lookup; and plans, the reference documents listed in `common.md`, and project files each load on the condition stated there.
 
 If the rule files are absent or unreadable, continue under the `orchestration-harness` skill and record the missing rule context when it materially affects planning or validation; creating rules is `rulebook` work triggered separately. Do not add global migration placeholders to role rule files.
 

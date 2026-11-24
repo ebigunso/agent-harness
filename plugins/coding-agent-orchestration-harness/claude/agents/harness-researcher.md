@@ -140,7 +140,7 @@ If you hit a deviation while researching (missing docs, unclear startup, flaky U
 - deviation:
 - root_cause:
 - prevention:
-- promotion_target: repo_rule | harness_migration | troubleshooting | residual_risk
+- promotion_target: repo_rule | troubleshooting | residual_risk
 
 H) Rule Suite / Rule Freshness Observations (ONLY if Orchestrator requested rule bootstrap, schema migration, targeted refresh, repair, or rule-readiness research)
 - Rules consulted:
@@ -153,15 +153,4 @@ H) Rule Suite / Rule Freshness Observations (ONLY if Orchestrator requested rule
 - Suggested operation: full_bootstrap | schema_migration | targeted_refresh | repair | none
 - Confidence:
 
-I) Harness Migration Candidate Suggestions (optional)
-If you notice a reusable cross-repo workflow/tool/review improvement that warrants future harness-maintenance work:
-- id: `HMC-YYYYMMDD-short-kebab-description`
-- category: review | validation | orchestration | delegation | rulebook | troubleshooting | adapter | validator | other
-- proposed_home:
-- generalized_rule:
-- trigger:
-- evidence_from_repo:
-- rationale:
-- suggested_change:
-
-Do not edit bundled harness skills, references, agents, validators, or plugin files during ordinary target-repository research. Stage cross-repo improvements for Orchestrator curation.
+Do not edit bundled harness skills, references, agents, validators, or plugin files during ordinary target-repository research. A defect of the harness that the research shows is reported as a lesson candidate (G).

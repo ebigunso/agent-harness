@@ -9,7 +9,7 @@ Whatever the outcome, under a brief or not, the response says what was left out 
 3. Validation summary: each required check as `pass`, `fail`, `skipped` with reason, or `waived` with evidence; name checks that could not run.
 4. Review summary: Reviewer status (`APPROVED`, `NEEDS_REVISION`, `FAILED`, or waived with evidence) for non-trivial work; flows, viewports, and artifact paths when UI/E2E evidence was run.
 5. Repo rule updates, or none.
-6. Skill staging updates, or none.
+6. Lessons, or none: each lesson that left the log and why, a line each; each proposal made in the turn (what would bind, where it would go, the mistake it prevents); and the one line on the log's size, in the turn that first raises it and in no later one (`improvement-loop/references/settling-lessons.md`).
 7. ADRs proposed, with acceptance state, or none; then each ADR whose wording changed after acceptance, one line each (the record and what changed), asking nothing — `durable-docs-authoring/references/adr.md`.
 8. Questions or blockers, max 3; omit when none. Under a brief this item asks nothing: it names what is with Counsel, what the turn ended blocked on, and each permission check that only input in a session's window can satisfy, with what the owner has to do for it (`references/value-level-operation.md` The Carrier).
 

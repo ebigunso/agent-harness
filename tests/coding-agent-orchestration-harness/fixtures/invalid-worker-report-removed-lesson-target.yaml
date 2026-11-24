@@ -1,0 +1,21 @@
+task_id: "Task_2"
+status: blocked
+summary: "Lesson promotion target removed from the contract."
+files_changed: []
+commands_run: []
+validation_results: []
+tests:
+  ran: false
+  notes: "Fixture should fail because the lesson target harness_migration is not part of the contract."
+blockers:
+  - "Fixture intentionally blocked."
+questions_for_orchestrator: []
+assumptions: []
+rule_candidates: []
+lesson_candidates:
+  - id: "LESSON-CAND-removed-target"
+    category: review
+    deviation: "A review miss happened."
+    root_cause: "The fixture uses a removed promotion target."
+    prevention: "Use the new enum."
+    promotion_target: harness_migration
