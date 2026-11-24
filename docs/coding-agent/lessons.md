@@ -1781,6 +1781,23 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-authorization-area-plan.md`, Progress Log entries of 2026-11-24 (the review by the reviewer seat, the rulings on it).
 
+## 2026-11-24 - A Ruling That A Record Is Not Contradicted Opens The Code That Does The Thing  [tags: planning, decision-records]
+
+Symptom:
+- In the first unit of the area "Roles, routing, runtimes and rules" of the run "Decision records at intent altitude", the plan ruled that the plugin's relaxed validation mode beside ADR-I-0007 was a matter for later, "whether a mode changes a script's exit or a run's gate" being "not settled by the text". The plan review opened the plan checker and found it settled: in relaxed mode a plan with contract errors exits as passed, against the record's Decision that validators hard-fail malformed plan and task contracts. The record went to the owner as raised, a unit later than it could have.
+
+Root cause:
+- The ruling was written from a researcher's summary and from the reference's prose about the mode, not from the script that implements it.
+
+Fix applied:
+- The ruling withdrawn in the plan's Decision Log; ADR-I-0007 raised to the owner through Counsel and held out of the unit.
+
+Prevention:
+- Before ruling that a record is not contradicted by the plugin, open the code or text that does the thing the record governs and quote the line; where it conflicts with the record's Decision, the brief's route to the owner applies.
+
+Evidence:
+- `docs/coding-agent/plans/active/decision-records-at-intent-altitude-rules-and-runtimes-plan.md`, Decision Log entries of 2026-11-24; `plugins/coding-agent-orchestration-harness/skills/plan-format/scripts/validate_plan.py` lines 249 to 252.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
