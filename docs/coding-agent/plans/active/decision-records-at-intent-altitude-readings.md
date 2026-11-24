@@ -580,6 +580,29 @@ Item | reading | statement relied on
 - Reading compared: The plan's own items (read at plan draft, as corrected): agrees throughout. ADR-D-0139 and 0140; ADR-D-0141 to 0143; ADR-D-0144 to 0146; ADR-D-0147: agrees (covered / cited). ADR-D-0057 raised and held whole: agrees. ADR-D-0062 held with it: diverges. Orchestrator: covered, on the statement that a stale or contradicted decision goes to him. Auditor: inferred, ADR-D-0062 not having been found stale. ADR-D-0058 meets: agrees. Numbering: agrees (extends / inferred). The withdrawn rulings restored: agrees. ADR-D-0055 one record: diverges. Orchestrator: needs the owner. Auditor: inferred, marked direction; the record is not split, keeps its decision and is cheap to undo while proposed, and the count is shown to him as a marked item. ADR-D-0051 three records: agrees (extends / inferred); the auditor adds the direction mark. Reasons left ungiven: diverges. Orchestrator: covered. Auditor: inferred, the brief saying nothing of a reason written nowhere. Added revisit conditions: agrees. ADR-D-0144's dated line: agrees. Pointers scoped: diverges. Orchestrator: covered, on wording that names the thing it means. Auditor: inferred, that statement being about a record's own wording. Terms added: agrees (extends / inferred). Publishing at close: agrees, on the standing approval. Lessons: agrees (extends / inferred). Unread by the Orchestrator: items 11, 12, 30, 41, 42 to 56 one by one, 61, 62, 64 to 67, 69, 73, 74. Read by the Orchestrator with no item of the auditor's: the Open question (graded under items 24 and 38) and Task Waves.
 - Findings compared: Task_1 of the raised plan (no sentence that an internal change is reported where there is no plan): bears on the design though read as trivial; since made a gives-statement and built. Task_2 of the raised plan (four more places where the checker fails on prose): agrees. The goal-mode wave's finding (a Decision clause left to the plugin's text, held by no record): agrees. BUNDLE-W1-F1 (two decisions joined in one record): agrees. The census's counts not surviving his test: agrees. No finding is recorded for this plan. Departures from a means: none; the brief marks no statement as a means.
 
+### decision-records-at-intent-altitude-rules-and-runtimes-plan, plan draft
+
+- DoD: each of the four has a result, ADR-I-0007 raised | covered | brief, Pass conditions; a contradicted decision is a value question for the owner
+- DoD: present form, one decision by the owner's test | covered | brief: the owner's test; the template change
+- DoD: consulted names old entries and writing model | extends | brief, told of two records
+- DoD: clause fates, closed lists as written | covered | brief: held by a named accepted record; mechanics list
+- DoD: splits by name, rewrites on the audit's confirmation | covered | brief, Directed before the run was planned
+- DoD: validator and smoke tests | extends | engineering philosophy
+- Planner-added: consulted; report lists; act, limit, condition and qualifier kept; file-name length | extends | brief: the clause statement; the decisions do not change
+- Non-goals: no decision changes; ADR-I-0007 waits; plugin text and standard; acceptance after; the rest of the area and other runs' records | covered | brief: as stated
+- Open questions: ADR-I-0007 and the reading of the test with the owner | covered | brief: a contradicted decision goes to him; the audits' direction mark
+- A1 counts | covered | brief: the test applied to every record
+- A2 his answer on ADR-I-0007 changes none of the three | extends | brief: raised decisions reach him first since his answers may change the others; none states what a validator blocks
+- A3 the answer on the test may arrive | extends | cheap to undo while proposed
+- Task_1 (ADR-D-0024 up to four, ADR-D-0025 up to six; closed list as written; the SHA clause with its own reason; read triggers as ADR-D-0006 meant) | covered | brief: a bundle is split; the decisions do not change
+- Task_2 (ADR-I-0006 four; explicit bootstrap kept; no reason invented for the shared tree) | covered | as above
+- Waves, one | extends | product philosophy: made and reported
+- Rollback / Safety | covered | common.md, Standing Approvals
+- Decision Log: units of about ten, this first | extends | brief: batches of about ten
+- Decision Log: no record raised (narrowed to this unit) | covered | brief: each record checked in its unit, a contradicted one raised first
+- Decision Log: ADR-I-0007 raised and held | covered | brief: a contradicted decision goes to him first
+- Decision Log: revision on the plan review, unit of about fourteen | extends | brief: batches of about ten
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
