@@ -455,3 +455,54 @@ Item | reading | statement relied on
 - 2026-11-11, from the review of the goal-mode plan's wave: a clause of an old record's Decision that the rewrite did not carry was accounted as left to the plugin's text, where no other record holds it (the journal with checkpoints and rollback, ADR-D-0009) | bears on the design: once the old record retired, the constraint would have been held by no record. Fixed in the unit (carried in ADR-D-0073). Not escalated; the clause account now names, for a Decision clause not carried, the active record that holds it.
 - 2026-11-11, from the review of the bundles' wave (BUNDLE-W1-F1): a ruling of the Orchestrator's joined two decisions in one record on the ground that one rule is empty where the other can be got round | bears on the design: by the owner's test a way round a rule does not make it unable to stand, and the record would have reached him as one decision. Returned to him by the brief's route; he chose two records. Fixed in the unit.
 - 2026-11-11, from the bundles' wave: the census's counts did not survive the owner's test in two of four records | bears on the design: number ranges and the batch's size were planned from them. The remaining areas are counted by the test before their plans assign numbers. Not escalated; he was told both counts.
+
+### decision-records-at-intent-altitude-counsel-area-plan, plan draft
+
+- DoD: each of the eight has a result | covered | brief, Pass conditions: "The check's result for every record is recorded"
+- DoD: present form, one decision, consulted | covered | brief: the owner's test; "its `consulted` field names the models talked with and the model that wrote it"
+- DoD: every clause carried, held by a named record, or for mechanics left to plugin text | covered | brief: "must be held by a named accepted record"
+- DoD: splits by name, rewrites on the audit's confirmation | covered | brief, "Directed before the run was planned"
+- DoD: validator passes | covered | common.md, validation commands
+- Non-goal: no decision changes | covered | brief: "The decisions themselves do not change."
+- Non-goal: plugin text, the standard, the template | covered | brief, Left out on purpose
+- Non-goal: acceptance, retirement, reference repair after acceptance | extends | brief: acceptance is by name; the standard's lifecycle
+- Non-goal: 0047 and 0060 not rewritten for form alone | extends | brief: "Records already accepted stay as they are."
+- Non-goal: the two other areas | covered | brief: batches by area
+- A1 split counts | covered | brief: the test is applied to every record
+- A2 nothing stale or contradicted | extends | brief: a stale decision goes to the owner; none found
+- Task_1 to Task_5 | covered | brief, "What the work gives"
+- Decision: older form alone meets | extends | brief: "Records already accepted stay as they are."
+- Decision: 0044 not raised | extends | brief: raise only where the decision is wrong, stale or contradicted
+- Decision: plan revised on the review (0045 splits in two; 0059 reported beside ADR-D-0097; three fates for a clause) | covered | brief: the owner's test; "a record the run cannot show to keep its decision"
+- Planner-added: consulted carries the old entries | extends | brief: "names the models talked with and the model that wrote it"
+- Planner-added: report lists each clause and where it went | extends | brief: "must be held by a named accepted record"
+- Planner-added: file name at most 109 characters | extends | internal mechanics
+#### Comparison lines of the plan-draft verdict, 2026-11-24
+
+- Reading compared: DoD, result for each of the eight: agrees. DoD, present form, one decision, consulted: agrees for form and one decision; diverges for `consulted` (Orchestrator: covered, on "its `consulted` field names the models talked with and the model that wrote it", which is tagged inferred with no ratification record and is no support; Auditor: inferred, extending the told statement on two records). DoD, clause fates: agrees. DoD, by name and on the audit's confirmation: agrees. DoD, validator: diverges (Orchestrator: covered, on `common.md`'s validation commands, a rule file; Auditor: inferred, against the engineering philosophy). Non-goals, no decision changes; plugin text, standard, template; the two other areas: agree. Non-goal, acceptance and retirement after acceptance: diverges (Orchestrator: extends; Auditor: cited). Non-goal, ADR-D-0047 and 0060: diverges (Orchestrator: extends; Auditor: cited). A1: agrees. A2: diverges (Orchestrator: extends; Auditor: cited). Task_1 to Task_5: agree; the Auditor grades Task_5's `consulted` for ADR-D-0059 apart (inferred). Decision, older form alone meets: diverges (Orchestrator: extends; Auditor: cited). Decision, ADR-D-0044 not raised: agrees. Decision, plan revised on the review: agrees; the reading leans on "a record the run cannot show to keep its decision", tagged inferred and no support. Planner-added items: agree. Unread by the Orchestrator: the State line, the one wave, publication, Task_5's `consulted` as its own item, the re-review's Decision Log entry.
+- Findings compared: Task_1 of the raised plan (no sentence that an internal change is reported where there is no plan): bears on the design though read as trivial. Task_2 of the raised plan: agrees. The goal-mode wave's finding: agrees. BUNDLE-W1-F1: agrees. The census's counts not surviving the test: agrees. No finding is recorded for this plan. Departures from a means: none.
+- Orchestrator, on the comparison: two readings leaned on sentences of the brief tagged inferred, which are no support; the `consulted` rule and the validator are read as extending what he told, and no artifact changes for that, since the items are graded inferred and go ahead. The four divergences where the grade is stronger than the reading change nothing. The finding of the raised plan's Task_1 was escalated in its unit and the owner answered it on 2026-11-11 (the brief: a change made with its consumers unverified is reported in every kind of run); the answer stands and nothing is held.
+
+### decision-records-at-intent-altitude-counsel-area-plan, closeout
+
+- ADR-D-0117 and ADR-D-0118, split from ADR-D-0034 | covered | brief: "A record found to be a bundle is split"; the owner's test; reach him by name
+- ADR-D-0119 and ADR-D-0120, split from ADR-D-0036 | covered | the same
+- ADR-D-0121, rewrite of ADR-D-0044 at the same decision | covered | brief: "A rewrite that does not materially change what its decision is about goes in without his reading it"
+- ADR-D-0122, ADR-D-0123 and ADR-D-0126, split from ADR-D-0045 | covered | the owner's test; reach him by name
+- ADR-D-0124, rewrite of ADR-D-0046 at the same decision | covered | as ADR-D-0121
+- ADR-D-0125, rewrite of ADR-D-0059, reaching him by name | covered | brief: "a record the run cannot show to keep its decision, still reach him by name"
+- ADR-D-0047 and ADR-D-0060 meet the standard, nothing written | extends | brief: "Records already accepted stay as they are."
+- Ruling: ADR-D-0060 meets although its Decision reads as the plugin's Counsel text | extends | brief pass condition "no Decision section mirrors a passage of the plugin's procedure", read as procedure and not a constraint the plugin restates
+- Ruling: ADR-D-0125's two readings not carried to him as a question of their own | extends | product philosophy: asks only what only the person can answer; he reads the record by name
+- Ruling: ADR-D-0121 stays one record; ADR-D-0036 stays two | extends | the owner's test; both put to him with the records that reach him by name
+- Ruling: the two withdrawn rulings (ADR-D-0042, ADR-D-0116) | covered | brief: "must be held by a named accepted record"
+- Ruling: the nine, then ten, records numbered ADR-D-0117 to ADR-D-0126 now | extends | internal mechanics; the record standard's lifecycle
+- Judgement calls of the Workers (clause fates, philosophy statements named, wording restored) | extends | brief: the standard as changed; "decisions themselves do not change"
+- Lesson entry in docs/coding-agent/lessons.md | extends | internal mechanics
+- Run record's State line brought up to date | covered | engineering philosophy: a dated record holds what is true today
+
+#### Comparison lines of the closeout verdict, 2026-11-24
+
+- Reading compared: ADR-D-0117 and 0118; ADR-D-0119 and 0120; ADR-D-0121; ADR-D-0122, 0123 and 0126; ADR-D-0124: agrees (covered against cited). ADR-D-0125 by name: agrees on the grade; the reading leans on "a record the run cannot show to keep its decision, still reach him by name", tagged inferred with no ratification record and no support; the grade rests on the Limits statement and his told words of 2026-11-11. ADR-D-0047 and ADR-D-0060 meet, nothing written: diverges for the older form and for ADR-D-0047 (Orchestrator: extends; Auditor: cited); agrees for ADR-D-0060. Ruling on ADR-D-0060: agrees (extends against inferred); marked direction. Ruling on ADR-D-0125's two readings: agrees; marked direction. Ruling that ADR-D-0121 stays one and ADR-D-0036 two: agrees; both marked direction. The two withdrawn rulings: agrees. Numbering: agrees. Workers' judgement calls, read as one item "extends": diverges in part; the Auditor grades them one by one: cited for items 43 to 47, 49, 50, 52 to 57, 67; inferred for items 48, 51, 58, 61, 66, 68. Lesson entry: agrees. State line: agrees. Unread at this position: the plan's own items (1 to 28); ADR-D-0125's `consulted` (39); the rulings at items 59, 60, 63, 64, 65 and 69; the publication under the standing approval (24).
+- Findings compared: Task_1 of the raised plan (no sentence that an internal change is reported where there is no plan): bears on the design though read as trivial. Task_2 of the raised plan: agrees. The goal-mode wave's finding: agrees. BUNDLE-W1-F1: agrees. The census's counts: agrees. No finding is recorded for this plan. Departures from a means noted on an item line: none.
+- Orchestrator, on the comparison: the divergences are of a reading weaker than the grade, or of the Workers' calls read as one item where the audit grades each; no artifact changes for them. One reading again leaned on a sentence of the brief tagged inferred; the audit's support for it is his told words and the Limits. The raised plan's finding was answered by the owner on 2026-11-11 and built; the answer stands.

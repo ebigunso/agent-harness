@@ -1713,6 +1713,23 @@ Also, in the same closeout:
 Evidence:
 - Pull request 109, merged 2026-11-20 at a52a3f3; the owner's note relayed by Counsel at 2026-11-20T07:13Z; pull request 112 and its review of 2026-11-20T07:21Z.
 
+## 2026-11-24 - A Ruling That A Record Holds A Clause Quotes The Record's Line  [tags: review, governance, decision-records]
+
+Symptom:
+- In the unit "Counsel and the value discussion" of the run "Decision records at intent altitude", the Orchestrator ruled twice that a Decision clause a rewrite did not carry was held by a named accepted record: that ADR-D-0042 holds "Counsel's first read of a result is formed without it", and that ADR-D-0116 holds ADR-D-0044's timing for a matter that would cost rework. The review found that ADR-D-0042 says nothing of Counsel's first read, and that ADR-D-0116 states the timing only by inference. On the first, a proposed record held two decisions; on the second, a clause of an accepted decision would have rested on no record.
+
+Root cause:
+- The first ruling was written from a Researcher's summary line and the plugin's text, without opening ADR-D-0042. The second took "can be read as covering" for "states". The brief's rule is that such a clause is held by a named accepted record, and the plan's acceptance had Workers and the review check it, but nothing had the Orchestrator's own ruling meet the same test.
+
+Fix applied:
+- Both rulings withdrawn in the plan's Progress Log. The first-read clause became a record of its own (ADR-D-0126); the timing is carried in ADR-D-0121's Decision.
+
+Prevention:
+- Before ruling that a named record holds a clause, open the record and quote the line that states it in the ruling; a clause the record only implies is not held by it.
+
+Evidence:
+- `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-counsel-area-plan.md`, Progress Log entries of 2026-11-24 ("Wave 1 completed", the review, the rulings on the review); the Reviewer's finding on ADR-D-0122.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
