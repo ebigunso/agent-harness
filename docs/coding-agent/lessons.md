@@ -1730,6 +1730,23 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-counsel-area-plan.md`, Progress Log entries of 2026-11-24 ("Wave 1 completed", the review, the rulings on the review); the Reviewer's finding on ADR-D-0122.
 
+## 2026-11-24 - A Pre-Ruling That Leaves Something To The Plugin's Text Or To Another Record Is Checked Against The Old Clause's Reach  [tags: planning, review, decision-records]
+
+Symptom:
+- In the unit "the value audit and what it shows" of the run "Decision records at intent altitude", two pre-rulings the Orchestrator wrote into the plan were found wrong by the review of the records built from them. One left "at the audit's next position" to the plugin's text as route, though it says when a comparison is made and is none of the brief's listed mechanics. The other named the moment of ADR-D-0042's "at closeout" by pointing at ADR-D-0051, which covers only runs under a ratified brief, where the old clause reached every audited run. Two Workers also added a definition of a term the old record left undefined, each narrowing the record's scope, and an old Validation line that held a real allowance fell out because only Decision clauses were tracked.
+
+Root cause:
+- The pre-rulings were checked for whether the target says the quoted words, and not for whether the target reaches as far as the old clause. The clause table covers Decision lines only, so a new definition and a dropped Validation line appear in no list.
+
+Fix applied:
+- Both pre-rulings withdrawn in the plan's Progress Log; the timing is carried in ADR-D-0137's Decision and the moment is stated for any run in ADR-D-0133. The definitions were cut or made by contrast only, and the allowance is carried in ADR-D-0134's Validation.
+
+Prevention:
+- When a plan pre-rules a clause as mechanics, it names which of the brief's listed mechanics it is; a clause that says when, who or whether is not one. When a rewrite replaces a word with a pointer, the target's scope and Not covered are checked against every kind of run the old clause reached. A record task's report also lists each term the new record defines that the old did not, and each old Validation line not carried with where its content lives.
+
+Evidence:
+- `docs/coding-agent/plans/active/decision-records-at-intent-altitude-audit-area-plan.md`, Progress Log entries of 2026-11-24 (the review, the rulings on the review); the Reviewers' findings on ADR-D-0133, ADR-D-0134 and ADR-D-0137.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
