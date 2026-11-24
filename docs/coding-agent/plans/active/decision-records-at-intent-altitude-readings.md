@@ -609,6 +609,13 @@ Item | reading | statement relied on
 - Findings compared: none found for this plan and position. The five entries under Findings are dated 2026-11-11 and belong to earlier units. No departure from a means is noted on any item line.
 - Orchestrator: the item where the reading diverges into `ask-now` is acted on by raising the question and redoing the plan so that it no longer makes that decision; the other divergences are readings of where the support lies and change no task.
 
+### decision-records-at-intent-altitude-rules-and-runtimes-plan, plan draft, as revised
+
+- As read for the first plan-draft audit, with: Task_1 now ADR-D-0025 alone | covered | brief: a bundle is split; the decisions do not change
+- ADR-D-0024 raised and held | needs the owner | brief: a decision found contradicted is a value question for him; the audit's ask-now
+- A2 his answers on ADR-I-0007 and ADR-D-0024 change neither record of the unit | extends | brief: raised decisions reach him first since his answers may change the others; neither states what a validator blocks or when lifecycle data is read
+- The unit at about ten records | covered | brief: batches of about ten
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
