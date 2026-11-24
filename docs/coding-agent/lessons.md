@@ -1764,6 +1764,23 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-audit-area-plan.md`, Progress Log (Research, review and Worker dispatches of 2026-11-24); Counsel's relay of 2026-11-24T11:00Z.
 
+## 2026-11-24 - A Closed List Under "Only" Is Not Restated As Its Criterion  [tags: planning, decision-records]
+
+Symptom:
+- In the unit "authorization and the run" of the run "Decision records at intent altitude", the plan had ADR-D-0051's line "Between units the person directing the work is reached only by what already reaches that person during a unit: an item the audit holds, a question the Orchestrator escalates, or Counsel's pause" restated as its criterion alone, so that a further kind of stop would not make it false. The review found that this widens the Decision (anything that reaches the person during a unit may now reach them between units) and narrows the reopen condition built on the same list. The same plan generalized fresh authorization's subject from "the verdict" to "an authorization", which let an approval of one version cover another.
+
+Root cause:
+- The standard's line that a sentence a change the decision does not decide would make false is "restated as its criterion or left out" was applied to a list that the decision itself closes with "only". A closed list is what the decision decides; a change to it is a change the decision does decide. Generalizing a subject was taken for removing incidental detail.
+
+Fix applied:
+- The list and its reopen condition restored word for word; the subject of fresh authorization restored; both noted in the plan's Progress Log.
+
+Prevention:
+- Before a plan has a list restated as its criterion, check whether the decision closes it ("only", "no other", "every"): a closed list stays as written. Before a subject is generalized, check that the general subject admits nothing the old one did not.
+
+Evidence:
+- `docs/coding-agent/plans/active/decision-records-at-intent-altitude-authorization-area-plan.md`, Progress Log entries of 2026-11-24 (the review by the reviewer seat, the rulings on it).
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:

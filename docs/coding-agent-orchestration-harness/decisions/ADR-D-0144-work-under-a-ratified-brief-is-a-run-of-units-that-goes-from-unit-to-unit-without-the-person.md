@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0139-non-trivial-work-is-authorized-only-by-the-person-direc
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. Counsel is the session role that person talks with about what the product does or should do.
 
 Someone who hands over a design in a ratified brief wants to come back to it built. A ratified brief can authorize a unit of work without the person directing the work reading it: a plan (ADR-D-0141), or a small change that person stated in the brief (ADR-D-0147). A design held in a brief is often larger than one unit can carry, and its shape is found as the work goes. When the unit is what a brief governs and what is reported as ready, the work ends after a single unit and that person is called to judge a part, or has to hand the rest over again. The fork is what a brief governs, and whether the result is reported as ready at the close of each unit or once the work the brief asked for is done.
 
@@ -24,10 +24,10 @@ Someone who hands over a design in a ratified brief wants to come back to it bui
 - Each unit of a run is a plan-mode plan or a small change as ADR-D-0147 states; a goal-mode run is not a unit of a run.
 - Each unit of a run is authorized on its own, as its kind is: a plan as ADR-D-0139 and ADR-D-0141 state, a small change as ADR-D-0147 states. Being in a run authorizes no unit.
 - A unit of a run closes with its own checks and is not reported as ready for judgement; the run continues into its next unit without the person directing the work.
-- When every unit of the run has closed and no further unit is to follow, the result is reported as ready for that person's judgement, and the run's reviewed branches are published where a standing approval covers that. The close of a unit is no such report.
+- When the work the brief asks for is built, its last unit closed with nothing left to build, the result is reported as ready for that person's judgement, Counsel is told, and the run's reviewed branches are published where a standing approval covers that. The close of a unit is no such report.
 - What a brief gives does not depend on how many units the work takes: a run of a single unit is a run.
 - A run keeps a run record beside its units: each scenario of the brief and each the run added, with the state the latest audit gave it, and each unit, those built for a change directed while the run is open included, with what its closing audit found. The run record holds only what audits stated.
-- Between units the person directing the work is reached only by what already reaches that person during a unit.
+- Between units the person directing the work is reached only by what already reaches that person during a unit: an item the audit holds, a question the Orchestrator escalates, or Counsel's pause.
 
 ## Why
 
@@ -42,24 +42,24 @@ Someone who hands over a design wants to come back to it built, not to a part of
 
 ## Decision Boundary
 
-Not covered: the conditions for authorizing a plan (ADR-D-0139, ADR-D-0141) and a small change (ADR-D-0147); what follows once the run is reported as ready, and when it closes (ADR-D-0145); in what terms the result is reported (ADR-D-0146); what the report shows of the extensions the value audit let through and of the run's judgement calls (ADR-D-0042, which the proposed ADR-D-0132 and ADR-D-0133 take over); the note to Counsel when the run is reported as ready and what it carries, which the workflow text states; what a standing approval is and who may give one (ADR-D-0052, which the proposed ADR-D-0136 takes over for this); when a run stops without finishing because it has stopped getting closer, which the workflow text states; what the Orchestrator writes for the audit to compare, and where (ADR-D-0052, which the proposed ADR-D-0135 takes over for this); design-level findings during a run (ADR-D-0053, which the proposed ADR-D-0137 takes over); the form of the run record; goal mode itself; work with no brief.
+Not covered: the conditions for authorizing a plan (ADR-D-0139, ADR-D-0141) and a small change (ADR-D-0147); what follows once the run is reported as ready, and when it closes (ADR-D-0145); in what terms the result is reported (ADR-D-0146); what the report shows of the extensions the value audit let through and of the run's judgement calls (ADR-D-0042, which the proposed ADR-D-0132 and ADR-D-0133 take over); how Counsel is told that the run is reported as ready and what the note carries, which the workflow text states; what a standing approval is and who may give one (ADR-D-0052, which the proposed ADR-D-0136 takes over for this); when a run stops without finishing because it has stopped getting closer, which the workflow text states; what the Orchestrator writes for the audit to compare, and where (ADR-D-0052, which the proposed ADR-D-0135 takes over for this); design-level findings during a run (ADR-D-0053, which the proposed ADR-D-0137 takes over); the form of the run record; goal mode itself; work with no brief.
 
 ## Validation
 
 The decision is broken where:
 
-- a run's result was reported as ready while a unit of the run had not closed or a further unit was to follow, or a unit was reported as ready for judgement on its own close;
+- a run's result was reported as ready while a unit of the run had not closed, or a unit was reported as ready for judgement on its own close;
 - a unit of a run started on another unit's authorization or on its place in the run, without the authorization its own kind requires;
 - a goal-mode run was taken as a unit of a run;
-- the person directing the work was reached between units by something that would not have reached that person during a unit;
+- the person directing the work was reached between units by something other than an item the audit holds, a question the Orchestrator escalates, or Counsel's pause;
 - the run record holds something no audit stated, or lacks a scenario's audited state or a unit's closing audit.
 
 ## Revisit When
 
 - Runs are found to reach their report as ready with results the person directing the work would have stopped at a plan the run had already closed.
 - Units inside a run are found starting without the checks their kind requires.
-- On 2026-10-04 one run had been carried over more than one plan, by hand, before ADR-D-0051's text existed; a run in which the person directing the work had to be called between units for something that would not reach that person during a unit reopens this record.
+- On 2026-10-04 one run had been carried over more than one plan, by hand, before ADR-D-0051's text existed; a run in which the person directing the work had to be called between units for something other than a held item, an escalated question or a pause reopens this record.
 
 ## More Information
 
-With ADR-D-0145 and ADR-D-0146, replaces ADR-D-0051 in full; the decision carried here is the same. Carried here from it: what a brief governs, the kinds of unit and their order, the per-unit authorization, the unit's close without a report, when the result is reported as ready and its branches published, the run of a single unit, the run record, and what reaches the person directing the work between units. ADR-D-0051 listed what reaches that person between units as an item the audit holds, a question the Orchestrator escalates and Counsel's pause; this record states the criterion that list followed. The run record is the run's own addition. Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, "The run"; `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "A small change and the run". Related: ADR-D-0139 and ADR-D-0141 (authorization), ADR-D-0147 (a small change), ADR-D-0132 (what a run records of what it decided without the person directing the work), ADR-D-0133 (what that person is shown of it), ADR-D-0044 (Counsel's pause).
+With ADR-D-0145 and ADR-D-0146, replaces ADR-D-0051 in full; the decision carried here is the same. Carried here from it: what a brief governs, the kinds of unit and their order, the per-unit authorization, the unit's close without a report, when the result is reported as ready, Counsel told and its branches published, the run of a single unit, the run record, and what reaches the person directing the work between units. The run record is the run's own addition. Source of intent: `docs/coding-agent/briefs/completed/design-led-long-runs-brief.md`, "The run"; `docs/coding-agent/briefs/completed/small-change-from-his-word-brief.md`, "A small change and the run". Related: ADR-D-0139 and ADR-D-0141 (authorization), ADR-D-0147 (a small change), ADR-D-0132 (what a run records of what it decided without the person directing the work), ADR-D-0133 (what that person is shown of it), ADR-D-0044 (Counsel's pause).

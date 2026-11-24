@@ -20,9 +20,9 @@ The person directing the work wants a change that person states in a ratified br
 
 ## Decision
 
-- The ratified brief of the person directing the work authorizes a small change to be built without a plan, and so without the checks a plan goes through before it is built, when that person stated the change in the governing brief, or in an amendment to it, whose ratification reached the Orchestrator session on the terms ADR-D-0141 states for a plan; that person's statement in the brief then stands in place of the plan.
+- The ratified brief of the person directing the work authorizes a small change to be built without a plan, and so without the checks a plan goes through before it is built, when that person stated the change in the governing brief, or in an amendment to it, whose ratification reached the Orchestrator session on the terms ADR-D-0112 states; that person's statement in the brief then stands in place of the plan.
 - The Orchestrator chooses, for each change, whether to draft a plan; when it drafts one, that plan is authorized as any plan under the brief is (ADR-D-0141). A plan is the right choice where the work cannot be done as a single task, or where the statement leaves open a choice about how to do it that someone should see before it is built.
-- Whether or not a plan is drafted, a small change keeps the review of the change and a value audit at its close, which checks that what was built is what the statement said and nothing more, and holds whatever went beyond the statement.
+- Whether or not a plan is drafted, a small change keeps the review of the change and one closing value audit, which checks that what was built is what the statement said and nothing more, and holds whatever went beyond the statement.
 - Nothing of the change is published or reported as done before that audit holds nothing.
 - Whether a change is small is the Orchestrator's call, and the closing audit is the guard on that call.
 - What counts as trivial work does not change: that class has no audit behind it.
@@ -45,7 +45,7 @@ Not covered: trivial work and its tripwires (ADR-D-0139 leaves them uncovered); 
 
 The decision is broken where:
 
-- a change was built without a plan on the authority of the ratified brief of the person directing the work though that person had not stated it in that brief or in an amendment to it whose ratification reached the Orchestrator session;
+- a change was built without a plan on the authority of the ratified brief of the person directing the work though that person had not stated it in that brief or in an amendment to it whose ratification reached the Orchestrator session on the terms ADR-D-0112 states;
 - a small change went without the review of the change or without a value audit at its close;
 - something of a small change was published or reported as done before its closing audit held nothing;
 - a small change was handled as trivial work.

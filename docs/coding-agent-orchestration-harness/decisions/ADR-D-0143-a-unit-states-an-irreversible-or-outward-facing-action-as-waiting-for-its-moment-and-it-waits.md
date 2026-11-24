@@ -21,7 +21,7 @@ Under a ratified brief a unit starts without the person directing the work readi
 ## Decision
 
 - A unit containing an irreversible or outward-facing action that no standing approval in effect covers (ADR-D-0136) is authorized only when the unit states the action as taken on the decision of whoever holds the authority for it, at its moment and not before; an action so stated does not count as an item held above the run; otherwise the ratification does not authorize the unit.
-- The action itself waits in every case: authorizing a unit lets no item go ahead that the value audit holds for a decision above the run.
+- Such an action itself waits for that decision in every case, its unit authorized or not: authorizing a unit lets no item go ahead that the value audit holds for a decision above the run. An action a standing approval in effect covers has that decision already, given once beforehand (ADR-D-0136).
 
 ## Why
 

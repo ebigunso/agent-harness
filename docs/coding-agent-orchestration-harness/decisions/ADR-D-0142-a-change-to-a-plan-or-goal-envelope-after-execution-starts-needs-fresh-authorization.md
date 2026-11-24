@@ -10,7 +10,7 @@ superseded_by: null
 depends_on: ["ADR-D-0139-non-trivial-work-is-authorized-only-by-the-person-directing-the-work.md"]
 ---
 
-# ADR-D-0142: What is added to or changed in a plan or a goal envelope after its execution starts needs fresh authorization from the same authority before it is built or acted on
+# ADR-D-0142: A change to what a plan or a goal envelope decides after execution starts is not covered by the verdict given before it and needs fresh authorization from the same authority before it is built or acted on
 
 ## Context and Problem Statement
 
@@ -20,8 +20,8 @@ A plan or a goal envelope is authorized before anything of it executes: under a 
 
 ## Decision
 
-- An authorization of a plan or a goal envelope covers the unit as it stands when execution starts.
-- What is added to or changed in what a plan decides, or in a goal envelope, afterwards is not authorized by it and needs fresh authorization before it is built or acted on, from the same authority on that authority's own terms: under a ratified brief, the conditions on which the ratification authorizes such a unit (ADR-D-0141), on the unit as it then stands; without one, the person directing the work's own approval or waiver.
+- The verdict covers the unit as it stands when execution starts.
+- What is added to or changed in what a plan decides, or in a goal envelope, afterwards is not authorized by it and needs fresh authorization before it is built or acted on, from the same authority on that authority's own terms: under a brief, the conditions of ADR-D-0141 on the unit as it then stands; without one, the person directing the work's own approval or waiver.
 - A repeated judgement on unchanged inputs is not fresh authorization.
 
 ## Why
@@ -30,7 +30,7 @@ The ratification carries the authority of the person directing the work only for
 
 ## Rejected Alternatives
 
-- The verdict follows the unit through later changes: rejected outright; the Orchestrator would decide which changes need no new audit, which is the judgement ADR-D-0134 keeps from it.
+- The verdict follows the unit through later changes: rejected outright; the Orchestrator would decide which changes need no new audit, which is the judgement the value audit holds apart from it (ADR-D-0050; ADR-D-0134 in a plan-mode run, ADR-D-0082 in a goal run).
 
 ## Decision Boundary
 
@@ -40,13 +40,13 @@ Not covered: the authorities themselves and the forms an authorization takes (AD
 
 The decision is broken where:
 
-- a change to what a plan decides, or to a goal envelope, made after execution started was built or acted on by the authorization given before it;
+- a change to what a plan decides, or to a goal envelope, made after execution started was built or acted on by the verdict given before it;
 - a change was taken as authorized afresh on a judgement repeated on unchanged inputs;
 - a change was authorized afresh by an authority other than the one that authorized the unit, or not on that authority's own terms.
 
 ## Revisit When
 
-- The premise that the party that makes a change cannot be the one to say that the authorization already given still covers it no longer holds.
+- The premise that the party that wrote the unit or the change cannot be the one to say that the verdict given still covers it no longer holds.
 
 ## More Information
 

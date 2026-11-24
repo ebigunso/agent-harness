@@ -30,7 +30,7 @@ Approving every unit keeps the person directing the work auditing each plan for 
 
 ## Rejected Alternatives
 
-- The person directing the work approves every unit of work: it keeps that person auditing each plan for drift; reopen if units started on the ratified brief turn out, when that person reads them afterwards, to be ones that person would have stopped, and the miss does not trace to how items are graded, which reopens the grade definitions before this record (ADR-D-0052, which the proposed ADR-D-0134 takes over).
+- The person directing the work approves every unit of work: it keeps that person auditing each plan for drift; reopen if units started on the ratified brief turn out, when that person reads them afterwards, to be ones that person would have stopped, and the miss does not trace to how items are graded, which reopens the grade definitions before this record (ADR-D-0052, which the proposed ADR-D-0134 takes over for a plan-mode run).
 - Under a brief, a goal envelope needs that person's own agreement, the brief never standing in for it: it lost because it puts before every goal run under a brief a stop that no plan has, which makes goal mode costlier to choose than a plan where goal mode is the fitting shape; reopen if goal runs started on the ratified brief turn out, when that person reads them afterwards, to be ones that person would have stopped, and the miss traces to the envelope rather than to how items are graded.
 - Under a brief, that person's own approval kept as the fallback for a unit the ratification does not authorize: it lost because that person would have to look at the Orchestrator session for it; reopen if runs under a brief are found unable to end with nothing asked of that person in the Orchestrator session without it.
 - Under a brief, approval of a unit the ratification does not authorize sought from that person through Counsel: it lost because a unit the brief does not authorize is not yet a unit that can run, so there is nothing for an approval to add; reopen if runs under a brief are found unable to end with nothing asked of that person in the Orchestrator session without it.
@@ -49,7 +49,7 @@ The decision is broken where:
 
 ## Revisit When
 
-- Units of work started on the ratified brief turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions before this record, as ADR-D-0052 says (the proposed ADR-D-0134 takes it over); any other reopens this record.
+- Units of work started on the ratified brief turn out, when the person directing the work reads them afterwards, to be ones that person would have stopped. A miss that traces to how items are graded reopens the grade definitions before this record, as ADR-D-0052 says (the proposed ADR-D-0134 takes it over for a plan-mode run); any other reopens this record.
 - On 2026-10-29 no run under a brief had yet ended with nothing asked of the person directing the work in the Orchestrator session; a run under a brief found unable to do so without that person's own approval of a unit reopens this record.
 - On 2026-11-07 no goal envelope had been authorized by a ratified brief; a goal run so started and later found to have needed that person's agreement to its envelope reopens this record.
 
