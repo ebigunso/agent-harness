@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0025-rule-suite-freshness-is-derived-from-repository-facts.m
 superseded_by: null
 ---
 
-# ADR-D-XXXX: A Git commit SHA is not a rule-suite freshness baseline
+# ADR-D-0149: A Git commit SHA is not a rule-suite freshness baseline
 
 ## Context and Problem Statement
 
@@ -29,7 +29,7 @@ Squash and rebase merges erase the commits a SHA baseline would compare against.
 
 ## Decision Boundary
 
-Not covered: that validity is derived from what the repository contains and never trusted from stored state (`ADR-D-from-0025-rule-suite-validity-is-derived-from-what-the-repository-contains-never-from-stored-state.md`); the drift heuristics, which live in the `rulebook` skill and the sidecar schema.
+Not covered: that validity is derived from what the repository contains and never trusted from stored state (ADR-D-0148); the drift heuristics, which live in the `rulebook` skill and the sidecar schema.
 
 ## Validation
 
@@ -41,4 +41,4 @@ The decision is broken where a Git commit SHA served as the baseline against whi
 
 ## More Information
 
-With `ADR-D-from-0025-rule-suite-validity-is-derived-from-what-the-repository-contains-never-from-stored-state.md`, `ADR-D-from-0025-rule-suite-refresh-is-targeted.md`, `ADR-D-from-0025-rule-suite-refresh-is-triggered-by-observed-facts-never-by-elapsed-time-or-a-stored-flag.md`, `ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md` and `ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that a Git commit SHA is not a freshness baseline, with its own reason and its own reopen condition. It is a record of its own because it binds with any of the others retired: were a stored status allowed to decide validity, a baseline taken as a commit SHA would still be ruled out, and it reopens on a premise, the repository's merge policy, that none of the others rests on.
+With ADR-D-0148, ADR-D-0151, ADR-D-0150, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that a Git commit SHA is not a freshness baseline, with its own reason and its own reopen condition. It is a record of its own because it binds with any of the others retired: were a stored status allowed to decide validity, a baseline taken as a commit SHA would still be ruled out, and it reopens on a premise, the repository's merge policy, that none of the others rests on.

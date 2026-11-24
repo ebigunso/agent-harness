@@ -9,7 +9,7 @@ supersedes: ["ADR-I-0006-runtime-adapters-live-outside-other-runtimes-discovery-
 superseded_by: null
 ---
 
-# ADR-I-XXXX: Nothing in the plugin source tree is a live Codex agent
+# ADR-I-0009: Nothing in the plugin source tree is a live Codex agent
 
 ## Context and Problem Statement
 
@@ -29,7 +29,7 @@ Codex scanning behavior is not under this repository's control, and duplicate or
 
 ## Decision Boundary
 
-Not covered: the specific directory names, which change through the runtime-adapter-contract skill; how Codex agents ship and are installed, which the record "Codex agents ship as inert templates and only an explicit bootstrap installs them" states; where other runtimes' adapter files live, which the record "Each runtime's adapter files live in a path that no other runtime scans for agents" states.
+Not covered: the specific directory names, which change through the runtime-adapter-contract skill; how Codex agents ship and are installed, which ADR-I-0010 states; where other runtimes' adapter files live, which ADR-I-0008 states.
 
 ## Validation
 
@@ -41,4 +41,4 @@ The decision is broken where the plugin source tree holds a live Codex agent: a 
 
 ## More Information
 
-With the records "Each runtime's adapter files live in a path that no other runtime scans for agents", "Codex agents ship as inert templates and only an explicit bootstrap installs them" and "All skills live in one shared tree that every runtime's manifest points at", replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that nothing in the plugin source tree is a live Codex agent, with its rejected alternative and the revisit condition on Codex's support for plugin-shipped agents. It is a record of its own because it binds however the Codex agents come to be installed, and whatever other runtimes scan.
+With ADR-I-0008, ADR-I-0010 and ADR-I-0011, replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that nothing in the plugin source tree is a live Codex agent, with its rejected alternative and the revisit condition on Codex's support for plugin-shipped agents. It is a record of its own because it binds however the Codex agents come to be installed, and whatever other runtimes scan.

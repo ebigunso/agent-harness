@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0025-rule-suite-freshness-is-derived-from-repository-facts.m
 superseded_by: null
 ---
 
-# ADR-D-XXXX: Rule-suite refresh is targeted
+# ADR-D-0151: Rule-suite refresh is targeted
 
 ## Context and Problem Statement
 
@@ -29,7 +29,7 @@ A rule suite goes stale when the sources it was written from change, so what a r
 
 ## Decision Boundary
 
-Not covered: which sections a refresh touches, which lives in the `rulebook` skill and the sidecar schema; what triggers a refresh (`ADR-D-from-0025-rule-suite-refresh-is-triggered-by-observed-facts-never-by-elapsed-time-or-a-stored-flag.md`), and the exact refresh triggers, which are `rulebook` skill text (`ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`); that bootstrap is never a per-task ritual (`ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md`).
+Not covered: which sections a refresh touches, which lives in the `rulebook` skill and the sidecar schema; what triggers a refresh (ADR-D-0150), and the exact refresh triggers, which are `rulebook` skill text (ADR-D-0153); that bootstrap is never a per-task ritual (ADR-D-0152).
 
 ## Validation
 
@@ -42,4 +42,4 @@ The decision is broken where a refresh of a rule suite was not targeted; a full 
 
 ## More Information
 
-With `ADR-D-from-0025-rule-suite-validity-is-derived-from-what-the-repository-contains-never-from-stored-state.md`, `ADR-D-from-0025-a-git-commit-sha-is-not-a-rule-suite-freshness-baseline.md`, `ADR-D-from-0025-rule-suite-refresh-is-triggered-by-observed-facts-never-by-elapsed-time-or-a-stored-flag.md`, `ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md` and `ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that refresh is targeted, with the rejected alternative of a full bootstrap or a repository-wide scan on every task, which `ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md` carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: a refresh triggered by anything at all would still have to be targeted.
+With ADR-D-0148, ADR-D-0149, ADR-D-0150, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that refresh is targeted, with the rejected alternative of a full bootstrap or a repository-wide scan on every task, which ADR-D-0152 carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: a refresh triggered by anything at all would still have to be targeted.

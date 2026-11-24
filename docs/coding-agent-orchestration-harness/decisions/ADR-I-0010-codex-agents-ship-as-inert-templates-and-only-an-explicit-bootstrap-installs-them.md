@@ -9,7 +9,7 @@ supersedes: ["ADR-I-0006-runtime-adapters-live-outside-other-runtimes-discovery-
 superseded_by: null
 ---
 
-# ADR-I-XXXX: Codex agents ship as inert templates and only an explicit bootstrap installs them
+# ADR-I-0010: Codex agents ship as inert templates and only an explicit bootstrap installs them
 
 ## Context and Problem Statement
 
@@ -30,7 +30,7 @@ Duplicate or malformed agent registrations surface only when a user opens Codex,
 
 ## Decision Boundary
 
-Not covered: the bootstrap's flags, the Codex agent scopes it installs into, and which files it copies, which change through the codex-harness-bootstrap skill; the specific directory names, which change through the runtime-adapter-contract skill; that nothing in the plugin source tree is a live Codex agent, which the record "Nothing in the plugin source tree is a live Codex agent" states.
+Not covered: the bootstrap's flags, the Codex agent scopes it installs into, and which files it copies, which change through the codex-harness-bootstrap skill; the specific directory names, which change through the runtime-adapter-contract skill; that nothing in the plugin source tree is a live Codex agent, which ADR-I-0009 states.
 
 ## Validation
 
@@ -45,4 +45,4 @@ The decision is broken where:
 
 ## More Information
 
-With the records "Each runtime's adapter files live in a path that no other runtime scans for agents", "Nothing in the plugin source tree is a live Codex agent" and "All skills live in one shared tree that every runtime's manifest points at", replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that Codex agents ship as inert templates that only an explicit bootstrap installs, with both rejected alternatives that bear on it and the revisit condition on Codex's support for plugin-shipped agents. It is a record of its own because it binds whether or not the plugin source tree may hold a live Codex agent: installation by anything other than an explicit bootstrap stays excluded either way.
+With ADR-I-0008, ADR-I-0009 and ADR-I-0011, replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that Codex agents ship as inert templates that only an explicit bootstrap installs, with both rejected alternatives that bear on it and the revisit condition on Codex's support for plugin-shipped agents. It is a record of its own because it binds whether or not the plugin source tree may hold a live Codex agent: installation by anything other than an explicit bootstrap stays excluded either way.

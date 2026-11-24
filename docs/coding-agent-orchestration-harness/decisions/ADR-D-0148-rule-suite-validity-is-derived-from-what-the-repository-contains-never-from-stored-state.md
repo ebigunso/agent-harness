@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0025-rule-suite-freshness-is-derived-from-repository-facts.m
 superseded_by: null
 ---
 
-# ADR-D-XXXX: Rule-suite validity is derived from what the repository contains each time it is needed, never trusted from stored state
+# ADR-D-0148: Rule-suite validity is derived from what the repository contains each time it is needed, never trusted from stored state
 
 ## Context and Problem Statement
 
@@ -29,7 +29,7 @@ A stored status is one more thing that can be stale, and it fails in the worst d
 
 ## Decision Boundary
 
-Not covered: the validity conditions themselves, which are `rulebook` skill text (`ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`); that a Git commit SHA is not a freshness baseline (`ADR-D-from-0025-a-git-commit-sha-is-not-a-rule-suite-freshness-baseline.md`); the drift heuristics, which live in the `rulebook` skill and the sidecar schema; where the suite's lifecycle data is kept and when it is read (ADR-D-0024).
+Not covered: the validity conditions themselves, which are `rulebook` skill text (ADR-D-0153); that a Git commit SHA is not a freshness baseline (ADR-D-0149); the drift heuristics, which live in the `rulebook` skill and the sidecar schema; where the suite's lifecycle data is kept and when it is read (ADR-D-0024).
 
 ## Validation
 
@@ -45,4 +45,4 @@ The decision is broken where:
 
 ## More Information
 
-With `ADR-D-from-0025-a-git-commit-sha-is-not-a-rule-suite-freshness-baseline.md`, `ADR-D-from-0025-rule-suite-refresh-is-targeted.md`, `ADR-D-from-0025-rule-suite-refresh-is-triggered-by-observed-facts-never-by-elapsed-time-or-a-stored-flag.md`, `ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md` and `ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that validity is derived each time it is needed and never trusted from stored state, with its reason, its rejected alternative and its revisit conditions. It is a record of its own because it binds with any of the others retired: a suite whose refresh ran on a schedule, or whose freshness was judged against a commit, would still have to have its validity derived and not taken from a stored status. Sidecar placement: ADR-D-0024.
+With ADR-D-0149, ADR-D-0151, ADR-D-0150, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: that validity is derived each time it is needed and never trusted from stored state, with its reason, its rejected alternative and its revisit conditions. It is a record of its own because it binds with any of the others retired: a suite whose refresh ran on a schedule, or whose freshness was judged against a commit, would still have to have its validity derived and not taken from a stored status. Sidecar placement: ADR-D-0024.

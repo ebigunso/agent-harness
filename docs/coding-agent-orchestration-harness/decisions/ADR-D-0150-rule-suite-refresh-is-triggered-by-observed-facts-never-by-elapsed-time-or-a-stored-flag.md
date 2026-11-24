@@ -9,7 +9,7 @@ supersedes: ["ADR-D-0025-rule-suite-freshness-is-derived-from-repository-facts.m
 superseded_by: null
 ---
 
-# ADR-D-XXXX: Rule-suite refresh is triggered by observed facts about the repository and the work, never by elapsed time or a stored flag
+# ADR-D-0150: Rule-suite refresh is triggered by observed facts about the repository and the work, never by elapsed time or a stored flag
 
 ## Context and Problem Statement
 
@@ -29,7 +29,7 @@ A rule suite goes stale when the sources it was written from change, so what sho
 
 ## Decision Boundary
 
-Not covered: the exact refresh triggers and the drift heuristics, which live in the `rulebook` skill and the sidecar schema; that the refresh triggers themselves are `rulebook` skill text (`ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`); that refresh is targeted (`ADR-D-from-0025-rule-suite-refresh-is-targeted.md`); that bootstrap is never a per-task ritual (`ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md`).
+Not covered: the exact refresh triggers and the drift heuristics, which live in the `rulebook` skill and the sidecar schema; that the refresh triggers themselves are `rulebook` skill text (ADR-D-0153); that refresh is targeted (ADR-D-0151); that bootstrap is never a per-task ritual (ADR-D-0152).
 
 ## Validation
 
@@ -42,4 +42,4 @@ The decision is broken where a refresh of a rule suite was triggered by elapsed 
 
 ## More Information
 
-With `ADR-D-from-0025-rule-suite-validity-is-derived-from-what-the-repository-contains-never-from-stored-state.md`, `ADR-D-from-0025-a-git-commit-sha-is-not-a-rule-suite-freshness-baseline.md`, `ADR-D-from-0025-rule-suite-refresh-is-targeted.md`, `ADR-D-from-0025-rule-suite-bootstrap-is-never-a-per-task-ritual.md` and `ADR-D-from-0025-a-rule-suites-validity-conditions-and-refresh-triggers-are-rulebook-skill-text.md`, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: what triggers a refresh and what never does, with the rejected alternative of a durable status flag, which `ADR-D-from-0025-rule-suite-validity-is-derived-from-what-the-repository-contains-never-from-stored-state.md` carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: were validity allowed to be stored, or refresh to reach the whole suite, a refresh would still be triggered by observed facts and never by elapsed time or a stored flag.
+With ADR-D-0148, ADR-D-0149, ADR-D-0151, ADR-D-0152 and ADR-D-0153, replaces ADR-D-0025 in full; the decision carried here is the same. Carried here from it: what triggers a refresh and what never does, with the rejected alternative of a durable status flag, which ADR-D-0148 carries as well for its own decision, and the revisit conditions that bear on it. It is a record of its own because it binds with any of the others retired: were validity allowed to be stored, or refresh to reach the whole suite, a refresh would still be triggered by observed facts and never by elapsed time or a stored flag.

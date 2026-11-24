@@ -9,7 +9,7 @@ supersedes: ["ADR-I-0006-runtime-adapters-live-outside-other-runtimes-discovery-
 superseded_by: null
 ---
 
-# ADR-I-XXXX: Each runtime's adapter files live in a path that no other runtime scans for agents
+# ADR-I-0008: Each runtime's adapter files live in a path that no other runtime scans for agents
 
 ## Context and Problem Statement
 
@@ -29,7 +29,7 @@ Duplicate or malformed agent registrations surface only when a user opens that r
 
 ## Decision Boundary
 
-Not covered: the specific directory names and manifest formats, which change through the runtime-adapter-contract skill; whether a live Codex agent may be in the plugin source tree, and how Codex agents ship and are installed, which the records "Nothing in the plugin source tree is a live Codex agent" and "Codex agents ship as inert templates and only an explicit bootstrap installs them" state; where skills live, which the record "All skills live in one shared tree that every runtime's manifest points at" states.
+Not covered: the specific directory names and manifest formats, which change through the runtime-adapter-contract skill; whether a live Codex agent may be in the plugin source tree, and how Codex agents ship and are installed, which ADR-I-0009 and ADR-I-0010 state; where skills live, which ADR-I-0011 states.
 
 ## Validation
 
@@ -44,4 +44,4 @@ The decision is broken where:
 
 ## More Information
 
-With the records "Nothing in the plugin source tree is a live Codex agent", "Codex agents ship as inert templates and only an explicit bootstrap installs them" and "All skills live in one shared tree that every runtime's manifest points at", replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that each runtime's adapter files live outside every other runtime's discovery scan, with its reason, its rejected alternative and the revisit condition on Copilot's discovery of nested directories. It is a record of its own because it binds however Codex agents are installed and wherever skills live. Related: ADR-D-0104 (no runtime surface restates a role's workflow).
+With ADR-I-0009, ADR-I-0010 and ADR-I-0011, replaces ADR-I-0006 in full; the decision carried here is the same. Carried here from it: that each runtime's adapter files live outside every other runtime's discovery scan, with its reason, its rejected alternative and the revisit condition on Copilot's discovery of nested directories. It is a record of its own because it binds however Codex agents are installed and wherever skills live. Related: ADR-D-0104 (no runtime surface restates a role's workflow).
