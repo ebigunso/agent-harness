@@ -14,7 +14,7 @@ depends_on: ["ADR-D-0144-work-under-a-ratified-brief-is-a-run-of-units-that-goes
 
 ## Context and Problem Statement
 
-Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work. A run is what a ratified brief governs: one or more units of work (ADR-D-0144). A run's stack is the run's pull requests as they stack, each on the one before.
+Terms used here: the person directing the work is the one who says what the work should do and how the project should look, and judges what is built from its behaviour. The Orchestrator session is a session that holds the Orchestrator role (ADR-D-0090) and plans, dispatches and reports the work. A run is what a ratified brief governs: one or more units of work (ADR-D-0144). A run's stack is the run's pull requests.
 
 Someone who hands over a design wants to come back to it built and to judge what was built. Once a run's result is reported as ready, that person, judging it, may direct a change against the same brief before accepting it. A run that closed when it was reported as ready would leave that change apart from the work it corrects, and the brief would govern something other than its run. The fork is what closes a run, and whether a change directed while that person judges it belongs to it.
 

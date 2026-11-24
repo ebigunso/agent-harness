@@ -10,7 +10,7 @@ superseded_by: null
 depends_on: ["ADR-D-0139-non-trivial-work-is-authorized-only-by-the-person-directing-the-work.md"]
 ---
 
-# ADR-D-0142: A change to what a plan or a goal envelope decides after execution starts is not covered by the verdict given before it and needs fresh authorization from the same authority before it is built or acted on
+# ADR-D-0142: A change to what a plan decides, or to a goal envelope, after execution starts needs fresh authorization from the same authority before it is built or acted on: under a brief a new verdict, without one the person directing the work's own approval or waiver
 
 ## Context and Problem Statement
 
@@ -41,6 +41,7 @@ Not covered: the authorities themselves and the forms an authorization takes (AD
 The decision is broken where:
 
 - a change to what a plan decides, or to a goal envelope, made after execution started was built or acted on by the verdict given before it;
+- such a change, made without a brief, was built or acted on by the approval or waiver given before it, without the person directing the work's own approval or waiver of the change;
 - a change was taken as authorized afresh on a judgement repeated on unchanged inputs;
 - a change was authorized afresh by an authority other than the one that authorized the unit, or not on that authority's own terms.
 

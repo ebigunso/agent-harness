@@ -42,13 +42,14 @@ Someone who hands over a design wants to come back to it built, not to a part of
 
 ## Decision Boundary
 
-Not covered: the conditions for authorizing a plan (ADR-D-0139, ADR-D-0141) and a small change (ADR-D-0147); what follows once the run is reported as ready, and when it closes (ADR-D-0145); in what terms the result is reported (ADR-D-0146); what the report shows of the extensions the value audit let through and of the run's judgement calls (ADR-D-0042, which the proposed ADR-D-0132 and ADR-D-0133 take over); how Counsel is told that the run is reported as ready and what the note carries, which the workflow text states; what a standing approval is and who may give one (ADR-D-0052, which the proposed ADR-D-0136 takes over for this); when a run stops without finishing because it has stopped getting closer, which the workflow text states; what the Orchestrator writes for the audit to compare, and where (ADR-D-0052, which the proposed ADR-D-0135 takes over for this); design-level findings during a run (ADR-D-0053, which the proposed ADR-D-0137 takes over); the form of the run record; goal mode itself; work with no brief.
+Not covered: the conditions for authorizing a plan (ADR-D-0139, ADR-D-0141) and a small change (ADR-D-0147); what follows once the run is reported as ready, and when it closes (ADR-D-0145); in what terms the result is reported (ADR-D-0146); what the report shows of the extensions the value audit let through and of the run's judgement calls (ADR-D-0042, which the proposed ADR-D-0132 and ADR-D-0133 take over); how Counsel is told that the run is reported as ready and what the note carries, which the workflow text states; what a standing approval is and who may give one (ADR-D-0052, which the proposed ADR-D-0136 takes over for this); when a run stops without finishing because it has stopped getting closer, which the workflow text states; that what the Orchestrator writes for the audit to compare is kept apart from the plan or result under review and not opened by the auditor before its grades are fixed (ADR-D-0052, which the proposed ADR-D-0135 takes over for this), and where it is kept, which the workflow text states; design-level findings during a run (ADR-D-0053, which the proposed ADR-D-0137 takes over); the form of the run record; goal mode itself; work with no brief.
 
 ## Validation
 
 The decision is broken where:
 
 - a run's result was reported as ready while a unit of the run had not closed, or a unit was reported as ready for judgement on its own close;
+- a run's result was reported as ready while work the brief asks for remained to build, though every unit of the run had closed, or without Counsel being told;
 - a unit of a run started on another unit's authorization or on its place in the run, without the authorization its own kind requires;
 - a goal-mode run was taken as a unit of a run;
 - the person directing the work was reached between units by something other than an item the audit holds, a question the Orchestrator escalates, or Counsel's pause;
