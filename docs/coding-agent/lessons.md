@@ -1747,6 +1747,23 @@ Prevention:
 Evidence:
 - `docs/coding-agent/plans/active/decision-records-at-intent-altitude-audit-area-plan.md`, Progress Log entries of 2026-11-24 (the review, the rulings on the review); the Reviewers' findings on ADR-D-0133, ADR-D-0134 and ADR-D-0137.
 
+## 2026-11-24 - A Seat's Missing Placement Record Is Not A Dead Seat  [tags: dispatch, peers, routing]
+
+Symptom:
+- In the run "Decision records at intent altitude", the session holding `agent-harness-orchestrator-records` sent every research, review and writing dispatch to Claude subagents, recording each time that the Codex seats "show no placement in the roster and were not seen live". The record of models in `docs/coding-agent/rules/common.md` gives rigorous research and rigorous review to those seats. The owner, told of it through Counsel, said: "Codex is live by the way. I don't see why it was not picked up."
+
+Root cause:
+- The roster's placement fields read "no placement record" for every seat but Counsel's, the dispatching session's own included, so they say nothing of whether a seat answers. The session took that field as the liveness check `subagent-strategy/references/seats.md` asks for, and never sent the seat a message to see.
+
+Fix applied:
+- Liveness checks sent to the worker and reviewer seats; the rigorous review of the next records goes to the reviewer seat once it answers; Counsel told.
+
+Prevention:
+- Before routing a seat's work elsewhere for want of a live path, send the seat a message and wait for its answer; a roster field that reads the same for the dispatching session's own live seat is not evidence either way.
+
+Evidence:
+- `docs/coding-agent/plans/completed/decision-records-at-intent-altitude-audit-area-plan.md`, Progress Log (Research, review and Worker dispatches of 2026-11-24); Counsel's relay of 2026-11-24T11:00Z.
+
 ## Promotion drain note (2026-10-16)
 
 Removed from this log on 2026-10-16, each prevention line already held by a rule or a plugin skill:
