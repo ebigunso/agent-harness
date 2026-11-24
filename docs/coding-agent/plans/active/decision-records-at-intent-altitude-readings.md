@@ -484,6 +484,34 @@ Item | reading | statement relied on
 - Findings compared: Task_1 of the raised plan (no sentence that an internal change is reported where there is no plan), read trivial: bears on the design though read as trivial; acting on it changes what he is told in a run with no plan, and the brief has since made it a gives-statement. Task_2 of the raised plan (four more places where the checker fails on prose): agrees, bears on the design. The goal-mode wave's finding (a Decision clause left to the plugin's text and held by no record): agrees, bears on the design. BUNDLE-W1-F1 (two decisions joined in one record): agrees, bears on the design. The census's counts not surviving the test: agrees, bears on the design, through the size of the batch that reaches him. No finding is recorded for this plan. Departures from a means: none noted on an item line; the brief marks no statement as a means.
 - Orchestrator, on the one finding the audit reads otherwise than it was recorded: the owner has already answered it. The brief, "Directed during the run", has his word of 2026-11-11 that a change inside the repository made with its consumers unverified is reported in every kind of run, and the small change that built it closed that day. The answer stands; nothing is held and nothing is sent.
 
+### decision-records-at-intent-altitude-audit-area-plan, closeout
+
+- DoD, planner-added requirements, scope, non-goals, assumptions, tasks, design, rollback | as read at plan draft, with the three readings the plan-draft comparison corrected: two units, accepted together, and the reading of the owner's test are extensions of the brief and the Orchestrator's own
+- ADR-D-0132 and ADR-D-0133 (proposed; split of ADR-D-0042) | covered | brief: a bundle is split, each accepted by name; they reach him by name
+- ADR-D-0134, 0135, 0136 (proposed; split of ADR-D-0052) | covered | brief: a bundle is split, each accepted by name; they reach him by name
+- ADR-D-0137 (proposed; rewrite of ADR-D-0053) | covered | brief: a rewrite that keeps its decision goes in on the closeout audit's confirmation
+- ADR-D-0138 (proposed; rewrite of ADR-D-0054) | covered | brief: as ADR-D-0137
+- The seven numbered ADR-D-0132 to 0138 before the work lands | extends | brief: acceptance is by name; a later landing renumbers
+- Ruling: ADR-D-0042 two records, the count the test gave | covered | brief: the owner's test, applied to every record
+- Ruling: the standing-approval record one record, against Task_1's letter and the reading that split ADR-D-0042 | needs the owner | brief: the owner's test; the admission test's why; put to him with the record
+- Ruling: the record on who grades one record | extends | brief: the owner's test; the previous unit's ADR-D-0121
+- Ruling: ADR-D-0053 one record by the Orchestrator's reading of the test, so its rewrite goes in unread | extends | brief: the owner's test; marked direction at plan draft
+- Ruling: ADR-D-0136 without the old record's goal-mode exclusion | extends | brief: the decisions themselves do not change; ADR-D-0064 and ADR-D-0065 already apply standing approvals in any mode; named to him with the record
+- Ruling: no reason invented for what a standing approval never discharges; the gap named to him | covered | brief: where the reason is not written down nothing is invented (the record standard, Acceptance)
+- Ruling: ADR-D-0136's Context from the brief the old record names, its philosophy link new | extends | the record standard: the why names the statement served
+- Ruling: the timing of the comparison carried in ADR-D-0137's Decision, the pre-ruling withdrawn | covered | brief: a clause not carried must be held by a named accepted record
+- Ruling: the moment in ADR-D-0133 stated for any run, the pre-ruling withdrawn | covered | brief: the decisions themselves do not change
+- Ruling: ADR-D-0137 not scoped to work under a brief | covered | brief: the decisions themselves do not change
+- Ruling: what may support a grade carried in ADR-D-0134's Validation | covered | brief: the decisions themselves do not change
+- Ruling: Decision sentences from outside the old Decision stay, named to him | extends | brief: a rewrite that keeps its decision goes in unread; the telling
+- Ruling: ADR-D-0132's revisit condition worded from the old Why, its fork and quotation named to him | covered | brief: a rewrite may state a revisit condition worded from the old record's reason; it reaches him by name as a split
+- Ruling: ADR-D-0136's two revisit premises restated from the old record's reasons | covered | as above
+- Ruling: depends_on left as each Worker wrote it | extends | cheap to undo
+- Worker calls: the enumeration of whose choices count as its criterion; the three readings as their criterion; the kinds named without a count; the grade reasons' names left to the plugin | covered | brief: a record does not fix what merely happens to be so; exact strings not covered
+- Worker calls: held by ADR-D-0050, ADR-D-0036 and ADR-D-0045, the proposed records named beside the last two | covered | brief: held by a named accepted record
+- Lesson entry of 2026-11-24 | extends | engineering philosophy: a guess is not written as a finding
+- Publishing the branch and opening the pull request at this unit's close | covered | brief: each batch its own pull request and its own acceptance; the standing approval of 2026-09-30
+
 ## Findings
 
 - 2026-11-11, from Task_1 of the raised plan: the owner's answer on ADR-D-0016 has a change inside the repository go ahead and be reported; the plugin's text has the default (migrate or break) and the plan's compatibility stance, and no sentence that the change is reported where there is no plan | trivial: under a plan the stance is the report, and a change small enough to have no plan is reported in the run's closing message as any change is; adding the sentence would change no one's experience. Not escalated; told to Counsel with the unit's report.
